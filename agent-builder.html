@@ -6,13 +6,14 @@
 <meta name="color-scheme" content="light dark" />
 <meta http-equiv="refresh" content="900" />
 <title>Agent Builder — Phase 1 product (client-specific LLMs via interview → spec → build) · Ensemble</title>
-<meta name="description" content="Tracks A + B + E + F P0 shipped — interview UX + schema + eval framework + router design. 5 of 9 tracks P0 remaining (C, D, G, H, I). Track G (privacy enforcement) next — last design-heavy track before engineering tracks. P0-gating tracks for first paying engagement (A + B + E per HANDOFF §9.9) all done." />
+<meta name="description" content="Tracks A + B + E + F + G P0 shipped — interview + schema + eval + router + privacy. 4 of 9 tracks P0 remaining (C, D, H, I) — all engineering or strategic. P0-gating tracks for first paying engagement (A + B + E) complete; remaining tracks unblock the dogfood build (D needed first) and the model-selection cadence (H)." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="./style.css" />
+<script src="./control.js" defer></script>
 </head>
 <body>
 <header class="hero">
@@ -20,18 +21,18 @@
   <div class="wrap hero-inner">
     <p class="eyebrow"><a href="./index.html">← Back to roster</a></p>
     <div class="proj-hero-inner">
-      <div class="pie-big"><svg class="pie-big" viewBox="0 0 100 100" aria-label="50% complete">
+      <div class="pie-big"><svg class="pie-big" viewBox="0 0 100 100" aria-label="60% complete">
       <circle cx="50" cy="50" r="42" fill="none" stroke="var(--rule)" stroke-width="6"/>
       <circle cx="50" cy="50" r="42" fill="none"
               stroke="var(--accent)" stroke-width="6" stroke-linecap="round"
-              stroke-dasharray="131.95 131.95" transform="rotate(-90 50 50)"/>
+              stroke-dasharray="158.34 105.56" transform="rotate(-90 50 50)"/>
       <text x="50" y="58" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="28" fill="currentColor">50</text>
+            font-style="italic" font-weight="500" font-size="28" fill="currentColor">60</text>
     </svg></div>
       <div class="proj-hero-text">
-        <p class="proj-phase">All P0-gating tracks shipped (A + B + E); foundation + interview + router complete</p>
+        <p class="proj-phase">Design-heavy tracks shipped; entering engineering phase</p>
         <h1>Agent Builder — Phase 1 product (client-specific LLMs via interview → spec → build)</h1>
-        <p class="proj-desc">Tracks A + B + E + F P0 shipped — interview UX + schema + eval framework + router design. 5 of 9 tracks P0 remaining (C, D, G, H, I). Track G (privacy enforcement) next — last design-heavy track before engineering tracks. P0-gating tracks for first paying engagement (A + B + E per HANDOFF §9.9) all done.</p>
+        <p class="proj-desc">Tracks A + B + E + F + G P0 shipped — interview + schema + eval + router + privacy. 4 of 9 tracks P0 remaining (C, D, H, I) — all engineering or strategic. P0-gating tracks for first paying engagement (A + B + E) complete; remaining tracks unblock the dogfood build (D needed first) and the model-selection cadence (H).</p>
         <div class="proj-pills"><span class="pill pill-tier-virtuoso">Specialist</span> <span class="pill pill-mode-active">Evolving</span> <span class="pill pill-passive">supervised</span></div>
       </div>
     </div>
@@ -89,7 +90,7 @@
       <div class="now-grid">
         <div class="now-card">
           <h3>Current task</h3>
-          <p>Track G (privacy enforcement) next — last design-heavy P0 before the engineering tracks (C, D, H, I). All P0-gating tracks complete: A + B + E shipped. 4 of 9 tracks done.</p>
+          <p>Track D (RAG stack) next — engineering track that unblocks the dogfood build. A + B + E + F + G shipped (5 of 9). Remaining: C + D + H + I.</p>
         </div>
         <div class="now-card">
           <h3>Recent commits</h3>
@@ -103,20 +104,20 @@
       <h2>What's <em>next</em></h2>
       <div class="next-rec">
   <h3>Top recommendation</h3>
-  <h4>Track G — Privacy enforcement P0 (data_class_tagging + boundary_hooks + red_team_scenarios + client_audit_dashboard + wipe_protocol)</h4>
-  <p>All P0-gating tracks (A + B + E) shipped. Track G consolidates the Canadian-primary privacy posture into shipped artifacts; F&#x27;s boundary events + B&#x27;s data-class taxonomy + A&#x27;s persona privacy framings already shape it. After G, only C/D/H/I remain (engineering tracks); start the dogfood after D.</p>
+  <h4>Track D — RAG stack P0 (rag_stack + chunking_strategies + hybrid_retrieval + multi_tenant_rag)</h4>
+  <p>Engineering track, gates the dogfood build. Without ingestion + retrieval, no LLM has knowledge to operate on. With G shipped, only D + C + H + I remain. D unblocks the orchestrator-brief Phase-1 build (Tier-K-only RAG over chats/memory/briefings/charters).</p>
 </div>
       <div class="next-alts"><div class="next-alt">
-  <h4>Track D — RAG stack (LlamaIndex + pgvector + embeddings + chunking + hybrid retrieval + multi-tenant)</h4>
-  <p>Engineering track. Required for the orchestrator-brief dogfood build; without ingestion + retrieval, no LLM has knowledge to operate on. Boring, reliable, privacy-tier-aware.</p>
-</div>
-<div class="next-alt">
   <h4>Track C — Fine-tune pipeline (Unsloth + TRL + recipes + base-model shortlist + GPU budget + rollback/versioning)</h4>
-  <p>Engineering track. Needed for Tier-L when RAG-only fails eval. Stack + recipe library + economics doc.</p>
+  <p>Engineering track. Needed for Tier-L when RAG-only fails eval. 5 deliverables.</p>
 </div>
 <div class="next-alt">
-  <h4>Dogfood the toolkit on orchestrator-brief LLM (gated on D ship)</h4>
-  <p>Per Kevin&#x27;s 2026-04-24 reframe — toolkit-first, dogfood validates. Worked LLM_SPEC + interview pilot script already exist; gated on Track D delivering the RAG pipeline that ingests the KSes.</p>
+  <h4>Track H — Base-model selection methodology (model_selection_criteria + monthly_leaderboard + model_deprecation_policy)</h4>
+  <p>Strategic track. 8 dimensions + monthly leaderboard cadence + deprecation playbook. Lighter (3 deliverables) than C/D/G/I.</p>
+</div>
+<div class="next-alt">
+  <h4>Track I — Deployment + upgrade cadence</h4>
+  <p>Engineering track. 5 deliverables (deployment_targets + packaging + upgrade_runbook + incident_response + client_handoff_packet). Closes the engagement-handoff loop.</p>
 </div></div>
     </section>
 
@@ -125,7 +126,7 @@
 <footer>
   <div class="wrap foot-inner">
     <a class="foot-back" href="./index.html">← All projects</a>
-    <p>Generated <span class="rel-time" data-iso="2026-04-25T08:31:39Z">just now</span></p>
+    <p>Generated <span class="rel-time" data-iso="2026-04-25T08:53:13Z">just now</span></p>
   </div>
 </footer>
 <script>
