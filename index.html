@@ -21,11 +21,11 @@
     <div class="hero-left">
       <p class="eyebrow">Ensemble · Project Roster</p>
       <h1>What's <em>cooking.</em></h1>
-      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated Sat Apr 25 · 07:47 UTC · refreshes every 15 min</p>
+      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-25T08:23:17Z">just now</span> · refreshes every 15 min</p>
     </div>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">7</span><span class="stat-label">Projects in motion</span></div>
-      <div class="stat"><span class="stat-num">45%</span><span class="stat-label">Average progress</span></div>
+      <div class="stat"><span class="stat-num">47%</span><span class="stat-label">Average progress</span></div>
       <div class="stat"><span class="stat-num">4</span><span class="stat-label">Run their own tests</span></div>
     </div>
   </div>
@@ -33,26 +33,26 @@
 <main>
   <div class="wrap">
     <div class="roster">
-<a class="card" href="./agent-builder.html" data-pct="24">
+<a class="card" href="./agent-builder.html" data-pct="38">
   <div class="card-head">
-    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="24% complete">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="38% complete">
       <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
       <circle cx="50" cy="50" r="36" fill="none"
               stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
-              stroke-dasharray="54.29 171.91" transform="rotate(-90 50 50)"/>
+              stroke-dasharray="85.95 140.24" transform="rotate(-90 50 50)"/>
       <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="22" fill="currentColor">24</text>
+            font-style="italic" font-weight="500" font-size="22" fill="currentColor">38</text>
     </svg></div>
     <div class="card-id">
       <h2>Agent Builder — Phase 1 product (client-specific LLMs via interview → spec → build)</h2>
-      <p class="card-phase">Foundation tracks shipped</p>
+      <p class="card-phase">Foundation + eval tracks shipped</p>
     </div>
   </div>
-  <p class="card-note">Tracks B (LLM_SPEC schema + lint + worked example + evolution) and F (router interface + DSL + reference impl + SDK + observability) P0 shipped — keystone contract + load-bearing router design now load-bearing-ready. 7 of 9 tracks P0 remaining (A, C, D, E, G, H, I). Track E (eval framework) is next per eval-first principle. Operating under Kevin&#x27;s 2026-04-24 toolkit-first reframe; orchestrator-brief LLM is dogfood validation target.</p>
+  <p class="card-note">Tracks B + F + E P0 shipped — keystone contract + router design + eval framework. 6 of 9 tracks P0 remaining (A, C, D, G, H, I). Track A (interview UX) next: last P0-gating track for first paying engagement. Operating under Kevin&#x27;s 2026-04-24 toolkit-first reframe; orchestrator-brief LLM is dogfood validation target.</p>
   <div class="card-meta">
     <span class="pill pill-tier-virtuoso">Specialist</span>
     <span class="pill pill-passive">supervised</span>
-    <span class="meta-hb">last seen 1h ago</span>
+    <span class="meta-hb">last seen 2h ago</span>
   </div>
 </a>
 <a class="card" href="./boo-website.html" data-pct="92">
@@ -74,7 +74,7 @@
   <div class="card-meta">
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 3h ago</span>
+    <span class="meta-hb">last seen 4h ago</span>
   </div>
 </a>
 <a class="card" href="./ensemble.html" data-pct="83">
@@ -96,7 +96,7 @@
   <div class="card-meta">
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 3h ago</span>
+    <span class="meta-hb">last seen 4h ago</span>
   </div>
 </a>
 <a class="card" href="./pinball-roguelight.html" data-pct="12">
@@ -162,7 +162,7 @@
   <div class="card-meta">
     <span class="pill pill-tier-virtuoso">Specialist</span>
     <span class="pill pill-passive">supervised</span>
-    <span class="meta-hb">last seen 11m ago</span>
+    <span class="meta-hb">last seen 2m ago</span>
   </div>
 </a>
 <a class="card" href="./vera-nota.html" data-pct="55">
@@ -184,7 +184,7 @@
   <div class="card-meta">
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 7m ago</span>
+    <span class="meta-hb">last seen 43m ago</span>
   </div>
 </a>
     </div>
@@ -193,8 +193,32 @@
 <footer>
   <div class="wrap foot-inner">
     <p>Ensemble · Private preview</p>
-    <p>Generated 2026-04-25T07:47:30Z</p>
+    <p>Generated <span class="rel-time" data-iso="2026-04-25T08:23:17Z">just now</span></p>
   </div>
 </footer>
+<script>
+(function () {
+  function rel(iso) {
+    var t = new Date(iso).getTime();
+    if (isNaN(t)) return iso;
+    var s = Math.max(0, Math.floor((Date.now() - t) / 1000));
+    if (s < 30) return 'just now';
+    if (s < 90) return '1 min ago';
+    if (s < 3600) return Math.floor(s / 60) + ' mins ago';
+    if (s < 5400) return '1 hour ago';
+    if (s < 86400) return Math.floor(s / 3600) + ' hours ago';
+    if (s < 172800) return 'yesterday';
+    return Math.floor(s / 86400) + ' days ago';
+  }
+  function update() {
+    document.querySelectorAll('.rel-time').forEach(function (el) {
+      var iso = el.getAttribute('data-iso');
+      if (iso) el.textContent = rel(iso);
+    });
+  }
+  update();
+  setInterval(update, 30000);
+})();
+</script>
 </body>
 </html>

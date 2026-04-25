@@ -114,8 +114,32 @@
 <footer>
   <div class="wrap foot-inner">
     <a class="foot-back" href="./index.html">← All projects</a>
-    <p>Generated 2026-04-25T07:47:30Z</p>
+    <p>Generated <span class="rel-time" data-iso="2026-04-25T08:23:17Z">just now</span></p>
   </div>
 </footer>
+<script>
+(function () {
+  function rel(iso) {
+    var t = new Date(iso).getTime();
+    if (isNaN(t)) return iso;
+    var s = Math.max(0, Math.floor((Date.now() - t) / 1000));
+    if (s < 30) return 'just now';
+    if (s < 90) return '1 min ago';
+    if (s < 3600) return Math.floor(s / 60) + ' mins ago';
+    if (s < 5400) return '1 hour ago';
+    if (s < 86400) return Math.floor(s / 3600) + ' hours ago';
+    if (s < 172800) return 'yesterday';
+    return Math.floor(s / 86400) + ' days ago';
+  }
+  function update() {
+    document.querySelectorAll('.rel-time').forEach(function (el) {
+      var iso = el.getAttribute('data-iso');
+      if (iso) el.textContent = rel(iso);
+    });
+  }
+  update();
+  setInterval(update, 30000);
+})();
+</script>
 </body>
 </html>

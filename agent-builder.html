@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light dark" />
 <meta http-equiv="refresh" content="900" />
 <title>Agent Builder — Phase 1 product (client-specific LLMs via interview → spec → build) · Ensemble</title>
-<meta name="description" content="Tracks B (LLM_SPEC schema + lint + worked example + evolution) and F (router interface + DSL + reference impl + SDK + observability) P0 shipped — keystone contract + load-bearing router design now load-bearing-ready. 7 of 9 tracks P0 remaining (A, C, D, E, G, H, I). Track E (eval framework) is next per eval-first principle. Operating under Kevin&#x27;s 2026-04-24 toolkit-first reframe; orchestrator-brief LLM is dogfood validation target." />
+<meta name="description" content="Tracks B + F + E P0 shipped — keystone contract + router design + eval framework. 6 of 9 tracks P0 remaining (A, C, D, G, H, I). Track A (interview UX) next: last P0-gating track for first paying engagement. Operating under Kevin&#x27;s 2026-04-24 toolkit-first reframe; orchestrator-brief LLM is dogfood validation target." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,22 +20,22 @@
   <div class="wrap hero-inner">
     <p class="eyebrow"><a href="./index.html">← Back to roster</a></p>
     <div class="proj-hero-inner">
-      <div class="pie-big"><svg class="pie-big" viewBox="0 0 100 100" aria-label="24% complete">
+      <div class="pie-big"><svg class="pie-big" viewBox="0 0 100 100" aria-label="38% complete">
       <circle cx="50" cy="50" r="42" fill="none" stroke="var(--rule)" stroke-width="6"/>
       <circle cx="50" cy="50" r="42" fill="none"
               stroke="var(--accent)" stroke-width="6" stroke-linecap="round"
-              stroke-dasharray="63.33 200.56" transform="rotate(-90 50 50)"/>
+              stroke-dasharray="100.28 163.61" transform="rotate(-90 50 50)"/>
       <text x="50" y="58" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="28" fill="currentColor">24</text>
+            font-style="italic" font-weight="500" font-size="28" fill="currentColor">38</text>
     </svg></div>
       <div class="proj-hero-text">
-        <p class="proj-phase">Foundation tracks shipped</p>
+        <p class="proj-phase">Foundation + eval tracks shipped</p>
         <h1>Agent Builder — Phase 1 product (client-specific LLMs via interview → spec → build)</h1>
-        <p class="proj-desc">Tracks B (LLM_SPEC schema + lint + worked example + evolution) and F (router interface + DSL + reference impl + SDK + observability) P0 shipped — keystone contract + load-bearing router design now load-bearing-ready. 7 of 9 tracks P0 remaining (A, C, D, E, G, H, I). Track E (eval framework) is next per eval-first principle. Operating under Kevin&#x27;s 2026-04-24 toolkit-first reframe; orchestrator-brief LLM is dogfood validation target.</p>
+        <p class="proj-desc">Tracks B + F + E P0 shipped — keystone contract + router design + eval framework. 6 of 9 tracks P0 remaining (A, C, D, G, H, I). Track A (interview UX) next: last P0-gating track for first paying engagement. Operating under Kevin&#x27;s 2026-04-24 toolkit-first reframe; orchestrator-brief LLM is dogfood validation target.</p>
         <div class="proj-pills"><span class="pill pill-tier-virtuoso">Specialist</span> <span class="pill pill-passive">supervised</span></div>
       </div>
     </div>
-    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 1h ago · agent-builder</p>
+    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 2h ago · agent-builder</p>
   </div>
 </header>
 <main class="proj-main">
@@ -89,7 +89,7 @@
       <div class="now-grid">
         <div class="now-card">
           <h3>Current task</h3>
-          <p>Track E (eval framework) P0 deliverables. Foundation tracks B + F shipped 2026-04-24/25 (schema + lint + worked example + evolution; router interface_spec + policy_dsl + reference_impl + client_sdk + observability). Operating under Kevin&#x27;s 2026-04-24 toolkit-first reframe; orchestrator-brief is dogfood target.</p>
+          <p>Track A (interview UX) P0 deliverables. B + F + E P0 shipped (schema + lint + example + evolution; router 5-file design; eval framework 5-file design). 3 of 9 tracks complete; A is the last P0-gating track for first paying engagement per HANDOFF §9.9.</p>
         </div>
         <div class="now-card">
           <h3>Recent commits</h3>
@@ -103,8 +103,8 @@
       <h2>What's <em>next</em></h2>
       <div class="next-rec">
   <h3>Top recommendation</h3>
-  <h4>Track E — Eval framework P0 (eval_design + harness + dashboard + CI integration + continuous_eval)</h4>
-  <p>P0-gating per HANDOFF §9. Track F&#x27;s observability already presumes Phoenix; Track B&#x27;s lint references scoring modes; without Track E nothing produced is measurably testable. Eval-first principle (HANDOFF §3 principle 8) demands this before D/C/H ship.</p>
+  <h4>Track A — Interview UX P0 (interview_flow + interview_ux + anti_patterns + test_personas + pilot_script)</h4>
+  <p>Last P0-gating track for first paying engagement per HANDOFF §9.9 (B✓ + E✓ done; A is the third gating piece). Schema (B) shipped — the UX that fills it is the next gating piece. Apple-grade onboarding bar starts here; the interview IS the product per HANDOFF §0 insight #1.</p>
 </div>
       <div class="next-alts"><div class="next-alt">
   <h4>Track A — Interview UX (flow + voice + anti-patterns + test personas + pilot script)</h4>
@@ -125,8 +125,32 @@
 <footer>
   <div class="wrap foot-inner">
     <a class="foot-back" href="./index.html">← All projects</a>
-    <p>Generated 2026-04-25T07:47:30Z</p>
+    <p>Generated <span class="rel-time" data-iso="2026-04-25T08:23:17Z">just now</span></p>
   </div>
 </footer>
+<script>
+(function () {
+  function rel(iso) {
+    var t = new Date(iso).getTime();
+    if (isNaN(t)) return iso;
+    var s = Math.max(0, Math.floor((Date.now() - t) / 1000));
+    if (s < 30) return 'just now';
+    if (s < 90) return '1 min ago';
+    if (s < 3600) return Math.floor(s / 60) + ' mins ago';
+    if (s < 5400) return '1 hour ago';
+    if (s < 86400) return Math.floor(s / 3600) + ' hours ago';
+    if (s < 172800) return 'yesterday';
+    return Math.floor(s / 86400) + ' days ago';
+  }
+  function update() {
+    document.querySelectorAll('.rel-time').forEach(function (el) {
+      var iso = el.getAttribute('data-iso');
+      if (iso) el.textContent = rel(iso);
+    });
+  }
+  update();
+  setInterval(update, 30000);
+})();
+</script>
 </body>
 </html>

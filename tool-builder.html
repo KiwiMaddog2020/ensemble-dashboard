@@ -35,7 +35,7 @@
         <div class="proj-pills"><span class="pill pill-tier-virtuoso">Specialist</span> <span class="pill pill-passive">supervised</span></div>
       </div>
     </div>
-    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 11m ago · tool-builder</p>
+    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 2m ago · tool-builder</p>
   </div>
 </header>
 <main class="proj-main">
@@ -83,7 +83,7 @@
       <div class="now-grid">
         <div class="now-card">
           <h3>Current task</h3>
-          <p>2026-04-25 07:35Z: 7-TRACK MILESTONE. Track A 6/7 (R1-gated) + Tracks B, C, D, E, G, I 100% COMPLETE = 40 of ~55 planning-phase P0 deliverables (73%) shipped in one extended session. Track C P0s: websites, web_apps, native_apps, pwas (cross-ref), crm, team_chat, inventory. All solo-doable tracks now complete. Top Rec: proceed solo with Track F (router-SDK co-owned with Agent Builder). Remaining: F (co-owned), H (co-owned), Track A R1-gated MSA+DPA.</p>
+          <p>2026-04-25 08:07Z: 8-TRACK MILESTONE. Track A 6/7 (R1-gated) + Tracks B, C, D, E, G, I 100% complete + Track F Tool-Builder-side complete = 45 of ~55 planning-phase P0 deliverables (82%) shipped in one extended session. Track F P0s: router_client_library, embed_patterns, data_contract, ops_dashboard, upgrade_flow. All marked v0.1 Tool-Builder-side with extensive Agent Builder co-design markers. Remaining: Track H (privacy co-owned 4 P0s), Track A R1-gated MSA+DPA.</p>
         </div>
         <div class="now-card">
           <h3>Recent commits</h3>
@@ -97,20 +97,20 @@
       <h2>What's <em>next</em></h2>
       <div class="next-rec">
   <h3>Top recommendation</h3>
-  <h4>Proceed solo with Track F (integration co-owned with Agent Builder)</h4>
-  <p>All 6 solo-doable tracks now complete (A 6/7, B, C, D, E, G, I = 40 of ~55 P0s = 73%). Only co-owned tracks remain (F + H) plus Track A R1-gated MSA+DPA. Track F deliverables can be drafted with explicit &quot;Agent Builder co-design TBD&quot; markers; lower coordination risk than Track H (which has heavier privacy-tier red-team scope). Five P0s under shared/router + shared/integration: router_client_library, embed_patterns, data_contract, ops_dashboard, upgrade_flow.</p>
+  <h4>Surface R1 home-province ask to close Track A 7/7 + planning-phase exit</h4>
+  <p>All 9 research tracks now drafted to Tool-Builder-side completion (49 of ~55 P0 deliverables = 89%). Only Track A R1-gated MSA + DPA remain. R1 = Kevin selects home province. Once R1 lands, MSA + DPA draft completes Track A 7/7 + Tool Builder hits 100% of solo + co-owned-Tool-Builder-side P0s. Planning phase formally exits when (a) all 9 tracks have P0 deliverables AND (b) automated pre-flight pipeline demonstrated on synthetic client — (a) becomes true with R1 land; (b) is the next deliverable post-R1.</p>
 </div>
       <div class="next-alts"><div class="next-alt">
-  <h4>Proceed solo with Track H (privacy co-owned)</h4>
-  <p>Four P0s under shared/privacy: tool_tier_matrix, data_class_tagging, boundary_enforcement, client_self_service. Heavier red-team scope than F; benefits more from Agent Builder collaboration. Solo possible with explicit co-design markers.</p>
+  <h4>Pause for Kevin review at 89% milestone</h4>
+  <p>49 deliverables shipped across 9 tracks (A 6/7 + B/C/D/E/F-tool-side/G/H-tool-side/I complete); 89% of P0s drafted. Major review window before tackling final Track A R1 + planning-phase-exit pre-flight demo. Non-blocking.</p>
 </div>
 <div class="next-alt">
-  <h4>Pause / coordinate with Agent Builder for F + H</h4>
-  <p>Tracks F + H are co-owned with Agent Builder under virtuosos/shared/. Best-quality outcome is collaborative. Pause; let Agent Builder advance parallel work; resume F + H when Agent Builder lands co-design content.</p>
+  <h4>Demonstrate automated pre-flight pipeline on synthetic client</h4>
+  <p>Per HANDOFF §10 cadence, planning-phase exit criterion (b) requires pre-flight pipeline demo on synthetic client. Use the discovery_playbook + scrape_pipeline + analysis_framework + comparison_artifact_template against a fictional Canadian SMB (e.g. &quot;BlossomBakeShop, Toronto retail, 8 staff&quot;). Produces a worked example artifact + validates the methodology end-to-end.</p>
 </div>
 <div class="next-alt">
-  <h4>Pause for Kevin review at 73% milestone</h4>
-  <p>40 deliverables shipped across 7 tracks (A 6/7, B, C, D, E, G, I); 73% of P0s drafted. Natural review window before tackling co-owned shared tracks. Non-blocking; resume any time.</p>
+  <h4>Pause / wait for Agent Builder co-design</h4>
+  <p>Track F + H Tool-Builder-side complete with extensive co-design markers. Pause for Agent Builder Virtuoso to advance its parallel work; resume final co-design + planning-phase exit when collaborative.</p>
 </div></div>
     </section>
 
@@ -119,8 +119,32 @@
 <footer>
   <div class="wrap foot-inner">
     <a class="foot-back" href="./index.html">← All projects</a>
-    <p>Generated 2026-04-25T07:47:30Z</p>
+    <p>Generated <span class="rel-time" data-iso="2026-04-25T08:23:17Z">just now</span></p>
   </div>
 </footer>
+<script>
+(function () {
+  function rel(iso) {
+    var t = new Date(iso).getTime();
+    if (isNaN(t)) return iso;
+    var s = Math.max(0, Math.floor((Date.now() - t) / 1000));
+    if (s < 30) return 'just now';
+    if (s < 90) return '1 min ago';
+    if (s < 3600) return Math.floor(s / 60) + ' mins ago';
+    if (s < 5400) return '1 hour ago';
+    if (s < 86400) return Math.floor(s / 3600) + ' hours ago';
+    if (s < 172800) return 'yesterday';
+    return Math.floor(s / 86400) + ' days ago';
+  }
+  function update() {
+    document.querySelectorAll('.rel-time').forEach(function (el) {
+      var iso = el.getAttribute('data-iso');
+      if (iso) el.textContent = rel(iso);
+    });
+  }
+  update();
+  setInterval(update, 30000);
+})();
+</script>
 </body>
 </html>
