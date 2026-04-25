@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<meta http-equiv="refresh" content="900" />
+<title>Vera Nota · Ensemble</title>
+<meta name="description" content="Native audio analysis suite for Apple platforms. Swift + Core Audio + Metal. Phase 6 complete (tuner, metronome, drone). $24.99 one-time Pro." />
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<header class="hero">
+  <div class="stage-light" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <p class="eyebrow"><a href="./index.html">← Back to roster</a></p>
+    <div class="proj-hero-inner">
+      <div class="pie-big"><svg class="pie-big" viewBox="0 0 100 100" aria-label="55% complete">
+      <circle cx="50" cy="50" r="42" fill="none" stroke="var(--rule)" stroke-width="6"/>
+      <circle cx="50" cy="50" r="42" fill="none"
+              stroke="var(--accent)" stroke-width="6" stroke-linecap="round"
+              stroke-dasharray="145.14 118.75" transform="rotate(-90 50 50)"/>
+      <text x="50" y="58" text-anchor="middle" font-family="EB Garamond, serif"
+            font-style="italic" font-weight="500" font-size="28" fill="currentColor">55</text>
+    </svg></div>
+      <div class="proj-hero-text">
+        <p class="proj-phase">Stable automation</p>
+        <h1>Vera Nota</h1>
+        <p class="proj-desc">Native audio analysis suite for Apple platforms. Swift + Core Audio + Metal. Phase 6 complete (tuner, metronome, drone). $24.99 one-time Pro.</p>
+        <div class="proj-pills"><span class="pill pill-tier-agent">Project</span> <span class="pill pill-auto">auto-tests</span> <span class="pill pill-attn">needs your eyes</span></div>
+      </div>
+    </div>
+    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 7m ago · vera-nota</p>
+  </div>
+</header>
+<main class="proj-main">
+  <div class="wrap">
+
+    <section class="proj-section">
+      <h2>Timeline</h2>
+      <p class="proj-lead">Past milestones (filled), where we are now (pulsing), and what's coming next (outlined).</p>
+      <div class="timeline">
+<div class="tl-item done">
+  <div class="tl-marker"></div>
+  <p class="tl-date">earlier</p>
+  <h3 class="tl-title">Phase 1-5 — DSP foundation</h3>
+  <p class="tl-summary">Core Audio plumbing, Metal viz pipeline, Swift + C DSP bridge. Audio analysis foundations.</p>
+</div>
+<div class="tl-item done">
+  <div class="tl-marker"></div>
+  <p class="tl-date">Phase 6</p>
+  <h3 class="tl-title">Tuner + Metronome + Drone</h3>
+  <p class="tl-summary">Chromatic tuner with YIN pitch detection. Metronome + drone added. Phase 6 musician panels complete.</p>
+</div>
+<div class="tl-item done">
+  <div class="tl-marker"></div>
+  <p class="tl-date">recent</p>
+  <h3 class="tl-title">XCUITest scaffold</h3>
+  <p class="tl-summary">Automated regression coverage groundwork. install-hooks.sh hardened for git worktrees.</p>
+</div>
+<div class="tl-item now">
+  <div class="tl-marker"></div>
+  <p class="tl-date">now</p>
+  <h3 class="tl-title">Overnight test wiring</h3>
+  <p class="tl-summary">Wire swift test into orchestrator-overnight-heavy. Nightly regression catch while you sleep.</p>
+</div>
+<div class="tl-item next">
+  <div class="tl-marker"></div>
+  <p class="tl-date">next</p>
+  <h3 class="tl-title">VoiceOver labels for Phase 6 panels</h3>
+  <p class="tl-summary">Charter §11 accessibility requirement. Run UI tests with VoiceOver assertions for tuner/metronome/drone.</p>
+</div>
+<div class="tl-item next">
+  <div class="tl-marker"></div>
+  <p class="tl-date">next</p>
+  <h3 class="tl-title">YIN verification doc</h3>
+  <p class="tl-summary">Every DSP algorithm gets a verification doc per Charter §9 + recipe Step 7.</p>
+</div>
+<div class="tl-item next">
+  <div class="tl-marker"></div>
+  <p class="tl-date">scoping</p>
+  <h3 class="tl-title">Windows / JUCE port investigation</h3>
+  <p class="tl-summary">Open Question §14. Scoping pass before committing to cross-platform expansion.</p>
+</div>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <h2>Right <em>now</em></h2>
+      <div class="now-grid">
+        <div class="now-card">
+          <h3>Current task</h3>
+          <p style="color:var(--ink-4);"><em>No active task — Agent idle.</em></p>
+        </div>
+        <div class="now-card">
+          <h3>Recent commits</h3>
+          <ul><li><code>57b629a</code> fix(scripts): install-hooks.sh works in git worktrees (#17)</li>
+<li><code>0807e8c</code> feat(tests): XCUITest scaffold for automated regression coverage (#16)</li>
+<li><code>ac444b8</code> feat(musician): Metronome + Drone (Phase 6 complete) (#15)</li>
+<li><code>1f35fac</code> feat(tuner): chromatic tuner with YIN pitch detection (#14)</li>
+<li><code>bbe94a9</code> feat(branding): add Vera Nota icon set (#13)</li></ul>
+        </div>
+        
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <h2>What's <em>next</em></h2>
+      <div class="next-rec">
+  <h3>Top recommendation</h3>
+  <h4>Wire overnight swift test into the orchestrator-overnight-heavy routine</h4>
+  <p>Nightly regression catch while you sleep; Phase 6 just landed and XCUITest scaffold is fresh. Low cost, high confidence.</p>
+</div>
+      <div class="next-alts"><div class="next-alt">
+  <h4>Add VoiceOver labels to Phase 6 musician panels</h4>
+  <p>Charter §11 requires it; tuner/metronome/drone may have gaps. Run the UI tests with VoiceOver assertions.</p>
+</div>
+<div class="next-alt">
+  <h4>Write verification doc for the YIN pitch detector</h4>
+  <p>Every DSP algorithm needs one per Charter §9 + recipe Step 7. Catch the drift before the next phase.</p>
+</div>
+<div class="next-alt">
+  <h4>Investigate Windows/JUCE port scope</h4>
+  <p>Open Question §14. Scoping pass before committing resources.</p>
+</div></div>
+    </section>
+
+  </div>
+</main>
+<footer>
+  <div class="wrap foot-inner">
+    <a class="foot-back" href="./index.html">← All projects</a>
+    <p>Generated 2026-04-25T07:47:30Z</p>
+  </div>
+</footer>
+</body>
+</html>

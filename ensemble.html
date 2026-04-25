@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<meta http-equiv="refresh" content="900" />
+<title>The Ensemble — plugin development (the coordination system itself) · Ensemble</title>
+<meta name="description" content="5 of 6 Phase 0 gates green (plugin-refactor merged, autopilot built, mobile dispatch validated, v1.0.0 tagged, 27-commit envelope shipped). Remaining: first external user, public-flip." />
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<header class="hero">
+  <div class="stage-light" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <p class="eyebrow"><a href="./index.html">← Back to roster</a></p>
+    <div class="proj-hero-inner">
+      <div class="pie-big"><svg class="pie-big" viewBox="0 0 100 100" aria-label="83% complete">
+      <circle cx="50" cy="50" r="42" fill="none" stroke="var(--rule)" stroke-width="6"/>
+      <circle cx="50" cy="50" r="42" fill="none"
+              stroke="var(--accent)" stroke-width="6" stroke-linecap="round"
+              stroke-dasharray="219.03 44.86" transform="rotate(-90 50 50)"/>
+      <text x="50" y="58" text-anchor="middle" font-family="EB Garamond, serif"
+            font-style="italic" font-weight="500" font-size="28" fill="currentColor">83</text>
+    </svg></div>
+      <div class="proj-hero-text">
+        <p class="proj-phase">Phase 0 — closing</p>
+        <h1>The Ensemble — plugin development (the coordination system itself)</h1>
+        <p class="proj-desc">5 of 6 Phase 0 gates green (plugin-refactor merged, autopilot built, mobile dispatch validated, v1.0.0 tagged, 27-commit envelope shipped). Remaining: first external user, public-flip.</p>
+        <div class="proj-pills"><span class="pill pill-tier-agent">Project</span> <span class="pill pill-auto">auto-tests</span> <span class="pill pill-attn">needs your eyes</span></div>
+      </div>
+    </div>
+    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 3h ago · ensemble</p>
+  </div>
+</header>
+<main class="proj-main">
+  <div class="wrap">
+
+    <section class="proj-section">
+      <h2>Timeline</h2>
+      <p class="proj-lead">Past milestones (filled), where we are now (pulsing), and what's coming next (outlined).</p>
+      <div class="timeline">
+<div class="tl-item done">
+  <div class="tl-marker"></div>
+  <p class="tl-date">2026-04-21</p>
+  <h3 class="tl-title">Birth of the Ensemble</h3>
+  <p class="tl-summary">Multi-chat orchestration named. Maestro/Agent/Virtuoso taxonomy locked. Atomic mkdir lock primitive proven on APFS.</p>
+</div>
+<div class="tl-item done">
+  <div class="tl-marker"></div>
+  <p class="tl-date">2026-04-22</p>
+  <h3 class="tl-title">Plugin refactor merged</h3>
+  <p class="tl-summary">20-commit refactor lands on main. Hook paths rewired. Plugin layout solidified for marketplace distribution.</p>
+</div>
+<div class="tl-item done">
+  <div class="tl-marker"></div>
+  <p class="tl-date">2026-04-23</p>
+  <h3 class="tl-title">Phone dispatch validated</h3>
+  <p class="tl-summary">Termius + Tailscale + launchd handoff working end-to-end. Autopilot fires from anywhere, completes on the Mac, notifies back.</p>
+</div>
+<div class="tl-item done">
+  <div class="tl-marker"></div>
+  <p class="tl-date">2026-04-24</p>
+  <h3 class="tl-title">Push rails lifted, P0 UX shipped</h3>
+  <p class="tl-summary">git push permitted on current branch. notify.sh, /autopilot, maestro-context, morning-digest helpers all live. Friend-facing website-agent v2 lifecycle locked.</p>
+</div>
+<div class="tl-item done">
+  <div class="tl-marker"></div>
+  <p class="tl-date">2026-04-25</p>
+  <h3 class="tl-title">v1.0.0 tagged, dashboard live</h3>
+  <p class="tl-summary">27-commit envelope tagged. Active/inactive control + autopilot=testing-only design refinement. Dashboard at github.io. CI billing wall flagged.</p>
+</div>
+<div class="tl-item next">
+  <div class="tl-marker"></div>
+  <p class="tl-date">next</p>
+  <h3 class="tl-title">First external user onboarded</h3>
+  <p class="tl-summary">Hand-off to Kevin&#x27;s friend with the website-agent v2 starter package. Closes Phase 0 exit criterion.</p>
+</div>
+<div class="tl-item next">
+  <div class="tl-marker"></div>
+  <p class="tl-date">soon</p>
+  <h3 class="tl-title">Public-flip + Claude skill marketplace</h3>
+  <p class="tl-summary">Repo public, listed on the Claude Code marketplace. Phase 0 closes; Phase 1 (Agent Builder) takes priority.</p>
+</div>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <h2>Right <em>now</em></h2>
+      <div class="now-grid">
+        <div class="now-card">
+          <h3>Current task</h3>
+          <p>Idle. Awaiting Agent self-refresh on next session. Maestro has flagged needs_attention=true with details in attention_reason.</p>
+        </div>
+        <div class="now-card">
+          <h3>Recent commits</h3>
+          <p style="color:var(--ink-4);"><em>No recent commits visible from Mac side.</em></p>
+        </div>
+        
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <h2>What's <em>next</em></h2>
+      <div class="next-rec">
+  <h3>Top recommendation</h3>
+  <h4>Agent should refresh top_rec on next session</h4>
+  <p>Status file refreshed by Maestro 2026-04-25. Original top_rec (&#x27;Build /ensemble:autopilot N slash command&#x27;) has shipped — see commit 9a99631. Phase 0 exit criteria now show only public-flip + v1.0.0 tag remaining.</p>
+</div>
+      <div class="next-alts"><div class="next-alt">
+  <h4>Tag v1.0.0 + write release notes</h4>
+  <p>Phase 0 exit criterion still pending. Plugin-refactor merged 2026-04-22 (commit 38206d6); the autopilot pipeline + P0 UX streamlining + website-agent v2 lifecycle have all landed since. v1.0.0 marks the durable public-install-ready state. Release notes summarize the ~30 commits across the public-launch envelope.</p>
+</div>
+<div class="next-alt">
+  <h4>Flip claude-ensemble repo to public</h4>
+  <p>Phase 0 exit criterion. Repo currently private. Decision-point: review last 30 commits for any sensitive content before flip. Gated under safety_constraints.md (visibility-flip requires explicit approval).</p>
+</div>
+<div class="next-alt">
+  <h4>Onboard first external user (Kevin&#x27;s friend with website-agent v2)</h4>
+  <p>Phase 0 exit criterion. website-agent.txt v2 is shipped + Windows-inline + synced to KiwiMaddog2020/website-agent-starter (private). Hand off to friend for first real-world v2 usage. Friend on Windows; the inline alternatives just shipped solve the Mac-only command friction.</p>
+</div></div>
+    </section>
+
+  </div>
+</main>
+<footer>
+  <div class="wrap foot-inner">
+    <a class="foot-back" href="./index.html">← All projects</a>
+    <p>Generated 2026-04-25T07:47:30Z</p>
+  </div>
+</footer>
+</body>
+</html>

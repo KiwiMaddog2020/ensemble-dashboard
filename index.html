@@ -6,227 +6,43 @@
 <meta name="color-scheme" content="light dark" />
 <meta http-equiv="refresh" content="900" />
 <title>Ensemble · Roster</title>
-<meta name="description" content="Live cross-project completion roster for the Ensemble. Updates a few times a day." />
+<meta name="description" content="Live cross-project completion roster." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
-
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
-<style>
-  :root {
-    --bg:        #faf7f2;
-    --bg-raised: #ffffff;
-    --bg-sunken: #f2ede2;
-    --ink:       #18150f;
-    --ink-2:     #3c362c;
-    --ink-3:     #6e6657;
-    --ink-4:     #a8a193;
-    --rule:      #e8e1d2;
-    --rule-2:    #f0ead9;
-    --accent:    #c2711f;
-    --accent-2:  #e08a2c;
-    --accent-3:  #f3c07a;
-    --accent-ink:#3a1f04;
-    --danger:    #c73a2a;
-    --serif: "EB Garamond", ui-serif, Georgia, serif;
-    --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-    --mono:  "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-    --maxw: 1180px;
-    --gutter: clamp(20px, 4vw, 40px);
-    --radius: 16px;
-    --radius-sm: 8px;
-    --ease: cubic-bezier(.2, .7, .2, 1);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg:        #0f0d0a;
-      --bg-raised: #1a1711;
-      --bg-sunken: #141109;
-      --ink:       #f3ecdd;
-      --ink-2:     #d6cdb9;
-      --ink-3:     #9a9078;
-      --ink-4:     #5e564a;
-      --rule:      #2a251c;
-      --rule-2:    #1f1a13;
-      --accent:    #f0a94d;
-      --accent-2:  #ffc073;
-      --accent-3:  #7a4a16;
-      --accent-ink:#1a0d02;
-      --danger:    #ef6a5c;
-    }
-  }
-  *, *::before, *::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  html, body { margin: 0; padding: 0; }
-  body {
-    font-family: var(--sans);
-    font-size: 16px;
-    line-height: 1.55;
-    color: var(--ink);
-    background: var(--bg);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-  }
-  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
-  code { font-family: var(--mono); font-size: .9em; }
-
-  /* Hero */
-  header.hero { padding: clamp(56px, 10vw, 100px) 0 clamp(32px, 6vw, 56px); position: relative; overflow: hidden; }
-  .stage-light {
-    position: absolute; inset: -20% -20% auto auto;
-    width: min(720px, 110vw); height: min(720px, 110vw);
-    background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%);
-    pointer-events: none; z-index: 0;
-    animation: drift 22s var(--ease) infinite alternate;
-  }
-  @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(-5%, 3%) scale(1.04); } }
-  .hero-inner { position: relative; z-index: 1; display: flex; align-items: end; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
-  .hero-left { flex: 1 1 380px; }
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-size: 11.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-    color: var(--accent); margin: 0 0 18px;
-  }
-  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block; }
-  h1 {
-    font-family: var(--serif); font-weight: 600;
-    font-size: clamp(36px, 6.5vw, 60px); line-height: 1.06; letter-spacing: -.014em;
-    margin: 0; color: var(--ink);
-  }
-  h1 em { font-style: italic; color: var(--accent); font-weight: 500; padding: 0 .03em; }
-  .hero-stats { display: flex; gap: 24px 36px; flex-wrap: wrap; align-items: end; }
-  .stat { display: flex; flex-direction: column; gap: 2px; }
-  .stat-num { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 36px; line-height: 1; color: var(--accent); }
-  .stat-label { font-family: var(--sans); font-size: 11.5px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
-  .timestamp { margin-top: 24px; font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
-  .timestamp .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 8px; box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); animation: pulse 3.2s var(--ease) infinite; }
-  @keyframes pulse {
-    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
-    70%  { box-shadow: 0 0 0 9px color-mix(in srgb, var(--accent) 0%, transparent); }
-    100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent); }
-  }
-
-  /* Roster grid */
-  main { padding: clamp(28px, 5vw, 56px) 0 clamp(48px, 8vw, 96px); border-top: 1px solid var(--rule); }
-  .roster {
-    display: grid; gap: clamp(14px, 2vw, 22px);
-    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-  }
-
-  /* Card — centered layout, bottom-locked meta, equal heights via grid stretch */
-  .card {
-    background: var(--bg-raised);
-    border: 1px solid var(--rule);
-    border-radius: var(--radius);
-    padding: 28px 24px 20px;
-    display: flex; flex-direction: column; gap: 14px;
-    text-align: center;
-    transition: border-color .2s var(--ease), transform .2s var(--ease);
-    min-height: 320px;
-  }
-  .card:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--rule)); transform: translateY(-1px); }
-
-  .card-head {
-    display: flex; flex-direction: column; align-items: center; gap: 12px;
-  }
-  .card-pie { width: 96px; height: 96px; color: var(--ink); position: relative; }
-  .card-pie svg.pie { width: 100%; height: 100%; }
-  .card-id { width: 100%; }
-  .card-id h2 {
-    font-family: var(--serif); font-weight: 500;
-    font-size: clamp(22px, 2.4vw, 28px); line-height: 1.18; letter-spacing: -.008em;
-    margin: 0 0 4px; color: var(--ink);
-  }
-  .card-phase {
-    font-family: var(--sans); font-size: 13px; font-weight: 500;
-    color: var(--ink-3); margin: 0; letter-spacing: -.003em;
-    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  }
-  .card-note {
-    font-family: var(--sans); font-size: 13.5px; line-height: 1.55;
-    color: var(--ink-3); margin: 0;
-    text-align: center;
-    max-width: 36ch;
-    margin-left: auto; margin-right: auto;
-  }
-  .card-meta {
-    display: flex; flex-wrap: wrap; gap: 6px 10px;
-    align-items: center; justify-content: center;
-    margin-top: auto; padding-top: 14px;
-    border-top: 1px solid var(--rule);
-    font-family: var(--mono); font-size: 11.5px;
-    color: var(--ink-4);
-  }
-  .card-meta code { color: var(--accent); background: transparent; padding: 0; }
-  .meta-hb { width: 100%; margin-top: 4px; opacity: .85; }
-
-  /* Pills */
-  .pill {
-    display: inline-block; font-family: var(--sans); font-size: 10.5px; font-weight: 600;
-    letter-spacing: .04em; text-transform: uppercase;
-    padding: 3px 8px; border-radius: 999px;
-  }
-  .pill-tier-agent    { color: var(--accent);  background: color-mix(in srgb, var(--accent) 14%, transparent); }
-  .pill-tier-virtuoso { color: var(--ink-2);   background: var(--rule-2); }
-  .pill-auto    { color: var(--accent);  background: color-mix(in srgb, var(--accent) 12%, transparent); }
-  .pill-passive { color: var(--ink-4);   background: var(--rule-2); }
-  .pill-attn    { color: var(--danger);  background: color-mix(in srgb, var(--danger) 12%, transparent); margin-left: 6px; }
-
-  /* Footer */
-  footer { border-top: 1px solid var(--rule); padding: 24px 0 36px; }
-  .foot-inner { display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between; align-items: center; }
-  .foot-inner p { margin: 0; font-size: 12.5px; color: var(--ink-4); font-family: var(--mono); }
-</style>
+<link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-
 <header class="hero">
   <div class="stage-light" aria-hidden="true"></div>
-  <div class="wrap hero-inner">
+  <div class="wrap hero-inner roster-hero">
     <div class="hero-left">
       <p class="eyebrow">Ensemble · Project Roster</p>
       <h1>What's <em>cooking.</em></h1>
-      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated Sat Apr 25 · 07:38 UTC · refreshes every 15 min</p>
+      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated Sat Apr 25 · 07:47 UTC · refreshes every 15 min</p>
     </div>
     <div class="hero-stats">
-      <div class="stat">
-        <span class="stat-num">7</span>
-        <span class="stat-label">Projects in motion</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">45%</span>
-        <span class="stat-label">Average progress</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">4</span>
-        <span class="stat-label">Run their own tests</span>
-      </div>
+      <div class="stat"><span class="stat-num">7</span><span class="stat-label">Projects in motion</span></div>
+      <div class="stat"><span class="stat-num">45%</span><span class="stat-label">Average progress</span></div>
+      <div class="stat"><span class="stat-num">4</span><span class="stat-label">Run their own tests</span></div>
     </div>
   </div>
 </header>
-
 <main>
   <div class="wrap">
     <div class="roster">
 <a class="card" href="./agent-builder.html" data-pct="24">
   <div class="card-head">
-    <div class="card-pie">
-      <svg class="pie" viewBox="0 0 100 100" aria-label="24% complete">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="24% complete">
       <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
       <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9"
-              stroke-linecap="round"
-              stroke-dasharray="54.29 171.91"
-              transform="rotate(-90 50 50)"/>
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="54.29 171.91" transform="rotate(-90 50 50)"/>
       <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
             font-style="italic" font-weight="500" font-size="22" fill="currentColor">24</text>
-    </svg>
-    </div>
+    </svg></div>
     <div class="card-id">
       <h2>Agent Builder — Phase 1 product (client-specific LLMs via interview → spec → build)</h2>
       <p class="card-phase">Foundation tracks shipped</p>
@@ -241,18 +57,14 @@
 </a>
 <a class="card" href="./boo-website.html" data-pct="92">
   <div class="card-head">
-    <div class="card-pie">
-      <svg class="pie" viewBox="0 0 100 100" aria-label="92% complete">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="92% complete">
       <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
       <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9"
-              stroke-linecap="round"
-              stroke-dasharray="208.10 18.10"
-              transform="rotate(-90 50 50)"/>
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="208.10 18.10" transform="rotate(-90 50 50)"/>
       <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
             font-style="italic" font-weight="500" font-size="22" fill="currentColor">92</text>
-    </svg>
-    </div>
+    </svg></div>
     <div class="card-id">
       <h2>Bunch of Others (BOO) Website</h2>
       <p class="card-phase">Live + maintained <span class="pill pill-attn">needs your eyes</span></p>
@@ -267,18 +79,14 @@
 </a>
 <a class="card" href="./ensemble.html" data-pct="83">
   <div class="card-head">
-    <div class="card-pie">
-      <svg class="pie" viewBox="0 0 100 100" aria-label="83% complete">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="83% complete">
       <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
       <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9"
-              stroke-linecap="round"
-              stroke-dasharray="187.74 38.45"
-              transform="rotate(-90 50 50)"/>
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="187.74 38.45" transform="rotate(-90 50 50)"/>
       <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
             font-style="italic" font-weight="500" font-size="22" fill="currentColor">83</text>
-    </svg>
-    </div>
+    </svg></div>
     <div class="card-id">
       <h2>The Ensemble — plugin development (the coordination system itself)</h2>
       <p class="card-phase">Phase 0 — closing <span class="pill pill-attn">needs your eyes</span></p>
@@ -293,18 +101,14 @@
 </a>
 <a class="card" href="./pinball-roguelight.html" data-pct="12">
   <div class="card-head">
-    <div class="card-pie">
-      <svg class="pie" viewBox="0 0 100 100" aria-label="12% complete">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="12% complete">
       <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
       <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9"
-              stroke-linecap="round"
-              stroke-dasharray="27.14 199.05"
-              transform="rotate(-90 50 50)"/>
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="27.14 199.05" transform="rotate(-90 50 50)"/>
       <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
             font-style="italic" font-weight="500" font-size="22" fill="currentColor">12</text>
-    </svg>
-    </div>
+    </svg></div>
     <div class="card-id">
       <h2>Pinball Roguelight</h2>
       <p class="card-phase">Spike — Day 2</p>
@@ -314,23 +118,19 @@
   <div class="card-meta">
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 21h ago</span>
+    <span class="meta-hb">last seen 22h ago</span>
   </div>
 </a>
 <a class="card" href="./spectra-nova.html" data-pct="30">
   <div class="card-head">
-    <div class="card-pie">
-      <svg class="pie" viewBox="0 0 100 100" aria-label="30% complete">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="30% complete">
       <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
       <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9"
-              stroke-linecap="round"
-              stroke-dasharray="67.86 158.34"
-              transform="rotate(-90 50 50)"/>
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="67.86 158.34" transform="rotate(-90 50 50)"/>
       <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
             font-style="italic" font-weight="500" font-size="22" fill="currentColor">30</text>
-    </svg>
-    </div>
+    </svg></div>
     <div class="card-id">
       <h2>Spectra Nova</h2>
       <p class="card-phase">Cross-platform v0 <span class="pill pill-attn">needs your eyes</span></p>
@@ -345,18 +145,14 @@
 </a>
 <a class="card" href="./tool-builder.html" data-pct="22">
   <div class="card-head">
-    <div class="card-pie">
-      <svg class="pie" viewBox="0 0 100 100" aria-label="22% complete">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="22% complete">
       <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
       <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9"
-              stroke-linecap="round"
-              stroke-dasharray="49.76 176.43"
-              transform="rotate(-90 50 50)"/>
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="49.76 176.43" transform="rotate(-90 50 50)"/>
       <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
             font-style="italic" font-weight="500" font-size="22" fill="currentColor">22</text>
-    </svg>
-    </div>
+    </svg></div>
     <div class="card-id">
       <h2>Tool Builder — Phase 2 product (AI-native business tools)</h2>
       <p class="card-phase">Research planning</p>
@@ -366,45 +162,39 @@
   <div class="card-meta">
     <span class="pill pill-tier-virtuoso">Specialist</span>
     <span class="pill pill-passive">supervised</span>
-    <span class="meta-hb">last seen 2m ago</span>
+    <span class="meta-hb">last seen 11m ago</span>
   </div>
 </a>
 <a class="card" href="./vera-nota.html" data-pct="55">
   <div class="card-head">
-    <div class="card-pie">
-      <svg class="pie" viewBox="0 0 100 100" aria-label="55% complete">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="55% complete">
       <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
       <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9"
-              stroke-linecap="round"
-              stroke-dasharray="124.41 101.79"
-              transform="rotate(-90 50 50)"/>
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="124.41 101.79" transform="rotate(-90 50 50)"/>
       <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
             font-style="italic" font-weight="500" font-size="22" fill="currentColor">55</text>
-    </svg>
-    </div>
+    </svg></div>
     <div class="card-id">
       <h2>Vera Nota</h2>
-      <p class="card-phase">Stable automation</p>
+      <p class="card-phase">Stable automation <span class="pill pill-attn">needs your eyes</span></p>
     </div>
   </div>
   <p class="card-note">Audio analysis suite for Apple platforms. Active integration with orchestrator-overnight-heavy routine.</p>
   <div class="card-meta">
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 2d ago</span>
+    <span class="meta-hb">last seen 7m ago</span>
   </div>
 </a>
     </div>
   </div>
 </main>
-
 <footer>
   <div class="wrap foot-inner">
     <p>Ensemble · Private preview</p>
-    <p>Generated 2026-04-25T07:38:47Z</p>
+    <p>Generated 2026-04-25T07:47:30Z</p>
   </div>
 </footer>
-
 </body>
 </html>
