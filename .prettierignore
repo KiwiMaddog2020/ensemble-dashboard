@@ -1,0 +1,34 @@
+# Prettier ignore — Ensemble's small JS/CSS/HTML surface
+
+# Auto-generated dashboard files (regen overwrites)
+docs/ensemble-dashboard/
+chats/
+runs/
+briefings/
+state.json
+state.lock.d/
+state.spawn-lock-*.d/
+queue-processed/
+
+# Logs
+*.log
+runs/*.log
+
+# Lock + dependency files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build artifacts
+dist/
+build/
+node_modules/
+.cache/
+
+# Templates that need exact formatting preserved
+plugins/ensemble/bootstraps/*.txt
+plugins/ensemble/templates/onboarding_prompt.md
+plugins/ensemble/templates/autopilot_loop.txt
+
+# Generated PWA service worker (we hand-author)
+plugins/ensemble/dashboard/sw.js
