@@ -1,26 +1,71 @@
-/* Ensemble dashboard — shared design system */
+/* Ensemble dashboard — shared design system (aligned with modular pages) */
 :root {
-  --bg:#faf7f2; --bg-raised:#ffffff; --bg-sunken:#f2ede2;
-  --ink:#18150f; --ink-2:#3c362c; --ink-3:#6e6657; --ink-4:#a8a193;
-  --rule:#e8e1d2; --rule-2:#f0ead9;
-  --accent:#c2711f; --accent-2:#e08a2c; --accent-3:#f3c07a; --accent-ink:#3a1f04;
-  --danger:#c73a2a;
-  --serif:"EB Garamond",ui-serif,Georgia,serif;
-  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
-  --maxw:1180px; --gutter:clamp(20px,4vw,40px);
-  --radius:16px; --radius-sm:8px;
-  --ease:cubic-bezier(.2,.7,.2,1);
+  --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4; --bg-sunken: #f2ede2;
+  --ink: #18150f; --ink-2: #3c362c; --ink-3: #6e6657; --ink-4: #a8a193;
+  --rule: #ebe4d4; --rule-2: #f0ead9;
+  --accent: #c2711f; --accent-2: #e08a2c; --accent-3: #f3c07a; --accent-ink: #3a1f04;
+  --accent-soft: rgba(194,113,31,0.08);
+  --danger: #c73a2a;
+  --serif: "EB Garamond", ui-serif, Georgia, serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --maxw: 1180px; --gutter: clamp(20px, 4vw, 40px);
+  --radius: 16px; --radius-sm: 10px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --shadow-sm: 0 1px 2px rgba(24,21,15,0.04), 0 2px 4px rgba(24,21,15,0.02);
+  --shadow-md: 0 4px 24px -8px rgba(194,113,31,0.18), 0 2px 8px rgba(24,21,15,0.04);
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:#0f0d0a; --bg-raised:#1a1711; --bg-sunken:#141109;
-    --ink:#f3ecdd; --ink-2:#d6cdb9; --ink-3:#9a9078; --ink-4:#5e564a;
-    --rule:#2a251c; --rule-2:#1f1a13;
-    --accent:#f0a94d; --accent-2:#ffc073; --accent-3:#7a4a16; --accent-ink:#1a0d02;
-    --danger:#ef6a5c;
+    --bg: #0f0d0a; --bg-raised: #1a1711; --bg-elevated: #1f1b14; --bg-sunken: #141109;
+    --ink: #f3ecdd; --ink-2: #d6cdb9; --ink-3: #9a9078; --ink-4: #5e564a;
+    --rule: #2a2620; --rule-2: #221e18;
+    --accent: #e08a2c; --accent-2: #f3c07a; --accent-3: #7a4a16; --accent-ink: #1a0d02;
+    --accent-soft: rgba(224,138,44,0.10);
+    --danger: #ef6a5c;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 24px -8px rgba(224,138,44,0.25);
   }
 }
+
+/* Top nav (shared with home/settings/commands/docs) */
+.topnav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.topnav .wrap { display: flex; align-items: center; gap: 24px; height: 56px; }
+.topnav .brand {
+  font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
+  color: var(--ink); text-decoration: none;
+}
+.topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
+.topnav li a {
+  display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
+  color: var(--ink-3); text-decoration: none; border-radius: 8px;
+  transition: background 200ms var(--ease), color 200ms var(--ease);
+}
+.topnav li a:hover { color: var(--ink); background: var(--accent-soft); }
+.topnav li a.active { color: var(--accent); background: var(--accent-soft); }
+.topnav .nav-status {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-3); white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .topnav ul { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .topnav .nav-status { display: none; }
+}
+
+/* Theme overrides (apply via body.theme-<name>) */
+body.theme-slate { --bg: #eef2f7; --bg-raised: #ffffff; --bg-sunken: #e6ebf2; --ink: #0f172a; --ink-2: #334155; --ink-3: #64748b; --ink-4: #94a3b8; --rule: #d8dee8; --rule-2: #e6ebf2; --accent: #2563eb; --accent-2: #3b82f6; --accent-3: #93c5fd; --accent-soft: rgba(37,99,235,0.10); }
+@media (prefers-color-scheme: dark) { body.theme-slate { --bg: #0a0e1a; --bg-raised: #131826; --bg-sunken: #080c14; --ink: #e2e8f0; --ink-2: #cbd5e1; --ink-3: #94a3b8; --ink-4: #64748b; --rule: #232a3d; --rule-2: #1c2235; --accent: #3b82f6; --accent-2: #60a5fa; --accent-3: #93c5fd; --accent-soft: rgba(59,130,246,0.14); } }
+body.theme-mono { --bg: #ffffff; --bg-raised: #f8f8f8; --bg-sunken: #f0f0f0; --ink: #000000; --ink-2: #1a1a1a; --ink-3: #555555; --ink-4: #999999; --rule: #d4d4d4; --rule-2: #e8e8e8; --accent: #000000; --accent-2: #333333; --accent-3: #777777; --accent-soft: rgba(0,0,0,0.06); }
+@media (prefers-color-scheme: dark) { body.theme-mono { --bg: #050505; --bg-raised: #111111; --bg-sunken: #000000; --ink: #ffffff; --ink-2: #e5e5e5; --ink-3: #999999; --ink-4: #666666; --rule: #2a2a2a; --rule-2: #1f1f1f; --accent: #ffffff; --accent-2: #cccccc; --accent-3: #888888; --accent-soft: rgba(255,255,255,0.08); } }
+body.theme-forest { --bg: #f4f7f3; --bg-raised: #ffffff; --bg-sunken: #ebf0e9; --ink: #0f1f15; --ink-2: #2c3d33; --ink-3: #5d6f64; --ink-4: #97a59c; --rule: #d8e2d6; --rule-2: #e8efe5; --accent: #16a34a; --accent-2: #22c55e; --accent-3: #86efac; --accent-soft: rgba(22,163,74,0.10); }
+@media (prefers-color-scheme: dark) { body.theme-forest { --bg: #0a120c; --bg-raised: #131c16; --bg-sunken: #060a07; --ink: #e8f0e8; --ink-2: #c8d4c9; --ink-3: #8a9a8c; --ink-4: #5a6a5c; --rule: #243228; --rule-2: #1c2820; --accent: #22c55e; --accent-2: #4ade80; --accent-3: #86efac; --accent-soft: rgba(34,197,94,0.14); } }
+body.theme-aurora { --bg: #f8f5ff; --bg-raised: #ffffff; --bg-sunken: #ede8f5; --ink: #1a0f2e; --ink-2: #3a2c52; --ink-3: #7060a0; --ink-4: #a896c8; --rule: #e2d8f0; --rule-2: #ece4f5; --accent: #8b5cf6; --accent-2: #a78bfa; --accent-3: #c4b5fd; --accent-soft: rgba(139,92,246,0.10); }
+@media (prefers-color-scheme: dark) { body.theme-aurora { --bg: #0d0820; --bg-raised: #160d2e; --bg-sunken: #08051a; --ink: #ede4ff; --ink-2: #d4c4f5; --ink-3: #a08cc8; --ink-4: #6e5e8e; --rule: #2c2046; --rule-2: #221638; --accent: #a78bfa; --accent-2: #c4b5fd; --accent-3: #ddd6fe; --accent-soft: rgba(167,139,250,0.14); } }
 *,*::before,*::after { box-sizing: border-box; }
 html,body { margin:0; padding:0; }
 body { font-family:var(--sans); font-size:16px; line-height:1.55; color:var(--ink); background:var(--bg);
