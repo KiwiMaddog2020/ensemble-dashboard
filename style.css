@@ -118,10 +118,12 @@ main { padding:clamp(28px,5vw,56px) 0 clamp(48px,8vw,96px); border-top:1px solid
 .pill-auto    { color:var(--accent); background:color-mix(in srgb,var(--accent) 12%,transparent); }
 .pill-passive { color:var(--ink-4); background:var(--rule-2); }
 .pill-attn    { color:var(--danger); background:color-mix(in srgb,var(--danger) 12%,transparent); margin-left:6px; }
-.pill-mode-frozen      { color:var(--ink-4); background:var(--rule-2); }
-.pill-mode-reactive    { color:var(--ink-3); background:color-mix(in srgb,var(--ink-3) 12%,transparent); }
-.pill-mode-maintenance { color:var(--ink-2); background:color-mix(in srgb,var(--ink-2) 10%,transparent); }
-.pill-mode-active      { color:var(--accent); background:color-mix(in srgb,var(--accent) 14%,transparent); }
+.pill-state-building     { color:#3b82f6; background:color-mix(in srgb,#3b82f6 14%,transparent); }
+.pill-state-launch-prep  { color:#a855f7; background:color-mix(in srgb,#a855f7 14%,transparent); }
+.pill-state-warmer       { color:#f97316; background:color-mix(in srgb,#f97316 14%,transparent); }
+.pill-state-rd           { color:#10b981; background:color-mix(in srgb,#10b981 14%,transparent); }
+.pill-state-updates      { color:#06b6d4; background:color-mix(in srgb,#06b6d4 14%,transparent); }
+.pill-state-hibernating  { color:var(--ink-4); background:var(--rule-2); }
 
 /* PROJECT PAGE */
 .proj-hero-inner { display:flex; align-items:center; gap:40px; flex-wrap:wrap; }

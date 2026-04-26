@@ -182,8 +182,8 @@
         var act = e.target.dataset.act;
         if (act === 'fire') fireMenu(slug);
         else if (act === 'mode') {
-          var modePill = card.querySelector('.pill[class*="pill-mode-"]');
-          var current = modePill ? modePill.textContent.toLowerCase() : 'reactive';
+          var statePill = card.querySelector('.pill[class*="pill-state-"]');
+          var current = statePill ? statePill.textContent.toLowerCase() : 'reactive';
           if (current === 'evolving') current = 'active';
           modeMenu(slug, current);
         } else if (act === 'active') activeMenu(slug, true);
