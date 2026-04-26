@@ -49,7 +49,7 @@
         <div class="proj-pills"><span class="pill pill-tier-virtuoso">Specialist</span> <span class="pill pill-state-building">Building</span> <span class="pill pill-auto">auto-tests</span></div>
       </div>
     </div>
-    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 15h ago · agent-builder</p>
+    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 16h ago · agent-builder</p>
   </div>
 </header>
 <main class="proj-main">
@@ -59,41 +59,23 @@
       <h2>Timeline</h2>
       <p class="proj-lead">Past milestones (filled), where we are now (pulsing), and what's coming next (outlined).</p>
       <div class="timeline">
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">2026-04-23</p>
-  <h3 class="tl-title">Bootstrap + handoff</h3>
-  <p class="tl-summary">Phase 1 Virtuoso spawned. Operating charter (TOOL_BUILDER_HANDOFF.md sibling) drafted. 9 research tracks A-I scoped.</p>
-</div>
 <div class="tl-item now">
   <div class="tl-marker"></div>
   <p class="tl-date">now</p>
-  <h3 class="tl-title">Research kickoff phase</h3>
-  <p class="tl-summary">All 9 research tracks at status=not_started. Weeks-long planning phase ahead. No paying-client work until P0 deliverables on every track.</p>
+  <h3 class="tl-title">Spawn build Agent for Phase 1 infra (local Postgres + pgvector + ingest + router + Phoenix)</h3>
+  <p class="tl-summary">Spec locked at G1; engagement scaffolded; eval set authored. Phase 1 is concrete infra work — ideal autopilot-eligible Agent task. ~1-2 days of Agent time on a clean spec. Surfaces friction signal across all 9 tracks. Currently lock held by pinball-roguelight; coordinate with Maestro for lock release post-pinball.</p>
 </div>
 <div class="tl-item next">
   <div class="tl-marker"></div>
   <p class="tl-date">next</p>
-  <h3 class="tl-title">Track A — Interview UX</h3>
-  <p class="tl-summary">Conversational client-intake design. Gates every future engagement. First track to land.</p>
+  <h3 class="tl-title">Spawn Agent to implement Track F router code (~300 LOC Python+TS)</h3>
+  <p class="tl-summary">Cross-cutting infra. Reference implementation shipped; Agent picks up the design + ships executable code in 1-2 sessions. Pairs well with Phase 1 infra (router needs to exist before ingest+eval can talk to it).</p>
 </div>
 <div class="tl-item next">
   <div class="tl-marker"></div>
   <p class="tl-date">next</p>
-  <h3 class="tl-title">Track B — LLM_SPEC schema</h3>
-  <p class="tl-summary">Standardize the artifact every Agent Builder engagement produces.</p>
-</div>
-<div class="tl-item next">
-  <div class="tl-marker"></div>
-  <p class="tl-date">next</p>
-  <h3 class="tl-title">Track E — Eval framework</h3>
-  <p class="tl-summary">How we measure model quality across engagements. Evaluable, comparable, repeatable.</p>
-</div>
-<div class="tl-item next">
-  <div class="tl-marker"></div>
-  <p class="tl-date">soon</p>
-  <h3 class="tl-title">First Kevin pilot engagement</h3>
-  <p class="tl-summary">Agent Builder serves Kevin as the first synthetic client. Validates the full flow before any external engagements.</p>
+  <h3 class="tl-title">Friction-log instrumentation</h3>
+  <p class="tl-summary">Wire friction-log capture across the 9 track docs per interview_pilot_script.md §4. Cheap; ensures dogfood + first paying engagement learnings feed back. Doable while waiting for autopilot lock.</p>
 </div>
       </div>
     </section>
@@ -139,7 +121,7 @@
 <footer>
   <div class="wrap foot-inner">
     <a class="foot-back" href="./index.html">← All projects</a>
-    <p>Generated <span class="rel-time" data-iso="2026-04-26T22:08:48Z">just now</span></p>
+    <p>Generated <span class="rel-time" data-iso="2026-04-26T23:02:26Z">just now</span></p>
   </div>
 </footer>
 <script>
