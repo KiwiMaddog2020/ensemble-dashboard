@@ -107,6 +107,21 @@ footer a:hover { text-decoration: underline; }
   <a href="https://github.com/KiwiMaddog2020/claude-ensemble">GitHub</a>
 </div>
 
+<!-- Smoke-test banner — appears only when a project has pending_smoke_test=true -->
+<div id="smoke-banner" style="display:none; background: color-mix(in srgb, #c2711f 8%, var(--bg)); border-bottom: 2px solid var(--accent); padding: 18px 0;">
+  <div class="wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+    <div>
+      <strong style="color: var(--accent); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em;">Smoke test required</strong>
+      <p id="smoke-banner-text" style="margin: 4px 0 0; font-size: 14px; color: var(--ink-2);">…</p>
+    </div>
+    <div class="cmd-row" style="flex: 0 0 auto;">
+      <button class="btn-primary" onclick="smokeResult('pass')">Pass</button>
+      <button class="btn-secondary" onclick="smokeResult('issues')">Issues</button>
+      <button class="btn-danger" onclick="smokeResult('fail')">Fail</button>
+    </div>
+  </div>
+</div>
+
 <header class="hero">
   <div class="wrap">
     <p class="hero-eyebrow">Ensemble · Home</p>
@@ -576,13 +591,70 @@ async function setProjectState() {
   const state = document.getElementById("state-target").value;
   if (!slug || !state) { showHelp("state-help", "Pick project + state"); return; }
   try {
-    const r = await fetch(SERVER_URL + "/set-state", {
+    let r = await fetch(SERVER_URL + "/set-state", {
       method: "POST", headers: authHeaders(),
       body: JSON.stringify({ slug, state })
     });
-    const j = await r.json();
+    let j = await r.json();
+    if (r.status === 409 && j.error === "smoke_test_required") {
+      const ok = confirm(
+        "Checkpoint " + j.checkpoint + " smoke test required: " + j.current_state + " → " + j.target_state + "." +
+        "
+
+The state change is HELD. Run the smoke-test checklist (phase_smoke_tests.md), then come back here to confirm pass/fail/issues via the banner that just appeared at the top of the page." +
+        "
+
+Force-skip the smoke test? Only do this if you've already tested or it's an emergency override (logged)."
+      );
+      if (ok) {
+        // Force override
+        r = await fetch(SERVER_URL + "/set-state", {
+          method: "POST", headers: authHeaders(),
+          body: JSON.stringify({ slug, state, force: true })
+        });
+        j = await r.json();
+        showHelp("state-help", r.ok ? ("⚠ " + slug + " → " + state + " (forced; logged)") : ("✗ " + (j.error || r.statusText)));
+      } else {
+        showHelp("state-help", "Smoke test held. Banner above shows pending checkpoint.");
+      }
+      setTimeout(refreshState, 500);
+      return;
+    }
     showHelp("state-help", r.ok ? ("✓ " + slug + " → " + state) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
   } catch (e) { showHelp("state-help", "✗ " + e.message); }
+}
+
+// Smoke-test confirmation from the banner
+let _pendingSmokeSlug = null;
+async function smokeResult(result) {
+  if (!_pendingSmokeSlug) { return; }
+  const notes = result === "pass" ? "" : prompt("Notes (what failed/what's broken)?", "") || "";
+  try {
+    const r = await fetch(SERVER_URL + "/smoke-test-result", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ slug: _pendingSmokeSlug, result, notes })
+    });
+    const j = await r.json();
+    if (r.ok) {
+      alert("Smoke test " + result + " recorded for " + _pendingSmokeSlug + (j.state ? ". State now: " + j.state : "."));
+    } else {
+      alert("Error: " + (j.error || r.statusText));
+    }
+    setTimeout(refreshState, 500);
+  } catch (e) { alert("Network error: " + e.message); }
+}
+
+// Update banner based on roster
+function updateSmokeBanner(state) {
+  const banner = document.getElementById("smoke-banner");
+  const text = document.getElementById("smoke-banner-text");
+  if (!banner || !text || !state || !state.projects) { if (banner) banner.style.display = "none"; return; }
+  const pending = state.projects.find(p => p.pending_smoke_test);
+  if (!pending) { banner.style.display = "none"; _pendingSmokeSlug = null; return; }
+  _pendingSmokeSlug = pending.slug;
+  text.textContent = pending.slug + " → " + (pending.pending_smoke_test_target || "?") + " — pending verification. Run the smoke test, then click Pass / Issues / Fail.";
+  banner.style.display = "block";
 }
 
 async function killAll() {
@@ -638,12 +710,13 @@ function updateResetStatus(state) {
   }
 }
 
-// Hook updateResetStatus into refreshState by patching the existing function
+// Hook updateResetStatus + updateSmokeBanner into refreshState
 const _origRefreshState = refreshState;
 refreshState = async function() {
   await _origRefreshState();
   const state = await fetchState();
   updateResetStatus(state);
+  updateSmokeBanner(state);
 };
 </script>
 
