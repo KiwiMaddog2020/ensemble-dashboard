@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light dark" />
 <meta http-equiv="refresh" content="900" />
 <title>Ensemble — plugin development (the coordination system itself) · Ensemble</title>
-<meta name="description" content="Phase 0 platform 90% done: all 4 mission-roadmap gaps closed (lock-type semantics, rotation scheduler, Plan→Code→Test loop template, window prefs); v1.0.0 tagged; dashboard live; control panel built; skill catalog + evolution modes + active/inactive control + voice-numbered AskUserQuestion + flow continuity all baked. Remaining: friend hand-off (Kevin&#x27;s action) + public-flip (gated until skill marketplace)." />
+<meta name="description" content="v2.0 contract sweep shipped 2026-04-26: 8 directives + three-layer mutex + Tier 1/2/3 hardening + SwiftBar indicator. Memory + MAESTRO/AGENT contracts updated. Schema migrated. Companion repos synced. Tests passing. Remaining 5%: friend hand-off (user action) + public-flip (user action, permanently blocked by charter — counts as fixed-state not TODO)." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -34,19 +34,19 @@
   <div class="wrap hero-inner">
     <p class="eyebrow"><a href="./index.html">← Back to roster</a></p>
     <div class="proj-hero-inner">
-      <div class="pie-big"><svg class="pie-big" viewBox="0 0 100 100" aria-label="90% complete">
+      <div class="pie-big"><svg class="pie-big" viewBox="0 0 100 100" aria-label="95% complete">
       <circle cx="50" cy="50" r="42" fill="none" stroke="var(--rule)" stroke-width="6"/>
       <circle cx="50" cy="50" r="42" fill="none"
               stroke="var(--accent)" stroke-width="6" stroke-linecap="round"
-              stroke-dasharray="237.50 26.39" transform="rotate(-90 50 50)"/>
+              stroke-dasharray="250.70 13.19" transform="rotate(-90 50 50)"/>
       <text x="50" y="58" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="28" fill="currentColor">90</text>
+            font-style="italic" font-weight="500" font-size="28" fill="currentColor">95</text>
     </svg></div>
       <div class="proj-hero-text">
-        <p class="proj-phase">Phase 0 — closing</p>
+        <p class="proj-phase">Phase 0 — closing (v2.0 contract shipped)</p>
         <h1>Ensemble — plugin development (the coordination system itself)</h1>
-        <p class="proj-desc">Phase 0 platform 90% done: all 4 mission-roadmap gaps closed (lock-type semantics, rotation scheduler, Plan→Code→Test loop template, window prefs); v1.0.0 tagged; dashboard live; control panel built; skill catalog + evolution modes + active/inactive control + voice-numbered AskUserQuestion + flow continuity all baked. Remaining: friend hand-off (Kevin&#x27;s action) + public-flip (gated until skill marketplace).</p>
-        <div class="proj-pills"><span class="pill pill-tier-agent">Project</span> <span class="pill pill-state-building">Building</span> <span class="pill pill-auto">auto-tests</span> <span class="pill pill-attn">needs your eyes</span></div>
+        <p class="proj-desc">v2.0 contract sweep shipped 2026-04-26: 8 directives + three-layer mutex + Tier 1/2/3 hardening + SwiftBar indicator. Memory + MAESTRO/AGENT contracts updated. Schema migrated. Companion repos synced. Tests passing. Remaining 5%: friend hand-off (user action) + public-flip (user action, permanently blocked by charter — counts as fixed-state not TODO).</p>
+        <div class="proj-pills"><span class="pill pill-tier-agent">Project</span> <span class="pill pill-state-building">Building</span> <span class="pill pill-auto">auto-tests</span></div>
       </div>
     </div>
     <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 2h ago · ensemble</p>
@@ -109,7 +109,7 @@
       <div class="now-grid">
         <div class="now-card">
           <h3>Current task</h3>
-          <p>Idle. Awaiting Agent self-refresh on next session. Maestro has flagged needs_attention=true with details in attention_reason.</p>
+          <p>Idle. Status refreshed by Agent autopilot 2026-04-26T16:09Z. Top rec: commit untracked Virtuoso research files in logical units. Phase 0 effectively closed pending user-action friend hand-off.</p>
         </div>
         <div class="now-card">
           <h3>Recent commits</h3>
@@ -123,20 +123,20 @@
       <h2>What's <em>next</em></h2>
       <div class="next-rec">
   <h3>Top recommendation</h3>
-  <h4>Agent should refresh top_rec on next session</h4>
-  <p>Status file refreshed by Maestro 2026-04-25. Original top_rec (&#x27;Build /ensemble:autopilot N slash command&#x27;) has shipped — see commit 9a99631. Phase 0 exit criteria now show only public-flip + v1.0.0 tag remaining.</p>
+  <h4>Commit untracked Virtuoso research + shared/* modules in logical units</h4>
+  <p>Working tree has 22+ untracked files across virtuosos/shared/router (6), virtuosos/shared/privacy (8), virtuosos/tool-builder/competitor (5), virtuosos/tool-builder/engagement (6), virtuosos/tool-builder/legal (4), plus modified public/index.html + tool-builder/legal README + license audit. Risk: lost work if disk dies. Group per logical unit (one commit per shared/ module + one per tool-builder/ track). Charter §6 places these in scope (planning docs + per-Virtuoso templates). Phase 0 exit gates are otherwise user-action gated (friend hand-off).</p>
 </div>
       <div class="next-alts"><div class="next-alt">
-  <h4>Onboard first external user (Kevin&#x27;s friend with website-agent v2)</h4>
-  <p>Last remaining Phase 0 exit criterion. website-agent.txt v2 is shipped + Windows-inline + synced to KiwiMaddog2020/website-agent-starter (private). Hand off to friend for first real-world v2 usage. Friend on Windows; the inline alternatives just shipped solve the Mac-only command friction.</p>
-</div>
-<div class="next-alt">
-  <h4>Commit the 22+ untracked Virtuoso research files</h4>
-  <p>Tool Builder PWA/UX/competitor folders + Agent Builder LLM specs + shared router SDK files are all in the working tree, uncommitted. Three modified files (public/index.html + tool-builder/legal README + license audit) also outstanding. Risk: lost work if disk dies. Group commits per logical unit (one commit per Virtuoso track / per shared module).</p>
+  <h4>Onboard first external user (Kevin friend with website-agent v2)</h4>
+  <p>Last remaining Phase 0 exit criterion. website-agent.txt v2 is shipped + Windows-inline + synced to KiwiMaddog2020/website-agent-starter (private). Hand off to friend for first real-world v2 usage. Friend on Windows; the inline alternatives shipped 2026-04-25 solve the Mac-only command friction. User-action gated — Agent cannot drive.</p>
 </div>
 <div class="next-alt">
   <h4>Triage top-level untracked dirs (agent-builder/, engagements/, queue-processed/, .claude/launch.json)</h4>
-  <p>Need decision: gitignore vs commit. agent-builder/ may be a duplicate of virtuosos/agent-builder/. engagements/ is per-client work that may or may not belong in the orchestrator repo. queue-processed/ is a runtime artifact directory that probably belongs in .gitignore.</p>
+  <p>Need decision: gitignore vs commit. agent-builder/ may be a duplicate of virtuosos/agent-builder/. engagements/ is per-client work that may or may not belong in the orchestrator repo. queue-processed/ is a runtime artifact directory that probably belongs in .gitignore. SESSION_LOG.md + kill_signal.txt at top level also need a decision.</p>
+</div>
+<div class="next-alt">
+  <h4>Polish docs/GRAND_PLAN.md §10 Immediate next moves to reflect post-v2.0 reality</h4>
+  <p>v2.0 contract shipped 2026-04-26 closes most of the §10 list. A surgical pass would tighten the next-moves section to reflect what is actually outstanding (friend hand-off, public-flip-permanently-blocked-by-charter, Virtuoso untracked file commits).</p>
 </div></div>
     </section>
 
@@ -145,7 +145,7 @@
 <footer>
   <div class="wrap foot-inner">
     <a class="foot-back" href="./index.html">← All projects</a>
-    <p>Generated <span class="rel-time" data-iso="2026-04-26T08:34:02Z">just now</span></p>
+    <p>Generated <span class="rel-time" data-iso="2026-04-26T18:48:04Z">just now</span></p>
   </div>
 </footer>
 <script>

@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>Ensemble — Documentation</title>
+<meta name="description" content="Single hub for everything Ensemble — setup, daily reference, design docs, live tools, repositories." />
+<link rel="manifest" href="/manifest.json" />
+<link rel="icon" type="image/svg+xml" href="/icon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #faf7f2; --bg-raised: #ffffff; --ink: #18150f; --ink-2: #3c362c;
+  --ink-3: #6e6657; --ink-4: #a8a193; --rule: #e8e1d2; --rule-2: #f0ead9;
+  --accent: #c2711f; --accent-2: #e08a2c; --accent-soft: rgba(194,113,31,0.08);
+  --serif: "EB Garamond", ui-serif, Georgia, serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  --maxw: 1080px; --gutter: clamp(20px, 4vw, 40px);
+  --radius: 14px; --radius-sm: 10px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0d0a; --bg-raised: #1a1711; --ink: #f3ecdd; --ink-2: #d6cdb9;
+    --ink-3: #9a9078; --ink-4: #5e564a; --rule: #2a2620; --rule-2: #221e18;
+    --accent: #e08a2c; --accent-2: #f3c07a; --accent-soft: rgba(224,138,44,0.10);
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: var(--sans); background: var(--bg); color: var(--ink-2); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+header.hero { padding: clamp(56px, 10vw, 96px) 0 clamp(40px, 6vw, 64px); border-bottom: 1px solid var(--rule); }
+.hero-eyebrow { font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+.hero h1 { font-family: var(--serif); font-size: clamp(40px, 6vw, 68px); line-height: 1.05; letter-spacing: -0.02em; font-weight: 600; color: var(--ink); margin: 0 0 16px; }
+.hero h1 em { font-style: italic; font-weight: 500; color: var(--accent); }
+.hero p.lead { font-family: var(--serif); font-size: clamp(18px, 2.4vw, 22px); line-height: 1.45; color: var(--ink-2); margin: 0; max-width: 60ch; }
+.hero .meta { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 28px; font-size: 13px; color: var(--ink-3); }
+.hero .meta span { display: inline-flex; align-items: center; gap: 8px; }
+.hero .meta .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+section { padding: clamp(40px, 6vw, 56px) 0; border-bottom: 1px solid var(--rule); }
+section:last-of-type { border-bottom: none; }
+section h2 { font-family: var(--serif); font-size: clamp(26px, 3.4vw, 36px); line-height: 1.15; letter-spacing: -0.01em; font-weight: 500; color: var(--ink); margin: 0 0 8px; }
+section .section-sub { color: var(--ink-3); font-size: 14px; margin-bottom: 28px; }
+.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (min-width: 768px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1024px) { .cards.two { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+.card { display: block; background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px 22px 20px; text-decoration: none; color: var(--ink-2); transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease); }
+.card:hover { border-color: color-mix(in srgb, var(--accent) 35%, var(--rule)); transform: translateY(-1px); box-shadow: 0 4px 24px -8px color-mix(in srgb, var(--accent) 20%, transparent); }
+.card .ico { width: 32px; height: 32px; border-radius: 8px; background: var(--accent-soft); display: inline-flex; align-items: center; justify-content: center; color: var(--accent); margin-bottom: 14px; font-size: 18px; }
+.card h3 { font-family: var(--sans); font-size: 16px; font-weight: 600; letter-spacing: -0.005em; color: var(--ink); margin: 0 0 4px; }
+.card p { font-size: 14px; color: var(--ink-3); margin: 0; line-height: 1.5; }
+.card .tag { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--accent); margin-top: 10px; }
+.cards.repos .card { padding: 18px 20px; }
+.cards.repos .card h3 { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--ink); }
+footer { padding: 40px 0 56px; color: var(--ink-3); font-size: 13px; text-align: center; }
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+.back-bar { display: flex; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.back-bar a { color: var(--ink-3); text-decoration: none; }
+.back-bar a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="wrap back-bar">
+  <a href="./">← Dashboard</a>
+  <span style="color: var(--ink-4)">/</span>
+  <span style="color: var(--ink-2)">Documentation</span>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="hero-eyebrow">Documentation hub</p>
+    <h1>Everything <em>Ensemble.</em></h1>
+    <p class="lead">One page. Setup, daily reference, design docs, live tools, repositories. Click through to whatever you need.</p>
+    <div class="meta">
+      <span><span class="dot"></span> v2.0 — eight directives + three-layer mutex shipped</span>
+      <span>Phase 0 ≈ 95%</span>
+      <span>Auto-refreshes 3× daily</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Getting started</h2>
+    <p class="section-sub">From zero to a working Ensemble.</p>
+    <div class="cards">
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/INSTALL.md">
+        <span class="ico">⚙︎</span>
+        <h3>Install guide</h3>
+        <p>Marketplace path + manual fallback. macOS / Linux / Windows. Hooks, settings.json, state.json seed.</p>
+        <span class="tag">docs/INSTALL.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble#readme">
+        <span class="ico">✪</span>
+        <h3>Top-level README</h3>
+        <p>Repo landing page. Core concepts, what’s new in v2.0, repo layout.</p>
+        <span class="tag">README.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/README.md">
+        <span class="ico">◆</span>
+        <h3>Plugin README</h3>
+        <p>Marketplace listing display. Cast, safety design, slash commands, optional extensions.</p>
+        <span class="tag">plugins/ensemble/README.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/integrations/swiftbar/README.md">
+        <span class="ico">☕</span>
+        <h3>SwiftBar setup</h3>
+        <p>One-shot installer for the Mac menu bar indicator. Live autopilot count + Stop All button.</p>
+        <span class="tag">integrations/swiftbar/</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/MOBILE_DISPATCH.md">
+        <span class="ico">↗</span>
+        <h3>Mobile dispatch</h3>
+        <p>Termius + Tailscale SSH path. Tap a snippet on your phone, fire autopilot at home.</p>
+        <span class="tag">MOBILE_DISPATCH.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/PHONE_QUICKSTART.md">
+        <span class="ico">☎</span>
+        <h3>Phone quickstart</h3>
+        <p>2-minute ergonomic walkthrough: Tailscale install, SSH key, Termius shortcut, push notifications.</p>
+        <span class="tag">PHONE_QUICKSTART.md</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Daily reference</h2>
+    <p class="section-sub">Open this when you need a signal phrase, a path, or a recovery step.</p>
+    <div class="cards">
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/CHEATSHEET.md">
+        <span class="ico">☛</span>
+        <h3>Cheat sheet</h3>
+        <p>Signal phrases, key files, common play-button commands, mode quick-reference.</p>
+        <span class="tag">CHEATSHEET.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/TROUBLESHOOTING.md">
+        <span class="ico">⚠</span>
+        <h3>Troubleshooting</h3>
+        <p>23 failure modes with diagnostic + recovery. Lock conflicts, cap-hit, corruption, network, version.</p>
+        <span class="tag">TROUBLESHOOTING.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/CHANGELOG.md">
+        <span class="ico">⏱</span>
+        <h3>Changelog</h3>
+        <p>Release history. v2.0 contract sweep, Tier 1/2/3 hardening, three-layer mutex, SwiftBar.</p>
+        <span class="tag">CHANGELOG.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/MISSION_ROADMAP.md">
+        <span class="ico">●</span>
+        <h3>Mission roadmap</h3>
+        <p>Phase 0 gap-closure ledger. What’s shipped, what’s deferred, the pitch claims.</p>
+        <span class="tag">docs/MISSION_ROADMAP.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/HEALTH.md">
+        <span class="ico">♥</span>
+        <h3>Health snapshot</h3>
+        <p>Auto-regenerated weekly. Runtime mode, mutex layer, lock state, chats roster, self-test.</p>
+        <span class="tag">docs/HEALTH.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/SESSION_HANDOFF.md">
+        <span class="ico">↗</span>
+        <h3>Session handoff</h3>
+        <p>Resume context for the next chat. Active queue, deferred items, recent landings.</p>
+        <span class="tag">docs/SESSION_HANDOFF.md</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Live tools</h2>
+    <p class="section-sub">Public, browsable, click-through.</p>
+    <div class="cards">
+      <a class="card" href="./">
+        <span class="ico">⧁</span>
+        <h3>Project dashboard</h3>
+        <p>Live cross-project completion roster. Six-state pills. PWA-installable to phone home screen.</p>
+        <span class="tag">this site</span>
+      </a>
+      <a class="card" href="https://kiwimaddog2020.github.io/ensemble-phone/">
+        <span class="ico">☎</span>
+        <h3>Phone cheat sheet</h3>
+        <p>Beautiful single-page reference for Termius+Tailscale dispatch. Mobile-optimized.</p>
+        <span class="tag">ensemble-phone</span>
+      </a>
+      <a class="card" href="https://kiwimaddog2020.github.io/ensemble-desktop/">
+        <span class="ico">▢</span>
+        <h3>Desktop cheat sheet</h3>
+        <p>Desktop-sized sister of the phone sheet. For laptop/desk reference.</p>
+        <span class="tag">ensemble-desktop</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Architecture &amp; design</h2>
+    <p class="section-sub">Deep-dive into how the system is built and why.</p>
+    <div class="cards">
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/GRAND_PLAN.md">
+        <span class="ico">✎</span>
+        <h3>Grand plan</h3>
+        <p>Strategic context. Phase ladder (0→1→2→3), 4-tier cognition, founding principles.</p>
+        <span class="tag">docs/GRAND_PLAN.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/AUTOPILOT_DESIGN.md">
+        <span class="ico">◈</span>
+        <h3>Autopilot design</h3>
+        <p>Pipeline, lock semantics, the Plan→Code→Test→Fix→Wrap loop, hard ceilings.</p>
+        <span class="tag">docs/AUTOPILOT_DESIGN.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/ONBOARDING_DESIGN.md">
+        <span class="ico">→</span>
+        <h3>Onboarding design</h3>
+        <p>How new chats become Agents. Discovery, adaptive interview, charter scaffolding.</p>
+        <span class="tag">docs/ONBOARDING_DESIGN.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/CONTROL_PANEL_PLAN.md">
+        <span class="ico">◦</span>
+        <h3>Control panel</h3>
+        <p>Mac-local Python server, Bearer auth, embedded chat, fire/kill/state endpoints.</p>
+        <span class="tag">docs/CONTROL_PANEL_PLAN.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/PLUGIN_REFACTOR.md">
+        <span class="ico">◇</span>
+        <h3>Plugin refactor</h3>
+        <p>Self-hosted bundle to Claude Code plugin. Env vars, hooks, marketplace shape.</p>
+        <span class="tag">docs/PLUGIN_REFACTOR.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/OPUS_OPTIMIZATION.md">
+        <span class="ico">✱</span>
+        <h3>Opus 4.7 discipline</h3>
+        <p>Seven rules for Opus 4.7 work. Explicit prompts, parallel tools, durable state.</p>
+        <span class="tag">docs/OPUS_OPTIMIZATION.md</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Marketing pages</h2>
+    <p class="section-sub">For sharing the pitch publicly.</p>
+    <div class="cards two">
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/public/index.html">
+        <span class="ico">♦</span>
+        <h3>One-pager</h3>
+        <p>Marketing landing page. Apple-grade typography, problem statement, feature grid, trust by design.</p>
+        <span class="tag">public/index.html</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/public/dossier.html">
+        <span class="ico">✯</span>
+        <h3>Technical dossier</h3>
+        <p>Methodology deep-dive. Three-layer mutex, six-state lifecycle, smart handoff, kill-switch cascade.</p>
+        <span class="tag">public/dossier.html</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Repositories</h2>
+    <p class="section-sub">Six repos make up the Ensemble.</p>
+    <div class="cards repos">
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble">
+        <h3>claude-ensemble</h3>
+        <p>Canonical source. Plugin, templates, hooks, scripts, integrations.</p>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-config">
+        <h3>ensemble-config</h3>
+        <p>Cross-machine sync. bin-mac/ ↔ bin-win/ PowerShell parity.</p>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-dashboard">
+        <h3>ensemble-dashboard</h3>
+        <p>Live PWA dashboard. Auto-regenerated 3× daily.</p>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/website-agent-starter">
+        <h3>website-agent-starter</h3>
+        <p>Friend-shareable bootstrap. Lifecycle-aware website-agent.</p>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-phone">
+        <h3>ensemble-phone</h3>
+        <p>Phone cheat sheet HTML.</p>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-desktop">
+        <h3>ensemble-desktop</h3>
+        <p>Desktop cheat sheet HTML.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Ensemble</strong> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
+  <p style="opacity: 0.6; margin-top: 8px;">Auto-generated by the Dashboard Update routine. v2.0.</p>
+</footer>
+
+</body>
+</html>
