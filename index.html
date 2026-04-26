@@ -209,6 +209,15 @@ footer a:hover { text-decoration: underline; }
         </div>
         <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
       </div>
+
+      <div class="command-card">
+        <h3>Token cycle</h3>
+        <div class="cmd-row">
+          <input type="datetime-local" id="reset-input" />
+          <button class="btn-primary" onclick="setTokenReset()">Save</button>
+        </div>
+        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down routine fires hourly; activates 2-12h before reset.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -585,6 +594,57 @@ async function killAll() {
     setTimeout(refreshState, 1000);
   } catch (e) { showHelp("kill-help", "✗ " + e.message); }
 }
+
+async function setTokenReset() {
+  const v = document.getElementById("reset-input").value;
+  if (!v) { showHelp("reset-help", "Pick a date/time."); return; }
+  // Convert datetime-local (no tz) to ISO with local TZ offset
+  const d = new Date(v);
+  const iso = d.toISOString();
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ field: "weekly_token_reset_at", value: iso })
+    });
+    const j = await r.json();
+    showHelp("reset-help", r.ok ? ("✓ reset set to " + iso) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("reset-help", "✗ " + e.message); }
+}
+
+// Hydrate reset countdown on every refresh
+function updateResetStatus(state) {
+  const el = document.getElementById("reset-status");
+  const inputEl = document.getElementById("reset-input");
+  if (!el) return;
+  if (!state || !state.weekly_token_reset_at) {
+    el.textContent = "No reset time set yet.";
+    return;
+  }
+  const reset = new Date(state.weekly_token_reset_at);
+  const now = new Date();
+  const deltaMs = reset - now;
+  const h = Math.floor(deltaMs / 3600000);
+  let posture = "(no-op)";
+  if (deltaMs < 0) posture = "(reset passed; routine will roll forward)";
+  else if (h < 2) posture = "(<2h: standing down)";
+  else if (h <= 12) posture = "(burn-down active)";
+  el.textContent = "Reset in " + h + "h " + posture;
+  if (inputEl && !inputEl.value) {
+    // Pre-fill the input with the current reset time (local time)
+    const local = new Date(state.weekly_token_reset_at);
+    const pad = n => String(n).padStart(2, "0");
+    inputEl.value = local.getFullYear() + "-" + pad(local.getMonth() + 1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
+  }
+}
+
+// Hook updateResetStatus into refreshState by patching the existing function
+const _origRefreshState = refreshState;
+refreshState = async function() {
+  await _origRefreshState();
+  const state = await fetchState();
+  updateResetStatus(state);
+};
 </script>
 
 </body>
