@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<meta http-equiv="refresh" content="900" />
+<title>Ensemble · Roster</title>
+<meta name="description" content="Live cross-project completion roster." />
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
+<link rel="manifest" href="./manifest.json" />
+<link rel="apple-touch-icon" href="./icon.svg" />
+<link rel="icon" type="image/svg+xml" href="./icon.svg" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Ensemble" />
+<script src="./control.js" defer></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
+    });
+  }
+</script>
+</head>
+<body>
+<header class="hero">
+  <div class="stage-light" aria-hidden="true"></div>
+  <div class="wrap hero-inner roster-hero">
+    <div class="hero-left">
+      <p class="eyebrow">Ensemble · Project Roster · <a href="./" style="color:inherit; text-decoration:underline; text-underline-offset:3px;">← Home / Settings / Commands</a></p>
+      <h1>What's <em>cooking.</em></h1>
+      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-26T19:05:56Z">just now</span> · refreshes every 15 min</p>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">7</span><span class="stat-label">Projects in motion</span></div>
+      <div class="stat"><span class="stat-num">60%</span><span class="stat-label">Average progress</span></div>
+      <div class="stat"><span class="stat-num">6</span><span class="stat-label">Run their own tests</span></div>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="roster">
+<a class="card" href="./agent-builder.html" data-pct="96">
+  <div class="card-head">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="96% complete">
+      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
+      <circle cx="50" cy="50" r="36" fill="none"
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="217.15 9.05" transform="rotate(-90 50 50)"/>
+      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
+            font-style="italic" font-weight="500" font-size="22" fill="currentColor">96</text>
+    </svg></div>
+    <div class="card-id">
+      <h2>Agent Builder — Phase 1 product (client-specific LLMs via interview → spec → build)</h2>
+      <p class="card-phase">All 9 tracks P0 shipped; dogfood spec locked at G1; Phase 1 build pending</p>
+    </div>
+  </div>
+  <p class="card-note">All 9 P0 tracks shipped (~50 design docs). Dogfood engagement scaffolded at engagements/kevin-orchestrator-brief/ (LLM_SPEC.md state=locked, kb/manifest.yaml, router/policy.json, evals/eval_set.jsonl with 30 cases, README.md). All 5 spec OQs resolved by Kevin 2026-04-25: Qwen 2.5 7B + RAG-only Phase 1 + M1 16GB + local Phoenix + source-level memory PII. Remaining: Phase 1 build (concrete infra work) → Phase 2 conditional fine-tune → Phase 3 Tier-C flip → 30d operation → planning phase exit per HANDOFF §10.</p>
+  <div class="card-meta">
+    <span class="pill pill-tier-virtuoso">Specialist</span>
+    <span class="pill pill-state-building">Building</span>
+    <span class="pill pill-auto">auto-tests</span>
+    <span class="meta-hb">last seen 12h ago</span>
+  </div>
+</a>
+<a class="card" href="./boo-website.html" data-pct="92">
+  <div class="card-head">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="92% complete">
+      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
+      <circle cx="50" cy="50" r="36" fill="none"
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="208.10 18.10" transform="rotate(-90 50 50)"/>
+      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
+            font-style="italic" font-weight="500" font-size="22" fill="currentColor">92</text>
+    </svg></div>
+    <div class="card-id">
+      <h2>Bunch of Others (BOO) Website</h2>
+      <p class="card-phase">Live + maintained <span class="pill pill-attn">needs your eyes</span></p>
+    </div>
+  </div>
+  <p class="card-note">V1_84 shipped (mobile polish complete, Stripe payment flow live, atmospheric pass landed). Site live at bunchofothers.com. Ongoing iteration.</p>
+  <div class="card-meta">
+    <span class="pill pill-tier-agent">Project</span>
+    <span class="pill pill-state-warmer">Warmer</span>
+    <span class="pill pill-auto">auto-tests</span>
+    <span class="meta-hb">last seen 13h ago</span>
+  </div>
+</a>
+<a class="card" href="./ensemble.html" data-pct="95">
+  <div class="card-head">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="95% complete">
+      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
+      <circle cx="50" cy="50" r="36" fill="none"
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="214.88 11.31" transform="rotate(-90 50 50)"/>
+      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
+            font-style="italic" font-weight="500" font-size="22" fill="currentColor">95</text>
+    </svg></div>
+    <div class="card-id">
+      <h2>Ensemble — plugin development (the coordination system itself)</h2>
+      <p class="card-phase">Phase 0 — closing (v2.0 contract shipped)</p>
+    </div>
+  </div>
+  <p class="card-note">v2.0 contract sweep shipped 2026-04-26: 8 directives + three-layer mutex + Tier 1/2/3 hardening + SwiftBar indicator. Memory + MAESTRO/AGENT contracts updated. Schema migrated. Companion repos synced. Tests passing. Remaining 5%: friend hand-off (user action) + public-flip (user action, permanently blocked by charter — counts as fixed-state not TODO).</p>
+  <div class="card-meta">
+    <span class="pill pill-tier-agent">Project</span>
+    <span class="pill pill-state-building">Building</span>
+    <span class="pill pill-auto">auto-tests</span>
+    <span class="meta-hb">last seen 2h ago</span>
+  </div>
+</a>
+<a class="card" href="./pinball-roguelight.html" data-pct="12">
+  <div class="card-head">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="12% complete">
+      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
+      <circle cx="50" cy="50" r="36" fill="none"
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="27.14 199.05" transform="rotate(-90 50 50)"/>
+      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
+            font-style="italic" font-weight="500" font-size="22" fill="currentColor">12</text>
+    </svg></div>
+    <div class="card-id">
+      <h2>Pinball Roguelight</h2>
+      <p class="card-phase">Spike — Day 2 <span class="pill pill-attn">needs your eyes</span></p>
+    </div>
+  </div>
+  <p class="card-note">Flipper-feel prototype Day 0-2 complete. Plunger + drop targets shipped. Awaiting Play-button verify of full prototype before Day 3.</p>
+  <div class="card-meta">
+    <span class="pill pill-tier-agent">Project</span>
+    <span class="pill pill-state-building">Building</span>
+    <span class="pill pill-auto">auto-tests</span>
+    <span class="meta-hb">last seen 13h ago</span>
+  </div>
+</a>
+<a class="card" href="./spectra-nova.html" data-pct="50">
+  <div class="card-head">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="50% complete">
+      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
+      <circle cx="50" cy="50" r="36" fill="none"
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="113.10 113.10" transform="rotate(-90 50 50)"/>
+      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
+            font-style="italic" font-weight="500" font-size="22" fill="currentColor">50</text>
+    </svg></div>
+    <div class="card-id">
+      <h2>Spectra Nova</h2>
+      <p class="card-phase">Cross-platform v0 — tests passing <span class="pill pill-attn">needs your eyes</span></p>
+    </div>
+  </div>
+  <p class="card-note">Cross-platform WiFi analyzer (.NET 8 + Avalonia). 204 tests passing on Mac as of 2026-04-25. App builds clean. Phase ahead: spectrum visualization core, coverage walk-test, speed testing, local KB.</p>
+  <div class="card-meta">
+    <span class="pill pill-tier-agent">Project</span>
+    <span class="pill pill-state-building">Building</span>
+    <span class="pill pill-auto">auto-tests</span>
+    <span class="meta-hb">last seen 13h ago</span>
+  </div>
+</a>
+<a class="card" href="./tool-builder.html" data-pct="22">
+  <div class="card-head">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="22% complete">
+      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
+      <circle cx="50" cy="50" r="36" fill="none"
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="49.76 176.43" transform="rotate(-90 50 50)"/>
+      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
+            font-style="italic" font-weight="500" font-size="22" fill="currentColor">22</text>
+    </svg></div>
+    <div class="card-id">
+      <h2>Tool Builder — Phase 2 product (AI-native business tools)</h2>
+      <p class="card-phase">Research planning <span class="pill pill-attn">needs your eyes</span></p>
+    </div>
+  </div>
+  <p class="card-note">Phase 2 Virtuoso. 9 research tracks identified; A/D/E/G most active. Cross-tier shared router + UX corpus drafted. Major milestone reached 1h ago per chat heartbeat.</p>
+  <div class="card-meta">
+    <span class="pill pill-tier-virtuoso">Specialist</span>
+    <span class="pill pill-state-building">Building</span>
+    <span class="pill pill-passive">supervised</span>
+    <span class="meta-hb">last seen 13h ago</span>
+  </div>
+</a>
+<a class="card" href="./vera-nota.html" data-pct="55">
+  <div class="card-head">
+    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="55% complete">
+      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
+      <circle cx="50" cy="50" r="36" fill="none"
+              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="124.41 101.79" transform="rotate(-90 50 50)"/>
+      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
+            font-style="italic" font-weight="500" font-size="22" fill="currentColor">55</text>
+    </svg></div>
+    <div class="card-id">
+      <h2>Vera Nota</h2>
+      <p class="card-phase">Stable automation <span class="pill pill-attn">needs your eyes</span></p>
+    </div>
+  </div>
+  <p class="card-note">Audio analysis suite for Apple platforms. Active integration with orchestrator-overnight-heavy routine.</p>
+  <div class="card-meta">
+    <span class="pill pill-tier-agent">Project</span>
+    <span class="pill pill-state-warmer">Warmer</span>
+    <span class="pill pill-auto">auto-tests</span>
+    <span class="meta-hb">last seen 13h ago</span>
+  </div>
+</a>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="wrap foot-inner">
+    <p>Ensemble · Private preview</p>
+    <p>Generated <span class="rel-time" data-iso="2026-04-26T19:05:56Z">just now</span></p>
+  </div>
+</footer>
+<script>
+(function () {
+  function rel(iso) {
+    var t = new Date(iso).getTime();
+    if (isNaN(t)) return iso;
+    var s = Math.max(0, Math.floor((Date.now() - t) / 1000));
+    if (s < 30) return 'just now';
+    if (s < 90) return '1 min ago';
+    if (s < 3600) return Math.floor(s / 60) + ' mins ago';
+    if (s < 5400) return '1 hour ago';
+    if (s < 86400) return Math.floor(s / 3600) + ' hours ago';
+    if (s < 172800) return 'yesterday';
+    return Math.floor(s / 86400) + ' days ago';
+  }
+  function update() {
+    document.querySelectorAll('.rel-time').forEach(function (el) {
+      var iso = el.getAttribute('data-iso');
+      if (iso) el.textContent = rel(iso);
+    });
+  }
+  update();
+  setInterval(update, 30000);
+})();
+</script>
+</body>
+</html>

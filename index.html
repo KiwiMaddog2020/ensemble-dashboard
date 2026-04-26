@@ -4,242 +4,588 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<meta http-equiv="refresh" content="900" />
-<title>Ensemble · Roster</title>
-<meta name="description" content="Live cross-project completion roster." />
-<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
+<title>Ensemble — Home</title>
+<meta name="description" content="Ensemble home / command center — settings, quick commands, project shortcuts, all documentation. One page." />
+<link rel="manifest" href="/manifest.json" />
+<link rel="icon" type="image/svg+xml" href="/icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./style.css" />
-<link rel="manifest" href="./manifest.json" />
-<link rel="apple-touch-icon" href="./icon.svg" />
-<link rel="icon" type="image/svg+xml" href="./icon.svg" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<meta name="apple-mobile-web-app-title" content="Ensemble" />
-<script src="./control.js" defer></script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./sw.js').catch(function () {});
-    });
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #faf7f2; --bg-raised: #ffffff; --ink: #18150f; --ink-2: #3c362c;
+  --ink-3: #6e6657; --ink-4: #a8a193; --rule: #e8e1d2; --rule-2: #f0ead9;
+  --accent: #c2711f; --accent-2: #e08a2c; --accent-soft: rgba(194,113,31,0.08);
+  --serif: "EB Garamond", ui-serif, Georgia, serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  --maxw: 1080px; --gutter: clamp(20px, 4vw, 40px);
+  --radius: 14px; --radius-sm: 10px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0d0a; --bg-raised: #1a1711; --ink: #f3ecdd; --ink-2: #d6cdb9;
+    --ink-3: #9a9078; --ink-4: #5e564a; --rule: #2a2620; --rule-2: #221e18;
+    --accent: #e08a2c; --accent-2: #f3c07a; --accent-soft: rgba(224,138,44,0.10);
   }
-</script>
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: var(--sans); background: var(--bg); color: var(--ink-2); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+header.hero { padding: clamp(56px, 10vw, 96px) 0 clamp(40px, 6vw, 64px); border-bottom: 1px solid var(--rule); }
+.hero-eyebrow { font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+.hero h1 { font-family: var(--serif); font-size: clamp(40px, 6vw, 68px); line-height: 1.05; letter-spacing: -0.02em; font-weight: 600; color: var(--ink); margin: 0 0 16px; }
+.hero h1 em { font-style: italic; font-weight: 500; color: var(--accent); }
+.hero p.lead { font-family: var(--serif); font-size: clamp(18px, 2.4vw, 22px); line-height: 1.45; color: var(--ink-2); margin: 0; max-width: 60ch; }
+.hero .meta { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 28px; font-size: 13px; color: var(--ink-3); }
+.hero .meta span { display: inline-flex; align-items: center; gap: 8px; }
+.hero .meta .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+section { padding: clamp(40px, 6vw, 56px) 0; border-bottom: 1px solid var(--rule); }
+section:last-of-type { border-bottom: none; }
+section h2 { font-family: var(--serif); font-size: clamp(26px, 3.4vw, 36px); line-height: 1.15; letter-spacing: -0.01em; font-weight: 500; color: var(--ink); margin: 0 0 8px; }
+section .section-sub { color: var(--ink-3); font-size: 14px; margin-bottom: 28px; }
+.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (min-width: 768px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1024px) { .cards.two { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+.card { display: block; background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px 22px 20px; text-decoration: none; color: var(--ink-2); transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease); }
+.card:hover { border-color: color-mix(in srgb, var(--accent) 35%, var(--rule)); transform: translateY(-1px); box-shadow: 0 4px 24px -8px color-mix(in srgb, var(--accent) 20%, transparent); }
+.card .ico { width: 32px; height: 32px; border-radius: 8px; background: var(--accent-soft); display: inline-flex; align-items: center; justify-content: center; color: var(--accent); margin-bottom: 14px; font-size: 18px; }
+.card h3 { font-family: var(--sans); font-size: 16px; font-weight: 600; letter-spacing: -0.005em; color: var(--ink); margin: 0 0 4px; }
+.card p { font-size: 14px; color: var(--ink-3); margin: 0; line-height: 1.5; }
+.card .tag { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--accent); margin-top: 10px; }
+.cards.repos .card { padding: 18px 20px; }
+.cards.repos .card h3 { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--ink); }
+footer { padding: 40px 0 56px; color: var(--ink-3); font-size: 13px; text-align: center; }
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+.back-bar { display: flex; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.back-bar a { color: var(--ink-3); text-decoration: none; }
+.back-bar a:hover { color: var(--accent); }
+
+/* Settings */
+.settings-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
+@media (min-width: 768px) { .settings-grid { grid-template-columns: repeat(3, 1fr); } }
+.setting { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius-sm); cursor: pointer; transition: border-color 200ms var(--ease); }
+.setting:hover { border-color: color-mix(in srgb, var(--accent) 30%, var(--rule)); }
+.setting-name { font-size: 13px; font-weight: 500; color: var(--ink-2); }
+.setting input[type="number"], .setting select { font-family: var(--mono); font-size: 13px; padding: 6px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); color: var(--ink); width: 110px; }
+.setting input[type="checkbox"] { width: 38px; height: 22px; appearance: none; background: var(--rule); border-radius: 999px; cursor: pointer; position: relative; transition: background 200ms var(--ease); }
+.setting input[type="checkbox"]:checked { background: var(--accent); }
+.setting input[type="checkbox"]::after { content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: white; transition: transform 200ms var(--ease); }
+.setting input[type="checkbox"]:checked::after { transform: translateX(16px); }
+.settings-help { font-size: 12px; color: var(--ink-3); margin-top: 14px; font-family: var(--mono); }
+
+/* Commands */
+.commands-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 768px) { .commands-grid { grid-template-columns: repeat(3, 1fr); } }
+.command-card { background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px 22px 18px; }
+.command-card.danger { border-color: color-mix(in srgb, #c73a2a 30%, var(--rule)); }
+.command-card h3 { font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: -0.005em; color: var(--ink); margin: 0 0 14px; }
+.cmd-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.cmd-row select, .cmd-row input { font-family: var(--mono); font-size: 13px; padding: 8px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); color: var(--ink); flex: 1; min-width: 0; }
+.cmd-row input[type="number"] { max-width: 80px; }
+.btn-primary { background: var(--accent); color: white; border: 0; padding: 8px 16px; border-radius: 6px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: background 200ms var(--ease); }
+.btn-primary:hover { background: var(--accent-2); }
+.btn-secondary { background: transparent; color: var(--ink-2); border: 1px solid var(--rule); padding: 8px 12px; border-radius: 6px; font-family: var(--sans); font-size: 13px; font-weight: 500; cursor: pointer; }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-danger { background: #c73a2a; color: white; border: 0; padding: 8px 16px; border-radius: 6px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: filter 200ms var(--ease); }
+.btn-danger:hover { filter: brightness(1.1); }
+.cmd-help { font-size: 11px; color: var(--ink-3); margin-top: 10px; line-height: 1.5; }
+.cmd-help a { color: var(--accent); text-decoration: none; }
+.cmd-help a:hover { text-decoration: underline; }
+</style>
 </head>
 <body>
+
+<div class="wrap back-bar">
+  <a href="./projects.html">← Projects</a>
+  <span style="color: var(--ink-4)">·</span>
+  <a href="./">Home</a>
+  <span style="color: var(--ink-4)">·</span>
+  <a href="https://github.com/KiwiMaddog2020/claude-ensemble">GitHub</a>
+</div>
+
 <header class="hero">
-  <div class="stage-light" aria-hidden="true"></div>
-  <div class="wrap hero-inner roster-hero">
-    <div class="hero-left">
-      <p class="eyebrow">Ensemble · Project Roster · <a href="./docs.html" style="color:inherit; text-decoration:underline; text-underline-offset:3px;">Docs →</a></p>
-      <h1>What's <em>cooking.</em></h1>
-      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-26T18:48:04Z">just now</span> · refreshes every 15 min</p>
-    </div>
-    <div class="hero-stats">
-      <div class="stat"><span class="stat-num">7</span><span class="stat-label">Projects in motion</span></div>
-      <div class="stat"><span class="stat-num">60%</span><span class="stat-label">Average progress</span></div>
-      <div class="stat"><span class="stat-num">6</span><span class="stat-label">Run their own tests</span></div>
+  <div class="wrap">
+    <p class="hero-eyebrow">Ensemble · Home</p>
+    <h1>Command, control, <em>everything.</em></h1>
+    <p class="lead">Settings across all pages. Quick commands, fired remotely. Live project status. Documentation links. One page.</p>
+    <div class="meta">
+      <span><span class="dot"></span> <span id="status-mode">loading…</span></span>
+      <span><span id="status-cap">— autopilots</span></span>
+      <span>v2.0 · auto-refreshes 3× daily</span>
     </div>
   </div>
 </header>
-<main>
+
+<!-- ─── Settings panel ─── -->
+<section id="settings">
   <div class="wrap">
-    <div class="roster">
-<a class="card" href="./agent-builder.html" data-pct="96">
-  <div class="card-head">
-    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="96% complete">
-      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
-      <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
-              stroke-dasharray="217.15 9.05" transform="rotate(-90 50 50)"/>
-      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="22" fill="currentColor">96</text>
-    </svg></div>
-    <div class="card-id">
-      <h2>Agent Builder — Phase 1 product (client-specific LLMs via interview → spec → build)</h2>
-      <p class="card-phase">All 9 tracks P0 shipped; dogfood spec locked at G1; Phase 1 build pending</p>
+    <h2>Settings</h2>
+    <p class="section-sub">Global state.json toggles. Changes via the local control panel. Bearer token required.</p>
+    <div class="settings-grid">
+      <label class="setting"><span class="setting-name">Mode</span>
+        <select id="cfg-mode" data-field="mode">
+          <option value="orchestrated">Orchestrated</option>
+          <option value="direct">Direct</option>
+        </select>
+      </label>
+      <label class="setting"><span class="setting-name">Max concurrent autopilots</span>
+        <input type="number" id="cfg-cap" data-field="max_concurrent_autopilots" min="1" max="16" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Rapid-fire</span>
+        <input type="checkbox" id="cfg-rapidfire" data-field="rapid_fire_enabled" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Caffeinate during autopilot</span>
+        <input type="checkbox" id="cfg-caffeinate" data-field="caffeinate_during_autopilot" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Network pre-flight</span>
+        <input type="checkbox" id="cfg-network" data-field="require_network_check" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Require AC power</span>
+        <input type="checkbox" id="cfg-acpower" data-field="require_ac_power" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Resource floor</span>
+        <input type="checkbox" id="cfg-floor" data-field="resource_floor_enabled" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Mid-run watchdog</span>
+        <input type="checkbox" id="cfg-watchdog" data-field="resource_watchdog_enabled" />
+      </label>
+      <label class="setting"><span class="setting-name">Min free disk (GB)</span>
+        <input type="number" id="cfg-disk" data-field="min_free_disk_gb" min="0" max="200" />
+      </label>
+    </div>
+    <p class="settings-help" id="settings-help">Connecting to control panel…</p>
+  </div>
+</section>
+
+<!-- ─── Command Center ─── -->
+<section id="commands">
+  <div class="wrap">
+    <h2>Command center</h2>
+    <p class="section-sub">Fire from anywhere via Tailscale. All commands run via the local control panel.</p>
+    <div class="commands-grid">
+      <div class="command-card">
+        <h3>Fire autopilot</h3>
+        <div class="cmd-row">
+          <select id="fire-slug"><option value="">Select project…</option></select>
+          <input type="number" id="fire-mins" min="1" max="240" value="30" />
+          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
+        </div>
+        <p class="cmd-help" id="fire-help">Three-layer mutex applies: per-project lock + cap + opt-in resource floor.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Set project state</h3>
+        <div class="cmd-row">
+          <select id="state-slug"><option value="">Select project…</option></select>
+          <select id="state-target">
+            <option value="">→ State…</option>
+            <option>Building</option>
+            <option>Launch Prep</option>
+            <option>Warmer</option>
+            <option>R&D</option>
+            <option>Updates</option>
+            <option>Hibernating</option>
+          </select>
+          <button class="btn-primary" onclick="setProjectState()">Set</button>
+        </div>
+        <p class="cmd-help" id="state-help">Smoke-test gate fires for major transitions. <a href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/CHEATSHEET.md">Cheat sheet</a>.</p>
+      </div>
+
+      <div class="command-card danger">
+        <h3>Kill switch</h3>
+        <div class="cmd-row">
+          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
+          <button class="btn-secondary" onclick="refreshState()">Refresh state</button>
+        </div>
+        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
+      </div>
     </div>
   </div>
-  <p class="card-note">All 9 P0 tracks shipped (~50 design docs). Dogfood engagement scaffolded at engagements/kevin-orchestrator-brief/ (LLM_SPEC.md state=locked, kb/manifest.yaml, router/policy.json, evals/eval_set.jsonl with 30 cases, README.md). All 5 spec OQs resolved by Kevin 2026-04-25: Qwen 2.5 7B + RAG-only Phase 1 + M1 16GB + local Phoenix + source-level memory PII. Remaining: Phase 1 build (concrete infra work) → Phase 2 conditional fine-tune → Phase 3 Tier-C flip → 30d operation → planning phase exit per HANDOFF §10.</p>
-  <div class="card-meta">
-    <span class="pill pill-tier-virtuoso">Specialist</span>
-    <span class="pill pill-state-building">Building</span>
-    <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 12h ago</span>
-  </div>
-</a>
-<a class="card" href="./boo-website.html" data-pct="92">
-  <div class="card-head">
-    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="92% complete">
-      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
-      <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
-              stroke-dasharray="208.10 18.10" transform="rotate(-90 50 50)"/>
-      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="22" fill="currentColor">92</text>
-    </svg></div>
-    <div class="card-id">
-      <h2>Bunch of Others (BOO) Website</h2>
-      <p class="card-phase">Live + maintained <span class="pill pill-attn">needs your eyes</span></p>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Getting started</h2>
+    <p class="section-sub">From zero to a working Ensemble.</p>
+    <div class="cards">
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/INSTALL.md">
+        <span class="ico">⚙︎</span>
+        <h3>Install guide</h3>
+        <p>Marketplace path + manual fallback. macOS / Linux / Windows. Hooks, settings.json, state.json seed.</p>
+        <span class="tag">docs/INSTALL.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble#readme">
+        <span class="ico">✪</span>
+        <h3>Top-level README</h3>
+        <p>Repo landing page. Core concepts, what’s new in v2.0, repo layout.</p>
+        <span class="tag">README.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/README.md">
+        <span class="ico">◆</span>
+        <h3>Plugin README</h3>
+        <p>Marketplace listing display. Cast, safety design, slash commands, optional extensions.</p>
+        <span class="tag">plugins/ensemble/README.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/integrations/swiftbar/README.md">
+        <span class="ico">☕</span>
+        <h3>SwiftBar setup</h3>
+        <p>One-shot installer for the Mac menu bar indicator. Live autopilot count + Stop All button.</p>
+        <span class="tag">integrations/swiftbar/</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/MOBILE_DISPATCH.md">
+        <span class="ico">↗</span>
+        <h3>Mobile dispatch</h3>
+        <p>Termius + Tailscale SSH path. Tap a snippet on your phone, fire autopilot at home.</p>
+        <span class="tag">MOBILE_DISPATCH.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/PHONE_QUICKSTART.md">
+        <span class="ico">☎</span>
+        <h3>Phone quickstart</h3>
+        <p>2-minute ergonomic walkthrough: Tailscale install, SSH key, Termius shortcut, push notifications.</p>
+        <span class="tag">PHONE_QUICKSTART.md</span>
+      </a>
     </div>
   </div>
-  <p class="card-note">V1_84 shipped (mobile polish complete, Stripe payment flow live, atmospheric pass landed). Site live at bunchofothers.com. Ongoing iteration.</p>
-  <div class="card-meta">
-    <span class="pill pill-tier-agent">Project</span>
-    <span class="pill pill-state-warmer">Warmer</span>
-    <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 12h ago</span>
-  </div>
-</a>
-<a class="card" href="./ensemble.html" data-pct="95">
-  <div class="card-head">
-    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="95% complete">
-      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
-      <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
-              stroke-dasharray="214.88 11.31" transform="rotate(-90 50 50)"/>
-      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="22" fill="currentColor">95</text>
-    </svg></div>
-    <div class="card-id">
-      <h2>Ensemble — plugin development (the coordination system itself)</h2>
-      <p class="card-phase">Phase 0 — closing (v2.0 contract shipped)</p>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Daily reference</h2>
+    <p class="section-sub">Open this when you need a signal phrase, a path, or a recovery step.</p>
+    <div class="cards">
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/CHEATSHEET.md">
+        <span class="ico">☛</span>
+        <h3>Cheat sheet</h3>
+        <p>Signal phrases, key files, common play-button commands, mode quick-reference.</p>
+        <span class="tag">CHEATSHEET.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/TROUBLESHOOTING.md">
+        <span class="ico">⚠</span>
+        <h3>Troubleshooting</h3>
+        <p>23 failure modes with diagnostic + recovery. Lock conflicts, cap-hit, corruption, network, version.</p>
+        <span class="tag">TROUBLESHOOTING.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/CHANGELOG.md">
+        <span class="ico">⏱</span>
+        <h3>Changelog</h3>
+        <p>Release history. v2.0 contract sweep, Tier 1/2/3 hardening, three-layer mutex, SwiftBar.</p>
+        <span class="tag">CHANGELOG.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/MISSION_ROADMAP.md">
+        <span class="ico">●</span>
+        <h3>Mission roadmap</h3>
+        <p>Phase 0 gap-closure ledger. What’s shipped, what’s deferred, the pitch claims.</p>
+        <span class="tag">docs/MISSION_ROADMAP.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/HEALTH.md">
+        <span class="ico">♥</span>
+        <h3>Health snapshot</h3>
+        <p>Auto-regenerated weekly. Runtime mode, mutex layer, lock state, chats roster, self-test.</p>
+        <span class="tag">docs/HEALTH.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/SESSION_HANDOFF.md">
+        <span class="ico">↗</span>
+        <h3>Session handoff</h3>
+        <p>Resume context for the next chat. Active queue, deferred items, recent landings.</p>
+        <span class="tag">docs/SESSION_HANDOFF.md</span>
+      </a>
     </div>
   </div>
-  <p class="card-note">v2.0 contract sweep shipped 2026-04-26: 8 directives + three-layer mutex + Tier 1/2/3 hardening + SwiftBar indicator. Memory + MAESTRO/AGENT contracts updated. Schema migrated. Companion repos synced. Tests passing. Remaining 5%: friend hand-off (user action) + public-flip (user action, permanently blocked by charter — counts as fixed-state not TODO).</p>
-  <div class="card-meta">
-    <span class="pill pill-tier-agent">Project</span>
-    <span class="pill pill-state-building">Building</span>
-    <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 2h ago</span>
-  </div>
-</a>
-<a class="card" href="./pinball-roguelight.html" data-pct="12">
-  <div class="card-head">
-    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="12% complete">
-      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
-      <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
-              stroke-dasharray="27.14 199.05" transform="rotate(-90 50 50)"/>
-      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="22" fill="currentColor">12</text>
-    </svg></div>
-    <div class="card-id">
-      <h2>Pinball Roguelight</h2>
-      <p class="card-phase">Spike — Day 2 <span class="pill pill-attn">needs your eyes</span></p>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Live tools</h2>
+    <p class="section-sub">Public, browsable, click-through.</p>
+    <div class="cards">
+      <a class="card" href="./">
+        <span class="ico">⧁</span>
+        <h3>Project dashboard</h3>
+        <p>Live cross-project completion roster. Six-state pills. PWA-installable to phone home screen.</p>
+        <span class="tag">this site</span>
+      </a>
+      <a class="card" href="https://kiwimaddog2020.github.io/ensemble-phone/">
+        <span class="ico">☎</span>
+        <h3>Phone cheat sheet</h3>
+        <p>Beautiful single-page reference for Termius+Tailscale dispatch. Mobile-optimized.</p>
+        <span class="tag">ensemble-phone</span>
+      </a>
+      <a class="card" href="https://kiwimaddog2020.github.io/ensemble-desktop/">
+        <span class="ico">▢</span>
+        <h3>Desktop cheat sheet</h3>
+        <p>Desktop-sized sister of the phone sheet. For laptop/desk reference.</p>
+        <span class="tag">ensemble-desktop</span>
+      </a>
     </div>
   </div>
-  <p class="card-note">Flipper-feel prototype Day 0-2 complete. Plunger + drop targets shipped. Awaiting Play-button verify of full prototype before Day 3.</p>
-  <div class="card-meta">
-    <span class="pill pill-tier-agent">Project</span>
-    <span class="pill pill-state-building">Building</span>
-    <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 12h ago</span>
-  </div>
-</a>
-<a class="card" href="./spectra-nova.html" data-pct="50">
-  <div class="card-head">
-    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="50% complete">
-      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
-      <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
-              stroke-dasharray="113.10 113.10" transform="rotate(-90 50 50)"/>
-      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="22" fill="currentColor">50</text>
-    </svg></div>
-    <div class="card-id">
-      <h2>Spectra Nova</h2>
-      <p class="card-phase">Cross-platform v0 — tests passing <span class="pill pill-attn">needs your eyes</span></p>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Architecture &amp; design</h2>
+    <p class="section-sub">Deep-dive into how the system is built and why.</p>
+    <div class="cards">
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/GRAND_PLAN.md">
+        <span class="ico">✎</span>
+        <h3>Grand plan</h3>
+        <p>Strategic context. Phase ladder (0→1→2→3), 4-tier cognition, founding principles.</p>
+        <span class="tag">docs/GRAND_PLAN.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/AUTOPILOT_DESIGN.md">
+        <span class="ico">◈</span>
+        <h3>Autopilot design</h3>
+        <p>Pipeline, lock semantics, the Plan→Code→Test→Fix→Wrap loop, hard ceilings.</p>
+        <span class="tag">docs/AUTOPILOT_DESIGN.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/ONBOARDING_DESIGN.md">
+        <span class="ico">→</span>
+        <h3>Onboarding design</h3>
+        <p>How new chats become Agents. Discovery, adaptive interview, charter scaffolding.</p>
+        <span class="tag">docs/ONBOARDING_DESIGN.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/CONTROL_PANEL_PLAN.md">
+        <span class="ico">◦</span>
+        <h3>Control panel</h3>
+        <p>Mac-local Python server, Bearer auth, embedded chat, fire/kill/state endpoints.</p>
+        <span class="tag">docs/CONTROL_PANEL_PLAN.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/PLUGIN_REFACTOR.md">
+        <span class="ico">◇</span>
+        <h3>Plugin refactor</h3>
+        <p>Self-hosted bundle to Claude Code plugin. Env vars, hooks, marketplace shape.</p>
+        <span class="tag">docs/PLUGIN_REFACTOR.md</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/OPUS_OPTIMIZATION.md">
+        <span class="ico">✱</span>
+        <h3>Opus 4.7 discipline</h3>
+        <p>Seven rules for Opus 4.7 work. Explicit prompts, parallel tools, durable state.</p>
+        <span class="tag">docs/OPUS_OPTIMIZATION.md</span>
+      </a>
     </div>
   </div>
-  <p class="card-note">Cross-platform WiFi analyzer (.NET 8 + Avalonia). 204 tests passing on Mac as of 2026-04-25. App builds clean. Phase ahead: spectrum visualization core, coverage walk-test, speed testing, local KB.</p>
-  <div class="card-meta">
-    <span class="pill pill-tier-agent">Project</span>
-    <span class="pill pill-state-building">Building</span>
-    <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 12h ago</span>
-  </div>
-</a>
-<a class="card" href="./tool-builder.html" data-pct="22">
-  <div class="card-head">
-    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="22% complete">
-      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
-      <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
-              stroke-dasharray="49.76 176.43" transform="rotate(-90 50 50)"/>
-      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="22" fill="currentColor">22</text>
-    </svg></div>
-    <div class="card-id">
-      <h2>Tool Builder — Phase 2 product (AI-native business tools)</h2>
-      <p class="card-phase">Research planning <span class="pill pill-attn">needs your eyes</span></p>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Marketing pages</h2>
+    <p class="section-sub">For sharing the pitch publicly.</p>
+    <div class="cards two">
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/public/index.html">
+        <span class="ico">♦</span>
+        <h3>One-pager</h3>
+        <p>Marketing landing page. Apple-grade typography, problem statement, feature grid, trust by design.</p>
+        <span class="tag">public/index.html</span>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/public/dossier.html">
+        <span class="ico">✯</span>
+        <h3>Technical dossier</h3>
+        <p>Methodology deep-dive. Three-layer mutex, six-state lifecycle, smart handoff, kill-switch cascade.</p>
+        <span class="tag">public/dossier.html</span>
+      </a>
     </div>
   </div>
-  <p class="card-note">Phase 2 Virtuoso. 9 research tracks identified; A/D/E/G most active. Cross-tier shared router + UX corpus drafted. Major milestone reached 1h ago per chat heartbeat.</p>
-  <div class="card-meta">
-    <span class="pill pill-tier-virtuoso">Specialist</span>
-    <span class="pill pill-state-building">Building</span>
-    <span class="pill pill-passive">supervised</span>
-    <span class="meta-hb">last seen 12h ago</span>
-  </div>
-</a>
-<a class="card" href="./vera-nota.html" data-pct="55">
-  <div class="card-head">
-    <div class="card-pie"><svg class="pie" viewBox="0 0 100 100" aria-label="55% complete">
-      <circle cx="50" cy="50" r="36" fill="none" stroke="var(--rule)" stroke-width="9"/>
-      <circle cx="50" cy="50" r="36" fill="none"
-              stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
-              stroke-dasharray="124.41 101.79" transform="rotate(-90 50 50)"/>
-      <text x="50" y="56" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="22" fill="currentColor">55</text>
-    </svg></div>
-    <div class="card-id">
-      <h2>Vera Nota</h2>
-      <p class="card-phase">Stable automation <span class="pill pill-attn">needs your eyes</span></p>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Repositories</h2>
+    <p class="section-sub">Six repos make up the Ensemble.</p>
+    <div class="cards repos">
+      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble">
+        <h3>claude-ensemble</h3>
+        <p>Canonical source. Plugin, templates, hooks, scripts, integrations.</p>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-config">
+        <h3>ensemble-config</h3>
+        <p>Cross-machine sync. bin-mac/ ↔ bin-win/ PowerShell parity.</p>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-dashboard">
+        <h3>ensemble-dashboard</h3>
+        <p>Live PWA dashboard. Auto-regenerated 3× daily.</p>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/website-agent-starter">
+        <h3>website-agent-starter</h3>
+        <p>Friend-shareable bootstrap. Lifecycle-aware website-agent.</p>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-phone">
+        <h3>ensemble-phone</h3>
+        <p>Phone cheat sheet HTML.</p>
+      </a>
+      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-desktop">
+        <h3>ensemble-desktop</h3>
+        <p>Desktop cheat sheet HTML.</p>
+      </a>
     </div>
   </div>
-  <p class="card-note">Audio analysis suite for Apple platforms. Active integration with orchestrator-overnight-heavy routine.</p>
-  <div class="card-meta">
-    <span class="pill pill-tier-agent">Project</span>
-    <span class="pill pill-state-warmer">Warmer</span>
-    <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 12h ago</span>
-  </div>
-</a>
-    </div>
-  </div>
-</main>
+</section>
+
 <footer>
-  <div class="wrap foot-inner">
-    <p>Ensemble · Private preview</p>
-    <p>Generated <span class="rel-time" data-iso="2026-04-26T18:48:04Z">just now</span></p>
-  </div>
+  <p><strong>Ensemble</strong> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
+  <p style="opacity: 0.6; margin-top: 8px;">Auto-generated by the Dashboard Update routine. v2.0.</p>
 </footer>
+
 <script>
-(function () {
-  function rel(iso) {
-    var t = new Date(iso).getTime();
-    if (isNaN(t)) return iso;
-    var s = Math.max(0, Math.floor((Date.now() - t) / 1000));
-    if (s < 30) return 'just now';
-    if (s < 90) return '1 min ago';
-    if (s < 3600) return Math.floor(s / 60) + ' mins ago';
-    if (s < 5400) return '1 hour ago';
-    if (s < 86400) return Math.floor(s / 3600) + ' hours ago';
-    if (s < 172800) return 'yesterday';
-    return Math.floor(s / 86400) + ' days ago';
-  }
-  function update() {
-    document.querySelectorAll('.rel-time').forEach(function (el) {
-      var iso = el.getAttribute('data-iso');
-      if (iso) el.textContent = rel(iso);
-    });
-  }
-  update();
-  setInterval(update, 30000);
+// Hub control script — talks to the local control-panel-server.
+// Server is Mac-local on port 8080, reachable via Tailscale on the user's mesh.
+// Bearer token stored in localStorage.DASHBOARD_TOKEN (set once via the Mac).
+
+const SERVER_URL = (function() {
+  const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
+  if (stored) return stored;
+  // Default: local Mac hostname or Tailscale IP. User configures once.
+  return location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    ? "http://localhost:8080"
+    : "";  // empty = no server reachable; the page degrades to read-only docs
 })();
+
+function authHeaders() {
+  const t = localStorage.getItem("DASHBOARD_TOKEN") || "";
+  return t ? { "Authorization": "Bearer " + t, "Content-Type": "application/json" }
+           : { "Content-Type": "application/json" };
+}
+
+async function fetchState() {
+  if (!SERVER_URL) return null;
+  try {
+    const r = await fetch(SERVER_URL + "/state", { headers: authHeaders() });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+async function setConfig(field, value) {
+  if (!SERVER_URL) return showHelp("settings-help", "No server URL set. Run on Mac or set ENSEMBLE_SERVER_URL in localStorage.");
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ field, value })
+    });
+    const j = await r.json();
+    if (r.ok) {
+      showHelp("settings-help", "✓ " + field + " = " + JSON.stringify(value));
+    } else {
+      showHelp("settings-help", "✗ " + (j.error || r.statusText));
+    }
+  } catch (e) {
+    showHelp("settings-help", "✗ network error: " + e.message);
+  }
+}
+
+function showHelp(id, msg) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = msg; }
+}
+
+async function refreshState() {
+  const state = await fetchState();
+  const modeEl = document.getElementById("status-mode");
+  const capEl  = document.getElementById("status-cap");
+  if (!state) {
+    if (modeEl) modeEl.textContent = "control panel offline";
+    showHelp("settings-help", "Control panel offline. Set ENSEMBLE_SERVER_URL + DASHBOARD_TOKEN in localStorage to enable remote control.");
+    return;
+  }
+  // Top status
+  if (modeEl) modeEl.textContent = "mode: " + (state.mode || "unknown");
+  if (capEl)  capEl.textContent  = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " autopilots";
+
+  // Settings inputs
+  const set = (id, val) => { const el = document.getElementById(id); if (el) {
+    if (el.type === "checkbox") el.checked = !!val;
+    else el.value = val == null ? "" : val;
+  }};
+  set("cfg-mode", state.mode);
+  set("cfg-cap", state.max_concurrent_autopilots);
+  set("cfg-rapidfire", state.rapid_fire_enabled);
+  set("cfg-caffeinate", state.caffeinate_during_autopilot);
+  set("cfg-network", state.require_network_check);
+  set("cfg-acpower", state.require_ac_power);
+  set("cfg-floor", state.resource_floor_enabled);
+  set("cfg-watchdog", state.resource_watchdog_enabled);
+  set("cfg-disk", state.min_free_disk_gb);
+
+  // Project selectors
+  const slugs = (state.roster || []).map(r => r.slug);
+  const populate = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const cur = el.value;
+    while (el.options.length > 1) el.remove(1);
+    slugs.forEach(s => { const o = document.createElement("option"); o.value = s; o.textContent = s; el.appendChild(o); });
+    if (cur) el.value = cur;
+  };
+  populate("fire-slug");
+  populate("state-slug");
+
+  showHelp("settings-help", "✓ connected · last sync " + new Date().toLocaleTimeString());
+}
+
+// Wire all settings inputs to setConfig on change
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("[data-field]").forEach(el => {
+    el.addEventListener("change", () => {
+      const field = el.dataset.field;
+      let value;
+      if (el.type === "checkbox") value = el.checked;
+      else if (el.type === "number") value = parseInt(el.value, 10);
+      else value = el.value;
+      setConfig(field, value);
+    });
+  });
+
+  refreshState();
+  // Refresh every 60 seconds
+  setInterval(refreshState, 60000);
+});
+
+async function fireAutopilot() {
+  const slug = document.getElementById("fire-slug").value;
+  const minutes = parseInt(document.getElementById("fire-mins").value, 10);
+  if (!slug || !minutes) { showHelp("fire-help", "Pick a project + minutes"); return; }
+  try {
+    const r = await fetch(SERVER_URL + "/fire", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ slug, minutes, prompt: "" })
+    });
+    const j = await r.json();
+    showHelp("fire-help", r.ok ? ("✓ fired " + slug + " for " + minutes + "m (exit " + j.exit + ")") : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("fire-help", "✗ " + e.message); }
+}
+
+async function setProjectState() {
+  const slug = document.getElementById("state-slug").value;
+  const state = document.getElementById("state-target").value;
+  if (!slug || !state) { showHelp("state-help", "Pick project + state"); return; }
+  try {
+    const r = await fetch(SERVER_URL + "/set-state", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ slug, state })
+    });
+    const j = await r.json();
+    showHelp("state-help", r.ok ? ("✓ " + slug + " → " + state) : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("state-help", "✗ " + e.message); }
+}
+
+async function killAll() {
+  if (!confirm("Kill all autopilot? Six-phase cascade fires.")) return;
+  try {
+    const r = await fetch(SERVER_URL + "/kill", { method: "POST", headers: authHeaders() });
+    const j = await r.json();
+    showHelp("kill-help", r.ok ? ("✓ kill exit=" + j.exit) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 1000);
+  } catch (e) { showHelp("kill-help", "✗ " + e.message); }
+}
 </script>
+
 </body>
 </html>

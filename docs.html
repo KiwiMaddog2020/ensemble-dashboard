@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Documentation</title>
-<meta name="description" content="Single hub for everything Ensemble — setup, daily reference, design docs, live tools, repositories." />
+<title>Ensemble — Home</title>
+<meta name="description" content="Ensemble home / command center — settings, quick commands, project shortcuts, all documentation. One page." />
 <link rel="manifest" href="/manifest.json" />
 <link rel="icon" type="image/svg+xml" href="/icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -63,28 +63,155 @@ footer a:hover { text-decoration: underline; }
 .back-bar { display: flex; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--rule); font-size: 14px; }
 .back-bar a { color: var(--ink-3); text-decoration: none; }
 .back-bar a:hover { color: var(--accent); }
+
+/* Settings */
+.settings-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
+@media (min-width: 768px) { .settings-grid { grid-template-columns: repeat(3, 1fr); } }
+.setting { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius-sm); cursor: pointer; transition: border-color 200ms var(--ease); }
+.setting:hover { border-color: color-mix(in srgb, var(--accent) 30%, var(--rule)); }
+.setting-name { font-size: 13px; font-weight: 500; color: var(--ink-2); }
+.setting input[type="number"], .setting select { font-family: var(--mono); font-size: 13px; padding: 6px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); color: var(--ink); width: 110px; }
+.setting input[type="checkbox"] { width: 38px; height: 22px; appearance: none; background: var(--rule); border-radius: 999px; cursor: pointer; position: relative; transition: background 200ms var(--ease); }
+.setting input[type="checkbox"]:checked { background: var(--accent); }
+.setting input[type="checkbox"]::after { content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: white; transition: transform 200ms var(--ease); }
+.setting input[type="checkbox"]:checked::after { transform: translateX(16px); }
+.settings-help { font-size: 12px; color: var(--ink-3); margin-top: 14px; font-family: var(--mono); }
+
+/* Commands */
+.commands-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 768px) { .commands-grid { grid-template-columns: repeat(3, 1fr); } }
+.command-card { background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px 22px 18px; }
+.command-card.danger { border-color: color-mix(in srgb, #c73a2a 30%, var(--rule)); }
+.command-card h3 { font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: -0.005em; color: var(--ink); margin: 0 0 14px; }
+.cmd-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.cmd-row select, .cmd-row input { font-family: var(--mono); font-size: 13px; padding: 8px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); color: var(--ink); flex: 1; min-width: 0; }
+.cmd-row input[type="number"] { max-width: 80px; }
+.btn-primary { background: var(--accent); color: white; border: 0; padding: 8px 16px; border-radius: 6px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: background 200ms var(--ease); }
+.btn-primary:hover { background: var(--accent-2); }
+.btn-secondary { background: transparent; color: var(--ink-2); border: 1px solid var(--rule); padding: 8px 12px; border-radius: 6px; font-family: var(--sans); font-size: 13px; font-weight: 500; cursor: pointer; }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-danger { background: #c73a2a; color: white; border: 0; padding: 8px 16px; border-radius: 6px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: filter 200ms var(--ease); }
+.btn-danger:hover { filter: brightness(1.1); }
+.cmd-help { font-size: 11px; color: var(--ink-3); margin-top: 10px; line-height: 1.5; }
+.cmd-help a { color: var(--accent); text-decoration: none; }
+.cmd-help a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 
 <div class="wrap back-bar">
-  <a href="./">← Dashboard</a>
-  <span style="color: var(--ink-4)">/</span>
-  <span style="color: var(--ink-2)">Documentation</span>
+  <a href="./projects.html">← Projects</a>
+  <span style="color: var(--ink-4)">·</span>
+  <a href="./">Home</a>
+  <span style="color: var(--ink-4)">·</span>
+  <a href="https://github.com/KiwiMaddog2020/claude-ensemble">GitHub</a>
 </div>
 
 <header class="hero">
   <div class="wrap">
-    <p class="hero-eyebrow">Documentation hub</p>
-    <h1>Everything <em>Ensemble.</em></h1>
-    <p class="lead">One page. Setup, daily reference, design docs, live tools, repositories. Click through to whatever you need.</p>
+    <p class="hero-eyebrow">Ensemble · Home</p>
+    <h1>Command, control, <em>everything.</em></h1>
+    <p class="lead">Settings across all pages. Quick commands, fired remotely. Live project status. Documentation links. One page.</p>
     <div class="meta">
-      <span><span class="dot"></span> v2.0 — eight directives + three-layer mutex shipped</span>
-      <span>Phase 0 ≈ 95%</span>
-      <span>Auto-refreshes 3× daily</span>
+      <span><span class="dot"></span> <span id="status-mode">loading…</span></span>
+      <span><span id="status-cap">— autopilots</span></span>
+      <span>v2.0 · auto-refreshes 3× daily</span>
     </div>
   </div>
 </header>
+
+<!-- ─── Settings panel ─── -->
+<section id="settings">
+  <div class="wrap">
+    <h2>Settings</h2>
+    <p class="section-sub">Global state.json toggles. Changes via the local control panel. Bearer token required.</p>
+    <div class="settings-grid">
+      <label class="setting"><span class="setting-name">Mode</span>
+        <select id="cfg-mode" data-field="mode">
+          <option value="orchestrated">Orchestrated</option>
+          <option value="direct">Direct</option>
+        </select>
+      </label>
+      <label class="setting"><span class="setting-name">Max concurrent autopilots</span>
+        <input type="number" id="cfg-cap" data-field="max_concurrent_autopilots" min="1" max="16" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Rapid-fire</span>
+        <input type="checkbox" id="cfg-rapidfire" data-field="rapid_fire_enabled" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Caffeinate during autopilot</span>
+        <input type="checkbox" id="cfg-caffeinate" data-field="caffeinate_during_autopilot" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Network pre-flight</span>
+        <input type="checkbox" id="cfg-network" data-field="require_network_check" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Require AC power</span>
+        <input type="checkbox" id="cfg-acpower" data-field="require_ac_power" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Resource floor</span>
+        <input type="checkbox" id="cfg-floor" data-field="resource_floor_enabled" />
+      </label>
+      <label class="setting toggle">
+        <span class="setting-name">Mid-run watchdog</span>
+        <input type="checkbox" id="cfg-watchdog" data-field="resource_watchdog_enabled" />
+      </label>
+      <label class="setting"><span class="setting-name">Min free disk (GB)</span>
+        <input type="number" id="cfg-disk" data-field="min_free_disk_gb" min="0" max="200" />
+      </label>
+    </div>
+    <p class="settings-help" id="settings-help">Connecting to control panel…</p>
+  </div>
+</section>
+
+<!-- ─── Command Center ─── -->
+<section id="commands">
+  <div class="wrap">
+    <h2>Command center</h2>
+    <p class="section-sub">Fire from anywhere via Tailscale. All commands run via the local control panel.</p>
+    <div class="commands-grid">
+      <div class="command-card">
+        <h3>Fire autopilot</h3>
+        <div class="cmd-row">
+          <select id="fire-slug"><option value="">Select project…</option></select>
+          <input type="number" id="fire-mins" min="1" max="240" value="30" />
+          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
+        </div>
+        <p class="cmd-help" id="fire-help">Three-layer mutex applies: per-project lock + cap + opt-in resource floor.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Set project state</h3>
+        <div class="cmd-row">
+          <select id="state-slug"><option value="">Select project…</option></select>
+          <select id="state-target">
+            <option value="">→ State…</option>
+            <option>Building</option>
+            <option>Launch Prep</option>
+            <option>Warmer</option>
+            <option>R&D</option>
+            <option>Updates</option>
+            <option>Hibernating</option>
+          </select>
+          <button class="btn-primary" onclick="setProjectState()">Set</button>
+        </div>
+        <p class="cmd-help" id="state-help">Smoke-test gate fires for major transitions. <a href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/CHEATSHEET.md">Cheat sheet</a>.</p>
+      </div>
+
+      <div class="command-card danger">
+        <h3>Kill switch</h3>
+        <div class="cmd-row">
+          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
+          <button class="btn-secondary" onclick="refreshState()">Refresh state</button>
+        </div>
+        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section>
   <div class="wrap">
@@ -306,6 +433,159 @@ footer a:hover { text-decoration: underline; }
   <p><strong>Ensemble</strong> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-generated by the Dashboard Update routine. v2.0.</p>
 </footer>
+
+<script>
+// Hub control script — talks to the local control-panel-server.
+// Server is Mac-local on port 8080, reachable via Tailscale on the user's mesh.
+// Bearer token stored in localStorage.DASHBOARD_TOKEN (set once via the Mac).
+
+const SERVER_URL = (function() {
+  const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
+  if (stored) return stored;
+  // Default: local Mac hostname or Tailscale IP. User configures once.
+  return location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    ? "http://localhost:8080"
+    : "";  // empty = no server reachable; the page degrades to read-only docs
+})();
+
+function authHeaders() {
+  const t = localStorage.getItem("DASHBOARD_TOKEN") || "";
+  return t ? { "Authorization": "Bearer " + t, "Content-Type": "application/json" }
+           : { "Content-Type": "application/json" };
+}
+
+async function fetchState() {
+  if (!SERVER_URL) return null;
+  try {
+    const r = await fetch(SERVER_URL + "/state", { headers: authHeaders() });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+async function setConfig(field, value) {
+  if (!SERVER_URL) return showHelp("settings-help", "No server URL set. Run on Mac or set ENSEMBLE_SERVER_URL in localStorage.");
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ field, value })
+    });
+    const j = await r.json();
+    if (r.ok) {
+      showHelp("settings-help", "✓ " + field + " = " + JSON.stringify(value));
+    } else {
+      showHelp("settings-help", "✗ " + (j.error || r.statusText));
+    }
+  } catch (e) {
+    showHelp("settings-help", "✗ network error: " + e.message);
+  }
+}
+
+function showHelp(id, msg) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = msg; }
+}
+
+async function refreshState() {
+  const state = await fetchState();
+  const modeEl = document.getElementById("status-mode");
+  const capEl  = document.getElementById("status-cap");
+  if (!state) {
+    if (modeEl) modeEl.textContent = "control panel offline";
+    showHelp("settings-help", "Control panel offline. Set ENSEMBLE_SERVER_URL + DASHBOARD_TOKEN in localStorage to enable remote control.");
+    return;
+  }
+  // Top status
+  if (modeEl) modeEl.textContent = "mode: " + (state.mode || "unknown");
+  if (capEl)  capEl.textContent  = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " autopilots";
+
+  // Settings inputs
+  const set = (id, val) => { const el = document.getElementById(id); if (el) {
+    if (el.type === "checkbox") el.checked = !!val;
+    else el.value = val == null ? "" : val;
+  }};
+  set("cfg-mode", state.mode);
+  set("cfg-cap", state.max_concurrent_autopilots);
+  set("cfg-rapidfire", state.rapid_fire_enabled);
+  set("cfg-caffeinate", state.caffeinate_during_autopilot);
+  set("cfg-network", state.require_network_check);
+  set("cfg-acpower", state.require_ac_power);
+  set("cfg-floor", state.resource_floor_enabled);
+  set("cfg-watchdog", state.resource_watchdog_enabled);
+  set("cfg-disk", state.min_free_disk_gb);
+
+  // Project selectors
+  const slugs = (state.roster || []).map(r => r.slug);
+  const populate = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const cur = el.value;
+    while (el.options.length > 1) el.remove(1);
+    slugs.forEach(s => { const o = document.createElement("option"); o.value = s; o.textContent = s; el.appendChild(o); });
+    if (cur) el.value = cur;
+  };
+  populate("fire-slug");
+  populate("state-slug");
+
+  showHelp("settings-help", "✓ connected · last sync " + new Date().toLocaleTimeString());
+}
+
+// Wire all settings inputs to setConfig on change
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("[data-field]").forEach(el => {
+    el.addEventListener("change", () => {
+      const field = el.dataset.field;
+      let value;
+      if (el.type === "checkbox") value = el.checked;
+      else if (el.type === "number") value = parseInt(el.value, 10);
+      else value = el.value;
+      setConfig(field, value);
+    });
+  });
+
+  refreshState();
+  // Refresh every 60 seconds
+  setInterval(refreshState, 60000);
+});
+
+async function fireAutopilot() {
+  const slug = document.getElementById("fire-slug").value;
+  const minutes = parseInt(document.getElementById("fire-mins").value, 10);
+  if (!slug || !minutes) { showHelp("fire-help", "Pick a project + minutes"); return; }
+  try {
+    const r = await fetch(SERVER_URL + "/fire", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ slug, minutes, prompt: "" })
+    });
+    const j = await r.json();
+    showHelp("fire-help", r.ok ? ("✓ fired " + slug + " for " + minutes + "m (exit " + j.exit + ")") : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("fire-help", "✗ " + e.message); }
+}
+
+async function setProjectState() {
+  const slug = document.getElementById("state-slug").value;
+  const state = document.getElementById("state-target").value;
+  if (!slug || !state) { showHelp("state-help", "Pick project + state"); return; }
+  try {
+    const r = await fetch(SERVER_URL + "/set-state", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ slug, state })
+    });
+    const j = await r.json();
+    showHelp("state-help", r.ok ? ("✓ " + slug + " → " + state) : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("state-help", "✗ " + e.message); }
+}
+
+async function killAll() {
+  if (!confirm("Kill all autopilot? Six-phase cascade fires.")) return;
+  try {
+    const r = await fetch(SERVER_URL + "/kill", { method: "POST", headers: authHeaders() });
+    const j = await r.json();
+    showHelp("kill-help", r.ok ? ("✓ kill exit=" + j.exit) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 1000);
+  } catch (e) { showHelp("kill-help", "✗ " + e.message); }
+}
+</script>
 
 </body>
 </html>
