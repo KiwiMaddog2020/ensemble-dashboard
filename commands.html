@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Docs</title>
-<meta name="description" content="Ensemble documentation hub — setup, reference, design." />
+<title>Ensemble — Commands</title>
+<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
 <link rel="manifest" href="/manifest.json" />
 <link rel="icon" type="image/svg+xml" href="/icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -286,9 +286,9 @@ footer.site-footer .brand { font-family: var(--serif); font-weight: 500; }
     <ul>
       <li><a class="" href="/">Home</a></li>
       <li><a class="" href="/projects.html">Projects</a></li>
-      <li><a class="" href="/commands.html">Commands</a></li>
+      <li><a class="active" href="/commands.html">Commands</a></li>
       <li><a class="" href="/settings.html">Settings</a></li>
-      <li><a class="active" href="/docs.html">Docs</a></li>
+      <li><a class="" href="/docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -309,142 +309,107 @@ footer.site-footer .brand { font-family: var(--serif); font-weight: 500; }
 </div>
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow">Documentation</p>
-    <h1>Everything <em>Ensemble.</em></h1>
-    <p class="lead">Setup, daily reference, design docs, live tools, repositories.</p>
+    <p class="eyebrow">Commands</p>
+    <h1>Fire from <em>anywhere.</em></h1>
+    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
   </div>
 </header>
 
 <section>
   <div class="wrap">
-    <h2>Getting started</h2>
-    <p class="section-sub">From zero to a working Ensemble.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/INSTALL.md">
-        <span class="ico">⚙︎</span><h3>Install guide</h3>
-        <p>Marketplace + manual install. macOS / Linux / Windows.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble#readme">
-        <span class="ico">✪</span><h3>Top-level README</h3>
-        <p>Repo landing page. Core concepts, what's new in v2.0.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/README.md">
-        <span class="ico">◆</span><h3>Plugin README</h3>
-        <p>Marketplace listing. Cast, safety, slash commands.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/integrations/swiftbar/README.md">
-        <span class="ico">☕</span><h3>SwiftBar setup</h3>
-        <p>Mac menu bar indicator. One-shot installer.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/integrations/cloudflare-access/README.md">
-        <span class="ico">🔒</span><h3>Cloudflare Access</h3>
-        <p>Auth-gate the public PWA + HTML sites. ~30 min setup.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/MOBILE_DISPATCH.md">
-        <span class="ico">↗</span><h3>Mobile dispatch</h3>
-        <p>Termius + Tailscale. Phone-fired autopilot.</p>
-      </a>
+    <h2>Quick actions</h2>
+    <p class="section-sub">All commands run via the local control panel.</p>
+    <div class="commands-grid">
+
+      <div class="command-card">
+        <h3>Fire autopilot</h3>
+        <div class="cmd-row">
+          <select id="fire-slug"><option value="">Project…</option></select>
+          <input type="number" id="fire-mins" min="1" max="240" value="30" />
+          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
+        </div>
+        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Set project state</h3>
+        <div class="cmd-row">
+          <select id="state-slug"><option value="">Project…</option></select>
+          <select id="state-target">
+            <option value="">→ State…</option>
+            <option>Building</option>
+            <option>Launch Prep</option>
+            <option>Warmer</option>
+            <option>R&D</option>
+            <option>Updates</option>
+            <option>Hibernating</option>
+          </select>
+          <button class="btn-primary" onclick="setProjectState()">Set</button>
+        </div>
+        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
+      </div>
+
+      <div class="command-card danger">
+        <h3>Kill switch</h3>
+        <div class="cmd-row">
+          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
+          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
+        </div>
+        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Token cycle</h3>
+        <div class="cmd-row">
+          <input type="datetime-local" id="reset-input" />
+          <button class="btn-primary" onclick="setTokenReset()">Save</button>
+        </div>
+        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
+      </div>
+
     </div>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <h2>Daily reference</h2>
-    <p class="section-sub">Open this when you need a signal phrase or recovery step.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/CHEATSHEET.md">
-        <span class="ico">☛</span><h3>Cheat sheet</h3>
-        <p>Signal phrases, key files, common commands.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/TROUBLESHOOTING.md">
-        <span class="ico">⚠</span><h3>Troubleshooting</h3>
-        <p>23 failure modes with diagnostic + recovery.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/CHANGELOG.md">
-        <span class="ico">⏱</span><h3>Changelog</h3>
-        <p>Release history. v2.0 contract sweep + v2.0.x.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/MISSION_ROADMAP.md">
-        <span class="ico">●</span><h3>Mission roadmap</h3>
-        <p>Phase 0 closure ledger. Pitch claims and gaps.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/HEALTH.md">
-        <span class="ico">♥</span><h3>Health snapshot</h3>
-        <p>Auto-regenerated weekly. Runtime, lock, chats.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/SESSION_HANDOFF.md">
-        <span class="ico">↗</span><h3>Session handoff</h3>
-        <p>Resume context for the next chat.</p>
-      </a>
-    </div>
-  </div>
-</section>
+<script>
+function refreshPageState(state) {
+  if (!state) return;
+  const populate = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const cur = el.value;
+    while (el.options.length > 1) el.remove(1);
+    (state.roster || []).forEach(r => {
+      const o = document.createElement("option");
+      o.value = r.slug; o.textContent = r.slug;
+      el.appendChild(o);
+    });
+    if (cur) el.value = cur;
+  };
+  populate("fire-slug");
+  populate("state-slug");
 
-<section>
-  <div class="wrap">
-    <h2>Architecture &amp; design</h2>
-    <p class="section-sub">Deep-dive into how the system works.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/GRAND_PLAN.md">
-        <span class="ico">✎</span><h3>Grand plan</h3>
-        <p>Strategic context. Phase ladder, founding principles.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/AUTOPILOT_DESIGN.md">
-        <span class="ico">◈</span><h3>Autopilot design</h3>
-        <p>Pipeline, lock semantics, Plan→Code→Test→Fix→Wrap loop.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/ONBOARDING_DESIGN.md">
-        <span class="ico">→</span><h3>Onboarding design</h3>
-        <p>How chats become Agents. Adaptive interview.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/CONTROL_PANEL_PLAN.md">
-        <span class="ico">◦</span><h3>Control panel</h3>
-        <p>Mac-local Python server, Bearer auth, embedded chat.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/PLUGIN_REFACTOR.md">
-        <span class="ico">◇</span><h3>Plugin refactor</h3>
-        <p>Self-hosted bundle to Claude Code plugin shape.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/OPUS_OPTIMIZATION.md">
-        <span class="ico">✱</span><h3>Opus 4.7 discipline</h3>
-        <p>Seven rules for Opus 4.7 work.</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Marketing pages</h2>
-    <p class="section-sub">For sharing the pitch.</p>
-    <div class="cards two">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/public/index.html">
-        <span class="ico">♦</span><h3>One-pager</h3>
-        <p>Marketing landing. Apple-grade typography, feature grid.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/public/dossier.html">
-        <span class="ico">✯</span><h3>Technical dossier</h3>
-        <p>Methodology deep-dive.</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Repositories</h2>
-    <p class="section-sub">Six repos make up the Ensemble.</p>
-    <div class="cards repos">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble"><h3>claude-ensemble</h3><p>Canonical source.</p></a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-config"><h3>ensemble-config</h3><p>Cross-machine sync.</p></a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-dashboard"><h3>ensemble-dashboard</h3><p>This dashboard repo.</p></a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/website-agent-starter"><h3>website-agent-starter</h3><p>Friend-shareable bootstrap.</p></a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-phone"><h3>ensemble-phone</h3><p>Phone cheat sheet.</p></a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-desktop"><h3>ensemble-desktop</h3><p>Desktop cheat sheet.</p></a>
-    </div>
-  </div>
-</section>
+  // Token cycle
+  const resetEl = document.getElementById("reset-status");
+  const inputEl = document.getElementById("reset-input");
+  if (!state.weekly_token_reset_at) {
+    if (resetEl) resetEl.textContent = "No reset time set yet.";
+  } else {
+    const reset = new Date(state.weekly_token_reset_at);
+    const h = Math.floor((reset - new Date()) / 3600000);
+    let posture = "(no-op)";
+    if (h < 0) posture = "(reset passed; routine will roll forward)";
+    else if (h < 2) posture = "(<2h: standing down)";
+    else if (h <= 12) posture = "(burn-down active)";
+    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
+    if (inputEl && !inputEl.value) {
+      const local = new Date(state.weekly_token_reset_at);
+      const pad = n => String(n).padStart(2, "0");
+      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
+    }
+  }
+}
+</script>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

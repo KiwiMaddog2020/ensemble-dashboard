@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
 <title>Ensemble — Home</title>
-<meta name="description" content="Ensemble home / command center — settings, quick commands, project shortcuts, all documentation. One page." />
+<meta name="description" content="Ensemble home — projects, commands, settings, docs." />
 <link rel="manifest" href="/manifest.json" />
 <link rel="icon" type="image/svg+xml" href="/icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,463 +13,372 @@
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
 :root {
-  --bg: #faf7f2; --bg-raised: #ffffff; --ink: #18150f; --ink-2: #3c362c;
-  --ink-3: #6e6657; --ink-4: #a8a193; --rule: #e8e1d2; --rule-2: #f0ead9;
+  --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
+  --ink: #18150f; --ink-2: #3c362c; --ink-3: #6e6657; --ink-4: #a8a193;
+  --rule: #ebe4d4; --rule-2: #f0ead9;
   --accent: #c2711f; --accent-2: #e08a2c; --accent-soft: rgba(194,113,31,0.08);
   --serif: "EB Garamond", ui-serif, Georgia, serif;
   --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, monospace;
   --maxw: 1080px; --gutter: clamp(20px, 4vw, 40px);
-  --radius: 14px; --radius-sm: 10px;
+  --radius: 16px; --radius-sm: 10px;
   --ease: cubic-bezier(.2, .7, .2, 1);
+  --shadow-sm: 0 1px 2px rgba(24,21,15,0.04), 0 2px 4px rgba(24,21,15,0.02);
+  --shadow-md: 0 4px 24px -8px rgba(194,113,31,0.18), 0 2px 8px rgba(24,21,15,0.04);
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f0d0a; --bg-raised: #1a1711; --ink: #f3ecdd; --ink-2: #d6cdb9;
-    --ink-3: #9a9078; --ink-4: #5e564a; --rule: #2a2620; --rule-2: #221e18;
+    --bg: #0f0d0a; --bg-raised: #1a1711; --bg-elevated: #1f1b14;
+    --ink: #f3ecdd; --ink-2: #d6cdb9; --ink-3: #9a9078; --ink-4: #5e564a;
+    --rule: #2a2620; --rule-2: #221e18;
     --accent: #e08a2c; --accent-2: #f3c07a; --accent-soft: rgba(224,138,44,0.10);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 24px -8px rgba(224,138,44,0.25);
   }
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
-body { font-family: var(--sans); background: var(--bg); color: var(--ink-2); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--sans); background: var(--bg); color: var(--ink-2);
+  line-height: 1.55; -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
-header.hero { padding: clamp(56px, 10vw, 96px) 0 clamp(40px, 6vw, 64px); border-bottom: 1px solid var(--rule); }
-.hero-eyebrow { font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
-.hero h1 { font-family: var(--serif); font-size: clamp(40px, 6vw, 68px); line-height: 1.05; letter-spacing: -0.02em; font-weight: 600; color: var(--ink); margin: 0 0 16px; }
+
+/* Top nav */
+.topnav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.topnav .wrap { display: flex; align-items: center; gap: 24px; height: 56px; }
+.topnav .brand {
+  font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
+  color: var(--ink); text-decoration: none;
+}
+.topnav .brand em { color: var(--accent); font-style: normal; }
+.topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
+.topnav li a {
+  display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
+  color: var(--ink-3); text-decoration: none; border-radius: 8px;
+  transition: background 200ms var(--ease), color 200ms var(--ease);
+}
+.topnav li a:hover { color: var(--ink); background: var(--accent-soft); }
+.topnav li a.active { color: var(--accent); background: var(--accent-soft); }
+.topnav .nav-status {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-3);
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .topnav ul { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .topnav .nav-status { display: none; }
+}
+
+/* Smoke-test banner */
+#smoke-banner {
+  display: none; padding: 16px 0;
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+  border-bottom: 2px solid var(--accent);
+}
+#smoke-banner .wrap {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+}
+#smoke-banner strong {
+  display: block; color: var(--accent); font-size: 12px;
+  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px;
+}
+#smoke-banner-text { margin: 0; font-size: 14px; color: var(--ink-2); }
+#smoke-banner .cmd-row { display: flex; gap: 8px; flex: 0 0 auto; }
+
+/* Hero */
+.hero { padding: clamp(56px, 9vw, 96px) 0 clamp(32px, 5vw, 56px); }
+.hero .eyebrow {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);
+  margin: 0 0 16px;
+}
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(40px, 6vw, 68px);
+  line-height: 1.05; letter-spacing: -0.02em; font-weight: 600;
+  color: var(--ink); margin: 0 0 16px;
+}
 .hero h1 em { font-style: italic; font-weight: 500; color: var(--accent); }
-.hero p.lead { font-family: var(--serif); font-size: clamp(18px, 2.4vw, 22px); line-height: 1.45; color: var(--ink-2); margin: 0; max-width: 60ch; }
-.hero .meta { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 28px; font-size: 13px; color: var(--ink-3); }
+.hero p.lead {
+  font-family: var(--serif); font-size: clamp(18px, 2.4vw, 22px);
+  line-height: 1.45; color: var(--ink-2); margin: 0; max-width: 60ch;
+}
+.hero .meta {
+  display: flex; gap: 18px; flex-wrap: wrap; margin-top: 28px;
+  font-size: 13px; color: var(--ink-3); font-family: var(--mono);
+}
 .hero .meta span { display: inline-flex; align-items: center; gap: 8px; }
-.hero .meta .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-section { padding: clamp(40px, 6vw, 56px) 0; border-bottom: 1px solid var(--rule); }
-section:last-of-type { border-bottom: none; }
-section h2 { font-family: var(--serif); font-size: clamp(26px, 3.4vw, 36px); line-height: 1.15; letter-spacing: -0.01em; font-weight: 500; color: var(--ink); margin: 0 0 8px; }
-section .section-sub { color: var(--ink-3); font-size: 14px; margin-bottom: 28px; }
+.hero .meta .dot {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+}
+
+section { padding: clamp(40px, 6vw, 64px) 0; }
+section h2 {
+  font-family: var(--serif); font-size: clamp(26px, 3.4vw, 36px);
+  line-height: 1.15; letter-spacing: -0.01em; font-weight: 500;
+  color: var(--ink); margin: 0 0 8px;
+}
+section .section-sub { color: var(--ink-3); font-size: 14px; margin: 0 0 28px; }
+
+/* Tile cards (home) */
+.tiles {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (max-width: 640px) { .tiles { grid-template-columns: 1fr; } }
+.tile {
+  display: block; background: var(--bg-raised);
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 32px 28px 28px; text-decoration: none; color: var(--ink-2);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
+  position: relative; overflow: hidden;
+}
+.tile:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--rule));
+  transform: translateY(-2px); box-shadow: var(--shadow-md);
+}
+.tile .glyph {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--accent-soft); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 18px;
+}
+.tile h3 {
+  font-family: var(--serif); font-size: 26px; font-weight: 500;
+  letter-spacing: -0.01em; color: var(--ink); margin: 0 0 6px;
+}
+.tile p.tile-sub { font-size: 14px; color: var(--ink-3); margin: 0 0 12px; }
+.tile p.tile-stat {
+  font-family: var(--mono); font-size: 13px; color: var(--accent);
+  margin: 0; font-weight: 500;
+}
+.tile .arrow {
+  position: absolute; right: 22px; top: 28px; color: var(--ink-4);
+  font-size: 20px; transition: transform 200ms var(--ease), color 200ms var(--ease);
+}
+.tile:hover .arrow { color: var(--accent); transform: translateX(4px); }
+
+/* Cards (docs) */
 .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 @media (min-width: 768px) { .cards { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 1024px) { .cards.two { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
-.card { display: block; background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px 22px 20px; text-decoration: none; color: var(--ink-2); transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease); }
-.card:hover { border-color: color-mix(in srgb, var(--accent) 35%, var(--rule)); transform: translateY(-1px); box-shadow: 0 4px 24px -8px color-mix(in srgb, var(--accent) 20%, transparent); }
-.card .ico { width: 32px; height: 32px; border-radius: 8px; background: var(--accent-soft); display: inline-flex; align-items: center; justify-content: center; color: var(--accent); margin-bottom: 14px; font-size: 18px; }
-.card h3 { font-family: var(--sans); font-size: 16px; font-weight: 600; letter-spacing: -0.005em; color: var(--ink); margin: 0 0 4px; }
+.card {
+  display: block; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 22px 22px 20px; text-decoration: none;
+  color: var(--ink-2); transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
+}
+.card:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--rule));
+  transform: translateY(-1px); box-shadow: var(--shadow-md);
+}
+.card .ico {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--accent-soft); display: inline-flex; align-items: center;
+  justify-content: center; color: var(--accent); margin-bottom: 14px; font-size: 18px;
+}
+.card h3 {
+  font-family: var(--sans); font-size: 16px; font-weight: 600;
+  letter-spacing: -0.005em; color: var(--ink); margin: 0 0 4px;
+}
 .card p { font-size: 14px; color: var(--ink-3); margin: 0; line-height: 1.5; }
-.card .tag { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--accent); margin-top: 10px; }
+.card .tag {
+  display: inline-block; font-family: var(--mono); font-size: 11px;
+  font-weight: 500; color: var(--accent); margin-top: 10px;
+}
 .cards.repos .card { padding: 18px 20px; }
 .cards.repos .card h3 { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--ink); }
-footer { padding: 40px 0 56px; color: var(--ink-3); font-size: 13px; text-align: center; }
-footer a { color: var(--accent); text-decoration: none; }
-footer a:hover { text-decoration: underline; }
-.back-bar { display: flex; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--rule); font-size: 14px; }
-.back-bar a { color: var(--ink-3); text-decoration: none; }
-.back-bar a:hover { color: var(--accent); }
 
 /* Settings */
 .settings-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
 @media (min-width: 768px) { .settings-grid { grid-template-columns: repeat(3, 1fr); } }
-.setting { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius-sm); cursor: pointer; transition: border-color 200ms var(--ease); }
+.setting {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 16px; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer;
+  transition: border-color 200ms var(--ease);
+}
 .setting:hover { border-color: color-mix(in srgb, var(--accent) 30%, var(--rule)); }
 .setting-name { font-size: 13px; font-weight: 500; color: var(--ink-2); }
-.setting input[type="number"], .setting select { font-family: var(--mono); font-size: 13px; padding: 6px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); color: var(--ink); width: 110px; }
-.setting input[type="checkbox"] { width: 38px; height: 22px; appearance: none; background: var(--rule); border-radius: 999px; cursor: pointer; position: relative; transition: background 200ms var(--ease); }
+.setting input[type="number"], .setting select {
+  font-family: var(--mono); font-size: 13px; padding: 6px 10px;
+  border: 1px solid var(--rule); border-radius: 6px;
+  background: var(--bg); color: var(--ink); width: 110px;
+}
+.setting input[type="checkbox"] {
+  width: 38px; height: 22px; appearance: none; background: var(--rule);
+  border-radius: 999px; cursor: pointer; position: relative;
+  transition: background 200ms var(--ease);
+}
 .setting input[type="checkbox"]:checked { background: var(--accent); }
-.setting input[type="checkbox"]::after { content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: white; transition: transform 200ms var(--ease); }
+.setting input[type="checkbox"]::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 18px; height: 18px; border-radius: 50%; background: white;
+  transition: transform 200ms var(--ease);
+}
 .setting input[type="checkbox"]:checked::after { transform: translateX(16px); }
-.settings-help { font-size: 12px; color: var(--ink-3); margin-top: 14px; font-family: var(--mono); }
+.settings-help {
+  font-size: 12px; color: var(--ink-3); margin-top: 14px; font-family: var(--mono);
+}
 
 /* Commands */
 .commands-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-@media (min-width: 768px) { .commands-grid { grid-template-columns: repeat(3, 1fr); } }
-.command-card { background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px 22px 18px; }
+@media (min-width: 768px) { .commands-grid { grid-template-columns: repeat(2, 1fr); } }
+.command-card {
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 24px 24px 20px;
+}
 .command-card.danger { border-color: color-mix(in srgb, #c73a2a 30%, var(--rule)); }
-.command-card h3 { font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: -0.005em; color: var(--ink); margin: 0 0 14px; }
+.command-card h3 {
+  font-family: var(--sans); font-size: 14px; font-weight: 600;
+  letter-spacing: -0.005em; color: var(--ink); margin: 0 0 16px;
+}
 .cmd-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.cmd-row select, .cmd-row input { font-family: var(--mono); font-size: 13px; padding: 8px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); color: var(--ink); flex: 1; min-width: 0; }
-.cmd-row input[type="number"] { max-width: 80px; }
-.btn-primary { background: var(--accent); color: white; border: 0; padding: 8px 16px; border-radius: 6px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: background 200ms var(--ease); }
+.cmd-row select, .cmd-row input {
+  font-family: var(--mono); font-size: 13px; padding: 8px 10px;
+  border: 1px solid var(--rule); border-radius: 6px;
+  background: var(--bg); color: var(--ink); flex: 1; min-width: 0;
+}
+.cmd-row input[type="number"], .cmd-row input[type="datetime-local"] { max-width: 160px; }
+.btn-primary {
+  background: var(--accent); color: white; border: 0; padding: 8px 16px;
+  border-radius: 6px; font-family: var(--sans); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: background 200ms var(--ease);
+}
 .btn-primary:hover { background: var(--accent-2); }
-.btn-secondary { background: transparent; color: var(--ink-2); border: 1px solid var(--rule); padding: 8px 12px; border-radius: 6px; font-family: var(--sans); font-size: 13px; font-weight: 500; cursor: pointer; }
+.btn-secondary {
+  background: transparent; color: var(--ink-2); border: 1px solid var(--rule);
+  padding: 8px 12px; border-radius: 6px; font-family: var(--sans);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+}
 .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-.btn-danger { background: #c73a2a; color: white; border: 0; padding: 8px 16px; border-radius: 6px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: filter 200ms var(--ease); }
+.btn-danger {
+  background: #c73a2a; color: white; border: 0; padding: 8px 16px;
+  border-radius: 6px; font-family: var(--sans); font-size: 13px;
+  font-weight: 600; cursor: pointer; transition: filter 200ms var(--ease);
+}
 .btn-danger:hover { filter: brightness(1.1); }
-.cmd-help { font-size: 11px; color: var(--ink-3); margin-top: 10px; line-height: 1.5; }
+.cmd-help { font-size: 11px; color: var(--ink-3); margin-top: 12px; line-height: 1.5; }
 .cmd-help a { color: var(--accent); text-decoration: none; }
 .cmd-help a:hover { text-decoration: underline; }
+
+/* Footer */
+footer.site-footer {
+  padding: 48px 0 64px; color: var(--ink-3); font-size: 13px;
+  text-align: center; border-top: 1px solid var(--rule); margin-top: 56px;
+}
+footer.site-footer a { color: var(--accent); text-decoration: none; }
+footer.site-footer a:hover { text-decoration: underline; }
+footer.site-footer .brand { font-family: var(--serif); font-weight: 500; }
 </style>
 </head>
 <body>
+<nav class="topnav">
+  <div class="wrap">
+    <a class="brand" href="/">Ensemble</a>
+    <ul>
+      <li><a class="active" href="/">Home</a></li>
+      <li><a class="" href="/projects.html">Projects</a></li>
+      <li><a class="" href="/commands.html">Commands</a></li>
+      <li><a class="" href="/settings.html">Settings</a></li>
+      <li><a class="" href="/docs.html">Docs</a></li>
+    </ul>
+    <span class="nav-status" id="nav-status">…</span>
+  </div>
+</nav>
 
-<div class="wrap back-bar">
-  <a href="./projects.html">← Projects</a>
-  <span style="color: var(--ink-4)">·</span>
-  <a href="./">Home</a>
-  <span style="color: var(--ink-4)">·</span>
-  <a href="https://github.com/KiwiMaddog2020/claude-ensemble">GitHub</a>
-</div>
-
-<!-- Smoke-test banner — appears only when a project has pending_smoke_test=true -->
-<div id="smoke-banner" style="display:none; background: color-mix(in srgb, #c2711f 8%, var(--bg)); border-bottom: 2px solid var(--accent); padding: 18px 0;">
-  <div class="wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+<div id="smoke-banner">
+  <div class="wrap">
     <div>
-      <strong style="color: var(--accent); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em;">Smoke test required</strong>
-      <p id="smoke-banner-text" style="margin: 4px 0 0; font-size: 14px; color: var(--ink-2);">…</p>
+      <strong>Smoke test required</strong>
+      <p id="smoke-banner-text">…</p>
     </div>
-    <div class="cmd-row" style="flex: 0 0 auto;">
+    <div class="cmd-row">
       <button class="btn-primary" onclick="smokeResult('pass')">Pass</button>
       <button class="btn-secondary" onclick="smokeResult('issues')">Issues</button>
       <button class="btn-danger" onclick="smokeResult('fail')">Fail</button>
     </div>
   </div>
 </div>
-
 <header class="hero">
   <div class="wrap">
-    <p class="hero-eyebrow">Ensemble · Home</p>
-    <h1>Command, control, <em>everything.</em></h1>
-    <p class="lead">Settings across all pages. Quick commands, fired remotely. Live project status. Documentation links. One page.</p>
+    <p class="eyebrow">Welcome back</p>
+    <h1>Your <em>orchestra.</em></h1>
+    <p class="lead">Conduct projects, fire autopilot, tune settings — every part of the Ensemble, one click away.</p>
     <div class="meta">
-      <span><span class="dot"></span> <span id="status-mode">loading…</span></span>
-      <span><span id="status-cap">— autopilots</span></span>
-      <span>v2.0 · auto-refreshes 3× daily</span>
+      <span><span class="dot"></span> v2.0 · 7 projects · 6 auto-test</span>
+      <span id="hero-status">loading…</span>
     </div>
   </div>
 </header>
 
-<!-- ─── Settings panel ─── -->
-<section id="settings">
-  <div class="wrap">
-    <h2>Settings</h2>
-    <p class="section-sub">Global state.json toggles. Changes via the local control panel. Bearer token required.</p>
-    <div class="settings-grid">
-      <label class="setting"><span class="setting-name">Mode</span>
-        <select id="cfg-mode" data-field="mode">
-          <option value="orchestrated">Orchestrated</option>
-          <option value="direct">Direct</option>
-        </select>
-      </label>
-      <label class="setting"><span class="setting-name">Max concurrent autopilots</span>
-        <input type="number" id="cfg-cap" data-field="max_concurrent_autopilots" min="1" max="16" />
-      </label>
-      <label class="setting toggle">
-        <span class="setting-name">Rapid-fire</span>
-        <input type="checkbox" id="cfg-rapidfire" data-field="rapid_fire_enabled" />
-      </label>
-      <label class="setting toggle">
-        <span class="setting-name">Caffeinate during autopilot</span>
-        <input type="checkbox" id="cfg-caffeinate" data-field="caffeinate_during_autopilot" />
-      </label>
-      <label class="setting toggle">
-        <span class="setting-name">Network pre-flight</span>
-        <input type="checkbox" id="cfg-network" data-field="require_network_check" />
-      </label>
-      <label class="setting toggle">
-        <span class="setting-name">Require AC power</span>
-        <input type="checkbox" id="cfg-acpower" data-field="require_ac_power" />
-      </label>
-      <label class="setting toggle">
-        <span class="setting-name">Resource floor</span>
-        <input type="checkbox" id="cfg-floor" data-field="resource_floor_enabled" />
-      </label>
-      <label class="setting toggle">
-        <span class="setting-name">Mid-run watchdog</span>
-        <input type="checkbox" id="cfg-watchdog" data-field="resource_watchdog_enabled" />
-      </label>
-      <label class="setting"><span class="setting-name">Min free disk (GB)</span>
-        <input type="number" id="cfg-disk" data-field="min_free_disk_gb" min="0" max="200" />
-      </label>
-    </div>
-    <p class="settings-help" id="settings-help">Connecting to control panel…</p>
-  </div>
-</section>
-
-<!-- ─── Command Center ─── -->
-<section id="commands">
-  <div class="wrap">
-    <h2>Command center</h2>
-    <p class="section-sub">Fire from anywhere via Tailscale. All commands run via the local control panel.</p>
-    <div class="commands-grid">
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Select project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Three-layer mutex applies: per-project lock + cap + opt-in resource floor.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Select project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires for major transitions. <a href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/CHEATSHEET.md">Cheat sheet</a>.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh state</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down routine fires hourly; activates 2-12h before reset.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section>
   <div class="wrap">
-    <h2>Getting started</h2>
-    <p class="section-sub">From zero to a working Ensemble.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/INSTALL.md">
-        <span class="ico">⚙︎</span>
-        <h3>Install guide</h3>
-        <p>Marketplace path + manual fallback. macOS / Linux / Windows. Hooks, settings.json, state.json seed.</p>
-        <span class="tag">docs/INSTALL.md</span>
+    <div class="tiles">
+
+      <a class="tile" href="/projects.html">
+        <span class="glyph">◐</span>
+        <h3>Projects</h3>
+        <p class="tile-sub">Roster, completion, state pills, per-project pages.</p>
+        <p class="tile-stat">7 projects · 5 need attention</p>
+        <span class="arrow">→</span>
       </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble#readme">
-        <span class="ico">✪</span>
-        <h3>Top-level README</h3>
-        <p>Repo landing page. Core concepts, what’s new in v2.0, repo layout.</p>
-        <span class="tag">README.md</span>
+
+      <a class="tile" href="/commands.html">
+        <span class="glyph">⚡</span>
+        <h3>Commands</h3>
+        <p class="tile-sub">Fire autopilot, set project state, kill switch, token cycle.</p>
+        <p class="tile-stat" id="commands-stat">— autopilots running</p>
+        <span class="arrow">→</span>
       </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/README.md">
-        <span class="ico">◆</span>
-        <h3>Plugin README</h3>
-        <p>Marketplace listing display. Cast, safety design, slash commands, optional extensions.</p>
-        <span class="tag">plugins/ensemble/README.md</span>
+
+      <a class="tile" href="/settings.html">
+        <span class="glyph">⚙</span>
+        <h3>Settings</h3>
+        <p class="tile-sub">Mode, concurrency cap, hardening flags, rapid-fire.</p>
+        <p class="tile-stat" id="settings-stat">9 preferences</p>
+        <span class="arrow">→</span>
       </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/integrations/swiftbar/README.md">
-        <span class="ico">☕</span>
-        <h3>SwiftBar setup</h3>
-        <p>One-shot installer for the Mac menu bar indicator. Live autopilot count + Stop All button.</p>
-        <span class="tag">integrations/swiftbar/</span>
+
+      <a class="tile" href="/docs.html">
+        <span class="glyph">☰</span>
+        <h3>Documentation</h3>
+        <p class="tile-sub">Setup, cheat sheet, troubleshooting, design docs, repos.</p>
+        <p class="tile-stat">6 sections</p>
+        <span class="arrow">→</span>
       </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/MOBILE_DISPATCH.md">
-        <span class="ico">↗</span>
-        <h3>Mobile dispatch</h3>
-        <p>Termius + Tailscale SSH path. Tap a snippet on your phone, fire autopilot at home.</p>
-        <span class="tag">MOBILE_DISPATCH.md</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/PHONE_QUICKSTART.md">
-        <span class="ico">☎</span>
-        <h3>Phone quickstart</h3>
-        <p>2-minute ergonomic walkthrough: Tailscale install, SSH key, Termius shortcut, push notifications.</p>
-        <span class="tag">PHONE_QUICKSTART.md</span>
-      </a>
+
     </div>
   </div>
 </section>
-
-<section>
-  <div class="wrap">
-    <h2>Daily reference</h2>
-    <p class="section-sub">Open this when you need a signal phrase, a path, or a recovery step.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/CHEATSHEET.md">
-        <span class="ico">☛</span>
-        <h3>Cheat sheet</h3>
-        <p>Signal phrases, key files, common play-button commands, mode quick-reference.</p>
-        <span class="tag">CHEATSHEET.md</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/TROUBLESHOOTING.md">
-        <span class="ico">⚠</span>
-        <h3>Troubleshooting</h3>
-        <p>23 failure modes with diagnostic + recovery. Lock conflicts, cap-hit, corruption, network, version.</p>
-        <span class="tag">TROUBLESHOOTING.md</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/CHANGELOG.md">
-        <span class="ico">⏱</span>
-        <h3>Changelog</h3>
-        <p>Release history. v2.0 contract sweep, Tier 1/2/3 hardening, three-layer mutex, SwiftBar.</p>
-        <span class="tag">CHANGELOG.md</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/MISSION_ROADMAP.md">
-        <span class="ico">●</span>
-        <h3>Mission roadmap</h3>
-        <p>Phase 0 gap-closure ledger. What’s shipped, what’s deferred, the pitch claims.</p>
-        <span class="tag">docs/MISSION_ROADMAP.md</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/HEALTH.md">
-        <span class="ico">♥</span>
-        <h3>Health snapshot</h3>
-        <p>Auto-regenerated weekly. Runtime mode, mutex layer, lock state, chats roster, self-test.</p>
-        <span class="tag">docs/HEALTH.md</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/SESSION_HANDOFF.md">
-        <span class="ico">↗</span>
-        <h3>Session handoff</h3>
-        <p>Resume context for the next chat. Active queue, deferred items, recent landings.</p>
-        <span class="tag">docs/SESSION_HANDOFF.md</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Live tools</h2>
-    <p class="section-sub">Public, browsable, click-through.</p>
-    <div class="cards">
-      <a class="card" href="./">
-        <span class="ico">⧁</span>
-        <h3>Project dashboard</h3>
-        <p>Live cross-project completion roster. Six-state pills. PWA-installable to phone home screen.</p>
-        <span class="tag">this site</span>
-      </a>
-      <a class="card" href="https://kiwimaddog2020.github.io/ensemble-phone/">
-        <span class="ico">☎</span>
-        <h3>Phone cheat sheet</h3>
-        <p>Beautiful single-page reference for Termius+Tailscale dispatch. Mobile-optimized.</p>
-        <span class="tag">ensemble-phone</span>
-      </a>
-      <a class="card" href="https://kiwimaddog2020.github.io/ensemble-desktop/">
-        <span class="ico">▢</span>
-        <h3>Desktop cheat sheet</h3>
-        <p>Desktop-sized sister of the phone sheet. For laptop/desk reference.</p>
-        <span class="tag">ensemble-desktop</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Architecture &amp; design</h2>
-    <p class="section-sub">Deep-dive into how the system is built and why.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/GRAND_PLAN.md">
-        <span class="ico">✎</span>
-        <h3>Grand plan</h3>
-        <p>Strategic context. Phase ladder (0→1→2→3), 4-tier cognition, founding principles.</p>
-        <span class="tag">docs/GRAND_PLAN.md</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/AUTOPILOT_DESIGN.md">
-        <span class="ico">◈</span>
-        <h3>Autopilot design</h3>
-        <p>Pipeline, lock semantics, the Plan→Code→Test→Fix→Wrap loop, hard ceilings.</p>
-        <span class="tag">docs/AUTOPILOT_DESIGN.md</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/ONBOARDING_DESIGN.md">
-        <span class="ico">→</span>
-        <h3>Onboarding design</h3>
-        <p>How new chats become Agents. Discovery, adaptive interview, charter scaffolding.</p>
-        <span class="tag">docs/ONBOARDING_DESIGN.md</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/CONTROL_PANEL_PLAN.md">
-        <span class="ico">◦</span>
-        <h3>Control panel</h3>
-        <p>Mac-local Python server, Bearer auth, embedded chat, fire/kill/state endpoints.</p>
-        <span class="tag">docs/CONTROL_PANEL_PLAN.md</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/PLUGIN_REFACTOR.md">
-        <span class="ico">◇</span>
-        <h3>Plugin refactor</h3>
-        <p>Self-hosted bundle to Claude Code plugin. Env vars, hooks, marketplace shape.</p>
-        <span class="tag">docs/PLUGIN_REFACTOR.md</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/OPUS_OPTIMIZATION.md">
-        <span class="ico">✱</span>
-        <h3>Opus 4.7 discipline</h3>
-        <p>Seven rules for Opus 4.7 work. Explicit prompts, parallel tools, durable state.</p>
-        <span class="tag">docs/OPUS_OPTIMIZATION.md</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Marketing pages</h2>
-    <p class="section-sub">For sharing the pitch publicly.</p>
-    <div class="cards two">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/public/index.html">
-        <span class="ico">♦</span>
-        <h3>One-pager</h3>
-        <p>Marketing landing page. Apple-grade typography, problem statement, feature grid, trust by design.</p>
-        <span class="tag">public/index.html</span>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/public/dossier.html">
-        <span class="ico">✯</span>
-        <h3>Technical dossier</h3>
-        <p>Methodology deep-dive. Three-layer mutex, six-state lifecycle, smart handoff, kill-switch cascade.</p>
-        <span class="tag">public/dossier.html</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Repositories</h2>
-    <p class="section-sub">Six repos make up the Ensemble.</p>
-    <div class="cards repos">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble">
-        <h3>claude-ensemble</h3>
-        <p>Canonical source. Plugin, templates, hooks, scripts, integrations.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-config">
-        <h3>ensemble-config</h3>
-        <p>Cross-machine sync. bin-mac/ ↔ bin-win/ PowerShell parity.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-dashboard">
-        <h3>ensemble-dashboard</h3>
-        <p>Live PWA dashboard. Auto-regenerated 3× daily.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/website-agent-starter">
-        <h3>website-agent-starter</h3>
-        <p>Friend-shareable bootstrap. Lifecycle-aware website-agent.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-phone">
-        <h3>ensemble-phone</h3>
-        <p>Phone cheat sheet HTML.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-desktop">
-        <h3>ensemble-desktop</h3>
-        <p>Desktop cheat sheet HTML.</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p><strong>Ensemble</strong> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
-  <p style="opacity: 0.6; margin-top: 8px;">Auto-generated by the Dashboard Update routine. v2.0.</p>
-</footer>
 
 <script>
-// Hub control script — talks to the local control-panel-server.
-// Server is Mac-local on port 8080, reachable via Tailscale on the user's mesh.
-// Bearer token stored in localStorage.DASHBOARD_TOKEN (set once via the Mac).
-
+function refreshPageState(state) {
+  if (!state) return;
+  const cmd = document.getElementById("commands-stat");
+  const hero = document.getElementById("hero-status");
+  if (cmd) cmd.textContent = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " autopilots running";
+  if (hero) hero.textContent = "mode: " + (state.mode || "?") + " · " + (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " active";
+}
+</script>
+<footer class="site-footer">
+  <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
+  <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>
+</footer>
+<script>
 const SERVER_URL = (function() {
   const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
   if (stored) return stored;
-  // Default: local Mac hostname or Tailscale IP. User configures once.
   return location.hostname === "localhost" || location.hostname === "127.0.0.1"
     ? "http://localhost:8080"
-    : "";  // empty = no server reachable; the page degrades to read-only docs
+    : "";
 })();
 
 function authHeaders() {
@@ -488,74 +397,64 @@ async function fetchState() {
 }
 
 async function setConfig(field, value) {
-  if (!SERVER_URL) return showHelp("settings-help", "No server URL set. Run on Mac or set ENSEMBLE_SERVER_URL in localStorage.");
+  if (!SERVER_URL) return showHelp("settings-help", "No server URL set.");
   try {
     const r = await fetch(SERVER_URL + "/set-config", {
       method: "POST", headers: authHeaders(),
       body: JSON.stringify({ field, value })
     });
     const j = await r.json();
-    if (r.ok) {
-      showHelp("settings-help", "✓ " + field + " = " + JSON.stringify(value));
-    } else {
-      showHelp("settings-help", "✗ " + (j.error || r.statusText));
-    }
-  } catch (e) {
-    showHelp("settings-help", "✗ network error: " + e.message);
-  }
+    showHelp("settings-help", r.ok ? ("✓ " + field + " = " + JSON.stringify(value)) : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("settings-help", "✗ network error: " + e.message); }
 }
 
-function showHelp(id, msg) {
-  const el = document.getElementById(id);
-  if (el) { el.textContent = msg; }
+function showHelp(id, msg) { const el = document.getElementById(id); if (el) el.textContent = msg; }
+
+function updateNavStatus(state) {
+  const el = document.getElementById("nav-status");
+  if (!el) return;
+  if (!state) { el.textContent = "offline"; return; }
+  el.textContent = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " · " + (state.mode || "?");
 }
+
+function updateSmokeBanner(state) {
+  const banner = document.getElementById("smoke-banner");
+  const text = document.getElementById("smoke-banner-text");
+  if (!banner || !text || !state || !state.projects) { if (banner) banner.style.display = "none"; return; }
+  const pending = state.projects.find(p => p.pending_smoke_test);
+  if (!pending) { banner.style.display = "none"; window._pendingSmokeSlug = null; return; }
+  window._pendingSmokeSlug = pending.slug;
+  text.textContent = pending.slug + " → " + (pending.pending_smoke_test_target || "?") + " — pending verification. Run the smoke test, then click Pass / Issues / Fail.";
+  banner.style.display = "block";
+}
+
+async function smokeResult(result) {
+  if (!window._pendingSmokeSlug) return;
+  const notes = result === "pass" ? "" : prompt("Notes?", "") || "";
+  try {
+    const r = await fetch(SERVER_URL + "/smoke-test-result", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ slug: window._pendingSmokeSlug, result, notes })
+    });
+    const j = await r.json();
+    alert(r.ok ? ("Smoke test " + result + " recorded for " + window._pendingSmokeSlug + (j.state ? ". State now: " + j.state : ".")) : ("Error: " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { alert("Network error: " + e.message); }
+}
+
+let _ALL_STATE = null;
 
 async function refreshState() {
   const state = await fetchState();
-  const modeEl = document.getElementById("status-mode");
-  const capEl  = document.getElementById("status-cap");
-  if (!state) {
-    if (modeEl) modeEl.textContent = "control panel offline";
-    showHelp("settings-help", "Control panel offline. Set ENSEMBLE_SERVER_URL + DASHBOARD_TOKEN in localStorage to enable remote control.");
-    return;
-  }
-  // Top status
-  if (modeEl) modeEl.textContent = "mode: " + (state.mode || "unknown");
-  if (capEl)  capEl.textContent  = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " autopilots";
-
-  // Settings inputs
-  const set = (id, val) => { const el = document.getElementById(id); if (el) {
-    if (el.type === "checkbox") el.checked = !!val;
-    else el.value = val == null ? "" : val;
-  }};
-  set("cfg-mode", state.mode);
-  set("cfg-cap", state.max_concurrent_autopilots);
-  set("cfg-rapidfire", state.rapid_fire_enabled);
-  set("cfg-caffeinate", state.caffeinate_during_autopilot);
-  set("cfg-network", state.require_network_check);
-  set("cfg-acpower", state.require_ac_power);
-  set("cfg-floor", state.resource_floor_enabled);
-  set("cfg-watchdog", state.resource_watchdog_enabled);
-  set("cfg-disk", state.min_free_disk_gb);
-
-  // Project selectors
-  const slugs = (state.roster || []).map(r => r.slug);
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    slugs.forEach(s => { const o = document.createElement("option"); o.value = s; o.textContent = s; el.appendChild(o); });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  showHelp("settings-help", "✓ connected · last sync " + new Date().toLocaleTimeString());
+  _ALL_STATE = state;
+  updateNavStatus(state);
+  updateSmokeBanner(state);
+  if (typeof refreshPageState === "function") refreshPageState(state);
 }
 
-// Wire all settings inputs to setConfig on change
 document.addEventListener("DOMContentLoaded", () => {
+  refreshState();
+  setInterval(refreshState, 60000);
   document.querySelectorAll("[data-field]").forEach(el => {
     el.addEventListener("change", () => {
       const field = el.dataset.field;
@@ -566,21 +465,15 @@ document.addEventListener("DOMContentLoaded", () => {
       setConfig(field, value);
     });
   });
-
-  refreshState();
-  // Refresh every 60 seconds
-  setInterval(refreshState, 60000);
 });
 
+// Page-specific hooks (defined inline by each page if needed)
 async function fireAutopilot() {
   const slug = document.getElementById("fire-slug").value;
   const minutes = parseInt(document.getElementById("fire-mins").value, 10);
-  if (!slug || !minutes) { showHelp("fire-help", "Pick a project + minutes"); return; }
+  if (!slug || !minutes) return showHelp("fire-help", "Pick project + minutes");
   try {
-    const r = await fetch(SERVER_URL + "/fire", {
-      method: "POST", headers: authHeaders(),
-      body: JSON.stringify({ slug, minutes, prompt: "" })
-    });
+    const r = await fetch(SERVER_URL + "/fire", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, minutes, prompt: "" }) });
     const j = await r.json();
     showHelp("fire-help", r.ok ? ("✓ fired " + slug + " for " + minutes + "m (exit " + j.exit + ")") : ("✗ " + (j.error || r.statusText)));
   } catch (e) { showHelp("fire-help", "✗ " + e.message); }
@@ -589,72 +482,22 @@ async function fireAutopilot() {
 async function setProjectState() {
   const slug = document.getElementById("state-slug").value;
   const state = document.getElementById("state-target").value;
-  if (!slug || !state) { showHelp("state-help", "Pick project + state"); return; }
+  if (!slug || !state) return showHelp("state-help", "Pick project + state");
   try {
-    let r = await fetch(SERVER_URL + "/set-state", {
-      method: "POST", headers: authHeaders(),
-      body: JSON.stringify({ slug, state })
-    });
+    let r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state }) });
     let j = await r.json();
     if (r.status === 409 && j.error === "smoke_test_required") {
-      const ok = confirm(
-        "Checkpoint " + j.checkpoint + " smoke test required: " + j.current_state + " → " + j.target_state + "." +
-        "
-
-The state change is HELD. Run the smoke-test checklist (phase_smoke_tests.md), then come back here to confirm pass/fail/issues via the banner that just appeared at the top of the page." +
-        "
-
-Force-skip the smoke test? Only do this if you've already tested or it's an emergency override (logged)."
-      );
+      const ok = confirm("Checkpoint " + j.checkpoint + " smoke test required: " + j.current_state + " → " + j.target_state + ".\n\nState held. Run the test, then use the banner above.\n\nForce-skip the smoke test?");
       if (ok) {
-        // Force override
-        r = await fetch(SERVER_URL + "/set-state", {
-          method: "POST", headers: authHeaders(),
-          body: JSON.stringify({ slug, state, force: true })
-        });
+        r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state, force: true }) });
         j = await r.json();
         showHelp("state-help", r.ok ? ("⚠ " + slug + " → " + state + " (forced; logged)") : ("✗ " + (j.error || r.statusText)));
-      } else {
-        showHelp("state-help", "Smoke test held. Banner above shows pending checkpoint.");
-      }
-      setTimeout(refreshState, 500);
-      return;
+      } else { showHelp("state-help", "Smoke test held. See banner above."); }
+      setTimeout(refreshState, 500); return;
     }
     showHelp("state-help", r.ok ? ("✓ " + slug + " → " + state) : ("✗ " + (j.error || r.statusText)));
     setTimeout(refreshState, 500);
   } catch (e) { showHelp("state-help", "✗ " + e.message); }
-}
-
-// Smoke-test confirmation from the banner
-let _pendingSmokeSlug = null;
-async function smokeResult(result) {
-  if (!_pendingSmokeSlug) { return; }
-  const notes = result === "pass" ? "" : prompt("Notes (what failed/what's broken)?", "") || "";
-  try {
-    const r = await fetch(SERVER_URL + "/smoke-test-result", {
-      method: "POST", headers: authHeaders(),
-      body: JSON.stringify({ slug: _pendingSmokeSlug, result, notes })
-    });
-    const j = await r.json();
-    if (r.ok) {
-      alert("Smoke test " + result + " recorded for " + _pendingSmokeSlug + (j.state ? ". State now: " + j.state : "."));
-    } else {
-      alert("Error: " + (j.error || r.statusText));
-    }
-    setTimeout(refreshState, 500);
-  } catch (e) { alert("Network error: " + e.message); }
-}
-
-// Update banner based on roster
-function updateSmokeBanner(state) {
-  const banner = document.getElementById("smoke-banner");
-  const text = document.getElementById("smoke-banner-text");
-  if (!banner || !text || !state || !state.projects) { if (banner) banner.style.display = "none"; return; }
-  const pending = state.projects.find(p => p.pending_smoke_test);
-  if (!pending) { banner.style.display = "none"; _pendingSmokeSlug = null; return; }
-  _pendingSmokeSlug = pending.slug;
-  text.textContent = pending.slug + " → " + (pending.pending_smoke_test_target || "?") + " — pending verification. Run the smoke test, then click Pass / Issues / Fail.";
-  banner.style.display = "block";
 }
 
 async function killAll() {
@@ -668,57 +511,16 @@ async function killAll() {
 }
 
 async function setTokenReset() {
-  const v = document.getElementById("reset-input").value;
-  if (!v) { showHelp("reset-help", "Pick a date/time."); return; }
-  // Convert datetime-local (no tz) to ISO with local TZ offset
-  const d = new Date(v);
-  const iso = d.toISOString();
+  const v = document.getElementById("reset-input")?.value;
+  if (!v) return showHelp("reset-help", "Pick a date/time.");
+  const iso = new Date(v).toISOString();
   try {
-    const r = await fetch(SERVER_URL + "/set-config", {
-      method: "POST", headers: authHeaders(),
-      body: JSON.stringify({ field: "weekly_token_reset_at", value: iso })
-    });
+    const r = await fetch(SERVER_URL + "/set-config", { method: "POST", headers: authHeaders(), body: JSON.stringify({ field: "weekly_token_reset_at", value: iso }) });
     const j = await r.json();
     showHelp("reset-help", r.ok ? ("✓ reset set to " + iso) : ("✗ " + (j.error || r.statusText)));
     setTimeout(refreshState, 500);
   } catch (e) { showHelp("reset-help", "✗ " + e.message); }
 }
-
-// Hydrate reset countdown on every refresh
-function updateResetStatus(state) {
-  const el = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!el) return;
-  if (!state || !state.weekly_token_reset_at) {
-    el.textContent = "No reset time set yet.";
-    return;
-  }
-  const reset = new Date(state.weekly_token_reset_at);
-  const now = new Date();
-  const deltaMs = reset - now;
-  const h = Math.floor(deltaMs / 3600000);
-  let posture = "(no-op)";
-  if (deltaMs < 0) posture = "(reset passed; routine will roll forward)";
-  else if (h < 2) posture = "(<2h: standing down)";
-  else if (h <= 12) posture = "(burn-down active)";
-  el.textContent = "Reset in " + h + "h " + posture;
-  if (inputEl && !inputEl.value) {
-    // Pre-fill the input with the current reset time (local time)
-    const local = new Date(state.weekly_token_reset_at);
-    const pad = n => String(n).padStart(2, "0");
-    inputEl.value = local.getFullYear() + "-" + pad(local.getMonth() + 1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-  }
-}
-
-// Hook updateResetStatus + updateSmokeBanner into refreshState
-const _origRefreshState = refreshState;
-refreshState = async function() {
-  await _origRefreshState();
-  const state = await fetchState();
-  updateResetStatus(state);
-  updateSmokeBanner(state);
-};
 </script>
-
 </body>
 </html>

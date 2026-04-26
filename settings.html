@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Docs</title>
-<meta name="description" content="Ensemble documentation hub — setup, reference, design." />
+<title>Ensemble — Settings</title>
+<meta name="description" content="Global preferences for the Ensemble." />
 <link rel="manifest" href="/manifest.json" />
 <link rel="icon" type="image/svg+xml" href="/icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -287,8 +287,8 @@ footer.site-footer .brand { font-family: var(--serif); font-weight: 500; }
       <li><a class="" href="/">Home</a></li>
       <li><a class="" href="/projects.html">Projects</a></li>
       <li><a class="" href="/commands.html">Commands</a></li>
-      <li><a class="" href="/settings.html">Settings</a></li>
-      <li><a class="active" href="/docs.html">Docs</a></li>
+      <li><a class="active" href="/settings.html">Settings</a></li>
+      <li><a class="" href="/docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -309,142 +309,74 @@ footer.site-footer .brand { font-family: var(--serif); font-weight: 500; }
 </div>
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow">Documentation</p>
-    <h1>Everything <em>Ensemble.</em></h1>
-    <p class="lead">Setup, daily reference, design docs, live tools, repositories.</p>
+    <p class="eyebrow">Settings</p>
+    <h1>Tune the <em>orchestra.</em></h1>
+    <p class="lead">Global preferences. Changes flow to the local control panel and persist in state.json.</p>
   </div>
 </header>
 
 <section>
   <div class="wrap">
-    <h2>Getting started</h2>
-    <p class="section-sub">From zero to a working Ensemble.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/INSTALL.md">
-        <span class="ico">⚙︎</span><h3>Install guide</h3>
-        <p>Marketplace + manual install. macOS / Linux / Windows.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble#readme">
-        <span class="ico">✪</span><h3>Top-level README</h3>
-        <p>Repo landing page. Core concepts, what's new in v2.0.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/README.md">
-        <span class="ico">◆</span><h3>Plugin README</h3>
-        <p>Marketplace listing. Cast, safety, slash commands.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/integrations/swiftbar/README.md">
-        <span class="ico">☕</span><h3>SwiftBar setup</h3>
-        <p>Mac menu bar indicator. One-shot installer.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/integrations/cloudflare-access/README.md">
-        <span class="ico">🔒</span><h3>Cloudflare Access</h3>
-        <p>Auth-gate the public PWA + HTML sites. ~30 min setup.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/MOBILE_DISPATCH.md">
-        <span class="ico">↗</span><h3>Mobile dispatch</h3>
-        <p>Termius + Tailscale. Phone-fired autopilot.</p>
-      </a>
+    <h2>Runtime</h2>
+    <p class="section-sub">Mode, concurrency, hardening flags.</p>
+    <div class="settings-grid">
+      <label class="setting"><span class="setting-name">Mode</span>
+        <select id="cfg-mode" data-field="mode">
+          <option value="orchestrated">Orchestrated</option>
+          <option value="direct">Direct</option>
+        </select>
+      </label>
+      <label class="setting"><span class="setting-name">Max concurrent autopilots</span>
+        <input type="number" id="cfg-cap" data-field="max_concurrent_autopilots" min="1" max="16" />
+      </label>
+      <label class="setting toggle"><span class="setting-name">Rapid-fire</span>
+        <input type="checkbox" id="cfg-rapidfire" data-field="rapid_fire_enabled" />
+      </label>
+      <label class="setting toggle"><span class="setting-name">Caffeinate during autopilot</span>
+        <input type="checkbox" id="cfg-caffeinate" data-field="caffeinate_during_autopilot" />
+      </label>
+      <label class="setting toggle"><span class="setting-name">Network pre-flight</span>
+        <input type="checkbox" id="cfg-network" data-field="require_network_check" />
+      </label>
+      <label class="setting toggle"><span class="setting-name">Require AC power</span>
+        <input type="checkbox" id="cfg-acpower" data-field="require_ac_power" />
+      </label>
+      <label class="setting toggle"><span class="setting-name">Resource floor</span>
+        <input type="checkbox" id="cfg-floor" data-field="resource_floor_enabled" />
+      </label>
+      <label class="setting toggle"><span class="setting-name">Mid-run watchdog</span>
+        <input type="checkbox" id="cfg-watchdog" data-field="resource_watchdog_enabled" />
+      </label>
+      <label class="setting"><span class="setting-name">Min free disk (GB)</span>
+        <input type="number" id="cfg-disk" data-field="min_free_disk_gb" min="0" max="200" />
+      </label>
     </div>
+    <p class="settings-help" id="settings-help">Connecting to control panel…</p>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <h2>Daily reference</h2>
-    <p class="section-sub">Open this when you need a signal phrase or recovery step.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/CHEATSHEET.md">
-        <span class="ico">☛</span><h3>Cheat sheet</h3>
-        <p>Signal phrases, key files, common commands.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/plugins/ensemble/TROUBLESHOOTING.md">
-        <span class="ico">⚠</span><h3>Troubleshooting</h3>
-        <p>23 failure modes with diagnostic + recovery.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/CHANGELOG.md">
-        <span class="ico">⏱</span><h3>Changelog</h3>
-        <p>Release history. v2.0 contract sweep + v2.0.x.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/MISSION_ROADMAP.md">
-        <span class="ico">●</span><h3>Mission roadmap</h3>
-        <p>Phase 0 closure ledger. Pitch claims and gaps.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/HEALTH.md">
-        <span class="ico">♥</span><h3>Health snapshot</h3>
-        <p>Auto-regenerated weekly. Runtime, lock, chats.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/SESSION_HANDOFF.md">
-        <span class="ico">↗</span><h3>Session handoff</h3>
-        <p>Resume context for the next chat.</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Architecture &amp; design</h2>
-    <p class="section-sub">Deep-dive into how the system works.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/GRAND_PLAN.md">
-        <span class="ico">✎</span><h3>Grand plan</h3>
-        <p>Strategic context. Phase ladder, founding principles.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/AUTOPILOT_DESIGN.md">
-        <span class="ico">◈</span><h3>Autopilot design</h3>
-        <p>Pipeline, lock semantics, Plan→Code→Test→Fix→Wrap loop.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/ONBOARDING_DESIGN.md">
-        <span class="ico">→</span><h3>Onboarding design</h3>
-        <p>How chats become Agents. Adaptive interview.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/CONTROL_PANEL_PLAN.md">
-        <span class="ico">◦</span><h3>Control panel</h3>
-        <p>Mac-local Python server, Bearer auth, embedded chat.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/PLUGIN_REFACTOR.md">
-        <span class="ico">◇</span><h3>Plugin refactor</h3>
-        <p>Self-hosted bundle to Claude Code plugin shape.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/docs/OPUS_OPTIMIZATION.md">
-        <span class="ico">✱</span><h3>Opus 4.7 discipline</h3>
-        <p>Seven rules for Opus 4.7 work.</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Marketing pages</h2>
-    <p class="section-sub">For sharing the pitch.</p>
-    <div class="cards two">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/public/index.html">
-        <span class="ico">♦</span><h3>One-pager</h3>
-        <p>Marketing landing. Apple-grade typography, feature grid.</p>
-      </a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble/blob/main/public/dossier.html">
-        <span class="ico">✯</span><h3>Technical dossier</h3>
-        <p>Methodology deep-dive.</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Repositories</h2>
-    <p class="section-sub">Six repos make up the Ensemble.</p>
-    <div class="cards repos">
-      <a class="card" href="https://github.com/KiwiMaddog2020/claude-ensemble"><h3>claude-ensemble</h3><p>Canonical source.</p></a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-config"><h3>ensemble-config</h3><p>Cross-machine sync.</p></a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-dashboard"><h3>ensemble-dashboard</h3><p>This dashboard repo.</p></a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/website-agent-starter"><h3>website-agent-starter</h3><p>Friend-shareable bootstrap.</p></a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-phone"><h3>ensemble-phone</h3><p>Phone cheat sheet.</p></a>
-      <a class="card" href="https://github.com/KiwiMaddog2020/ensemble-desktop"><h3>ensemble-desktop</h3><p>Desktop cheat sheet.</p></a>
-    </div>
-  </div>
-</section>
+<script>
+function refreshPageState(state) {
+  if (!state) {
+    showHelp("settings-help", "Control panel offline. Set ENSEMBLE_SERVER_URL + DASHBOARD_TOKEN in localStorage.");
+    return;
+  }
+  const set = (id, val) => { const el = document.getElementById(id); if (el) {
+    if (el.type === "checkbox") el.checked = !!val;
+    else el.value = val == null ? "" : val;
+  }};
+  set("cfg-mode", state.mode);
+  set("cfg-cap", state.max_concurrent_autopilots);
+  set("cfg-rapidfire", state.rapid_fire_enabled);
+  set("cfg-caffeinate", state.caffeinate_during_autopilot);
+  set("cfg-network", state.require_network_check);
+  set("cfg-acpower", state.require_ac_power);
+  set("cfg-floor", state.resource_floor_enabled);
+  set("cfg-watchdog", state.resource_watchdog_enabled);
+  set("cfg-disk", state.min_free_disk_gb);
+  showHelp("settings-help", "✓ connected · last sync " + new Date().toLocaleTimeString());
+}
+</script>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>
