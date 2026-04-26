@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#faf7f2"/>
+  <defs>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#c2711f" stop-opacity=".25"/>
+      <stop offset="60%" stop-color="#c2711f" stop-opacity=".06"/>
+      <stop offset="100%" stop-color="#c2711f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="256" cy="256" r="220" fill="url(#halo)"/>
+  <circle cx="256" cy="256" r="240" fill="none" stroke="#a8a193" stroke-width="2" stroke-dasharray="4 8" opacity=".55"/>
+  <g fill="#ffffff" stroke="#6e6657" stroke-width="2.5">
+    <circle cx="256" cy="100" r="14"/>
+    <circle cx="391" cy="178" r="14"/>
+    <circle cx="391" cy="334" r="14"/>
+    <circle cx="256" cy="412" r="14"/>
+    <circle cx="121" cy="334" r="14"/>
+    <circle cx="121" cy="178" r="14"/>
+  </g>
+  <g stroke="#c2711f" stroke-width="2" opacity=".25">
+    <line x1="256" y1="256" x2="256" y2="100"/>
+    <line x1="256" y1="256" x2="391" y2="178"/>
+    <line x1="256" y1="256" x2="391" y2="334"/>
+    <line x1="256" y1="256" x2="256" y2="412"/>
+    <line x1="256" y1="256" x2="121" y2="334"/>
+    <line x1="256" y1="256" x2="121" y2="178"/>
+  </g>
+  <circle cx="256" cy="256" r="62" fill="#c2711f"/>
+  <text x="256" y="288" text-anchor="middle" font-family="EB Garamond, ui-serif, Georgia, serif"
+        font-style="italic" font-weight="500" font-size="76" fill="#3a1f04">E</text>
+</svg>

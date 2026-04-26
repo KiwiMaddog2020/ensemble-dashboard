@@ -1,0 +1,16 @@
+{
+  "name": "Ensemble",
+  "short_name": "Ensemble",
+  "description": "Multi-chat orchestration for Claude Code. One conductor, many performers.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#faf7f2",
+  "theme_color": "#c2711f",
+  "categories": ["productivity", "developer"],
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

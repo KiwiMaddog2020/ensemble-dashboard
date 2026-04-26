@@ -13,7 +13,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="./style.css" />
+<link rel="manifest" href="./manifest.json" />
+<link rel="apple-touch-icon" href="./icon.svg" />
+<link rel="icon" type="image/svg+xml" href="./icon.svg" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Ensemble" />
 <script src="./control.js" defer></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
+    });
+  }
+</script>
 </head>
 <body>
 <header class="hero">
@@ -22,7 +35,7 @@
     <div class="hero-left">
       <p class="eyebrow">Ensemble · Project Roster</p>
       <h1>What's <em>cooking.</em></h1>
-      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-26T00:02:41Z">just now</span> · refreshes every 15 min</p>
+      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-26T00:17:17Z">just now</span> · refreshes every 15 min</p>
     </div>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">7</span><span class="stat-label">Projects in motion</span></div>
@@ -146,7 +159,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-mode-active">Evolving</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 13h ago</span>
+    <span class="meta-hb">last seen 14h ago</span>
   </div>
 </a>
 <a class="card" href="./tool-builder.html" data-pct="22">
@@ -169,7 +182,7 @@
     <span class="pill pill-tier-virtuoso">Specialist</span>
     <span class="pill pill-mode-active">Evolving</span>
     <span class="pill pill-passive">supervised</span>
-    <span class="meta-hb">last seen 13h ago</span>
+    <span class="meta-hb">last seen 14h ago</span>
   </div>
 </a>
 <a class="card" href="./vera-nota.html" data-pct="55">
@@ -201,7 +214,7 @@
 <footer>
   <div class="wrap foot-inner">
     <p>Ensemble · Private preview</p>
-    <p>Generated <span class="rel-time" data-iso="2026-04-26T00:02:41Z">just now</span></p>
+    <p>Generated <span class="rel-time" data-iso="2026-04-26T00:17:17Z">just now</span></p>
   </div>
 </footer>
 <script>
