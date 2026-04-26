@@ -425,6 +425,24 @@ body.theme-aurora {
 
 <section data-owner-only>
   <div class="wrap">
+    <h2>Privacy</h2>
+    <p class="section-sub">Control what's visible on the public dashboard. Private projects are completely hidden from static output — direct URL access returns 404.</p>
+
+    <div class="setting" style="margin-bottom: 18px; max-width: 540px;">
+      <span class="setting-name">Follow GitHub repo visibility (auto)</span>
+      <input type="checkbox" id="cfg-followgh" data-field="follow_github_visibility" />
+    </div>
+    <p class="settings-help" style="margin: -10px 0 24px;">When ON, projects with <code>public_visibility=auto</code> follow the underlying GitHub repo's public/private status. When OFF, <code>auto</code> is treated as public until manually changed.</p>
+
+    <h3 style="font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--ink); margin: 0 0 12px;">Per-project visibility</h3>
+    <div id="privacy-list">
+      <p style="color: var(--ink-3); font-size: 13px;">Connecting to control panel to load project list…</p>
+    </div>
+  </div>
+</section>
+
+<section data-owner-only>
+  <div class="wrap">
     <h2>Runtime</h2>
     <p class="section-sub">Mode, concurrency, hardening flags.</p>
     <div class="settings-grid">
@@ -464,9 +482,56 @@ body.theme-aurora {
 </section>
 
 <script>
+async function setVisibility(slug, visibility) {
+  if (!SERVER_URL) return;
+  try {
+    const r = await fetch(SERVER_URL + "/set-visibility", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ slug, visibility })
+    });
+    const j = await r.json();
+    if (r.ok) {
+      const row = document.querySelector(`[data-privacy-slug="${slug}"]`);
+      if (row) row.querySelector(".privacy-status").textContent = "✓ " + visibility;
+      setTimeout(refreshState, 500);
+    } else {
+      alert("Error: " + (j.error || r.statusText));
+    }
+  } catch (e) { alert("Network error: " + e.message); }
+}
+
+function renderPrivacyList(state) {
+  const container = document.getElementById("privacy-list");
+  if (!container) return;
+  if (!state || !state.projects) {
+    container.innerHTML = '<p style="color: var(--ink-3); font-size: 13px;">Control panel offline. Privacy controls require owner access.</p>';
+    return;
+  }
+  if (!state.projects.length) {
+    container.innerHTML = '<p style="color: var(--ink-3); font-size: 13px;">No projects onboarded.</p>';
+    return;
+  }
+  const rows = state.projects.map(p => {
+    const v = p.public_visibility || "public";
+    const opts = ["public", "private", "auto"].map(o =>
+      `<option value="${o}"${o === v ? " selected" : ""}>${o[0].toUpperCase()+o.slice(1)}</option>`
+    ).join("");
+    return `<div data-privacy-slug="${p.slug}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:var(--bg-raised);border:1px solid var(--rule);border-radius:var(--radius-sm);margin-bottom:8px;">
+  <div style="flex:1;">
+    <span style="font-size:13px;font-weight:500;color:var(--ink);">${p.slug}</span>
+    <span style="margin-left:10px;font-family:var(--mono);font-size:11px;color:var(--ink-4);">${p.state || "?"} · ${p.completion_percent ?? "?"}%</span>
+  </div>
+  <select onchange="setVisibility('${p.slug}', this.value)" style="font-family:var(--mono);font-size:12px;padding:5px 8px;border:1px solid var(--rule);border-radius:6px;background:var(--bg);color:var(--ink);">${opts}</select>
+  <span class="privacy-status" style="font-family:var(--mono);font-size:11px;color:var(--ink-4);min-width:60px;text-align:right;">${v}</span>
+</div>`;
+  }).join("");
+  container.innerHTML = rows;
+}
+
 function refreshPageState(state) {
   if (!state) {
     showHelp("settings-help", "Control panel offline. Set ENSEMBLE_SERVER_URL + DASHBOARD_TOKEN in localStorage.");
+    renderPrivacyList(null);
     return;
   }
   const set = (id, val) => { const el = document.getElementById(id); if (el) {
@@ -482,6 +547,8 @@ function refreshPageState(state) {
   set("cfg-floor", state.resource_floor_enabled);
   set("cfg-watchdog", state.resource_watchdog_enabled);
   set("cfg-disk", state.min_free_disk_gb);
+  set("cfg-followgh", state.follow_github_visibility);
+  renderPrivacyList(state);
   showHelp("settings-help", "✓ connected · last sync " + new Date().toLocaleTimeString());
 }
 </script>
