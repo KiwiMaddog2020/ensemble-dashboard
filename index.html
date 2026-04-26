@@ -361,11 +361,18 @@ footer.site-footer .brand { font-family: var(--serif); font-weight: 500; }
 
 <script>
 function refreshPageState(state) {
-  if (!state) return;
   const cmd = document.getElementById("commands-stat");
   const hero = document.getElementById("hero-status");
+  const settingsStat = document.getElementById("settings-stat");
+  if (!state) {
+    if (hero) hero.textContent = "control panel offline · open from Mac to see live status";
+    if (cmd) cmd.textContent = "control panel offline";
+    if (settingsStat) settingsStat.textContent = "9 preferences · sync on connect";
+    return;
+  }
   if (cmd) cmd.textContent = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " autopilots running";
   if (hero) hero.textContent = "mode: " + (state.mode || "?") + " · " + (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " active";
+  if (settingsStat) settingsStat.textContent = "9 preferences";
 }
 </script>
 <footer class="site-footer">
