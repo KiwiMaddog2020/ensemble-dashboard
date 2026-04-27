@@ -92,9 +92,20 @@ body.theme-midnight { --bg: #f4f6fb; --bg-raised: #ffffff; --bg-sunken: #e8ecf5;
 body.theme-sage { --bg: #f6faf2; --bg-raised: #ffffff; --bg-sunken: #ecf2e3; --ink: #182410; --ink-2: #2d3d22; --ink-3: #5a704a; --ink-4: #9ab088; --rule: #d8e3c8; --rule-2: #e8efdc; --accent: #65a30d; --accent-2: #84cc16; --accent-3: #bef264; --accent-soft: rgba(101,163,13,0.10); }
 @media (prefers-color-scheme: dark) { body.theme-sage { --bg: #0a1505; --bg-raised: #131f0a; --bg-sunken: #050a02; --ink: #e0f0d0; --ink-2: #c0d8a8; --ink-3: #8aa870; --ink-4: #5a7048; --rule: #243018; --rule-2: #1a2410; --accent: #84cc16; --accent-2: #a3e635; --accent-3: #bef264; --accent-soft: rgba(132,204,22,0.14); } }
 
-/* ─── Documentation pages — Apple-grade prose ─────────────────────────── */
-.doc-page { padding: clamp(48px, 8vw, 80px) 0 clamp(48px, 6vw, 80px); }
-.doc-page .wrap { max-width: 800px; }
+/* ─── Documentation pages — onepager-grade editorial ─────────────────── */
+.doc-page { position: relative; padding: clamp(40px, 6vw, 64px) 0 clamp(72px, 9vw, 120px); }
+.doc-wrap { max-width: 760px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 40px); }
+
+.doc-progress {
+  position: fixed; top: 56px; left: 0; right: 0; height: 2px; z-index: 50;
+  background: transparent; pointer-events: none;
+}
+.doc-progress__bar {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 80ms linear;
+}
+
 .doc-back {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 13px; font-weight: 500; color: var(--ink-3);
@@ -103,28 +114,83 @@ body.theme-sage { --bg: #f6faf2; --bg-raised: #ffffff; --bg-sunken: #ecf2e3; --i
 }
 .doc-back:hover { color: var(--accent); }
 
+.doc-hero { margin: 0 0 clamp(48px, 6vw, 72px); }
+.doc-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--sans);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--accent);
+  margin: 0 0 18px;
+}
+.doc-eyebrow::before {
+  content: ""; width: 24px; height: 1px; background: var(--accent); display: inline-block;
+}
+.doc-title {
+  font-family: var(--serif); font-weight: 600;
+  font-size: clamp(40px, 6vw, 72px); line-height: 1.04; letter-spacing: -0.02em;
+  color: var(--ink); margin: 0 0 clamp(16px, 2vw, 24px);
+}
+.doc-title em { font-style: italic; font-weight: 500; color: var(--accent); }
+.doc-lead {
+  font-family: var(--serif);
+  font-size: clamp(19px, 2.4vw, 24px); line-height: 1.45;
+  color: var(--ink-2); margin: 0 0 clamp(20px, 2.5vw, 32px); max-width: 60ch;
+}
+.doc-meta {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-3);
+  margin: 0; display: inline-flex; align-items: center; gap: 8px;
+}
+.doc-meta code {
+  font-family: var(--mono); font-size: 12px; padding: 2px 8px;
+  background: var(--bg-sunken, var(--bg-elevated, var(--bg-raised)));
+  border: 1px solid var(--rule); border-radius: 5px; color: var(--ink-2);
+}
+.doc-meta .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  display: inline-block;
+}
+
+.doc-foot {
+  margin-top: clamp(64px, 8vw, 96px); padding-top: 32px;
+  border-top: 1px solid var(--rule);
+}
+
 .doc-content {
   font-family: var(--sans);
   color: var(--ink-2);
   line-height: 1.7;
-  font-size: 16px;
+  font-size: 17px;
 }
 .doc-content > *:first-child { margin-top: 0; }
 .doc-content > *:last-child { margin-bottom: 0; }
 
+/* Drop cap on the very first paragraph, onepager-style */
+.doc-content > p:first-of-type::first-letter {
+  font-family: var(--serif);
+  font-size: 4.4em; line-height: 0.85;
+  float: left; margin: 0.06em 0.1em -0.08em 0;
+  color: var(--accent); font-weight: 600;
+}
+
 .doc-content h1 {
   font-family: var(--serif);
-  font-size: clamp(40px, 6vw, 56px); line-height: 1.05; font-weight: 600;
+  font-size: clamp(36px, 5vw, 52px); line-height: 1.06; font-weight: 600;
   letter-spacing: -0.02em; color: var(--ink);
-  margin: 0 0 24px;
+  margin: 56px 0 20px;
 }
 .doc-content h1 em { font-style: italic; font-weight: 500; color: var(--accent); }
 .doc-content h2 {
   font-family: var(--serif);
   font-size: clamp(28px, 3.6vw, 36px); line-height: 1.15; font-weight: 500;
   letter-spacing: -0.01em; color: var(--ink);
-  margin: 56px 0 16px; padding-top: 8px;
+  margin: clamp(48px, 6vw, 72px) 0 16px; padding-top: 8px;
+  position: relative;
 }
+.doc-content h2::before {
+  content: ""; display: block; width: 32px; height: 2px; background: var(--accent);
+  margin-bottom: 16px; opacity: 0.85;
+}
+.doc-content h2 em { font-style: italic; font-weight: 500; color: var(--accent); }
 .doc-content h3 {
   font-family: var(--sans);
   font-size: 20px; font-weight: 600; letter-spacing: -0.005em;
