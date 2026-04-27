@@ -1234,11 +1234,11 @@ body.theme-sage {
       description: "Pick from 10 color themes. Choice persists per-device.",
       defaultSize: "2x1", sizes: ["2x1", "1x1"],
       render() {
-        const themes = [["warm","W"],["slate","S"],["mono","M"],["forest","F"],["aurora","A"],["rose","R"],["ocean","O"],["sunset","Su"],["midnight","Mi"],["sage","Sa"]];
+        const themes = ["warm","slate","mono","forest","aurora","rose","ocean","sunset","midnight","sage"];
         return `<div class="widget__header"><span class="widget__title">Theme</span></div>
           <div class="widget__body widget__body--center">
             <div class="theme-picker" data-theme-picker>
-              ${themes.map(([t, lbl]) => `<div class="theme-swatch ${t}" data-theme="${t}" title="${t}">${lbl}</div>`).join('')}
+              ${themes.map(t => `<div class="theme-swatch ${t}" data-theme="${t}" title="${t}" aria-label="${t} theme"></div>`).join('')}
             </div>
           </div>`;
       },
