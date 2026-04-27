@@ -73,8 +73,18 @@
 </div>
 <div class="studio-shell">
   <header class="studio-header">
-    <p class="eyebrow">Studio</p>
-    <h1>Your <em>stage.</em></h1>
+    <div class="studio-header__row">
+      <div>
+        <p class="eyebrow">Studio</p>
+        <h1>Your <em>stage.</em></h1>
+      </div>
+      <div class="studio-header__actions">
+        <span class="studio-save-indicator" id="studio-save-indicator" aria-live="polite"></span>
+        <button class="studio-edit-toggle" id="studio-edit-toggle" type="button" aria-pressed="false" data-owner-only>
+          Edit
+        </button>
+      </div>
+    </div>
     <p class="lead">The creative workshop where every asset can be alive. Default is a blank canvas — open the Workshop drawer for inspiration, asset packs, and starter examples like the Orchestra ensemble or the Game arcade.</p>
   </header>
 
@@ -259,6 +269,11 @@
   let currentRoom = null;        // active Room JSON (preset or user-saved)
   let spriteCache = new Map();   // sprite_id → svg string
   let activeTab = 'room';        // room / map / showcase
+  let editMode = false;          // owner editing? (Phase A.3 part 1)
+  let selectedCompId = null;     // currently selected component id
+  let saveTimer = null;          // debounced auto-save handle
+  const SAVED_ROOM_KEY = 'ENSEMBLE_STUDIO_ROOM';
+  const GRID_SIZE = 16;          // pixel-art-style 16px grid snap (in stage coords this means 16/1920 ≈ 0.83%)
 
   // ─── Helpers ─────────────────────────────────────────────────────────
   const $ = (sel, root) => (root || document).querySelector(sel);
@@ -770,10 +785,21 @@
     for (const comp of sorted) {
       try {
         const el = await renderComponent(comp, room.stage);
+        // In edit mode, attach drag + select handlers
+        if (editMode) attachEditAffordances(el, comp);
         stage.appendChild(el);
       } catch (e) {
         console.error('Studio: component render failed', comp.id, e);
       }
+    }
+
+    // Stage-click in edit mode = clear selection (clicking empty space)
+    if (editMode && !stage.dataset.editClickWired) {
+      stage.addEventListener('click', (e) => {
+        if (!editMode) return;
+        if (e.target === stage) clearSelection();
+      });
+      stage.dataset.editClickWired = '1';
     }
   }
 
@@ -782,6 +808,258 @@
     activeTab = tabId;
     $$('.studio-tab').forEach(t => t.classList.toggle('is-active', t.dataset.tab === tabId));
     $$('.studio-pane').forEach(p => p.classList.toggle('is-active', p.dataset.pane === tabId));
+  }
+
+  // ─── Edit mode (Phase A.3 part 1) ────────────────────────────────────
+  // Toggle, component selection, drag-to-move with grid snap, delete,
+  // basic text editing, auto-save to localStorage, load-on-boot.
+  // Component palette + code editor + Claude chat drawer arrive in
+  // subsequent A.3 parts.
+
+  function setEditMode(on) {
+    editMode = !!on;
+    document.body.classList.toggle('studio-editing', editMode);
+    const toggle = $('#studio-edit-toggle');
+    if (toggle) {
+      toggle.setAttribute('aria-pressed', editMode ? 'true' : 'false');
+      toggle.textContent = editMode ? 'Done editing' : 'Edit';
+    }
+    if (!editMode) clearSelection();
+    // Re-render the room so components pick up (or shed) edit affordances
+    if (currentRoom) {
+      renderRoom(currentRoom).catch(e => console.error('Studio: edit-mode re-render failed', e));
+    }
+  }
+
+  function clearSelection() {
+    if (!selectedCompId) return;
+    const prev = $(`.studio-comp[data-id="${selectedCompId}"]`);
+    if (prev) prev.classList.remove('is-selected');
+    selectedCompId = null;
+    hidePropsPanel();
+  }
+
+  function selectComponent(compId) {
+    if (selectedCompId === compId) return;
+    clearSelection();
+    selectedCompId = compId;
+    const el = $(`.studio-comp[data-id="${compId}"]`);
+    if (!el) return;
+    el.classList.add('is-selected');
+    showPropsPanel(compId);
+  }
+
+  function findCompById(id) {
+    return currentRoom?.components?.find(c => c.id === id);
+  }
+
+  // ─── Props panel ─────────────────────────────────────────────────────
+  function ensurePropsPanel() {
+    if (document.getElementById('studio-props-panel')) return;
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `<aside class="studio-props-panel" id="studio-props-panel" aria-label="Component properties">
+      <header class="studio-props-panel__header">
+        <h3 class="studio-props-panel__title">Properties</h3>
+        <button class="studio-props-panel__close" type="button" aria-label="Deselect" data-act="close">×</button>
+      </header>
+      <div class="studio-props-panel__body" id="studio-props-panel-body"></div>
+    </aside>`;
+    document.body.appendChild(wrap.firstChild);
+    document.querySelector('#studio-props-panel [data-act="close"]').addEventListener('click', clearSelection);
+  }
+
+  function showPropsPanel(compId) {
+    ensurePropsPanel();
+    const panel = document.getElementById('studio-props-panel');
+    const body = document.getElementById('studio-props-panel-body');
+    const comp = findCompById(compId);
+    if (!comp) return;
+    body.innerHTML = renderPropsPanelBody(comp);
+    panel.classList.add('is-open');
+    // Wire input change handlers
+    body.querySelectorAll('[data-prop-input]').forEach(input => {
+      input.addEventListener('input', () => {
+        const path = input.dataset.propInput;
+        const val = input.type === 'number' ? Number(input.value) : input.value;
+        applyPropChange(comp, path, val);
+        scheduleAutoSave();
+      });
+    });
+    body.querySelectorAll('[data-act="delete"]').forEach(btn => {
+      btn.addEventListener('click', () => deleteSelected());
+    });
+  }
+
+  function hidePropsPanel() {
+    const panel = document.getElementById('studio-props-panel');
+    if (panel) panel.classList.remove('is-open');
+  }
+
+  function renderPropsPanelBody(comp) {
+    const t = comp.type;
+    const lines = [];
+    lines.push(`<div class="studio-props__row"><label>Type</label><div class="studio-props__readonly">${escapeHtml(t)}</div></div>`);
+    lines.push(`<div class="studio-props__row"><label>ID</label><div class="studio-props__readonly">${escapeHtml(comp.id)}</div></div>`);
+    if (t === 'text') {
+      const text = (comp.props && comp.props.text) || '';
+      lines.push(`<div class="studio-props__row"><label for="prop-text">Text</label><textarea id="prop-text" data-prop-input="props.text" rows="3">${escapeHtml(text)}</textarea></div>`);
+      lines.push(`<div class="studio-props__row"><label for="prop-variant">Variant</label><select id="prop-variant" data-prop-input="props.variant"><option value="eyebrow"${comp.props?.variant === 'eyebrow' ? ' selected' : ''}>eyebrow</option><option value="hero"${comp.props?.variant === 'hero' ? ' selected' : ''}>hero</option><option value="body"${(comp.props?.variant || 'body') === 'body' ? ' selected' : ''}>body</option></select></div>`);
+    }
+    if (t === 'prop' || t === 'slot') {
+      const sprite = comp.props?.sprite_id || '';
+      lines.push(`<div class="studio-props__row"><label for="prop-sprite">Sprite ID</label><input id="prop-sprite" type="text" data-prop-input="props.sprite_id" value="${escapeHtml(sprite)}" /></div>`);
+      const label = comp.props?.label || '';
+      lines.push(`<div class="studio-props__row"><label for="prop-label">Label</label><input id="prop-label" type="text" data-prop-input="props.label" value="${escapeHtml(label)}" /></div>`);
+    }
+    lines.push(`<div class="studio-props__rowgrid"><div class="studio-props__cell"><label for="prop-x">X</label><input id="prop-x" type="number" data-prop-input="x" value="${comp.x}" /></div><div class="studio-props__cell"><label for="prop-y">Y</label><input id="prop-y" type="number" data-prop-input="y" value="${comp.y}" /></div></div>`);
+    lines.push(`<div class="studio-props__rowgrid"><div class="studio-props__cell"><label for="prop-w">W</label><input id="prop-w" type="number" data-prop-input="w" value="${comp.w}" /></div><div class="studio-props__cell"><label for="prop-h">H</label><input id="prop-h" type="number" data-prop-input="h" value="${comp.h}" /></div></div>`);
+    lines.push(`<div class="studio-props__row"><button type="button" class="studio-props__delete" data-act="delete">Delete component</button></div>`);
+    lines.push(`<p class="studio-props__hint">Component palette + code editor + Claude chat arrive in Phase A.3 part 2-3.</p>`);
+    return lines.join('');
+  }
+
+  function applyPropChange(comp, path, value) {
+    // Path can be 'x' / 'y' / 'props.text' / 'props.variant' etc.
+    const parts = path.split('.');
+    let target = comp;
+    for (let i = 0; i < parts.length - 1; i++) {
+      target[parts[i]] = target[parts[i]] || {};
+      target = target[parts[i]];
+    }
+    target[parts[parts.length - 1]] = value;
+    // Re-render the affected component without a full Room re-render for snap response
+    rerenderComponentInPlace(comp);
+  }
+
+  async function rerenderComponentInPlace(comp) {
+    const stage = $('#studio-stage');
+    if (!stage || !currentRoom) return;
+    const old = stage.querySelector(`.studio-comp[data-id="${comp.id}"]`);
+    if (!old) return;
+    const replacement = await renderComponent(comp, currentRoom.stage);
+    // Re-attach edit affordances on the replacement
+    if (editMode) attachEditAffordances(replacement, comp);
+    if (selectedCompId === comp.id) replacement.classList.add('is-selected');
+    old.replaceWith(replacement);
+  }
+
+  // ─── Drag-to-move (Phase A.3 part 1) ─────────────────────────────────
+  function attachEditAffordances(el, comp) {
+    if (comp.locked) return;
+    el.addEventListener('mousedown', (e) => {
+      if (!editMode) return;
+      e.preventDefault();
+      e.stopPropagation();
+      selectComponent(comp.id);
+      startDrag(el, comp, e);
+    });
+    el.addEventListener('touchstart', (e) => {
+      if (!editMode) return;
+      const t = e.touches[0];
+      selectComponent(comp.id);
+      startDrag(el, comp, { clientX: t.clientX, clientY: t.clientY, preventDefault: () => e.preventDefault() });
+      e.preventDefault();
+    }, { passive: false });
+  }
+
+  function startDrag(el, comp, downEvent) {
+    const stage = $('#studio-stage');
+    if (!stage) return;
+    const stageRect = stage.getBoundingClientRect();
+    const startCompX = comp.x;
+    const startCompY = comp.y;
+    const startMouseX = downEvent.clientX;
+    const startMouseY = downEvent.clientY;
+    const xPxToStage = currentRoom.stage.width / stageRect.width;
+    const yPxToStage = currentRoom.stage.height / stageRect.height;
+
+    function move(clientX, clientY) {
+      const dx = (clientX - startMouseX) * xPxToStage;
+      const dy = (clientY - startMouseY) * yPxToStage;
+      let newX = Math.round((startCompX + dx) / GRID_SIZE) * GRID_SIZE;
+      let newY = Math.round((startCompY + dy) / GRID_SIZE) * GRID_SIZE;
+      newX = Math.max(0, Math.min(currentRoom.stage.width - comp.w, newX));
+      newY = Math.max(0, Math.min(currentRoom.stage.height - comp.h, newY));
+      comp.x = newX;
+      comp.y = newY;
+      // Live-update positioning without re-rendering the component
+      el.style.left = `${pct(newX, currentRoom.stage.width)}%`;
+      el.style.top = `${pct(newY, currentRoom.stage.height)}%`;
+    }
+    function onMouseMove(e) { move(e.clientX, e.clientY); }
+    function onTouchMove(e) { const t = e.touches[0]; move(t.clientX, t.clientY); e.preventDefault(); }
+    function release() {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', release);
+      document.removeEventListener('touchmove', onTouchMove);
+      document.removeEventListener('touchend', release);
+      // Update props panel x/y inputs
+      const xIn = $('#prop-x');
+      const yIn = $('#prop-y');
+      if (xIn) xIn.value = comp.x;
+      if (yIn) yIn.value = comp.y;
+      scheduleAutoSave();
+    }
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', release);
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('touchend', release);
+  }
+
+  function deleteSelected() {
+    if (!selectedCompId || !currentRoom) return;
+    const idx = currentRoom.components.findIndex(c => c.id === selectedCompId);
+    if (idx < 0) return;
+    if (currentRoom.components[idx].locked) return;
+    currentRoom.components.splice(idx, 1);
+    const el = $(`.studio-comp[data-id="${selectedCompId}"]`);
+    if (el) el.remove();
+    clearSelection();
+    scheduleAutoSave();
+  }
+
+  // ─── Auto-save + load (Phase A.3 part 1) ─────────────────────────────
+  function scheduleAutoSave() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try {
+        if (currentRoom) {
+          const payload = JSON.stringify(currentRoom);
+          localStorage.setItem(SAVED_ROOM_KEY, payload);
+          flashSaveIndicator('saved');
+        }
+      } catch (e) {
+        console.warn('Studio: auto-save failed', e);
+        flashSaveIndicator('error');
+      }
+    }, 5000);
+    flashSaveIndicator('pending');
+  }
+
+  function flashSaveIndicator(state) {
+    const ind = $('#studio-save-indicator');
+    if (!ind) return;
+    ind.dataset.state = state;
+    ind.textContent = state === 'pending' ? 'unsaved changes…'
+      : state === 'saved' ? '✓ saved'
+      : state === 'error' ? '✗ save failed' : '';
+  }
+
+  function loadSavedRoom() {
+    try {
+      const raw = localStorage.getItem(SAVED_ROOM_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || !parsed.components) return null;
+      return parsed;
+    } catch (e) {
+      console.warn('Studio: saved-room parse failed', e);
+      return null;
+    }
+  }
+
+  function discardSavedRoom() {
+    try { localStorage.removeItem(SAVED_ROOM_KEY); } catch (e) {}
   }
 
   // ─── Workshop drawer ─────────────────────────────────────────────────
@@ -809,6 +1087,12 @@
           setTimeout(() => item.classList.remove('is-error'), 1500);
           return;
         }
+        // User explicitly chose a different preset — drop saved edits
+        // and clear any restored-from-edits info pill.
+        discardSavedRoom();
+        const restoredPill = $('.studio-info__item--restored');
+        if (restoredPill) restoredPill.remove();
+        clearSelection();
         currentRoom = room;
         await renderRoom(room);
         item.classList.remove('is-loading');
@@ -827,6 +1111,26 @@
     if (defaultItem) defaultItem.classList.add('is-current');
   }
 
+  // ─── Edit toggle wiring (Phase A.3 part 1) ───────────────────────────
+  function bindEditToggle() {
+    const toggle = $('#studio-edit-toggle');
+    if (!toggle) return;
+    toggle.addEventListener('click', () => setEditMode(!editMode));
+    document.addEventListener('keydown', (e) => {
+      if (!editMode) return;
+      const tag = (e.target && e.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedCompId) {
+        e.preventDefault();
+        deleteSelected();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        if (selectedCompId) clearSelection();
+        else setEditMode(false);
+      }
+    });
+  }
+
   // ─── Bootstrap ───────────────────────────────────────────────────────
   async function boot() {
     // Tab clicks
@@ -834,11 +1138,18 @@
       t.addEventListener('click', () => switchTab(t.dataset.tab));
     });
 
-    // Workshop drawer
+    // Workshop drawer + edit toggle wiring
     bindWorkshop();
+    bindEditToggle();
 
-    // Load default preset (blank canvas)
-    const room = await loadPreset(DEFAULT_PRESET);
+    // Try saved room first; fall back to default preset
+    const saved = loadSavedRoom();
+    let room = saved;
+    let bootSource = 'saved';
+    if (!room) {
+      room = await loadPreset(DEFAULT_PRESET);
+      bootSource = 'default';
+    }
     if (!room) {
       $('#studio-stage').innerHTML = '<div class="studio-empty"><p>Studio could not load. Check console for details.</p></div>';
       return;
@@ -846,12 +1157,29 @@
     currentRoom = room;
     await renderRoom(room);
 
+    // If we restored saved edits, give the user a one-click way to drop them
+    if (bootSource === 'saved') {
+      const strip = $('.studio-info');
+      if (strip) {
+        const pill = document.createElement('span');
+        pill.className = 'studio-info__item studio-info__item--restored';
+        pill.innerHTML = '↻ restored from your edits · <a href="#" data-act="reset-saved">reset to default</a>';
+        strip.appendChild(pill);
+        pill.querySelector('[data-act="reset-saved"]').addEventListener('click', async (e) => {
+          e.preventDefault();
+          discardSavedRoom();
+          const fresh = await loadPreset(DEFAULT_PRESET);
+          if (fresh) { currentRoom = fresh; await renderRoom(fresh); pill.remove(); }
+        });
+      }
+    }
+
     // Hook into SHARED_SCRIPTS state refresh — re-resolve slot bindings on every refresh
     const originalRefresh = window.refreshPageState;
     window.refreshPageState = function (state) {
       if (originalRefresh) try { originalRefresh(state); } catch (e) {}
-      // Re-render slots in place when state updates
-      if (currentRoom) {
+      // Don't yank components mid-edit — only re-render in view mode
+      if (currentRoom && !editMode) {
         renderRoom(currentRoom).catch(e => console.error('Studio: re-render failed', e));
       }
     };
@@ -861,9 +1189,15 @@
     window.__studio = {
       get currentRoom() { return currentRoom; },
       get spriteCache() { return spriteCache; },
+      get editMode() { return editMode; },
+      get selectedCompId() { return selectedCompId; },
       switchTab,
       loadPreset,
       renderRoom: (r) => renderRoom(r || currentRoom),
+      setEditMode,
+      selectComponent,
+      deleteSelected,
+      discardSavedRoom,
     };
   }
 
