@@ -1255,3 +1255,78 @@ body.bg-aurora {
   border-color: color-mix(in srgb, var(--danger) 30%, var(--rule));
   background: color-mix(in srgb, var(--danger) 4%, var(--bg));
 }
+
+/* ─── Pair page (browser <-> Mac handshake UX) ───────────────────────── */
+.pair-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 24px 28px 22px;
+  display: flex; flex-direction: column; gap: 18px;
+  box-shadow: var(--shadow-sm);
+}
+.pair-field { display: flex; flex-direction: column; gap: 6px; }
+.pair-field label { display: flex; flex-direction: column; gap: 2px; cursor: default; }
+.pair-field__name {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--ink);
+}
+.pair-field__hint {
+  font-family: var(--mono); font-size: 11px; color: var(--ink-3);
+}
+.pair-field__hint code {
+  font-size: 11px; padding: 1px 5px; border-radius: 4px;
+  background: var(--bg-sunken, var(--bg)); border: 1px solid var(--rule);
+}
+.pair-input {
+  font-family: var(--mono); font-size: 13px;
+  padding: 10px 12px;
+  border: 1px solid var(--rule); border-radius: 8px;
+  background: var(--bg); color: var(--ink);
+  width: 100%;
+  transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease);
+}
+.pair-input:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.pair-input-row { display: flex; gap: 6px; align-items: stretch; }
+.pair-input-row .pair-input { flex: 1; min-width: 0; }
+.pair-toggle {
+  font-family: var(--mono); font-size: 11px;
+  min-width: 56px; padding: 8px 12px;
+}
+.pair-actions {
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  margin-top: 4px;
+}
+.pair-go {
+  font-weight: 600; padding: 10px 22px;
+}
+.pair-status {
+  font-family: var(--mono); font-size: 12px; line-height: 1.5;
+  margin: 6px 0 0; padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  display: none;
+  border: 1px solid transparent;
+}
+.pair-status:not(:empty) { display: block; }
+.pair-status--info {
+  background: var(--accent-soft); color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.pair-status--success {
+  background: color-mix(in srgb, #16a34a 14%, transparent);
+  color: #16a34a;
+  border-color: color-mix(in srgb, #16a34a 28%, transparent);
+}
+.pair-status--warn {
+  background: color-mix(in srgb, #d97706 14%, transparent);
+  color: #d97706;
+  border-color: color-mix(in srgb, #d97706 28%, transparent);
+}
+.pair-status--error {
+  background: color-mix(in srgb, var(--danger) 14%, transparent);
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 28%, transparent);
+}

@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Tool Builder — Phase 2 product (AI-native business tools) · Ensemble</title>
-<meta name="description" content="Phase 2 Virtuoso. 9 research tracks identified; A/D/E/G most active. Cross-tier shared router + UX corpus drafted. Major milestone reached 1h ago per chat heartbeat." />
+<title>Ensemble — Pair</title>
+<meta name="description" content="Pair this browser to the Mac control panel — one key, every command." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -42,15 +42,15 @@
   }
 </script>
 </head>
-<body class="proj-page">
+<body class="hub">
 <nav class="topnav">
   <div class="wrap">
     <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
       <li><a href="./">Home</a></li>
-      <li><a class="active" aria-current="page" href="./projects.html">Projects</a></li>
+      <li><a href="./projects.html">Projects</a></li>
       <li><a href="./commands.html">Commands</a></li>
-      <li><a href="./settings.html">Settings</a></li>
+      <li><a class="active" aria-current="page" href="./settings.html">Settings</a></li>
       <li><a href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
@@ -71,95 +71,142 @@
   </div>
 </div>
 <header class="hero">
-  <div class="wrap hero-inner">
-    <p class="eyebrow"><a href="./projects.html">← Back to roster</a></p>
-    <div class="proj-hero-inner">
-      <div class="pie-big"><svg class="pie-big" viewBox="0 0 100 100" aria-label="22% complete">
-      <circle cx="50" cy="50" r="42" fill="none" stroke="var(--rule)" stroke-width="6"/>
-      <circle cx="50" cy="50" r="42" fill="none"
-              stroke="var(--accent)" stroke-width="6" stroke-linecap="round"
-              stroke-dasharray="58.06 205.84" transform="rotate(-90 50 50)"/>
-      <text x="50" y="58" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="28" fill="currentColor">22</text>
-    </svg></div>
-      <div class="proj-hero-text">
-        <p class="proj-phase">Research planning</p>
-        <h1>Tool Builder — Phase 2 product (AI-native business tools)</h1>
-        <p class="proj-desc">Phase 2 Virtuoso. 9 research tracks identified; A/D/E/G most active. Cross-tier shared router + UX corpus drafted. Major milestone reached 1h ago per chat heartbeat.</p>
-        <div class="proj-pills"><span class="pill pill-tier-virtuoso">Specialist</span> <span class="pill pill-state-building">Building</span> <span class="pill pill-passive">supervised</span> <span class="pill pill-attn">needs your eyes</span></div>
-      </div>
-    </div>
-    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 13h ago · tool-builder</p>
+  <div class="wrap">
+    <p class="eyebrow">Pair this browser</p>
+    <h1>One key. <em>One handshake.</em></h1>
+    <p class="lead">Link this browser to your Mac control panel. Owner mode lights up across every page — kill switch, fire autopilot, control deck, smoke gates, themes. Same token works on every device; only the server URL changes (use the Tailscale URL for the phone PWA).</p>
   </div>
 </header>
-<main class="proj-main">
-  <div class="wrap">
 
-    <section class="proj-section">
-      <h2>Timeline</h2>
-      <p class="proj-lead">Past milestones (filled), where we are now (pulsing), and what's coming next (outlined).</p>
-      <div class="timeline">
-<div class="tl-item now">
-  <div class="tl-marker"></div>
-  <p class="tl-date">now</p>
-  <h3 class="tl-title">Draft R3 insurance carrier outreach packet</h3>
-  <p class="tl-summary">R2 lawyer outreach + corp incorporation packet shipped (63 deliverables total). R3 (Canadian E&amp;O + cyber insurance) is the next external loop. 2-4 weeks underwriting calendar. Tool Builder drafts cover note + business description + exposure-and-coverage estimate + planning-suite as evidence of risk-management posture. Carrier candidates: Zensurance broker (digital-first SMB-friendly) + Intact Public Entities + Northbridge Insurance + Chubb Canada + Duuo (Aviva). Kevin sends; quotes received in 1-2 weeks; bind in 2-4 weeks total.</p>
-</div>
-<div class="tl-item next">
-  <div class="tl-marker"></div>
-  <p class="tl-date">next</p>
-  <h3 class="tl-title">Domain availability check + NUANS + corp incorporation prep</h3>
-  <p class="tl-summary">Now that brand is locked, the corp incorporation external loop can begin. Tool Builder runs domain-availability check on toolbuilder.ca + .com + .io + variants, drafts NUANS report request for federal CBCA, prepares federal incorporation paperwork. Kevin executes. ~1-5 business days calendar to incorporated entity + active domain.</p>
-</div>
-<div class="tl-item next">
-  <div class="tl-marker"></div>
-  <p class="tl-date">next</p>
-  <h3 class="tl-title">Coordinate with Agent Builder on F + H internals</h3>
-  <p class="tl-summary">Tool-Builder-side of co-owned tracks shipped with extensive co-design markers. Agent Builder finalizes router policy DSL; LLMSpec schema; classifier library; red-team scenarios; audit hash-chain spec.</p>
-</div>
+<section>
+  <div class="wrap" style="max-width: 600px;">
+    <div class="pair-card">
+      <div class="pair-field">
+        <label for="pair-url">
+          <span class="pair-field__name">Mac control panel URL</span>
+          <span class="pair-field__hint">localhost on this Mac · Tailscale URL on phone</span>
+        </label>
+        <input id="pair-url" type="url" class="pair-input"
+               placeholder="http://localhost:8080"
+               value="http://localhost:8080" autocomplete="url" />
       </div>
-    </section>
 
-    <section class="proj-section">
-      <h2>Right <em>now</em></h2>
-      <div class="now-grid">
-        <div class="now-card">
-          <h3>Current task</h3>
-          <p>2026-04-25 10:16Z: Corp incorporation packet shipped (legal/corp_incorporation_packet.md, 10 sections: domain methodology + NUANS process + CBCA Form 1 + Form 2 + initial directors&#x27; resolutions + post-incorp checklist with CRA + BC extra-provincial + banking + email + 3-week execution timeline + ~$700-800 cost summary). 63 deliverables shipped this session. Open external loops: (a) Kevin executes domain + NUANS + CBCA (1 week); (b) R2 lawyer outreach (1-3 weeks); (c) R3 insurance (2-4 weeks); (d) R4 CRA accounts (post-incorp); (e) Agent Builder F+H via Maestro.</p>
+      <div class="pair-field">
+        <label for="pair-token">
+          <span class="pair-field__name">Dashboard token</span>
+          <span class="pair-field__hint">From <code>~/.claude/orchestrator/.env.local</code></span>
+        </label>
+        <div class="pair-input-row">
+          <input id="pair-token" type="password" class="pair-input"
+                 placeholder="paste token…" autocomplete="off" spellcheck="false" />
+          <button class="btn-secondary pair-toggle" type="button" data-act="reveal">show</button>
+          <button class="btn-secondary" type="button" data-act="paste">Paste</button>
         </div>
-        <div class="now-card">
-          <h3>Recent commits</h3>
-          <p style="color:var(--ink-4);"><em>No recent commits visible from Mac side.</em></p>
-        </div>
-        
       </div>
-    </section>
 
-    <section class="proj-section">
-      <h2>What's <em>next</em></h2>
-      <div class="next-rec">
-  <h3>Top recommendation</h3>
-  <h4>Draft R3 insurance carrier outreach packet</h4>
-  <p>R2 lawyer outreach + corp incorporation packet shipped (63 deliverables total). R3 (Canadian E&amp;O + cyber insurance) is the next external loop. 2-4 weeks underwriting calendar. Tool Builder drafts cover note + business description + exposure-and-coverage estimate + planning-suite as evidence of risk-management posture. Carrier candidates: Zensurance broker (digital-first SMB-friendly) + Intact Public Entities + Northbridge Insurance + Chubb Canada + Duuo (Aviva). Kevin sends; quotes received in 1-2 weeks; bind in 2-4 weeks total.</p>
-</div>
-      <div class="next-alts"><div class="next-alt">
-  <h4>Domain availability check + NUANS + corp incorporation prep</h4>
-  <p>Now that brand is locked, the corp incorporation external loop can begin. Tool Builder runs domain-availability check on toolbuilder.ca + .com + .io + variants, drafts NUANS report request for federal CBCA, prepares federal incorporation paperwork. Kevin executes. ~1-5 business days calendar to incorporated entity + active domain.</p>
-</div>
-<div class="next-alt">
-  <h4>Coordinate with Agent Builder on F + H internals</h4>
-  <p>Tool-Builder-side of co-owned tracks shipped with extensive co-design markers. Agent Builder finalizes router policy DSL; LLMSpec schema; classifier library; red-team scenarios; audit hash-chain spec.</p>
-</div>
-<div class="next-alt">
-  <h4>Run another synthetic pre-flight in different sector for breadth</h4>
-  <p>First synthetic was healthcare-admin. Second synthetic in retail multi-location / professional services / public-sector stress-tests methodology across patterns.</p>
-</div></div>
-    </section>
+      <div class="pair-actions">
+        <button class="btn-primary pair-go" type="button" data-act="pair">Pair</button>
+        <button class="btn-secondary" type="button" data-act="clear">Clear pairing</button>
+      </div>
 
-    <p style="margin-top:48px;"><a class="foot-back" href="./projects.html">← All projects</a></p>
+      <div id="pair-status" class="pair-status"></div>
+    </div>
 
+    <p class="settings-help" style="margin-top:28px; line-height: 1.6;">
+      What this stores: <code>localStorage.DASHBOARD_TOKEN</code> +
+      <code>localStorage.ENSEMBLE_SERVER_URL</code>. Cleared only when you
+      clear browsing data — otherwise persistent. Pair a new browser
+      anytime by visiting this page; existing pairings can be cleared with
+      the button above.
+    </p>
+    <p class="settings-help" style="margin-top:8px; line-height: 1.6;">
+      Same token works for every command (fire autopilot · kill cascade · cycle freeze · all chat actions on the control deck). One key, one handshake, every endpoint.
+    </p>
   </div>
-</main>
+</section>
+
+<script>
+(function () {
+  const urlEl = document.getElementById("pair-url");
+  const tokEl = document.getElementById("pair-token");
+  const status = document.getElementById("pair-status");
+  const revealBtn = document.querySelector('[data-act="reveal"]');
+
+  // Prefill from existing localStorage so re-pairing is idempotent
+  try {
+    const u = localStorage.getItem("ENSEMBLE_SERVER_URL");
+    if (u) urlEl.value = u;
+    const t = localStorage.getItem("DASHBOARD_TOKEN");
+    if (t) tokEl.value = t;
+  } catch (e) {}
+
+  function setStatus(text, kind) {
+    status.textContent = text;
+    status.className = "pair-status pair-status--" + (kind || "info");
+  }
+
+  revealBtn.addEventListener("click", () => {
+    if (tokEl.type === "password") { tokEl.type = "text"; revealBtn.textContent = "hide"; }
+    else { tokEl.type = "password"; revealBtn.textContent = "show"; }
+  });
+
+  document.querySelector('[data-act="paste"]').addEventListener("click", async () => {
+    try {
+      const t = await navigator.clipboard.readText();
+      if (t && t.trim()) { tokEl.value = t.trim(); setStatus("Token pasted from clipboard.", "info"); }
+      else { setStatus("Clipboard was empty.", "warn"); }
+    } catch (e) {
+      setStatus("Clipboard read denied — paste manually.", "warn");
+    }
+  });
+
+  document.querySelector('[data-act="clear"]').addEventListener("click", () => {
+    localStorage.removeItem("DASHBOARD_TOKEN");
+    localStorage.removeItem("ENSEMBLE_SERVER_URL");
+    tokEl.value = "";
+    urlEl.value = "http://localhost:8080";
+    setStatus("Pairing cleared. This browser is read-only until you pair again.", "info");
+  });
+
+  document.querySelector('[data-act="pair"]').addEventListener("click", async () => {
+    const url = urlEl.value.trim().replace(/\/$/, "");
+    const tok = tokEl.value.trim();
+    if (!url || !tok) { setStatus("Both URL and token are required.", "warn"); return; }
+    setStatus("Testing reachability…", "info");
+    // 1. Check reachability via /health (no auth required)
+    try {
+      const h = await fetch(url + "/health", { method: "GET" });
+      if (!h.ok) { setStatus("Server returned " + h.status + " on /health.", "error"); return; }
+    } catch (e) {
+      setStatus("Could not reach server. Check URL and that control-panel-server.py is running on the Mac.", "error");
+      return;
+    }
+    // 2. Check token via /state (auth required)
+    setStatus("Verifying token…", "info");
+    try {
+      const s = await fetch(url + "/state", { headers: { "Authorization": "Bearer " + tok } });
+      if (s.status === 401 || s.status === 403) {
+        setStatus("Token rejected. Check it matches DASHBOARD_TOKEN in ~/.claude/orchestrator/.env.local.", "error");
+        return;
+      }
+      if (!s.ok) { setStatus("Server returned " + s.status + " on /state.", "error"); return; }
+    } catch (e) {
+      setStatus("Token test failed: " + e.message, "error");
+      return;
+    }
+    // 3. Persist
+    try {
+      localStorage.setItem("ENSEMBLE_SERVER_URL", url);
+      localStorage.setItem("DASHBOARD_TOKEN", tok);
+    } catch (e) {
+      setStatus("Could not write localStorage: " + e.message, "error");
+      return;
+    }
+    setStatus("Paired ✓ Owner mode active. Redirecting…", "success");
+    setTimeout(() => { window.location.href = "./"; }, 900);
+  });
+})();
+</script>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>
