@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
 <style>
 :root {
   --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
@@ -57,8 +58,18 @@ body {
 .topnav .brand {
   font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
   color: var(--ink); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
 }
 .topnav .brand em { color: var(--accent); font-style: normal; }
+.topnav .brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; display: block;
+  flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+}
+.topnav .brand-word { line-height: 1; }
+@media (max-width: 480px) {
+  .topnav .brand-word { display: none; }
+  .topnav .brand-mark { width: 30px; height: 30px; }
+}
 .topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
 .topnav li a {
   display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
@@ -346,13 +357,77 @@ body.theme-aurora {
   --accent: #a78bfa; --accent-2: #c4b5fd; --accent-soft: rgba(167,139,250,0.14);
 } }
 
+body.theme-rose {
+  --bg: #fff5f7; --bg-raised: #ffffff; --bg-elevated: #fff8fa;
+  --ink: #2a0a14; --ink-2: #4a1f2c; --ink-3: #8a4f66; --ink-4: #c896aa;
+  --rule: #f0d8e0; --rule-2: #f5e4ea;
+  --accent: #e11d48; --accent-2: #f43f5e; --accent-soft: rgba(225,29,72,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-rose {
+  --bg: #1a0810; --bg-raised: #2a1218; --bg-elevated: #321820;
+  --ink: #ffe4eb; --ink-2: #f5c0ce; --ink-3: #c88898; --ink-4: #8a5868;
+  --rule: #3a1a26; --rule-2: #2c121a;
+  --accent: #f43f5e; --accent-2: #fb7185; --accent-soft: rgba(244,63,94,0.14);
+} }
+
+body.theme-ocean {
+  --bg: #f0f9fb; --bg-raised: #ffffff; --bg-elevated: #f5fbfd;
+  --ink: #0a1f26; --ink-2: #1f3d4d; --ink-3: #4d7588; --ink-4: #8ab0bf;
+  --rule: #cbe3eb; --rule-2: #ddebf0;
+  --accent: #0891b2; --accent-2: #06b6d4; --accent-soft: rgba(8,145,178,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-ocean {
+  --bg: #051418; --bg-raised: #0c1f26; --bg-elevated: #122a32;
+  --ink: #d8f0f7; --ink-2: #b0d8e3; --ink-3: #7daabe; --ink-4: #4a7388;
+  --rule: #1a3540; --rule-2: #122832;
+  --accent: #06b6d4; --accent-2: #22d3ee; --accent-soft: rgba(6,182,212,0.14);
+} }
+
+body.theme-sunset {
+  --bg: #fff7ed; --bg-raised: #ffffff; --bg-elevated: #fffaf2;
+  --ink: #2a1505; --ink-2: #4d2810; --ink-3: #8b5524; --ink-4: #c89970;
+  --rule: #f0d8b8; --rule-2: #f5e4cc;
+  --accent: #ea580c; --accent-2: #f97316; --accent-soft: rgba(234,88,12,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sunset {
+  --bg: #1a0a02; --bg-raised: #2a1408; --bg-elevated: #321a0c;
+  --ink: #ffe8d0; --ink-2: #f5c8a0; --ink-3: #c89570; --ink-4: #8a5f40;
+  --rule: #3a1f0c; --rule-2: #2c1808;
+  --accent: #f97316; --accent-2: #fb923c; --accent-soft: rgba(249,115,22,0.14);
+} }
+
+body.theme-midnight {
+  --bg: #f4f6fb; --bg-raised: #ffffff; --bg-elevated: #f8fafc;
+  --ink: #0c1024; --ink-2: #1e2440; --ink-3: #4d557a; --ink-4: #8a92b3;
+  --rule: #d6dbeb; --rule-2: #e3e8f2;
+  --accent: #4f46e5; --accent-2: #6366f1; --accent-soft: rgba(79,70,229,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-midnight {
+  --bg: #060814; --bg-raised: #0d1024; --bg-elevated: #131730;
+  --ink: #e0e4f5; --ink-2: #c0c8e0; --ink-3: #8a92b3; --ink-4: #565d80;
+  --rule: #1a1d35; --rule-2: #131628;
+  --accent: #6366f1; --accent-2: #818cf8; --accent-soft: rgba(99,102,241,0.16);
+} }
+
+body.theme-sage {
+  --bg: #f6faf2; --bg-raised: #ffffff; --bg-elevated: #fafcf7;
+  --ink: #182410; --ink-2: #2d3d22; --ink-3: #5a704a; --ink-4: #9ab088;
+  --rule: #d8e3c8; --rule-2: #e8efdc;
+  --accent: #65a30d; --accent-2: #84cc16; --accent-soft: rgba(101,163,13,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sage {
+  --bg: #0a1505; --bg-raised: #131f0a; --bg-elevated: #1a2810;
+  --ink: #e0f0d0; --ink-2: #c0d8a8; --ink-3: #8aa870; --ink-4: #5a7048;
+  --rule: #243018; --rule-2: #1a2410;
+  --accent: #84cc16; --accent-2: #a3e635; --accent-soft: rgba(132,204,22,0.14);
+} }
+
 /* Theme picker UI */
 .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; }
 .theme-swatch {
   width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
-  border: 2px solid var(--rule); transition: border-color 200ms var(--ease), transform 200ms var(--ease);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: white;
+  border: 2px solid var(--rule);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
   background: linear-gradient(135deg, var(--swatch-a), var(--swatch-b));
 }
 .theme-swatch:hover { transform: scale(1.05); }
@@ -367,12 +442,259 @@ body.theme-aurora {
 .theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
 .theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
 .theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
+
+/* ─── Widget dashboard ──────────────────────────────────────────────── */
+.widget-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(140px, auto); gap: 16px; margin: 24px 0;
+}
+@media (max-width: 768px) {
+  .widget-grid { grid-template-columns: repeat(2, 1fr); }
+  .widget--1x1, .widget--2x1, .widget--1x2, .widget--2x2 { grid-column: span 1; grid-row: span 1; }
+}
+@media (min-width: 769px) and (max-width: 1100px) {
+  .widget-grid { grid-template-columns: repeat(6, 1fr); }
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+@media (min-width: 1101px) {
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+.widget {
+  position: relative; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-md); padding: 18px;
+  display: flex; flex-direction: column;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), border-color 200ms var(--ease);
+  min-height: 0;
+}
+.widget:hover { box-shadow: var(--shadow-md); }
+.widget__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
+}
+.widget__title {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.widget__hint { font-size: 10px; color: var(--ink-4); white-space: nowrap; }
+.widget__body {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+  min-height: 0; overflow: hidden;
+}
+.widget__body--center { justify-content: center; align-items: center; text-align: center; }
+.widget__numeral {
+  font-family: var(--font-display, var(--font-heading, serif));
+  font-size: 44px; font-weight: 600; line-height: 1; color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.widget__numeral .muted { opacity: 0.4; font-size: 0.6em; font-weight: 500; }
+.widget__chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.widget__chip--success { background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a; border-color: color-mix(in srgb, #16a34a 28%, transparent); }
+.widget__chip--warn    { background: color-mix(in srgb, #d97706 14%, transparent); color: #d97706; border-color: color-mix(in srgb, #d97706 28%, transparent); }
+.widget__chip--danger  { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; border-color: color-mix(in srgb, #dc2626 28%, transparent); }
+.widget__chip--neutral { background: var(--bg-sunken, var(--bg-elevated)); color: var(--ink-2); border-color: var(--rule); }
+
+.widget__btn {
+  appearance: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  background: var(--bg-elevated, var(--bg-raised)); border: 1px solid var(--rule);
+  color: var(--ink); font-size: 13px; font-weight: 500; font-family: inherit;
+  transition: all 180ms var(--ease);
+}
+.widget__btn:hover { border-color: var(--accent); color: var(--accent); }
+.widget__btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.widget__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.widget__btn--danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.widget__btn--danger:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
+.widget__btn--big { padding: 14px 20px; font-size: 14px; font-weight: 600; }
+.widget__btn--ghost { background: transparent; border-color: var(--rule-2); color: var(--ink-3); }
+.widget__btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.widget__row { display: flex; gap: 6px; flex-wrap: wrap; }
+.widget__row--tight { gap: 4px; }
+.widget__divider { height: 1px; background: var(--rule-2); margin: 8px 0; }
+
+.widget__select, .widget__input, .widget__textarea {
+  appearance: none; padding: 8px 10px; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--bg); color: var(--ink);
+  font-family: inherit; font-size: 13px; width: 100%;
+  transition: border-color 180ms var(--ease);
+}
+.widget__select:focus, .widget__input:focus, .widget__textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.widget__textarea { resize: vertical; min-height: 60px; font-family: var(--font-mono, monospace); }
+
+.widget__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.widget__list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px;
+  background: var(--bg-elevated, var(--bg-raised));
+  border: 1px solid transparent;
+}
+.widget__list li:hover { border-color: var(--rule); }
+
+/* Edit mode + chrome */
+.widget__remove, .widget__resize, .widget__handle { display: none; }
+.editing-dashboard .widget {
+  cursor: grab; user-select: none;
+  animation: widget-wiggle 0.6s ease-in-out infinite;
+}
+.editing-dashboard .widget:nth-child(odd) { animation-delay: -0.3s; }
+.editing-dashboard .widget:active { cursor: grabbing; }
+.editing-dashboard .widget__remove,
+.editing-dashboard .widget__resize { display: flex; }
+.editing-dashboard .widget input,
+.editing-dashboard .widget textarea,
+.editing-dashboard .widget select,
+.editing-dashboard .widget button:not(.widget__remove):not(.widget__resize) {
+  pointer-events: none; opacity: 0.55;
+}
+.widget__remove {
+  position: absolute; top: -10px; right: -10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #dc2626; color: #fff; border: 2px solid var(--bg);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center;
+  z-index: 3; box-shadow: var(--shadow-md);
+  transition: transform 150ms var(--ease);
+}
+.widget__remove:hover { transform: scale(1.12); background: #ef4444; }
+.widget__resize {
+  position: absolute; bottom: 8px; right: 8px;
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--accent-soft); color: var(--accent);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center; border: none;
+  z-index: 3; transition: transform 150ms var(--ease);
+}
+.widget__resize:hover { transform: scale(1.12); }
+.widget.is-dragging { opacity: 0.4; transform: scale(0.96); }
+.widget.is-drop-target { outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+@keyframes widget-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-0.5deg); }
+  75%  { transform: rotate(0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.dash-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 8px 0 0 0; gap: 12px; flex-wrap: wrap;
+}
+.dash-toolbar__hint { font-size: 12px; color: var(--ink-3); }
+.btn-edit-dashboard, .btn-add-widget, .btn-reset-layout {
+  appearance: none; padding: 9px 18px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink);
+  font-family: inherit;
+  transition: all 200ms var(--ease);
+}
+.btn-edit-dashboard:hover, .btn-add-widget:hover, .btn-reset-layout:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.btn-add-widget { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-add-widget:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+/* Add Widget bottom sheet */
+.widget-shelf {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-raised); border-top: 1px solid var(--rule);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.10); padding: 24px;
+  max-height: 60vh; overflow-y: auto; z-index: 100;
+  transform: translateY(100%); transition: transform 320ms var(--ease);
+}
+.editing-dashboard .widget-shelf { transform: translateY(0); }
+.widget-shelf__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.widget-shelf__title { font-size: 18px; font-weight: 600; margin: 0; }
+.widget-shelf__close { font-size: 22px; line-height: 1; cursor: pointer; padding: 4px 12px;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 100px; }
+.widget-shelf__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; max-width: 1200px; margin: 0 auto;
+}
+.widget-shelf__item {
+  padding: 14px; background: var(--bg); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer; text-align: left;
+  font-family: inherit;
+  transition: transform 160ms var(--ease), border-color 160ms var(--ease);
+}
+.widget-shelf__item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.widget-shelf__item h3 { font-size: 13px; margin: 0 0 4px 0; font-weight: 600; color: var(--ink); }
+.widget-shelf__item p { font-size: 11px; color: var(--ink-3); margin: 0; line-height: 1.4; }
+.widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
+.widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
+
+
+/* ─── Widget sections (public + private partitioning) ──────────────── */
+.widget-section { margin: 24px 0 36px; }
+.widget-section + .widget-section { border-top: 1px dashed var(--rule); padding-top: 24px; }
+.widget-section__header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 14px; padding-bottom: 10px;
+}
+.widget-section__heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.widget-section__heading > div { min-width: 0; }
+.widget-section__title {
+  font-family: var(--font-heading, var(--font-display, serif));
+  font-size: 18px; font-weight: 600; margin: 0; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.widget-section__sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
+.widget-section__chip {
+  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.widget-section__chip--public {
+  background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a;
+  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
+}
+.widget-section__chip--private {
+  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.widget-section__move {
+  appearance: none; padding: 6px 14px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule); cursor: pointer;
+  font-size: 12px; font-weight: 600; color: var(--ink-2); font-family: inherit;
+  transition: all 180ms var(--ease); white-space: nowrap; flex-shrink: 0;
+  display: none;
+}
+.editing-dashboard .widget-section__move { display: inline-block; }
+.widget-section__move:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hide section headers when NOT in edit mode for a quieter default view */
+:not(.editing-dashboard) .widget-section__header { opacity: 0.6; }
+:not(.editing-dashboard) .widget-section__sub { display: none; }
+
+/* Shelf row chip */
+.widget-shelf__row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+
 </style>
 </head>
 <body>
 <nav class="topnav">
   <div class="wrap">
-    <a class="brand" href="./">Ensemble</a>
+    <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
@@ -398,13 +720,18 @@ body.theme-aurora {
   </div>
 </div>
 <main class="doc-page">
-  <div class="wrap">
+  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
+  <div class="wrap doc-wrap">
     <a href="../docs.html" class="doc-back">← All documentation</a>
-    <p class="doc-meta">plugins/ensemble/integrations/cloudflare-access/README.md</p>
+    <header class="doc-hero">
+      <p class="doc-eyebrow">Documentation</p>
+      <h1 class="doc-title">Cloudflare Access</h1>
+      <p class="doc-lead">Auth-gate the public PWA + HTML sites. ~30 min setup.</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>plugins/ensemble/integrations/cloudflare-access/README.md</code></p>
+    </header>
     <article class="doc-content">
-<h1>Cloudflare Access — auth-gating the public dashboard + HTML sites</h1>
 <p>The Ensemble&rsquo;s public-facing assets — <code>ensemble-dashboard</code> (PWA), <code>public/index.html</code> + <code>public/dossier.html</code> (marketing), <code>ensemble-phone</code>, <code>ensemble-desktop</code> — should require login before rendering. Cloudflare Access is the cleanest free path: real auth, no hosting migration, ~30 min one-time setup.</p>
-<h2>What you get</h2>
+<h2 id="what-you-get">What you get</h2>
 <ul>
 <li>Login page in front of every URL — magic-link email OR Google / GitHub OAuth</li>
 <li>Free for up to 50 users (way more than the Ensemble needs)</li>
@@ -413,20 +740,20 @@ body.theme-aurora {
 <li>Optional: device posture checks (only authorize known devices)</li>
 <li>Doesn&rsquo;t move hosting — your GitHub Pages backend stays put; Cloudflare just sits in front</li>
 </ul>
-<h2>Prerequisites</h2>
+<h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>A domain you control (<code>example.com</code>) OR willingness to use a <code>*.workers.dev</code> Cloudflare-provided subdomain</li>
 <li>A Cloudflare account (free tier; sign up at cloudflare.com)</li>
 <li>Access to your domain&rsquo;s DNS records (if using your own domain)</li>
 </ul>
-<h2>Setup walkthrough</h2>
-<h3>Step 1 — Sign up for Cloudflare (one-time, ~2 min)</h3>
+<h2 id="setup-walkthrough">Setup walkthrough</h2>
+<h3 id="step-1-sign-up-for-cloudflare-one-time-2-min">Step 1 — Sign up for Cloudflare (one-time, ~2 min)</h3>
 <ol>
 <li>Go to <a href="https://cloudflare.com">cloudflare.com</a>, sign up free</li>
 <li>Verify email</li>
 <li>From the dashboard, navigate to <strong>Zero Trust</strong> in the left sidebar (creates a free Zero Trust org on first click)</li>
 </ol>
-<h3>Step 2 — Add your domain (one-time, ~5 min)</h3>
+<h3 id="step-2-add-your-domain-one-time-5-min">Step 2 — Add your domain (one-time, ~5 min)</h3>
 <p>If you already have a domain:</p>
 <ol>
 <li>Cloudflare dashboard → <strong>Add a Site</strong></li>
@@ -441,21 +768,21 @@ body.theme-aurora {
 <li>Buy one through Cloudflare (~$10/year for <code>.com</code>) — they auto-configure</li>
 <li>OR use a workers.dev subdomain (no domain purchase needed but uglier URL)</li>
 </ol>
-<h3>Step 3 — Add a CNAME pointing at GitHub Pages</h3>
+<h3 id="step-3-add-a-cname-pointing-at-github-pages">Step 3 — Add a CNAME pointing at GitHub Pages</h3>
 <p>In Cloudflare → DNS → Records:</p>
 <pre><code>Type:    CNAME
 Name:    ensemble (or whatever subdomain you want — gives you ensemble.your-domain.com)
 Target:  kiwimaddog2020.github.io
 Proxy:   ON (orange cloud — REQUIRED for Access to work)
 </code></pre>
-<h3>Step 4 — Configure GitHub Pages custom domain</h3>
+<h3 id="step-4-configure-github-pages-custom-domain">Step 4 — Configure GitHub Pages custom domain</h3>
 <p>In your <code>ensemble-dashboard</code> repo → Settings → Pages:</p>
 <ul>
 <li><strong>Custom domain</strong>: <code>ensemble.your-domain.com</code></li>
 <li><strong>Enforce HTTPS</strong>: ON (after the cert provisions, ~15 min)</li>
 </ul>
 <p>This makes GitHub Pages serve the dashboard at the new URL.</p>
-<h3>Step 5 — Create an Access application (the auth gate)</h3>
+<h3 id="step-5-create-an-access-application-the-auth-gate">Step 5 — Create an Access application (the auth gate)</h3>
 <p>In Cloudflare → Zero Trust → Access → Applications → Add an application:</p>
 <ol>
 <li><strong>Type</strong>: Self-hosted</li>
@@ -465,7 +792,7 @@ Proxy:   ON (orange cloud — REQUIRED for Access to work)
 <li><strong>Path</strong>: leave blank (gates everything)</li>
 <li><strong>Session duration</strong>: 24 hours (or your preference; longer = less friction, shorter = more security)</li>
 </ol>
-<h3>Step 6 — Add a policy</h3>
+<h3 id="step-6-add-a-policy">Step 6 — Add a policy</h3>
 <p>Define who can log in:</p>
 <ul>
 <li><strong>Policy name</strong>: My access</li>
@@ -477,9 +804,9 @@ Proxy:   ON (orange cloud — REQUIRED for Access to work)
 <li>Cloudflare → Zero Trust → Settings → Authentication → Add a login method → GitHub</li>
 <li>Then in your Access policy, <strong>Include</strong> → <strong>GitHub</strong> → your username/org</li>
 </ul>
-<h3>Step 7 — Enable identity provider (IdP)</h3>
+<h3 id="step-7-enable-identity-provider-idp">Step 7 — Enable identity provider (IdP)</h3>
 <p>In Zero Trust → Settings → Authentication, the default &ldquo;One-time PIN&rdquo; (magic-link email) is enabled by default. Optionally add Google / GitHub / etc.</p>
-<h3>Step 8 — Test</h3>
+<h3 id="step-8-test">Step 8 — Test</h3>
 <ol>
 <li>Open an incognito window</li>
 <li>Visit <code>https://ensemble.your-domain.com</code></li>
@@ -488,7 +815,7 @@ Proxy:   ON (orange cloud — REQUIRED for Access to work)
 <li>Click the link → redirected back to your dashboard, logged in</li>
 <li>Re-test: dashboard loads directly because session cookie is valid</li>
 </ol>
-<h3>Step 9 — PWA install</h3>
+<h3 id="step-9-pwa-install">Step 9 — PWA install</h3>
 <p>After logging in once on a device, install the PWA via &ldquo;Add to Home Screen&rdquo;:</p>
 <ul>
 <li>iOS: Safari → Share → Add to Home Screen</li>
@@ -496,7 +823,7 @@ Proxy:   ON (orange cloud — REQUIRED for Access to work)
 <li>Android: Chrome → menu → Add to Home screen</li>
 </ul>
 <p>Cookie persists in the PWA shell. Re-login on session expiry.</p>
-<h3>Step 10 — Update Ensemble references</h3>
+<h3 id="step-10-update-ensemble-references">Step 10 — Update Ensemble references</h3>
 <p>Once auth is live and tested, update places that reference the public URL:</p>
 <ul>
 <li><code>bin/dashboard-generate.sh</code> — <code>DASHBOARD_URL</code> env var defaults</li>
@@ -504,37 +831,56 @@ Proxy:   ON (orange cloud — REQUIRED for Access to work)
 <li><code>public/index.html</code> (marketing) — same domain, same auth (separate Access app or include path)</li>
 <li>README badges, MOBILE_DISPATCH.md walkthroughs</li>
 </ul>
-<h2>Multiple sub-paths under one Access policy</h2>
+<h2 id="multiple-sub-paths-under-one-access-policy">Multiple sub-paths under one Access policy</h2>
 <p>If you want phone + desktop cheat sheets behind the same auth:</p>
 <ul>
 <li>Add CNAMEs for each (<code>phone.your-domain.com</code>, <code>desktop.your-domain.com</code>)</li>
 <li>Create an Access application for each, OR one app with multiple subdomain entries</li>
 <li>Same policy can cover all of them</li>
 </ul>
-<h2>Costs</h2>
+<h2 id="costs">Costs</h2>
 <ul>
 <li>Free tier: 50 seats (way more than enough)</li>
 <li>Paid: $7/user/month if you ever exceed 50 (you won&rsquo;t)</li>
 </ul>
-<h2>Rollback</h2>
+<h2 id="rollback">Rollback</h2>
 <p>If anything breaks, you can disable Access without losing the GitHub Pages backend:</p>
 <ul>
 <li>Cloudflare → Zero Trust → Access → Applications → toggle the app to Disabled</li>
 <li>DNS still routes through Cloudflare; site is now public again</li>
 <li>OR set proxy off (grey cloud) → Cloudflare bypassed entirely, GitHub Pages serves directly</li>
 </ul>
-<h2>Alternatives considered</h2>
+<h2 id="alternatives-considered">Alternatives considered</h2>
 <ul>
 <li><strong>Client-side password gate</strong> — basic JS check, breakable via DevTools. Good MVP only.</li>
 <li><strong>Tailscale-only</strong> — fully private but loses any public access for demos.</li>
 <li><strong>Vercel/Netlify migration</strong> — real auth via their platforms but moves hosting off GitHub Pages.</li>
 </ul>
 <p>Cloudflare Access wins on: real security + free + keeps GitHub Pages + supports PWA + audit log.</p>
-<h2>When to do this</h2>
+<h2 id="when-to-do-this">When to do this</h2>
 <p>Before public-flipping <code>claude-ensemble</code> and submitting to the Claude marketplace. The marketplace listing will surface the dashboard URL to users; auth-gating is mandatory before that point.</p>
 <p>For private preview (current state): nice-to-have. Most random visitors won&rsquo;t find the URL.</p>
     </article>
+    <footer class="doc-foot">
+      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+    </footer>
   </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('docProgressBar');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scrolled = (h.scrollTop || document.body.scrollTop);
+        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+        bar.style.width = pct + '%';
+      }
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
 </main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>

@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
 <style>
 :root {
   --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
@@ -57,8 +58,18 @@ body {
 .topnav .brand {
   font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
   color: var(--ink); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
 }
 .topnav .brand em { color: var(--accent); font-style: normal; }
+.topnav .brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; display: block;
+  flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+}
+.topnav .brand-word { line-height: 1; }
+@media (max-width: 480px) {
+  .topnav .brand-word { display: none; }
+  .topnav .brand-mark { width: 30px; height: 30px; }
+}
 .topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
 .topnav li a {
   display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
@@ -346,13 +357,77 @@ body.theme-aurora {
   --accent: #a78bfa; --accent-2: #c4b5fd; --accent-soft: rgba(167,139,250,0.14);
 } }
 
+body.theme-rose {
+  --bg: #fff5f7; --bg-raised: #ffffff; --bg-elevated: #fff8fa;
+  --ink: #2a0a14; --ink-2: #4a1f2c; --ink-3: #8a4f66; --ink-4: #c896aa;
+  --rule: #f0d8e0; --rule-2: #f5e4ea;
+  --accent: #e11d48; --accent-2: #f43f5e; --accent-soft: rgba(225,29,72,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-rose {
+  --bg: #1a0810; --bg-raised: #2a1218; --bg-elevated: #321820;
+  --ink: #ffe4eb; --ink-2: #f5c0ce; --ink-3: #c88898; --ink-4: #8a5868;
+  --rule: #3a1a26; --rule-2: #2c121a;
+  --accent: #f43f5e; --accent-2: #fb7185; --accent-soft: rgba(244,63,94,0.14);
+} }
+
+body.theme-ocean {
+  --bg: #f0f9fb; --bg-raised: #ffffff; --bg-elevated: #f5fbfd;
+  --ink: #0a1f26; --ink-2: #1f3d4d; --ink-3: #4d7588; --ink-4: #8ab0bf;
+  --rule: #cbe3eb; --rule-2: #ddebf0;
+  --accent: #0891b2; --accent-2: #06b6d4; --accent-soft: rgba(8,145,178,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-ocean {
+  --bg: #051418; --bg-raised: #0c1f26; --bg-elevated: #122a32;
+  --ink: #d8f0f7; --ink-2: #b0d8e3; --ink-3: #7daabe; --ink-4: #4a7388;
+  --rule: #1a3540; --rule-2: #122832;
+  --accent: #06b6d4; --accent-2: #22d3ee; --accent-soft: rgba(6,182,212,0.14);
+} }
+
+body.theme-sunset {
+  --bg: #fff7ed; --bg-raised: #ffffff; --bg-elevated: #fffaf2;
+  --ink: #2a1505; --ink-2: #4d2810; --ink-3: #8b5524; --ink-4: #c89970;
+  --rule: #f0d8b8; --rule-2: #f5e4cc;
+  --accent: #ea580c; --accent-2: #f97316; --accent-soft: rgba(234,88,12,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sunset {
+  --bg: #1a0a02; --bg-raised: #2a1408; --bg-elevated: #321a0c;
+  --ink: #ffe8d0; --ink-2: #f5c8a0; --ink-3: #c89570; --ink-4: #8a5f40;
+  --rule: #3a1f0c; --rule-2: #2c1808;
+  --accent: #f97316; --accent-2: #fb923c; --accent-soft: rgba(249,115,22,0.14);
+} }
+
+body.theme-midnight {
+  --bg: #f4f6fb; --bg-raised: #ffffff; --bg-elevated: #f8fafc;
+  --ink: #0c1024; --ink-2: #1e2440; --ink-3: #4d557a; --ink-4: #8a92b3;
+  --rule: #d6dbeb; --rule-2: #e3e8f2;
+  --accent: #4f46e5; --accent-2: #6366f1; --accent-soft: rgba(79,70,229,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-midnight {
+  --bg: #060814; --bg-raised: #0d1024; --bg-elevated: #131730;
+  --ink: #e0e4f5; --ink-2: #c0c8e0; --ink-3: #8a92b3; --ink-4: #565d80;
+  --rule: #1a1d35; --rule-2: #131628;
+  --accent: #6366f1; --accent-2: #818cf8; --accent-soft: rgba(99,102,241,0.16);
+} }
+
+body.theme-sage {
+  --bg: #f6faf2; --bg-raised: #ffffff; --bg-elevated: #fafcf7;
+  --ink: #182410; --ink-2: #2d3d22; --ink-3: #5a704a; --ink-4: #9ab088;
+  --rule: #d8e3c8; --rule-2: #e8efdc;
+  --accent: #65a30d; --accent-2: #84cc16; --accent-soft: rgba(101,163,13,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sage {
+  --bg: #0a1505; --bg-raised: #131f0a; --bg-elevated: #1a2810;
+  --ink: #e0f0d0; --ink-2: #c0d8a8; --ink-3: #8aa870; --ink-4: #5a7048;
+  --rule: #243018; --rule-2: #1a2410;
+  --accent: #84cc16; --accent-2: #a3e635; --accent-soft: rgba(132,204,22,0.14);
+} }
+
 /* Theme picker UI */
 .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; }
 .theme-swatch {
   width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
-  border: 2px solid var(--rule); transition: border-color 200ms var(--ease), transform 200ms var(--ease);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: white;
+  border: 2px solid var(--rule);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
   background: linear-gradient(135deg, var(--swatch-a), var(--swatch-b));
 }
 .theme-swatch:hover { transform: scale(1.05); }
@@ -367,12 +442,259 @@ body.theme-aurora {
 .theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
 .theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
 .theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
+
+/* ─── Widget dashboard ──────────────────────────────────────────────── */
+.widget-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(140px, auto); gap: 16px; margin: 24px 0;
+}
+@media (max-width: 768px) {
+  .widget-grid { grid-template-columns: repeat(2, 1fr); }
+  .widget--1x1, .widget--2x1, .widget--1x2, .widget--2x2 { grid-column: span 1; grid-row: span 1; }
+}
+@media (min-width: 769px) and (max-width: 1100px) {
+  .widget-grid { grid-template-columns: repeat(6, 1fr); }
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+@media (min-width: 1101px) {
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+.widget {
+  position: relative; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-md); padding: 18px;
+  display: flex; flex-direction: column;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), border-color 200ms var(--ease);
+  min-height: 0;
+}
+.widget:hover { box-shadow: var(--shadow-md); }
+.widget__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
+}
+.widget__title {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.widget__hint { font-size: 10px; color: var(--ink-4); white-space: nowrap; }
+.widget__body {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+  min-height: 0; overflow: hidden;
+}
+.widget__body--center { justify-content: center; align-items: center; text-align: center; }
+.widget__numeral {
+  font-family: var(--font-display, var(--font-heading, serif));
+  font-size: 44px; font-weight: 600; line-height: 1; color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.widget__numeral .muted { opacity: 0.4; font-size: 0.6em; font-weight: 500; }
+.widget__chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.widget__chip--success { background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a; border-color: color-mix(in srgb, #16a34a 28%, transparent); }
+.widget__chip--warn    { background: color-mix(in srgb, #d97706 14%, transparent); color: #d97706; border-color: color-mix(in srgb, #d97706 28%, transparent); }
+.widget__chip--danger  { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; border-color: color-mix(in srgb, #dc2626 28%, transparent); }
+.widget__chip--neutral { background: var(--bg-sunken, var(--bg-elevated)); color: var(--ink-2); border-color: var(--rule); }
+
+.widget__btn {
+  appearance: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  background: var(--bg-elevated, var(--bg-raised)); border: 1px solid var(--rule);
+  color: var(--ink); font-size: 13px; font-weight: 500; font-family: inherit;
+  transition: all 180ms var(--ease);
+}
+.widget__btn:hover { border-color: var(--accent); color: var(--accent); }
+.widget__btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.widget__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.widget__btn--danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.widget__btn--danger:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
+.widget__btn--big { padding: 14px 20px; font-size: 14px; font-weight: 600; }
+.widget__btn--ghost { background: transparent; border-color: var(--rule-2); color: var(--ink-3); }
+.widget__btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.widget__row { display: flex; gap: 6px; flex-wrap: wrap; }
+.widget__row--tight { gap: 4px; }
+.widget__divider { height: 1px; background: var(--rule-2); margin: 8px 0; }
+
+.widget__select, .widget__input, .widget__textarea {
+  appearance: none; padding: 8px 10px; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--bg); color: var(--ink);
+  font-family: inherit; font-size: 13px; width: 100%;
+  transition: border-color 180ms var(--ease);
+}
+.widget__select:focus, .widget__input:focus, .widget__textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.widget__textarea { resize: vertical; min-height: 60px; font-family: var(--font-mono, monospace); }
+
+.widget__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.widget__list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px;
+  background: var(--bg-elevated, var(--bg-raised));
+  border: 1px solid transparent;
+}
+.widget__list li:hover { border-color: var(--rule); }
+
+/* Edit mode + chrome */
+.widget__remove, .widget__resize, .widget__handle { display: none; }
+.editing-dashboard .widget {
+  cursor: grab; user-select: none;
+  animation: widget-wiggle 0.6s ease-in-out infinite;
+}
+.editing-dashboard .widget:nth-child(odd) { animation-delay: -0.3s; }
+.editing-dashboard .widget:active { cursor: grabbing; }
+.editing-dashboard .widget__remove,
+.editing-dashboard .widget__resize { display: flex; }
+.editing-dashboard .widget input,
+.editing-dashboard .widget textarea,
+.editing-dashboard .widget select,
+.editing-dashboard .widget button:not(.widget__remove):not(.widget__resize) {
+  pointer-events: none; opacity: 0.55;
+}
+.widget__remove {
+  position: absolute; top: -10px; right: -10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #dc2626; color: #fff; border: 2px solid var(--bg);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center;
+  z-index: 3; box-shadow: var(--shadow-md);
+  transition: transform 150ms var(--ease);
+}
+.widget__remove:hover { transform: scale(1.12); background: #ef4444; }
+.widget__resize {
+  position: absolute; bottom: 8px; right: 8px;
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--accent-soft); color: var(--accent);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center; border: none;
+  z-index: 3; transition: transform 150ms var(--ease);
+}
+.widget__resize:hover { transform: scale(1.12); }
+.widget.is-dragging { opacity: 0.4; transform: scale(0.96); }
+.widget.is-drop-target { outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+@keyframes widget-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-0.5deg); }
+  75%  { transform: rotate(0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.dash-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 8px 0 0 0; gap: 12px; flex-wrap: wrap;
+}
+.dash-toolbar__hint { font-size: 12px; color: var(--ink-3); }
+.btn-edit-dashboard, .btn-add-widget, .btn-reset-layout {
+  appearance: none; padding: 9px 18px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink);
+  font-family: inherit;
+  transition: all 200ms var(--ease);
+}
+.btn-edit-dashboard:hover, .btn-add-widget:hover, .btn-reset-layout:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.btn-add-widget { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-add-widget:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+/* Add Widget bottom sheet */
+.widget-shelf {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-raised); border-top: 1px solid var(--rule);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.10); padding: 24px;
+  max-height: 60vh; overflow-y: auto; z-index: 100;
+  transform: translateY(100%); transition: transform 320ms var(--ease);
+}
+.editing-dashboard .widget-shelf { transform: translateY(0); }
+.widget-shelf__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.widget-shelf__title { font-size: 18px; font-weight: 600; margin: 0; }
+.widget-shelf__close { font-size: 22px; line-height: 1; cursor: pointer; padding: 4px 12px;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 100px; }
+.widget-shelf__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; max-width: 1200px; margin: 0 auto;
+}
+.widget-shelf__item {
+  padding: 14px; background: var(--bg); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer; text-align: left;
+  font-family: inherit;
+  transition: transform 160ms var(--ease), border-color 160ms var(--ease);
+}
+.widget-shelf__item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.widget-shelf__item h3 { font-size: 13px; margin: 0 0 4px 0; font-weight: 600; color: var(--ink); }
+.widget-shelf__item p { font-size: 11px; color: var(--ink-3); margin: 0; line-height: 1.4; }
+.widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
+.widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
+
+
+/* ─── Widget sections (public + private partitioning) ──────────────── */
+.widget-section { margin: 24px 0 36px; }
+.widget-section + .widget-section { border-top: 1px dashed var(--rule); padding-top: 24px; }
+.widget-section__header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 14px; padding-bottom: 10px;
+}
+.widget-section__heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.widget-section__heading > div { min-width: 0; }
+.widget-section__title {
+  font-family: var(--font-heading, var(--font-display, serif));
+  font-size: 18px; font-weight: 600; margin: 0; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.widget-section__sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
+.widget-section__chip {
+  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.widget-section__chip--public {
+  background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a;
+  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
+}
+.widget-section__chip--private {
+  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.widget-section__move {
+  appearance: none; padding: 6px 14px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule); cursor: pointer;
+  font-size: 12px; font-weight: 600; color: var(--ink-2); font-family: inherit;
+  transition: all 180ms var(--ease); white-space: nowrap; flex-shrink: 0;
+  display: none;
+}
+.editing-dashboard .widget-section__move { display: inline-block; }
+.widget-section__move:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hide section headers when NOT in edit mode for a quieter default view */
+:not(.editing-dashboard) .widget-section__header { opacity: 0.6; }
+:not(.editing-dashboard) .widget-section__sub { display: none; }
+
+/* Shelf row chip */
+.widget-shelf__row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+
 </style>
 </head>
 <body>
 <nav class="topnav">
   <div class="wrap">
-    <a class="brand" href="./">Ensemble</a>
+    <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
@@ -398,14 +720,19 @@ body.theme-aurora {
   </div>
 </div>
 <main class="doc-page">
-  <div class="wrap">
+  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
+  <div class="wrap doc-wrap">
     <a href="../docs.html" class="doc-back">← All documentation</a>
-    <p class="doc-meta">plugins/ensemble/TROUBLESHOOTING.md</p>
+    <header class="doc-hero">
+      <p class="doc-eyebrow">Documentation</p>
+      <h1 class="doc-title">Troubleshooting</h1>
+      <p class="doc-lead">23 failure modes with diagnostics + recovery.</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>plugins/ensemble/TROUBLESHOOTING.md</code></p>
+    </header>
     <article class="doc-content">
-<h1>TROUBLESHOOTING — The Ensemble</h1>
 <p>Fifteen sections, ordered by how often you&rsquo;re likely to hit each. Every section follows the same shape: <strong>Symptom → Diagnostic → Recovery</strong>. If a recovery step involves a command, it&rsquo;s a play-button you can click.</p>
 <hr />
-<h2>1. <code>git clone</code> fails during install with auth error</h2>
+<h2 id="1-git-clone-fails-during-install-with-auth-error">1. <code>git clone</code> fails during install with auth error</h2>
 <p><strong>Symptom:</strong> installer step 3 halts with <code>remote: Repository not found</code> or <code>Authentication failed for 'https://github.com/...'</code>.</p>
 <p><strong>Diagnostic:</strong></p>
 <pre><code class="language-bash">gh auth status
@@ -416,7 +743,7 @@ gh repo view KiwiMaddog2020/claude-ensemble
 - Logged in as the wrong account → <code>gh auth logout</code> then <code>gh auth login</code> again.
 - Repo is private and you&rsquo;re not a collaborator → ping the user for an invite before re-running the installer.</p>
 <hr />
-<h2>2. Tools blocked with <code>ORCHESTRATION LOCK:</code> message</h2>
+<h2 id="2-tools-blocked-with-orchestration-lock-message">2. Tools blocked with <code>ORCHESTRATION LOCK:</code> message</h2>
 <p><strong>Symptom:</strong> MCP VM tool calls (computer-use, Claude_Preview, Claude_in_Chrome) fail with <code>ORCHESTRATION LOCK: mode=direct</code> or <code>ORCHESTRATION LOCK: autopilot held by '&lt;slug&gt;'</code>.</p>
 <p><strong>This is correct behavior.</strong> The hook is doing its job.</p>
 <p><strong>Diagnostic:</strong></p>
@@ -428,7 +755,7 @@ gh repo view KiwiMaddog2020/claude-ensemble
 - <code>active_autopilot_chat != null and != you</code> → another Agent holds the lock. Wait for <code>***AUTOPILOT COMPLETE***</code> or read the holder&rsquo;s status file to see what they&rsquo;re doing.
 - Lock held by you but shouldn&rsquo;t be → crash recovery. Force-release (see §4).</p>
 <hr />
-<h2>3. <code>[ORCHESTRATOR] ... MISSING</code> at SessionStart</h2>
+<h2 id="3-orchestrator-missing-at-sessionstart">3. <code>[ORCHESTRATOR] ... MISSING</code> at SessionStart</h2>
 <p><strong>Symptom:</strong> new chat&rsquo;s context shows <code>[ORCHESTRATOR] hard-enforcement hook MISSING at ${CLAUDE_PLUGIN_ROOT}/bin/orchestrator_lock.sh</code> or <code>... INSTALLED but not registered in ...</code>.</p>
 <p><strong>Diagnostic:</strong></p>
 <pre><code class="language-bash">ls -la ${CLAUDE_PLUGIN_ROOT}/bin/orchestrator_lock.sh
@@ -439,7 +766,7 @@ jq '.hooks.PreToolUse' ~/.claude/settings.json
 - Script present, not in settings → copy <code>templates/CLAUDE_CODE_SETTINGS.example.json</code> contents into <code>~/.claude/settings.json</code>, merging any existing hooks you want to keep.
 - Script present, registered, but healthcheck still says MISSING → bug. Paste the healthcheck output into this chat for diagnosis.</p>
 <hr />
-<h2>4. Autopilot lock stuck</h2>
+<h2 id="4-autopilot-lock-stuck">4. Autopilot lock stuck</h2>
 <p><strong>Symptom:</strong> <code>jq '.active_autopilot_chat' ${CLAUDE_PLUGIN_DATA}/state.json</code> shows a slug, but the chat that held it is closed or unresponsive for &gt; 45 min.</p>
 <p><strong>Diagnostic:</strong></p>
 <pre><code class="language-bash">cat ${CLAUDE_PLUGIN_DATA}/state.lock.d/holder.json 2&gt;/dev/null
@@ -456,7 +783,7 @@ stat -f '%Sm' ${CLAUDE_PLUGIN_DATA}/state.lock.d 2&gt;/dev/null
 <pre><code class="language-bash">echo &quot;$(date -u +%FT%TZ) MANUAL_STEAL by kevin — stuck chat recovery&quot; &gt;&gt; ${CLAUDE_PLUGIN_DATA}/lock_steals.log
 </code></pre>
 <hr />
-<h2>5. <code>settings.json</code> merge conflict during install</h2>
+<h2 id="5-settingsjson-merge-conflict-during-install">5. <code>settings.json</code> merge conflict during install</h2>
 <p><strong>Symptom:</strong> installer step 5 halts with &ldquo;existing PreToolUse matcher conflicts with ours&rdquo; or <code>jq</code> parse error.</p>
 <p><strong>Diagnostic:</strong></p>
 <pre><code class="language-bash">jq '.hooks.PreToolUse[].matcher' ~/.claude/settings.json
@@ -468,7 +795,7 @@ stat -f '%Sm' ${CLAUDE_PLUGIN_DATA}/state.lock.d 2&gt;/dev/null
 <pre><code class="language-bash">mv ~/.claude/settings.json ~/.claude/settings.json.broken-$(date +%s) &amp;&amp; cp ${CLAUDE_PLUGIN_ROOT}/templates/CLAUDE_CODE_SETTINGS.example.json ~/.claude/settings.json
 </code></pre>
 <hr />
-<h2>6. Scheduled routine didn&rsquo;t fire overnight</h2>
+<h2 id="6-scheduled-routine-didnt-fire-overnight">6. Scheduled routine didn&rsquo;t fire overnight</h2>
 <p><strong>Symptom:</strong> expected briefing at <code>${CLAUDE_PLUGIN_DATA}/briefings/YYYY-MM-DD.md</code> but file doesn&rsquo;t exist.</p>
 <p><strong>Diagnostic:</strong></p>
 <pre><code class="language-bash"># Did the Mac sleep past the fire time?
@@ -483,7 +810,7 @@ ls -la ~/.claude/scheduled-tasks/
 - App wasn&rsquo;t running → open Claude Desktop and the 7-day catch-up may trigger one replay. Otherwise the fire is lost; wait for tomorrow.
 - Mode was <code>direct</code> at the scheduled time → routine no-oped silently by design. Flip mode back with <code>***ORCHESTRATOR ON***</code>.</p>
 <hr />
-<h2>7. <code>state.json</code> is corrupt or missing</h2>
+<h2 id="7-statejson-is-corrupt-or-missing">7. <code>state.json</code> is corrupt or missing</h2>
 <p><strong>Symptom:</strong> <code>jq . ${CLAUDE_PLUGIN_DATA}/state.json</code> fails; hook healthcheck reports state unreadable; tools fail-closed.</p>
 <p><strong>Diagnostic:</strong></p>
 <pre><code class="language-bash">ls -la ${CLAUDE_PLUGIN_DATA}/state.json*
@@ -506,7 +833,7 @@ EOF
 <li>Then re-register any <code>automation_registry</code> entries by running <code>bin/status.sh</code> to confirm.</li>
 </ul>
 <hr />
-<h2>8. Launchd sweeper not firing</h2>
+<h2 id="8-launchd-sweeper-not-firing">8. Launchd sweeper not firing</h2>
 <p><strong>Symptom:</strong> locks older than 45 min sit un-stolen; <code>lock_steals.log</code> has no recent entries.</p>
 <p><strong>Diagnostic:</strong></p>
 <pre><code class="language-bash">launchctl list | grep orchestrator
@@ -525,7 +852,7 @@ tail -20 /tmp/orchestrator-sweeper.err 2&gt;/dev/null
 launchctl load ${CLAUDE_PLUGIN_ROOT}/launchd/com.kevin.orchestrator.stale-lock-sweeper.plist
 </code></pre>
 <hr />
-<h2>9. Permission prompt blocking automated work</h2>
+<h2 id="9-permission-prompt-blocking-automated-work">9. Permission prompt blocking automated work</h2>
 <p><strong>Symptom:</strong> a scheduled routine or Channels-session request stalls on a Claude Code permission dialog that nobody&rsquo;s there to click.</p>
 <p><strong>Diagnostic:</strong> check the session in <code>claude.ai/code</code> scheduled tasks sidebar — running tasks that pause for permission show a pending-approval state.</p>
 <p><strong>Recovery:</strong>
@@ -537,7 +864,7 @@ launchctl load ${CLAUDE_PLUGIN_ROOT}/launchd/com.kevin.orchestrator.stale-lock-s
 <li>For Channels sessions, start them with <code>--dangerously-skip-permissions</code> — the <code>PreToolUse</code> hook still blocks VM tools (hooks run before perm check), so bypassing prompts does not bypass safety.</li>
 </ul>
 <hr />
-<h2>10. Shutdown cascade stuck (<code>mode_transitioning=true</code> forever)</h2>
+<h2 id="10-shutdown-cascade-stuck-mode_transitioningtrue-forever">10. Shutdown cascade stuck (<code>mode_transitioning=true</code> forever)</h2>
 <p><strong>Symptom:</strong> <code>state.json.mode_transitioning</code> shows <code>true</code> for &gt; 1 minute; chats print &ldquo;⏸ ORCHESTRATOR IN TRANSITION — standing by.&rdquo; on every turn.</p>
 <p><strong>Diagnostic:</strong></p>
 <pre><code class="language-bash">jq '.cascade' ${CLAUDE_PLUGIN_DATA}/state.json
@@ -554,7 +881,7 @@ echo &quot;$(date -u +%FT%TZ) MANUAL_CASCADE_RESET by kevin&quot; &gt;&gt; ${CLA
 <li>Then <code>***ORCHESTRATOR ON***</code> in a fresh chat to resume normal operation.</li>
 </ul>
 <hr />
-<h2>11. Chat slug mismatch — hook can&rsquo;t identify the chat</h2>
+<h2 id="11-chat-slug-mismatch-hook-cant-identify-the-chat">11. Chat slug mismatch — hook can&rsquo;t identify the chat</h2>
 <p><strong>Symptom:</strong> <code>ORCHESTRATION LOCK: autopilot held by 'other-slug'. This chat ('unknown') must queue.</code> when you expect the chat to BE the holder.</p>
 <p><strong>Diagnostic:</strong></p>
 <pre><code class="language-bash">cat &quot;$PWD/.claude/.chat_slug&quot; 2&gt;/dev/null
@@ -571,7 +898,7 @@ jq '.active_autopilot_chat' ${CLAUDE_PLUGIN_DATA}/state.json
 <pre><code class="language-bash">jq '.active_autopilot_chat=&quot;&lt;your-slug&gt;&quot;' ${CLAUDE_PLUGIN_DATA}/state.json &gt; /tmp/s.json &amp;&amp; mv /tmp/s.json ${CLAUDE_PLUGIN_DATA}/state.json
 </code></pre>
 <hr />
-<h2>12. Hook smoke test fails during install</h2>
+<h2 id="12-hook-smoke-test-fails-during-install">12. Hook smoke test fails during install</h2>
 <p><strong>Symptom:</strong> installer step 7 reports <code>✗ Hook did not block. Exit code: 0.</code> when mode was flipped to <code>direct</code>.</p>
 <p><strong>Diagnostic:</strong></p>
 <pre><code class="language-bash">echo '{&quot;tool_name&quot;:&quot;mcp__computer-use__screenshot&quot;,&quot;cwd&quot;:&quot;/tmp&quot;}' | ${CLAUDE_PLUGIN_ROOT}/bin/orchestrator_lock.sh
@@ -585,7 +912,7 @@ test -x ${CLAUDE_PLUGIN_ROOT}/bin/orchestrator_lock.sh &amp;&amp; echo &quot;exe
 - Script reads <code>$HOME</code> from somewhere unexpected → set an explicit <code>ORCH=${CLAUDE_PLUGIN_ROOT}</code> at the top (already done in the shipped script).
 - Still failing → <code>set -x</code> at the top of the hook, re-run, paste the trace.</p>
 <hr />
-<h2>13. <code>gh auth</code> surprises</h2>
+<h2 id="13-gh-auth-surprises">13. <code>gh auth</code> surprises</h2>
 <p><strong>Symptom:</strong> <code>gh</code> commands unexpectedly fail, the auto-GitHub extension can&rsquo;t create repos, or <code>git push</code> prompts for a password.</p>
 <p><strong>Diagnostic:</strong></p>
 <pre><code class="language-bash">gh auth status
@@ -597,7 +924,7 @@ git config --global credential.helper
 - HTTPS vs SSH mismatch → check <code>git remote -v</code> and <code>gh auth setup-git</code>.
 - Two-factor popping repeatedly → use a personal access token scoped to <code>repo</code> + <code>workflow</code> instead of browser auth.</p>
 <hr />
-<h2>14. Multi-machine sync surprises</h2>
+<h2 id="14-multi-machine-sync-surprises">14. Multi-machine sync surprises</h2>
 <p><strong>Symptom:</strong> new Mac doesn&rsquo;t have the same state as the old one; charters in the new clone are stale.</p>
 <p><strong>Recovery:</strong>
 - Re-run installer on the new Mac.
@@ -609,7 +936,7 @@ git config --global credential.helper
 <li><code>state.json</code>, <code>chats/</code>, and <code>state.lock.d/</code> are runtime-local and <strong>do not sync across machines</strong> by design.</li>
 </ul>
 <hr />
-<h2>15. Channels session dropped</h2>
+<h2 id="15-channels-session-dropped">15. Channels session dropped</h2>
 <blockquote>
 <p><strong>Note:</strong> The exact Claude Code invocation for an iMessage Channels listener is plugin-documented, not a core <code>claude</code> CLI flag. The <code>--channels</code> references in earlier drafts were speculative. Before relying on this recovery path, verify the current command via <code>/plugin marketplace</code> and the installed iMessage plugin&rsquo;s own documentation. Path B (Cloud Routine + iMessage Channels) is still v2-scope per <code>plugins/ensemble/MOBILE_DISPATCH.md §3</code>.</p>
 </blockquote>
@@ -628,8 +955,8 @@ cd ${CLAUDE_PLUGIN_ROOT} &amp;&amp; tmux new-session -d -s orchestrator 'claude 
 <li>Full Disk Access revoked → System Settings → Privacy &amp; Security → Full Disk Access → add Terminal/iTerm back.</li>
 </ul>
 <hr />
-<h2>v2.0 failure modes (2026-04-26 contract sweep)</h2>
-<h3>16. Per-project spawn lock conflict (refusal code 2)</h3>
+<h2 id="v20-failure-modes-2026-04-26-contract-sweep">v2.0 failure modes (2026-04-26 contract sweep)</h2>
+<h3 id="16-per-project-spawn-lock-conflict-refusal-code-2">16. Per-project spawn lock conflict (refusal code 2)</h3>
 <p><strong>Symptom</strong>: Autopilot fires fail with <code>SPAWN-LOCK: per-project lock held for '&lt;slug&gt;' (pid=N). Refused.</code></p>
 <p><strong>Cause</strong>: Another autopilot is already targeting the same project. The per-project lock prevents two subprocesses from stomping on the same repo simultaneously.</p>
 <p><strong>Fix</strong>:</p>
@@ -642,7 +969,7 @@ bash plugins/ensemble/bin/orchestrator_spawn_lock.sh sweep
 # Or force release a specific slug (only if you're SURE no autopilot is running)
 bash plugins/ensemble/bin/orchestrator_spawn_lock.sh release &lt;slug&gt;
 </code></pre>
-<h3>17. Concurrency cap hit + queue timeout (refusal code 3)</h3>
+<h3 id="17-concurrency-cap-hit-queue-timeout-refusal-code-3">17. Concurrency cap hit + queue timeout (refusal code 3)</h3>
 <p><strong>Symptom</strong>: <code>SPAWN-LOCK: cap held &gt;300s, no slot opened for '&lt;slug&gt;'. Refused.</code></p>
 <p><strong>Cause</strong>: <code>state.json.max_concurrent_autopilots</code> is at capacity, no slot opened within the 5-minute queue timeout.</p>
 <p><strong>Fix</strong>: Raise cap or kill an existing autopilot:</p>
@@ -650,7 +977,7 @@ bash plugins/ensemble/bin/orchestrator_spawn_lock.sh release &lt;slug&gt;
 # or
 bash bin/mobile_dispatch.sh kill
 </code></pre>
-<h3>18. Resource floor refused (refusal code 4)</h3>
+<h3 id="18-resource-floor-refused-refusal-code-4">18. Resource floor refused (refusal code 4)</h3>
 <p><strong>Symptom</strong>: <code>SPAWN-LOCK: resource floor — RAM N% &gt; threshold M%. Refused.</code> (or CPU variant)</p>
 <p><strong>Cause</strong>: <code>state.json.resource_floor_enabled = true</code> and the system is taxed at spawn time.</p>
 <p><strong>Fix</strong>: Wait or relax thresholds:</p>
@@ -658,7 +985,7 @@ bash bin/mobile_dispatch.sh kill
 # or disable
 jq '.resource_floor_enabled = false' state.json &gt; s.tmp &amp;&amp; mv s.tmp state.json
 </code></pre>
-<h3>19. Mid-run resource watchdog killed an autopilot</h3>
+<h3 id="19-mid-run-resource-watchdog-killed-an-autopilot">19. Mid-run resource watchdog killed an autopilot</h3>
 <p><strong>Symptom</strong>: Autopilot session aborts mid-run; <code>runs/watchdog-&lt;date&gt;.log</code> shows <code>KILLING parent process group (sustained pressure)</code>.</p>
 <p><strong>Cause</strong>: <code>state.json.resource_watchdog_enabled = true</code> and the watchdog detected sustained pressure (default: 3 consecutive breaches at 95% RAM or load &gt; 6.0).</p>
 <p><strong>Fix</strong>: Accept and reduce parallelism, or relax thresholds:</p>
@@ -666,19 +993,19 @@ jq '.resource_floor_enabled = false' state.json &gt; s.tmp &amp;&amp; mv s.tmp s
 # or env-tune
 WATCHDOG_RAM_PCT_THRESHOLD=98 WATCHDOG_BREACHES_TO_KILL=5 bash bin/autopilot_session.sh 60
 </code></pre>
-<h3>20. Network pre-flight failure</h3>
+<h3 id="20-network-pre-flight-failure">20. Network pre-flight failure</h3>
 <p><strong>Symptom</strong>: <code>[autopilot] ABORT: network pre-flight failed (cannot reach api.anthropic.com).</code></p>
 <p><strong>Fix</strong>: Check connectivity. If offline by design, disable:</p>
 <pre><code class="language-bash">jq '.require_network_check = false' state.json &gt; s.tmp &amp;&amp; mv s.tmp state.json
 </code></pre>
-<h3>21. Claude CLI version too old</h3>
+<h3 id="21-claude-cli-version-too-old">21. Claude CLI version too old</h3>
 <p><strong>Symptom</strong>: <code>[autopilot] ABORT: claude CLI X.Y.Z &lt; required A.B.C.</code></p>
 <p><strong>Fix</strong>:</p>
 <pre><code class="language-bash">npm i -g @anthropic-ai/claude-code
 # or relax the pin
 jq '.min_claude_cli_version = &quot;&quot;' state.json &gt; s.tmp &amp;&amp; mv s.tmp state.json
 </code></pre>
-<h3>22. Project state is Hibernating</h3>
+<h3 id="22-project-state-is-hibernating">22. Project state is Hibernating</h3>
 <p><strong>Symptom</strong>: <code>[autopilot] ABORT: project '&lt;slug&gt;' is Hibernating; promote first.</code></p>
 <p><strong>Fix</strong>: Move it out of Hibernating before firing:</p>
 <pre><code class="language-bash"># Verbal in any chat:
@@ -687,7 +1014,7 @@ jq '.min_claude_cli_version = &quot;&quot;' state.json &gt; s.tmp &amp;&amp; mv 
 # Or directly:
 jq '.state = &quot;Warmer&quot;' chats/&lt;slug&gt;.json &gt; s.tmp &amp;&amp; mv s.tmp chats/&lt;slug&gt;.json
 </code></pre>
-<h3>23. State.json corruption recovery</h3>
+<h3 id="23-statejson-corruption-recovery">23. State.json corruption recovery</h3>
 <p><strong>Symptom</strong>: <code>state.json</code> won&rsquo;t parse; autopilot/hooks fail closed.</p>
 <p><strong>Recovery path</strong> (in order):</p>
 <ol>
@@ -739,7 +1066,26 @@ jq '.state = &quot;Warmer&quot;' chats/&lt;slug&gt;.json &gt; s.tmp &amp;&amp; m
 <hr />
 <p><em>If you hit something not in this list, grab <code>bin/status.sh</code> output and a one-line symptom and ping the Maestro. The failure catalog grows from real incidents.</em></p>
     </article>
+    <footer class="doc-foot">
+      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+    </footer>
   </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('docProgressBar');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scrolled = (h.scrollTop || document.body.scrollTop);
+        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+        bar.style.width = pct + '%';
+      }
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
 </main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>

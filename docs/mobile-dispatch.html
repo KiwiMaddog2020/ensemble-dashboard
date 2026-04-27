@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
 <style>
 :root {
   --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
@@ -57,8 +58,18 @@ body {
 .topnav .brand {
   font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
   color: var(--ink); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
 }
 .topnav .brand em { color: var(--accent); font-style: normal; }
+.topnav .brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; display: block;
+  flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+}
+.topnav .brand-word { line-height: 1; }
+@media (max-width: 480px) {
+  .topnav .brand-word { display: none; }
+  .topnav .brand-mark { width: 30px; height: 30px; }
+}
 .topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
 .topnav li a {
   display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
@@ -346,13 +357,77 @@ body.theme-aurora {
   --accent: #a78bfa; --accent-2: #c4b5fd; --accent-soft: rgba(167,139,250,0.14);
 } }
 
+body.theme-rose {
+  --bg: #fff5f7; --bg-raised: #ffffff; --bg-elevated: #fff8fa;
+  --ink: #2a0a14; --ink-2: #4a1f2c; --ink-3: #8a4f66; --ink-4: #c896aa;
+  --rule: #f0d8e0; --rule-2: #f5e4ea;
+  --accent: #e11d48; --accent-2: #f43f5e; --accent-soft: rgba(225,29,72,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-rose {
+  --bg: #1a0810; --bg-raised: #2a1218; --bg-elevated: #321820;
+  --ink: #ffe4eb; --ink-2: #f5c0ce; --ink-3: #c88898; --ink-4: #8a5868;
+  --rule: #3a1a26; --rule-2: #2c121a;
+  --accent: #f43f5e; --accent-2: #fb7185; --accent-soft: rgba(244,63,94,0.14);
+} }
+
+body.theme-ocean {
+  --bg: #f0f9fb; --bg-raised: #ffffff; --bg-elevated: #f5fbfd;
+  --ink: #0a1f26; --ink-2: #1f3d4d; --ink-3: #4d7588; --ink-4: #8ab0bf;
+  --rule: #cbe3eb; --rule-2: #ddebf0;
+  --accent: #0891b2; --accent-2: #06b6d4; --accent-soft: rgba(8,145,178,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-ocean {
+  --bg: #051418; --bg-raised: #0c1f26; --bg-elevated: #122a32;
+  --ink: #d8f0f7; --ink-2: #b0d8e3; --ink-3: #7daabe; --ink-4: #4a7388;
+  --rule: #1a3540; --rule-2: #122832;
+  --accent: #06b6d4; --accent-2: #22d3ee; --accent-soft: rgba(6,182,212,0.14);
+} }
+
+body.theme-sunset {
+  --bg: #fff7ed; --bg-raised: #ffffff; --bg-elevated: #fffaf2;
+  --ink: #2a1505; --ink-2: #4d2810; --ink-3: #8b5524; --ink-4: #c89970;
+  --rule: #f0d8b8; --rule-2: #f5e4cc;
+  --accent: #ea580c; --accent-2: #f97316; --accent-soft: rgba(234,88,12,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sunset {
+  --bg: #1a0a02; --bg-raised: #2a1408; --bg-elevated: #321a0c;
+  --ink: #ffe8d0; --ink-2: #f5c8a0; --ink-3: #c89570; --ink-4: #8a5f40;
+  --rule: #3a1f0c; --rule-2: #2c1808;
+  --accent: #f97316; --accent-2: #fb923c; --accent-soft: rgba(249,115,22,0.14);
+} }
+
+body.theme-midnight {
+  --bg: #f4f6fb; --bg-raised: #ffffff; --bg-elevated: #f8fafc;
+  --ink: #0c1024; --ink-2: #1e2440; --ink-3: #4d557a; --ink-4: #8a92b3;
+  --rule: #d6dbeb; --rule-2: #e3e8f2;
+  --accent: #4f46e5; --accent-2: #6366f1; --accent-soft: rgba(79,70,229,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-midnight {
+  --bg: #060814; --bg-raised: #0d1024; --bg-elevated: #131730;
+  --ink: #e0e4f5; --ink-2: #c0c8e0; --ink-3: #8a92b3; --ink-4: #565d80;
+  --rule: #1a1d35; --rule-2: #131628;
+  --accent: #6366f1; --accent-2: #818cf8; --accent-soft: rgba(99,102,241,0.16);
+} }
+
+body.theme-sage {
+  --bg: #f6faf2; --bg-raised: #ffffff; --bg-elevated: #fafcf7;
+  --ink: #182410; --ink-2: #2d3d22; --ink-3: #5a704a; --ink-4: #9ab088;
+  --rule: #d8e3c8; --rule-2: #e8efdc;
+  --accent: #65a30d; --accent-2: #84cc16; --accent-soft: rgba(101,163,13,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sage {
+  --bg: #0a1505; --bg-raised: #131f0a; --bg-elevated: #1a2810;
+  --ink: #e0f0d0; --ink-2: #c0d8a8; --ink-3: #8aa870; --ink-4: #5a7048;
+  --rule: #243018; --rule-2: #1a2410;
+  --accent: #84cc16; --accent-2: #a3e635; --accent-soft: rgba(132,204,22,0.14);
+} }
+
 /* Theme picker UI */
 .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; }
 .theme-swatch {
   width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
-  border: 2px solid var(--rule); transition: border-color 200ms var(--ease), transform 200ms var(--ease);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: white;
+  border: 2px solid var(--rule);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
   background: linear-gradient(135deg, var(--swatch-a), var(--swatch-b));
 }
 .theme-swatch:hover { transform: scale(1.05); }
@@ -367,12 +442,259 @@ body.theme-aurora {
 .theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
 .theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
 .theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
+
+/* ─── Widget dashboard ──────────────────────────────────────────────── */
+.widget-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(140px, auto); gap: 16px; margin: 24px 0;
+}
+@media (max-width: 768px) {
+  .widget-grid { grid-template-columns: repeat(2, 1fr); }
+  .widget--1x1, .widget--2x1, .widget--1x2, .widget--2x2 { grid-column: span 1; grid-row: span 1; }
+}
+@media (min-width: 769px) and (max-width: 1100px) {
+  .widget-grid { grid-template-columns: repeat(6, 1fr); }
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+@media (min-width: 1101px) {
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+.widget {
+  position: relative; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-md); padding: 18px;
+  display: flex; flex-direction: column;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), border-color 200ms var(--ease);
+  min-height: 0;
+}
+.widget:hover { box-shadow: var(--shadow-md); }
+.widget__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
+}
+.widget__title {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.widget__hint { font-size: 10px; color: var(--ink-4); white-space: nowrap; }
+.widget__body {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+  min-height: 0; overflow: hidden;
+}
+.widget__body--center { justify-content: center; align-items: center; text-align: center; }
+.widget__numeral {
+  font-family: var(--font-display, var(--font-heading, serif));
+  font-size: 44px; font-weight: 600; line-height: 1; color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.widget__numeral .muted { opacity: 0.4; font-size: 0.6em; font-weight: 500; }
+.widget__chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.widget__chip--success { background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a; border-color: color-mix(in srgb, #16a34a 28%, transparent); }
+.widget__chip--warn    { background: color-mix(in srgb, #d97706 14%, transparent); color: #d97706; border-color: color-mix(in srgb, #d97706 28%, transparent); }
+.widget__chip--danger  { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; border-color: color-mix(in srgb, #dc2626 28%, transparent); }
+.widget__chip--neutral { background: var(--bg-sunken, var(--bg-elevated)); color: var(--ink-2); border-color: var(--rule); }
+
+.widget__btn {
+  appearance: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  background: var(--bg-elevated, var(--bg-raised)); border: 1px solid var(--rule);
+  color: var(--ink); font-size: 13px; font-weight: 500; font-family: inherit;
+  transition: all 180ms var(--ease);
+}
+.widget__btn:hover { border-color: var(--accent); color: var(--accent); }
+.widget__btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.widget__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.widget__btn--danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.widget__btn--danger:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
+.widget__btn--big { padding: 14px 20px; font-size: 14px; font-weight: 600; }
+.widget__btn--ghost { background: transparent; border-color: var(--rule-2); color: var(--ink-3); }
+.widget__btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.widget__row { display: flex; gap: 6px; flex-wrap: wrap; }
+.widget__row--tight { gap: 4px; }
+.widget__divider { height: 1px; background: var(--rule-2); margin: 8px 0; }
+
+.widget__select, .widget__input, .widget__textarea {
+  appearance: none; padding: 8px 10px; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--bg); color: var(--ink);
+  font-family: inherit; font-size: 13px; width: 100%;
+  transition: border-color 180ms var(--ease);
+}
+.widget__select:focus, .widget__input:focus, .widget__textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.widget__textarea { resize: vertical; min-height: 60px; font-family: var(--font-mono, monospace); }
+
+.widget__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.widget__list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px;
+  background: var(--bg-elevated, var(--bg-raised));
+  border: 1px solid transparent;
+}
+.widget__list li:hover { border-color: var(--rule); }
+
+/* Edit mode + chrome */
+.widget__remove, .widget__resize, .widget__handle { display: none; }
+.editing-dashboard .widget {
+  cursor: grab; user-select: none;
+  animation: widget-wiggle 0.6s ease-in-out infinite;
+}
+.editing-dashboard .widget:nth-child(odd) { animation-delay: -0.3s; }
+.editing-dashboard .widget:active { cursor: grabbing; }
+.editing-dashboard .widget__remove,
+.editing-dashboard .widget__resize { display: flex; }
+.editing-dashboard .widget input,
+.editing-dashboard .widget textarea,
+.editing-dashboard .widget select,
+.editing-dashboard .widget button:not(.widget__remove):not(.widget__resize) {
+  pointer-events: none; opacity: 0.55;
+}
+.widget__remove {
+  position: absolute; top: -10px; right: -10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #dc2626; color: #fff; border: 2px solid var(--bg);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center;
+  z-index: 3; box-shadow: var(--shadow-md);
+  transition: transform 150ms var(--ease);
+}
+.widget__remove:hover { transform: scale(1.12); background: #ef4444; }
+.widget__resize {
+  position: absolute; bottom: 8px; right: 8px;
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--accent-soft); color: var(--accent);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center; border: none;
+  z-index: 3; transition: transform 150ms var(--ease);
+}
+.widget__resize:hover { transform: scale(1.12); }
+.widget.is-dragging { opacity: 0.4; transform: scale(0.96); }
+.widget.is-drop-target { outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+@keyframes widget-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-0.5deg); }
+  75%  { transform: rotate(0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.dash-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 8px 0 0 0; gap: 12px; flex-wrap: wrap;
+}
+.dash-toolbar__hint { font-size: 12px; color: var(--ink-3); }
+.btn-edit-dashboard, .btn-add-widget, .btn-reset-layout {
+  appearance: none; padding: 9px 18px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink);
+  font-family: inherit;
+  transition: all 200ms var(--ease);
+}
+.btn-edit-dashboard:hover, .btn-add-widget:hover, .btn-reset-layout:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.btn-add-widget { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-add-widget:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+/* Add Widget bottom sheet */
+.widget-shelf {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-raised); border-top: 1px solid var(--rule);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.10); padding: 24px;
+  max-height: 60vh; overflow-y: auto; z-index: 100;
+  transform: translateY(100%); transition: transform 320ms var(--ease);
+}
+.editing-dashboard .widget-shelf { transform: translateY(0); }
+.widget-shelf__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.widget-shelf__title { font-size: 18px; font-weight: 600; margin: 0; }
+.widget-shelf__close { font-size: 22px; line-height: 1; cursor: pointer; padding: 4px 12px;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 100px; }
+.widget-shelf__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; max-width: 1200px; margin: 0 auto;
+}
+.widget-shelf__item {
+  padding: 14px; background: var(--bg); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer; text-align: left;
+  font-family: inherit;
+  transition: transform 160ms var(--ease), border-color 160ms var(--ease);
+}
+.widget-shelf__item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.widget-shelf__item h3 { font-size: 13px; margin: 0 0 4px 0; font-weight: 600; color: var(--ink); }
+.widget-shelf__item p { font-size: 11px; color: var(--ink-3); margin: 0; line-height: 1.4; }
+.widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
+.widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
+
+
+/* ─── Widget sections (public + private partitioning) ──────────────── */
+.widget-section { margin: 24px 0 36px; }
+.widget-section + .widget-section { border-top: 1px dashed var(--rule); padding-top: 24px; }
+.widget-section__header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 14px; padding-bottom: 10px;
+}
+.widget-section__heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.widget-section__heading > div { min-width: 0; }
+.widget-section__title {
+  font-family: var(--font-heading, var(--font-display, serif));
+  font-size: 18px; font-weight: 600; margin: 0; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.widget-section__sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
+.widget-section__chip {
+  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.widget-section__chip--public {
+  background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a;
+  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
+}
+.widget-section__chip--private {
+  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.widget-section__move {
+  appearance: none; padding: 6px 14px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule); cursor: pointer;
+  font-size: 12px; font-weight: 600; color: var(--ink-2); font-family: inherit;
+  transition: all 180ms var(--ease); white-space: nowrap; flex-shrink: 0;
+  display: none;
+}
+.editing-dashboard .widget-section__move { display: inline-block; }
+.widget-section__move:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hide section headers when NOT in edit mode for a quieter default view */
+:not(.editing-dashboard) .widget-section__header { opacity: 0.6; }
+:not(.editing-dashboard) .widget-section__sub { display: none; }
+
+/* Shelf row chip */
+.widget-shelf__row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+
 </style>
 </head>
 <body>
 <nav class="topnav">
   <div class="wrap">
-    <a class="brand" href="./">Ensemble</a>
+    <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
@@ -398,306 +720,38 @@ body.theme-aurora {
   </div>
 </div>
 <main class="doc-page">
-  <div class="wrap">
+  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
+  <div class="wrap doc-wrap">
     <a href="../docs.html" class="doc-back">← All documentation</a>
-    <p class="doc-meta">plugins/ensemble/MOBILE_DISPATCH.md</p>
+    <header class="doc-hero">
+      <p class="doc-eyebrow">Documentation</p>
+      <h1 class="doc-title">Mobile Dispatch</h1>
+      <p class="doc-lead">**Status:** first draft, 2026-04-22. Written for the first live test tomorrow at work.</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>plugins/ensemble/MOBILE_DISPATCH.md</code></p>
+    </header>
     <article class="doc-content">
-<h1>Mobile Dispatch — phone → Mac → Ensemble</h1>
-<blockquote>
-<p><strong>Status:</strong> first draft, 2026-04-22. Written for the first live test tomorrow at work.
-<strong>Goal for this weekend:</strong> from your phone, kick off a 60-minute autopilot window (or kill everything) without touching the laptop.</p>
-</blockquote>
-<p>This doc gives you <strong>two paths</strong>:</p>
-<table>
-<thead>
-<tr>
-<th>Path</th>
-<th>Setup time</th>
-<th>Robustness</th>
-<th>Works offline of WiFi</th>
-<th>Recommended for</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>A — Tailscale + SSH Shortcut</strong></td>
-<td>~15 min</td>
-<td>Good</td>
-<td>Yes (cellular + Tailscale mesh)</td>
-<td><strong>Recommended path</strong> — production-ready.</td>
-</tr>
-<tr>
-<td><strong>B — Cloud Routine + iMessage Channels</strong></td>
-<td>~45 min</td>
-<td>Best</td>
-<td>Yes</td>
-<td>The target end-state. Ship next weekend.</td>
-</tr>
-</tbody>
-</table>
-<p>Path A gets you a working &ldquo;fire from phone&rdquo; demo <strong>tonight</strong> with no plugin install, no new accounts, and a failure mode you can debug over the phone. Path B is the plan-of-record once Channels is installed and the <code>/ensemble:autopilot</code> skill ships.</p>
-<hr />
-<h2>0. What you&rsquo;ll have when done</h2>
-<p><strong>Tomorrow at 10am:</strong></p>
-<ol>
-<li>You&rsquo;re at your desk at work.</li>
-<li>You tap a home-screen icon: <strong>&ldquo;Ensemble: Fire 60 min&rdquo;</strong>.</li>
-<li>3 seconds later, your phone buzzes: <em>&ldquo;Autopilot started. Lock held by maestro. I&rsquo;ll ping you at 11:02 or sooner.&rdquo;</em></li>
-<li>At 11:02, another buzz: <em>&ldquo;Autopilot complete. 4 commits, 0 pushes. Review queue has 2 items. Next rec: ship BOO-Website V1_58.&rdquo;</em></li>
-<li>You tap the message to open a summary; if anything feels wrong, you tap <strong>&ldquo;Ensemble: Kill&rdquo;</strong> and within 10s everything on the Mac stops.</li>
-</ol>
-<p><strong>Crucially:</strong> at no point have you unlocked your laptop. It might be shut in a drawer. The Mac just needs to be awake (lid open or &ldquo;Prevent sleep&rdquo; on a charger) and on the network.</p>
-<hr />
-<h2>1. Prereqs (all paths)</h2>
-<ul>
-<li>[ ] Mac is awake during the dispatch window. Lid open, power adapter plugged in, and <strong>System Settings → Lock Screen → Start Screen Saver when inactive: Never</strong> + <strong>Turn display off: Never on power adapter</strong> (or use <code>caffeinate -d -i -s</code> in a launchd-kept terminal).</li>
-<li>[ ] You have admin on the Mac.</li>
-<li>[ ] You have iCloud signed in on both devices (used for fallback file-trigger path if SSH flakes).</li>
-<li>[ ] Apple Shortcuts is installed on your phone (default on iOS 16+).</li>
-</ul>
-<hr />
-<h2>2. PATH A — Tailscale + SSH Shortcut (ship tonight)</h2>
-<h3>2.1. Install Tailscale on the Mac (5 min)</h3>
-<p>Tailscale is free for personal use, gives every device a permanent stable IP on a private mesh, and <strong>works over cellular</strong> the moment your phone has signal. It&rsquo;s transport-layer only — Claude Code doesn&rsquo;t need to know about it; any SSH or HTTPS request over a Tailscale IP just works.</p>
-<ol>
-<li>Open Terminal on the Mac.</li>
-<li>Run:
-   <code>bash
-   brew install --cask tailscale
-   open -a Tailscale</code></li>
-<li>Sign in with the account you want to use (your personal email is fine). Choose <strong>&ldquo;Install system extension&rdquo;</strong> when prompted.</li>
-<li>After sign-in, Tailscale shows a popover with your Mac&rsquo;s Tailscale IP — something like <code>100.64.0.12</code>. <strong>Note this IP.</strong> (You can always see it later with <code>tailscale ip -4</code>.)</li>
-</ol>
-<h3>2.2. Install Tailscale on the iPhone (2 min)</h3>
-<ol>
-<li>App Store → <strong>Tailscale</strong> → install → sign in with the same account.</li>
-<li>Grant VPN permission when prompted.</li>
-<li>Open the app and confirm the Mac appears in the device list, green dot, same magic name (e.g. <code>kevins-macbook-pro</code>).</li>
-</ol>
-<p><strong>Test:</strong> in Safari on the phone, go to <code>http://&lt;mac-tailscale-ip&gt;:8000</code> — if you have a local dev server running on the Mac on port 8000 you&rsquo;ll see it. If not, Safari will just fail to connect, but that&rsquo;s fine — you&rsquo;re verifying the network, not a specific service.</p>
-<h3>2.3. Enable Remote Login on the Mac (1 min)</h3>
-<ol>
-<li><strong>System Settings → General → Sharing → Remote Login: ON</strong>.</li>
-<li><strong>Allow access for:</strong> pick &ldquo;Only these users&rdquo; and add yourself. Don&rsquo;t use &ldquo;All users.&rdquo;</li>
-<li>Confirm your SSH username by running <code>whoami</code> in Terminal (mine is <code>kevin</code>).</li>
-</ol>
-<h3>2.4. Generate an SSH key for the phone (3 min)</h3>
-<p>You don&rsquo;t want to paste your Mac password into a Shortcut. Key-based auth + a passphrase-protected key is the right move.</p>
-<ol>
-<li>On the Mac, in Terminal:
-   <code>bash
-   ssh-keygen -t ed25519 -f ~/.ssh/ensemble_phone -C "ensemble-phone"
-   # Hit enter twice for no passphrase (simpler for Shortcut) OR set one (more secure)
-   cat ~/.ssh/ensemble_phone.pub &gt;&gt; ~/.ssh/authorized_keys
-   chmod 600 ~/.ssh/authorized_keys</code></li>
-<li>Copy the <strong>private</strong> key to your clipboard:
-   <code>bash
-   pbcopy &lt; ~/.ssh/ensemble_phone</code></li>
-<li>On the phone, open Notes, create a new note called &ldquo;ensemble_phone.key&rdquo;, and paste. We&rsquo;ll copy it into the Shortcut in a moment.</li>
-</ol>
-<blockquote>
-<p><strong>Security note:</strong> Anyone with this key file + your Mac&rsquo;s Tailscale IP can run arbitrary shell commands as you. Treat it like a password. If you lose the phone, remote-wipe via iCloud and <code>rm ~/.ssh/authorized_keys</code> on the Mac to revoke immediately.</p>
-</blockquote>
-<h3>2.5. Write the dispatch shell script on the Mac (3 min)</h3>
-<p>This is the single entry point that the phone will call. It writes a log, fires the intended command, and pushes a notification back.</p>
-<p>Create <code>~/.claude/orchestrator/bin/mobile_dispatch.sh</code>:</p>
-<pre><code class="language-bash">#!/bin/bash
-# Mobile dispatch entrypoint.
-# Called by the phone via SSH: bash -c &quot;bin/mobile_dispatch.sh &lt;action&gt; [minutes]&quot;
-# Actions: fire | kill | status | brief
-
-set -euo pipefail
-
-ORCH=&quot;${CLAUDE_PLUGIN_ROOT:-$HOME/.claude/orchestrator}&quot;
-ORCH_DATA=&quot;${CLAUDE_PLUGIN_DATA:-$ORCH}&quot;
-LOG=&quot;$ORCH_DATA/mobile_dispatch.log&quot;
-
-action=&quot;${1:-status}&quot;
-minutes=&quot;${2:-60}&quot;
-stamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-
-echo &quot;[$stamp] dispatch: action=$action minutes=$minutes&quot; &gt;&gt; &quot;$LOG&quot;
-
-case &quot;$action&quot; in
-  fire)
-    # This is a harmless diagnostic.
-    # Once /ensemble:autopilot N ships, replace the echo line with:
-    #   (cd &quot;$ORCH&quot; &amp;&amp; claude -p &quot;/ensemble:autopilot $minutes&quot;)
-    # (Claude Code has no --cwd flag; cd into the repo then invoke.)
-    echo &quot;[$stamp] FIRE requested ($minutes min) — placeholder: no autopilot skill yet&quot; &gt;&gt; &quot;$LOG&quot;
-    bash &quot;$ORCH/bin/status.sh&quot; &gt;&gt; &quot;$LOG&quot; 2&gt;&amp;1
-    osascript -e &quot;display notification \&quot;Fire acknowledged ($minutes min). Check mobile_dispatch.log.\&quot; with title \&quot;Ensemble\&quot;&quot;
-    printf &quot;OK fire acknowledged (%s min) at %s\n&quot; &quot;$minutes&quot; &quot;$stamp&quot;
-    ;;
-  kill)
-    # Write the kill-switch signal phrase to a file the Maestro watches.
-    # Once Channels is wired, this becomes an iMessage send.
-    echo &quot;***ORCHESTRATOR OFF***  (mobile kill at $stamp)&quot; &gt; &quot;$ORCH_DATA/kill_signal.txt&quot;
-    osascript -e &quot;display notification \&quot;Kill-switch dropped at $stamp\&quot; with title \&quot;Ensemble\&quot;&quot;
-    printf &quot;OK kill at %s\n&quot; &quot;$stamp&quot;
-    ;;
-  status)
-    if [ -x &quot;$ORCH/bin/status.sh&quot; ]; then
-      bash &quot;$ORCH/bin/status.sh&quot;
-    else
-      echo &quot;no status.sh at $ORCH/bin/status.sh&quot;
-    fi
-    ;;
-  brief)
-    briefing=&quot;$ORCH_DATA/briefings/$(date -u +%Y-%m-%d).md&quot;
-    if [ -r &quot;$briefing&quot; ]; then
-      head -40 &quot;$briefing&quot;
-    else
-      echo &quot;no briefing yet for $(date -u +%Y-%m-%d)&quot;
-    fi
-    ;;
-  *)
-    echo &quot;unknown action: $action&quot; &gt;&amp;2
-    exit 2
-    ;;
-esac
-</code></pre>
-<p>Then:</p>
-<pre><code class="language-bash">chmod +x ~/.claude/orchestrator/bin/mobile_dispatch.sh
-</code></pre>
-<p><strong>Test it locally first:</strong></p>
-<pre><code class="language-bash">~/.claude/orchestrator/bin/mobile_dispatch.sh status
-~/.claude/orchestrator/bin/mobile_dispatch.sh fire 5
-# Should see a notification on the Mac; should see lines appended to mobile_dispatch.log.
-</code></pre>
-<h3>2.6. Build the iOS Shortcut &ldquo;Ensemble: Fire 60 min&rdquo; (5 min)</h3>
-<p>On the phone:</p>
-<ol>
-<li>Open <strong>Shortcuts</strong> → <strong>+</strong> (top right) to create a new shortcut.</li>
-<li>Name it <strong>Ensemble: Fire 60 min</strong>. Pick an icon (flame is fitting).</li>
-<li>Add the following actions, in order:</li>
-</ol>
-<p><strong>Action 1: Run Script Over SSH</strong>
-   - <strong>Host:</strong> <code>100.64.0.12</code> (your Mac&rsquo;s Tailscale IP from step 2.1).
-   - <strong>Port:</strong> <code>22</code>.
-   - <strong>User:</strong> <code>kevin</code> (or whatever <code>whoami</code> returned).
-   - <strong>Authentication:</strong> <strong>SSH Key</strong> → tap <strong>Choose Key</strong> → <strong>Create New SSH Key</strong> → name it <code>ensemble_phone</code>, type <code>ed25519</code>. Now tap <strong>Share Public Key</strong> and AirDrop it to the Mac. Append the phone&rsquo;s public key to <code>~/.ssh/authorized_keys</code> on the Mac:
-     <code>bash
-     cat ~/Downloads/ensemble_phone.pub &gt;&gt; ~/.ssh/authorized_keys</code>
-     (Remove the file from Downloads after.)
-     <em>Back in the Shortcut, pick the <code>ensemble_phone</code> key you just generated.</em>
-   - <strong>Input:</strong> Shortcut Input.
-   - <strong>Script:</strong> <code>bash ~/.claude/orchestrator/bin/mobile_dispatch.sh fire 60</code></p>
-<p><strong>Action 2: Show Notification</strong>
-   - <strong>Title:</strong> <code>Ensemble</code>
-   - <strong>Body:</strong> the output of Action 1 (use the &ldquo;Shell Script Result&rdquo; variable)
-   - <strong>Duration:</strong> 3 seconds</p>
-<ol start="4">
-<li>Tap <strong>Done</strong>.</li>
-<li>Tap <strong>…</strong> on the shortcut tile → <strong>Add to Home Screen</strong> → choose icon and name.</li>
-</ol>
-<p>Repeat for <strong>Ensemble: Kill</strong> (script: <code>bash ~/.claude/orchestrator/bin/mobile_dispatch.sh kill</code>) and optionally <strong>Ensemble: Status</strong> (<code>status</code>) and <strong>Ensemble: Brief</strong> (<code>brief</code>).</p>
-<h3>2.7. Tomorrow morning&rsquo;s test sequence (2 min)</h3>
-<p>Before you leave the house:</p>
-<ol>
-<li>Lid open, power plugged in.</li>
-<li>In Terminal: <code>caffeinate -d -i -s -u &amp;</code> and leave it running. (Or install the Amphetamine app and toggle on.)</li>
-<li>Confirm Tailscale is green on both devices.</li>
-</ol>
-<p>At work:</p>
-<ol>
-<li>Tap <strong>Ensemble: Status</strong> — you should see a one-screen status print.</li>
-<li>Tap <strong>Ensemble: Fire 60 min</strong> — you should get a Mac notification (mirrored to the phone via iCloud if you have notifications forwarded) within ~3 seconds.</li>
-<li>Wait 5 minutes. Tap <strong>Ensemble: Kill</strong> — verify <code>kill_signal.txt</code> appears in <code>~/.claude/orchestrator/</code> when you next open the Mac.</li>
-</ol>
-<p>If any step fails, see §5 <strong>Troubleshooting</strong>.</p>
-<hr />
-<h2>3. PATH B — Cloud Routine + iMessage Channels (next weekend)</h2>
-<p>This is the target end-state for mobile dispatch — it doesn&rsquo;t need the Mac to be on the same network (Anthropic&rsquo;s cloud is the intermediary), it survives flaky home WiFi, and the trigger is a single HTTP call from any device.</p>
-<p>Deferred to a separate session because it requires:</p>
-<ul>
-<li>iMessage Channels plugin install + tmux session + launchd KeepAlive + Full Disk Access grant.</li>
-<li>A Cloud Routine at <code>claude.ai/code/routines</code> named <code>ensemble:autopilot</code> with an API trigger.</li>
-<li>An API token generated at <code>claude.ai/settings/tokens</code>.</li>
-<li>An iOS Shortcut that POSTs to the Routine&rsquo;s <code>/fire</code> endpoint with <code>{"text": "60"}</code>.</li>
-</ul>
-<p><strong>Rough outline</strong> (to flesh out next session):</p>
-<ol>
-<li><strong>Install iMessage Channels plugin</strong> on the Mac. Exact plugin name + install syntax to be verified against the current Claude Code plugin marketplace before shipping Path B — the <code>imessage@claude-plugins-official</code> path is a working placeholder pending confirmation. Run <code>/plugin marketplace</code> in a Claude Code chat to browse.</li>
-<li><strong>Grant Full Disk Access</strong> to Terminal (System Settings → Privacy &amp; Security → Full Disk Access → add Terminal.app).</li>
-<li><strong>Start a persistent Channels session in tmux</strong>. The exact <code>claude</code> invocation to start a headless iMessage-listening session will depend on what the installed plugin documents — the <code>--channels</code> flag was speculative. Plan to verify when Kevin picks up Path B; placeholder shape:
-   <code>bash
-   # Exact command TBD per installed plugin's docs
-   tmux new-session -d -s ensemble-channels 'claude &lt;channel-flags-per-plugin&gt;'</code></li>
-<li><strong>Install a launchd plist</strong> at <code>~/Library/LaunchAgents/com.kevin.ensemble-channels.plist</code> with <code>KeepAlive=true</code> so tmux respawns on reboot.</li>
-<li><strong>Create the Cloud Routine</strong> at <code>claude.ai/code/routines</code>:
-   - Name: <code>ensemble:autopilot</code>
-   - Trigger: API POST
-   - Prompt: <em>&ldquo;iMessage <your-imessage-address> with the body &lsquo;/ensemble:autopilot {{ text }} — fired from Cloud Routine at {{ now }}&rsquo;.&rdquo;</em></li>
-<li><strong>Generate an API token</strong> at <code>claude.ai/settings/tokens</code> → scope: <code>routines:fire</code>. Copy to phone&rsquo;s Notes briefly.</li>
-<li><strong>Build iOS Shortcut</strong> that POSTs to the Routine with <code>Authorization: Bearer &lt;token&gt;</code> and <code>{"text": "60"}</code> body.</li>
-</ol>
-<p>The Channels session on the Mac receives the iMessage, the content is passed to a local Claude Code session, and that session executes <code>/ensemble:autopilot N</code> — which is where the autonomous orchestrator takes over per <code>docs/AUTOPILOT_DESIGN.md</code>.</p>
-<p><strong>Why this is worth the extra setup eventually:</strong></p>
-<ul>
-<li>The Mac doesn&rsquo;t need to be reachable on the network — Apple&rsquo;s Push Notification Service delivers the iMessage whenever the Mac is next awake.</li>
-<li>You get a readable history of every dispatch in the iMessage thread.</li>
-<li>The Routine can itself be triggered by a calendar event, a webhook, or another AI agent — not just your phone.</li>
-<li>Response comes back as an iMessage reply with full-context text, not a truncated SSH stdout.</li>
-</ul>
-<hr />
-<h2>4. Kill-switch from the phone</h2>
-<p>Both paths expose a &ldquo;kill&rdquo; action. In Path A, the shortcut writes <code>kill_signal.txt</code> into the orchestrator directory, which any Maestro session polls-for-presence on every turn and executes the full shutdown cascade:</p>
-<ol>
-<li>Release the autopilot lock.</li>
-<li>Pause scheduled tasks (morning-briefing, evening-planning, overnight-heavy).</li>
-<li>Flip <code>state.json.mode</code> to <code>direct</code>.</li>
-<li>Print the loud banner.</li>
-<li>Delete the kill_signal.txt so the next turn doesn&rsquo;t re-fire.</li>
-</ol>
-<blockquote>
-<p><strong>The kill cascade already runs</strong> via the standing <code>***ORCHESTRATOR OFF***</code> phrase in any Maestro chat. Mobile kill just writes that phrase into a file the Maestro&rsquo;s next turn reads. If you&rsquo;re paranoid, also text <code>***ORCHESTRATOR OFF***</code> to your own number via iMessage — Path B&rsquo;s Channels session will catch it directly.</p>
-</blockquote>
-<hr />
-<h2>5. Troubleshooting</h2>
-<h3>SSH connection refuses</h3>
-<ul>
-<li>Tailscale green on both? <code>tailscale status</code> on the Mac should show the phone as a peer.</li>
-<li><code>Remote Login</code> actually enabled? <code>sudo systemsetup -getremotelogin</code> should print <code>On</code>.</li>
-<li>Firewall? <code>sudo /usr/libexec/ApplicationFirewall/socketfilterfw --listapps</code> — sshd should be allowed.</li>
-<li><code>~/.ssh/authorized_keys</code> has the right content? Run <code>cat ~/.ssh/authorized_keys | tail -1</code> and make sure it ends with <code>ensemble-phone</code> (the comment from <code>ssh-keygen -C</code>).</li>
-<li>Permissions on <code>.ssh</code> directory: <code>chmod 700 ~/.ssh &amp;&amp; chmod 600 ~/.ssh/authorized_keys</code>.</li>
-</ul>
-<h3>&ldquo;Run Script Over SSH&rdquo; returns empty</h3>
-<ul>
-<li>On the phone Shortcut, tap the action&rsquo;s <strong>…</strong> → <strong>Show When Run</strong> to see the raw response.</li>
-<li>SSH into the Mac manually from another terminal (or <code>ssh &lt;tailscale-ip&gt;</code> from an iPad) using the same key — if that works but Shortcut doesn&rsquo;t, it&rsquo;s a Shortcut key-format issue. Regenerate the key IN the Shortcut action (not CLI) for guaranteed format match.</li>
-</ul>
-<h3>Mac sleeps mid-day</h3>
-<ul>
-<li>Check <code>pmset -g</code> — on AC power <code>sleep</code> should be 0.</li>
-<li><code>caffeinate -d -i -s</code> in a tmux session works but dies on reboot. For permanent:
-  <code>bash
-  sudo pmset -c sleep 0 displaysleep 5 disksleep 0
-  # -c = on AC power only; phone dispatch assumes you're charging</code></li>
-<li>Verify with <code>pmset -g | grep sleep</code>.</li>
-</ul>
-<h3>No notification back to the phone</h3>
-<ul>
-<li>Mac&rsquo;s local notification fires (<code>osascript -e "display notification ..."</code>) but doesn&rsquo;t push to the phone unless you have <strong>Notifications forwarding</strong> configured (System Settings → Notifications → your phone → ON).</li>
-<li>Alternative: use the Pushover app + <code>curl -F "token=..." -F "user=..." -F "message=..."</code> in <code>mobile_dispatch.sh</code>. Free tier is enough for personal use.</li>
-</ul>
-<h3>Kill signal file gets left behind after a crash</h3>
-<ul>
-<li>The Maestro&rsquo;s next normal turn always consumes and deletes <code>kill_signal.txt</code>. If stale: <code>rm ~/.claude/orchestrator/kill_signal.txt</code> by SSH.</li>
-</ul>
-<hr />
-<h2>6. After first deploy</h2>
-<p>Once Path A is working, the next increments are — in recommended order:</p>
-<ol>
-<li>Add a Pushover-based notification back to phone so you get a <em>push</em>, not just a Mac-local notification.</li>
-<li>Wire the real <code>/ensemble:autopilot N</code> slash command (per <code>docs/AUTOPILOT_DESIGN.md</code>) and swap the placeholder in <code>mobile_dispatch.sh fire</code>.</li>
-<li>Install Channels + tmux + launchd (Path B §3 steps 1–4).</li>
-<li>Migrate <code>fire</code> from SSH-into-Mac to Cloud Routine + iMessage as the primary; keep SSH as fallback.</li>
-</ol>
 <p>Log what works and what doesn&rsquo;t as you go. Your first real mobile autopilot test run is the kind of event that surfaces 5 small bugs at once — capture them while they&rsquo;re fresh.</p>
     </article>
+    <footer class="doc-foot">
+      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+    </footer>
   </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('docProgressBar');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scrolled = (h.scrollTop || document.body.scrollTop);
+        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+        bar.style.width = pct + '%';
+      }
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
 </main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>

@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
 <style>
 :root {
   --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
@@ -57,8 +58,18 @@ body {
 .topnav .brand {
   font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
   color: var(--ink); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
 }
 .topnav .brand em { color: var(--accent); font-style: normal; }
+.topnav .brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; display: block;
+  flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+}
+.topnav .brand-word { line-height: 1; }
+@media (max-width: 480px) {
+  .topnav .brand-word { display: none; }
+  .topnav .brand-mark { width: 30px; height: 30px; }
+}
 .topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
 .topnav li a {
   display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
@@ -346,13 +357,77 @@ body.theme-aurora {
   --accent: #a78bfa; --accent-2: #c4b5fd; --accent-soft: rgba(167,139,250,0.14);
 } }
 
+body.theme-rose {
+  --bg: #fff5f7; --bg-raised: #ffffff; --bg-elevated: #fff8fa;
+  --ink: #2a0a14; --ink-2: #4a1f2c; --ink-3: #8a4f66; --ink-4: #c896aa;
+  --rule: #f0d8e0; --rule-2: #f5e4ea;
+  --accent: #e11d48; --accent-2: #f43f5e; --accent-soft: rgba(225,29,72,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-rose {
+  --bg: #1a0810; --bg-raised: #2a1218; --bg-elevated: #321820;
+  --ink: #ffe4eb; --ink-2: #f5c0ce; --ink-3: #c88898; --ink-4: #8a5868;
+  --rule: #3a1a26; --rule-2: #2c121a;
+  --accent: #f43f5e; --accent-2: #fb7185; --accent-soft: rgba(244,63,94,0.14);
+} }
+
+body.theme-ocean {
+  --bg: #f0f9fb; --bg-raised: #ffffff; --bg-elevated: #f5fbfd;
+  --ink: #0a1f26; --ink-2: #1f3d4d; --ink-3: #4d7588; --ink-4: #8ab0bf;
+  --rule: #cbe3eb; --rule-2: #ddebf0;
+  --accent: #0891b2; --accent-2: #06b6d4; --accent-soft: rgba(8,145,178,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-ocean {
+  --bg: #051418; --bg-raised: #0c1f26; --bg-elevated: #122a32;
+  --ink: #d8f0f7; --ink-2: #b0d8e3; --ink-3: #7daabe; --ink-4: #4a7388;
+  --rule: #1a3540; --rule-2: #122832;
+  --accent: #06b6d4; --accent-2: #22d3ee; --accent-soft: rgba(6,182,212,0.14);
+} }
+
+body.theme-sunset {
+  --bg: #fff7ed; --bg-raised: #ffffff; --bg-elevated: #fffaf2;
+  --ink: #2a1505; --ink-2: #4d2810; --ink-3: #8b5524; --ink-4: #c89970;
+  --rule: #f0d8b8; --rule-2: #f5e4cc;
+  --accent: #ea580c; --accent-2: #f97316; --accent-soft: rgba(234,88,12,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sunset {
+  --bg: #1a0a02; --bg-raised: #2a1408; --bg-elevated: #321a0c;
+  --ink: #ffe8d0; --ink-2: #f5c8a0; --ink-3: #c89570; --ink-4: #8a5f40;
+  --rule: #3a1f0c; --rule-2: #2c1808;
+  --accent: #f97316; --accent-2: #fb923c; --accent-soft: rgba(249,115,22,0.14);
+} }
+
+body.theme-midnight {
+  --bg: #f4f6fb; --bg-raised: #ffffff; --bg-elevated: #f8fafc;
+  --ink: #0c1024; --ink-2: #1e2440; --ink-3: #4d557a; --ink-4: #8a92b3;
+  --rule: #d6dbeb; --rule-2: #e3e8f2;
+  --accent: #4f46e5; --accent-2: #6366f1; --accent-soft: rgba(79,70,229,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-midnight {
+  --bg: #060814; --bg-raised: #0d1024; --bg-elevated: #131730;
+  --ink: #e0e4f5; --ink-2: #c0c8e0; --ink-3: #8a92b3; --ink-4: #565d80;
+  --rule: #1a1d35; --rule-2: #131628;
+  --accent: #6366f1; --accent-2: #818cf8; --accent-soft: rgba(99,102,241,0.16);
+} }
+
+body.theme-sage {
+  --bg: #f6faf2; --bg-raised: #ffffff; --bg-elevated: #fafcf7;
+  --ink: #182410; --ink-2: #2d3d22; --ink-3: #5a704a; --ink-4: #9ab088;
+  --rule: #d8e3c8; --rule-2: #e8efdc;
+  --accent: #65a30d; --accent-2: #84cc16; --accent-soft: rgba(101,163,13,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sage {
+  --bg: #0a1505; --bg-raised: #131f0a; --bg-elevated: #1a2810;
+  --ink: #e0f0d0; --ink-2: #c0d8a8; --ink-3: #8aa870; --ink-4: #5a7048;
+  --rule: #243018; --rule-2: #1a2410;
+  --accent: #84cc16; --accent-2: #a3e635; --accent-soft: rgba(132,204,22,0.14);
+} }
+
 /* Theme picker UI */
 .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; }
 .theme-swatch {
   width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
-  border: 2px solid var(--rule); transition: border-color 200ms var(--ease), transform 200ms var(--ease);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: white;
+  border: 2px solid var(--rule);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
   background: linear-gradient(135deg, var(--swatch-a), var(--swatch-b));
 }
 .theme-swatch:hover { transform: scale(1.05); }
@@ -367,12 +442,259 @@ body.theme-aurora {
 .theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
 .theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
 .theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
+
+/* ─── Widget dashboard ──────────────────────────────────────────────── */
+.widget-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(140px, auto); gap: 16px; margin: 24px 0;
+}
+@media (max-width: 768px) {
+  .widget-grid { grid-template-columns: repeat(2, 1fr); }
+  .widget--1x1, .widget--2x1, .widget--1x2, .widget--2x2 { grid-column: span 1; grid-row: span 1; }
+}
+@media (min-width: 769px) and (max-width: 1100px) {
+  .widget-grid { grid-template-columns: repeat(6, 1fr); }
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+@media (min-width: 1101px) {
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+.widget {
+  position: relative; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-md); padding: 18px;
+  display: flex; flex-direction: column;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), border-color 200ms var(--ease);
+  min-height: 0;
+}
+.widget:hover { box-shadow: var(--shadow-md); }
+.widget__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
+}
+.widget__title {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.widget__hint { font-size: 10px; color: var(--ink-4); white-space: nowrap; }
+.widget__body {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+  min-height: 0; overflow: hidden;
+}
+.widget__body--center { justify-content: center; align-items: center; text-align: center; }
+.widget__numeral {
+  font-family: var(--font-display, var(--font-heading, serif));
+  font-size: 44px; font-weight: 600; line-height: 1; color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.widget__numeral .muted { opacity: 0.4; font-size: 0.6em; font-weight: 500; }
+.widget__chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.widget__chip--success { background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a; border-color: color-mix(in srgb, #16a34a 28%, transparent); }
+.widget__chip--warn    { background: color-mix(in srgb, #d97706 14%, transparent); color: #d97706; border-color: color-mix(in srgb, #d97706 28%, transparent); }
+.widget__chip--danger  { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; border-color: color-mix(in srgb, #dc2626 28%, transparent); }
+.widget__chip--neutral { background: var(--bg-sunken, var(--bg-elevated)); color: var(--ink-2); border-color: var(--rule); }
+
+.widget__btn {
+  appearance: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  background: var(--bg-elevated, var(--bg-raised)); border: 1px solid var(--rule);
+  color: var(--ink); font-size: 13px; font-weight: 500; font-family: inherit;
+  transition: all 180ms var(--ease);
+}
+.widget__btn:hover { border-color: var(--accent); color: var(--accent); }
+.widget__btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.widget__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.widget__btn--danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.widget__btn--danger:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
+.widget__btn--big { padding: 14px 20px; font-size: 14px; font-weight: 600; }
+.widget__btn--ghost { background: transparent; border-color: var(--rule-2); color: var(--ink-3); }
+.widget__btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.widget__row { display: flex; gap: 6px; flex-wrap: wrap; }
+.widget__row--tight { gap: 4px; }
+.widget__divider { height: 1px; background: var(--rule-2); margin: 8px 0; }
+
+.widget__select, .widget__input, .widget__textarea {
+  appearance: none; padding: 8px 10px; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--bg); color: var(--ink);
+  font-family: inherit; font-size: 13px; width: 100%;
+  transition: border-color 180ms var(--ease);
+}
+.widget__select:focus, .widget__input:focus, .widget__textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.widget__textarea { resize: vertical; min-height: 60px; font-family: var(--font-mono, monospace); }
+
+.widget__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.widget__list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px;
+  background: var(--bg-elevated, var(--bg-raised));
+  border: 1px solid transparent;
+}
+.widget__list li:hover { border-color: var(--rule); }
+
+/* Edit mode + chrome */
+.widget__remove, .widget__resize, .widget__handle { display: none; }
+.editing-dashboard .widget {
+  cursor: grab; user-select: none;
+  animation: widget-wiggle 0.6s ease-in-out infinite;
+}
+.editing-dashboard .widget:nth-child(odd) { animation-delay: -0.3s; }
+.editing-dashboard .widget:active { cursor: grabbing; }
+.editing-dashboard .widget__remove,
+.editing-dashboard .widget__resize { display: flex; }
+.editing-dashboard .widget input,
+.editing-dashboard .widget textarea,
+.editing-dashboard .widget select,
+.editing-dashboard .widget button:not(.widget__remove):not(.widget__resize) {
+  pointer-events: none; opacity: 0.55;
+}
+.widget__remove {
+  position: absolute; top: -10px; right: -10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #dc2626; color: #fff; border: 2px solid var(--bg);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center;
+  z-index: 3; box-shadow: var(--shadow-md);
+  transition: transform 150ms var(--ease);
+}
+.widget__remove:hover { transform: scale(1.12); background: #ef4444; }
+.widget__resize {
+  position: absolute; bottom: 8px; right: 8px;
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--accent-soft); color: var(--accent);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center; border: none;
+  z-index: 3; transition: transform 150ms var(--ease);
+}
+.widget__resize:hover { transform: scale(1.12); }
+.widget.is-dragging { opacity: 0.4; transform: scale(0.96); }
+.widget.is-drop-target { outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+@keyframes widget-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-0.5deg); }
+  75%  { transform: rotate(0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.dash-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 8px 0 0 0; gap: 12px; flex-wrap: wrap;
+}
+.dash-toolbar__hint { font-size: 12px; color: var(--ink-3); }
+.btn-edit-dashboard, .btn-add-widget, .btn-reset-layout {
+  appearance: none; padding: 9px 18px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink);
+  font-family: inherit;
+  transition: all 200ms var(--ease);
+}
+.btn-edit-dashboard:hover, .btn-add-widget:hover, .btn-reset-layout:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.btn-add-widget { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-add-widget:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+/* Add Widget bottom sheet */
+.widget-shelf {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-raised); border-top: 1px solid var(--rule);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.10); padding: 24px;
+  max-height: 60vh; overflow-y: auto; z-index: 100;
+  transform: translateY(100%); transition: transform 320ms var(--ease);
+}
+.editing-dashboard .widget-shelf { transform: translateY(0); }
+.widget-shelf__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.widget-shelf__title { font-size: 18px; font-weight: 600; margin: 0; }
+.widget-shelf__close { font-size: 22px; line-height: 1; cursor: pointer; padding: 4px 12px;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 100px; }
+.widget-shelf__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; max-width: 1200px; margin: 0 auto;
+}
+.widget-shelf__item {
+  padding: 14px; background: var(--bg); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer; text-align: left;
+  font-family: inherit;
+  transition: transform 160ms var(--ease), border-color 160ms var(--ease);
+}
+.widget-shelf__item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.widget-shelf__item h3 { font-size: 13px; margin: 0 0 4px 0; font-weight: 600; color: var(--ink); }
+.widget-shelf__item p { font-size: 11px; color: var(--ink-3); margin: 0; line-height: 1.4; }
+.widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
+.widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
+
+
+/* ─── Widget sections (public + private partitioning) ──────────────── */
+.widget-section { margin: 24px 0 36px; }
+.widget-section + .widget-section { border-top: 1px dashed var(--rule); padding-top: 24px; }
+.widget-section__header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 14px; padding-bottom: 10px;
+}
+.widget-section__heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.widget-section__heading > div { min-width: 0; }
+.widget-section__title {
+  font-family: var(--font-heading, var(--font-display, serif));
+  font-size: 18px; font-weight: 600; margin: 0; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.widget-section__sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
+.widget-section__chip {
+  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.widget-section__chip--public {
+  background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a;
+  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
+}
+.widget-section__chip--private {
+  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.widget-section__move {
+  appearance: none; padding: 6px 14px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule); cursor: pointer;
+  font-size: 12px; font-weight: 600; color: var(--ink-2); font-family: inherit;
+  transition: all 180ms var(--ease); white-space: nowrap; flex-shrink: 0;
+  display: none;
+}
+.editing-dashboard .widget-section__move { display: inline-block; }
+.widget-section__move:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hide section headers when NOT in edit mode for a quieter default view */
+:not(.editing-dashboard) .widget-section__header { opacity: 0.6; }
+:not(.editing-dashboard) .widget-section__sub { display: none; }
+
+/* Shelf row chip */
+.widget-shelf__row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+
 </style>
 </head>
 <body>
 <nav class="topnav">
   <div class="wrap">
-    <a class="brand" href="./">Ensemble</a>
+    <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
@@ -398,324 +720,38 @@ body.theme-aurora {
   </div>
 </div>
 <main class="doc-page">
-  <div class="wrap">
+  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
+  <div class="wrap doc-wrap">
     <a href="../docs.html" class="doc-back">← All documentation</a>
-    <p class="doc-meta">docs/OPUS_OPTIMIZATION.md</p>
+    <header class="doc-hero">
+      <p class="doc-eyebrow">Documentation</p>
+      <h1 class="doc-title">Opus 4.7 Discipline</h1>
+      <p class="doc-lead">**Status:** synthesis of Anthropic canonical guidance applied to our specific multi-chat orchestration application. 2026-04-23.</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/OPUS_OPTIMIZATION.md</code></p>
+    </header>
     <article class="doc-content">
-<h1>OPUS_OPTIMIZATION.md — Claude Opus 4.7 Techniques for The Ensemble</h1>
-<blockquote>
-<p><strong>Status:</strong> synthesis of Anthropic canonical guidance applied to our specific multi-chat orchestration application. 2026-04-23.
-<strong>Sources:</strong> Anthropic&rsquo;s <a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>, <a href="https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-7">What&rsquo;s new in Claude Opus 4.7</a>, <a href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking">Adaptive thinking</a>, <a href="https://platform.claude.com/docs/en/build-with-claude/effort">Effort parameter</a>, <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use</a>, <a href="https://code.claude.com/docs/en/sub-agents">Claude Code sub-agents</a>, plus Anthropic&rsquo;s <a href="https://claude.com/blog/best-practices-for-using-claude-opus-4-7-with-claude-code">official Opus 4.7 with Claude Code best-practices post</a>.
-<strong>Audience:</strong> every Maestro, Virtuoso, and Agent in The Ensemble. Read once; honor perpetually.
-<strong>Motto:</strong> Proper Prior Planning Prevents Piss Poor Performance — the model rewards operators who plan.</p>
-</blockquote>
-<hr />
-<h2>0. Why this document exists</h2>
-<p>The Ensemble runs many Claude Code chats in parallel, each with its own role, each carrying persistent state across weeks. Getting Claude Opus 4.7 to operate at sustained excellence across that topology is an engineering problem, not a vibes problem. This doc codifies what Anthropic&rsquo;s own best-practice guidance says, applied to our specific stack.</p>
-<p>The single most important thing to internalize: <strong>Opus 4.7 is more literal and less generalizing than 4.6</strong>. The model will no longer silently fill in gaps. Vague prompts now produce scoped-to-the-literal-ask outputs. This is a feature for plan-heavy work and a bug for casual prompting — we must adjust our prompting accordingly.</p>
-<hr />
-<h2>1. Model + thinking posture per tier</h2>
-<table>
-<thead>
-<tr>
-<th>Tier</th>
-<th>Model</th>
-<th>Thinking</th>
-<th>Effort</th>
-<th>Why</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Maestro</strong></td>
-<td>Opus 4.7</td>
-<td>Adaptive, auto</td>
-<td><code>high</code> default; <code>xhigh</code> for ranking across portfolios or synthesizing across many status files</td>
-<td>Maestro makes cross-project decisions; always needs deep reasoning</td>
-</tr>
-<tr>
-<td><strong>Virtuoso</strong> (Agent Builder, Tool Builder)</td>
-<td>Opus 4.7</td>
-<td>Adaptive, auto</td>
-<td><code>xhigh</code> the recommended starting point per Anthropic; <code>max</code> only when evals show headroom</td>
-<td>Long-horizon planning + research; token budget is not the constraint</td>
-</tr>
-<tr>
-<td><strong>Agent</strong> (standard worker, one project)</td>
-<td>Opus 4.7 by default; Sonnet 4.6 acceptable for cost-sensitive mechanical work; <strong>never Haiku for Agent-class work except narrow Explore-class lookups</strong></td>
-<td>Adaptive, auto</td>
-<td><code>high</code> for normal coding; <code>xhigh</code> for deep refactors, debugging, multi-file changes</td>
-<td>Ships code, holds autopilot lock; quality bar is production-shipping</td>
-</tr>
-<tr>
-<td><strong>Sub-agents</strong> (Explore, Plan, general-purpose — invoked by Claude Code)</td>
-<td>Claude Code picks — Explore uses Haiku, others inherit</td>
-<td>Inherited</td>
-<td>Inherited</td>
-<td>We don&rsquo;t override; Claude Code&rsquo;s routing is sound</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Key Opus 4.7 facts:</strong>
-- <code>thinking: {type: "enabled", budget_tokens: N}</code> is rejected with a 400 error on 4.7. <strong>Adaptive is the only supported thinking mode.</strong>
-- On 4.7, thinking is <strong>off unless <code>thinking: {type: "adaptive"}</code> is set</strong>. Claude Code handles this automatically; when we write our own API callers (e.g. for Tool Builder&rsquo;s router SDK), we must set it explicitly.
-- Thinking display defaults to <code>omitted</code> on 4.7 (silent change from 4.6). Set <code>display: "summarized"</code> if a downstream consumer needs to read thinking.
-- <code>temperature</code>, <code>top_p</code>, <code>top_k</code> are rejected — prompt to guide behavior.
-- New tokenizer uses ~1.0–1.35× as many tokens as 4.6. Budget headroom; update <code>max_tokens</code> defaults.</p>
-<hr />
-<h2>2. The 4.7 behavior shift — explicit &gt; implicit</h2>
-<p>Quotes from Anthropic&rsquo;s 4.7 launch notes, verbatim:</p>
-<blockquote>
-<p>&ldquo;4.6 silently filled in implicit context while 4.7 does not, so you should rewrite prompts with explicit intent, success criteria, and constraints.&rdquo;</p>
-<p>&ldquo;4.7 rewards operators who invest in planning&hellip; every hour spent on a detailed plan output pays back across the execution phase.&rdquo;</p>
-<p>&ldquo;More literal instruction following, particularly at lower effort levels. The model will not silently generalize an instruction from one item to another, and will not infer requests you didn&rsquo;t make.&rdquo;</p>
-</blockquote>
-<p><strong>What this means for Ensemble prompts:</strong></p>
-<ul>
-<li>Every <code>AskUserQuestion</code> option description must state explicit scope — &ldquo;produce 3 files: A, B, C&rdquo; not &ldquo;produce the deliverables.&rdquo;</li>
-<li>Every Virtuoso/Agent charter must state explicit success criteria per phase gate (our handoff docs already do this).</li>
-<li>Every autopilot pre-flight must list exact files to be touched, exact commit message format, exact commit count. No &ldquo;and similar.&rdquo;</li>
-<li>Avoid &ldquo;and related cleanup&rdquo; / &ldquo;adjacent polish&rdquo; in instructions — they become no-ops on 4.7.</li>
-</ul>
-<p><strong>Prompting pattern that works on 4.7:</strong></p>
-<pre><code>GOAL: &lt;one-sentence outcome&gt;
-SCOPE:
-- Touch exactly these files: [list]
-- Do not touch: [list of off-limits]
-DELIVERABLE: &lt;specific artifact, e.g. &quot;one commit on plugin-refactor, not pushed&quot;&gt;
-SUCCESS CRITERIA:
-- [ ] criterion 1 (verifiable)
-- [ ] criterion 2 (verifiable)
-STOP CONDITION: &lt;when to halt and report&gt;
-</code></pre>
-<p>This is what Anthropic calls &ldquo;explicit task briefs,&rdquo; and it&rsquo;s what 4.7 rewards.</p>
-<hr />
-<h2>3. Effort + adaptive thinking — what we control in Claude Code vs the API</h2>
-<p><strong>In Claude Code</strong> (the environment every Ensemble chat runs in):
-- Effort level is managed by Claude Code&rsquo;s session configuration — we don&rsquo;t set it per-turn.
-- Adaptive thinking is on by default on 4.7.
-- We CAN influence thinking depth via prompting. Anthropic&rsquo;s guidance:
-  - <strong>More thinking:</strong> &ldquo;Think carefully and step-by-step before responding.&rdquo;
-  - <strong>Less thinking:</strong> &ldquo;Prioritize responding quickly rather than thinking deeply.&rdquo;
-- We CAN influence tool-call density via prompting — Anthropic says 4.7 defaults to fewer tool calls and uses reasoning more. If parallel tool fan-out is genuinely useful, say so explicitly (&ldquo;call these four WebFetches in parallel&rdquo;).</p>
-<p><strong>In our own Opus-calling code</strong> (Tool Builder&rsquo;s router, Agent Builder&rsquo;s fine-tune pipeline, etc. — not yet built but coming):
-- Set <code>thinking: {type: "adaptive"}</code> explicitly.
-- Set <code>output_config.effort</code> per task type: <code>xhigh</code> for agentic/coding, <code>high</code> for reasoning, <code>medium</code> for classification/extraction/formatting, <code>low</code> only for trivial lookups.
-- For long-running tasks, investigate <code>task_budget</code> (beta header <code>task-budgets-2026-03-13</code>) — gives the model a soft token allowance and a running countdown so it self-moderates.
-- Never set <code>temperature</code>, <code>top_p</code>, or <code>top_k</code> — 400 error on 4.7.</p>
-<hr />
-<h2>4. Prompting discipline — the five levers that matter most</h2>
-<h3>4.1 Explicit intent + success criteria</h3>
-<p>Covered in §2. Non-negotiable on 4.7.</p>
-<h3>4.2 XML tagging for structured inputs</h3>
-<p>When a prompt carries multiple distinct chunks of context (repo state + charter + user question + prior status), wrap each in XML tags:</p>
-<pre><code>&lt;repo_state&gt;
-&lt;!-- git status output --&gt;
-&lt;/repo_state&gt;
-&lt;charter&gt;
-&lt;!-- PROJECT_CHARTER.md content --&gt;
-&lt;/charter&gt;
-&lt;user_question&gt;
-&lt;!-- the actual ask --&gt;
-&lt;/user_question&gt;
-</code></pre>
-<p>Claude is trained on this pattern. It parses tagged inputs more reliably than unstructured blobs and responds with cleaner delineation between reasoning and output.</p>
-<h3>4.3 Role prompting via durable identity files</h3>
-<p>Our <code>AGENT.md</code> and <code>MAESTRO.md</code> and the per-Virtuoso handoff docs ARE role prompts. They persist across turns. This is a strength of the Ensemble architecture that many frameworks lack.</p>
-<h3>4.4 Prefilling for format control</h3>
-<p>When we need a strict output format (JSON, a specific markdown structure, a commit-message template), prefill the assistant&rsquo;s response opening. Claude Code&rsquo;s Edit tool is effectively this pattern for file content; for chat responses, start the response with the format skeleton:</p>
-<pre><code>Starting assistant message:
-TOP REC: &lt;headline&gt;
-  Why:
-</code></pre>
-<p>This forces Claude to continue the structure rather than reinvent.</p>
-<h3>4.5 Multishot / few-shot examples</h3>
-<p>For tasks with ambiguous format or judgment boundaries, include 2–3 examples in the prompt. Especially valuable for:
-- Classification tasks (data-class tagging for the cognition router)
-- Commit message format
-- Rapid-fire report shape
-- LLM_SPEC.md schema adherence</p>
-<p>Our templates already contain examples where they matter (commit message format in charter, rapid-fire block in AGENT.md §2). Extend this discipline when building new templates.</p>
-<hr />
-<h2>5. Tool use — parallel calls, error recovery, strict schemas</h2>
-<h3>5.1 Parallel tool fan-out</h3>
-<p>When independent calls can run concurrently, issue them in a single tool-use block. Examples from today&rsquo;s work:
-- Fetching 6 Anthropic docs in parallel (3x faster than sequential).
-- Batching parallel Reads before a multi-file Edit sweep.
-- Running Grep + Glob + Bash version-check in one burst during exploration.</p>
-<p>4.7 tends toward fewer tool calls by default. <strong>Explicitly request parallelism when it&rsquo;s the right shape.</strong></p>
-<h3>5.2 Tool descriptions — invest as much effort as in human-computer interfaces</h3>
-<p>Anthropic&rsquo;s canonical advice: &ldquo;Invest effort equal to human-computer interface design.&rdquo;</p>
-<p>For our custom tools (the router SDK we&rsquo;ll build for Tool Builder / Agent Builder):
-- Use absolute paths, not relative (compounding errors).
-- Provide explicit context tokens before demanding output (examples, edge cases).
-- Match internet-trained patterns (standard HTTP verbs, standard JSON shapes, not custom DSLs).
-- Include example usage in the tool description. Include what bad input looks like.
-- Apply poka-yoke — make wrong calls impossible via schema, not via docs.</p>
-<h3>5.3 Strict tool use</h3>
-<p>For our own tools, set <code>strict: true</code>. Guarantees schema conformance. Prevents drift where the model guesses a field name.</p>
-<h3>5.4 Error recovery</h3>
-<p>When a tool errors:
-- Do not retry in a loop without diagnosing.
-- The error message itself is often the guidance — read it.
-- If the error is truly intermittent, one retry with explicit backoff is OK; three retries means you&rsquo;re fighting a real issue.</p>
-<h3>5.5 Agentic-loop durability</h3>
-<p>For long tool-use loops (autopilot windows, router dispatches that chain K→L→O→C tiers):
-- Log every tool call + result to persistent state so a mid-loop failure can resume.
-- Define a hard budget (time or tokens) and terminate gracefully when exceeded.
-- Produce a review-queue artifact, never a silent commit.</p>
-<hr />
-<h2>6. Sub-agents (within a chat)</h2>
-<p>Claude Code provides three built-in sub-agents: <strong>Explore</strong> (Haiku-backed, read-only, for codebase search), <strong>Plan</strong> (inherits model, read-only, for plan-mode research), <strong>general-purpose</strong> (inherits model, all tools, for complex multi-step). Plus user-defined sub-agents via <code>/agents</code>.</p>
-<p><strong>When to delegate:</strong>
-- A side task would flood the main conversation with file contents, logs, or search output we won&rsquo;t re-reference.
-- A task matches a repeatable pattern (write a custom sub-agent once, reuse).
-- We want to enforce tool restrictions (e.g. a &ldquo;security-reviewer&rdquo; sub-agent with read-only access).
-- We want context isolation so the parent conversation stays lean.</p>
-<p><strong>When NOT to delegate:</strong>
-- The task is the main conversation&rsquo;s core concern — delegating hides reasoning.
-- The task is trivial — overhead of spawn + brief exceeds the saved context.
-- The task needs to mutate state (write files, commits) and we haven&rsquo;t granted the sub-agent permission.</p>
-<p><strong>Brief discipline for sub-agent prompts:</strong> Anthropic&rsquo;s explicit guidance applies extra here — sub-agents start cold, no conversation history. Every prompt must stand alone with: goal, constraints, what&rsquo;s been tried, exact format expected in return. Short reports demand: &ldquo;report in under 200 words.&rdquo;</p>
-<p><strong>Opus 4.7 spawns fewer sub-agents by default</strong> than 4.6. If parallel sub-agent fan-out helps — say Track A legal research on multiple compliance regimes in parallel — explicitly request it.</p>
-<hr />
-<h2>7. Agent teams (across chats) — The Ensemble, properly used</h2>
-<p>Anthropic&rsquo;s own distinction: <strong>&ldquo;Subagents work within a single session; agent teams coordinate across separate sessions.&rdquo;</strong> That&rsquo;s the Ensemble. Our Maestro + multiple Agents + two Virtuosos = a canonical agent team.</p>
-<h3>7.1 Canonical patterns applied</h3>
-<table>
-<thead>
-<tr>
-<th>Anthropic pattern</th>
-<th>Ensemble application</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Prompt chaining</strong></td>
-<td>Agent Builder&rsquo;s 9-track research → <code>LLM_SPEC.md</code> → fine-tune → deploy. Sequential, state-file-mediated.</td>
-</tr>
-<tr>
-<td><strong>Routing</strong></td>
-<td>Maestro&rsquo;s cross-project top-rec dispatch. Also the cognition router (K/L/O/C) inside deployed LLMs.</td>
-</tr>
-<tr>
-<td><strong>Parallelization — sectioning</strong></td>
-<td>9 research tracks in parallel. Three Virtuosi / Agents operating on different projects simultaneously (constrained only by the autopilot lock).</td>
-</tr>
-<tr>
-<td><strong>Parallelization — voting</strong></td>
-<td>Not yet used; candidate for hard eval cases where we want diverse outputs on the same prompt.</td>
-</tr>
-<tr>
-<td><strong>Orchestrator-workers</strong></td>
-<td>Literally The Ensemble — Maestro orchestrates, Agents are workers, Virtuosi are elevated workers.</td>
-</tr>
-<tr>
-<td><strong>Evaluator-optimizer</strong></td>
-<td>Agent Builder&rsquo;s eval-first-fine-tune-second loop. Tool Builder&rsquo;s client-review-before-build.</td>
-</tr>
-<tr>
-<td><strong>Autonomous agents</strong></td>
-<td><code>/ensemble:autopilot N</code> windows (bounded; feature-branch only; human-approval gate).</td>
-</tr>
-</tbody>
-</table>
-<h3>7.2 The load-bearing primitives of our agent-team architecture</h3>
-<ol>
-<li><strong>The shared state file</strong> (<code>${CLAUDE_PLUGIN_DATA}/state.json</code>) — atomic reads/writes, single source of truth.</li>
-<li><strong>The atomic autopilot lock</strong> (POSIX <code>mkdir</code>) — one winner, no races.</li>
-<li><strong>Per-chat status files</strong> (<code>chats/&lt;slug&gt;.json</code>) — heartbeats, top recs, roster visibility.</li>
-<li><strong>Per-repo charters</strong> (<code>.claude/PROJECT_CHARTER.md</code>) — durable truth that survives context compaction.</li>
-<li><strong>Hooks</strong> (PreToolUse + SessionStart) — enforce safety outside the conversation.</li>
-<li><strong>Signal phrases</strong> (<code>***ORCHESTRATOR OFF***</code> + five others) — verbatim triggers that any chat recognizes.</li>
-<li><strong>The six-phase kill-switch cascade</strong> — distributed, idempotent, works under race.</li>
-</ol>
-<p>These are our infrastructure. They&rsquo;re what lets us run Opus 4.7 across 5+ chats safely.</p>
-<hr />
-<h2>8. Persistent state — Opus 4.7&rsquo;s memory improvements</h2>
-<p>Anthropic&rsquo;s 4.7 release notes, verbatim:</p>
-<blockquote>
-<p>&ldquo;Claude Opus 4.7 is better at writing and using file-system-based memory. If an agent maintains a scratchpad, notes file, or structured memory store across turns, that agent should improve at jotting down notes to itself and leveraging its notes in future tasks.&rdquo;</p>
-</blockquote>
-<p>Our <code>chats/*.json</code> + <code>.claude/PROJECT_CHARTER.md</code> + append-only decision logs in per-Virtuoso identity files ARE this pattern. 4.7 strengthens our bet here.</p>
-<p><strong>Good practices:</strong>
-- Every meaningful decision writes to a durable log with a timestamp.
-- Every status file heartbeat captures enough context to reconstruct the chat&rsquo;s intent cold.
-- Charter updates append-only where possible — preserve history.
-- When a chat&rsquo;s context is about to compact, summarize to the status file first.</p>
-<p><strong>The Tool Builder Virtuoso&rsquo;s self-spawned <code>chats/tool-builder.json</code> is a gold-standard example</strong> — 200 lines of scannable state, every research track tracked, every phase gate enumerated, every safety rail listed.</p>
-<hr />
-<h2>9. Context budget management</h2>
-<p>Opus 4.7 has a 1M token context window. That is ample — but not infinite, and not free.</p>
-<p><strong>Compaction avoidance tactics:</strong>
-- Parallel sub-agent delegation for &ldquo;find and summarize&rdquo; tasks (keeps raw file contents out of parent context).
-- Explicit state-file writes at end of any research phase (can be re-read cheaply; doesn&rsquo;t need to stay in-context).
-- Prune tool output: request &ldquo;under 200 words&rdquo; from sub-agents when raw data is what we don&rsquo;t need.
-- Use Explore sub-agent for read-only codebase search (Haiku-backed, cheap, returns summaries).</p>
-<p><strong>Rehydration after compaction:</strong>
-- Every chat&rsquo;s first action on session start: read its charter, its status file, its identity file. The state IS the memory.
-- Don&rsquo;t rely on in-context conversation history for durable knowledge — that&rsquo;s fragile.</p>
-<hr />
-<h2>10. Anti-patterns (things we refuse to do)</h2>
-<ol>
-<li><strong>Asking Claude to &ldquo;also do related cleanup.&rdquo;</strong> 4.7 either does exactly that, or nothing. Be specific.</li>
-<li><strong>Assuming 4.7 will infer unstated constraints.</strong> It won&rsquo;t.</li>
-<li><strong>Leaving <code>temperature</code> or <code>top_p</code> set in our own code.</strong> Will 400-error on 4.7.</li>
-<li><strong>Setting <code>thinking.budget_tokens</code>.</strong> Deprecated on 4.6, rejected on 4.7. Use adaptive + effort.</li>
-<li><strong>Running <code>max</code> effort on structured-output tasks.</strong> Anthropic warns: &ldquo;On some structured-output or less intelligence-sensitive tasks it can lead to overthinking.&rdquo; Stay at <code>high</code> or <code>xhigh</code>.</li>
-<li><strong>Spawning sub-agents for trivial tasks.</strong> Overhead &gt; benefit.</li>
-<li><strong>Forgetting to mark the recommended option with <code>(Recommended)</code> in the LABEL of an <code>AskUserQuestion</code>.</strong> Per <code>AGENT.md §2</code> / <code>MAESTRO.md §2 directive 7</code>.</li>
-<li><strong>Retrying a failing tool call without reading the error.</strong> The error is the guidance.</li>
-<li><strong>Destructive git ops without per-turn approval</strong> — <code>--force</code>, <code>reset --hard</code> after push, history rewrite, branch/tag deletion. Per <code>safety_constraints.md</code>. (<code>git push</code> on current branch is NOT gated as of 2026-04-24.)</li>
-<li><strong>Relying on in-context history as durable state.</strong> Write it to the status file or charter.</li>
-</ol>
-<hr />
-<h2>11. Checklist for every chat&rsquo;s first turn</h2>
-<p>Regardless of tier, every Ensemble chat on session start:</p>
-<ol>
-<li>Read <code>state.json</code> (or ask user for direct-mode if missing).</li>
-<li>Read the relevant contract (<code>MAESTRO.md</code> for Maestro, <code>AGENT.md</code> for Agents, the specific handoff doc for Virtuosos).</li>
-<li>Read the per-repo <code>PROJECT_CHARTER.md</code> (if Agent-tier scoped to a repo).</li>
-<li>Read or write the own status file at <code>chats/&lt;slug&gt;.json</code> with fresh <code>last_heartbeat</code>.</li>
-<li>Scan any new deliverables in the repo since the last heartbeat.</li>
-<li>Report in rapid-fire: TOP REC + 2–3 alternatives via <code>AskUserQuestion</code> with <code>(Recommended)</code> on the first option&rsquo;s label.</li>
-<li>Wait.</li>
-</ol>
-<p>This is the Opus 4.7 &ldquo;invest in a plan output&rdquo; principle encoded as a protocol.</p>
-<hr />
-<h2>12. Continuous improvement</h2>
-<ul>
-<li>Every engagement (or every sprint for internal work) ends with a micro-retrospective written to the decision log — what prompting shape worked, what didn&rsquo;t, what took longer than estimated.</li>
-<li>Track &ldquo;prompt rewrites required&rdquo; as a quality metric: if we had to re-prompt 3× to get a specific output, the original prompt was under-specified; the retrospective captures what the right prompt shape is.</li>
-<li>Feed learnings back into the contract templates (<code>MAESTRO.md</code>, <code>AGENT.md</code>) via commits to <code>plugins/ensemble/templates/</code>. This is how the Ensemble gets sharper over time.</li>
-<li>When a technique is adopted permanently, reference this doc from the relevant charter section so future chats inherit.</li>
-</ul>
-<hr />
-<h2>13. Summary — the seven rules that matter most</h2>
-<ol>
-<li><strong>Explicit &gt; implicit.</strong> 4.7 doesn&rsquo;t fill in gaps. State scope, success criteria, stop condition.</li>
-<li><strong><code>xhigh</code> effort is the default for coding + agentic work.</strong> Don&rsquo;t stay at <code>high</code> out of habit.</li>
-<li><strong>Adaptive thinking only on 4.7.</strong> No <code>budget_tokens</code>.</li>
-<li><strong>Parallel tool calls when independent.</strong> 4.7 defaults to fewer; ask for the fan-out.</li>
-<li><strong>Write state to durable files, not in-context memory.</strong> Charters, status files, decision logs.</li>
-<li><strong><code>(Recommended)</code> belongs in the LABEL of AskUserQuestion, never the description.</strong></li>
-<li><strong>Batched approvals at the logical-unit level.</strong> Per <code>AGENT.md §2</code> and <code>MAESTRO.md §2</code> directive 12.</li>
-</ol>
-<p>If every chat in The Ensemble internalizes those seven rules, the coordination across many Opus 4.7 instances is tight. If even one chat drifts on them, we start losing the quality-per-token ratio that makes the Ensemble worth running.</p>
-<hr />
-<h2>References</h2>
-<p>Anthropic canonical material consumed in writing this doc:
-- <a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>
-- <a href="https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-7">What&rsquo;s new in Claude Opus 4.7</a>
-- <a href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking">Adaptive thinking</a>
-- <a href="https://platform.claude.com/docs/en/build-with-claude/effort">Effort parameter</a>
-- <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>
-- <a href="https://code.claude.com/docs/en/sub-agents">Claude Code sub-agents</a>
-- <a href="https://claude.com/blog/best-practices-for-using-claude-opus-4-7-with-claude-code">Best practices for using Claude Opus 4.7 with Claude Code</a></p>
-<hr />
 <p><em>End of OPUS_OPTIMIZATION.md v1.0 — 2026-04-23.</em></p>
     </article>
+    <footer class="doc-foot">
+      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+    </footer>
   </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('docProgressBar');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scrolled = (h.scrollTop || document.body.scrollTop);
+        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+        bar.style.width = pct + '%';
+      }
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
 </main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>

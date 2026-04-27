@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
 <style>
 :root {
   --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
@@ -57,8 +58,18 @@ body {
 .topnav .brand {
   font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
   color: var(--ink); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
 }
 .topnav .brand em { color: var(--accent); font-style: normal; }
+.topnav .brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; display: block;
+  flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+}
+.topnav .brand-word { line-height: 1; }
+@media (max-width: 480px) {
+  .topnav .brand-word { display: none; }
+  .topnav .brand-mark { width: 30px; height: 30px; }
+}
 .topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
 .topnav li a {
   display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
@@ -346,13 +357,77 @@ body.theme-aurora {
   --accent: #a78bfa; --accent-2: #c4b5fd; --accent-soft: rgba(167,139,250,0.14);
 } }
 
+body.theme-rose {
+  --bg: #fff5f7; --bg-raised: #ffffff; --bg-elevated: #fff8fa;
+  --ink: #2a0a14; --ink-2: #4a1f2c; --ink-3: #8a4f66; --ink-4: #c896aa;
+  --rule: #f0d8e0; --rule-2: #f5e4ea;
+  --accent: #e11d48; --accent-2: #f43f5e; --accent-soft: rgba(225,29,72,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-rose {
+  --bg: #1a0810; --bg-raised: #2a1218; --bg-elevated: #321820;
+  --ink: #ffe4eb; --ink-2: #f5c0ce; --ink-3: #c88898; --ink-4: #8a5868;
+  --rule: #3a1a26; --rule-2: #2c121a;
+  --accent: #f43f5e; --accent-2: #fb7185; --accent-soft: rgba(244,63,94,0.14);
+} }
+
+body.theme-ocean {
+  --bg: #f0f9fb; --bg-raised: #ffffff; --bg-elevated: #f5fbfd;
+  --ink: #0a1f26; --ink-2: #1f3d4d; --ink-3: #4d7588; --ink-4: #8ab0bf;
+  --rule: #cbe3eb; --rule-2: #ddebf0;
+  --accent: #0891b2; --accent-2: #06b6d4; --accent-soft: rgba(8,145,178,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-ocean {
+  --bg: #051418; --bg-raised: #0c1f26; --bg-elevated: #122a32;
+  --ink: #d8f0f7; --ink-2: #b0d8e3; --ink-3: #7daabe; --ink-4: #4a7388;
+  --rule: #1a3540; --rule-2: #122832;
+  --accent: #06b6d4; --accent-2: #22d3ee; --accent-soft: rgba(6,182,212,0.14);
+} }
+
+body.theme-sunset {
+  --bg: #fff7ed; --bg-raised: #ffffff; --bg-elevated: #fffaf2;
+  --ink: #2a1505; --ink-2: #4d2810; --ink-3: #8b5524; --ink-4: #c89970;
+  --rule: #f0d8b8; --rule-2: #f5e4cc;
+  --accent: #ea580c; --accent-2: #f97316; --accent-soft: rgba(234,88,12,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sunset {
+  --bg: #1a0a02; --bg-raised: #2a1408; --bg-elevated: #321a0c;
+  --ink: #ffe8d0; --ink-2: #f5c8a0; --ink-3: #c89570; --ink-4: #8a5f40;
+  --rule: #3a1f0c; --rule-2: #2c1808;
+  --accent: #f97316; --accent-2: #fb923c; --accent-soft: rgba(249,115,22,0.14);
+} }
+
+body.theme-midnight {
+  --bg: #f4f6fb; --bg-raised: #ffffff; --bg-elevated: #f8fafc;
+  --ink: #0c1024; --ink-2: #1e2440; --ink-3: #4d557a; --ink-4: #8a92b3;
+  --rule: #d6dbeb; --rule-2: #e3e8f2;
+  --accent: #4f46e5; --accent-2: #6366f1; --accent-soft: rgba(79,70,229,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-midnight {
+  --bg: #060814; --bg-raised: #0d1024; --bg-elevated: #131730;
+  --ink: #e0e4f5; --ink-2: #c0c8e0; --ink-3: #8a92b3; --ink-4: #565d80;
+  --rule: #1a1d35; --rule-2: #131628;
+  --accent: #6366f1; --accent-2: #818cf8; --accent-soft: rgba(99,102,241,0.16);
+} }
+
+body.theme-sage {
+  --bg: #f6faf2; --bg-raised: #ffffff; --bg-elevated: #fafcf7;
+  --ink: #182410; --ink-2: #2d3d22; --ink-3: #5a704a; --ink-4: #9ab088;
+  --rule: #d8e3c8; --rule-2: #e8efdc;
+  --accent: #65a30d; --accent-2: #84cc16; --accent-soft: rgba(101,163,13,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sage {
+  --bg: #0a1505; --bg-raised: #131f0a; --bg-elevated: #1a2810;
+  --ink: #e0f0d0; --ink-2: #c0d8a8; --ink-3: #8aa870; --ink-4: #5a7048;
+  --rule: #243018; --rule-2: #1a2410;
+  --accent: #84cc16; --accent-2: #a3e635; --accent-soft: rgba(132,204,22,0.14);
+} }
+
 /* Theme picker UI */
 .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; }
 .theme-swatch {
   width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
-  border: 2px solid var(--rule); transition: border-color 200ms var(--ease), transform 200ms var(--ease);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: white;
+  border: 2px solid var(--rule);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
   background: linear-gradient(135deg, var(--swatch-a), var(--swatch-b));
 }
 .theme-swatch:hover { transform: scale(1.05); }
@@ -367,12 +442,259 @@ body.theme-aurora {
 .theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
 .theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
 .theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
+
+/* ─── Widget dashboard ──────────────────────────────────────────────── */
+.widget-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(140px, auto); gap: 16px; margin: 24px 0;
+}
+@media (max-width: 768px) {
+  .widget-grid { grid-template-columns: repeat(2, 1fr); }
+  .widget--1x1, .widget--2x1, .widget--1x2, .widget--2x2 { grid-column: span 1; grid-row: span 1; }
+}
+@media (min-width: 769px) and (max-width: 1100px) {
+  .widget-grid { grid-template-columns: repeat(6, 1fr); }
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+@media (min-width: 1101px) {
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+.widget {
+  position: relative; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-md); padding: 18px;
+  display: flex; flex-direction: column;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), border-color 200ms var(--ease);
+  min-height: 0;
+}
+.widget:hover { box-shadow: var(--shadow-md); }
+.widget__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
+}
+.widget__title {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.widget__hint { font-size: 10px; color: var(--ink-4); white-space: nowrap; }
+.widget__body {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+  min-height: 0; overflow: hidden;
+}
+.widget__body--center { justify-content: center; align-items: center; text-align: center; }
+.widget__numeral {
+  font-family: var(--font-display, var(--font-heading, serif));
+  font-size: 44px; font-weight: 600; line-height: 1; color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.widget__numeral .muted { opacity: 0.4; font-size: 0.6em; font-weight: 500; }
+.widget__chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.widget__chip--success { background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a; border-color: color-mix(in srgb, #16a34a 28%, transparent); }
+.widget__chip--warn    { background: color-mix(in srgb, #d97706 14%, transparent); color: #d97706; border-color: color-mix(in srgb, #d97706 28%, transparent); }
+.widget__chip--danger  { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; border-color: color-mix(in srgb, #dc2626 28%, transparent); }
+.widget__chip--neutral { background: var(--bg-sunken, var(--bg-elevated)); color: var(--ink-2); border-color: var(--rule); }
+
+.widget__btn {
+  appearance: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  background: var(--bg-elevated, var(--bg-raised)); border: 1px solid var(--rule);
+  color: var(--ink); font-size: 13px; font-weight: 500; font-family: inherit;
+  transition: all 180ms var(--ease);
+}
+.widget__btn:hover { border-color: var(--accent); color: var(--accent); }
+.widget__btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.widget__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.widget__btn--danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.widget__btn--danger:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
+.widget__btn--big { padding: 14px 20px; font-size: 14px; font-weight: 600; }
+.widget__btn--ghost { background: transparent; border-color: var(--rule-2); color: var(--ink-3); }
+.widget__btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.widget__row { display: flex; gap: 6px; flex-wrap: wrap; }
+.widget__row--tight { gap: 4px; }
+.widget__divider { height: 1px; background: var(--rule-2); margin: 8px 0; }
+
+.widget__select, .widget__input, .widget__textarea {
+  appearance: none; padding: 8px 10px; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--bg); color: var(--ink);
+  font-family: inherit; font-size: 13px; width: 100%;
+  transition: border-color 180ms var(--ease);
+}
+.widget__select:focus, .widget__input:focus, .widget__textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.widget__textarea { resize: vertical; min-height: 60px; font-family: var(--font-mono, monospace); }
+
+.widget__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.widget__list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px;
+  background: var(--bg-elevated, var(--bg-raised));
+  border: 1px solid transparent;
+}
+.widget__list li:hover { border-color: var(--rule); }
+
+/* Edit mode + chrome */
+.widget__remove, .widget__resize, .widget__handle { display: none; }
+.editing-dashboard .widget {
+  cursor: grab; user-select: none;
+  animation: widget-wiggle 0.6s ease-in-out infinite;
+}
+.editing-dashboard .widget:nth-child(odd) { animation-delay: -0.3s; }
+.editing-dashboard .widget:active { cursor: grabbing; }
+.editing-dashboard .widget__remove,
+.editing-dashboard .widget__resize { display: flex; }
+.editing-dashboard .widget input,
+.editing-dashboard .widget textarea,
+.editing-dashboard .widget select,
+.editing-dashboard .widget button:not(.widget__remove):not(.widget__resize) {
+  pointer-events: none; opacity: 0.55;
+}
+.widget__remove {
+  position: absolute; top: -10px; right: -10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #dc2626; color: #fff; border: 2px solid var(--bg);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center;
+  z-index: 3; box-shadow: var(--shadow-md);
+  transition: transform 150ms var(--ease);
+}
+.widget__remove:hover { transform: scale(1.12); background: #ef4444; }
+.widget__resize {
+  position: absolute; bottom: 8px; right: 8px;
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--accent-soft); color: var(--accent);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center; border: none;
+  z-index: 3; transition: transform 150ms var(--ease);
+}
+.widget__resize:hover { transform: scale(1.12); }
+.widget.is-dragging { opacity: 0.4; transform: scale(0.96); }
+.widget.is-drop-target { outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+@keyframes widget-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-0.5deg); }
+  75%  { transform: rotate(0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.dash-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 8px 0 0 0; gap: 12px; flex-wrap: wrap;
+}
+.dash-toolbar__hint { font-size: 12px; color: var(--ink-3); }
+.btn-edit-dashboard, .btn-add-widget, .btn-reset-layout {
+  appearance: none; padding: 9px 18px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink);
+  font-family: inherit;
+  transition: all 200ms var(--ease);
+}
+.btn-edit-dashboard:hover, .btn-add-widget:hover, .btn-reset-layout:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.btn-add-widget { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-add-widget:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+/* Add Widget bottom sheet */
+.widget-shelf {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-raised); border-top: 1px solid var(--rule);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.10); padding: 24px;
+  max-height: 60vh; overflow-y: auto; z-index: 100;
+  transform: translateY(100%); transition: transform 320ms var(--ease);
+}
+.editing-dashboard .widget-shelf { transform: translateY(0); }
+.widget-shelf__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.widget-shelf__title { font-size: 18px; font-weight: 600; margin: 0; }
+.widget-shelf__close { font-size: 22px; line-height: 1; cursor: pointer; padding: 4px 12px;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 100px; }
+.widget-shelf__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; max-width: 1200px; margin: 0 auto;
+}
+.widget-shelf__item {
+  padding: 14px; background: var(--bg); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer; text-align: left;
+  font-family: inherit;
+  transition: transform 160ms var(--ease), border-color 160ms var(--ease);
+}
+.widget-shelf__item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.widget-shelf__item h3 { font-size: 13px; margin: 0 0 4px 0; font-weight: 600; color: var(--ink); }
+.widget-shelf__item p { font-size: 11px; color: var(--ink-3); margin: 0; line-height: 1.4; }
+.widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
+.widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
+
+
+/* ─── Widget sections (public + private partitioning) ──────────────── */
+.widget-section { margin: 24px 0 36px; }
+.widget-section + .widget-section { border-top: 1px dashed var(--rule); padding-top: 24px; }
+.widget-section__header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 14px; padding-bottom: 10px;
+}
+.widget-section__heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.widget-section__heading > div { min-width: 0; }
+.widget-section__title {
+  font-family: var(--font-heading, var(--font-display, serif));
+  font-size: 18px; font-weight: 600; margin: 0; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.widget-section__sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
+.widget-section__chip {
+  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.widget-section__chip--public {
+  background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a;
+  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
+}
+.widget-section__chip--private {
+  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.widget-section__move {
+  appearance: none; padding: 6px 14px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule); cursor: pointer;
+  font-size: 12px; font-weight: 600; color: var(--ink-2); font-family: inherit;
+  transition: all 180ms var(--ease); white-space: nowrap; flex-shrink: 0;
+  display: none;
+}
+.editing-dashboard .widget-section__move { display: inline-block; }
+.widget-section__move:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hide section headers when NOT in edit mode for a quieter default view */
+:not(.editing-dashboard) .widget-section__header { opacity: 0.6; }
+:not(.editing-dashboard) .widget-section__sub { display: none; }
+
+/* Shelf row chip */
+.widget-shelf__row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+
 </style>
 </head>
 <body>
 <nav class="topnav">
   <div class="wrap">
-    <a class="brand" href="./">Ensemble</a>
+    <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
@@ -398,317 +720,38 @@ body.theme-aurora {
   </div>
 </div>
 <main class="doc-page">
-  <div class="wrap">
+  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
+  <div class="wrap doc-wrap">
     <a href="../docs.html" class="doc-back">← All documentation</a>
-    <p class="doc-meta">docs/AUTOPILOT_DESIGN.md</p>
+    <header class="doc-hero">
+      <p class="doc-eyebrow">Documentation</p>
+      <h1 class="doc-title">Autopilot Design</h1>
+      <p class="doc-lead">**Status:** plan, 2026-04-23.</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/AUTOPILOT_DESIGN.md</code></p>
+    </header>
     <article class="doc-content">
-<h1>Autopilot Design — <code>/ensemble:autopilot N</code></h1>
-<blockquote>
-<p><strong>Status:</strong> plan, 2026-04-23.
-<strong>Prereqs:</strong> plugin refactor landed; <code>memory/safety_constraints.md</code> locked; Track F (scheduling primitives) + Track G (mobile dispatch) research.
-<strong>Decisions already locked (from earlier AskUserQuestion):</strong>
-- Mobile-primary via Cloud Routine (zero local permission prompts)
-- Full autonomous Agents execution via scheduled spawn
-- Safety model: local-only work + approval-gated push
-- <code>(Recommended)</code> label standard on every option</p>
-</blockquote>
-<hr />
-<h2>1. Context</h2>
-<p>Kevin wants: &ldquo;routines that I can initiate on the fly with a simple <code>/</code> command in this chat. Perhaps the number denoted after the command determines how long we initiate autopilot mode for across the board, and let the Maestro take over. We need to ensure any permissions needed during the session are presented right away as the user may be afk. I also want to be able to initiate from the phone obviously.&rdquo;</p>
-<p>Goal: a single command (desktop or phone) that triggers an N-minute window during which the Ensemble autonomously progresses work across Agents, with no user interaction required mid-flight, and no safety-relevant actions executed without explicit approval.</p>
-<hr />
-<h2>2. Hard constraints (from architecture)</h2>
-<p>These shape what&rsquo;s achievable.</p>
-<ol>
-<li><strong>Cloud Routines have no local filesystem access.</strong> They can&rsquo;t read <code>state.json</code>, can&rsquo;t touch the autopilot lock, can&rsquo;t spawn local Agent sessions. They can ONLY trigger things that bridge to local (iMessage Channels session, SSH via Tailscale, or a polled trigger file in a sync&rsquo;d location).</li>
-<li><strong>Claude Code sessions require user turns to advance.</strong> A single chat can&rsquo;t autonomously loop without scheduled tasks or the <code>/loop</code> skill. Autopilot must either: (a) run as a scheduled task firing every N minutes, or (b) spawn fresh <code>claude -p</code> sessions that auto-complete.</li>
-<li><strong>The autopilot lock is global per machine.</strong> One Agent holds it at a time. Parallel Agent execution is possible only for coding work that doesn&rsquo;t touch the lock (no VMs, no preview servers, no computer-use).</li>
-<li><strong>Hooks fire even in bypass mode</strong> (Track B). So <code>claude -p --dangerously-skip-permissions</code> sessions still honor the lock hook — safety survives automation.</li>
-<li><strong>Plugin data is per-user, machine-local.</strong> <code>${CLAUDE_PLUGIN_DATA}</code> is the source of truth for state; nothing in the bundle (<code>${CLAUDE_PLUGIN_ROOT}</code>) mutates.</li>
-</ol>
-<hr />
-<h2>3. Mobile-primary flow (the headline use case)</h2>
-<p>You&rsquo;re at work, on your phone. You want to fire a 60-minute autopilot.</p>
-<pre><code>┌──────────────┐    ┌────────────────────┐    ┌──────────────────┐    ┌──────────────────────┐
-│ iOS Shortcut │ →  │ Cloud Routine      │ →  │ iMessage self-   │ →  │ Local Channels       │
-│ (one tap)    │    │ ensemble:autopilot │    │ thread message   │    │ session (tmux)       │
-└──────────────┘    └────────────────────┘    └──────────────────┘    └──────────┬───────────┘
-                                                                                  │
-                                                                                  ▼
-                                                           ┌──────────────────────────────────────┐
-                                                           │ autopilot_orchestrator.sh            │
-                                                           │   loops for N minutes:               │
-                                                           │   - reads state.json                 │
-                                                           │   - picks top Agent rec           │
-                                                           │   - spawns claude -p for that repo   │
-                                                           │   - waits for lock release           │
-                                                           │   - aggregates into review queue     │
-                                                           └──────────────────────────────────────┘
-                                                                                  │
-                                                                                  ▼
-                                                                       iMessage summary back
-                                                                       to you with review queue
-</code></pre>
-<h3>Why this specific bridge</h3>
-<ul>
-<li><strong>iOS Shortcut + Cloud Routine:</strong> stateless, works from anywhere with signal, Anthropic handles auth.</li>
-<li><strong>Why NOT Cloud Routine → local directly:</strong> cloud can&rsquo;t touch local FS. Hard architectural block.</li>
-<li><strong>Channels over SSH:</strong> iMessage Channels plugin is first-party-supported. SSH-via-Tailscale works but is more fragile (needs Mac awake + reachable). Channels session in tmux is more robust.</li>
-<li><strong>Channels session must already be running</strong> on the Mac (tmux + launchd KeepAlive per Track G §5). One-time setup.</li>
-</ul>
-<h3>Prereqs for mobile trigger to work</h3>
-<ul>
-<li>[ ] Mac is awake (lid open or &ldquo;Keep computer awake&rdquo; enabled)</li>
-<li>[ ] Persistent tmux session running the iMessage Channels listener (exact <code>claude</code> invocation TBD per installed plugin&rsquo;s docs — <code>--channels</code> syntax was speculative, verify via <code>/plugin marketplace</code>)</li>
-<li>[ ] launchd KeepAlive plist installed</li>
-<li>[ ] Full Disk Access granted to Terminal/iTerm for iMessage plugin</li>
-<li>[ ] Cloud Routine <code>ensemble:autopilot</code> created at <code>claude.ai/code/routines</code></li>
-<li>[ ] iOS Shortcut configured to POST to the routine&rsquo;s <code>/fire</code> endpoint with <code>{"text": "&lt;duration&gt;"}</code></li>
-<li>[ ] Ensemble plugin installed; orchestrator directory populated</li>
-</ul>
-<p>Docs for each in <code>plugins/ensemble/MOBILE_DISPATCH.md</code> (new file).</p>
-<hr />
-<h2>4. Local flow (<code>/ensemble:autopilot 60</code> in Maestro chat)</h2>
-<p>Same as mobile but the Maestro chat is the trigger:</p>
-<ol>
-<li>User types <code>/ensemble:autopilot 60</code> → skill resolves</li>
-<li>Skill parses duration, validates: <code>mode == "orchestrated"</code>, <code>mode_transitioning == false</code>, lock free, Agents have top_recommendations ready</li>
-<li><strong>Pre-flight permission audit</strong>: lists every command the window will run. If any is not in the settings allow-list, offer batch approval via AskUserQuestion (pre-approve or abort)</li>
-<li><strong>Pre-flight summary</strong>: which Agents will be spawned, what their top rec is, estimated token cost, est. wall-clock duration. AskUserQuestion: Proceed / Cancel / Dry-run</li>
-<li>On Proceed: invoke <code>bin/autopilot_orchestrator.sh &lt;duration&gt;</code></li>
-<li>Orchestrator runs; Maestro narrates each spawn&rsquo;s start + complete in chat</li>
-<li>At window end: Maestro surfaces the review queue and any needs_attention flags</li>
-</ol>
-<hr />
-<h2>5. Orchestrator loop (<code>bin/autopilot_orchestrator.sh</code>)</h2>
-<p>Called with one arg: duration in minutes.</p>
-<pre><code>Phase 0 — Validate environment
-  read state.json; assert mode=orchestrated, mode_transitioning=false
-  compute window_end = now + N minutes
-  acquire a &quot;maestro window lock&quot; at ${CLAUDE_PLUGIN_DATA}/maestro.window.d (separate from Agent autopilot lock)
-  write ${CLAUDE_PLUGIN_DATA}/runs/autopilot-&lt;ts&gt;.md with initial header
-
-Phase 1 — Rank Agents by top rec priority
-  for each ${CLAUDE_PLUGIN_DATA}/chats/*.json:
-    skip if needs_attention or status=blocked
-    skip if top_recommendation.requires_autopilot=false (this window is for autopilot work)
-    score by: charter_alignment (core=3, stretch=2, off=1) + effort (S=3, M=2, L=1)
-  sort descending
-
-Phase 2 — Serial spawn loop
-  while now &lt; window_end and Agent queue non-empty:
-    pick next Agent V
-    write ${CLAUDE_PLUGIN_DATA}/runs/autopilot-&lt;ts&gt;.md: &quot;spawning V:&lt;slug&gt;&quot;
-    spawn: claude -p --dangerously-skip-permissions \
-      --cwd &lt;V.repo_path&gt; \
-      &quot;&lt;spawn prompt for V — see §6&gt;&quot;
-    wait for ***AUTOPILOT COMPLETE*** OR timeout (M_per_spawn ceiling) OR user kill-switch in state.json
-    record outcome (success / timeout / abort) + commit SHA + branch name
-    if outcome=success, mark the top_recommendation as attempted in V.status
-    if outcome=timeout or abort, flag needs_attention=true with reason
-
-Phase 3 — Finalize
-  release maestro.window.d
-  write final summary to autopilot-&lt;ts&gt;.md:
-    - Agents attempted, outcomes, feature branches created
-    - Review queue: exact commands the user runs to inspect/merge each branch
-  if mobile-triggered: send iMessage with summary
-  if local-triggered: return summary to Maestro chat
-</code></pre>
-<hr />
-<h2>6. Agent spawn prompt</h2>
-<p>Each spawned <code>claude -p</code> gets a prompt tailored to that Agent:</p>
-<pre><code>You are &lt;slug&gt;, an Agent in The Ensemble. You are running a BOUNDED AUTOPILOT
-SESSION under the Maestro's orchestration — wall-clock ceiling M_per_spawn
-minutes, token ceiling Tcap.
-
-1. Read ${CLAUDE_PLUGIN_ROOT}/templates/AGENT.md in full.
-2. Read your identity: ${CLAUDE_PLUGIN_DATA}/agents/&lt;slug&gt;.md
-3. Read your charter: &lt;repo&gt;/.claude/PROJECT_CHARTER.md
-4. Read safety constraints: ~/.claude/projects/*/memory/safety_constraints.md
-
-Your task: execute the top_recommendation from your status file
-(${CLAUDE_PLUGIN_DATA}/chats/&lt;slug&gt;.json). Work on a feature branch named
-`autopilot/&lt;YYYYMMDD&gt;-&lt;short-desc&gt;`. Commit with prefix `[autopilot]`.
-
-NON-NEGOTIABLE safety rails:
-- Never `git push`. Never.
-- Never merge to main/master. Never.
-- Never run deploys, releases, or publishes.
-- Never force-push, reset --hard, or delete tracked files.
-- If the task requires any of these, STOP and set needs_attention=true in your
-  status file with attention_reason explaining what was blocked. Then say
-  ***AUTOPILOT COMPLETE*** and exit.
-
-Standard autopilot protocol:
-- Acquire the lock via `mkdir ${CLAUDE_PLUGIN_DATA}/state.lock.d` before any
-  VM/preview/computer-use work.
-- Write holder.json with your slug.
-- Heartbeat to your status file every few minutes.
-- On completion OR error, release the lock and say ***AUTOPILOT COMPLETE***.
-
-Verification:
-- For logic changes: run the project's test suite. On red, debug, re-run.
-  Only commit green diffs.
-- For UI changes: spin the dev server, verify live (if your charter allows
-  VM work in this window), commit.
-- If verification requires capabilities beyond this bounded session, describe
-  in your status file's `current_task` what's needed and stop.
-
-Report in rapid-fire format at the end.
-</code></pre>
-<p>The Agent runs this prompt in a fresh <code>claude -p</code> session in its own repo cwd. Hook enforces lock discipline. Bypass mode allows most tool calls but VM-tools still gated by the hook.</p>
-<hr />
-<h2>7. Safety rails (hard-enforced)</h2>
-<p>Layer 1 — <strong>Pre-flight allow-list audit</strong> (local trigger)
-- Skill scans the spawn prompts for any commands that aren&rsquo;t in <code>permissions.allow[]</code>
-- Presents batch: &ldquo;These N commands will run during the window — approve all?&rdquo; AskUserQuestion
-- Any refused → either add to allow-list for this session or abort</p>
-<p>Layer 2 — <strong>Per-Agent spawn prompt</strong> bakes the &ldquo;no push / no deploy / no destructive&rdquo; rails into the system prompt (see §6)</p>
-<p>Layer 3 — <strong>Hook enforcement</strong> still blocks VM tools when lock held by another or mode=direct</p>
-<p>Layer 4 — <strong>Kill-switch unchanged</strong> — if Kevin types <code>***ORCHESTRATOR OFF***</code> anywhere during the window, the cascade fires, Agent spawns in flight get their locks force-released, orchestrator aborts gracefully</p>
-<p>Layer 5 — <strong>Review queue mandatory</strong> — every autopilot window ends with a branch-review handoff. No autopilot commit ever lands on <code>main</code> automatically.</p>
-<hr />
-<h2>8. Token budget + abort conditions</h2>
-<ul>
-<li>Per-spawn ceiling: <code>M_per_spawn = min(20 min, floor(N / len(agents)))</code> — no single Agent monopolizes the window</li>
-<li>Per-spawn token cap: 250k input / 50k output (Sonnet-class)</li>
-<li>Total window token estimate shown in pre-flight. Exceeds budget-cap memory projection → warn Kevin before Proceed (per <code>budget_cap_projection_only.md</code>)</li>
-<li>Abort conditions (any triggers window-wide stop):</li>
-<li>Any spawn exits with <code>needs_attention=true</code> AND its reason contains &ldquo;safety-rail violation&rdquo; → HARD STOP, surface to user, don&rsquo;t continue queue</li>
-<li>Unexpected error in orchestrator itself (bash non-zero exit) → release locks, write partial summary, exit</li>
-<li>User kill-switch (<code>mode=direct</code> detected mid-window) → cascade honored, queue drained</li>
-</ul>
-<hr />
-<h2>9. Review queue (window output)</h2>
-<p>Written to <code>${CLAUDE_PLUGIN_DATA}/runs/autopilot-&lt;ts&gt;.md</code>:</p>
-<pre><code># Autopilot Run — &lt;ts&gt;, N=&lt;duration&gt;min
-
-## Summary
-  Spawned: 3  ·  Successful: 2  ·  Timed out: 1  ·  Safety-blocked: 0
-
-## Review queue
-
-### boo-website
-  Branch: `autopilot/20260423-fix-bio-scroll`
-  Commit: `[autopilot] Fix bio scroll touch-action on iPad` (abc1234)
-  Charter fit: core
-  Review:
-    cd &lt;your-projects-dir&gt;/&lt;your-project&gt;
-    git diff main..autopilot/20260423-fix-bio-scroll
-    # If good: git checkout main &amp;&amp; git merge --ff-only autopilot/... &amp;&amp; git push
-
-### vera-nota
-  Branch: `autopilot/20260423-yin-verification-doc`
-  ...
-
-### pinball-roguelight
-  Branch: (timed out at 17m — no commits)
-  Reason: Godot export template build exceeded wall-clock cap
-  Follow-up: run manually when time allows
-
-## needs_attention at end of window
-  (none)
-</code></pre>
-<p>Kevin wakes up / comes home → reads this one file → reviews each branch → pushes selectively.</p>
-<hr />
-<h2>10. Files to create</h2>
-<table>
-<thead>
-<tr>
-<th>Path</th>
-<th>Role</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>plugins/ensemble/skills/autopilot/SKILL.md</code></td>
-<td><code>/ensemble:autopilot N</code> slash command definition. Parses N, runs pre-flight, invokes orchestrator.</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/bin/autopilot_orchestrator.sh</code></td>
-<td>The N-minute loop. Validates env, ranks Agents, spawns serially, writes review queue.</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/bin/autopilot_spawn.sh</code></td>
-<td>Wrapper to spawn one Agent: builds the prompt from template, invokes <code>claude -p</code>, captures outcome.</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/templates/autopilot_agent_prompt.md</code></td>
-<td>The prompt template used per spawn (see §6). Parameterized per Agent.</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/MOBILE_DISPATCH.md</code></td>
-<td>User-facing setup guide: Cloud Routine creation, iOS Shortcut config, Channels tmux/launchd setup.</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/bin/autopilot_preflight.sh</code></td>
-<td>Pre-flight check (command audit, budget projection, dry-run). Callable standalone.</td>
-</tr>
-<tr>
-<td>Update <code>plugins/ensemble/templates/CLAUDE_CODE_SETTINGS.example.json</code></td>
-<td>Add allow-list entries the autopilot needs (<code>Bash(claude -p *)</code>, etc.)</td>
-</tr>
-<tr>
-<td>Update <code>plugins/ensemble/.claude-plugin/plugin.json</code></td>
-<td>Register the <code>autopilot</code> skill</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2>11. Execution order</h2>
-<p>~8 commits on a new branch <code>feature/autopilot</code> (or directly on <code>plugin-refactor</code> if still unmerged):</p>
-<ol>
-<li><code>feature/autopilot: scaffold skill + empty scripts</code></li>
-<li><code>feature/autopilot: autopilot_preflight.sh (command audit + budget)</code></li>
-<li><code>feature/autopilot: autopilot_spawn.sh (single-Agent spawn)</code></li>
-<li><code>feature/autopilot: autopilot_orchestrator.sh (N-min loop)</code></li>
-<li><code>feature/autopilot: autopilot skill SKILL.md (/ensemble:autopilot parse + invoke)</code></li>
-<li><code>feature/autopilot: autopilot_agent_prompt.md template</code></li>
-<li><code>feature/autopilot: MOBILE_DISPATCH.md (setup docs)</code></li>
-<li><code>feature/autopilot: update plugin.json + settings allow-list</code></li>
-</ol>
-<p>Testing on <code>plugin-refactor</code>&rsquo;s CI: new job that syntax-checks the autopilot scripts + dry-runs the orchestrator against a temp fixture.</p>
-<p>First-real-run protocol: Kevin runs <code>/ensemble:autopilot 15</code> (short window) with the current 3 Agents, watches the full lifecycle, verifies the review queue. If clean, extend to 60-min.</p>
-<hr />
-<h2>12. Out of scope for v1</h2>
-<ul>
-<li><strong>Parallel Agent spawns.</strong> V1 is serial. Parallel coding work (no lock needed) is a v1.1 optimization once we see real usage patterns.</li>
-<li><strong>Auto-push of autopilot branches to origin.</strong> The point of the safety rails is that Kevin approves every push manually. Don&rsquo;t automate around this.</li>
-<li><strong>Auto-PR creation on GitHub.</strong> Could follow once repo-push is proven safe. For v1, user does <code>git push</code> + <code>gh pr create</code> themselves during review.</li>
-<li><strong>Mobile trigger without Channels session.</strong> Requires the persistent tmux session. SSH-via-Tailscale as a fallback is v1.1.</li>
-<li><strong>Windows / Linux support.</strong> Inherits from plugin v1 — macOS only.</li>
-<li><strong>Cross-project parallelism.</strong> Each Agent works its own repo; no coordination between them in a single window. Could be v2 if we see emergent dependencies.</li>
-</ul>
-<hr />
-<h2>13. Open questions — lock before build</h2>
-<ol>
-<li><strong>Channels session setup responsibility</strong> — plugin provides docs only, user sets up manually? Or does the plugin ship a <code>bin/setup_channels.sh</code> helper that handles tmux + launchd? Decision: ship docs only for v1, helper script in v1.1 if friction is real.</li>
-<li><strong>Review queue delivery</strong> — write to a file only, or also iMessage a summary? Decision: file always, iMessage only if mobile-triggered. Saves complexity.</li>
-<li><strong>Token spend visibility</strong> — track per-session usage during the window, or defer to the next morning-briefing&rsquo;s projection? Decision: defer; don&rsquo;t add token-counting infra in v1.</li>
-<li><strong>What if <code>needs_attention</code> is flagged BEFORE the window starts?</strong> Orchestrator skips those Agents. They need user attention first. Decision: print which ones were skipped and why in the pre-flight summary so Kevin can clear them before running.</li>
-</ol>
-<hr />
-<h2>14. Success criteria for v1</h2>
-<ul>
-<li>[ ] Kevin can run <code>/ensemble:autopilot 60</code> in the Maestro chat → window runs → review queue produced</li>
-<li>[ ] Kevin can trigger from iPhone via iOS Shortcut → Cloud Routine → Channels → local orchestrator → iMessage summary</li>
-<li>[ ] Every autopilot commit is on a feature branch, never pushed, never merged</li>
-<li>[ ] Safety rail violations abort the window AND flag <code>needs_attention</code> with a clear reason</li>
-<li>[ ] Kill-switch during window works (cascade fires, locks released, queue drained)</li>
-<li>[ ] Review queue is readable enough that Kevin can review + merge 3-5 branches in &lt; 10 minutes</li>
-</ul>
-<p>When all six check, v1 autopilot is shipped.</p>
-<hr />
-<h2>15. Estimate</h2>
-<ul>
-<li>Build: ~8-12 focused hours across ~8 commits</li>
-<li>First real run: immediately after build, 15-min window against existing 3 Agents</li>
-<li>Iterate from there based on what breaks</li>
-</ul>
 <p>Moves total completion from ~75% → ~85%. The remaining ~15% is public flip + official directory listing + Anthropic-Verified badge (the latter optional).</p>
     </article>
+    <footer class="doc-foot">
+      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+    </footer>
   </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('docProgressBar');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scrolled = (h.scrollTop || document.body.scrollTop);
+        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+        bar.style.width = pct + '%';
+      }
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
 </main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>

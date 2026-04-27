@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
 <style>
 :root {
   --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
@@ -57,8 +58,18 @@ body {
 .topnav .brand {
   font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
   color: var(--ink); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
 }
 .topnav .brand em { color: var(--accent); font-style: normal; }
+.topnav .brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; display: block;
+  flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+}
+.topnav .brand-word { line-height: 1; }
+@media (max-width: 480px) {
+  .topnav .brand-word { display: none; }
+  .topnav .brand-mark { width: 30px; height: 30px; }
+}
 .topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
 .topnav li a {
   display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
@@ -346,13 +357,77 @@ body.theme-aurora {
   --accent: #a78bfa; --accent-2: #c4b5fd; --accent-soft: rgba(167,139,250,0.14);
 } }
 
+body.theme-rose {
+  --bg: #fff5f7; --bg-raised: #ffffff; --bg-elevated: #fff8fa;
+  --ink: #2a0a14; --ink-2: #4a1f2c; --ink-3: #8a4f66; --ink-4: #c896aa;
+  --rule: #f0d8e0; --rule-2: #f5e4ea;
+  --accent: #e11d48; --accent-2: #f43f5e; --accent-soft: rgba(225,29,72,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-rose {
+  --bg: #1a0810; --bg-raised: #2a1218; --bg-elevated: #321820;
+  --ink: #ffe4eb; --ink-2: #f5c0ce; --ink-3: #c88898; --ink-4: #8a5868;
+  --rule: #3a1a26; --rule-2: #2c121a;
+  --accent: #f43f5e; --accent-2: #fb7185; --accent-soft: rgba(244,63,94,0.14);
+} }
+
+body.theme-ocean {
+  --bg: #f0f9fb; --bg-raised: #ffffff; --bg-elevated: #f5fbfd;
+  --ink: #0a1f26; --ink-2: #1f3d4d; --ink-3: #4d7588; --ink-4: #8ab0bf;
+  --rule: #cbe3eb; --rule-2: #ddebf0;
+  --accent: #0891b2; --accent-2: #06b6d4; --accent-soft: rgba(8,145,178,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-ocean {
+  --bg: #051418; --bg-raised: #0c1f26; --bg-elevated: #122a32;
+  --ink: #d8f0f7; --ink-2: #b0d8e3; --ink-3: #7daabe; --ink-4: #4a7388;
+  --rule: #1a3540; --rule-2: #122832;
+  --accent: #06b6d4; --accent-2: #22d3ee; --accent-soft: rgba(6,182,212,0.14);
+} }
+
+body.theme-sunset {
+  --bg: #fff7ed; --bg-raised: #ffffff; --bg-elevated: #fffaf2;
+  --ink: #2a1505; --ink-2: #4d2810; --ink-3: #8b5524; --ink-4: #c89970;
+  --rule: #f0d8b8; --rule-2: #f5e4cc;
+  --accent: #ea580c; --accent-2: #f97316; --accent-soft: rgba(234,88,12,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sunset {
+  --bg: #1a0a02; --bg-raised: #2a1408; --bg-elevated: #321a0c;
+  --ink: #ffe8d0; --ink-2: #f5c8a0; --ink-3: #c89570; --ink-4: #8a5f40;
+  --rule: #3a1f0c; --rule-2: #2c1808;
+  --accent: #f97316; --accent-2: #fb923c; --accent-soft: rgba(249,115,22,0.14);
+} }
+
+body.theme-midnight {
+  --bg: #f4f6fb; --bg-raised: #ffffff; --bg-elevated: #f8fafc;
+  --ink: #0c1024; --ink-2: #1e2440; --ink-3: #4d557a; --ink-4: #8a92b3;
+  --rule: #d6dbeb; --rule-2: #e3e8f2;
+  --accent: #4f46e5; --accent-2: #6366f1; --accent-soft: rgba(79,70,229,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-midnight {
+  --bg: #060814; --bg-raised: #0d1024; --bg-elevated: #131730;
+  --ink: #e0e4f5; --ink-2: #c0c8e0; --ink-3: #8a92b3; --ink-4: #565d80;
+  --rule: #1a1d35; --rule-2: #131628;
+  --accent: #6366f1; --accent-2: #818cf8; --accent-soft: rgba(99,102,241,0.16);
+} }
+
+body.theme-sage {
+  --bg: #f6faf2; --bg-raised: #ffffff; --bg-elevated: #fafcf7;
+  --ink: #182410; --ink-2: #2d3d22; --ink-3: #5a704a; --ink-4: #9ab088;
+  --rule: #d8e3c8; --rule-2: #e8efdc;
+  --accent: #65a30d; --accent-2: #84cc16; --accent-soft: rgba(101,163,13,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sage {
+  --bg: #0a1505; --bg-raised: #131f0a; --bg-elevated: #1a2810;
+  --ink: #e0f0d0; --ink-2: #c0d8a8; --ink-3: #8aa870; --ink-4: #5a7048;
+  --rule: #243018; --rule-2: #1a2410;
+  --accent: #84cc16; --accent-2: #a3e635; --accent-soft: rgba(132,204,22,0.14);
+} }
+
 /* Theme picker UI */
 .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; }
 .theme-swatch {
   width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
-  border: 2px solid var(--rule); transition: border-color 200ms var(--ease), transform 200ms var(--ease);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: white;
+  border: 2px solid var(--rule);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
   background: linear-gradient(135deg, var(--swatch-a), var(--swatch-b));
 }
 .theme-swatch:hover { transform: scale(1.05); }
@@ -367,12 +442,259 @@ body.theme-aurora {
 .theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
 .theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
 .theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
+
+/* ─── Widget dashboard ──────────────────────────────────────────────── */
+.widget-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(140px, auto); gap: 16px; margin: 24px 0;
+}
+@media (max-width: 768px) {
+  .widget-grid { grid-template-columns: repeat(2, 1fr); }
+  .widget--1x1, .widget--2x1, .widget--1x2, .widget--2x2 { grid-column: span 1; grid-row: span 1; }
+}
+@media (min-width: 769px) and (max-width: 1100px) {
+  .widget-grid { grid-template-columns: repeat(6, 1fr); }
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+@media (min-width: 1101px) {
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+.widget {
+  position: relative; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-md); padding: 18px;
+  display: flex; flex-direction: column;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), border-color 200ms var(--ease);
+  min-height: 0;
+}
+.widget:hover { box-shadow: var(--shadow-md); }
+.widget__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
+}
+.widget__title {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.widget__hint { font-size: 10px; color: var(--ink-4); white-space: nowrap; }
+.widget__body {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+  min-height: 0; overflow: hidden;
+}
+.widget__body--center { justify-content: center; align-items: center; text-align: center; }
+.widget__numeral {
+  font-family: var(--font-display, var(--font-heading, serif));
+  font-size: 44px; font-weight: 600; line-height: 1; color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.widget__numeral .muted { opacity: 0.4; font-size: 0.6em; font-weight: 500; }
+.widget__chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.widget__chip--success { background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a; border-color: color-mix(in srgb, #16a34a 28%, transparent); }
+.widget__chip--warn    { background: color-mix(in srgb, #d97706 14%, transparent); color: #d97706; border-color: color-mix(in srgb, #d97706 28%, transparent); }
+.widget__chip--danger  { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; border-color: color-mix(in srgb, #dc2626 28%, transparent); }
+.widget__chip--neutral { background: var(--bg-sunken, var(--bg-elevated)); color: var(--ink-2); border-color: var(--rule); }
+
+.widget__btn {
+  appearance: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  background: var(--bg-elevated, var(--bg-raised)); border: 1px solid var(--rule);
+  color: var(--ink); font-size: 13px; font-weight: 500; font-family: inherit;
+  transition: all 180ms var(--ease);
+}
+.widget__btn:hover { border-color: var(--accent); color: var(--accent); }
+.widget__btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.widget__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.widget__btn--danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.widget__btn--danger:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
+.widget__btn--big { padding: 14px 20px; font-size: 14px; font-weight: 600; }
+.widget__btn--ghost { background: transparent; border-color: var(--rule-2); color: var(--ink-3); }
+.widget__btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.widget__row { display: flex; gap: 6px; flex-wrap: wrap; }
+.widget__row--tight { gap: 4px; }
+.widget__divider { height: 1px; background: var(--rule-2); margin: 8px 0; }
+
+.widget__select, .widget__input, .widget__textarea {
+  appearance: none; padding: 8px 10px; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--bg); color: var(--ink);
+  font-family: inherit; font-size: 13px; width: 100%;
+  transition: border-color 180ms var(--ease);
+}
+.widget__select:focus, .widget__input:focus, .widget__textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.widget__textarea { resize: vertical; min-height: 60px; font-family: var(--font-mono, monospace); }
+
+.widget__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.widget__list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px;
+  background: var(--bg-elevated, var(--bg-raised));
+  border: 1px solid transparent;
+}
+.widget__list li:hover { border-color: var(--rule); }
+
+/* Edit mode + chrome */
+.widget__remove, .widget__resize, .widget__handle { display: none; }
+.editing-dashboard .widget {
+  cursor: grab; user-select: none;
+  animation: widget-wiggle 0.6s ease-in-out infinite;
+}
+.editing-dashboard .widget:nth-child(odd) { animation-delay: -0.3s; }
+.editing-dashboard .widget:active { cursor: grabbing; }
+.editing-dashboard .widget__remove,
+.editing-dashboard .widget__resize { display: flex; }
+.editing-dashboard .widget input,
+.editing-dashboard .widget textarea,
+.editing-dashboard .widget select,
+.editing-dashboard .widget button:not(.widget__remove):not(.widget__resize) {
+  pointer-events: none; opacity: 0.55;
+}
+.widget__remove {
+  position: absolute; top: -10px; right: -10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #dc2626; color: #fff; border: 2px solid var(--bg);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center;
+  z-index: 3; box-shadow: var(--shadow-md);
+  transition: transform 150ms var(--ease);
+}
+.widget__remove:hover { transform: scale(1.12); background: #ef4444; }
+.widget__resize {
+  position: absolute; bottom: 8px; right: 8px;
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--accent-soft); color: var(--accent);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center; border: none;
+  z-index: 3; transition: transform 150ms var(--ease);
+}
+.widget__resize:hover { transform: scale(1.12); }
+.widget.is-dragging { opacity: 0.4; transform: scale(0.96); }
+.widget.is-drop-target { outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+@keyframes widget-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-0.5deg); }
+  75%  { transform: rotate(0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.dash-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 8px 0 0 0; gap: 12px; flex-wrap: wrap;
+}
+.dash-toolbar__hint { font-size: 12px; color: var(--ink-3); }
+.btn-edit-dashboard, .btn-add-widget, .btn-reset-layout {
+  appearance: none; padding: 9px 18px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink);
+  font-family: inherit;
+  transition: all 200ms var(--ease);
+}
+.btn-edit-dashboard:hover, .btn-add-widget:hover, .btn-reset-layout:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.btn-add-widget { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-add-widget:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+/* Add Widget bottom sheet */
+.widget-shelf {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-raised); border-top: 1px solid var(--rule);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.10); padding: 24px;
+  max-height: 60vh; overflow-y: auto; z-index: 100;
+  transform: translateY(100%); transition: transform 320ms var(--ease);
+}
+.editing-dashboard .widget-shelf { transform: translateY(0); }
+.widget-shelf__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.widget-shelf__title { font-size: 18px; font-weight: 600; margin: 0; }
+.widget-shelf__close { font-size: 22px; line-height: 1; cursor: pointer; padding: 4px 12px;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 100px; }
+.widget-shelf__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; max-width: 1200px; margin: 0 auto;
+}
+.widget-shelf__item {
+  padding: 14px; background: var(--bg); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer; text-align: left;
+  font-family: inherit;
+  transition: transform 160ms var(--ease), border-color 160ms var(--ease);
+}
+.widget-shelf__item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.widget-shelf__item h3 { font-size: 13px; margin: 0 0 4px 0; font-weight: 600; color: var(--ink); }
+.widget-shelf__item p { font-size: 11px; color: var(--ink-3); margin: 0; line-height: 1.4; }
+.widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
+.widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
+
+
+/* ─── Widget sections (public + private partitioning) ──────────────── */
+.widget-section { margin: 24px 0 36px; }
+.widget-section + .widget-section { border-top: 1px dashed var(--rule); padding-top: 24px; }
+.widget-section__header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 14px; padding-bottom: 10px;
+}
+.widget-section__heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.widget-section__heading > div { min-width: 0; }
+.widget-section__title {
+  font-family: var(--font-heading, var(--font-display, serif));
+  font-size: 18px; font-weight: 600; margin: 0; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.widget-section__sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
+.widget-section__chip {
+  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.widget-section__chip--public {
+  background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a;
+  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
+}
+.widget-section__chip--private {
+  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.widget-section__move {
+  appearance: none; padding: 6px 14px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule); cursor: pointer;
+  font-size: 12px; font-weight: 600; color: var(--ink-2); font-family: inherit;
+  transition: all 180ms var(--ease); white-space: nowrap; flex-shrink: 0;
+  display: none;
+}
+.editing-dashboard .widget-section__move { display: inline-block; }
+.widget-section__move:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hide section headers when NOT in edit mode for a quieter default view */
+:not(.editing-dashboard) .widget-section__header { opacity: 0.6; }
+:not(.editing-dashboard) .widget-section__sub { display: none; }
+
+/* Shelf row chip */
+.widget-shelf__row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+
 </style>
 </head>
 <body>
 <nav class="topnav">
   <div class="wrap">
-    <a class="brand" href="./">Ensemble</a>
+    <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
@@ -398,14 +720,19 @@ body.theme-aurora {
   </div>
 </div>
 <main class="doc-page">
-  <div class="wrap">
+  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
+  <div class="wrap doc-wrap">
     <a href="../docs.html" class="doc-back">← All documentation</a>
-    <p class="doc-meta">CHANGELOG.md</p>
+    <header class="doc-hero">
+      <p class="doc-eyebrow">Documentation</p>
+      <h1 class="doc-title">Changelog</h1>
+      <p class="doc-lead">Release history. v2.0 contract sweep.</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>CHANGELOG.md</code></p>
+    </header>
     <article class="doc-content">
-<h1>Changelog</h1>
 <p>All notable changes to <strong>the Ensemble</strong> are documented here. The format follows <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a> and the project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
-<h2><a href="https://github.com/KiwiMaddog2020/claude-ensemble/compare/v1.0.0...HEAD">Unreleased</a></h2>
-<h3>v2.0 contract sweep — 2026-04-26</h3>
+<h2 id="unreleased"><a href="https://github.com/KiwiMaddog2020/claude-ensemble/compare/v1.0.0...HEAD">Unreleased</a></h2>
+<h3 id="v20-contract-sweep-2026-04-26">v2.0 contract sweep — 2026-04-26</h3>
 <p>Eight new operating directives + three-layer autopilot mutex + Tier 1/2/3 hardening + SwiftBar menu bar indicator. No public API breaks; all additions are opt-in or backward-compatible defaults.</p>
 <p><strong>Added — eight directives:</strong>
 - <strong>Smart handoff protocol</strong> — self-monitor context (80% warn → 90% auto-stage → 95% hard-stop with paste-ready resume prompt). Memory: <code>smart_handoff_protocol.md</code>.
@@ -451,9 +778,9 @@ body.theme-aurora {
 - Bin scripts use <code>${HOME}/.claude/orchestrator</code>. Bootstraps use <code>~/</code>. Mobile docs scrubbed of personal email. Memory file rename <code>hardware_m1.md</code> → <code>hardware_constraints.md</code>.</p>
 <p><strong>Onepagers refreshed</strong>: top-level <code>README.md</code>, plugin <code>README.md</code>, <code>public/index.html</code>, <code>public/dossier.html</code>, <code>CHEATSHEET.md</code>.</p>
 <hr />
-<h2>[Pre-v2.0 Unreleased]</h2>
+<h2 id="pre-v20-unreleased">[Pre-v2.0 Unreleased]</h2>
 <p>Polish + marketplace-readiness work since v1.0.0. No public API breaks.</p>
-<h3>Added</h3>
+<h3 id="added">Added</h3>
 <ul>
 <li><strong>PWA wrapper</strong> for the public dashboard — <code>manifest.json</code>, service worker, EB-Garamond–themed icon. Installable to phone home screen with offline read-mode caching.</li>
 <li><strong><code>bin/setup-dashboard.sh</code></strong> — first-run productization script. Idempotently creates the user&rsquo;s own <code>&lt;username&gt;/ensemble-dashboard</code> repo, enables Pages, generates <code>DASHBOARD_TOKEN</code>, registers Dashboard Update routine.</li>
@@ -467,14 +794,14 @@ body.theme-aurora {
 <li><strong><code>/rapid</code></strong> slash command — forces the next response into AskUserQuestion shape.</li>
 <li><strong>Skill catalog</strong> at <code>plugins/ensemble/skill_catalog.yaml</code> + onboarding §5.5 — auto-recommend useful skills during Agent setup.</li>
 </ul>
-<h3>Changed</h3>
+<h3 id="changed">Changed</h3>
 <ul>
 <li><strong>Routine renames</strong> to Title Case: <code>Morning Briefing</code>, <code>Evening Planning</code>, <code>Overnight Heavy</code>, <code>Workday Pulse</code>, <code>Dashboard Update</code>, <code>Rotation</code>. AUTOMATION FIRE banners updated.</li>
 <li><strong>Dashboard timestamps</strong> now relative (&ldquo;3 mins ago&rdquo; via inline JS) instead of absolute UTC.</li>
 <li><strong>Dashboard cards</strong> show evolution-mode pills (Frozen / Reactive / Maintenance / Evolving).</li>
 <li><strong>Rapid-fire elevated</strong> to STAPLE protocol-level priority alongside autopilot lock and kill-switch cascade.</li>
 </ul>
-<h3>Fixed</h3>
+<h3 id="fixed">Fixed</h3>
 <ul>
 <li><strong>Critical autopilot hang</strong> (<code>5d489e0</code>) — <code>claude -p --add-dir &lt;dir&gt; "$PROMPT"</code> was eating the prompt as a directory because <code>--add-dir</code> is variadic. Added <code>--</code> separator before the prompt. Every prior autopilot fire was silently doing nothing.</li>
 <li><strong>CI Linux switch</strong> (<code>f289098</code>) — moved jobs from <code>macos-latest</code> to <code>ubuntu-latest</code> (10× cheaper) — but auto-trigger disabled (<code>d4132f6</code>) until Kevin resolves GitHub Actions billing.</li>
@@ -482,9 +809,9 @@ body.theme-aurora {
 <li><strong>Email scrub</strong> (<code>cc42158</code>) — <code>kevinmadson3@gmail.com</code> → <code>kevinmadson@protonmail.com</code> in 4 doc occurrences across both repos.</li>
 </ul>
 <hr />
-<h2><a href="https://github.com/KiwiMaddog2020/claude-ensemble/releases/tag/v1.0.0">1.0.0</a> — 2026-04-25</h2>
+<h2 id="100-2026-04-25"><a href="https://github.com/KiwiMaddog2020/claude-ensemble/releases/tag/v1.0.0">1.0.0</a> — 2026-04-25</h2>
 <p>The Ensemble&rsquo;s first durable public-install-ready release. Phase 0 of <code>docs/GRAND_PLAN.md</code> substantively closed.</p>
-<h3>Mission gaps closed (per <code>docs/MISSION_ROADMAP.md</code>)</h3>
+<h3 id="mission-gaps-closed-per-docsmission_roadmapmd">Mission gaps closed (per <code>docs/MISSION_ROADMAP.md</code>)</h3>
 <ul>
 <li><strong>Gap 1 — Lock-type semantics</strong> (<code>17b6655</code>)
   <code>holder.json</code> and <code>state.json.lock_intent</code> gain an <code>intent</code> field: <code>"test"</code> | <code>"code"</code> | <code>"any"</code>. Test-intent locks contend (one chat owns the test bench at a time). Code-intent sessions skip the lock entirely (parallel coding across many chats). Any-intent (legacy) preserves pre-Gap-1 behavior. The pitch claim &ldquo;Code in parallel. Test in single file.&rdquo; is now architecturally true rather than aspirational.</li>
@@ -495,7 +822,7 @@ body.theme-aurora {
 <li><strong>Gap 4 — Per-project window prefs</strong> (<code>b773b26</code>)
   <code>chats/&lt;slug&gt;.json</code> carries optional <code>preferred_windows</code> + <code>blocked_windows</code>. <code>rotation_pick.sh</code> honors them.</li>
 </ul>
-<h3>Added</h3>
+<h3 id="added_1">Added</h3>
 <ul>
 <li><strong>Plugin-refactor</strong> (<code>38206d6</code>) — 20 commits merged into <code>main</code>. Plugin-shaped layout for marketplace distribution.</li>
 <li><strong>Phone-triggered autopilot pipeline</strong> — Termius + Tailscale → SSH → launchd agent in user&rsquo;s Aqua session → Keychain access → <code>autopilot_session.sh</code>. Project-targeted via 4th positional arg.</li>
@@ -511,12 +838,12 @@ body.theme-aurora {
 <li><strong>Voice-friendly numbering</strong> on every <code>AskUserQuestion</code> label (<code>1.</code> <code>2.</code> <code>3.</code> <code>4.</code>).</li>
 <li><strong>Flow continuity rule</strong> — never offer &ldquo;pause&rdquo; / &ldquo;stop&rdquo; / &ldquo;sleep on it&rdquo; as options; user dictates cadence.</li>
 </ul>
-<h3>Changed</h3>
+<h3 id="changed_1">Changed</h3>
 <ul>
 <li><strong>Push rails lifted</strong> (<code>8f01f01</code>) — <code>git push</code> to origin on current branch is permitted without per-turn approval. Destructive ops, store submissions, deploys beyond GitHub Pages, public-flips, and billing remain gated.</li>
 <li><strong>Batched-approval discipline strengthened</strong> — bundle units as wide as defensible at the decision point; in-flight execution skips per-step asks; decision points still always fire <code>AskUserQuestion</code>.</li>
 </ul>
-<h3>Documentation</h3>
+<h3 id="documentation">Documentation</h3>
 <ul>
 <li><code>docs/GRAND_PLAN.md</code> v0.3 — three-tier taxonomy (Maestro / Virtuoso / Agent), product ladder (Phase 0 → 1 → 2 → 3).</li>
 <li><code>docs/MISSION_ROADMAP.md</code> — 5-gap audit + sequencing.</li>
@@ -525,7 +852,7 @@ body.theme-aurora {
 <li><code>docs/UX_STREAMLINING.md</code> — 12 prioritized opportunities for &ldquo;input-disappearing&rdquo; UX.</li>
 <li><code>docs/OPUS_OPTIMIZATION.md</code> — seven rules for operating Claude Opus 4.7 inside the Ensemble.</li>
 </ul>
-<h3>Phase 0 exit criteria</h3>
+<h3 id="phase-0-exit-criteria">Phase 0 exit criteria</h3>
 <ul>
 <li>✅ Plugin-refactor merged</li>
 <li>✅ <code>/autopilot N</code> slash command built</li>
@@ -535,7 +862,7 @@ body.theme-aurora {
 <li>⏳ Repo public-flip (deferred until Claude skill marketplace publication)</li>
 </ul>
 <hr />
-<h2>Pre-1.0.0 history</h2>
+<h2 id="pre-100-history">Pre-1.0.0 history</h2>
 <p>Earlier development (plugin-refactor branch + initial Ensemble bootstrapping) is captured in the git log. Highlights:</p>
 <ul>
 <li>2026-04-21 — System named <strong>The Ensemble</strong>. Atomic mkdir lock primitive proven on APFS. PreToolUse hook with hard-enforcement matcher. Distributed kill-switch with idempotent six-phase cascade.</li>
@@ -543,7 +870,26 @@ body.theme-aurora {
 <li>2026-04-23 — Plugin-refactor merged → <code>main</code>. v0.x development closed.</li>
 </ul>
     </article>
+    <footer class="doc-foot">
+      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+    </footer>
   </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('docProgressBar');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scrolled = (h.scrollTop || document.body.scrollTop);
+        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+        bar.style.width = pct + '%';
+      }
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
 </main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>

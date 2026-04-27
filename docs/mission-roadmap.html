@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
 <style>
 :root {
   --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
@@ -57,8 +58,18 @@ body {
 .topnav .brand {
   font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
   color: var(--ink); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
 }
 .topnav .brand em { color: var(--accent); font-style: normal; }
+.topnav .brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; display: block;
+  flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+}
+.topnav .brand-word { line-height: 1; }
+@media (max-width: 480px) {
+  .topnav .brand-word { display: none; }
+  .topnav .brand-mark { width: 30px; height: 30px; }
+}
 .topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
 .topnav li a {
   display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
@@ -346,13 +357,77 @@ body.theme-aurora {
   --accent: #a78bfa; --accent-2: #c4b5fd; --accent-soft: rgba(167,139,250,0.14);
 } }
 
+body.theme-rose {
+  --bg: #fff5f7; --bg-raised: #ffffff; --bg-elevated: #fff8fa;
+  --ink: #2a0a14; --ink-2: #4a1f2c; --ink-3: #8a4f66; --ink-4: #c896aa;
+  --rule: #f0d8e0; --rule-2: #f5e4ea;
+  --accent: #e11d48; --accent-2: #f43f5e; --accent-soft: rgba(225,29,72,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-rose {
+  --bg: #1a0810; --bg-raised: #2a1218; --bg-elevated: #321820;
+  --ink: #ffe4eb; --ink-2: #f5c0ce; --ink-3: #c88898; --ink-4: #8a5868;
+  --rule: #3a1a26; --rule-2: #2c121a;
+  --accent: #f43f5e; --accent-2: #fb7185; --accent-soft: rgba(244,63,94,0.14);
+} }
+
+body.theme-ocean {
+  --bg: #f0f9fb; --bg-raised: #ffffff; --bg-elevated: #f5fbfd;
+  --ink: #0a1f26; --ink-2: #1f3d4d; --ink-3: #4d7588; --ink-4: #8ab0bf;
+  --rule: #cbe3eb; --rule-2: #ddebf0;
+  --accent: #0891b2; --accent-2: #06b6d4; --accent-soft: rgba(8,145,178,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-ocean {
+  --bg: #051418; --bg-raised: #0c1f26; --bg-elevated: #122a32;
+  --ink: #d8f0f7; --ink-2: #b0d8e3; --ink-3: #7daabe; --ink-4: #4a7388;
+  --rule: #1a3540; --rule-2: #122832;
+  --accent: #06b6d4; --accent-2: #22d3ee; --accent-soft: rgba(6,182,212,0.14);
+} }
+
+body.theme-sunset {
+  --bg: #fff7ed; --bg-raised: #ffffff; --bg-elevated: #fffaf2;
+  --ink: #2a1505; --ink-2: #4d2810; --ink-3: #8b5524; --ink-4: #c89970;
+  --rule: #f0d8b8; --rule-2: #f5e4cc;
+  --accent: #ea580c; --accent-2: #f97316; --accent-soft: rgba(234,88,12,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sunset {
+  --bg: #1a0a02; --bg-raised: #2a1408; --bg-elevated: #321a0c;
+  --ink: #ffe8d0; --ink-2: #f5c8a0; --ink-3: #c89570; --ink-4: #8a5f40;
+  --rule: #3a1f0c; --rule-2: #2c1808;
+  --accent: #f97316; --accent-2: #fb923c; --accent-soft: rgba(249,115,22,0.14);
+} }
+
+body.theme-midnight {
+  --bg: #f4f6fb; --bg-raised: #ffffff; --bg-elevated: #f8fafc;
+  --ink: #0c1024; --ink-2: #1e2440; --ink-3: #4d557a; --ink-4: #8a92b3;
+  --rule: #d6dbeb; --rule-2: #e3e8f2;
+  --accent: #4f46e5; --accent-2: #6366f1; --accent-soft: rgba(79,70,229,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-midnight {
+  --bg: #060814; --bg-raised: #0d1024; --bg-elevated: #131730;
+  --ink: #e0e4f5; --ink-2: #c0c8e0; --ink-3: #8a92b3; --ink-4: #565d80;
+  --rule: #1a1d35; --rule-2: #131628;
+  --accent: #6366f1; --accent-2: #818cf8; --accent-soft: rgba(99,102,241,0.16);
+} }
+
+body.theme-sage {
+  --bg: #f6faf2; --bg-raised: #ffffff; --bg-elevated: #fafcf7;
+  --ink: #182410; --ink-2: #2d3d22; --ink-3: #5a704a; --ink-4: #9ab088;
+  --rule: #d8e3c8; --rule-2: #e8efdc;
+  --accent: #65a30d; --accent-2: #84cc16; --accent-soft: rgba(101,163,13,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sage {
+  --bg: #0a1505; --bg-raised: #131f0a; --bg-elevated: #1a2810;
+  --ink: #e0f0d0; --ink-2: #c0d8a8; --ink-3: #8aa870; --ink-4: #5a7048;
+  --rule: #243018; --rule-2: #1a2410;
+  --accent: #84cc16; --accent-2: #a3e635; --accent-soft: rgba(132,204,22,0.14);
+} }
+
 /* Theme picker UI */
 .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; }
 .theme-swatch {
   width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
-  border: 2px solid var(--rule); transition: border-color 200ms var(--ease), transform 200ms var(--ease);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: white;
+  border: 2px solid var(--rule);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
   background: linear-gradient(135deg, var(--swatch-a), var(--swatch-b));
 }
 .theme-swatch:hover { transform: scale(1.05); }
@@ -367,12 +442,259 @@ body.theme-aurora {
 .theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
 .theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
 .theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
+
+/* ─── Widget dashboard ──────────────────────────────────────────────── */
+.widget-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(140px, auto); gap: 16px; margin: 24px 0;
+}
+@media (max-width: 768px) {
+  .widget-grid { grid-template-columns: repeat(2, 1fr); }
+  .widget--1x1, .widget--2x1, .widget--1x2, .widget--2x2 { grid-column: span 1; grid-row: span 1; }
+}
+@media (min-width: 769px) and (max-width: 1100px) {
+  .widget-grid { grid-template-columns: repeat(6, 1fr); }
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+@media (min-width: 1101px) {
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+.widget {
+  position: relative; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-md); padding: 18px;
+  display: flex; flex-direction: column;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), border-color 200ms var(--ease);
+  min-height: 0;
+}
+.widget:hover { box-shadow: var(--shadow-md); }
+.widget__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
+}
+.widget__title {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.widget__hint { font-size: 10px; color: var(--ink-4); white-space: nowrap; }
+.widget__body {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+  min-height: 0; overflow: hidden;
+}
+.widget__body--center { justify-content: center; align-items: center; text-align: center; }
+.widget__numeral {
+  font-family: var(--font-display, var(--font-heading, serif));
+  font-size: 44px; font-weight: 600; line-height: 1; color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.widget__numeral .muted { opacity: 0.4; font-size: 0.6em; font-weight: 500; }
+.widget__chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.widget__chip--success { background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a; border-color: color-mix(in srgb, #16a34a 28%, transparent); }
+.widget__chip--warn    { background: color-mix(in srgb, #d97706 14%, transparent); color: #d97706; border-color: color-mix(in srgb, #d97706 28%, transparent); }
+.widget__chip--danger  { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; border-color: color-mix(in srgb, #dc2626 28%, transparent); }
+.widget__chip--neutral { background: var(--bg-sunken, var(--bg-elevated)); color: var(--ink-2); border-color: var(--rule); }
+
+.widget__btn {
+  appearance: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  background: var(--bg-elevated, var(--bg-raised)); border: 1px solid var(--rule);
+  color: var(--ink); font-size: 13px; font-weight: 500; font-family: inherit;
+  transition: all 180ms var(--ease);
+}
+.widget__btn:hover { border-color: var(--accent); color: var(--accent); }
+.widget__btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.widget__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.widget__btn--danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.widget__btn--danger:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
+.widget__btn--big { padding: 14px 20px; font-size: 14px; font-weight: 600; }
+.widget__btn--ghost { background: transparent; border-color: var(--rule-2); color: var(--ink-3); }
+.widget__btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.widget__row { display: flex; gap: 6px; flex-wrap: wrap; }
+.widget__row--tight { gap: 4px; }
+.widget__divider { height: 1px; background: var(--rule-2); margin: 8px 0; }
+
+.widget__select, .widget__input, .widget__textarea {
+  appearance: none; padding: 8px 10px; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--bg); color: var(--ink);
+  font-family: inherit; font-size: 13px; width: 100%;
+  transition: border-color 180ms var(--ease);
+}
+.widget__select:focus, .widget__input:focus, .widget__textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.widget__textarea { resize: vertical; min-height: 60px; font-family: var(--font-mono, monospace); }
+
+.widget__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.widget__list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px;
+  background: var(--bg-elevated, var(--bg-raised));
+  border: 1px solid transparent;
+}
+.widget__list li:hover { border-color: var(--rule); }
+
+/* Edit mode + chrome */
+.widget__remove, .widget__resize, .widget__handle { display: none; }
+.editing-dashboard .widget {
+  cursor: grab; user-select: none;
+  animation: widget-wiggle 0.6s ease-in-out infinite;
+}
+.editing-dashboard .widget:nth-child(odd) { animation-delay: -0.3s; }
+.editing-dashboard .widget:active { cursor: grabbing; }
+.editing-dashboard .widget__remove,
+.editing-dashboard .widget__resize { display: flex; }
+.editing-dashboard .widget input,
+.editing-dashboard .widget textarea,
+.editing-dashboard .widget select,
+.editing-dashboard .widget button:not(.widget__remove):not(.widget__resize) {
+  pointer-events: none; opacity: 0.55;
+}
+.widget__remove {
+  position: absolute; top: -10px; right: -10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #dc2626; color: #fff; border: 2px solid var(--bg);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center;
+  z-index: 3; box-shadow: var(--shadow-md);
+  transition: transform 150ms var(--ease);
+}
+.widget__remove:hover { transform: scale(1.12); background: #ef4444; }
+.widget__resize {
+  position: absolute; bottom: 8px; right: 8px;
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--accent-soft); color: var(--accent);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center; border: none;
+  z-index: 3; transition: transform 150ms var(--ease);
+}
+.widget__resize:hover { transform: scale(1.12); }
+.widget.is-dragging { opacity: 0.4; transform: scale(0.96); }
+.widget.is-drop-target { outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+@keyframes widget-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-0.5deg); }
+  75%  { transform: rotate(0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.dash-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 8px 0 0 0; gap: 12px; flex-wrap: wrap;
+}
+.dash-toolbar__hint { font-size: 12px; color: var(--ink-3); }
+.btn-edit-dashboard, .btn-add-widget, .btn-reset-layout {
+  appearance: none; padding: 9px 18px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink);
+  font-family: inherit;
+  transition: all 200ms var(--ease);
+}
+.btn-edit-dashboard:hover, .btn-add-widget:hover, .btn-reset-layout:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.btn-add-widget { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-add-widget:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+/* Add Widget bottom sheet */
+.widget-shelf {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-raised); border-top: 1px solid var(--rule);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.10); padding: 24px;
+  max-height: 60vh; overflow-y: auto; z-index: 100;
+  transform: translateY(100%); transition: transform 320ms var(--ease);
+}
+.editing-dashboard .widget-shelf { transform: translateY(0); }
+.widget-shelf__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.widget-shelf__title { font-size: 18px; font-weight: 600; margin: 0; }
+.widget-shelf__close { font-size: 22px; line-height: 1; cursor: pointer; padding: 4px 12px;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 100px; }
+.widget-shelf__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; max-width: 1200px; margin: 0 auto;
+}
+.widget-shelf__item {
+  padding: 14px; background: var(--bg); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer; text-align: left;
+  font-family: inherit;
+  transition: transform 160ms var(--ease), border-color 160ms var(--ease);
+}
+.widget-shelf__item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.widget-shelf__item h3 { font-size: 13px; margin: 0 0 4px 0; font-weight: 600; color: var(--ink); }
+.widget-shelf__item p { font-size: 11px; color: var(--ink-3); margin: 0; line-height: 1.4; }
+.widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
+.widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
+
+
+/* ─── Widget sections (public + private partitioning) ──────────────── */
+.widget-section { margin: 24px 0 36px; }
+.widget-section + .widget-section { border-top: 1px dashed var(--rule); padding-top: 24px; }
+.widget-section__header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 14px; padding-bottom: 10px;
+}
+.widget-section__heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.widget-section__heading > div { min-width: 0; }
+.widget-section__title {
+  font-family: var(--font-heading, var(--font-display, serif));
+  font-size: 18px; font-weight: 600; margin: 0; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.widget-section__sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
+.widget-section__chip {
+  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.widget-section__chip--public {
+  background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a;
+  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
+}
+.widget-section__chip--private {
+  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.widget-section__move {
+  appearance: none; padding: 6px 14px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule); cursor: pointer;
+  font-size: 12px; font-weight: 600; color: var(--ink-2); font-family: inherit;
+  transition: all 180ms var(--ease); white-space: nowrap; flex-shrink: 0;
+  display: none;
+}
+.editing-dashboard .widget-section__move { display: inline-block; }
+.widget-section__move:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hide section headers when NOT in edit mode for a quieter default view */
+:not(.editing-dashboard) .widget-section__header { opacity: 0.6; }
+:not(.editing-dashboard) .widget-section__sub { display: none; }
+
+/* Shelf row chip */
+.widget-shelf__row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+
 </style>
 </head>
 <body>
 <nav class="topnav">
   <div class="wrap">
-    <a class="brand" href="./">Ensemble</a>
+    <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
@@ -398,16 +720,21 @@ body.theme-aurora {
   </div>
 </div>
 <main class="doc-page">
-  <div class="wrap">
+  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
+  <div class="wrap doc-wrap">
     <a href="../docs.html" class="doc-back">← All documentation</a>
-    <p class="doc-meta">docs/MISSION_ROADMAP.md</p>
+    <header class="doc-hero">
+      <p class="doc-eyebrow">Documentation</p>
+      <h1 class="doc-title">Mission Roadmap</h1>
+      <p class="doc-lead">Phase 0 closure ledger. Pitch claims + gap closures.</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/MISSION_ROADMAP.md</code></p>
+    </header>
     <article class="doc-content">
-<h1>Mission Roadmap — Closing the Ensemble Pitch Gaps</h1>
 <blockquote>
 <p><strong>Status: Phase 0 mission gaps 1–4 CLOSED. v2.0 contract sweep shipped 2026-04-26 (eight directives + three-layer mutex + Tier 1/2/3 hardening + SwiftBar indicator).</strong> Gap 5 (cross-machine sync) deferred to Phase 2. The pitch is architecturally true rather than aspirational. Phase 0 at ~95%; remaining work is friend hand-off + public-flip (user-action-only).</p>
 <p>Original draft 2026-04-25 after honest gap audit. The Ensemble&rsquo;s primitives (lock, kill-switch, autopilot pipeline) were real and stable; the orchestration layer that the business pitch promises (rotation, code-vs-test semantics, plan→code→test→fix loops) was largely aspirational. This doc enumerates what was needed to make the pitch true, sequenced by dependency, with shipping evidence per gap.</p>
 </blockquote>
-<h2>Pitch claim recap (from <code>public/index.html</code>)</h2>
+<h2 id="pitch-claim-recap-from-publicindexhtml">Pitch claim recap (from <code>public/index.html</code>)</h2>
 <blockquote>
 <p><em>&ldquo;Many Claude Code chats coding in parallel, one chat at a time on the test bench. Ensemble enforces it at the filesystem so test runs never collide — and your projects rotate through scheduled Plan → Code → Test loops while you sleep, eat, or work elsewhere.&rdquo;</em></p>
 </blockquote>
@@ -423,8 +750,8 @@ body.theme-aurora {
 <li><strong>No rotation scheduler exists.</strong> We have 4 fixed-time daily routines (morning-briefing, evening-planning, overnight-heavy, workday-pulse) that fire against the top_rec project — never multiple, never round-robin.</li>
 <li><strong>No loop template.</strong> Autopilot fires a single bounded session; the chat decides what to do within it. There&rsquo;s no canonical prompt that orchestrates plan→code→test→fix→retest.</li>
 </ol>
-<h2>The 5 mission-critical gaps</h2>
-<h3>Gap 1 — Lock-type semantics ✅ SHIPPED <code>17b6655</code> · 2026-04-25</h3>
+<h2 id="the-5-mission-critical-gaps">The 5 mission-critical gaps</h2>
+<h3 id="gap-1-lock-type-semantics-shipped-17b6655-2026-04-25">Gap 1 — Lock-type semantics ✅ SHIPPED <code>17b6655</code> · 2026-04-25</h3>
 <p><strong>Claim:</strong> &ldquo;Code in parallel. Test in single file.&rdquo;</p>
 <p><strong>Reality:</strong> Lock is acquired for all autopilot sessions regardless of what they do.</p>
 <p><strong>Proposed design:</strong>
@@ -458,7 +785,7 @@ body.theme-aurora {
 - Lock holder JSON validates against expanded schema.</p>
 <p><strong>Effort:</strong> M (~1 hour). Touches the safety-critical lock; needs careful smoke-testing.</p>
 <hr />
-<h3>Gap 2 — Rotation scheduler ✅ SHIPPED <code>13bd4ac</code> · 2026-04-25</h3>
+<h3 id="gap-2-rotation-scheduler-shipped-13bd4ac-2026-04-25">Gap 2 — Rotation scheduler ✅ SHIPPED <code>13bd4ac</code> · 2026-04-25</h3>
 <p><strong>Claim:</strong> &ldquo;Your projects rotate through scheduled Plan → Code → Test loops.&rdquo;</p>
 <p><strong>Reality:</strong> No rotation logic. Routines fire at fixed times against whichever Agent has the highest top_rec.</p>
 <p><strong>Proposed design:</strong>
@@ -485,7 +812,7 @@ body.theme-aurora {
 <p><strong>Effort:</strong> M (~90 min). Pure scheduling logic + state tracking.</p>
 <p><strong>Depends on:</strong> Gap 1 (lock-type semantics) — without that, rotation can&rsquo;t safely fire test sessions back-to-back.</p>
 <hr />
-<h3>Gap 3 — Plan → Code → Test → Fix loop template ✅ SHIPPED <code>ab39236</code> · 2026-04-25</h3>
+<h3 id="gap-3-plan-code-test-fix-loop-template-shipped-ab39236-2026-04-25">Gap 3 — Plan → Code → Test → Fix loop template ✅ SHIPPED <code>ab39236</code> · 2026-04-25</h3>
 <p><strong>Claim:</strong> &ldquo;Claude takes over automation controls and testing himself, then goes in to fix.&rdquo;</p>
 <p><strong>Reality:</strong> Each autopilot session is bounded, but its prompt just says &ldquo;do the top_rec.&rdquo; No structured loop.</p>
 <p><strong>Proposed design:</strong>
@@ -509,7 +836,7 @@ body.theme-aurora {
 <p><strong>Effort:</strong> S (~30 min). Prompt + small wrapper change.</p>
 <p><strong>Depends on:</strong> Gap 1 (intent-aware lock) so the test phase actually contends correctly.</p>
 <hr />
-<h3>Gap 4 — Per-project time-window prefs ✅ SHIPPED <code>b773b26</code> · 2026-04-25</h3>
+<h3 id="gap-4-per-project-time-window-prefs-shipped-b773b26-2026-04-25">Gap 4 — Per-project time-window prefs ✅ SHIPPED <code>b773b26</code> · 2026-04-25</h3>
 <p><strong>Claim:</strong> Implicit — projects have natural cadences (you wouldn&rsquo;t fire iOS tests during work hours, but doc work overnight is fine).</p>
 <p><strong>Reality:</strong> Routines fire blindly across all eligible projects.</p>
 <p><strong>Proposed design:</strong>
@@ -530,7 +857,7 @@ body.theme-aurora {
 <p><strong>Effort:</strong> S (~30 min).</p>
 <p><strong>Depends on:</strong> Gap 2 (rotation scheduler).</p>
 <hr />
-<h3>Gap 5 — Cross-machine lock awareness 🌐 DEFERRED TO PHASE 2</h3>
+<h3 id="gap-5-cross-machine-lock-awareness-deferred-to-phase-2">Gap 5 — Cross-machine lock awareness 🌐 DEFERRED TO PHASE 2</h3>
 <p><strong>Claim:</strong> Implicit — Spectra Nova lives on Windows; Mac runs Boo, Pinball, Vera Nota. Two machines could collide if both have an Ensemble installation and both want to test.</p>
 <p><strong>Reality:</strong> Lock state is per-machine. No cloud-sync.</p>
 <p><strong>Proposed design (future):</strong>
@@ -545,7 +872,7 @@ body.theme-aurora {
 <p><strong>Effort:</strong> L (~3-4 hours).</p>
 <p><strong>Depends on:</strong> Stable single-machine implementation of Gaps 1–3 first. Not in this immediate roadmap.</p>
 <hr />
-<h2>Sequencing — recommended order</h2>
+<h2 id="sequencing-recommended-order">Sequencing — recommended order</h2>
 <pre><code>Gap 1 (lock-type semantics)      ─┬─→  Gap 2 (rotation scheduler)  ─→  Gap 4 (window prefs)
                                   └─→  Gap 3 (loop template)
                                                                        ↓
@@ -555,7 +882,7 @@ body.theme-aurora {
 <p><strong>Session 2:</strong> Gap 2 + Gap 3 in parallel (rotation needs intent-aware lock; loop template uses intent declaration). Both depend on Gap 1.</p>
 <p><strong>Session 3:</strong> Gap 4 (window prefs) layered onto rotation.</p>
 <p><strong>Phase 2:</strong> Gap 5 (cross-machine).</p>
-<h2>Effort summary</h2>
+<h2 id="effort-summary">Effort summary</h2>
 <table>
 <thead>
 <tr>
@@ -601,7 +928,7 @@ body.theme-aurora {
 <p><strong>Total Session 1 work:</strong> ~1 hour (Gap 1)
 <strong>Total to land Session 1 + 2 + 3:</strong> ~3 hours across 2-3 sessions
 <strong>Phase 2 (Gap 5):</strong> later</p>
-<h2>Out of scope for this roadmap</h2>
+<h2 id="out-of-scope-for-this-roadmap">Out of scope for this roadmap</h2>
 <ul>
 <li>Auto-onboarding (one-line install) — separate UX work, not mission-critical</li>
 <li>Pushover signup walkthrough — Kevin&rsquo;s config</li>
@@ -611,14 +938,14 @@ body.theme-aurora {
 <li>Public-flip + Claude skill marketplace publication — gated; tied to readiness</li>
 <li>Per-project milestones graduating from hard-code → status field — polish</li>
 </ul>
-<h2>Risk register</h2>
+<h2 id="risk-register">Risk register</h2>
 <ul>
 <li><strong>Lock-type semantics breaking existing autopilot calls</strong> — mitigated by <code>"any"</code> default for back-compat. Smoke-test all 4 currently-eligible projects (ensemble, boo-website, pinball-roguelight, vera-nota) before shipping.</li>
 <li><strong>Rotation firing during user activity</strong> — mitigated by mode gate (already implemented) + work-hours prelude (already implemented).</li>
 <li><strong>Loop template inducing infinite retry</strong> — bounded by the Phase 4 max-3-attempts cap + the existing gtimeout wrapper.</li>
 <li><strong>CI billing wall blocking commits</strong> — Kevin&rsquo;s action; not blocking development since auto-trigger is disabled.</li>
 </ul>
-<h2>Acceptance — when is the pitch true?</h2>
+<h2 id="acceptance-when-is-the-pitch-true">Acceptance — when is the pitch true?</h2>
 <p>After Sessions 1–3 land:</p>
 <ul>
 <li>[ ] Lock holder JSON includes <code>intent</code> field</li>
@@ -635,7 +962,26 @@ body.theme-aurora {
 <hr />
 <p><em>Maintained as a living document. Update sequencing if priorities shift.</em></p>
     </article>
+    <footer class="doc-foot">
+      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+    </footer>
   </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('docProgressBar');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scrolled = (h.scrollTop || document.body.scrollTop);
+        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+        bar.style.width = pct + '%';
+      }
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
 </main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>

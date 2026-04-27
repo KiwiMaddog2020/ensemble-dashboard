@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
 <style>
 :root {
   --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
@@ -57,8 +58,18 @@ body {
 .topnav .brand {
   font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
   color: var(--ink); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
 }
 .topnav .brand em { color: var(--accent); font-style: normal; }
+.topnav .brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; display: block;
+  flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+}
+.topnav .brand-word { line-height: 1; }
+@media (max-width: 480px) {
+  .topnav .brand-word { display: none; }
+  .topnav .brand-mark { width: 30px; height: 30px; }
+}
 .topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
 .topnav li a {
   display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
@@ -346,13 +357,77 @@ body.theme-aurora {
   --accent: #a78bfa; --accent-2: #c4b5fd; --accent-soft: rgba(167,139,250,0.14);
 } }
 
+body.theme-rose {
+  --bg: #fff5f7; --bg-raised: #ffffff; --bg-elevated: #fff8fa;
+  --ink: #2a0a14; --ink-2: #4a1f2c; --ink-3: #8a4f66; --ink-4: #c896aa;
+  --rule: #f0d8e0; --rule-2: #f5e4ea;
+  --accent: #e11d48; --accent-2: #f43f5e; --accent-soft: rgba(225,29,72,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-rose {
+  --bg: #1a0810; --bg-raised: #2a1218; --bg-elevated: #321820;
+  --ink: #ffe4eb; --ink-2: #f5c0ce; --ink-3: #c88898; --ink-4: #8a5868;
+  --rule: #3a1a26; --rule-2: #2c121a;
+  --accent: #f43f5e; --accent-2: #fb7185; --accent-soft: rgba(244,63,94,0.14);
+} }
+
+body.theme-ocean {
+  --bg: #f0f9fb; --bg-raised: #ffffff; --bg-elevated: #f5fbfd;
+  --ink: #0a1f26; --ink-2: #1f3d4d; --ink-3: #4d7588; --ink-4: #8ab0bf;
+  --rule: #cbe3eb; --rule-2: #ddebf0;
+  --accent: #0891b2; --accent-2: #06b6d4; --accent-soft: rgba(8,145,178,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-ocean {
+  --bg: #051418; --bg-raised: #0c1f26; --bg-elevated: #122a32;
+  --ink: #d8f0f7; --ink-2: #b0d8e3; --ink-3: #7daabe; --ink-4: #4a7388;
+  --rule: #1a3540; --rule-2: #122832;
+  --accent: #06b6d4; --accent-2: #22d3ee; --accent-soft: rgba(6,182,212,0.14);
+} }
+
+body.theme-sunset {
+  --bg: #fff7ed; --bg-raised: #ffffff; --bg-elevated: #fffaf2;
+  --ink: #2a1505; --ink-2: #4d2810; --ink-3: #8b5524; --ink-4: #c89970;
+  --rule: #f0d8b8; --rule-2: #f5e4cc;
+  --accent: #ea580c; --accent-2: #f97316; --accent-soft: rgba(234,88,12,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sunset {
+  --bg: #1a0a02; --bg-raised: #2a1408; --bg-elevated: #321a0c;
+  --ink: #ffe8d0; --ink-2: #f5c8a0; --ink-3: #c89570; --ink-4: #8a5f40;
+  --rule: #3a1f0c; --rule-2: #2c1808;
+  --accent: #f97316; --accent-2: #fb923c; --accent-soft: rgba(249,115,22,0.14);
+} }
+
+body.theme-midnight {
+  --bg: #f4f6fb; --bg-raised: #ffffff; --bg-elevated: #f8fafc;
+  --ink: #0c1024; --ink-2: #1e2440; --ink-3: #4d557a; --ink-4: #8a92b3;
+  --rule: #d6dbeb; --rule-2: #e3e8f2;
+  --accent: #4f46e5; --accent-2: #6366f1; --accent-soft: rgba(79,70,229,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-midnight {
+  --bg: #060814; --bg-raised: #0d1024; --bg-elevated: #131730;
+  --ink: #e0e4f5; --ink-2: #c0c8e0; --ink-3: #8a92b3; --ink-4: #565d80;
+  --rule: #1a1d35; --rule-2: #131628;
+  --accent: #6366f1; --accent-2: #818cf8; --accent-soft: rgba(99,102,241,0.16);
+} }
+
+body.theme-sage {
+  --bg: #f6faf2; --bg-raised: #ffffff; --bg-elevated: #fafcf7;
+  --ink: #182410; --ink-2: #2d3d22; --ink-3: #5a704a; --ink-4: #9ab088;
+  --rule: #d8e3c8; --rule-2: #e8efdc;
+  --accent: #65a30d; --accent-2: #84cc16; --accent-soft: rgba(101,163,13,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sage {
+  --bg: #0a1505; --bg-raised: #131f0a; --bg-elevated: #1a2810;
+  --ink: #e0f0d0; --ink-2: #c0d8a8; --ink-3: #8aa870; --ink-4: #5a7048;
+  --rule: #243018; --rule-2: #1a2410;
+  --accent: #84cc16; --accent-2: #a3e635; --accent-soft: rgba(132,204,22,0.14);
+} }
+
 /* Theme picker UI */
 .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; }
 .theme-swatch {
   width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
-  border: 2px solid var(--rule); transition: border-color 200ms var(--ease), transform 200ms var(--ease);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: white;
+  border: 2px solid var(--rule);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
   background: linear-gradient(135deg, var(--swatch-a), var(--swatch-b));
 }
 .theme-swatch:hover { transform: scale(1.05); }
@@ -367,12 +442,259 @@ body.theme-aurora {
 .theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
 .theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
 .theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
+
+/* ─── Widget dashboard ──────────────────────────────────────────────── */
+.widget-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(140px, auto); gap: 16px; margin: 24px 0;
+}
+@media (max-width: 768px) {
+  .widget-grid { grid-template-columns: repeat(2, 1fr); }
+  .widget--1x1, .widget--2x1, .widget--1x2, .widget--2x2 { grid-column: span 1; grid-row: span 1; }
+}
+@media (min-width: 769px) and (max-width: 1100px) {
+  .widget-grid { grid-template-columns: repeat(6, 1fr); }
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+@media (min-width: 1101px) {
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+.widget {
+  position: relative; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-md); padding: 18px;
+  display: flex; flex-direction: column;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), border-color 200ms var(--ease);
+  min-height: 0;
+}
+.widget:hover { box-shadow: var(--shadow-md); }
+.widget__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
+}
+.widget__title {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.widget__hint { font-size: 10px; color: var(--ink-4); white-space: nowrap; }
+.widget__body {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+  min-height: 0; overflow: hidden;
+}
+.widget__body--center { justify-content: center; align-items: center; text-align: center; }
+.widget__numeral {
+  font-family: var(--font-display, var(--font-heading, serif));
+  font-size: 44px; font-weight: 600; line-height: 1; color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.widget__numeral .muted { opacity: 0.4; font-size: 0.6em; font-weight: 500; }
+.widget__chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.widget__chip--success { background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a; border-color: color-mix(in srgb, #16a34a 28%, transparent); }
+.widget__chip--warn    { background: color-mix(in srgb, #d97706 14%, transparent); color: #d97706; border-color: color-mix(in srgb, #d97706 28%, transparent); }
+.widget__chip--danger  { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; border-color: color-mix(in srgb, #dc2626 28%, transparent); }
+.widget__chip--neutral { background: var(--bg-sunken, var(--bg-elevated)); color: var(--ink-2); border-color: var(--rule); }
+
+.widget__btn {
+  appearance: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  background: var(--bg-elevated, var(--bg-raised)); border: 1px solid var(--rule);
+  color: var(--ink); font-size: 13px; font-weight: 500; font-family: inherit;
+  transition: all 180ms var(--ease);
+}
+.widget__btn:hover { border-color: var(--accent); color: var(--accent); }
+.widget__btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.widget__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.widget__btn--danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.widget__btn--danger:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
+.widget__btn--big { padding: 14px 20px; font-size: 14px; font-weight: 600; }
+.widget__btn--ghost { background: transparent; border-color: var(--rule-2); color: var(--ink-3); }
+.widget__btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.widget__row { display: flex; gap: 6px; flex-wrap: wrap; }
+.widget__row--tight { gap: 4px; }
+.widget__divider { height: 1px; background: var(--rule-2); margin: 8px 0; }
+
+.widget__select, .widget__input, .widget__textarea {
+  appearance: none; padding: 8px 10px; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--bg); color: var(--ink);
+  font-family: inherit; font-size: 13px; width: 100%;
+  transition: border-color 180ms var(--ease);
+}
+.widget__select:focus, .widget__input:focus, .widget__textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.widget__textarea { resize: vertical; min-height: 60px; font-family: var(--font-mono, monospace); }
+
+.widget__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.widget__list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px;
+  background: var(--bg-elevated, var(--bg-raised));
+  border: 1px solid transparent;
+}
+.widget__list li:hover { border-color: var(--rule); }
+
+/* Edit mode + chrome */
+.widget__remove, .widget__resize, .widget__handle { display: none; }
+.editing-dashboard .widget {
+  cursor: grab; user-select: none;
+  animation: widget-wiggle 0.6s ease-in-out infinite;
+}
+.editing-dashboard .widget:nth-child(odd) { animation-delay: -0.3s; }
+.editing-dashboard .widget:active { cursor: grabbing; }
+.editing-dashboard .widget__remove,
+.editing-dashboard .widget__resize { display: flex; }
+.editing-dashboard .widget input,
+.editing-dashboard .widget textarea,
+.editing-dashboard .widget select,
+.editing-dashboard .widget button:not(.widget__remove):not(.widget__resize) {
+  pointer-events: none; opacity: 0.55;
+}
+.widget__remove {
+  position: absolute; top: -10px; right: -10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #dc2626; color: #fff; border: 2px solid var(--bg);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center;
+  z-index: 3; box-shadow: var(--shadow-md);
+  transition: transform 150ms var(--ease);
+}
+.widget__remove:hover { transform: scale(1.12); background: #ef4444; }
+.widget__resize {
+  position: absolute; bottom: 8px; right: 8px;
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--accent-soft); color: var(--accent);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center; border: none;
+  z-index: 3; transition: transform 150ms var(--ease);
+}
+.widget__resize:hover { transform: scale(1.12); }
+.widget.is-dragging { opacity: 0.4; transform: scale(0.96); }
+.widget.is-drop-target { outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+@keyframes widget-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-0.5deg); }
+  75%  { transform: rotate(0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.dash-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 8px 0 0 0; gap: 12px; flex-wrap: wrap;
+}
+.dash-toolbar__hint { font-size: 12px; color: var(--ink-3); }
+.btn-edit-dashboard, .btn-add-widget, .btn-reset-layout {
+  appearance: none; padding: 9px 18px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink);
+  font-family: inherit;
+  transition: all 200ms var(--ease);
+}
+.btn-edit-dashboard:hover, .btn-add-widget:hover, .btn-reset-layout:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.btn-add-widget { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-add-widget:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+/* Add Widget bottom sheet */
+.widget-shelf {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-raised); border-top: 1px solid var(--rule);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.10); padding: 24px;
+  max-height: 60vh; overflow-y: auto; z-index: 100;
+  transform: translateY(100%); transition: transform 320ms var(--ease);
+}
+.editing-dashboard .widget-shelf { transform: translateY(0); }
+.widget-shelf__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.widget-shelf__title { font-size: 18px; font-weight: 600; margin: 0; }
+.widget-shelf__close { font-size: 22px; line-height: 1; cursor: pointer; padding: 4px 12px;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 100px; }
+.widget-shelf__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; max-width: 1200px; margin: 0 auto;
+}
+.widget-shelf__item {
+  padding: 14px; background: var(--bg); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer; text-align: left;
+  font-family: inherit;
+  transition: transform 160ms var(--ease), border-color 160ms var(--ease);
+}
+.widget-shelf__item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.widget-shelf__item h3 { font-size: 13px; margin: 0 0 4px 0; font-weight: 600; color: var(--ink); }
+.widget-shelf__item p { font-size: 11px; color: var(--ink-3); margin: 0; line-height: 1.4; }
+.widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
+.widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
+
+
+/* ─── Widget sections (public + private partitioning) ──────────────── */
+.widget-section { margin: 24px 0 36px; }
+.widget-section + .widget-section { border-top: 1px dashed var(--rule); padding-top: 24px; }
+.widget-section__header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 14px; padding-bottom: 10px;
+}
+.widget-section__heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.widget-section__heading > div { min-width: 0; }
+.widget-section__title {
+  font-family: var(--font-heading, var(--font-display, serif));
+  font-size: 18px; font-weight: 600; margin: 0; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.widget-section__sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
+.widget-section__chip {
+  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.widget-section__chip--public {
+  background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a;
+  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
+}
+.widget-section__chip--private {
+  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.widget-section__move {
+  appearance: none; padding: 6px 14px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule); cursor: pointer;
+  font-size: 12px; font-weight: 600; color: var(--ink-2); font-family: inherit;
+  transition: all 180ms var(--ease); white-space: nowrap; flex-shrink: 0;
+  display: none;
+}
+.editing-dashboard .widget-section__move { display: inline-block; }
+.widget-section__move:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hide section headers when NOT in edit mode for a quieter default view */
+:not(.editing-dashboard) .widget-section__header { opacity: 0.6; }
+:not(.editing-dashboard) .widget-section__sub { display: none; }
+
+/* Shelf row chip */
+.widget-shelf__row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+
 </style>
 </head>
 <body>
 <nav class="topnav">
   <div class="wrap">
-    <a class="brand" href="./">Ensemble</a>
+    <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
@@ -398,15 +720,17 @@ body.theme-aurora {
   </div>
 </div>
 <main class="doc-page">
-  <div class="wrap">
+  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
+  <div class="wrap doc-wrap">
     <a href="../docs.html" class="doc-back">← All documentation</a>
-    <p class="doc-meta">docs/SESSION_HANDOFF.md</p>
+    <header class="doc-hero">
+      <p class="doc-eyebrow">Documentation</p>
+      <h1 class="doc-title">Session Handoff</h1>
+      <p class="doc-lead">Where the Ensemble stands as of the autonomous run that closed Phase 0 mission gaps + shipped marketplace polish + cross-platform parity. Use this doc to resume the next session without re-reading the full chat history.</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/SESSION_HANDOFF.md</code></p>
+    </header>
     <article class="doc-content">
-<h1>Session handoff — 2026-04-26 hardcore-code run</h1>
-<blockquote>
-<p>Where the Ensemble stands as of the autonomous run that closed Phase 0 mission gaps + shipped marketplace polish + cross-platform parity. Use this doc to resume the next session without re-reading the full chat history.</p>
-</blockquote>
-<h2>Phase 0 — substantively closed</h2>
+<h2 id="phase-0-substantively-closed">Phase 0 — substantively closed</h2>
 <table>
 <thead>
 <tr>
@@ -453,7 +777,7 @@ body.theme-aurora {
 </tr>
 </tbody>
 </table>
-<h2>What landed in the hardcore-code run (2026-04-26)</h2>
+<h2 id="what-landed-in-the-hardcore-code-run-2026-04-26">What landed in the hardcore-code run (2026-04-26)</h2>
 <table>
 <thead>
 <tr>
@@ -485,8 +809,8 @@ body.theme-aurora {
 </tr>
 </tbody>
 </table>
-<h2>What&rsquo;s still open (in priority order)</h2>
-<h3>User-action only (I cannot proceed on these)</h3>
+<h2 id="whats-still-open-in-priority-order">What&rsquo;s still open (in priority order)</h2>
+<h3 id="user-action-only-i-cannot-proceed-on-these">User-action only (I cannot proceed on these)</h3>
 <ol>
 <li><strong>Friend hand-off</strong> — package at <code>~/Desktop/website-agent-handoff/</code> (4 files: INTRO + READ-ME-FIRST + website-agent.txt + website-agent-cheatsheet.md). Send via your channel of choice.</li>
 <li><strong>GitHub Actions billing</strong> — github.com/settings/billing. Once resolved, re-enable the workflow auto-trigger in <code>.github/workflows/integration-test.yml</code> (uncomment the <code>push</code> + <code>pull_request</code> blocks).</li>
@@ -495,7 +819,7 @@ body.theme-aurora {
 <li><strong>Submit to Claude skill marketplace</strong> — when Kevin determines the public release is right.</li>
 <li><strong>Verify Windows ports on actual Windows</strong> — Batch C scripts are syntax-correct PowerShell mirrors of the bash counterparts but unverified on Windows. Run <code>.\bin-win\preflight.ps1</code> + <code>.\bin-win\self_test.ps1</code> + <code>.\bin-win\test_lock_race.ps1</code> from the next Windows session and report back any breaks.</li>
 </ol>
-<h3>Optional polish (next session, low priority)</h3>
+<h3 id="optional-polish-next-session-low-priority">Optional polish (next session, low priority)</h3>
 <ul>
 <li><strong>Per-project pages</strong> — richer timeline visuals (currently uses Maestro-curated milestones; could graduate to chat-status fields).</li>
 <li><strong>Skill catalog</strong> — currently has placeholder entries; populate with real Claude marketplace skills as they&rsquo;re discovered.</li>
@@ -503,15 +827,15 @@ body.theme-aurora {
 <li><strong><code>bin-win/</code> scheduler integration</strong> — Windows Task Scheduler equivalent of launchd plists for the stale-lock sweeper + control panel.</li>
 <li><strong><code>bin-win/launchers/</code></strong> — <code>.bat</code> files for Maestro / Agent-Builder / Tool-Builder / Ensemble-all.</li>
 </ul>
-<h2>Resume commands</h2>
-<h3>Pick up where this run left off</h3>
+<h2 id="resume-commands">Resume commands</h2>
+<h3 id="pick-up-where-this-run-left-off">Pick up where this run left off</h3>
 <pre><code class="language-bash">cd ~/.claude/orchestrator
 git status                   # should be clean
 git log -10 --oneline        # see what landed in the run
 cat docs/HEALTH.md            # run-time snapshot
 cat docs/SESSION_HANDOFF.md  # this doc
 </code></pre>
-<h3>Verify everything still works</h3>
+<h3 id="verify-everything-still-works">Verify everything still works</h3>
 <pre><code class="language-bash"># Lock-race smoke (Mac)
 bash plugins/ensemble/bin/test_lock_race.sh   # expect 10/10 passed
 
@@ -521,19 +845,19 @@ bash plugins/ensemble/bin/self_test.sh        # all green (when this script land
 # Live diagnostic battery
 bash bin/maestro-context.sh
 </code></pre>
-<h3>Open the dashboard</h3>
+<h3 id="open-the-dashboard">Open the dashboard</h3>
 <pre><code>https://kiwimaddog2020.github.io/ensemble-dashboard/
 </code></pre>
 <p>PWA-installable (Add to Home Screen on phone). Auto-refreshes 3× daily via the Dashboard Update routine.</p>
-<h3>Fire ad-hoc autopilot</h3>
+<h3 id="fire-ad-hoc-autopilot">Fire ad-hoc autopilot</h3>
 <pre><code class="language-bash">bash bin/mobile_dispatch.sh fire 30                          # Ensemble-scoped
 bash bin/mobile_dispatch.sh fire 30 &quot;&quot; boo-website           # project-targeted
 </code></pre>
-<h3>Fire serial across all eligible projects</h3>
+<h3 id="fire-serial-across-all-eligible-projects">Fire serial across all eligible projects</h3>
 <pre><code class="language-bash">nohup bash bin/fire-all-eligible.sh 30 &gt; runs/serial-fire-$(date +%Y%m%dT%H%M%SZ).log 2&gt;&amp;1 &amp;
 disown
 </code></pre>
-<h2>Architecture quick reference</h2>
+<h2 id="architecture-quick-reference">Architecture quick reference</h2>
 <table>
 <thead>
 <tr>
@@ -576,7 +900,7 @@ disown
 </tr>
 </tbody>
 </table>
-<h2>Onboarded chats roster</h2>
+<h2 id="onboarded-chats-roster">Onboarded chats roster</h2>
 <table>
 <thead>
 <tr>
@@ -639,7 +963,7 @@ disown
 </tr>
 </tbody>
 </table>
-<h2>Final state of repos at handoff</h2>
+<h2 id="final-state-of-repos-at-handoff">Final state of repos at handoff</h2>
 <table>
 <thead>
 <tr>
@@ -679,9 +1003,9 @@ disown
 <hr />
 <p><em>If you&rsquo;re an Agent or Maestro reading this on session resume: read <code>AGENT.md</code> (or <code>MAESTRO.md</code>) first, then this doc, then surface a rapid-fire top rec from the &ldquo;What&rsquo;s still open&rdquo; list.</em></p>
 <hr />
-<h2>Mid-flight at chat handoff (2026-04-26 late) — SUPERSEDED, see &ldquo;Both batches landed&rdquo; below</h2>
+<h2 id="mid-flight-at-chat-handoff-2026-04-26-late-superseded-see-both-batches-landed-below">Mid-flight at chat handoff (2026-04-26 late) — SUPERSEDED, see &ldquo;Both batches landed&rdquo; below</h2>
 <p>After Batch D shipped (<code>101ee33</code>), Kevin asked about linting/Prettier across all Ensemble repos + baking expectations into memory. Pre-approved scope: <strong>option 2 — targeted lint + Prettier for the small JS surface</strong>.</p>
-<h3>Lint work — NOT YET SHIPPED, queued for next session</h3>
+<h3 id="lint-work-not-yet-shipped-queued-for-next-session">Lint work — NOT YET SHIPPED, queued for next session</h3>
 <p><strong>Configs to add to <code>claude-ensemble</code>:</strong>
 - <code>.editorconfig</code> — universal whitespace + EOL (charset utf-8, lf, final newline, trim trailing, 2-space indent default; 4-space for <code>*.{sh,bash,ps1,py}</code>; tab for <code>Makefile</code>)
 - <code>.markdownlint.json</code> — markdown rules (sensible defaults; relaxed on line-length)
@@ -703,9 +1027,9 @@ disown
 - <code>AGENT.md</code> §3 (Edit &amp; code discipline) — add a sub-section noting: &ldquo;Every PR runs the lint job in CI; configs are at the repo root; surgical edits should not introduce new lint failures.&rdquo;
 - <code>MAESTRO.md</code> Directive 6 (Apple-quality bar) — reference the lint expectation.</p>
 <p><strong>Why lint matters here:</strong> marketplace publication needs polish-grade rigor. Prettier specifically is overkill for a shell-heavy project, but the small JS surface (control.js, sw.js) and the generated dashboard HTML/CSS benefit from canonical formatting before public-flip. CI gates ensure no contributor (including future autopilot sessions) drifts the style.</p>
-<h3>What&rsquo;s blocking ship in this chat</h3>
+<h3 id="whats-blocking-ship-in-this-chat">What&rsquo;s blocking ship in this chat</h3>
 <p>The <code>Write</code> tool got a permission-stream error on <code>.editorconfig</code>. Context room ran low before retry. <strong>Next session: resume from here. The configs above are fully specified — generate them, commit + push, replicate to companion repos, write the memory file.</strong></p>
-<h3>Estimated effort</h3>
+<h3 id="estimated-effort">Estimated effort</h3>
 <p>~35 min for the full sweep (option 2 from the lint AskUserQuestion):
 - 5 min — write 6 config files for claude-ensemble
 - 10 min — update <code>.github/workflows/integration-test.yml</code> with the new <code>lint</code> job
@@ -713,9 +1037,9 @@ disown
 - 5 min — memory file + MEMORY.md pointer + AGENT.md/MAESTRO.md edits
 - 5 min — sync canonical to ensemble-config, final commit + push round</p>
 <hr />
-<h2>Marketplace de-personalization audit — queued for next session</h2>
+<h2 id="marketplace-de-personalization-audit-queued-for-next-session">Marketplace de-personalization audit — queued for next session</h2>
 <p>Pairs naturally with the lint sweep. Both are pre-public-flip polish. Goal: ship a plugin that works for any user, not just Kevin, while preserving intent.</p>
-<h3>Categories to sweep (grep the plugin tree)</h3>
+<h3 id="categories-to-sweep-grep-the-plugin-tree">Categories to sweep (grep the plugin tree)</h3>
 <p>Pattern: <code>M1|Kevin|kevinmadson|kiwimaddog|/Users/kevin|Pushover|Tailscale|Termius|launchd|British Columbia|Pacific</code></p>
 <table>
 <thead>
@@ -775,29 +1099,29 @@ disown
 </tr>
 </tbody>
 </table>
-<h3>Memory file rename</h3>
+<h3 id="memory-file-rename">Memory file rename</h3>
 <ul>
 <li><code>~/.claude/projects/-Users-kevin/memory/hardware_m1.md</code> → <code>hardware_constraints.md</code> with a <code>max_concurrent_autopilot</code> field documented and a generic intent (&ldquo;respect your hardware&rsquo;s concurrency limit, default 1&rdquo;).</li>
 <li>Update <code>MEMORY.md</code> pointer.</li>
 <li>Update <code>AGENT.md</code> §5 + <code>MAESTRO.md</code> Directive 1 to reference the new constraint name (not &ldquo;M1&rdquo;).</li>
 </ul>
-<h3>Default state files shipped in plugin</h3>
+<h3 id="default-state-files-shipped-in-plugin">Default state files shipped in plugin</h3>
 <ul>
 <li><code>plugins/ensemble/templates/state.json.example</code> — keep as-is.</li>
 <li>Strip any Kevin-specific seed data from anything that ships at install time. The user&rsquo;s first onboarding generates their own <code>chats/&lt;slug&gt;.json</code>.</li>
 </ul>
-<h3>Verification after sweep</h3>
+<h3 id="verification-after-sweep">Verification after sweep</h3>
 <ul>
 <li><code>grep -rE "M1|kevinmadson|kiwimaddog|/Users/kevin|Pushover|Tailscale|Termius|British Columbia" plugins/</code> should return empty (or only flagged-as-example matches).</li>
 <li>Re-run <code>bash plugins/ensemble/bin/self_test.sh</code> — all green.</li>
 <li>Mentally trace: &ldquo;if a stranger on Linux clones this and runs preflight, does anything break?&rdquo; Walk the install steps with their shoes on.</li>
 </ul>
-<h3>Estimated effort</h3>
+<h3 id="estimated-effort_1">Estimated effort</h3>
 <p>~30-45 min combined with the lint sweep (do them in the same session — both touch many of the same files).</p>
 <hr />
-<h2>ONE-SHOT BATCH for next Maestro — pre-approved, AFK-able</h2>
+<h2 id="one-shot-batch-for-next-maestro-pre-approved-afk-able">ONE-SHOT BATCH for next Maestro — pre-approved, AFK-able</h2>
 <p>Kevin&rsquo;s instruction: pre-stage one big batch he can approve once and walk away. Below is the paste-ready prompt. Drop into a fresh Maestro chat opened in <code>~/.claude/orchestrator</code>, Kevin replies &ldquo;approve, go&rdquo;, and the chat self-drives end-to-end.</p>
-<h3>Paste-ready prompt for next Maestro</h3>
+<h3 id="paste-ready-prompt-for-next-maestro">Paste-ready prompt for next Maestro</h3>
 <pre><code>You are my Maestro. Read in order:
 1. plugins/ensemble/templates/MAESTRO.md
 2. docs/SESSION_HANDOFF.md (especially the two queued sections at the bottom)
@@ -853,7 +1177,7 @@ calls made, anything you couldn't safely resolve.
 
 Begin.
 </code></pre>
-<h3>What the next Maestro is allowed to do without asking</h3>
+<h3 id="what-the-next-maestro-is-allowed-to-do-without-asking">What the next Maestro is allowed to do without asking</h3>
 <ul>
 <li>Write/edit/delete files in any of the 6 repos</li>
 <li>Commit + push to private repos (push gate lifted 2026-04-24)</li>
@@ -861,19 +1185,19 @@ Begin.
 <li>Make judgment calls on placeholder names, config defaults, generalization phrasing</li>
 <li>Skip a sub-step if blocked, log it, and continue</li>
 </ul>
-<h3>Hard stops (next Maestro MUST ask first)</h3>
+<h3 id="hard-stops-next-maestro-must-ask-first">Hard stops (next Maestro MUST ask first)</h3>
 <ul>
 <li>Anything that would public-flip a repo</li>
 <li>Anything touching billing</li>
 <li>Anything that creates a new account</li>
 <li>Genuine ambiguity that risks shipping broken state to the marketplace</li>
 </ul>
-<h3>After the batch</h3>
+<h3 id="after-the-batch">After the batch</h3>
 <p>Next Maestro reports back with: commits landed (per repo), grep verification output, any deferred items. Kevin reviews, approves any deferred-question items in a follow-up turn.</p>
 <hr />
-<h2>BATCH 2 — Operating-contract upgrade (pre-approved, AFK-able)</h2>
+<h2 id="batch-2-operating-contract-upgrade-pre-approved-afk-able">BATCH 2 — Operating-contract upgrade (pre-approved, AFK-able)</h2>
 <p>Runs <strong>after</strong> Batch 1 completes. Same chat if context permits, fresh chat otherwise. Pre-approved by Kevin via rapid-fire on 2026-04-26. Eight directives bake into the Ensemble&rsquo;s operating contracts (memory + MAESTRO.md + AGENT.md + chats/ schema + dashboard + new spawn-lock infrastructure).</p>
-<h3>Locked decisions (from rapid-fire)</h3>
+<h3 id="locked-decisions-from-rapid-fire">Locked decisions (from rapid-fire)</h3>
 <table>
 <thead>
 <tr>
@@ -908,7 +1232,7 @@ Begin.
 </tr>
 </tbody>
 </table>
-<h3>Seven directives to ship</h3>
+<h3 id="seven-directives-to-ship">Seven directives to ship</h3>
 <p><strong>1. Pre-compaction summary baked into Maestro/Agent</strong></p>
 <ul>
 <li>Both contracts gain a &ldquo;Context awareness&rdquo; section.</li>
@@ -1077,7 +1401,7 @@ Acquire state.spawn-lock-&lt;slug&gt;.d, register {pid, slug, started_at} in
 <li>✅ User control over the dial — scale up when machine is fresh, down when running heavy work</li>
 <li>✅ All existing autopilot UX (slash command, mobile dispatch, rotation, /autopilot N)</li>
 </ul>
-<h3>Paste-ready prompt for Batch 2</h3>
+<h3 id="paste-ready-prompt-for-batch-2">Paste-ready prompt for Batch 2</h3>
 <pre><code>You are my Maestro. Read in order:
 1. plugins/ensemble/templates/MAESTRO.md
 2. docs/SESSION_HANDOFF.md (the BATCH 2 section, locked decisions + 7 directives)
@@ -1164,7 +1488,7 @@ Report back with: commits landed, files touched, any deferred items.
 
 Begin.
 </code></pre>
-<h3>What Batch 2&rsquo;s Maestro is allowed to do without asking</h3>
+<h3 id="what-batch-2s-maestro-is-allowed-to-do-without-asking">What Batch 2&rsquo;s Maestro is allowed to do without asking</h3>
 <ul>
 <li>Write all 6 memory files</li>
 <li>Edit MAESTRO.md / AGENT.md / chats/*.json freely</li>
@@ -1174,7 +1498,7 @@ Begin.
 <li>Make judgment calls on color codes, state pill UX, state machine constraints</li>
 <li>Commit + push to the canonical repo and ensemble-config</li>
 </ul>
-<h3>Hard stops (Batch 2 Maestro MUST ask first)</h3>
+<h3 id="hard-stops-batch-2-maestro-must-ask-first">Hard stops (Batch 2 Maestro MUST ask first)</h3>
 <ul>
 <li>Wiring actual feedback channels for any specific project (per-project G8 decision; defer)</li>
 <li>Public-flipping any repo</li>
@@ -1182,12 +1506,12 @@ Begin.
 <li>A schema migration conflict (e.g. a chat file with malformed JSON) — pause and ask</li>
 <li>Any change that would require Kevin to update his physical phone configuration</li>
 </ul>
-<h3>After Batch 2</h3>
+<h3 id="after-batch-2">After Batch 2</h3>
 <p>Maestro reports: schema migration result, file count touched, any chats that needed manual review. Kevin reviews; per-project state assignments may need a quick &ldquo;is X really in Warmer or should it be Updates?&rdquo; rapid-fire — that&rsquo;s a one-turn cleanup, not a blocker.</p>
 <hr />
-<h2>Both batches LANDED 2026-04-26 (commits below)</h2>
+<h2 id="both-batches-landed-2026-04-26-commits-below">Both batches LANDED 2026-04-26 (commits below)</h2>
 <p>Cranked through both batches in a single AFK session. All canonical work shipped to claude-ensemble; companion repos updated; Windows PowerShell parity in place.</p>
-<h3>Commits</h3>
+<h3 id="commits">Commits</h3>
 <table>
 <thead>
 <tr>
@@ -1214,7 +1538,7 @@ Begin.
 </tr>
 </tbody>
 </table>
-<h3>Companion repos (each with own commit)</h3>
+<h3 id="companion-repos-each-with-own-commit">Companion repos (each with own commit)</h3>
 <table>
 <thead>
 <tr>
@@ -1245,28 +1569,47 @@ Begin.
 </tr>
 </tbody>
 </table>
-<h3>Verified</h3>
+<h3 id="verified">Verified</h3>
 <ul>
 <li><code>bash plugins/ensemble/bin/self_test.sh</code> — all green (24+ checks passing)</li>
 <li><code>bash plugins/ensemble/bin/test_spawn_lock_race.sh</code> — 9/9 passing</li>
 <li><code>bash bin/dashboard-generate.sh</code> — clean regen, six-state pills render correctly</li>
 </ul>
-<h3>Kevin&rsquo;s local config</h3>
+<h3 id="kevins-local-config">Kevin&rsquo;s local config</h3>
 <ul>
 <li><code>state.json.max_concurrent_autopilots</code>: <strong>3</strong> (your personal preference)</li>
 <li><code>state.json.rapid_fire_enabled</code>: <strong>true</strong> (default)</li>
 <li>Marketplace ships default cap = 2 (the spawn lock script&rsquo;s <code>// 2</code> fallback)</li>
 </ul>
-<h3>Still deferred (low priority)</h3>
+<h3 id="still-deferred-low-priority">Still deferred (low priority)</h3>
 <ol>
 <li><strong>Control-panel queue processor</strong> — in-process tick to release queued fires as slots open. Currently the cap-hit queue is functional via the spawn lock script&rsquo;s polling, but a daemon would be more responsive. Skill scaffold exists at <code>bin/control-panel-server.py</code>.</li>
 <li><strong>Round 2 de-personalization</strong> — design docs (PLUGIN_REFACTOR.md, AUTOPILOT_DESIGN.md) still reference Kevin paths as historical examples. Low risk for marketplace since these are internal design docs.</li>
 <li><strong>Feedback pipeline channel wiring</strong> — per-project at G8. The aggregator scaffold lives at <code>~/.claude/scheduled-tasks/feedback-briefing/SKILL.md</code>; activates when ≥1 project completes G8 with a wired channel.</li>
 </ol>
-<h3>Post-batch state</h3>
+<h3 id="post-batch-state">Post-batch state</h3>
 <p><code>docs/SESSION_HANDOFF.md</code> is now historical record. Future sessions read it as context but should not treat it as active queue. The active queue is empty — Kevin&rsquo;s call on what&rsquo;s next.</p>
     </article>
+    <footer class="doc-foot">
+      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+    </footer>
   </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('docProgressBar');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scrolled = (h.scrollTop || document.body.scrollTop);
+        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+        bar.style.width = pct + '%';
+      }
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
 </main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>

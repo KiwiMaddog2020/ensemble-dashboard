@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
 <style>
 :root {
   --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
@@ -57,8 +58,18 @@ body {
 .topnav .brand {
   font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
   color: var(--ink); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
 }
 .topnav .brand em { color: var(--accent); font-style: normal; }
+.topnav .brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; display: block;
+  flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+}
+.topnav .brand-word { line-height: 1; }
+@media (max-width: 480px) {
+  .topnav .brand-word { display: none; }
+  .topnav .brand-mark { width: 30px; height: 30px; }
+}
 .topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
 .topnav li a {
   display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
@@ -346,13 +357,77 @@ body.theme-aurora {
   --accent: #a78bfa; --accent-2: #c4b5fd; --accent-soft: rgba(167,139,250,0.14);
 } }
 
+body.theme-rose {
+  --bg: #fff5f7; --bg-raised: #ffffff; --bg-elevated: #fff8fa;
+  --ink: #2a0a14; --ink-2: #4a1f2c; --ink-3: #8a4f66; --ink-4: #c896aa;
+  --rule: #f0d8e0; --rule-2: #f5e4ea;
+  --accent: #e11d48; --accent-2: #f43f5e; --accent-soft: rgba(225,29,72,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-rose {
+  --bg: #1a0810; --bg-raised: #2a1218; --bg-elevated: #321820;
+  --ink: #ffe4eb; --ink-2: #f5c0ce; --ink-3: #c88898; --ink-4: #8a5868;
+  --rule: #3a1a26; --rule-2: #2c121a;
+  --accent: #f43f5e; --accent-2: #fb7185; --accent-soft: rgba(244,63,94,0.14);
+} }
+
+body.theme-ocean {
+  --bg: #f0f9fb; --bg-raised: #ffffff; --bg-elevated: #f5fbfd;
+  --ink: #0a1f26; --ink-2: #1f3d4d; --ink-3: #4d7588; --ink-4: #8ab0bf;
+  --rule: #cbe3eb; --rule-2: #ddebf0;
+  --accent: #0891b2; --accent-2: #06b6d4; --accent-soft: rgba(8,145,178,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-ocean {
+  --bg: #051418; --bg-raised: #0c1f26; --bg-elevated: #122a32;
+  --ink: #d8f0f7; --ink-2: #b0d8e3; --ink-3: #7daabe; --ink-4: #4a7388;
+  --rule: #1a3540; --rule-2: #122832;
+  --accent: #06b6d4; --accent-2: #22d3ee; --accent-soft: rgba(6,182,212,0.14);
+} }
+
+body.theme-sunset {
+  --bg: #fff7ed; --bg-raised: #ffffff; --bg-elevated: #fffaf2;
+  --ink: #2a1505; --ink-2: #4d2810; --ink-3: #8b5524; --ink-4: #c89970;
+  --rule: #f0d8b8; --rule-2: #f5e4cc;
+  --accent: #ea580c; --accent-2: #f97316; --accent-soft: rgba(234,88,12,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sunset {
+  --bg: #1a0a02; --bg-raised: #2a1408; --bg-elevated: #321a0c;
+  --ink: #ffe8d0; --ink-2: #f5c8a0; --ink-3: #c89570; --ink-4: #8a5f40;
+  --rule: #3a1f0c; --rule-2: #2c1808;
+  --accent: #f97316; --accent-2: #fb923c; --accent-soft: rgba(249,115,22,0.14);
+} }
+
+body.theme-midnight {
+  --bg: #f4f6fb; --bg-raised: #ffffff; --bg-elevated: #f8fafc;
+  --ink: #0c1024; --ink-2: #1e2440; --ink-3: #4d557a; --ink-4: #8a92b3;
+  --rule: #d6dbeb; --rule-2: #e3e8f2;
+  --accent: #4f46e5; --accent-2: #6366f1; --accent-soft: rgba(79,70,229,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-midnight {
+  --bg: #060814; --bg-raised: #0d1024; --bg-elevated: #131730;
+  --ink: #e0e4f5; --ink-2: #c0c8e0; --ink-3: #8a92b3; --ink-4: #565d80;
+  --rule: #1a1d35; --rule-2: #131628;
+  --accent: #6366f1; --accent-2: #818cf8; --accent-soft: rgba(99,102,241,0.16);
+} }
+
+body.theme-sage {
+  --bg: #f6faf2; --bg-raised: #ffffff; --bg-elevated: #fafcf7;
+  --ink: #182410; --ink-2: #2d3d22; --ink-3: #5a704a; --ink-4: #9ab088;
+  --rule: #d8e3c8; --rule-2: #e8efdc;
+  --accent: #65a30d; --accent-2: #84cc16; --accent-soft: rgba(101,163,13,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-sage {
+  --bg: #0a1505; --bg-raised: #131f0a; --bg-elevated: #1a2810;
+  --ink: #e0f0d0; --ink-2: #c0d8a8; --ink-3: #8aa870; --ink-4: #5a7048;
+  --rule: #243018; --rule-2: #1a2410;
+  --accent: #84cc16; --accent-2: #a3e635; --accent-soft: rgba(132,204,22,0.14);
+} }
+
 /* Theme picker UI */
 .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; }
 .theme-swatch {
   width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
-  border: 2px solid var(--rule); transition: border-color 200ms var(--ease), transform 200ms var(--ease);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: white;
+  border: 2px solid var(--rule);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
   background: linear-gradient(135deg, var(--swatch-a), var(--swatch-b));
 }
 .theme-swatch:hover { transform: scale(1.05); }
@@ -367,12 +442,259 @@ body.theme-aurora {
 .theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
 .theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
 .theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
+
+/* ─── Widget dashboard ──────────────────────────────────────────────── */
+.widget-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(140px, auto); gap: 16px; margin: 24px 0;
+}
+@media (max-width: 768px) {
+  .widget-grid { grid-template-columns: repeat(2, 1fr); }
+  .widget--1x1, .widget--2x1, .widget--1x2, .widget--2x2 { grid-column: span 1; grid-row: span 1; }
+}
+@media (min-width: 769px) and (max-width: 1100px) {
+  .widget-grid { grid-template-columns: repeat(6, 1fr); }
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+@media (min-width: 1101px) {
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+.widget {
+  position: relative; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-md); padding: 18px;
+  display: flex; flex-direction: column;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), border-color 200ms var(--ease);
+  min-height: 0;
+}
+.widget:hover { box-shadow: var(--shadow-md); }
+.widget__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
+}
+.widget__title {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.widget__hint { font-size: 10px; color: var(--ink-4); white-space: nowrap; }
+.widget__body {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+  min-height: 0; overflow: hidden;
+}
+.widget__body--center { justify-content: center; align-items: center; text-align: center; }
+.widget__numeral {
+  font-family: var(--font-display, var(--font-heading, serif));
+  font-size: 44px; font-weight: 600; line-height: 1; color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.widget__numeral .muted { opacity: 0.4; font-size: 0.6em; font-weight: 500; }
+.widget__chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.widget__chip--success { background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a; border-color: color-mix(in srgb, #16a34a 28%, transparent); }
+.widget__chip--warn    { background: color-mix(in srgb, #d97706 14%, transparent); color: #d97706; border-color: color-mix(in srgb, #d97706 28%, transparent); }
+.widget__chip--danger  { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; border-color: color-mix(in srgb, #dc2626 28%, transparent); }
+.widget__chip--neutral { background: var(--bg-sunken, var(--bg-elevated)); color: var(--ink-2); border-color: var(--rule); }
+
+.widget__btn {
+  appearance: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  background: var(--bg-elevated, var(--bg-raised)); border: 1px solid var(--rule);
+  color: var(--ink); font-size: 13px; font-weight: 500; font-family: inherit;
+  transition: all 180ms var(--ease);
+}
+.widget__btn:hover { border-color: var(--accent); color: var(--accent); }
+.widget__btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.widget__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.widget__btn--danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.widget__btn--danger:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
+.widget__btn--big { padding: 14px 20px; font-size: 14px; font-weight: 600; }
+.widget__btn--ghost { background: transparent; border-color: var(--rule-2); color: var(--ink-3); }
+.widget__btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.widget__row { display: flex; gap: 6px; flex-wrap: wrap; }
+.widget__row--tight { gap: 4px; }
+.widget__divider { height: 1px; background: var(--rule-2); margin: 8px 0; }
+
+.widget__select, .widget__input, .widget__textarea {
+  appearance: none; padding: 8px 10px; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--bg); color: var(--ink);
+  font-family: inherit; font-size: 13px; width: 100%;
+  transition: border-color 180ms var(--ease);
+}
+.widget__select:focus, .widget__input:focus, .widget__textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.widget__textarea { resize: vertical; min-height: 60px; font-family: var(--font-mono, monospace); }
+
+.widget__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.widget__list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px;
+  background: var(--bg-elevated, var(--bg-raised));
+  border: 1px solid transparent;
+}
+.widget__list li:hover { border-color: var(--rule); }
+
+/* Edit mode + chrome */
+.widget__remove, .widget__resize, .widget__handle { display: none; }
+.editing-dashboard .widget {
+  cursor: grab; user-select: none;
+  animation: widget-wiggle 0.6s ease-in-out infinite;
+}
+.editing-dashboard .widget:nth-child(odd) { animation-delay: -0.3s; }
+.editing-dashboard .widget:active { cursor: grabbing; }
+.editing-dashboard .widget__remove,
+.editing-dashboard .widget__resize { display: flex; }
+.editing-dashboard .widget input,
+.editing-dashboard .widget textarea,
+.editing-dashboard .widget select,
+.editing-dashboard .widget button:not(.widget__remove):not(.widget__resize) {
+  pointer-events: none; opacity: 0.55;
+}
+.widget__remove {
+  position: absolute; top: -10px; right: -10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #dc2626; color: #fff; border: 2px solid var(--bg);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center;
+  z-index: 3; box-shadow: var(--shadow-md);
+  transition: transform 150ms var(--ease);
+}
+.widget__remove:hover { transform: scale(1.12); background: #ef4444; }
+.widget__resize {
+  position: absolute; bottom: 8px; right: 8px;
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--accent-soft); color: var(--accent);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center; border: none;
+  z-index: 3; transition: transform 150ms var(--ease);
+}
+.widget__resize:hover { transform: scale(1.12); }
+.widget.is-dragging { opacity: 0.4; transform: scale(0.96); }
+.widget.is-drop-target { outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+@keyframes widget-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-0.5deg); }
+  75%  { transform: rotate(0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.dash-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 8px 0 0 0; gap: 12px; flex-wrap: wrap;
+}
+.dash-toolbar__hint { font-size: 12px; color: var(--ink-3); }
+.btn-edit-dashboard, .btn-add-widget, .btn-reset-layout {
+  appearance: none; padding: 9px 18px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink);
+  font-family: inherit;
+  transition: all 200ms var(--ease);
+}
+.btn-edit-dashboard:hover, .btn-add-widget:hover, .btn-reset-layout:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.btn-add-widget { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-add-widget:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+/* Add Widget bottom sheet */
+.widget-shelf {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-raised); border-top: 1px solid var(--rule);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.10); padding: 24px;
+  max-height: 60vh; overflow-y: auto; z-index: 100;
+  transform: translateY(100%); transition: transform 320ms var(--ease);
+}
+.editing-dashboard .widget-shelf { transform: translateY(0); }
+.widget-shelf__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.widget-shelf__title { font-size: 18px; font-weight: 600; margin: 0; }
+.widget-shelf__close { font-size: 22px; line-height: 1; cursor: pointer; padding: 4px 12px;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 100px; }
+.widget-shelf__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; max-width: 1200px; margin: 0 auto;
+}
+.widget-shelf__item {
+  padding: 14px; background: var(--bg); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer; text-align: left;
+  font-family: inherit;
+  transition: transform 160ms var(--ease), border-color 160ms var(--ease);
+}
+.widget-shelf__item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.widget-shelf__item h3 { font-size: 13px; margin: 0 0 4px 0; font-weight: 600; color: var(--ink); }
+.widget-shelf__item p { font-size: 11px; color: var(--ink-3); margin: 0; line-height: 1.4; }
+.widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
+.widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
+
+
+/* ─── Widget sections (public + private partitioning) ──────────────── */
+.widget-section { margin: 24px 0 36px; }
+.widget-section + .widget-section { border-top: 1px dashed var(--rule); padding-top: 24px; }
+.widget-section__header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 14px; padding-bottom: 10px;
+}
+.widget-section__heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.widget-section__heading > div { min-width: 0; }
+.widget-section__title {
+  font-family: var(--font-heading, var(--font-display, serif));
+  font-size: 18px; font-weight: 600; margin: 0; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.widget-section__sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
+.widget-section__chip {
+  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.widget-section__chip--public {
+  background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a;
+  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
+}
+.widget-section__chip--private {
+  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.widget-section__move {
+  appearance: none; padding: 6px 14px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule); cursor: pointer;
+  font-size: 12px; font-weight: 600; color: var(--ink-2); font-family: inherit;
+  transition: all 180ms var(--ease); white-space: nowrap; flex-shrink: 0;
+  display: none;
+}
+.editing-dashboard .widget-section__move { display: inline-block; }
+.widget-section__move:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hide section headers when NOT in edit mode for a quieter default view */
+:not(.editing-dashboard) .widget-section__header { opacity: 0.6; }
+:not(.editing-dashboard) .widget-section__sub { display: none; }
+
+/* Shelf row chip */
+.widget-shelf__row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+
 </style>
 </head>
 <body>
 <nav class="topnav">
   <div class="wrap">
-    <a class="brand" href="./">Ensemble</a>
+    <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
@@ -398,799 +720,41 @@ body.theme-aurora {
   </div>
 </div>
 <main class="doc-page">
-  <div class="wrap">
+  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
+  <div class="wrap doc-wrap">
     <a href="../docs.html" class="doc-back">← All documentation</a>
-    <p class="doc-meta">docs/ONBOARDING_DESIGN.md</p>
+    <header class="doc-hero">
+      <p class="doc-eyebrow">Documentation</p>
+      <h1 class="doc-title">Onboarding Design</h1>
+      <p class="doc-lead">**Status:** v0.1 draft, 2026-04-22</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/ONBOARDING_DESIGN.md</code></p>
+    </header>
     <article class="doc-content">
-<h1>Onboarding Design — The Ensemble</h1>
-<blockquote>
-<p><strong>Status:</strong> v0.1 draft, 2026-04-22
-<strong>Locked:</strong> phases 1–6 + permissions architecture + tool flexibility + v1 optimizations
-<strong>Next:</strong> build v1 per §11 build order
-<strong>Supersedes:</strong> nothing (first version)</p>
-</blockquote>
-<p>This document is the single source of truth for the <strong>Ensemble installation and onboarding experience</strong> — every decision locked across six planning phases, permissions design, tool flexibility patterns, and v1 shipping optimizations.</p>
-<p>Goal: someone drops a file structure, a GitHub URL, or a natural-language phrase into Claude Code. The system unravels before their eyes, walks them through every step, and ends with them running the Maestro. <strong>Apple-product simplicity, shuttle-grade rigor.</strong></p>
-<hr />
-<h2>1. Audience and scope</h2>
-<ul>
-<li><strong>v1 audience:</strong> Kevin (private preview, personal dogfood); 3–10 invited beta users once v1 is proven; public preview later.</li>
-<li><strong>v1 platform:</strong> macOS only (Darwin). Multi-machine sync and Linux support in v2.</li>
-<li><strong>v1 interaction surface:</strong> Claude Code CLI + Desktop app. Scheduled tasks via <code>mcp__scheduled-tasks__*</code>. Mobile triggers via cloud Routines + iOS Shortcuts + iMessage Channels (Track G).</li>
-</ul>
-<h2>2. Phase 1 — Entry points</h2>
-<h3>Three paths, one destination</h3>
-<p><strong>Path A — Canonical paste (primary):</strong></p>
-<pre><code>Install The Ensemble from https://github.com/KiwiMaddog2020/claude-ensemble — clone to ~/.claude/orchestrator (back up any existing), then open INSTALL.md and walk me through it.
-</code></pre>
-<p><strong>Path B — URL drop:</strong></p>
-<pre><code>https://github.com/KiwiMaddog2020/claude-ensemble
-</code></pre>
-<p>Chat detects the Ensemble repo (README fingerprint), offers install.</p>
-<p><strong>Path C — Natural language:</strong></p>
-<pre><code>Set up The Ensemble
-</code></pre>
-<p>Chat uses skill discovery (<code>/maestro-install</code> or similar) or asks a clarifying question.</p>
-<p>All three funnel to the same bootstrap logic inside <code>INSTALL.md</code> in the repo — one source of truth, always current.</p>
-<h3>Install location</h3>
-<p>Default: <code>~/.claude/orchestrator/</code>. Step 1 asks <strong>&ldquo;Install to default path, or specify a different location?&rdquo;</strong> (2-option AskUserQuestion, default highlighted). Custom paths validated for special characters.</p>
-<h3>Dry-run mode</h3>
-<p>Approval gate offers <strong>Proceed / Dry-run only / Cancel</strong> (3-option). Dry-run runs every read-only check for real (pre-flight, existing-file parses, diff computations) but simulates writes verbally. Successful dry-run ≈ 99% likelihood of successful live-run.</p>
-<h3>Approval granularity</h3>
-<p><strong>One bulk approval</strong> after pre-flight + plan preview. Chat narrates each step as it executes. Optional extensions (Routines, Mobile, First-Agent) each get a per-extension approval after essentials complete.</p>
-<h2>3. Phase 2 — Bootstrap flow</h2>
-<h3>Entry sequence</h3>
-<ol>
-<li>Chat receives paste / URL / natural-language entry.</li>
-<li>Runs <strong>parallel pre-flight</strong> (§10 opt. 1) — all checks concurrent, results collected into one status block:
-   - OS detect (<code>uname -s</code>)
-   - Claude Code version (<code>claude --version</code>)
-   - Dependencies: <code>git</code>, <code>gh</code>, <code>jq</code>, <code>python3</code>
-   - <code>gh auth status</code> (private repo currently requires it)
-   - Disk free ≥ 1 GB
-   - Existing <code>~/.claude/orchestrator</code> state
-   - Existing <code>~/.claude/settings.json</code> validity</li>
-<li>Missing dep → offer <code>brew install &lt;dep&gt;</code> via AskUserQuestion. If brew absent, print official install URL, pause, resume on continue.</li>
-<li>Print the full 8-step plan with what/how/verify per step.</li>
-<li>AskUserQuestion: <strong>Proceed / Dry-run only / Cancel</strong>.</li>
-<li>Execute with per-step narration and checkpoint writes.</li>
-</ol>
-<h3>The 8 essentials</h3>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Action</th>
-<th>Verify</th>
-<th>On failure</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>Back up existing dir if non-empty to <code>~/.claude/orchestrator.backup.&lt;ts&gt;/</code></td>
-<td><code>ls -A</code> on target is empty</td>
-<td>Ask user to confirm overwrite or pick new path</td>
-</tr>
-<tr>
-<td>2</td>
-<td><code>git clone</code> repo to install path</td>
-<td><code>.git/</code> exists in install path</td>
-<td>Retry once; else surface stderr + diagnostic block</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Write initial <code>state.json</code> (schema v1)</td>
-<td><code>jq . state.json</code> passes</td>
-<td>Surface raw content, ask to inspect manually</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Copy <code>work_hours.example.json</code> → <code>work_hours.json</code>; offer edit</td>
-<td>File exists + parses</td>
-<td>Retry with fresh copy</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Merge hooks into <code>~/.claude/settings.json</code> (read → merge → show diff → approve → atomic write)</td>
-<td>Our hook appears in settings; overall JSON valid</td>
-<td>If conflict unresolvable: abort with backup path, link TROUBLESHOOTING</td>
-</tr>
-<tr>
-<td>6</td>
-<td><code>chmod +x</code> every <code>bin/*.sh</code></td>
-<td><code>test -x</code> each</td>
-<td>Surface ACL/SIP hints</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Smoke-test hook: set mode=direct briefly, invoke a trivial MCP tool expected to be blocked, verify block, revert</td>
-<td>Expected block message visible</td>
-<td>Dump hook stderr + known-good diagnostic output</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Narrated session-reload notice (copy below)</td>
-<td>Runtime verification deferred to next session&rsquo;s <code>SessionStart</code> hook</td>
-<td>N/A</td>
-</tr>
-</tbody>
-</table>
-<h3>Checkpoint file</h3>
-<p><code>.install-progress.json</code> at install root, overwritten after each step:</p>
-<pre><code class="language-json">{
-  &quot;schema_version&quot;: 1,
-  &quot;started_at&quot;: &quot;&lt;ISO&gt;&quot;,
-  &quot;completed_steps&quot;: [&quot;backup&quot;, &quot;clone&quot;, &quot;state&quot;, &quot;work_hours&quot;],
-  &quot;failed_step&quot;: null,
-  &quot;last_write_at&quot;: &quot;&lt;ISO&gt;&quot;,
-  &quot;installer_pid&quot;: 12345
-}
-</code></pre>
-<p>Subsequent invocations detect and offer <strong>Resume from step N / Start clean / Abort</strong>.</p>
-<h3>Session-reload notice (verbatim)</h3>
-<pre><code>Essentials installed. The PreToolUse hook activates on your NEXT Claude Code session.
-
-To activate now:
-  1. Close this chat: /exit (or Cmd+Q the app)
-  2. Open a new Claude Code chat in any directory
-  3. Run: /maestro — that chat becomes your orchestrator
-
-Verify: at the top of your new chat's context you should see
-  [ORCHESTRATOR] hard-enforcement active.
-
-If you see MISSING instead, run:
-  ~/.claude/orchestrator/bin/status.sh
-and paste the output — I'll diagnose.
-</code></pre>
-<h2>4. Phase 3 — Walkthrough UX</h2>
-<h3>Tone</h3>
-<p>Apple-caliber: clear, declarative, active voice, short sentences, confident. <strong>No emojis. No cute humor. No jargon dump.</strong> Name what&rsquo;s about to happen, do it, confirm it. Repeat.</p>
-<h3>Pacing budget</h3>
-<p>Essentials total narration ≤ 60 lines. Each step: 1–3 lines of intent, execution, 1-line confirm.</p>
-<h3>Progressive disclosure</h3>
-<p>Installation sets up infrastructure only. It does NOT explain Maestro / Agent / Charter concepts. That learning arc happens in the user&rsquo;s first Maestro session via <code>MAESTRO_BOOTSTRAP.md</code> and the Maestro&rsquo;s own conversational introduction.</p>
-<h3>Checkpoint cadence</h3>
-<ul>
-<li>After each essential: <code>✓ Step N — &lt;one-liner&gt;</code></li>
-<li>After all 8 essentials: &ldquo;Essentials installed. Offer extensions?&rdquo; (3-option AskUserQuestion: Install now / Review first / Skip)</li>
-<li>Long steps (smoke test): <code>Testing hook — ~5s…</code></li>
-</ul>
-<h3>Completion screen</h3>
-<pre><code>The Ensemble is installed.
-
-What to do next:
-  1. Close this session (/exit or Cmd+Q)
-  2. Open a new Claude Code chat in any directory
-  3. Run: /maestro — that chat becomes your orchestrator
-
-To onboard your first Agent: cd into a project repo,
-open a new chat there, run:
-  /agent-onboard
-
-Cheat sheet:      ~/.claude/orchestrator/CHEATSHEET.md
-Troubleshooting:  ~/.claude/orchestrator/TROUBLESHOOTING.md
-Health check:     ~/.claude/orchestrator/bin/status.sh
-</code></pre>
-<h3>Post-install assets (all in repo, self-updating)</h3>
-<table>
-<thead>
-<tr>
-<th>File</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>CHEATSHEET.md</code></td>
-<td>Signal phrases, key files, common commands, lock inspection, TROUBLESHOOTING links</td>
-</tr>
-<tr>
-<td><code>MAESTRO_BOOTSTRAP.md</code></td>
-<td>Paste-this-to-become-Maestro (thin reference to <code>MAESTRO.md</code>)</td>
-</tr>
-<tr>
-<td><code>AGENT_BOOTSTRAP.md</code></td>
-<td>Paste-this-in-a-repo-to-onboard-Agent (thin reference to <code>onboarding_prompt.md</code> + <code>AGENT.md</code>)</td>
-</tr>
-</tbody>
-</table>
-<p>All bootstrap prompts are thin references. Zero duplication. When we improve <code>MAESTRO.md</code> or <code>onboarding_prompt.md</code>, every future session picks it up automatically.</p>
-<h2>5. Phase 4 — Pre-mortem</h2>
-<h3>Top 15 install failures (handled inline)</h3>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Failure</th>
-<th>Detection</th>
-<th>User message + recovery</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>Repo clone auth fails</td>
-<td><code>git clone</code> exit ≠ 0, stderr &ldquo;authentication&rdquo; or 403</td>
-<td>Pre-flight <code>gh auth status</code>; if fails, link invite flow; else suggest <code>gh auth login</code></td>
-</tr>
-<tr>
-<td>2</td>
-<td>Missing dep (jq / gh / python3)</td>
-<td><code>command -v</code> empty</td>
-<td>Offer <code>brew install &lt;dep&gt;</code> via AskUserQuestion</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Homebrew missing on dep-install</td>
-<td><code>command -v brew</code> empty</td>
-<td>Print install URL, pause, resume on continue</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Existing non-empty <code>orchestrator/</code> dir</td>
-<td><code>ls -A</code> non-empty</td>
-<td>Auto-backup w/ timestamp suffix, show path, continue</td>
-</tr>
-<tr>
-<td>5</td>
-<td><code>settings.json</code> has conflicting PreToolUse matcher</td>
-<td>JSON parse + matcher diff</td>
-<td>Show diff, offer merge-with-priority or abort</td>
-</tr>
-<tr>
-<td>6</td>
-<td><code>settings.json</code> invalid JSON</td>
-<td><code>jq . settings.json</code> fails</td>
-<td>Back up corrupt file, write fresh, surface backup path</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Non-macOS</td>
-<td><code>uname -s</code> != Darwin</td>
-<td>Halt: &ldquo;v1 is macOS-only; Linux on roadmap&rdquo;</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Claude Code version too old for hooks</td>
-<td>version parse vs min required</td>
-<td>Link upgrade path, halt</td>
-</tr>
-<tr>
-<td>9</td>
-<td>Disk &lt; 1 GB free</td>
-<td><code>df</code> check</td>
-<td>Halt with space status, suggest cleanup</td>
-</tr>
-<tr>
-<td>10</td>
-<td>Ctrl+C mid-install</td>
-<td>Checkpoint partially populated</td>
-<td>Next run detects, offers &ldquo;Resume from step N&rdquo;</td>
-</tr>
-<tr>
-<td>11</td>
-<td>chmod didn&rsquo;t stick</td>
-<td><code>test -x</code> after chmod fails</td>
-<td>Surface sudo/ACL hint, retry</td>
-</tr>
-<tr>
-<td>12</td>
-<td>Hook smoke test fails</td>
-<td>Test tool call wasn&rsquo;t blocked</td>
-<td>Diagnostic dump: settings contents, script path, jq presence</td>
-</tr>
-<tr>
-<td>13</td>
-<td>Two installs racing</td>
-<td>Checkpoint has recent write from other PID</td>
-<td>Second install stands by, offers takeover if stale</td>
-</tr>
-<tr>
-<td>14</td>
-<td>Special chars in install path</td>
-<td>Regex validation</td>
-<td>Reject, request alternate</td>
-</tr>
-<tr>
-<td>15</td>
-<td>Sudo invoked</td>
-<td><code>whoami == root</code></td>
-<td>Halt: &ldquo;run as your user, not sudo&rdquo;</td>
-</tr>
-</tbody>
-</table>
-<h3>TROUBLESHOOTING.md structure</h3>
-<p>Catalogs the long tail and post-install runtime issues. Sections:
-- Install failures not in the top 15
-- Hooks behaving unexpectedly
-- Permissions prompts when you don&rsquo;t expect them
-- state.json inconsistencies
-- Routines not firing / firing when they shouldn&rsquo;t
-- Channels session drops
-- Mobile dispatch failures
-- Recovery from corrupt state</p>
-<h3>Comprehensive self-test (Step 7 + independent script)</h3>
-<p>Runs automatically at Step 7 and on demand via <code>bin/self_test.sh</code>. Tests:
-1. <code>state.json</code> valid + schema v1
-2. All <code>bin/*.sh</code> are executable
-3. <code>~/.claude/settings.json</code> valid JSON
-4. Our PreToolUse matcher present
-5. Our SessionStart healthcheck present
-6. Hook script runs without stderr on a null-input stdin
-7. Hook blocks a test tool when mode=direct (temporarily flip, test, revert)
-8. If Routines installed: enumerate via MCP, confirm prelude is referenced in each SKILL.md
-9. If Channels installed: <code>pgrep -f "claude --channels"</code> finds a live session
-10. Scheduled directories (<code>briefings/</code>, <code>queue/</code>, <code>pulse/</code>, <code>runs/</code>) exist and writable</p>
-<p>Output: <strong>&ldquo;All systems go.&rdquo;</strong> or a checklist of failures with recovery links to TROUBLESHOOTING.md.</p>
-<h3>Three shipping optimizations (committed to v1)</h3>
-<ol>
-<li><strong>Parallel pre-flight</strong> — all env checks run concurrently via <code>&amp;</code> + <code>wait</code>, status collected into one block. Saves 2–3s per install.</li>
-<li><strong>Dry-run = verification</strong> — dry-run runs every read-only operation for real (checks, parses, diffs); simulates writes with narration. If dry-run passes, live-run almost certainly passes.</li>
-<li><strong><code>uninstall.sh</code></strong> — clean removal: strip our hooks from <code>settings.json</code>, archive <code>orchestrator/</code> to <code>~/.claude/orchestrator.uninstalled.&lt;ts&gt;/</code>, print restore instructions. Preserves the backup, never deletes user data.</li>
-</ol>
-<h2>6. Phase 5 — Customization (v1 scope)</h2>
-<ul>
-<li><strong>Single-user, single-Mac</strong> is the v1 target.</li>
-<li>Configurable surfaces: <code>work_hours.json</code>, <code>settings.json</code> allow-list, install path, selected extensions (Routines, Mobile, First-Agent), starter allow-list entries.</li>
-<li><strong>Brand names locked:</strong> Ensemble / Maestro / Agent. Not customizable. Product identity.</li>
-<li><strong>v2 roadmap:</strong></li>
-<li>Multi-machine sync via <code>git pull</code> in orchestrator repo + profile export/import</li>
-<li>Multi-user-on-same-Mac if requested</li>
-<li>Linux port (remove APFS assumption from lock protocol)</li>
-</ul>
-<h2>7. Phase 6 — Distribution</h2>
-<table>
-<thead>
-<tr>
-<th>Phase</th>
-<th>Milestone</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Now</strong></td>
-<td>Private, Kevin-only dogfood</td>
-<td>Use for 1–2 weeks; iterate; don&rsquo;t invite anyone</td>
-</tr>
-<tr>
-<td><strong>Private beta</strong></td>
-<td>3 invited users installed + used 7+ days with no intervention from Kevin</td>
-<td>Add collaborators via <code>gh repo add-collaborator</code> on request</td>
-</tr>
-<tr>
-<td><strong>Public preview</strong></td>
-<td>10 users installed, 5 running 30+ days, zero P0 bugs</td>
-<td>Flip repo public, update README, keep invite-only for advanced features</td>
-</tr>
-<tr>
-<td><strong>Public release</strong></td>
-<td>Hit HN, publish a blog post</td>
-<td>Announce, link from the one-pager</td>
-</tr>
-</tbody>
-</table>
-<h3>Discovery channels</h3>
-<ul>
-<li>Landing page: <code>maestro-onepager.pages.dev</code> (Cloudflare Pages + Access, per Track H)</li>
-<li>GitHub repo directly (public once released)</li>
-<li>Claude Code skill registry (eventually) — submit as <code>claude-ensemble</code></li>
-</ul>
-<h2>8. Permissions architecture</h2>
-<h3>Session type × permission mode</h3>
-<table>
-<thead>
-<tr>
-<th>Session</th>
-<th>Permission mode</th>
-<th>Rationale</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Interactive Maestro (you at keyboard)</td>
-<td><code>default</code> + settings.json allow-list</td>
-<td>Approvals only for NEW commands; allow-list covers daily drivers</td>
-</tr>
-<tr>
-<td>Interactive Agent (you at keyboard)</td>
-<td>same</td>
-<td>same</td>
-</tr>
-<tr>
-<td>Autopilot (Maestro-spawned, pre-approved)</td>
-<td><code>--dangerously-skip-permissions</code></td>
-<td>Lock hook still blocks via PreToolUse running before perm check</td>
-</tr>
-<tr>
-<td>Scheduled routine (cron-fired)</td>
-<td>bypass</td>
-<td>No keyboard; prelude + hook enforce</td>
-</tr>
-<tr>
-<td>Channels session (iMessage listener)</td>
-<td>bypass</td>
-<td>Remote user can&rsquo;t click; hook is the firewall</td>
-</tr>
-<tr>
-<td>Cloud Routine (Anthropic infra)</td>
-<td>bypass in cloud</td>
-<td>No local popups possible</td>
-</tr>
-</tbody>
-</table>
-<h3>Key safety guarantee</h3>
-<p><code>PreToolUse</code> hooks fire <strong>before</strong> the permission-mode check. Confirmed in Track B research. Even under <code>--dangerously-skip-permissions</code>, our lock hook still blocks VM tools when mode≠orchestrated, lock held by other, or cascade in progress. <strong>Bypassing prompts does not bypass safety.</strong></p>
-<h3>Starter allow-list (ships with installer)</h3>
-<p>Written to <code>~/.claude/settings.json</code> under <code>permissions.allow[]</code>:</p>
-<pre><code>Bash(git *)
-Bash(gh *)
-Bash(jq *)
-Bash(python3 *)
-Bash(curl *)
-Bash(chmod +x *)
-Bash(mkdir -p *)
-Bash(ls *)
-Bash(cat *)
-Bash(pwd)
-Bash(date *)
-Bash(open -a *)
-Bash(test -*)
-Bash(command -v *)
-Bash(which *)
-WebFetch(domain:github.com)
-WebFetch(domain:docs.claude.com)
-WebFetch(domain:code.claude.com)
-Read(*)
-</code></pre>
-<p>User expands as needed via <code>/permissions</code> or direct edit. Hook scope is unchanged (VM tools only).</p>
-<h2>9. Tool flexibility (AskUserQuestion patterns)</h2>
-<table>
-<thead>
-<tr>
-<th>Decision shape</th>
-<th>Options</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Binary</td>
-<td>2</td>
-<td>&ldquo;Back up existing dir?&rdquo; Yes / No</td>
-</tr>
-<tr>
-<td>Split with clear third path</td>
-<td>3</td>
-<td>&ldquo;Install jq?&rdquo; Yes (brew) / No, I&rsquo;ll do it / Skip</td>
-</tr>
-<tr>
-<td>Categorized choices</td>
-<td>4</td>
-<td>&ldquo;Install path?&rdquo; default / custom / detect / other</td>
-</tr>
-<tr>
-<td>Combinable (multi-select)</td>
-<td>2–4 + <code>multiSelect: true</code></td>
-<td>&ldquo;Extensions to install?&rdquo; Routines / Mobile / First-Agent</td>
-</tr>
-<tr>
-<td>Preview useful</td>
-<td>any count + <code>preview</code> field</td>
-<td>&ldquo;Theme?&rdquo; Default (shows snippet) / Monospace (shows snippet)</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><strong>Auto-Other always available</strong> — tool adds it automatically. Free-text escape hatch.</li>
-<li><strong>Prefer fewer questions</strong> — one sharp decision beats four speculative ones.</li>
-<li><strong>Paste/attach patterns (natural flow, not a tool feature):</strong> when input is complex (existing settings, a charter, a repo README), AskUserQuestion the shape of the decision, then add one plain-text line: &ldquo;If you have an existing X, paste or attach it in your next message.&rdquo; User drops content; agent reads and acts.</li>
-</ul>
-<h2>10. v1 optimizations shipping</h2>
-<ol>
-<li><strong>Parallel pre-flight</strong> (§3, §5 opt. 1)</li>
-<li><strong>Dry-run = verification</strong> (§2, §5 opt. 2)</li>
-<li><strong><code>uninstall.sh</code></strong> (§5 opt. 3)</li>
-<li><strong><code>bin/status.sh</code> health dashboard</strong> — one command prints mode, lock holder, all Agent statuses</li>
-<li><strong><code>bin/upgrade.sh</code> auto-update</strong> — <code>git pull</code> in orchestrator repo + self-test + surface any schema migration</li>
-<li><strong>GitHub Actions integration tests</strong> — <code>.github/workflows/integration-test.yml</code> simulates install on clean macOS-latest runner; catches regressions before users hit them</li>
-<li><strong>Backup snapshots</strong> — <code>bin/backup_snapshot.sh</code> + weekly cron; snapshots <code>state.json</code>, all <code>charters/*</code>, <code>automation_registry</code> entries, to <code>backups/&lt;YYYY-MM-DD&gt;/</code></li>
-</ol>
-<h2>11. Build order</h2>
-<p>Order optimized for <em>each file being usable once created</em> and dependencies respected.</p>
-<ol>
-<li><strong><code>INSTALL.md</code></strong> — the installer script. Everything depends on this.</li>
-<li><strong><code>bin/preflight.sh</code></strong> — parallel pre-flight script extracted for reuse.</li>
-<li><strong><code>bin/self_test.sh</code></strong> — comprehensive self-test (used by install Step 7 and standalone).</li>
-<li><strong><code>CHEATSHEET.md</code></strong> — user reference.</li>
-<li><strong><code>TROUBLESHOOTING.md</code></strong> — failure catalog.</li>
-<li><strong><code>MAESTRO_BOOTSTRAP.md</code></strong> — paste-to-become-Maestro.</li>
-<li><strong><code>AGENT_BOOTSTRAP.md</code></strong> — paste-in-repo-to-onboard-Agent.</li>
-<li><strong><code>uninstall.sh</code></strong> — clean removal.</li>
-<li><strong><code>bin/status.sh</code></strong> — health dashboard.</li>
-<li><strong><code>bin/upgrade.sh</code></strong> — auto-update.</li>
-<li><strong><code>bin/backup_snapshot.sh</code></strong> — backup script.</li>
-<li><strong><code>.github/workflows/integration-test.yml</code></strong> — CI.</li>
-<li><strong>Update <code>templates/onboarding_prompt.md</code></strong> — fold in all research findings (Track A atomic lock, Track B .chat_slug write, Track D distributed cascade, Track F prelude invocation).</li>
-<li><strong>Update <code>templates/CLAUDE_CODE_SETTINGS.example.json</code></strong> — add starter allow-list.</li>
-<li><strong>Skill definition for <code>/maestro</code></strong> — discoverable via Claude Code skill system, points to MAESTRO_BOOTSTRAP.md.</li>
-<li><strong>Skill definition for <code>/agent-onboard</code></strong> — discoverable, points to AGENT_BOOTSTRAP.md.</li>
-<li><strong><code>docs/</code> structure</strong> — this file + future design docs.</li>
-</ol>
-<h2>12. File inventory</h2>
-<h3>New files (this design creates)</h3>
-<table>
-<thead>
-<tr>
-<th>Path</th>
-<th>Role</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>INSTALL.md</code></td>
-<td>The installer (markdown the chat interprets)</td>
-</tr>
-<tr>
-<td><code>CHEATSHEET.md</code></td>
-<td>Signal phrases + commands reference</td>
-</tr>
-<tr>
-<td><code>TROUBLESHOOTING.md</code></td>
-<td>Failure catalog + recovery</td>
-</tr>
-<tr>
-<td><code>MAESTRO_BOOTSTRAP.md</code></td>
-<td>Paste-to-become-Maestro prompt</td>
-</tr>
-<tr>
-<td><code>AGENT_BOOTSTRAP.md</code></td>
-<td>Paste-in-repo prompt</td>
-</tr>
-<tr>
-<td><code>uninstall.sh</code></td>
-<td>Clean removal</td>
-</tr>
-<tr>
-<td><code>bin/preflight.sh</code></td>
-<td>Parallel env checks</td>
-</tr>
-<tr>
-<td><code>bin/self_test.sh</code></td>
-<td>Comprehensive validation</td>
-</tr>
-<tr>
-<td><code>bin/status.sh</code></td>
-<td>Health dashboard</td>
-</tr>
-<tr>
-<td><code>bin/upgrade.sh</code></td>
-<td>Auto-update</td>
-</tr>
-<tr>
-<td><code>bin/backup_snapshot.sh</code></td>
-<td>Weekly backup</td>
-</tr>
-<tr>
-<td><code>.github/workflows/integration-test.yml</code></td>
-<td>CI install test</td>
-</tr>
-<tr>
-<td><code>skills/maestro.md</code></td>
-<td><code>/maestro</code> skill definition</td>
-</tr>
-<tr>
-<td><code>skills/agent-onboard.md</code></td>
-<td><code>/agent-onboard</code> skill definition</td>
-</tr>
-<tr>
-<td><code>docs/ONBOARDING_DESIGN.md</code></td>
-<td>This file</td>
-</tr>
-</tbody>
-</table>
-<h3>Updated files</h3>
-<table>
-<thead>
-<tr>
-<th>Path</th>
-<th>Changes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>templates/onboarding_prompt.md</code></td>
-<td>Rename units → Agent; add Track A lock; add Track B .chat_slug write; replace cascade with Track D distributed protocol; add Track F prelude reference</td>
-</tr>
-<tr>
-<td><code>templates/CLAUDE_CODE_SETTINGS.example.json</code></td>
-<td>Add starter <code>permissions.allow[]</code></td>
-</tr>
-<tr>
-<td><code>README.md</code></td>
-<td>Mention <code>INSTALL.md</code>, <code>CHEATSHEET.md</code>, <code>bin/status.sh</code></td>
-</tr>
-<tr>
-<td><code>.gitignore</code></td>
-<td>Add <code>.install-progress.json</code>, <code>backups/</code></td>
-</tr>
-</tbody>
-</table>
-<h3>Unchanged (already in place)</h3>
-<ul>
-<li><code>MAESTRO.md</code> — identity / standing directives</li>
-<li><code>state.json</code> — runtime state (gitignored; initial value written by installer)</li>
-<li><code>work_hours.json</code> / <code>work_hours.example.json</code> — personal schedule</li>
-<li><code>bin/routine_prelude.sh</code>, <code>bin/orchestrator_lock.sh</code>, <code>bin/orchestrator_lock_healthcheck.sh</code> — enforcement infrastructure</li>
-<li><code>research/track_*.md</code> — source research</li>
-<li><code>templates/AGENT.md</code> — durable operating contract</li>
-<li><code>templates/PROJECT_CHARTER.md</code> — per-project scaffold</li>
-</ul>
-<hr />
-<h2>13. Auto-GitHub extension (optional, first in the post-essentials menu)</h2>
-<p>Runs immediately after essentials on user approval. High auto-control: the installer runs every <code>gh</code> + <code>git</code> command itself behind one approval gate, narrating each step; user clicks play on the summary command if they want to re-run anything manually.</p>
-<h3>Creates</h3>
-<ul>
-<li>Private-by-default GitHub repo, name defaulting to <code>&lt;gh-user&gt;/my-ensemble-config</code> (override available). <strong>Visibility asked every time</strong> — no default — because this repo may contain project names, charters, and personal schedule.</li>
-<li>Remote push with initial commit.</li>
-</ul>
-<h3>Tracks (in the user&rsquo;s config repo, not the canonical Ensemble repo)</h3>
-<table>
-<thead>
-<tr>
-<th>File</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>work_hours.json</code></td>
-<td>Their schedule</td>
-</tr>
-<tr>
-<td><code>allow-list-delta.json</code></td>
-<td>Additions beyond the starter allow-list (generated from their <code>settings.json</code> diff)</td>
-</tr>
-<tr>
-<td><code>charters/</code></td>
-<td>Per-project charters, opt-in per project for privacy</td>
-</tr>
-<tr>
-<td><code>version.json</code></td>
-<td><code>{canonical_commit_sha, installed_at, last_synced_at}</code> — pointer to which canonical Ensemble version they&rsquo;re running</td>
-</tr>
-<tr>
-<td><code>README.md</code></td>
-<td>Auto-generated: &ldquo;Personal Ensemble config for <user>. See github.com/KiwiMaddog2020/claude-ensemble for the system.&rdquo;</td>
-</tr>
-</tbody>
-</table>
-<h3>Syncs</h3>
-<ul>
-<li>On-demand: <code>bin/sync-config.sh</code> → <code>git commit -am "auto-sync" &amp;&amp; git push</code></li>
-<li>Optional nightly cron (offered at setup): commits any deltas every 24 h, skips if nothing changed.</li>
-</ul>
-<h3>Multi-machine</h3>
-<ul>
-<li>On a new Mac: run the canonical installer first, then <code>git clone &lt;config-repo&gt; ~/.claude/orchestrator-config</code>. A post-clone symlink step wires <code>work_hours.json</code>, allow-list deltas, and charters into place.</li>
-<li>No sync for <code>state.json</code> / <code>state.lock.d/</code> / <code>chats/*</code> — those remain runtime-local.</li>
-</ul>
-<h3>Install steps added (after 8 essentials)</h3>
-<pre><code>Essential install complete.
-
-Optional extension — auto-GitHub (takes ~30s):
-  Create a private GitHub repo to track your Ensemble config
-  and enable multi-machine sync.
-
-I will run (after your approval):
-  1. gh repo create &lt;user&gt;/my-ensemble-config — ask private/public each time
-  2. git init in ~/.claude/orchestrator-config
-  3. Copy your customizations (work_hours.json + allow-list delta + optional charters)
-  4. git commit + push
-  5. Write bin/sync-config.sh (the sync command, runnable via play button)
-  6. Offer nightly cron (yes/no)
-
-[AskUserQuestion: Run auto-GitHub now? (Yes / Skip / I'll run it manually)]
-</code></pre>
-<h2>14. Rolling upgrade / canary testing on Kevin&rsquo;s workspace</h2>
-<p>Kevin&rsquo;s existing chats and projects are <strong>user-zero</strong> — the canary population. Every stable capability ships to him first, gets validated in real use, and only then propagates to invited beta users.</p>
-<h3>Release channels</h3>
-<table>
-<thead>
-<tr>
-<th>Channel</th>
-<th>Criteria</th>
-<th>Audience</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>edge</strong></td>
-<td>Latest commit on <code>main</code></td>
-<td>Kevin only</td>
-</tr>
-<tr>
-<td><strong>stable</strong></td>
-<td>Tagged release after Kevin runs it 3+ days without incident</td>
-<td>Kevin + private beta invitees</td>
-</tr>
-<tr>
-<td><strong>public</strong></td>
-<td>Tagged release after 3+ beta users run it 7+ days</td>
-<td>Everyone after public preview</td>
-</tr>
-</tbody>
-</table>
-<p>Each Agent&rsquo;s status.json gets <code>ensemble_version = &lt;git sha&gt;</code> — the commit it was onboarded with. Stale agents are flagged in Maestro&rsquo;s morning briefing.</p>
-<h3>Upgrade notification mechanics</h3>
-<ul>
-<li><strong>Morning briefing</strong> lists: &ldquo;Upgrades available — N Agents behind latest by M commits.&rdquo; Each stale Agent gets a play-button bash snippet to re-run the bootstrap and pick up the new template.</li>
-<li><strong>On <code>git pull</code> in the orchestrator repo</strong> via <code>bin/upgrade.sh</code>, the script prints a summary of what changed and which Agents need re-bootstrapping.</li>
-<li><strong><code>/upgrade-agent</code> slash command</strong> — any Agent can self-upgrade by re-reading the latest <code>AGENT.md</code> + <code>onboarding_prompt.md</code> without losing its charter or status.</li>
-</ul>
-<h3>Canary rollout process for a new feature</h3>
-<ol>
-<li>Feature lands on <code>main</code> (edge channel).</li>
-<li>Maestro&rsquo;s next session surfaces: &ldquo;New capability: X. Upgrade [list of your Agents]? (Yes / Review first / Skip)&rdquo;</li>
-<li>Kevin approves on Agents where he wants to test.</li>
-<li>Agents re-read latest template next session or via <code>/upgrade-agent</code>.</li>
-<li>Kevin uses the feature in real work for ≥3 days.</li>
-<li>If no problems: tag a <code>stable</code> release; feature becomes default in fresh installs and broadcasts to beta users.</li>
-<li>If regressions: Maestro offers <code>bin/rollback.sh &lt;version&gt;</code> to revert specific Agents.</li>
-</ol>
-<h3>Kevin&rsquo;s dogfood plan (concrete)</h3>
-<table>
-<thead>
-<tr>
-<th>Week</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>Self-install the canonical flow; verify hook + lock + state.json work; cold install from scratch</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Onboard BOO-Website as Agent #1 (it&rsquo;s already the most Ensemble-shaped of your repos); validate daily</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Onboard 2 more projects as Agents; enable morning briefing + workday pulse routines</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Enable mobile dispatch (iOS Shortcuts → Routines); run kill-switch from phone; validate</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Invite 1 beta user; observe their install; fix anything that surfaces</td>
-</tr>
-</tbody>
-</table>
-<h3>Back-out mechanism</h3>
-<ul>
-<li>Every upgrade writes a snapshot to <code>backups/pre-upgrade-&lt;sha&gt;/</code></li>
-<li><code>bin/rollback.sh &lt;version&gt;</code> restores: template files, settings.json hooks, and broadcasts a downgrade message to affected Agents</li>
-<li>Rollback is idempotent and always available</li>
-</ul>
-<h2>Open questions / deferred</h2>
-<ul>
-<li><strong>Skill registry submission</strong> — timing TBD; out of scope for v1</li>
-<li><strong>Multi-machine sync</strong> — covered by §13 for config; runtime state stays local</li>
-<li><strong>Linux port</strong> — v2+; requires lock protocol review (inotify vs mkdir semantics)</li>
-<li><strong>Telemetry</strong> — decided against for v1 to keep trust bar clean; reconsider at public release</li>
-<li><strong>Public release criteria</strong> — define failure rates / stability bars before flipping repo public</li>
-</ul>
-<h2>Changelog</h2>
 <ul>
 <li><strong>v0.1 (2026-04-22):</strong> Initial draft. Locks phases 1–6, permissions, tool flexibility, v1 optimizations.</li>
 <li><strong>v0.2 (2026-04-22):</strong> Added §13 auto-GitHub extension (personal config repo, ask visibility every time, high auto-control, after-essentials timing). Added §14 rolling-upgrade / canary testing with Kevin&rsquo;s workspace as user-zero, release channels, upgrade mechanics, dogfood schedule, rollback safety.</li>
 </ul>
     </article>
+    <footer class="doc-foot">
+      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+    </footer>
   </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('docProgressBar');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scrolled = (h.scrollTop || document.body.scrollTop);
+        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+        bar.style.width = pct + '%';
+      }
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
 </main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
