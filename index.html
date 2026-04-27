@@ -11,7 +11,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./style.css" />
 <style>
 :root {
   --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
@@ -634,52 +633,6 @@ body.theme-sage {
 .widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
 .widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
 
-
-/* ─── Widget sections (public + private partitioning) ──────────────── */
-.widget-section { margin: 24px 0 36px; }
-.widget-section + .widget-section { border-top: 1px dashed var(--rule); padding-top: 24px; }
-.widget-section__header {
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
-  margin-bottom: 14px; padding-bottom: 10px;
-}
-.widget-section__heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.widget-section__heading > div { min-width: 0; }
-.widget-section__title {
-  font-family: var(--font-heading, var(--font-display, serif));
-  font-size: 18px; font-weight: 600; margin: 0; color: var(--ink);
-  letter-spacing: -0.01em;
-}
-.widget-section__sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
-.widget-section__chip {
-  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
-  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
-  flex-shrink: 0;
-}
-.widget-section__chip--public {
-  background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a;
-  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
-}
-.widget-section__chip--private {
-  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
-  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
-}
-.widget-section__move {
-  appearance: none; padding: 6px 14px; border-radius: 100px;
-  background: var(--bg-raised); border: 1px solid var(--rule); cursor: pointer;
-  font-size: 12px; font-weight: 600; color: var(--ink-2); font-family: inherit;
-  transition: all 180ms var(--ease); white-space: nowrap; flex-shrink: 0;
-  display: none;
-}
-.editing-dashboard .widget-section__move { display: inline-block; }
-.widget-section__move:hover { border-color: var(--accent); color: var(--accent); }
-
-/* Hide section headers when NOT in edit mode for a quieter default view */
-:not(.editing-dashboard) .widget-section__header { opacity: 0.6; }
-:not(.editing-dashboard) .widget-section__sub { display: none; }
-
-/* Shelf row chip */
-.widget-shelf__row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
-
 </style>
 </head>
 <body>
@@ -731,7 +684,7 @@ body.theme-sage {
         <button class="btn-edit-dashboard" id="btn-edit-dash" data-owner-only>Edit Dashboard</button>
       </div>
     </div>
-    <div id="widgetRoot"></div>
+    <div class="widget-grid" id="widgetGrid"></div>
     <aside class="widget-shelf" id="widgetShelf" aria-label="Widget shelf">
       <div class="widget-shelf__header">
         <h2 class="widget-shelf__title">Add Widget</h2>
@@ -790,7 +743,6 @@ body.theme-sage {
   // ─── Widget catalog ────────────────────────────────────────────────
   const WIDGETS = {
     "mode-pill": {
-      visibility: "private",
       title: "Mode",
       description: "Toggle between orchestrated (full protocol) and direct (conversational) mode.",
       defaultSize: "1x1", sizes: ["1x1"],
@@ -812,7 +764,6 @@ body.theme-sage {
       },
     },
     "active-count": {
-      visibility: "public",
       title: "Active autopilots",
       description: "Currently running autopilots vs. concurrency cap.",
       defaultSize: "1x1", sizes: ["1x1"],
@@ -829,7 +780,6 @@ body.theme-sage {
       bind() {},
     },
     "token-cycle": {
-      visibility: "public",
       title: "Token reset",
       description: "Countdown to your weekly token reset. Click to edit.",
       defaultSize: "1x1", sizes: ["1x1"],
@@ -854,7 +804,6 @@ body.theme-sage {
       },
     },
     "lock-status": {
-      visibility: "public",
       title: "Workshop lock",
       description: "Workshop autopilot lock status, with emergency force-release.",
       defaultSize: "1x1", sizes: ["1x1"],
@@ -877,7 +826,6 @@ body.theme-sage {
       },
     },
     "smoke-alerts": {
-      visibility: "public",
       title: "Smoke tests",
       description: "Count of projects with checkpoints awaiting your eyes-on review.",
       defaultSize: "1x1", sizes: ["1x1"],
@@ -894,7 +842,6 @@ body.theme-sage {
       bind() {},
     },
     "quick-fire": {
-      visibility: "private",
       title: "Quick fire",
       description: "One-click triggers for the main scheduled tasks (morning briefing, dashboard, weekly report, etc.)",
       defaultSize: "2x1", sizes: ["2x1", "2x2"],
@@ -922,7 +869,6 @@ body.theme-sage {
       },
     },
     "kill-switch": {
-      visibility: "private",
       title: "Kill switch",
       description: "Emergency: full kill cascade — releases lock, pauses automations, flips to direct mode.",
       defaultSize: "1x1", sizes: ["1x1"],
@@ -942,7 +888,6 @@ body.theme-sage {
       },
     },
     "pause-toggle": {
-      visibility: "private",
       title: "Pause autopilots",
       description: "Soft pause — block new autopilot starts without killing existing ones.",
       defaultSize: "1x1", sizes: ["1x1"],
@@ -963,7 +908,6 @@ body.theme-sage {
       },
     },
     "rapid-fire-toggle": {
-      visibility: "private",
       title: "Rapid-fire",
       description: "System-wide rapid-fire mode (button-driven decisions vs. prose).",
       defaultSize: "1x1", sizes: ["1x1"],
@@ -984,7 +928,6 @@ body.theme-sage {
       },
     },
     "autopilot-cap": {
-      visibility: "private",
       title: "Autopilot cap",
       description: "Maximum concurrent autopilot sessions. Drag the slider to adjust.",
       defaultSize: "2x1", sizes: ["2x1", "1x1"],
@@ -1011,7 +954,6 @@ body.theme-sage {
       },
     },
     "project-list": {
-      visibility: "public",
       title: "Projects",
       description: "Roster of all onboarded chats with state pills + completion %.",
       defaultSize: "2x2", sizes: ["2x2", "1x2", "2x1"],
@@ -1031,7 +973,6 @@ body.theme-sage {
       bind() {},
     },
     "recent-commits": {
-      visibility: "public",
       title: "Recent activity",
       description: "Most recent project heartbeats — freshest first.",
       defaultSize: "2x1", sizes: ["2x1", "2x2"],
@@ -1049,7 +990,6 @@ body.theme-sage {
       bind() {},
     },
     "routines": {
-      visibility: "public",
       title: "Scheduled tasks",
       description: "Active routines: morning briefing, dashboard refresh, weekly report, etc.",
       defaultSize: "1x2", sizes: ["1x2", "2x1", "2x2"],
@@ -1074,7 +1014,6 @@ body.theme-sage {
       bind() {},
     },
     "chat-control": {
-      visibility: "private",
       title: "Chat control",
       description: "Per-chat: state advance, active toggle, rapid-fire toggle, autopilot toggle.",
       defaultSize: "2x2", sizes: ["2x2", "2x1"],
@@ -1149,7 +1088,6 @@ body.theme-sage {
       },
     },
     "chat-message": {
-      visibility: "private",
       title: "Send chat message",
       description: "Queue a note for a chat — lands in queued_messages, picked up on next turn.",
       defaultSize: "2x1", sizes: ["2x1", "2x2"],
@@ -1187,7 +1125,6 @@ body.theme-sage {
       },
     },
     "chat-reread": {
-      visibility: "private",
       title: "Re-read contract",
       description: "Trigger a chat to re-read its operating contract (and auto-engage rapid-fire).",
       defaultSize: "1x1", sizes: ["1x1", "2x1"],
@@ -1219,7 +1156,6 @@ body.theme-sage {
       },
     },
     "theme-switcher": {
-      visibility: "public",
       title: "Theme",
       description: "Pick from 10 color themes. Choice persists per-device.",
       defaultSize: "2x1", sizes: ["2x1", "1x1"],
@@ -1253,57 +1189,7 @@ body.theme-sage {
         });
       },
     },
-    "token-cost-chart": {
-      visibility: "public",
-      title: "Token cost / hour",
-      description: "Hourly cost line chart from chat activity (heartbeats + commits + smoke logs). Proxy until a real per-token feed is wired.",
-      defaultSize: "2x2", sizes: ["2x2", "2x1"],
-      render(s) {
-        const data = s?.hourly_activity?.buckets || [];
-        const total = s?.hourly_activity?.total_cost_usd ?? 0;
-        const w = 360, h = 100, pad = { l: 4, r: 4, t: 8, b: 18 };
-        const inner_w = w - pad.l - pad.r;
-        const inner_h = h - pad.t - pad.b;
-        const max = Math.max(0.01, ...data.map(d => d.est_cost_usd || 0));
-        let path = "";
-        let bars = "";
-        if (data.length) {
-          const step = inner_w / data.length;
-          data.forEach((d, i) => {
-            const x = pad.l + i * step;
-            const v = d.est_cost_usd || 0;
-            const bh = (v / max) * inner_h;
-            const y = pad.t + inner_h - bh;
-            bars += `<rect x="${x + 1}" y="${y}" width="${Math.max(2, step - 2)}" height="${bh}" rx="2" fill="var(--accent)" opacity="${v > 0 ? 0.85 : 0.18}" />`;
-            if (i === 0) path += `M ${x + step / 2} ${y} `;
-            else path += `L ${x + step / 2} ${y} `;
-          });
-        }
-        const labels = (data.length ? [data[0], data[Math.floor(data.length / 2)], data[data.length - 1]] : [])
-          .filter(Boolean)
-          .map((d, i) => {
-            const xs = [pad.l + 8, w / 2, w - pad.r - 22];
-            return `<text x="${xs[i]}" y="${h - 4}" font-size="9" fill="var(--ink-4)" font-family="var(--font-mono, monospace)">${escapeHtml(d.hour_label || "")}</text>`;
-          }).join("");
-        const note = s?.hourly_activity?.note ? `<small style="font-size:10px;color:var(--ink-4);">${escapeHtml(s.hourly_activity.note)}</small>` : "";
-        return `<div class="widget__header"><span class="widget__title">Token cost / hour</span><span class="widget__hint">last 24h</span></div>
-          <div class="widget__body" style="gap:6px;">
-            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;">
-              <span class="widget__numeral" style="font-size:30px;">$${total.toFixed(2)}</span>
-              <small style="font-size:11px;color:var(--ink-3);">${data.reduce((a, b) => a + (b.events || 0), 0)} events</small>
-            </div>
-            <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="width:100%;height:auto;display:block;">
-              ${bars}
-              ${path ? `<path d="${path}" fill="none" stroke="var(--accent-2)" stroke-width="1.4" stroke-linejoin="round" />` : ""}
-              ${labels}
-            </svg>
-            ${note}
-          </div>`;
-      },
-      bind() {},
-    },
     "sticky-note": {
-      visibility: "public",
       title: "Sticky note",
       description: "Editable freeform note. Auto-saves per-device.",
       defaultSize: "1x1", sizes: ["1x1", "2x1", "1x2", "2x2"],
@@ -1330,59 +1216,28 @@ body.theme-sage {
     },
   };
 
-  // ─── Default initial layout (sectioned: public + private) ────────
-  const DEFAULT_LAYOUT = {
-    sectionOrder: ["public", "private"],
-    sections: {
-      public: [
-        { id: "project-list", size: "2x2" },
-        { id: "smoke-alerts", size: "1x1" },
-        { id: "active-count", size: "1x1" },
-        { id: "token-cycle", size: "1x1" },
-        { id: "lock-status", size: "1x1" },
-        { id: "recent-commits", size: "2x1" },
-        { id: "token-cost-chart", size: "2x2" },
-        { id: "theme-switcher", size: "2x1" },
-      ],
-      private: [
-        { id: "mode-pill", size: "1x1" },
-        { id: "quick-fire", size: "2x1" },
-        { id: "kill-switch", size: "1x1" },
-        { id: "pause-toggle", size: "1x1" },
-        { id: "chat-control", size: "2x2" },
-      ],
-    },
-  };
+  // ─── Default initial layout ────────────────────────────────────────
+  const DEFAULT_LAYOUT = [
+    { id: "project-list", size: "2x2" },
+    { id: "mode-pill", size: "1x1" },
+    { id: "active-count", size: "1x1" },
+    { id: "token-cycle", size: "1x1" },
+    { id: "smoke-alerts", size: "1x1" },
+    { id: "lock-status", size: "1x1" },
+    { id: "quick-fire", size: "2x1" },
+    { id: "kill-switch", size: "1x1" },
+    { id: "pause-toggle", size: "1x1" },
+    { id: "chat-control", size: "2x2" },
+    { id: "theme-switcher", size: "2x1" },
+  ];
 
-  // ─── Layout state (sectioned schema) ───────────────────────────────
-  function migrateOldLayout(oldArr) {
-    // Accept the pre-2026-04-27 flat array; partition by catalog visibility.
-    const next = { sectionOrder: ["public", "private"], sections: { public: [], private: [] } };
-    for (const item of oldArr) {
-      const def = WIDGETS[item.id];
-      if (!def) continue;
-      const sec = def.visibility === "private" ? "private" : "public";
-      next.sections[sec].push({ id: item.id, size: item.size, props: item.props || {} });
-    }
-    return next;
-  }
-
+  // ─── Layout state ──────────────────────────────────────────────────
   function loadLayout() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        // New schema
-        if (parsed && typeof parsed === "object" && Array.isArray(parsed.sectionOrder) && parsed.sections) {
-          // Sanity: ensure both keys exist as arrays
-          parsed.sections.public = Array.isArray(parsed.sections.public) ? parsed.sections.public : [];
-          parsed.sections.private = Array.isArray(parsed.sections.private) ? parsed.sections.private : [];
-          if (!parsed.sectionOrder.includes("public")) parsed.sectionOrder.push("public");
-          if (!parsed.sectionOrder.includes("private")) parsed.sectionOrder.push("private");
-          return parsed;
-        }
-        // Legacy flat array
-        if (Array.isArray(parsed) && parsed.length) return migrateOldLayout(parsed);
+        if (Array.isArray(parsed) && parsed.length) return parsed;
       }
     } catch (e) {}
     return JSON.parse(JSON.stringify(DEFAULT_LAYOUT));
@@ -1392,25 +1247,14 @@ body.theme-sage {
   let LAYOUT = loadLayout();
   let editing = false;
 
-  function visibleSections() {
-    // Visitors (no owner mode) see only the public section.
-    if (!window._isOwner && typeof window._isOwner !== "undefined") {
-      return ["public"];
-    }
-    // _isOwner is initialized in SHARED_SCRIPTS DOMContentLoaded; if undefined yet, assume not owner.
-    if (typeof window._isOwner === "undefined") return ["public"];
-    return LAYOUT.sectionOrder;
-  }
-
   // ─── Render ────────────────────────────────────────────────────────
-  function makeWidgetEl(item, sectionType, idx, state) {
+  function makeWidgetEl(item, idx, state) {
     const def = WIDGETS[item.id];
     if (!def) return null;
     const size = item.size || def.defaultSize || "1x1";
     const el = document.createElement("div");
     el.className = "widget widget--" + size;
     el.dataset.widgetId = item.id;
-    el.dataset.section = sectionType;
     el.dataset.idx = String(idx);
     el.draggable = false;
     try { el.innerHTML = def.render(state, item.props || {}); }
@@ -1418,13 +1262,13 @@ body.theme-sage {
 
     const x = document.createElement("button");
     x.className = "widget__remove"; x.type = "button"; x.innerHTML = "×"; x.title = "Remove";
-    x.addEventListener("click", (ev) => { ev.stopPropagation(); removeWidget(sectionType, idx); });
+    x.addEventListener("click", (ev) => { ev.stopPropagation(); removeWidget(idx); });
     el.appendChild(x);
 
     if (def.sizes && def.sizes.length > 1) {
       const r = document.createElement("button");
       r.className = "widget__resize"; r.type = "button"; r.innerHTML = "⤢"; r.title = "Resize";
-      r.addEventListener("click", (ev) => { ev.stopPropagation(); cycleSize(sectionType, idx); });
+      r.addEventListener("click", (ev) => { ev.stopPropagation(); cycleSize(idx); });
       el.appendChild(r);
     }
 
@@ -1433,7 +1277,7 @@ body.theme-sage {
         def.bind(el, item.props || {}, {
           apiPost,
           state,
-          setProps: (p) => { LAYOUT.sections[sectionType][idx].props = Object.assign({}, item.props || {}, p); saveLayout(LAYOUT); },
+          setProps: (p) => { LAYOUT[idx].props = Object.assign({}, item.props || {}, p); saveLayout(LAYOUT); },
           rerender: () => renderAll(window._ALL_STATE),
         });
       } catch (e) { /* swallow */ }
@@ -1441,60 +1285,20 @@ body.theme-sage {
     return el;
   }
 
-  function makeSectionHeader(sectionType, position, totalSections) {
-    const wrap = document.createElement("div");
-    wrap.className = "widget-section__header";
-    const title = sectionType === "public"
-      ? "Public — visible to visitors"
-      : "Private — owner only";
-    const subtitle = sectionType === "public"
-      ? "Anyone visiting your dashboard sees these widgets."
-      : "These widgets and their controls are hidden from visitors.";
-    wrap.innerHTML = `
-      <div class="widget-section__heading">
-        <span class="widget-section__chip widget-section__chip--${sectionType}">${sectionType === "public" ? "public" : "private"}</span>
-        <div>
-          <h2 class="widget-section__title">${escapeHtml(title)}</h2>
-          <p class="widget-section__sub">${escapeHtml(subtitle)}</p>
-        </div>
-      </div>
-      <button class="widget-section__move" data-section-move="${sectionType}" type="button" title="Swap section order">${position === 0 ? "↓ move down" : "↑ move up"}</button>
-    `;
-    wrap.querySelector("[data-section-move]")?.addEventListener("click", () => moveSection(sectionType));
-    return wrap;
-  }
-
   function renderAll(state) {
-    const root = $("#widgetRoot");
-    if (!root) return;
-    root.innerHTML = "";
-    const order = visibleSections();
-    order.forEach((sectionType, position) => {
-      const items = LAYOUT.sections[sectionType] || [];
-      const sectionEl = document.createElement("section");
-      sectionEl.className = "widget-section widget-section--" + sectionType;
-      sectionEl.dataset.section = sectionType;
-
-      // Section header — visible only in edit mode (owner) or as a quiet
-      // chip when not editing
-      sectionEl.appendChild(makeSectionHeader(sectionType, position, order.length));
-
-      const grid = document.createElement("div");
-      grid.className = "widget-grid";
-      grid.dataset.section = sectionType;
-      items.forEach((item, idx) => {
-        const wel = makeWidgetEl(item, sectionType, idx, state);
-        if (wel) grid.appendChild(wel);
-      });
-      sectionEl.appendChild(grid);
-      root.appendChild(sectionEl);
-      if (editing) bindDragHandlers(grid, sectionType);
+    const grid = $("#widgetGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    LAYOUT.forEach((item, idx) => {
+      const el = makeWidgetEl(item, idx, state);
+      if (el) grid.appendChild(el);
     });
+    if (editing) bindDragHandlers(grid);
     renderShelf();
   }
 
   function refreshWidgetData(state) {
-    if (editing) return;  // don't disrupt edit mode
+    if (editing) return;  // don't re-render mid-edit
     renderAll(state);
   }
 
@@ -1509,19 +1313,19 @@ body.theme-sage {
     if (reset) reset.style.display = editing ? "" : "none";
     if (hint) {
       hint.innerHTML = editing
-        ? "<strong>Edit mode:</strong> drag within a section · click ⤢ to resize · click × to remove · use the section header button to swap order · scroll for more widgets"
-        : "Welcome — your default layout is shown. Public widgets are visible to anyone visiting; Private widgets only show for you. Click <strong>Edit Dashboard</strong> to customize.";
+        ? "<strong>Edit mode:</strong> drag to rearrange · click ⤢ to resize · click × to remove · scroll down to add more"
+        : "Welcome — your default layout is shown. Click <strong>Edit Dashboard</strong> to customize.";
     }
     renderAll(window._ALL_STATE);
   }
 
-  function bindDragHandlers(grid, sectionType) {
+  function bindDragHandlers(grid) {
     grid.querySelectorAll(".widget").forEach(el => {
       el.draggable = true;
       el.addEventListener("dragstart", (ev) => {
         el.classList.add("is-dragging");
         ev.dataTransfer.effectAllowed = "move";
-        ev.dataTransfer.setData("text/plain", JSON.stringify({ section: sectionType, idx: parseInt(el.dataset.idx, 10) }));
+        ev.dataTransfer.setData("text/plain", el.dataset.idx);
       });
       el.addEventListener("dragend", () => {
         el.classList.remove("is-dragging");
@@ -1531,36 +1335,25 @@ body.theme-sage {
       el.addEventListener("dragleave", () => { el.classList.remove("is-drop-target"); });
       el.addEventListener("drop", (ev) => {
         ev.preventDefault();
-        let payload;
-        try { payload = JSON.parse(ev.dataTransfer.getData("text/plain")); } catch (e) { return; }
-        if (!payload || payload.section !== sectionType) {
-          // Cross-section drag is rejected — widgets stay in their visibility group.
-          alert("Public and private widgets stay in their own sections. Move the section instead, or remove and re-add.");
-          return;
-        }
-        const fromIdx = payload.idx;
+        const fromIdx = parseInt(ev.dataTransfer.getData("text/plain"), 10);
         const toIdx = parseInt(el.dataset.idx, 10);
         if (Number.isNaN(fromIdx) || Number.isNaN(toIdx) || fromIdx === toIdx) return;
-        const arr = LAYOUT.sections[sectionType];
-        const [moved] = arr.splice(fromIdx, 1);
-        arr.splice(toIdx, 0, moved);
+        const [moved] = LAYOUT.splice(fromIdx, 1);
+        LAYOUT.splice(toIdx, 0, moved);
         saveLayout(LAYOUT);
         renderAll(window._ALL_STATE);
       });
     });
   }
 
-  function removeWidget(sectionType, idx) {
-    const arr = LAYOUT.sections[sectionType];
-    if (!arr) return;
-    arr.splice(idx, 1);
+  function removeWidget(idx) {
+    LAYOUT.splice(idx, 1);
     saveLayout(LAYOUT);
     renderAll(window._ALL_STATE);
   }
 
-  function cycleSize(sectionType, idx) {
-    const item = LAYOUT.sections[sectionType]?.[idx];
-    if (!item) return;
+  function cycleSize(idx) {
+    const item = LAYOUT[idx];
     const def = WIDGETS[item.id];
     const sizes = def.sizes || [item.size || def.defaultSize || "1x1"];
     const cur = item.size || def.defaultSize || sizes[0];
@@ -1573,21 +1366,7 @@ body.theme-sage {
   function addWidget(id) {
     const def = WIDGETS[id];
     if (!def) return;
-    const sec = def.visibility === "private" ? "private" : "public";
-    LAYOUT.sections[sec] = LAYOUT.sections[sec] || [];
-    LAYOUT.sections[sec].push({ id, size: def.defaultSize, props: {} });
-    saveLayout(LAYOUT);
-    renderAll(window._ALL_STATE);
-  }
-
-  function moveSection(sectionType) {
-    const order = LAYOUT.sectionOrder.slice();
-    const i = order.indexOf(sectionType);
-    if (i < 0) return;
-    // Swap with the other section
-    const j = (i === 0) ? 1 : 0;
-    [order[i], order[j]] = [order[j], order[i]];
-    LAYOUT.sectionOrder = order;
+    LAYOUT.push({ id, size: def.defaultSize, props: {} });
     saveLayout(LAYOUT);
     renderAll(window._ALL_STATE);
   }
@@ -1605,17 +1384,11 @@ body.theme-sage {
     grid.innerHTML = "";
     Object.keys(WIDGETS).forEach(id => {
       const def = WIDGETS[id];
-      const sec = def.visibility === "private" ? "private" : "public";
-      const onGrid = (LAYOUT.sections[sec] || []).some(item => item.id === id);
+      const onGrid = LAYOUT.some(item => item.id === id);
       const item = document.createElement("button");
-      item.className = "widget-shelf__item widget-shelf__item--" + sec + (onGrid ? " is-on-grid" : "");
+      item.className = "widget-shelf__item" + (onGrid ? " is-on-grid" : "");
       item.type = "button";
-      item.innerHTML = `
-        <div class="widget-shelf__row">
-          <span class="widget-section__chip widget-section__chip--${sec}">${sec}</span>
-          <h3>${escapeHtml(def.title)}</h3>
-        </div>
-        <p>${escapeHtml(def.description)}</p>`;
+      item.innerHTML = `<h3>${escapeHtml(def.title)}</h3><p>${escapeHtml(def.description)}</p>`;
       if (!onGrid) item.addEventListener("click", () => addWidget(id));
       grid.appendChild(item);
     });
