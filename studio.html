@@ -75,12 +75,12 @@
   <header class="studio-header">
     <p class="eyebrow">Studio</p>
     <h1>Your <em>stage.</em></h1>
-    <p class="lead">The expressive surface. Default state is the Orchestra preset — Maestro at the podium, Agents arranged as musicians. Make it yours.</p>
+    <p class="lead">The creative workshop where every asset can be alive. Default is a blank canvas — open the Workshop drawer for inspiration, asset packs, and starter examples like the Orchestra ensemble or the Game arcade.</p>
   </header>
 
   <div class="studio-tabs" role="tablist">
     <button class="studio-tab is-active" data-tab="room" role="tab" type="button">
-      Room <span class="studio-tab__hint">live</span>
+      Room <span class="studio-tab__hint">your stage</span>
     </button>
     <button class="studio-tab" data-tab="map" role="tab" type="button">
       Map <span class="studio-tab__hint">phase B</span>
@@ -94,16 +94,17 @@
     <div class="studio-stage-wrap">
       <div class="studio-stage" id="studio-stage" aria-label="Studio room scene">
         <div class="studio-empty">
-          <p>Loading the Orchestra preset…</p>
+          <p>Setting up your blank canvas…</p>
         </div>
       </div>
     </div>
     <div class="studio-info">
       <span class="studio-info__item">
         <span class="studio-info__dot" aria-hidden="true"></span>
-        <strong>Orchestra</strong> · default preset
+        <strong>Blank canvas</strong> · default
       </span>
       <span class="studio-info__item">View mode</span>
+      <span class="studio-info__item">Workshop drawer arrives in Phase A.1</span>
       <span class="studio-info__item">Edit mode arrives in Phase A.1</span>
     </div>
   </section>
@@ -111,14 +112,14 @@
   <section class="studio-pane" data-pane="map" role="tabpanel">
     <div class="studio-empty">
       <p>The fractal navigator will land here.</p>
-      <p class="studio-empty__hint">Phase B · ~6 hours of build · force-directed graph showing how your projects connect</p>
+      <p class="studio-empty__hint">Phase B · force-directed graph showing your projects + connected creator-rooms</p>
     </div>
   </section>
 
   <section class="studio-pane" data-pane="showcase" role="tabpanel">
     <div class="studio-empty">
       <p>Showcase pages will land here.</p>
-      <p class="studio-empty__hint">Phase C · ~8 hours of build · public-facing per-project pages with rich layouts</p>
+      <p class="studio-empty__hint">Phase C · public-facing per-project pages with rich layouts + iframe-embeddable</p>
     </div>
   </section>
 </div>
@@ -129,7 +130,11 @@
   // ─── Config ──────────────────────────────────────────────────────────
   const PRESETS_DIR = './studio/presets';
   const SPRITES_DIR = './studio/sprites/core';
-  const DEFAULT_PRESET = 'orchestra';
+  // Phase A.0 default: blank canvas. Orchestra is one example among
+  // many in the Workshop drawer, not the forced default.
+  // (Studio reorient locked 2026-04-27 — see docs/grand-plan/MANIFESTO.md)
+  const DEFAULT_PRESET = 'blank';
+  const EXAMPLE_PRESETS = ['orchestra'];  // Phase A.1 will expand to 5
 
   // ─── State ───────────────────────────────────────────────────────────
   let currentRoom = null;        // active Room JSON (preset or user-saved)
