@@ -21,6 +21,18 @@
 <meta name="apple-mobile-web-app-title" content="Ensemble" />
 <script src="./control.js" defer></script>
 <script>
+  // Theme loader — apply saved theme as early as possible to avoid FOUC.
+  (function () {
+    try {
+      var t = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+      if (t && t !== "warm") {
+        document.documentElement.classList.add("theme-" + t);
+        document.addEventListener("DOMContentLoaded", function () {
+          document.body.classList.add("theme-" + t);
+        });
+      }
+    } catch (e) {}
+  })();
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register('./sw.js').catch(function () {});
@@ -48,7 +60,7 @@
     <div class="hero-left">
       <p class="eyebrow">Project Roster</p>
       <h1>What's <em>cooking.</em></h1>
-      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-27T00:36:19Z">just now</span> · refreshes every 15 min</p>
+      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-27T00:43:00Z">just now</span> · refreshes every 15 min</p>
     </div>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">7</span><span class="stat-label">Projects in motion</span></div>
@@ -227,7 +239,7 @@
 <footer>
   <div class="wrap foot-inner">
     <p>Ensemble · Private preview</p>
-    <p>Generated <span class="rel-time" data-iso="2026-04-27T00:36:19Z">just now</span></p>
+    <p>Generated <span class="rel-time" data-iso="2026-04-27T00:43:00Z">just now</span></p>
   </div>
 </footer>
 <script>

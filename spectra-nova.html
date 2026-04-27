@@ -21,6 +21,18 @@
 <meta name="apple-mobile-web-app-title" content="Ensemble" />
 <script src="./control.js" defer></script>
 <script>
+  // Theme loader — apply saved theme as early as possible to avoid FOUC.
+  (function () {
+    try {
+      var t = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+      if (t && t !== "warm") {
+        document.documentElement.classList.add("theme-" + t);
+        document.addEventListener("DOMContentLoaded", function () {
+          document.body.classList.add("theme-" + t);
+        });
+      }
+    } catch (e) {}
+  })();
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register('./sw.js').catch(function () {});
@@ -111,7 +123,7 @@
 <footer>
   <div class="wrap foot-inner">
     <a class="foot-back" href="./index.html">← All projects</a>
-    <p>Generated <span class="rel-time" data-iso="2026-04-27T00:36:19Z">just now</span></p>
+    <p>Generated <span class="rel-time" data-iso="2026-04-27T00:43:00Z">just now</span></p>
   </div>
 </footer>
 <script>
