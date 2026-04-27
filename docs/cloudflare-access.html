@@ -22,12 +22,17 @@
   (function () {
     try {
       var t = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+      var b = localStorage.getItem("ENSEMBLE_BG") || "solid";
       if (t && t !== "warm") {
         document.documentElement.classList.add("theme-" + t);
-        document.addEventListener("DOMContentLoaded", function () {
-          document.body.classList.add("theme-" + t);
-        });
       }
+      if (b && b !== "solid") {
+        document.documentElement.classList.add("bg-" + b);
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        if (t && t !== "warm") document.body.classList.add("theme-" + t);
+        if (b && b !== "solid") document.body.classList.add("bg-" + b);
+      });
     } catch (e) {}
   })();
   if ('serviceWorker' in navigator) {
@@ -42,11 +47,11 @@
   <div class="wrap">
     <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
-      <li><a class="" href="./">Home</a></li>
-      <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="" href="./commands.html">Commands</a></li>
-      <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="active" href="./docs.html">Docs</a></li>
+      <li><a href="./">Home</a></li>
+      <li><a href="./projects.html">Projects</a></li>
+      <li><a href="./commands.html">Commands</a></li>
+      <li><a href="./settings.html">Settings</a></li>
+      <li><a class="active" aria-current="page" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -336,13 +341,22 @@ function applyOwnerMode() {
 }
 
 // ─── Theme picker (persisted, per-device) ───
+const THEMES = ["crimson", "rose", "sunset", "amber", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono"];
+const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora"];
+
 function applyTheme(name) {
-  const themes = ["warm", "slate", "mono", "forest", "aurora", "rose", "ocean", "sunset", "midnight", "sage"];
-  themes.forEach(t => document.body.classList.remove("theme-" + t));
+  THEMES.forEach(t => document.body.classList.remove("theme-" + t));
   if (name && name !== "warm") document.body.classList.add("theme-" + name);
-  // Mark active swatch
   document.querySelectorAll(".theme-swatch").forEach(el => {
     el.classList.toggle("active", el.dataset.theme === (name || "warm"));
+  });
+}
+
+function applyBackground(name) {
+  BACKGROUNDS.forEach(b => document.body.classList.remove("bg-" + b));
+  if (name && name !== "solid") document.body.classList.add("bg-" + name);
+  document.querySelectorAll(".bg-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.bg === (name || "solid"));
   });
 }
 
@@ -355,6 +369,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const t = el.dataset.theme;
       localStorage.setItem("ENSEMBLE_THEME", t);
       applyTheme(t);
+    });
+  });
+
+  // Background load + bind
+  const savedBg = localStorage.getItem("ENSEMBLE_BG") || "solid";
+  applyBackground(savedBg);
+  document.querySelectorAll(".bg-swatch").forEach(el => {
+    el.addEventListener("click", () => {
+      const b = el.dataset.bg;
+      localStorage.setItem("ENSEMBLE_BG", b);
+      applyBackground(b);
     });
   });
 

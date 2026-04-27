@@ -22,12 +22,17 @@
   (function () {
     try {
       var t = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+      var b = localStorage.getItem("ENSEMBLE_BG") || "solid";
       if (t && t !== "warm") {
         document.documentElement.classList.add("theme-" + t);
-        document.addEventListener("DOMContentLoaded", function () {
-          document.body.classList.add("theme-" + t);
-        });
       }
+      if (b && b !== "solid") {
+        document.documentElement.classList.add("bg-" + b);
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        if (t && t !== "warm") document.body.classList.add("theme-" + t);
+        if (b && b !== "solid") document.body.classList.add("bg-" + b);
+      });
     } catch (e) {}
   })();
   if ('serviceWorker' in navigator) {
@@ -42,11 +47,11 @@
   <div class="wrap">
     <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
-      <li><a class="active" href="./">Home</a></li>
-      <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="" href="./commands.html">Commands</a></li>
-      <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" aria-current="page" href="./">Home</a></li>
+      <li><a href="./projects.html">Projects</a></li>
+      <li><a href="./commands.html">Commands</a></li>
+      <li><a href="./settings.html">Settings</a></li>
+      <li><a href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -576,11 +581,11 @@
     "theme-switcher": {
       visibility: "public",
       title: "Theme",
-      description: "Pick from 10 color themes. Choice persists per-device.",
-      defaultSize: "2x1", sizes: ["2x1", "1x1"],
+      description: "Pick from 18 color themes (warm to cool). Choice persists per-device.",
+      defaultSize: "2x1", sizes: ["2x2", "2x1"],
       render() {
-        const themes = ["warm","slate","mono","forest","aurora","rose","ocean","sunset","midnight","sage"];
-        return `<div class="widget__header"><span class="widget__title">Theme</span></div>
+        const themes = ["crimson","rose","sunset","amber","warm","sand","sage","lime","forest","teal","ocean","slate","cobalt","midnight","aurora","plum","ash","mono"];
+        return `<div class="widget__header"><span class="widget__title">Theme · warm → cool</span></div>
           <div class="widget__body widget__body--center">
             <div class="theme-picker" data-theme-picker>
               ${themes.map(t => `<div class="theme-swatch ${t}" data-theme="${t}" title="${t}" aria-label="${t} theme"></div>`).join('')}
@@ -588,15 +593,15 @@
           </div>`;
       },
       bind(el) {
+        const list = ["crimson","rose","sunset","amber","warm","sand","sage","lime","forest","teal","ocean","slate","cobalt","midnight","aurora","plum","ash","mono"];
         const apply = (name) => {
-          const list = ["warm","slate","mono","forest","aurora","rose","ocean","sunset","midnight","sage"];
           list.forEach(t => document.body.classList.remove("theme-" + t));
           document.documentElement.classList.remove(...list.map(t => "theme-" + t));
           if (name && name !== "warm") {
             document.body.classList.add("theme-" + name);
             document.documentElement.classList.add("theme-" + name);
           }
-          el.querySelectorAll(".theme-swatch").forEach(sw => sw.classList.toggle("active", sw.dataset.theme === (name || "warm")));
+          document.querySelectorAll(".theme-swatch").forEach(sw => sw.classList.toggle("active", sw.dataset.theme === (name || "warm")));
         };
         const cur = localStorage.getItem("ENSEMBLE_THEME") || "warm";
         apply(cur);
@@ -604,6 +609,48 @@
           sw.addEventListener("click", () => {
             localStorage.setItem("ENSEMBLE_THEME", sw.dataset.theme);
             apply(sw.dataset.theme);
+          });
+        });
+      },
+    },
+    "background-picker": {
+      visibility: "public",
+      title: "Background",
+      description: "Pick a funky background pattern. Solid, dots, grid, mesh, noise, aurora.",
+      defaultSize: "2x1", sizes: ["2x1", "1x1"],
+      render() {
+        const bgs = [
+          { id: "solid",  label: "solid"  },
+          { id: "dots",   label: "dots"   },
+          { id: "grid",   label: "grid"   },
+          { id: "mesh",   label: "mesh"   },
+          { id: "noise",  label: "noise"  },
+          { id: "aurora", label: "aurora" },
+        ];
+        return `<div class="widget__header"><span class="widget__title">Background</span></div>
+          <div class="widget__body widget__body--center">
+            <div class="bg-picker" data-bg-picker>
+              ${bgs.map(b => `<div class="bg-swatch ${b.id}" data-bg="${b.id}" title="${b.label}" aria-label="${b.label} background"><span class="bg-swatch__label">${b.label}</span></div>`).join('')}
+            </div>
+          </div>`;
+      },
+      bind(el) {
+        const list = ["solid","dots","grid","mesh","noise","aurora"];
+        const apply = (name) => {
+          list.forEach(b => document.body.classList.remove("bg-" + b));
+          document.documentElement.classList.remove(...list.map(b => "bg-" + b));
+          if (name && name !== "solid") {
+            document.body.classList.add("bg-" + name);
+            document.documentElement.classList.add("bg-" + name);
+          }
+          document.querySelectorAll(".bg-swatch").forEach(sw => sw.classList.toggle("active", sw.dataset.bg === (name || "solid")));
+        };
+        const cur = localStorage.getItem("ENSEMBLE_BG") || "solid";
+        apply(cur);
+        el.querySelectorAll(".bg-swatch").forEach(sw => {
+          sw.addEventListener("click", () => {
+            localStorage.setItem("ENSEMBLE_BG", sw.dataset.bg);
+            apply(sw.dataset.bg);
           });
         });
       },
@@ -793,6 +840,7 @@
         { id: "recent-commits", size: "2x1" },
         { id: "token-cost-chart", size: "2x2" },
         { id: "theme-switcher", size: "2x1" },
+        { id: "background-picker", size: "2x1" },
       ],
       private: [
         { id: "mode-pill", size: "1x1" },
@@ -1207,13 +1255,22 @@ function applyOwnerMode() {
 }
 
 // ─── Theme picker (persisted, per-device) ───
+const THEMES = ["crimson", "rose", "sunset", "amber", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono"];
+const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora"];
+
 function applyTheme(name) {
-  const themes = ["warm", "slate", "mono", "forest", "aurora", "rose", "ocean", "sunset", "midnight", "sage"];
-  themes.forEach(t => document.body.classList.remove("theme-" + t));
+  THEMES.forEach(t => document.body.classList.remove("theme-" + t));
   if (name && name !== "warm") document.body.classList.add("theme-" + name);
-  // Mark active swatch
   document.querySelectorAll(".theme-swatch").forEach(el => {
     el.classList.toggle("active", el.dataset.theme === (name || "warm"));
+  });
+}
+
+function applyBackground(name) {
+  BACKGROUNDS.forEach(b => document.body.classList.remove("bg-" + b));
+  if (name && name !== "solid") document.body.classList.add("bg-" + name);
+  document.querySelectorAll(".bg-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.bg === (name || "solid"));
   });
 }
 
@@ -1226,6 +1283,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const t = el.dataset.theme;
       localStorage.setItem("ENSEMBLE_THEME", t);
       applyTheme(t);
+    });
+  });
+
+  // Background load + bind
+  const savedBg = localStorage.getItem("ENSEMBLE_BG") || "solid";
+  applyBackground(savedBg);
+  document.querySelectorAll(".bg-swatch").forEach(el => {
+    el.addEventListener("click", () => {
+      const b = el.dataset.bg;
+      localStorage.setItem("ENSEMBLE_BG", b);
+      applyBackground(b);
     });
   });
 

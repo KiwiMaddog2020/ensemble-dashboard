@@ -22,12 +22,17 @@
   (function () {
     try {
       var t = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+      var b = localStorage.getItem("ENSEMBLE_BG") || "solid";
       if (t && t !== "warm") {
         document.documentElement.classList.add("theme-" + t);
-        document.addEventListener("DOMContentLoaded", function () {
-          document.body.classList.add("theme-" + t);
-        });
       }
+      if (b && b !== "solid") {
+        document.documentElement.classList.add("bg-" + b);
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        if (t && t !== "warm") document.body.classList.add("theme-" + t);
+        if (b && b !== "solid") document.body.classList.add("bg-" + b);
+      });
     } catch (e) {}
   })();
   if ('serviceWorker' in navigator) {
@@ -42,11 +47,11 @@
   <div class="wrap">
     <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
-      <li><a class="" href="./">Home</a></li>
-      <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="" href="./commands.html">Commands</a></li>
-      <li><a class="active" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a href="./">Home</a></li>
+      <li><a href="./projects.html">Projects</a></li>
+      <li><a href="./commands.html">Commands</a></li>
+      <li><a class="active" aria-current="page" href="./settings.html">Settings</a></li>
+      <li><a href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -84,20 +89,40 @@
     </div>
 
     <h2>Appearance</h2>
-    <p class="section-sub">Choose your color theme. Saved locally in your browser.</p>
+    <p class="section-sub">Color theme — warm to cool. 18 options. Saved locally in your browser.</p>
     <div class="theme-picker" data-theme-picker>
+      <div class="theme-swatch crimson"  data-theme="crimson"  title="Crimson"  aria-label="Crimson theme"></div>
+      <div class="theme-swatch rose"     data-theme="rose"     title="Rose"     aria-label="Rose theme"></div>
+      <div class="theme-swatch sunset"   data-theme="sunset"   title="Sunset"   aria-label="Sunset theme"></div>
+      <div class="theme-swatch amber"    data-theme="amber"    title="Amber"    aria-label="Amber theme"></div>
       <div class="theme-swatch warm"     data-theme="warm"     title="Warm (default)" aria-label="Warm theme"></div>
-      <div class="theme-swatch slate"    data-theme="slate"    title="Slate" aria-label="Slate theme"></div>
-      <div class="theme-swatch mono"     data-theme="mono"     title="Mono" aria-label="Mono theme"></div>
-      <div class="theme-swatch forest"   data-theme="forest"   title="Forest" aria-label="Forest theme"></div>
-      <div class="theme-swatch aurora"   data-theme="aurora"   title="Aurora" aria-label="Aurora theme"></div>
-      <div class="theme-swatch rose"     data-theme="rose"     title="Rose" aria-label="Rose theme"></div>
-      <div class="theme-swatch ocean"    data-theme="ocean"    title="Ocean" aria-label="Ocean theme"></div>
-      <div class="theme-swatch sunset"   data-theme="sunset"   title="Sunset" aria-label="Sunset theme"></div>
+      <div class="theme-swatch sand"     data-theme="sand"     title="Sand"     aria-label="Sand theme"></div>
+      <div class="theme-swatch sage"     data-theme="sage"     title="Sage"     aria-label="Sage theme"></div>
+      <div class="theme-swatch lime"     data-theme="lime"     title="Lime"     aria-label="Lime theme"></div>
+      <div class="theme-swatch forest"   data-theme="forest"   title="Forest"   aria-label="Forest theme"></div>
+      <div class="theme-swatch teal"     data-theme="teal"     title="Teal"     aria-label="Teal theme"></div>
+      <div class="theme-swatch ocean"    data-theme="ocean"    title="Ocean"    aria-label="Ocean theme"></div>
+      <div class="theme-swatch slate"    data-theme="slate"    title="Slate"    aria-label="Slate theme"></div>
+      <div class="theme-swatch cobalt"   data-theme="cobalt"   title="Cobalt"   aria-label="Cobalt theme"></div>
       <div class="theme-swatch midnight" data-theme="midnight" title="Midnight" aria-label="Midnight theme"></div>
-      <div class="theme-swatch sage"     data-theme="sage"     title="Sage" aria-label="Sage theme"></div>
+      <div class="theme-swatch aurora"   data-theme="aurora"   title="Aurora"   aria-label="Aurora theme"></div>
+      <div class="theme-swatch plum"     data-theme="plum"     title="Plum"     aria-label="Plum theme"></div>
+      <div class="theme-swatch ash"      data-theme="ash"      title="Ash"      aria-label="Ash theme"></div>
+      <div class="theme-swatch mono"     data-theme="mono"     title="Mono"     aria-label="Mono theme"></div>
     </div>
     <p class="settings-help" style="margin-top:12px;">Theme persists across visits and per-device. Default is <strong>Warm</strong>.</p>
+
+    <h3 style="font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--ink); margin: 28px 0 6px;">Background pattern</h3>
+    <p class="section-sub" style="margin-bottom: 12px;">Subtle texture for the page background. Default is solid.</p>
+    <div class="bg-picker" data-bg-picker>
+      <div class="bg-swatch solid"  data-bg="solid"  title="Solid (default)" aria-label="Solid background"><span class="bg-swatch__label">solid</span></div>
+      <div class="bg-swatch dots"   data-bg="dots"   title="Dots"            aria-label="Dots background"><span class="bg-swatch__label">dots</span></div>
+      <div class="bg-swatch grid"   data-bg="grid"   title="Grid"            aria-label="Grid background"><span class="bg-swatch__label">grid</span></div>
+      <div class="bg-swatch mesh"   data-bg="mesh"   title="Mesh"            aria-label="Mesh gradient background"><span class="bg-swatch__label">mesh</span></div>
+      <div class="bg-swatch noise"  data-bg="noise"  title="Noise"           aria-label="Noise background"><span class="bg-swatch__label">noise</span></div>
+      <div class="bg-swatch aurora" data-bg="aurora" title="Aurora"          aria-label="Aurora background"><span class="bg-swatch__label">aurora</span></div>
+    </div>
+    <p class="settings-help" style="margin-top:12px;">Animated patterns honor your reduced-motion preference.</p>
   </div>
 </section>
 
@@ -338,13 +363,22 @@ function applyOwnerMode() {
 }
 
 // ─── Theme picker (persisted, per-device) ───
+const THEMES = ["crimson", "rose", "sunset", "amber", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono"];
+const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora"];
+
 function applyTheme(name) {
-  const themes = ["warm", "slate", "mono", "forest", "aurora", "rose", "ocean", "sunset", "midnight", "sage"];
-  themes.forEach(t => document.body.classList.remove("theme-" + t));
+  THEMES.forEach(t => document.body.classList.remove("theme-" + t));
   if (name && name !== "warm") document.body.classList.add("theme-" + name);
-  // Mark active swatch
   document.querySelectorAll(".theme-swatch").forEach(el => {
     el.classList.toggle("active", el.dataset.theme === (name || "warm"));
+  });
+}
+
+function applyBackground(name) {
+  BACKGROUNDS.forEach(b => document.body.classList.remove("bg-" + b));
+  if (name && name !== "solid") document.body.classList.add("bg-" + name);
+  document.querySelectorAll(".bg-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.bg === (name || "solid"));
   });
 }
 
@@ -357,6 +391,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const t = el.dataset.theme;
       localStorage.setItem("ENSEMBLE_THEME", t);
       applyTheme(t);
+    });
+  });
+
+  // Background load + bind
+  const savedBg = localStorage.getItem("ENSEMBLE_BG") || "solid";
+  applyBackground(savedBg);
+  document.querySelectorAll(".bg-swatch").forEach(el => {
+    el.addEventListener("click", () => {
+      const b = el.dataset.bg;
+      localStorage.setItem("ENSEMBLE_BG", b);
+      applyBackground(b);
     });
   });
 
