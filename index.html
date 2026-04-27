@@ -1337,6 +1337,101 @@ body.theme-sage {
         });
       },
     },
+    "cycle-freeze": {
+      visibility: "private",
+      title: "Cycle freeze",
+      description: "Block all autopilot starts for the rest of this token cycle. Brake pedal for when you're getting carried away. Auto-thaws at next weekly token reset.",
+      defaultSize: "2x1", sizes: ["2x1", "1x1", "2x2"],
+      render(s) {
+        const until = s?.autopilot_freeze_until;
+        const reset = s?.weekly_token_reset_at;
+        let active = false;
+        let label = "off";
+        let countdown = "";
+        if (until) {
+          const ms = new Date(until).getTime() - Date.now();
+          if (ms > 0) {
+            active = true;
+            countdown = fmtCountdown(until);
+            label = "frozen · " + countdown;
+          } else {
+            label = "expired";
+          }
+        }
+        const cls = active ? "widget__chip--warn" : "widget__chip--success";
+        return `<div class="widget__header"><span class="widget__title">Cycle freeze</span><span class="widget__hint">brake pedal</span></div>
+          <div class="widget__body" style="gap:8px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+              <span class="widget__chip ${cls}" style="font-size:13px;padding:5px 12px;">${escapeHtml(label)}</span>
+              ${active ? '<small style="font-size:10px;color:var(--ink-3);">no new autopilots until thaw</small>' : ''}
+            </div>
+            <div class="widget__row" style="gap:6px;">
+              ${active
+                ? `<button class="widget__btn" data-act="freeze-clear" data-owner-only>lift now</button>`
+                : `<button class="widget__btn widget__btn--primary" data-act="freeze-reset" data-owner-only>freeze until reset</button>
+                   <button class="widget__btn" data-act="freeze-1d" data-owner-only>24h</button>
+                   <button class="widget__btn" data-act="freeze-7d" data-owner-only>7d</button>`
+              }
+            </div>
+            <small style="font-size:10px;color:var(--ink-4);" data-status></small>
+          </div>`;
+      },
+      bind(el) {
+        const status = el.querySelector('[data-status]');
+        const fire = async (value) => {
+          if (status) status.textContent = "applying…";
+          try {
+            const r = await apiPost("/freeze-until", { value });
+            if (status) status.textContent = r.autopilot_freeze_until ? ("✓ frozen until " + r.autopilot_freeze_until) : "✓ lifted";
+            window.refreshState && window.refreshState();
+          } catch (e) {
+            if (status) status.textContent = "✗ " + e.message;
+          }
+        };
+        el.querySelector('[data-act="freeze-reset"]')?.addEventListener('click', () => fire("reset"));
+        el.querySelector('[data-act="freeze-1d"]')?.addEventListener('click', () => fire("24h"));
+        el.querySelector('[data-act="freeze-7d"]')?.addEventListener('click', () => fire("7d"));
+        el.querySelector('[data-act="freeze-clear"]')?.addEventListener('click', async () => {
+          if (!confirm("Lift cycle freeze now? Autopilot starts will be allowed again.")) return;
+          fire(null);
+        });
+      },
+    },
+    "code-rate": {
+      visibility: "private",
+      title: "Rate code",
+      description: "Fires the Codebase Rating Protocol on a chat. Sends 'rate my code' as a queued message; chat picks it up next turn and writes the report to docs/CODE_RATING_<date>.md.",
+      defaultSize: "2x1", sizes: ["2x1", "1x1"],
+      render(s, props) {
+        const chats = s?.projects || [];
+        const chosen = props?.chatSlug || (chats[0] && chats[0].slug);
+        return `<div class="widget__header"><span class="widget__title">Rate code</span><span class="widget__hint">via Rating Protocol</span></div>
+          <div class="widget__body" style="gap:8px;">
+            <select class="widget__select" data-act="rate-pick" data-owner-only>
+              ${chats.map(ch => `<option value="${escapeHtml(ch.slug)}" ${ch.slug === chosen ? 'selected' : ''}>${escapeHtml(ch.name || ch.slug)}</option>`).join('')}
+            </select>
+            <button class="widget__btn widget__btn--primary" data-act="rate-fire" data-owner-only>Run rating</button>
+            <small style="font-size:11px;color:var(--ink-3);" data-status></small>
+          </div>`;
+      },
+      bind(el, props, ctx) {
+        const sel = el.querySelector('[data-act="rate-pick"]');
+        const status = el.querySelector('[data-status]');
+        sel?.addEventListener('change', () => ctx.setProps({ chatSlug: sel.value }));
+        el.querySelector('[data-act="rate-fire"]')?.addEventListener('click', async () => {
+          const slug = sel?.value;
+          if (!slug) { if (status) status.textContent = "pick a chat"; return; }
+          if (status) status.textContent = "queueing rating trigger…";
+          try {
+            const r = await apiPost("/chat-message", { slug, message: "rate my code" });
+            if (status) status.textContent = "✓ queued · chat will run rating on next turn (queued count: " + r.queued_count + ")";
+            setTimeout(() => { if (status) status.textContent = ""; }, 8000);
+          } catch (e) {
+            if (status) status.textContent = "✗ " + e.message;
+          }
+        });
+      },
+    },
   };
 
   // ─── Default initial layout (sectioned: public + private) ────────
@@ -1358,7 +1453,9 @@ body.theme-sage {
         { id: "quick-fire", size: "2x1" },
         { id: "kill-switch", size: "1x1" },
         { id: "pause-toggle", size: "1x1" },
+        { id: "cycle-freeze", size: "2x1" },
         { id: "chat-control", size: "2x2" },
+        { id: "code-rate", size: "2x1" },
       ],
     },
   };
