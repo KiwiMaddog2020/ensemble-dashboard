@@ -279,22 +279,19 @@ main { padding:clamp(28px,5vw,56px) 0 clamp(48px,8vw,96px); border-top:1px solid
 .card-head { display:flex; flex-direction:column; align-items:center; gap:12px; }
 .card-pie { width:96px; height:96px; color:var(--ink); }
 .card-pie svg.pie { width:100%; height:100%; }
-.card-id { width:100%; text-align:center; }
+.card-id { width:100%; }
 .card-id h2 {
   font-family:var(--serif); font-weight:500;
   font-size:clamp(22px,2.4vw,28px); line-height:1.18; letter-spacing:-.008em;
-  margin:0 0 6px; color:var(--ink); text-align:center;
+  margin:0 0 4px; color:var(--ink);
 }
 .card-phase {
-  font-family:var(--sans); font-size:13px; font-weight:500; color:var(--ink-3);
-  margin:0; text-align:center;
-}
-.card-attn {
-  display:flex; justify-content:center; margin:6px 0 0; padding:0;
+  font-family:var(--sans); font-size:13px; font-weight:500; color:var(--ink-3); margin:0;
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
 }
 .card-note {
   font-family:var(--sans); font-size:13.5px; line-height:1.55; color:var(--ink-3);
-  margin:14px auto 0; text-align:center; max-width:36ch;
+  margin:0; text-align:center; max-width:36ch; margin-left:auto; margin-right:auto;
 }
 .card-meta {
   display:flex; flex-wrap:wrap; gap:5px 7px; align-items:center; justify-content:center;
@@ -311,7 +308,7 @@ main { padding:clamp(28px,5vw,56px) 0 clamp(48px,8vw,96px); border-top:1px solid
 .pill-tier-virtuoso { color:var(--ink-2); background:var(--rule-2); }
 .pill-auto    { color:var(--accent); background:color-mix(in srgb,var(--accent) 12%,transparent); }
 .pill-passive { color:var(--ink-4); background:var(--rule-2); }
-.pill-attn    { color:var(--danger); background:color-mix(in srgb,var(--danger) 12%,transparent); }
+.pill-attn    { color:var(--danger); background:color-mix(in srgb,var(--danger) 12%,transparent); margin-left:6px; }
 .pill-state-building     { color:#3b82f6; background:color-mix(in srgb,#3b82f6 14%,transparent); }
 .pill-state-launch-prep  { color:#a855f7; background:color-mix(in srgb,#a855f7 14%,transparent); }
 .pill-state-warmer       { color:#f97316; background:color-mix(in srgb,#f97316 14%,transparent); }
