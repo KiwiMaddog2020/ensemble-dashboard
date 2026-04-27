@@ -47,12 +47,12 @@
   <div class="wrap">
     <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
-      <li><a href="./">Home</a></li>
+      <li><a href="./">Ensemble</a></li>
+      <li><a class="active" aria-current="page" href="./studio.html">Studio</a></li>
       <li><a href="./projects.html">Projects</a></li>
       <li><a href="./commands.html">Commands</a></li>
       <li><a href="./settings.html">Settings</a></li>
       <li><a href="./docs.html">Docs</a></li>
-      <li><a class="active" aria-current="page" href="./studio.html">Studio</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -662,8 +662,9 @@
 
   // Markdown-lite — covers ~90% of common patterns without a library
   // dependency. Patterns: # h1, ## h2, ### h3, **bold**, *italic*,
-  // `code`, [link](url), > blockquote, - bullet, ``` code blocks,
-  // paragraph splits on blank lines.
+  // `code`, [link](url), > blockquote, - bullet, ``` code blocks
+  // (with optional language tag like ```component or ```js).
+  // Paragraph splits on blank lines.
   function renderMarkdownLite(src) {
     if (!src) return '';
     // Escape HTML first
@@ -672,8 +673,13 @@
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
-    // Code blocks ``` ```
-    s = s.replace(/```([\s\S]*?)```/g, (m, code) => `<pre><code>${code.trim()}</code></pre>`);
+    // Code blocks ```lang\n...\n``` — preserve the language tag as
+    // a class on <code> so downstream JS can recognize special tags
+    // like ```component for Studio Apply/Discard wiring.
+    s = s.replace(/```([a-zA-Z0-9_-]*)\n?([\s\S]*?)```/g, (m, lang, code) => {
+      const cls = lang ? ` class="lang-${lang}"` : '';
+      return `<pre><code${cls}>${code.trim()}</code></pre>`;
+    });
     // Headings (need to preserve order — most specific first)
     s = s.replace(/^### (.+)$/gm, '<h3>$1</h3>');
     s = s.replace(/^## (.+)$/gm, '<h2>$1</h2>');
@@ -1203,6 +1209,10 @@
     div.className = `studio-claude-msg studio-claude-msg--${role}`;
     if (role === 'assistant') {
       div.innerHTML = renderMarkdownLite(content);
+      // Phase A.3 part 3b: scan for ```component blocks and wire
+      // Apply/Discard buttons so the user can act on Claude's
+      // suggestions without leaving the drawer.
+      wireComponentSuggestions(div);
     } else if (role === 'pending') {
       div.textContent = 'Claude is thinking';
     } else if (role === 'error') {
@@ -1213,6 +1223,98 @@
     body.appendChild(div);
     if (!opts.skipAnim) body.scrollTop = body.scrollHeight;
     return div;
+  }
+
+  // ─── Apply/Discard for ```component suggestions (Phase A.3 part 3b) ──
+  function wireComponentSuggestions(messageEl) {
+    const codeBlocks = messageEl.querySelectorAll('pre code.lang-component');
+    codeBlocks.forEach(code => {
+      const pre = code.parentElement;
+      if (!pre || pre.dataset.applyWired === '1') return;
+      pre.dataset.applyWired = '1';
+      // Try to parse the JSON
+      let parsed = null;
+      let parseError = null;
+      try {
+        parsed = JSON.parse(code.textContent);
+      } catch (e) {
+        parseError = e.message;
+      }
+      // Render the Apply/Discard control row
+      const controls = document.createElement('div');
+      controls.className = 'studio-claude-suggestion';
+      if (parseError) {
+        controls.innerHTML = `<span class="studio-claude-suggestion__error">Couldn't parse this component — ${escapeHtml(parseError)}</span><button type="button" class="studio-claude-suggestion__retry" data-act="ask-fix">Ask Claude to fix</button>`;
+        controls.querySelector('[data-act="ask-fix"]').addEventListener('click', () => {
+          const input = $('#studio-claude-input');
+          if (input) {
+            input.value = "That component JSON didn't parse. Can you try again, double-checking the JSON syntax?";
+            input.focus();
+          }
+        });
+      } else {
+        const summary = describeComponentSuggestion(parsed);
+        controls.innerHTML = `
+          <span class="studio-claude-suggestion__summary">${escapeHtml(summary)}</span>
+          <span class="studio-claude-suggestion__btns">
+            <button type="button" class="studio-claude-suggestion__discard" data-act="discard">Discard</button>
+            <button type="button" class="studio-claude-suggestion__apply" data-act="apply">Apply →</button>
+          </span>
+        `;
+        controls.querySelector('[data-act="discard"]').addEventListener('click', () => {
+          controls.classList.add('is-discarded');
+          controls.querySelector('.studio-claude-suggestion__btns').innerHTML =
+            '<span class="studio-claude-suggestion__status">Discarded</span>';
+        });
+        controls.querySelector('[data-act="apply"]').addEventListener('click', async () => {
+          await applyComponentSuggestion(parsed, controls);
+        });
+      }
+      pre.parentNode.insertBefore(controls, pre.nextSibling);
+    });
+  }
+
+  function describeComponentSuggestion(comp) {
+    const t = comp.type || 'prop';
+    const sprite = comp.props?.sprite_id || '(no sprite)';
+    const interaction = comp.interaction?.type;
+    const interactionStr = interaction ? ` · click-to-${interaction}` : '';
+    return `${t} · ${sprite}${interactionStr}`;
+  }
+
+  async function applyComponentSuggestion(suggestion, controlsEl) {
+    if (!currentRoom) return;
+    if (!editMode) {
+      // Auto-enter edit mode if the user is applying a suggestion
+      setEditMode(true);
+    }
+    // Validate + normalize the suggestion to fit our schema
+    const normalized = {
+      id: 'comp_' + Math.random().toString(36).slice(2, 8),
+      type: suggestion.type || 'prop',
+      x: Math.max(0, Math.round((suggestion.x ?? 480) / GRID_SIZE) * GRID_SIZE),
+      y: Math.max(0, Math.round((suggestion.y ?? 540) / GRID_SIZE) * GRID_SIZE),
+      w: Math.max(8, suggestion.w || 96),
+      h: Math.max(8, suggestion.h || 144),
+      z: suggestion.z || 5,
+      props: suggestion.props || {},
+    };
+    if (suggestion.interaction) normalized.interaction = suggestion.interaction;
+    // Clamp to stage
+    normalized.x = Math.min(currentRoom.stage.width - normalized.w, normalized.x);
+    normalized.y = Math.min(currentRoom.stage.height - normalized.h, normalized.y);
+    currentRoom.components.push(normalized);
+    const el = await renderComponent(normalized, currentRoom.stage);
+    if (editMode) attachEditAffordances(el, normalized);
+    $('#studio-stage').appendChild(el);
+    selectComponent(normalized.id);
+    scheduleAutoSave();
+    // Replace the controls with a success state
+    if (controlsEl) {
+      controlsEl.classList.add('is-applied');
+      controlsEl.querySelector('.studio-claude-suggestion__btns').innerHTML =
+        '<span class="studio-claude-suggestion__status">✓ Applied</span>';
+    }
   }
 
   async function sendClaudeMessage(text) {
@@ -1556,6 +1658,7 @@
       get spriteCache() { return spriteCache; },
       get editMode() { return editMode; },
       get selectedCompId() { return selectedCompId; },
+      get claudeHistory() { return claudeHistory; },
       switchTab,
       loadPreset,
       renderRoom: (r) => renderRoom(r || currentRoom),
@@ -1563,6 +1666,11 @@
       selectComponent,
       deleteSelected,
       discardSavedRoom,
+      // Phase A.3 part 3 chat surface — exposed for testing + tooling
+      appendClaudeMessage,
+      sendClaudeMessage,
+      wireComponentSuggestions,
+      applyComponentSuggestion,
     };
   }
 

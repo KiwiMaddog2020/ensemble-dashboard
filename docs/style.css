@@ -2614,6 +2614,67 @@ body.studio-editing .studio-claude-drawer { display: flex; }
   cursor: not-allowed;
 }
 
+/* Apply/Discard controls below ```component blocks (Phase A.3 part 3b) */
+.studio-claude-suggestion {
+  display: flex; flex-direction: column;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  background: color-mix(in srgb, var(--accent-soft) 50%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--rule));
+  border-radius: 8px;
+}
+.studio-claude-suggestion.is-applied {
+  background: color-mix(in srgb, #16a34a 8%, var(--bg));
+  border-color: color-mix(in srgb, #16a34a 35%, var(--rule));
+}
+.studio-claude-suggestion.is-discarded { opacity: 0.6; }
+.studio-claude-suggestion__summary {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--ink-2);
+}
+.studio-claude-suggestion__error {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--danger);
+  line-height: 1.4;
+}
+.studio-claude-suggestion__btns {
+  display: flex; gap: 6px; justify-content: flex-end;
+}
+.studio-claude-suggestion__apply,
+.studio-claude-suggestion__discard,
+.studio-claude-suggestion__retry {
+  appearance: none; cursor: pointer;
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  transition: background 180ms var(--ease), border-color 180ms var(--ease);
+}
+.studio-claude-suggestion__apply {
+  background: var(--accent); color: #fff; border: 1px solid var(--accent);
+}
+.studio-claude-suggestion__apply:hover { background: var(--accent-2); border-color: var(--accent-2); }
+.studio-claude-suggestion__discard {
+  background: transparent; color: var(--ink-3);
+  border: 1px solid var(--rule);
+}
+.studio-claude-suggestion__discard:hover { color: var(--ink); border-color: var(--ink-3); }
+.studio-claude-suggestion__retry {
+  background: transparent; color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--rule));
+  align-self: flex-start;
+}
+.studio-claude-suggestion__retry:hover { background: var(--accent-soft); }
+.studio-claude-suggestion__status {
+  font-family: var(--mono); font-size: 11px;
+  color: #16a34a;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.studio-claude-suggestion.is-discarded .studio-claude-suggestion__status {
+  color: var(--ink-4);
+}
+
 /* Restored-from-saved-edits pill in the info strip */
 .studio-info__item--restored {
   background: var(--accent-soft);
