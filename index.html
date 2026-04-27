@@ -432,6 +432,207 @@ body.theme-sage {
 .theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
 .theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
 .theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
+
+/* ─── Widget dashboard ──────────────────────────────────────────────── */
+.widget-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(140px, auto); gap: 16px; margin: 24px 0;
+}
+@media (max-width: 768px) {
+  .widget-grid { grid-template-columns: repeat(2, 1fr); }
+  .widget--1x1, .widget--2x1, .widget--1x2, .widget--2x2 { grid-column: span 1; grid-row: span 1; }
+}
+@media (min-width: 769px) and (max-width: 1100px) {
+  .widget-grid { grid-template-columns: repeat(6, 1fr); }
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+@media (min-width: 1101px) {
+  .widget--1x1 { grid-column: span 3; grid-row: span 1; }
+  .widget--2x1 { grid-column: span 6; grid-row: span 1; }
+  .widget--1x2 { grid-column: span 3; grid-row: span 2; }
+  .widget--2x2 { grid-column: span 6; grid-row: span 2; }
+}
+.widget {
+  position: relative; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-md); padding: 18px;
+  display: flex; flex-direction: column;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), border-color 200ms var(--ease);
+  min-height: 0;
+}
+.widget:hover { box-shadow: var(--shadow-md); }
+.widget__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
+}
+.widget__title {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.widget__hint { font-size: 10px; color: var(--ink-4); white-space: nowrap; }
+.widget__body {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+  min-height: 0; overflow: hidden;
+}
+.widget__body--center { justify-content: center; align-items: center; text-align: center; }
+.widget__numeral {
+  font-family: var(--font-display, var(--font-heading, serif));
+  font-size: 44px; font-weight: 600; line-height: 1; color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.widget__numeral .muted { opacity: 0.4; font-size: 0.6em; font-weight: 500; }
+.widget__chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.widget__chip--success { background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a; border-color: color-mix(in srgb, #16a34a 28%, transparent); }
+.widget__chip--warn    { background: color-mix(in srgb, #d97706 14%, transparent); color: #d97706; border-color: color-mix(in srgb, #d97706 28%, transparent); }
+.widget__chip--danger  { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; border-color: color-mix(in srgb, #dc2626 28%, transparent); }
+.widget__chip--neutral { background: var(--bg-sunken, var(--bg-elevated)); color: var(--ink-2); border-color: var(--rule); }
+
+.widget__btn {
+  appearance: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  background: var(--bg-elevated, var(--bg-raised)); border: 1px solid var(--rule);
+  color: var(--ink); font-size: 13px; font-weight: 500; font-family: inherit;
+  transition: all 180ms var(--ease);
+}
+.widget__btn:hover { border-color: var(--accent); color: var(--accent); }
+.widget__btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.widget__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.widget__btn--danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.widget__btn--danger:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
+.widget__btn--big { padding: 14px 20px; font-size: 14px; font-weight: 600; }
+.widget__btn--ghost { background: transparent; border-color: var(--rule-2); color: var(--ink-3); }
+.widget__btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.widget__row { display: flex; gap: 6px; flex-wrap: wrap; }
+.widget__row--tight { gap: 4px; }
+.widget__divider { height: 1px; background: var(--rule-2); margin: 8px 0; }
+
+.widget__select, .widget__input, .widget__textarea {
+  appearance: none; padding: 8px 10px; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--bg); color: var(--ink);
+  font-family: inherit; font-size: 13px; width: 100%;
+  transition: border-color 180ms var(--ease);
+}
+.widget__select:focus, .widget__input:focus, .widget__textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.widget__textarea { resize: vertical; min-height: 60px; font-family: var(--font-mono, monospace); }
+
+.widget__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.widget__list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px;
+  background: var(--bg-elevated, var(--bg-raised));
+  border: 1px solid transparent;
+}
+.widget__list li:hover { border-color: var(--rule); }
+
+/* Edit mode + chrome */
+.widget__remove, .widget__resize, .widget__handle { display: none; }
+.editing-dashboard .widget {
+  cursor: grab; user-select: none;
+  animation: widget-wiggle 0.6s ease-in-out infinite;
+}
+.editing-dashboard .widget:nth-child(odd) { animation-delay: -0.3s; }
+.editing-dashboard .widget:active { cursor: grabbing; }
+.editing-dashboard .widget__remove,
+.editing-dashboard .widget__resize { display: flex; }
+.editing-dashboard .widget input,
+.editing-dashboard .widget textarea,
+.editing-dashboard .widget select,
+.editing-dashboard .widget button:not(.widget__remove):not(.widget__resize) {
+  pointer-events: none; opacity: 0.55;
+}
+.widget__remove {
+  position: absolute; top: -10px; right: -10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #dc2626; color: #fff; border: 2px solid var(--bg);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center;
+  z-index: 3; box-shadow: var(--shadow-md);
+  transition: transform 150ms var(--ease);
+}
+.widget__remove:hover { transform: scale(1.12); background: #ef4444; }
+.widget__resize {
+  position: absolute; bottom: 8px; right: 8px;
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--accent-soft); color: var(--accent);
+  cursor: pointer; font-size: 14px; line-height: 1;
+  align-items: center; justify-content: center; border: none;
+  z-index: 3; transition: transform 150ms var(--ease);
+}
+.widget__resize:hover { transform: scale(1.12); }
+.widget.is-dragging { opacity: 0.4; transform: scale(0.96); }
+.widget.is-drop-target { outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+@keyframes widget-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-0.5deg); }
+  75%  { transform: rotate(0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.dash-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 8px 0 0 0; gap: 12px; flex-wrap: wrap;
+}
+.dash-toolbar__hint { font-size: 12px; color: var(--ink-3); }
+.btn-edit-dashboard, .btn-add-widget, .btn-reset-layout {
+  appearance: none; padding: 9px 18px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink);
+  font-family: inherit;
+  transition: all 200ms var(--ease);
+}
+.btn-edit-dashboard:hover, .btn-add-widget:hover, .btn-reset-layout:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.editing-dashboard .btn-edit-dashboard:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.btn-add-widget { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-add-widget:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+/* Add Widget bottom sheet */
+.widget-shelf {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-raised); border-top: 1px solid var(--rule);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.10); padding: 24px;
+  max-height: 60vh; overflow-y: auto; z-index: 100;
+  transform: translateY(100%); transition: transform 320ms var(--ease);
+}
+.editing-dashboard .widget-shelf { transform: translateY(0); }
+.widget-shelf__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.widget-shelf__title { font-size: 18px; font-weight: 600; margin: 0; }
+.widget-shelf__close { font-size: 22px; line-height: 1; cursor: pointer; padding: 4px 12px;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 100px; }
+.widget-shelf__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; max-width: 1200px; margin: 0 auto;
+}
+.widget-shelf__item {
+  padding: 14px; background: var(--bg); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer; text-align: left;
+  font-family: inherit;
+  transition: transform 160ms var(--ease), border-color 160ms var(--ease);
+}
+.widget-shelf__item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.widget-shelf__item h3 { font-size: 13px; margin: 0 0 4px 0; font-weight: 600; color: var(--ink); }
+.widget-shelf__item p { font-size: 11px; color: var(--ink-3); margin: 0; line-height: 1.4; }
+.widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
+.widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
+
 </style>
 </head>
 <body>
@@ -465,8 +666,8 @@ body.theme-sage {
 <header class="hero">
   <div class="wrap">
     <p class="eyebrow">Welcome back</p>
-    <h1>Your <em>orchestra.</em></h1>
-    <p class="lead">Conduct projects, fire autopilot, tune settings — every part of the Ensemble, one click away.</p>
+    <h1>Your <em>control deck.</em></h1>
+    <p class="lead">Drag, resize, add, remove. Make this dashboard yours.</p>
     <div class="meta">
       <span><span class="dot"></span> v2.0 · 7 projects · 6 auto-test</span>
       <span id="hero-status">loading…</span>
@@ -476,59 +677,748 @@ body.theme-sage {
 
 <section>
   <div class="wrap">
-    <div class="tiles">
-
-      <a class="tile" href="./projects.html">
-        <span class="glyph">◐</span>
-        <h3>Projects</h3>
-        <p class="tile-sub">Roster, completion, state pills, per-project pages.</p>
-        <p class="tile-stat">7 projects · 5 need attention</p>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="tile" href="./commands.html">
-        <span class="glyph">⚡</span>
-        <h3>Commands</h3>
-        <p class="tile-sub">Fire autopilot, set project state, kill switch, token cycle.</p>
-        <p class="tile-stat" id="commands-stat">— autopilots running</p>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="tile" href="./settings.html">
-        <span class="glyph">⚙</span>
-        <h3>Settings</h3>
-        <p class="tile-sub">Mode, concurrency cap, hardening flags, rapid-fire.</p>
-        <p class="tile-stat" id="settings-stat">9 preferences</p>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="tile" href="./docs.html">
-        <span class="glyph">☰</span>
-        <h3>Documentation</h3>
-        <p class="tile-sub">Setup, cheat sheet, troubleshooting, design docs, repos.</p>
-        <p class="tile-stat">6 sections</p>
-        <span class="arrow">→</span>
-      </a>
-
+    <div class="dash-toolbar">
+      <span class="dash-toolbar__hint" id="dash-hint">Welcome — your default layout is below. Click <strong>Edit Dashboard</strong> to customize.</span>
+      <div class="widget__row">
+        <button class="btn-reset-layout" id="btn-reset-dash" data-owner-only style="display:none;">Reset Layout</button>
+        <button class="btn-edit-dashboard" id="btn-edit-dash" data-owner-only>Edit Dashboard</button>
+      </div>
     </div>
+    <div class="widget-grid" id="widgetGrid"></div>
+    <aside class="widget-shelf" id="widgetShelf" aria-label="Widget shelf">
+      <div class="widget-shelf__header">
+        <h2 class="widget-shelf__title">Add Widget</h2>
+        <button class="widget-shelf__close" id="btn-close-shelf" type="button">Done</button>
+      </div>
+      <div class="widget-shelf__grid" id="widgetShelfGrid"></div>
+    </aside>
   </div>
 </section>
-
 <script>
-function refreshPageState(state) {
-  const cmd = document.getElementById("commands-stat");
-  const hero = document.getElementById("hero-status");
-  const settingsStat = document.getElementById("settings-stat");
-  if (!state) {
-    if (hero) hero.textContent = "control panel offline · open from Mac to see live status";
-    if (cmd) cmd.textContent = "control panel offline";
-    if (settingsStat) settingsStat.textContent = "9 preferences · sync on connect";
-    return;
+(function () {
+  'use strict';
+  const STORAGE_KEY = "ENSEMBLE_DASHBOARD_LAYOUT";
+
+  // ─── Helpers ───────────────────────────────────────────────────────
+  const $ = (sel, root) => (root || document).querySelector(sel);
+  const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+  const escapeHtml = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+  function authHeaders_() {
+    const t = localStorage.getItem("DASHBOARD_TOKEN") || "";
+    return t ? { "Authorization": "Bearer " + t, "Content-Type": "application/json" }
+             : { "Content-Type": "application/json" };
   }
-  if (cmd) cmd.textContent = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " autopilots running";
-  if (hero) hero.textContent = "mode: " + (state.mode || "?") + " · " + (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " active";
-  if (settingsStat) settingsStat.textContent = "9 preferences";
-}
+  function srv_() {
+    const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
+    if (stored) return stored;
+    return location.hostname === "localhost" || location.hostname === "127.0.0.1" ? "http://localhost:8080" : "";
+  }
+  function apiPost(path, body) {
+    const u = srv_() + path;
+    if (!srv_()) return Promise.reject(new Error("Server URL not set — open from your Mac."));
+    return fetch(u, { method: "POST", headers: authHeaders_(), body: JSON.stringify(body || {}) })
+      .then(async r => {
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) {
+          const err = new Error(j.error || r.statusText);
+          err.status = r.status; err.body = j;
+          throw err;
+        }
+        return j;
+      });
+  }
+
+  function fmtCountdown(iso) {
+    if (!iso) return "—";
+    const ms = new Date(iso).getTime() - Date.now();
+    if (ms <= 0) return "now";
+    const days = Math.floor(ms / 86400000);
+    const hours = Math.floor((ms % 86400000) / 3600000);
+    if (days > 0) return days + "d " + hours + "h";
+    const mins = Math.floor((ms % 3600000) / 60000);
+    return hours + "h " + mins + "m";
+  }
+
+  // ─── Widget catalog ────────────────────────────────────────────────
+  const WIDGETS = {
+    "mode-pill": {
+      title: "Mode",
+      description: "Toggle between orchestrated (full protocol) and direct (conversational) mode.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const m = s ? (s.mode || "?") : "—";
+        const next = m === "orchestrated" ? "direct" : "orchestrated";
+        const cls = m === "orchestrated" ? "widget__chip--success" : (m === "direct" ? "widget__chip--warn" : "widget__chip--neutral");
+        return `<div class="widget__header"><span class="widget__title">System mode</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__chip ${cls}" style="font-size:14px;padding:6px 14px;">${escapeHtml(m)}</span>
+            <button class="widget__btn" data-act="set-mode" data-target="${next}" data-owner-only>flip to ${next}</button>
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="set-mode"]')?.addEventListener('click', async (ev) => {
+          try { await apiPost("/set-config", { field: "mode", value: ev.currentTarget.dataset.target }); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "active-count": {
+      title: "Active autopilots",
+      description: "Currently running autopilots vs. concurrency cap.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const a = s?.active_count ?? 0;
+        const c = s?.max_concurrent_autopilots ?? 2;
+        const tag = a === 0 ? "idle" : (a >= c ? "at cap" : "running");
+        return `<div class="widget__header"><span class="widget__title">Autopilots</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__numeral">${a}<span class="muted">/${c}</span></span>
+            <small style="font-size:11px;color:var(--ink-3);">${tag}</small>
+          </div>`;
+      },
+      bind() {},
+    },
+    "token-cycle": {
+      title: "Token reset",
+      description: "Countdown to your weekly token reset. Click to edit.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const reset = s?.weekly_token_reset_at;
+        const txt = fmtCountdown(reset);
+        const cls = !reset ? "widget__chip--neutral" : (txt === "now" ? "widget__chip--danger" : (!txt.includes("d") ? "widget__chip--warn" : "widget__chip--success"));
+        return `<div class="widget__header"><span class="widget__title">Token reset</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__chip ${cls}" style="font-size:16px;font-weight:700;padding:6px 16px;">${escapeHtml(txt)}</span>
+            <button class="widget__btn widget__btn--ghost" data-act="edit-token" data-owner-only>edit</button>
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="edit-token"]')?.addEventListener('click', async () => {
+          const cur = window._ALL_STATE?.weekly_token_reset_at || "";
+          const next = prompt("Weekly token reset (ISO 8601):", cur);
+          if (!next) return;
+          try { await apiPost("/set-config", { field: "weekly_token_reset_at", value: new Date(next).toISOString() }); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "lock-status": {
+      title: "Workshop lock",
+      description: "Workshop autopilot lock status, with emergency force-release.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const held = !!s?.lock_held;
+        const holder = s?.lock_holder?.chat_id || s?.lock_holder?.slug || "";
+        return `<div class="widget__header"><span class="widget__title">Workshop lock</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__chip ${held ? 'widget__chip--warn' : 'widget__chip--success'}" style="font-size:14px;padding:6px 14px;">${held ? '🔒 held' : '✓ free'}</span>
+            ${held && holder ? `<small style="font-size:11px;color:var(--ink-3);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(holder)}</small>` : ''}
+            ${held ? `<button class="widget__btn widget__btn--danger" data-act="release-lock" data-owner-only>force-release</button>` : ''}
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="release-lock"]')?.addEventListener('click', async () => {
+          if (!confirm("Force-release the workshop lock? Logged to lock_steals.log.")) return;
+          try { const r = await apiPost("/release-lock", {}); alert("Released. Prior holder: " + (r.prior_holder || "none")); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "smoke-alerts": {
+      title: "Smoke tests",
+      description: "Count of projects with checkpoints awaiting your eyes-on review.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const projects = s?.projects || [];
+        const pending = projects.filter(p => p.pending_smoke_test);
+        return `<div class="widget__header"><span class="widget__title">Smoke tests</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__numeral" style="color:${pending.length ? 'var(--accent)' : 'var(--ink-2)'};">${pending.length}</span>
+            <small style="font-size:11px;color:var(--ink-3);">${pending.length ? 'pending review' : 'all clear'}</small>
+            ${pending.length ? `<a class="widget__btn widget__btn--ghost" href="./projects.html">review</a>` : ''}
+          </div>`;
+      },
+      bind() {},
+    },
+    "quick-fire": {
+      title: "Quick fire",
+      description: "One-click triggers for the main scheduled tasks (morning briefing, dashboard, weekly report, etc.)",
+      defaultSize: "2x1", sizes: ["2x1", "2x2"],
+      render() {
+        const tasks = [["morning-briefing","Morning"],["evening-planning","Evening"],["dashboard-update","Dashboard"],["weekly-report","Weekly"],["token-burn-down","Burn-down"],["backup-snapshot","Backup"]];
+        return `<div class="widget__header"><span class="widget__title">Quick fire</span><span class="widget__hint">click to run · 30 min</span></div>
+          <div class="widget__body">
+            <div class="widget__row">${tasks.map(([slug, label]) => `<button class="widget__btn" data-act="qf" data-task="${slug}" data-owner-only>${label}</button>`).join('')}</div>
+            <small style="font-size:11px;color:var(--ink-3);" data-status></small>
+          </div>`;
+      },
+      bind(el) {
+        const status = el.querySelector('[data-status]');
+        el.querySelectorAll('[data-act="qf"]').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const task = btn.dataset.task;
+            if (status) status.textContent = "firing " + task + "…";
+            try {
+              await apiPost("/fire", { slug: task, minutes: 30, prompt: "" });
+              if (status) status.textContent = "✓ fired " + task;
+              setTimeout(() => { if (status && status.textContent.startsWith("✓")) status.textContent = ""; }, 4000);
+            } catch (e) { if (status) status.textContent = "✗ " + e.message; }
+          });
+        });
+      },
+    },
+    "kill-switch": {
+      title: "Kill switch",
+      description: "Emergency: full kill cascade — releases lock, pauses automations, flips to direct mode.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render() {
+        return `<div class="widget__header"><span class="widget__title">Kill switch</span></div>
+          <div class="widget__body widget__body--center">
+            <button class="widget__btn widget__btn--danger widget__btn--big" data-act="kill" data-owner-only>KILL</button>
+            <small style="font-size:11px;color:var(--ink-3);">cascade: lock → pause → mode</small>
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="kill"]')?.addEventListener('click', async () => {
+          if (!confirm("Run full kill cascade?\n\nReleases lock, pauses automations, flips to direct mode.")) return;
+          try { await apiPost("/kill", {}); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "pause-toggle": {
+      title: "Pause autopilots",
+      description: "Soft pause — block new autopilot starts without killing existing ones.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const paused = !!s?.autopilots_paused;
+        return `<div class="widget__header"><span class="widget__title">Pause autopilots</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__chip ${paused ? 'widget__chip--warn' : 'widget__chip--success'}" style="font-size:14px;padding:6px 14px;">${paused ? 'paused' : 'running'}</span>
+            <button class="widget__btn" data-act="pause" data-target="${!paused}" data-owner-only>${paused ? 'resume' : 'pause'}</button>
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="pause"]')?.addEventListener('click', async (ev) => {
+          const target = ev.currentTarget.dataset.target === 'true';
+          try { await apiPost("/pause-autopilots", { value: target }); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "rapid-fire-toggle": {
+      title: "Rapid-fire",
+      description: "System-wide rapid-fire mode (button-driven decisions vs. prose).",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const on = !!s?.rapid_fire_enabled;
+        return `<div class="widget__header"><span class="widget__title">Rapid-fire</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__chip ${on ? 'widget__chip--success' : 'widget__chip--neutral'}" style="font-size:14px;padding:6px 14px;">${on ? 'on' : 'off'}</span>
+            <button class="widget__btn" data-act="rf" data-target="${!on}" data-owner-only>${on ? 'turn off' : 'turn on'}</button>
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="rf"]')?.addEventListener('click', async (ev) => {
+          const target = ev.currentTarget.dataset.target === 'true';
+          try { await apiPost("/set-config", { field: "rapid_fire_enabled", value: target }); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "autopilot-cap": {
+      title: "Autopilot cap",
+      description: "Maximum concurrent autopilot sessions. Drag the slider to adjust.",
+      defaultSize: "2x1", sizes: ["2x1", "1x1"],
+      render(s) {
+        const cap = s?.max_concurrent_autopilots ?? 2;
+        return `<div class="widget__header"><span class="widget__title">Concurrency cap</span><span class="widget__hint">simultaneous autopilots</span></div>
+          <div class="widget__body" style="justify-content:center;">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <input type="range" min="1" max="16" value="${cap}" data-act="cap-slider" data-owner-only style="flex:1;accent-color:var(--accent);" />
+              <span class="widget__numeral" style="font-size:32px;" data-display>${cap}</span>
+            </div>
+            <small style="font-size:11px;color:var(--ink-3);text-align:center;">3 = Kevin's setup · 1 = serial only · 16 = unbounded</small>
+          </div>`;
+      },
+      bind(el) {
+        const slider = el.querySelector('[data-act="cap-slider"]');
+        const display = el.querySelector('[data-display]');
+        if (!slider) return;
+        slider.addEventListener('input', () => { if (display) display.textContent = slider.value; });
+        slider.addEventListener('change', async () => {
+          try { await apiPost("/set-config", { field: "max_concurrent_autopilots", value: parseInt(slider.value, 10) }); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "project-list": {
+      title: "Projects",
+      description: "Roster of all onboarded chats with state pills + completion %.",
+      defaultSize: "2x2", sizes: ["2x2", "1x2", "2x1"],
+      render(s) {
+        const projects = s?.projects || [];
+        if (!projects.length) return `<div class="widget__header"><span class="widget__title">Projects</span></div><div class="widget__body widget__body--center"><small style="color:var(--ink-3);">no projects yet</small></div>`;
+        const items = projects.map(p => {
+          const cls = p.state === 'Hibernating' ? 'widget__chip--neutral' : (p.needs_attention ? 'widget__chip--warn' : 'widget__chip--success');
+          const pct = p.completion_percent ?? '—';
+          return `<li><a href="./${escapeHtml(p.slug)}.html" style="text-decoration:none;color:var(--ink);flex:1;font-weight:500;font-size:13px;">${escapeHtml(p.name || p.slug)}</a>
+            <span class="widget__chip ${cls}" style="font-size:10px;padding:2px 8px;">${escapeHtml(p.state || '?')}</span>
+            <span style="font-size:11px;color:var(--ink-3);min-width:40px;text-align:right;">${pct}${pct === '—' ? '' : '%'}</span></li>`;
+        }).join('');
+        return `<div class="widget__header"><span class="widget__title">Projects</span><span class="widget__hint">${projects.length} total</span></div>
+          <div class="widget__body" style="overflow-y:auto;"><ul class="widget__list">${items}</ul></div>`;
+      },
+      bind() {},
+    },
+    "recent-commits": {
+      title: "Recent activity",
+      description: "Most recent project heartbeats — freshest first.",
+      defaultSize: "2x1", sizes: ["2x1", "2x2"],
+      render(s) {
+        const projects = s?.projects || [];
+        const recent = projects.filter(p => p.last_heartbeat).sort((a, b) => (b.last_heartbeat || '').localeCompare(a.last_heartbeat || '')).slice(0, 6);
+        if (!recent.length) return `<div class="widget__header"><span class="widget__title">Recent activity</span></div><div class="widget__body widget__body--center"><small style="color:var(--ink-3);">no recent heartbeats</small></div>`;
+        return `<div class="widget__header"><span class="widget__title">Recent activity</span></div>
+          <div class="widget__body" style="overflow-y:auto;">
+            <ul class="widget__list">
+              ${recent.map(p => `<li><span style="flex:1;font-size:12px;">${escapeHtml(p.name || p.slug)}</span><small style="font-size:11px;color:var(--ink-3);">${escapeHtml((p.last_heartbeat || '').slice(0, 10))}</small></li>`).join('')}
+            </ul>
+          </div>`;
+      },
+      bind() {},
+    },
+    "routines": {
+      title: "Scheduled tasks",
+      description: "Active routines: morning briefing, dashboard refresh, weekly report, etc.",
+      defaultSize: "1x2", sizes: ["1x2", "2x1", "2x2"],
+      render() {
+        const routines = [
+          ["Morning briefing", "08:30 daily"],
+          ["Evening planning", "20:00 daily"],
+          ["Overnight heavy", "02:00 nightly"],
+          ["Dashboard update", "3× daily"],
+          ["Backup snapshot", "00:00 nightly"],
+          ["Token burn-down", "hourly (window)"],
+          ["Weekly report", "Sun 06:00"],
+          ["Rotation", "weekly"],
+        ];
+        return `<div class="widget__header"><span class="widget__title">Routines</span></div>
+          <div class="widget__body" style="overflow-y:auto;">
+            <ul class="widget__list">
+              ${routines.map(([n, t]) => `<li><span style="flex:1;font-size:12px;">${escapeHtml(n)}</span><small style="font-size:10px;color:var(--ink-3);">${escapeHtml(t)}</small></li>`).join('')}
+            </ul>
+          </div>`;
+      },
+      bind() {},
+    },
+    "chat-control": {
+      title: "Chat control",
+      description: "Per-chat: state advance, active toggle, rapid-fire toggle, autopilot toggle.",
+      defaultSize: "2x2", sizes: ["2x2", "2x1"],
+      render(s, props) {
+        const chats = s?.projects || [];
+        const chosen = props?.chatSlug || (chats[0] && chats[0].slug);
+        const c = chats.find(x => x.slug === chosen);
+        let rfText = "inherit";
+        if (c) {
+          if (c.rapid_fire_enabled === true) rfText = "on";
+          else if (c.rapid_fire_enabled === false) rfText = "off";
+        }
+        return `<div class="widget__header"><span class="widget__title">Chat control</span></div>
+          <div class="widget__body" style="gap:8px;">
+            <select class="widget__select" data-act="cc-pick" data-owner-only>
+              ${chats.map(ch => `<option value="${escapeHtml(ch.slug)}" ${ch.slug === chosen ? 'selected' : ''}>${escapeHtml(ch.name || ch.slug)}</option>`).join('')}
+            </select>
+            ${c ? `
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;"><span style="color:var(--ink-3);">state</span><span class="widget__chip widget__chip--neutral" style="font-size:10px;">${escapeHtml(c.state || '?')}</span></div>
+            <select class="widget__select" data-act="cc-state" data-owner-only>
+              <option value="">advance state…</option>
+              <option value="Building">Building</option>
+              <option value="Launch Prep">Launch Prep</option>
+              <option value="Warmer">Warmer</option>
+              <option value="R&D">R&amp;D</option>
+              <option value="Updates">Updates</option>
+              <option value="Hibernating">Hibernating</option>
+            </select>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;"><span style="color:var(--ink-3);">active</span><button class="widget__btn" data-act="cc-active" data-owner-only>${c.active ? 'on · turn off' : 'off · turn on'}</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;"><span style="color:var(--ink-3);">rapid-fire</span><button class="widget__btn" data-act="cc-rf" data-owner-only>${rfText}</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;"><span style="color:var(--ink-3);">autopilot</span><button class="widget__btn" data-act="cc-ap" data-owner-only>${c.autopilot_eligible ? 'eligible · disable' : 'disabled · enable'}</button></div>
+            ${c.has_queued_messages ? `<small style="color:var(--accent);font-size:11px;">${c.queued_count} message${c.queued_count === 1 ? '' : 's'} queued</small>` : ''}
+            ` : '<small style="color:var(--ink-3);">no chat selected</small>'}
+          </div>`;
+      },
+      bind(el, props, ctx) {
+        const sel = el.querySelector('[data-act="cc-pick"]');
+        sel?.addEventListener('change', () => { ctx.setProps({ chatSlug: sel.value }); ctx.rerender(); });
+        const slug = props?.chatSlug || sel?.value;
+        if (!slug) return;
+        const stateSel = el.querySelector('[data-act="cc-state"]');
+        stateSel?.addEventListener('change', async () => {
+          if (!stateSel.value) return;
+          try {
+            let r = await fetch(srv_() + "/set-state", { method: "POST", headers: authHeaders_(), body: JSON.stringify({ slug, state: stateSel.value }) });
+            let j = await r.json();
+            if (r.status === 409 && j.error === "smoke_test_required") {
+              const ok = confirm("Checkpoint " + j.checkpoint + " smoke test required: " + j.current_state + " → " + j.target_state + ".\n\nForce-skip?");
+              if (ok) {
+                r = await fetch(srv_() + "/set-state", { method: "POST", headers: authHeaders_(), body: JSON.stringify({ slug, state: stateSel.value, force: true }) });
+                j = await r.json();
+              }
+            }
+            if (!r.ok) throw new Error(j.error || r.statusText);
+            window.refreshState && window.refreshState();
+          } catch (e) { alert(e.message); }
+        });
+        el.querySelector('[data-act="cc-active"]')?.addEventListener('click', async () => {
+          try { await apiPost("/toggle-active", { slug }); window.refreshState && window.refreshState(); } catch (e) { alert(e.message); }
+        });
+        el.querySelector('[data-act="cc-rf"]')?.addEventListener('click', async () => {
+          const cur = window._ALL_STATE?.projects?.find(p => p.slug === slug)?.rapid_fire_enabled;
+          let next;
+          if (cur === null || cur === undefined) next = true;
+          else if (cur === true) next = false;
+          else next = null;
+          try { await apiPost("/chat-rapidfire", { slug, value: next }); window.refreshState && window.refreshState(); } catch (e) { alert(e.message); }
+        });
+        el.querySelector('[data-act="cc-ap"]')?.addEventListener('click', async () => {
+          try { await apiPost("/toggle-autopilot", { slug }); window.refreshState && window.refreshState(); } catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "chat-message": {
+      title: "Send chat message",
+      description: "Queue a note for a chat — lands in queued_messages, picked up on next turn.",
+      defaultSize: "2x1", sizes: ["2x1", "2x2"],
+      render(s, props) {
+        const chats = s?.projects || [];
+        const chosen = props?.chatSlug || (chats[0] && chats[0].slug);
+        return `<div class="widget__header"><span class="widget__title">Send to chat</span></div>
+          <div class="widget__body" style="gap:8px;">
+            <select class="widget__select" data-act="cm-pick" data-owner-only>
+              ${chats.map(ch => `<option value="${escapeHtml(ch.slug)}" ${ch.slug === chosen ? 'selected' : ''}>${escapeHtml(ch.name || ch.slug)}</option>`).join('')}
+            </select>
+            <textarea class="widget__textarea" data-act="cm-text" placeholder="message text…" data-owner-only></textarea>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+              <small style="font-size:11px;color:var(--ink-3);" data-status></small>
+              <button class="widget__btn widget__btn--primary" data-act="cm-send" data-owner-only>Send</button>
+            </div>
+          </div>`;
+      },
+      bind(el, props, ctx) {
+        const sel = el.querySelector('[data-act="cm-pick"]');
+        const txt = el.querySelector('[data-act="cm-text"]');
+        const status = el.querySelector('[data-status]');
+        sel?.addEventListener('change', () => ctx.setProps({ chatSlug: sel.value }));
+        el.querySelector('[data-act="cm-send"]')?.addEventListener('click', async () => {
+          const slug = sel?.value;
+          const message = (txt?.value || "").trim();
+          if (!slug || !message) { if (status) status.textContent = "pick chat + write a message"; return; }
+          try {
+            const r = await apiPost("/chat-message", { slug, message });
+            if (status) status.textContent = "✓ sent · " + r.queued_count + " queued";
+            if (txt) txt.value = "";
+            setTimeout(() => { if (status) status.textContent = ""; }, 4000);
+          } catch (e) { if (status) status.textContent = "✗ " + e.message; }
+        });
+      },
+    },
+    "chat-reread": {
+      title: "Re-read contract",
+      description: "Trigger a chat to re-read its operating contract (and auto-engage rapid-fire).",
+      defaultSize: "1x1", sizes: ["1x1", "2x1"],
+      render(s, props) {
+        const chats = s?.projects || [];
+        const chosen = props?.chatSlug || (chats[0] && chats[0].slug);
+        return `<div class="widget__header"><span class="widget__title">Re-read contract</span></div>
+          <div class="widget__body" style="gap:8px;">
+            <select class="widget__select" data-act="cr-pick" data-owner-only>
+              ${chats.map(ch => `<option value="${escapeHtml(ch.slug)}" ${ch.slug === chosen ? 'selected' : ''}>${escapeHtml(ch.name || ch.slug)}</option>`).join('')}
+            </select>
+            <button class="widget__btn widget__btn--primary" data-act="cr-fire" data-owner-only>Trigger re-read</button>
+            <small style="font-size:11px;color:var(--ink-3);" data-status></small>
+          </div>`;
+      },
+      bind(el, props, ctx) {
+        const sel = el.querySelector('[data-act="cr-pick"]');
+        const status = el.querySelector('[data-status]');
+        sel?.addEventListener('change', () => ctx.setProps({ chatSlug: sel.value }));
+        el.querySelector('[data-act="cr-fire"]')?.addEventListener('click', async () => {
+          const slug = sel?.value;
+          if (!slug) { if (status) status.textContent = "pick a chat"; return; }
+          try {
+            await apiPost("/chat-reread", { slug });
+            if (status) status.textContent = "✓ flagged · chat will re-read on next turn";
+            setTimeout(() => { if (status) status.textContent = ""; }, 5000);
+          } catch (e) { if (status) status.textContent = "✗ " + e.message; }
+        });
+      },
+    },
+    "theme-switcher": {
+      title: "Theme",
+      description: "Pick from 10 color themes. Choice persists per-device.",
+      defaultSize: "2x1", sizes: ["2x1", "1x1"],
+      render() {
+        const themes = [["warm","W"],["slate","S"],["mono","M"],["forest","F"],["aurora","A"],["rose","R"],["ocean","O"],["sunset","Su"],["midnight","Mi"],["sage","Sa"]];
+        return `<div class="widget__header"><span class="widget__title">Theme</span></div>
+          <div class="widget__body widget__body--center">
+            <div class="theme-picker" data-theme-picker>
+              ${themes.map(([t, lbl]) => `<div class="theme-swatch ${t}" data-theme="${t}" title="${t}">${lbl}</div>`).join('')}
+            </div>
+          </div>`;
+      },
+      bind(el) {
+        const apply = (name) => {
+          const list = ["warm","slate","mono","forest","aurora","rose","ocean","sunset","midnight","sage"];
+          list.forEach(t => document.body.classList.remove("theme-" + t));
+          document.documentElement.classList.remove(...list.map(t => "theme-" + t));
+          if (name && name !== "warm") {
+            document.body.classList.add("theme-" + name);
+            document.documentElement.classList.add("theme-" + name);
+          }
+          el.querySelectorAll(".theme-swatch").forEach(sw => sw.classList.toggle("active", sw.dataset.theme === (name || "warm")));
+        };
+        const cur = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+        apply(cur);
+        el.querySelectorAll(".theme-swatch").forEach(sw => {
+          sw.addEventListener("click", () => {
+            localStorage.setItem("ENSEMBLE_THEME", sw.dataset.theme);
+            apply(sw.dataset.theme);
+          });
+        });
+      },
+    },
+    "sticky-note": {
+      title: "Sticky note",
+      description: "Editable freeform note. Auto-saves per-device.",
+      defaultSize: "1x1", sizes: ["1x1", "2x1", "1x2", "2x2"],
+      render(s, props) {
+        const id = props?.noteId || "default";
+        const key = "ENSEMBLE_STICKY_" + id;
+        let saved = "";
+        try { saved = localStorage.getItem(key) || ""; } catch (e) {}
+        return `<div class="widget__header"><span class="widget__title">Note</span><span class="widget__hint">auto-saves</span></div>
+          <div class="widget__body">
+            <textarea class="widget__textarea" data-act="sn-text" data-key="${escapeHtml(key)}" placeholder="jot something…" style="flex:1;height:100%;border:none;background:transparent;padding:0;font-family:var(--font-mono,monospace);">${escapeHtml(saved)}</textarea>
+          </div>`;
+      },
+      bind(el) {
+        const t = el.querySelector('[data-act="sn-text"]');
+        if (!t) return;
+        const key = t.dataset.key;
+        let timer = null;
+        t.addEventListener('input', () => {
+          clearTimeout(timer);
+          timer = setTimeout(() => { try { localStorage.setItem(key, t.value); } catch (e) {} }, 400);
+        });
+      },
+    },
+  };
+
+  // ─── Default initial layout ────────────────────────────────────────
+  const DEFAULT_LAYOUT = [
+    { id: "project-list", size: "2x2" },
+    { id: "mode-pill", size: "1x1" },
+    { id: "active-count", size: "1x1" },
+    { id: "token-cycle", size: "1x1" },
+    { id: "smoke-alerts", size: "1x1" },
+    { id: "lock-status", size: "1x1" },
+    { id: "quick-fire", size: "2x1" },
+    { id: "kill-switch", size: "1x1" },
+    { id: "pause-toggle", size: "1x1" },
+    { id: "chat-control", size: "2x2" },
+    { id: "theme-switcher", size: "2x1" },
+  ];
+
+  // ─── Layout state ──────────────────────────────────────────────────
+  function loadLayout() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length) return parsed;
+      }
+    } catch (e) {}
+    return JSON.parse(JSON.stringify(DEFAULT_LAYOUT));
+  }
+  function saveLayout(l) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(l)); } catch (e) {} }
+
+  let LAYOUT = loadLayout();
+  let editing = false;
+
+  // ─── Render ────────────────────────────────────────────────────────
+  function makeWidgetEl(item, idx, state) {
+    const def = WIDGETS[item.id];
+    if (!def) return null;
+    const size = item.size || def.defaultSize || "1x1";
+    const el = document.createElement("div");
+    el.className = "widget widget--" + size;
+    el.dataset.widgetId = item.id;
+    el.dataset.idx = String(idx);
+    el.draggable = false;
+    try { el.innerHTML = def.render(state, item.props || {}); }
+    catch (e) { el.innerHTML = `<div class="widget__header"><span class="widget__title">${escapeHtml(def.title)}</span></div><div class="widget__body widget__body--center"><small style="color:#dc2626;">render error: ${escapeHtml(e.message)}</small></div>`; }
+
+    const x = document.createElement("button");
+    x.className = "widget__remove"; x.type = "button"; x.innerHTML = "×"; x.title = "Remove";
+    x.addEventListener("click", (ev) => { ev.stopPropagation(); removeWidget(idx); });
+    el.appendChild(x);
+
+    if (def.sizes && def.sizes.length > 1) {
+      const r = document.createElement("button");
+      r.className = "widget__resize"; r.type = "button"; r.innerHTML = "⤢"; r.title = "Resize";
+      r.addEventListener("click", (ev) => { ev.stopPropagation(); cycleSize(idx); });
+      el.appendChild(r);
+    }
+
+    if (def.bind) {
+      try {
+        def.bind(el, item.props || {}, {
+          apiPost,
+          state,
+          setProps: (p) => { LAYOUT[idx].props = Object.assign({}, item.props || {}, p); saveLayout(LAYOUT); },
+          rerender: () => renderAll(window._ALL_STATE),
+        });
+      } catch (e) { /* swallow */ }
+    }
+    return el;
+  }
+
+  function renderAll(state) {
+    const grid = $("#widgetGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    LAYOUT.forEach((item, idx) => {
+      const el = makeWidgetEl(item, idx, state);
+      if (el) grid.appendChild(el);
+    });
+    if (editing) bindDragHandlers(grid);
+    renderShelf();
+  }
+
+  function refreshWidgetData(state) {
+    if (editing) return;  // don't re-render mid-edit
+    renderAll(state);
+  }
+
+  // ─── Edit mode ─────────────────────────────────────────────────────
+  function toggleEditMode() {
+    editing = !editing;
+    document.body.classList.toggle("editing-dashboard", editing);
+    const btn = $("#btn-edit-dash");
+    const reset = $("#btn-reset-dash");
+    const hint = $("#dash-hint");
+    if (btn) btn.textContent = editing ? "Done" : "Edit Dashboard";
+    if (reset) reset.style.display = editing ? "" : "none";
+    if (hint) {
+      hint.innerHTML = editing
+        ? "<strong>Edit mode:</strong> drag to rearrange · click ⤢ to resize · click × to remove · scroll down to add more"
+        : "Welcome — your default layout is shown. Click <strong>Edit Dashboard</strong> to customize.";
+    }
+    renderAll(window._ALL_STATE);
+  }
+
+  function bindDragHandlers(grid) {
+    grid.querySelectorAll(".widget").forEach(el => {
+      el.draggable = true;
+      el.addEventListener("dragstart", (ev) => {
+        el.classList.add("is-dragging");
+        ev.dataTransfer.effectAllowed = "move";
+        ev.dataTransfer.setData("text/plain", el.dataset.idx);
+      });
+      el.addEventListener("dragend", () => {
+        el.classList.remove("is-dragging");
+        $$(".widget.is-drop-target").forEach(x => x.classList.remove("is-drop-target"));
+      });
+      el.addEventListener("dragover", (ev) => { ev.preventDefault(); el.classList.add("is-drop-target"); });
+      el.addEventListener("dragleave", () => { el.classList.remove("is-drop-target"); });
+      el.addEventListener("drop", (ev) => {
+        ev.preventDefault();
+        const fromIdx = parseInt(ev.dataTransfer.getData("text/plain"), 10);
+        const toIdx = parseInt(el.dataset.idx, 10);
+        if (Number.isNaN(fromIdx) || Number.isNaN(toIdx) || fromIdx === toIdx) return;
+        const [moved] = LAYOUT.splice(fromIdx, 1);
+        LAYOUT.splice(toIdx, 0, moved);
+        saveLayout(LAYOUT);
+        renderAll(window._ALL_STATE);
+      });
+    });
+  }
+
+  function removeWidget(idx) {
+    LAYOUT.splice(idx, 1);
+    saveLayout(LAYOUT);
+    renderAll(window._ALL_STATE);
+  }
+
+  function cycleSize(idx) {
+    const item = LAYOUT[idx];
+    const def = WIDGETS[item.id];
+    const sizes = def.sizes || [item.size || def.defaultSize || "1x1"];
+    const cur = item.size || def.defaultSize || sizes[0];
+    const i = sizes.indexOf(cur);
+    item.size = sizes[(i + 1) % sizes.length];
+    saveLayout(LAYOUT);
+    renderAll(window._ALL_STATE);
+  }
+
+  function addWidget(id) {
+    const def = WIDGETS[id];
+    if (!def) return;
+    LAYOUT.push({ id, size: def.defaultSize, props: {} });
+    saveLayout(LAYOUT);
+    renderAll(window._ALL_STATE);
+  }
+
+  function resetLayout() {
+    if (!confirm("Reset dashboard to default layout? Your current arrangement will be lost.")) return;
+    LAYOUT = JSON.parse(JSON.stringify(DEFAULT_LAYOUT));
+    saveLayout(LAYOUT);
+    renderAll(window._ALL_STATE);
+  }
+
+  function renderShelf() {
+    const grid = $("#widgetShelfGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    Object.keys(WIDGETS).forEach(id => {
+      const def = WIDGETS[id];
+      const onGrid = LAYOUT.some(item => item.id === id);
+      const item = document.createElement("button");
+      item.className = "widget-shelf__item" + (onGrid ? " is-on-grid" : "");
+      item.type = "button";
+      item.innerHTML = `<h3>${escapeHtml(def.title)}</h3><p>${escapeHtml(def.description)}</p>`;
+      if (!onGrid) item.addEventListener("click", () => addWidget(id));
+      grid.appendChild(item);
+    });
+  }
+
+  // ─── Boot ──────────────────────────────────────────────────────────
+  document.addEventListener("DOMContentLoaded", () => {
+    $("#btn-edit-dash")?.addEventListener("click", toggleEditMode);
+    $("#btn-reset-dash")?.addEventListener("click", resetLayout);
+    $("#btn-close-shelf")?.addEventListener("click", () => { if (editing) toggleEditMode(); });
+    renderAll(window._ALL_STATE);
+  });
+
+  // Hook into SHARED_SCRIPTS state fetch loop.
+  window.refreshPageState = function (state) {
+    window._ALL_STATE = state;
+    const hero = $("#hero-status");
+    if (!state) {
+      if (hero) hero.textContent = "control panel offline · open from your Mac";
+    } else {
+      if (hero) hero.textContent = "mode: " + (state.mode || "?") + " · " + (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " active";
+    }
+    refreshWidgetData(state);
+  };
+
+  // Re-tick countdown widget each minute even without server fetch.
+  setInterval(() => {
+    if (!editing && LAYOUT.some(i => i.id === "token-cycle")) renderAll(window._ALL_STATE);
+  }, 60000);
+})();
 </script>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
