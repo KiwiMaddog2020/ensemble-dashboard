@@ -83,24 +83,38 @@
     </header>
     <article class="doc-content">
 <blockquote>
-<p>The previous Maestro chat ran ~24h covering: dashboard polish, native macOS app, conductor&rsquo;s-baton icon, codebase rating protocol, cycle freeze, full megascript split (Phase 1 of A-tier plan). Context filled. This file is your resume context — read it once and you&rsquo;re up to speed.</p>
+<p>The previous Maestro chat covered: strategic reorient (twice), Studio Phase A.0 → A.1 → A.2 → A.3 parts 1/2/3a/3b, click-to-launch on a Game Arcade preset, Claude chat drawer with Apply/Discard for component generation, nav rename + reorder, full PATH_TO_LAUNCH recalibration, the elevator pitch, and the start of a Studio polish pass. Read this file once and you&rsquo;re up to speed.</p>
 </blockquote>
 <hr />
 <h2 id="you-are-the-next-maestro">You are the next Maestro</h2>
 <p><strong>First action — read in this order, no questions yet:</strong></p>
 <ol>
 <li><code>~/.claude/orchestrator/plugins/ensemble/templates/MAESTRO.md</code> — your standing directives + 18+ behavioral rules + decision log + voice</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/MEMORY.md</code> — pointer manifest for all memory files; follow each pointer that&rsquo;s relevant</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/precedence.md</code> — six-tier rule precedence ladder (read this BEFORE anything that might conflict — safety &gt; priority-1 &gt; staples &gt; standing &gt; project-locked &gt; defaults)</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/self_audit.md</code> — silent self-check checklist; run it on every response in rapid-fire mode</li>
-<li><code>~/.claude/orchestrator/state.json</code> — current runtime; <strong>note <code>autopilot_freeze_until</code> is ACTIVE until 2026-05-01T11:00:00-07:00</strong> (Kevin&rsquo;s weekly token reset). All autopilot starts blocked until thaw.</li>
-<li>This file (you&rsquo;re reading it)</li>
-<li><code>~/.claude/orchestrator/docs/A_TIER_PLAN.md</code> — the canonical roadmap. Phase 1 is done. Phases 2-8 are the runway.</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/MEMORY.md</code> — pointer manifest</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/precedence.md</code> — six-tier rule precedence ladder</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/self_audit.md</code> — silent self-check checklist</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/warp_speed.md</code> — Warp Speed mode (active)</li>
+<li><code>~/.claude/orchestrator/state.json</code> — runtime state</li>
+<li><strong>The 6-doc grand-plan package at <code>~/.claude/orchestrator/docs/grand-plan/</code>:</strong>
+   - <code>MANIFESTO.md</code> — the <em>why</em>. Locked positioning: creator linktree-replacement.
+   - <code>PRODUCT_SPEC.md</code> — Studio is the front door, Dashboard is secondary.
+   - <code>ARCHITECTURE.md</code> — sandboxing, data, multi-tenancy plan.
+   - <code>ART_DIRECTION.md</code> — palette, pixel-art, animation, sound rules.
+   - <code>INTERACTIVE_ASSETS.md</code> — click-to-launch + 4 breakthrough mechanics.
+   - <code>GTM_PLAN.md</code> — 6-wave launch + business model.
+   - <code>PATH_TO_LAUNCH.md</code> — recalibration to 10/10 across every category. Locked DIY path.</li>
+<li>This file.</li>
 </ol>
-<p>After reading: open with rapid-fire (TOP REC + 2-3 alternatives via <code>AskUserQuestion</code>, slot 4 = <code>Disable Rapid Fire Mode</code>, &ldquo;(Recommended)&rdquo; in label) summarizing where things stand and offering the highest-value next move.</p>
-<p>Do NOT ask &ldquo;what&rsquo;s going on&rdquo; — Kevin has lived through this session in real time. He just needs a competent continuation, not a recap.</p>
+<p>After reading: open with rapid-fire (TOP REC + 2-3 alternatives via <code>AskUserQuestion</code>, slot 4 = <code>Disable Rapid Fire Mode</code>, &ldquo;(Recommended)&rdquo; in option 1 label).</p>
+<p><strong>Recommended opening from this handoff (see §&rdquo;What ships next&rdquo; below for full options):</strong></p>
+<ul>
+<li><strong>TOP REC</strong>: regen + smoke-test + commit the uncommitted Studio Tier 1 polish edits, then push.</li>
+<li><strong>Alt 1</strong>: skip the polish, jump to Phase A.3 part 3c (sprite generation Apply for Claude drawer).</li>
+<li><strong>Alt 2</strong>: pause Studio entirely, work on something else (Vera Nota infra fix, etc.).</li>
+</ul>
+<p>Do NOT ask &ldquo;what&rsquo;s going on&rdquo; — Kevin lived through this session.</p>
 <hr />
-<h2 id="current-runtime-state">Current runtime state</h2>
+<h2 id="current-runtime-state-snapshot">Current runtime state (snapshot)</h2>
 <table>
 <thead>
 <tr>
@@ -116,19 +130,14 @@
 <td>normal</td>
 </tr>
 <tr>
-<td><code>state.json.mode_transitioning</code></td>
-<td><code>false</code></td>
-<td>normal</td>
+<td><code>state.json.warp_speed_active</code></td>
+<td><code>true</code></td>
+<td>Warp Speed engaged 2026-04-27 — rapid-fire ON, turbo posture, autopilot offers at unit boundaries</td>
 </tr>
 <tr>
-<td><code>state.json.autopilots_paused</code></td>
-<td><code>false</code></td>
-<td>normal</td>
-</tr>
-<tr>
-<td><strong><code>state.json.autopilot_freeze_until</code></strong></td>
-<td><strong><code>2026-05-01T11:00:00-07:00</code></strong></td>
-<td><strong>🧊 Cycle freeze ACTIVE — no new autopilot starts until weekly token reset.</strong> Lift via <code>lift freeze</code> / PWA cycle-freeze widget / <code>POST /freeze-until {value:null}</code> if Kevin wants. He set it deliberately to cap his token spend this week.</td>
+<td><code>state.json.autopilot_freeze_until</code></td>
+<td><code>null</code></td>
+<td>Cycle freeze LIFTED earlier this session</td>
 </tr>
 <tr>
 <td><code>state.json.weekly_token_reset_at</code></td>
@@ -138,24 +147,66 @@
 <tr>
 <td><code>state.json.max_concurrent_autopilots</code></td>
 <td><code>3</code></td>
-<td>Kevin&rsquo;s setup</td>
+<td></td>
 </tr>
 <tr>
 <td>Workshop lock</td>
-<td>(check <code>state.lock.d/</code>)</td>
+<td>check <code>state.lock.d/</code></td>
 <td>should be free</td>
-</tr>
-<tr>
-<td>Active autopilots</td>
-<td>(check <code>state.json.active_autopilots</code>)</td>
-<td>likely empty given freeze</td>
 </tr>
 </tbody>
 </table>
 <p>Run <code>bash ~/.claude/orchestrator/bin/status.sh</code> for a live snapshot if anything looks off.</p>
 <hr />
-<h2 id="todays-session-in-one-paragraph">Today&rsquo;s session in one paragraph</h2>
-<p>Major arcs completed: (1) Dashboard editorial polish — every doc gets a hero block + drop cap + section eyebrows + reading-progress bar; onepager surfaced as featured Executive Overview card on docs.html and copied to <code>/onepager.html</code>. (2) GitHub repo metadata refreshed (description, homepage URL → dashboard, 10 topics added; <strong>stays private</strong> per <code>safety_constraints.md</code>). (3) Cycle freeze feature shipped end-to-end — state field + 5 server endpoints + autopilot-session pre-flight gate + PWA widget + verbal triggers + memory file. (4) Codebase Rating Protocol shipped as a real skill at <code>plugins/ensemble/skills/rate-code/SKILL.md</code> with engineered six-step methodology, anti-bias guardrails, evidence requirements; surfaced via <code>code-rate</code> widget. (5) Megascript split — <code>bin/dashboard-generate.sh</code> 4262 lines → <code>bin/dashgen/</code> package with 16 focused modules, <code>__main__.py</code> now 342 lines (-92%); byte-identical output verified throughout. Plus the A-tier plan written to <code>docs/A_TIER_PLAN.md</code> (eight-phase roadmap to bring every category to A).</p>
+<h2 id="where-the-code-is-right-now">Where the code is RIGHT NOW</h2>
+<h3 id="branch-commits">Branch + commits</h3>
+<ul>
+<li><strong>Branch:</strong> <code>main</code></li>
+<li><strong>Last pushed commit:</strong> <code>3cbf356</code> — Studio Phase A.3 part 3b + nav rename Home→Ensemble + reorder Studio to slot 2</li>
+<li><strong>Live PWA commit (ensemble-dashboard repo):</strong> <code>4325f16</code></li>
+<li><strong>Commits ahead of origin:</strong> 0 (everything pushed; uncommitted local work is below)</li>
+</ul>
+<h3 id="uncommitted-on-disk-studio-tier-1-polish-in-progress-not-yet-verified">Uncommitted on disk (Studio Tier 1 polish — IN PROGRESS, NOT YET VERIFIED)</h3>
+<pre><code>M  bin/dashgen/pages/studio_body.py
+M  bin/dashgen/studio/presets/blank.json
+M  bin/dashgen/styles/studio.py
+M  bin/dashgen/widgets/studio_engine_js.py
+</code></pre>
+<p><strong>What these edits do (Tier 1 polish — 5 fixes from the audit):</strong></p>
+<ol>
+<li>
+<p><strong><code>blank.json</code> welcome copy refresh</strong> — removed obsolete &ldquo;Phase A.1&rdquo; hint (edit mode shipped in A.3 part 1). New text: &ldquo;Press <em>Edit</em> to start. Drag sprites from the Workshop, or ask Claude in the chat drawer.&rdquo;</p>
+</li>
+<li>
+<p><strong>Live meta strip in <code>studio_body.py</code></strong> — new <code>&lt;div class="studio-meta"&gt;</code> between the page hero and the tabs. Shows: <code>· blank canvas · 5 components · 0 custom · last edited never · theme: warm</code>. Mirrors the meta-line pattern from <code>/index.html</code>.</p>
+</li>
+<li>
+<p><strong>Tab &ldquo;PHASE B / PHASE C&rdquo; hints replaced with &ldquo;soon&rdquo; pills</strong> — <code>&lt;span class="studio-tab__hint"&gt;phase B&lt;/span&gt;</code> → <code>&lt;span class="studio-tab__pill"&gt;soon&lt;/span&gt;</code>. Tab &ldquo;Room&rdquo; lost its <code>your stage</code> hint entirely (cleaner).</p>
+</li>
+<li>
+<p><strong>Footer info-strip cleanup</strong> — dropped obsolete &ldquo;Edit mode arrives in Phase A.3&rdquo; copy. New layout: bullet + preset name → <code>view mode</code> / <code>edit mode</code> indicator → flex-spacer → <code>Reset to default</code> accent-pill link.</p>
+</li>
+<li>
+<p><strong>Workshop section eyebrows get a bronze underbar</strong> — <code>.workshop-section__title::before</code> adds an 18px × 1px accent line preceding &ldquo;GET STARTED / EXAMPLES / ASSET PACKS&rdquo; so they match the page-level <code>.eyebrow</code> style.</p>
+</li>
+</ol>
+<p><strong>Engine logic changes (also uncommitted):</strong>
+- <code>syncStudioMeta()</code> — keeps the live meta strip in sync with <code>currentRoom</code>. Counts components, computes &ldquo;custom&rdquo; via <code>comp_</code> ID prefix, formats <code>last_saved_at</code> relative time, reads theme from localStorage.
+- <code>bindFooterActions()</code> — wires the &ldquo;Reset to default&rdquo; link to a <code>confirm()</code> + <code>discardSavedRoom()</code> + <code>loadPreset(DEFAULT_PRESET)</code> flow.
+- <code>renderRoom()</code> now calls <code>syncStudioMeta()</code> at the end of each render.
+- <code>setEditMode()</code> updates <code>#studio-info-mode</code> text.
+- <code>scheduleAutoSave()</code> writes <code>currentRoom.last_saved_at</code> and re-syncs the meta strip.</p>
+<h3 id="not-yet-done-in-this-turn">NOT YET DONE in this turn</h3>
+<ul>
+<li><code>bash bin/dashboard-generate.sh</code> to regen the dashboard</li>
+<li><code>python3 -m py_compile</code> to verify clean</li>
+<li>Browser smoke test (preview server) to verify the meta strip renders correctly + the footer Reset link works + the workshop eyebrows look right</li>
+<li><code>git commit</code> + <code>git push</code> once verified</li>
+</ul>
+<p><strong>The user paused here when stepping away — do NOT auto-push without re-verifying visually first.</strong> The polish edits look correct on paper but should be eyeballed in the browser before commit.</p>
+<hr />
+<h2 id="todays-session-in-one-paragraph-chronological-arc">Today&rsquo;s session in one paragraph (chronological arc)</h2>
+<p>(1) Started as Maestro continuation, shipped Phase 2 CSS unification + Phase 2.5 (caffeinate menu bar / themes warm-to-cool / funky backgrounds / Warp Speed memory file / control deck tree / pair page). (2) Locked the strategic grand-plan package — 6 docs, ~20k words: MANIFESTO, PRODUCT_SPEC, ARCHITECTURE, ART_DIRECTION, GTM_PLAN. (3) Strategic reorient #1: Studio became the primary front door, dashboard demoted, four breakthrough features (composable rooms / live presence / generative rooms / creator-bots) land in v1. (4) Started Phase A: Studio v1. A.0 = blank canvas + 5 sprites; A.1 part 1 = Workshop drawer + Game Arcade example + 5 arcade cabinet sprites; A.2 part 1 = click-to-launch with trust-tier sandbox + bronze-bordered modal + 5 cabinets wired to real games. (5) Strategic reorient #2: Kevin asked for honest assessment; I gave 25-35% probability; we wrote PATH_TO_LAUNCH.md recalibration locking DIY path ($0 cash, ~424h to v1) and deferring 4 breakthroughs to v1.1. Probability target raised to 50-65%. (6) Resumed building: A.2 part 2 (click-to-link / embed / read with markdown-lite + info_sign + speaker sprites + extended Game Arcade); A.3 part 1 (edit-mode foundation: drag/select/delete/props panel/auto-save); A.3 part 2 (component palette + drag-from-pack); A.3 part 3a (Claude chat drawer with Anthropic API integration via control-panel proxy + 503-graceful no-key handling); A.3 part 3b (Apply/Discard for component generation + markdown-lite fence-language preservation). (7) Nav rename Home→Ensemble + Studio reorder to slot 2. (8) Delivered the elevator pitch (full version + 15-second compressed + 60-second investor extension + delivery notes). (9) Studio quality audit + Tier 1 polish remediation plan. (10) Started executing Tier 1 polish (5 edits on disk now). (11) Handoff.</p>
 <hr />
 <h2 id="recent-commits-this-session-latest-first">Recent commits this session (latest first)</h2>
 <table>
@@ -168,125 +219,225 @@
 </thead>
 <tbody>
 <tr>
-<td><code>259781c</code></td>
-<td>Phase 1 step 3 (Rounds C+D): extract helpers + render functions</td>
-<td><strong>main</strong>.py 822 → 342</td>
+<td><code>3cbf356</code></td>
+<td>Studio Phase A.3 part 3b — Apply/Discard + nav rename Home→Ensemble + reorder Studio to slot 2</td>
+<td>LATEST PUSHED</td>
 </tr>
 <tr>
-<td><code>f53b5b6</code></td>
-<td>Phase 1 fix: rename bin/dashgen/chats/ → bin/dashgen/data/</td>
-<td>gitignore conflict workaround</td>
-</tr>
-<tr>
-<td><code>eeab204</code></td>
-<td>Phase 1 step 3 (Rounds A+B): extract page bodies + data structures</td>
-<td><strong>main</strong>.py 1926 → 822</td>
-</tr>
-<tr>
-<td><code>536e884</code></td>
-<td>Phase 1 step 2 housekeeping: gitignore <strong>pycache</strong> in bin/dashgen/</td>
+<td><code>2693eed</code></td>
+<td>Studio Phase A.3 part 3a — Claude chat drawer (the differentiator, free-form)</td>
 <td></td>
 </tr>
 <tr>
-<td><code>26c696f</code></td>
-<td>Phase 1 step 2: extract pure-data modules from <strong>main</strong>.py</td>
-<td><strong>main</strong>.py 4464 → 1926</td>
-</tr>
-<tr>
-<td><code>8481340</code></td>
-<td>Editorial doc pages + onepager refresh + GitHub repo polish</td>
-<td>hero/drop-cap/progress on all 23 docs + onepager</td>
-</tr>
-<tr>
-<td><code>752ca28</code></td>
-<td>Cycle freeze + Codebase Rating Protocol + two new PWA widgets</td>
-<td>freeze ACTIVATED; rate-code skill</td>
-</tr>
-<tr>
-<td><code>5a1be3e</code></td>
-<td>Theme swatches: drop the letter labels</td>
+<td><code>326e702</code></td>
+<td>Studio Phase A.3 part 2 — component palette (drag-from-pack adds components)</td>
 <td></td>
 </tr>
 <tr>
-<td><code>b563565</code></td>
-<td>Restore working per-project layout + keep heartbeat + brand-mark wins</td>
-<td>reverted bad unification</td>
+<td><code>2eb8337</code></td>
+<td>Studio Phase A.3 part 1 — edit-mode foundation</td>
+<td></td>
+</tr>
+<tr>
+<td><code>9d95a68</code></td>
+<td>Studio Phase A.2 part 2 — click-to-link / embed / read complete</td>
+<td></td>
+</tr>
+<tr>
+<td><code>9724941</code></td>
+<td>PATH_TO_LAUNCH: lock DIY path</td>
+<td></td>
+</tr>
+<tr>
+<td><code>68bcd6d</code></td>
+<td>PATH_TO_LAUNCH.md — recalibration to 10/10 across every category</td>
+<td></td>
+</tr>
+<tr>
+<td><code>8a1515c</code></td>
+<td>Studio Phase A.2 part 1 — Click-to-launch on the arcade cabinets</td>
+<td></td>
+</tr>
+<tr>
+<td><code>4e1d2ba</code></td>
+<td>Studio Phase A.1 part 1 — Workshop drawer + Game Arcade example</td>
+<td></td>
+</tr>
+<tr>
+<td><code>0a13de4</code></td>
+<td>Studio Phase A.0 + strategic reorient — creator linktree positioning</td>
+<td></td>
+</tr>
+<tr>
+<td><code>87f890f</code></td>
+<td>The Ensemble Grand Plan — strategic reorient locked</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Dashboard repo pushes</strong> (live PWA): <code>f44b87b</code> is latest. Auto-pushes via <code>bin/dashboard-fire.sh</code> on every regen.</p>
+<p>11 commits pushed in this session. Live PWA: <code>https://kiwimaddog2020.github.io/ensemble-dashboard/</code>.</p>
 <hr />
-<h2 id="a-tier-plan-progress-docsa_tier_planmd">A-tier plan progress (<code>docs/A_TIER_PLAN.md</code>)</h2>
+<h2 id="where-the-studio-stands-at-a3-part-3b">Where the Studio stands at A.3 part 3b</h2>
 <table>
 <thead>
 <tr>
-<th>#</th>
-<th>Phase</th>
+<th>Feature</th>
 <th>Status</th>
-<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>1</strong></td>
-<td>Modularize the megascript</td>
-<td>✅ <strong>DONE</strong> this session</td>
-<td>bin/dashboard-generate.sh now 30 lines; bin/dashgen/ package has 16 modules; <strong>main</strong>.py is a 342-line orchestrator</td>
+<td><code>/studio.html</code> route + 3 tabs (Room / Map / Showcase)</td>
+<td>✓ Live</td>
 </tr>
 <tr>
-<td>2</td>
-<td>Project pages match the site (true CSS unification)</td>
-<td>⏳ <strong>Unblocked</strong></td>
-<td>Now solvable because CSS lives in <code>styles/legacy.py</code> (linked) and <code>pages/shared_head.py</code> (inline). Reconciling specificity collisions is a focused diff between two files</td>
+<td>Default = blank canvas (welcome text components, no forced orchestra)</td>
+<td>✓ Live</td>
 </tr>
 <tr>
-<td>3</td>
-<td>Documents become editorial</td>
-<td>⏳ <strong>Mostly shipped</strong> earlier today (<code>8481340</code>) — hero, drop cap, eyebrow, progress bar, source pill on all 23 rendered docs. Voice pass on top docs is the remaining 30%</td>
-<td></td>
+<td>Workshop drawer with Get Started + Examples + Asset packs sections</td>
+<td>✓ Live</td>
 </tr>
 <tr>
-<td>4</td>
-<td>Real test coverage</td>
-<td>⏳ Queued</td>
-<td>Every module now individually importable + unit-testable. Prime time to add pytest for the Python pieces</td>
+<td>3 loadable example presets (Blank / Music ensemble / Game arcade) + 3 placeholders</td>
+<td>✓ Live (3 of 5+)</td>
 </tr>
 <tr>
-<td>5</td>
-<td>Security hardening (Cloudflare Access)</td>
-<td>⏳ Queued</td>
-<td>Independent of Phase 1; ~30 min walkthrough at <code>plugins/ensemble/integrations/cloudflare-access/README.md</code></td>
+<td>16 sprites across 3 packs (instruments / arcade / props+signs)</td>
+<td>✓ Live (target 80)</td>
 </tr>
 <tr>
-<td>6</td>
-<td>Reliability + ops to A</td>
-<td>⏳ Queued</td>
-<td>Zombie sweeper, structured error logs, expanded Health Check</td>
+<td>Click-to-launch with trust-tier sandbox + bronze modal + INSERT COIN</td>
+<td>✓ Live</td>
 </tr>
 <tr>
-<td>7</td>
-<td>Performance + extensibility</td>
-<td>⏳ Queued</td>
-<td>Incremental dashboard regen, single-config Virtuoso scaffolding</td>
+<td>Click-to-link / embed / read interactions</td>
+<td>✓ Live</td>
 </tr>
 <tr>
-<td>8</td>
-<td>Polish (GitHub refresh, naming, README polish, release pipeline)</td>
-<td>⏳ Partial — GitHub refresh done; naming/README/release pipeline queued</td>
-<td></td>
+<td>Edit-mode toggle + body class + Edit/Done editing button</td>
+<td>✓ Live</td>
+</tr>
+<tr>
+<td>Click-to-select with props panel (right-side slide-in, 320px)</td>
+<td>✓ Live</td>
+</tr>
+<tr>
+<td>Drag-to-move with 16px grid snap</td>
+<td>✓ Live</td>
+</tr>
+<tr>
+<td>Delete via props panel button OR keyboard (Delete/Backspace)</td>
+<td>✓ Live</td>
+</tr>
+<tr>
+<td>Auto-save every 5s to localStorage with restored-from-edits pill</td>
+<td>✓ Live</td>
+</tr>
+<tr>
+<td>Component palette in edit mode (drag-from-pack OR click-to-add)</td>
+<td>✓ Live</td>
+</tr>
+<tr>
+<td>Claude chat drawer in edit mode (right-bottom, 360×420)</td>
+<td>✓ Live</td>
+</tr>
+<tr>
+<td>Anthropic API proxy via /studio/claude/chat with key in .env.local</td>
+<td>✓ Live (key not yet in env)</td>
+</tr>
+<tr>
+<td>Per-Room chat history in localStorage</td>
+<td>✓ Live</td>
+</tr>
+<tr>
+<td>Apply/Discard for ```component blocks in Claude responses</td>
+<td>✓ Live</td>
+</tr>
+<tr>
+<td>Markdown-lite fence-language preservation (lang-component class)</td>
+<td>✓ Live</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Recommended next move</strong> (fits fresh chat well):</p>
-<ul>
-<li>Option A: <strong>Phase 2</strong> (project page CSS unification) — now genuinely tractable. ~3 hours. The CSS lives in two specific files; reconcile selectors so per-project pages can use SHARED_HEAD pipeline cleanly. Would deliver the visual unification Kevin asked for twice and that I had to revert because it was unsafe in the megascript. Highest UX payoff.</li>
-<li>Option B: <strong>Phase 4</strong> (test coverage) — pytest for <code>data/milestones.py</code>, <code>pages/svg.py</code>, <code>pages/render_dashboard.py</code>, etc. ~3 hours. Lower visible payoff, much higher safety floor for future edits.</li>
-<li>Option C: <strong>Phase 5</strong> (Cloudflare Access) — closes the actual privacy gap (today&rsquo;s &ldquo;private&rdquo; widgets are visible in the inline JS bundle to anyone with dev tools). ~30 min walkthrough.</li>
-</ul>
-<p>If unsure, default to A. The user has been asking for it across multiple sessions.</p>
+<p><strong>Still to ship in v1 (per PATH_TO_LAUNCH):</strong>
+- A.3 part 3c — sprite generation Apply (SVG validation + sprite save flow)
+- A.3 part 3d — layout-suggestion multi-component diff
+- A.3 part 4 — resize handles, undo/redo, keyboard shortcuts (Cmd-Z/S/E)
+- A.1 part 2 — 4 more example presets (library, gallery, workshop literal, dev team) + 3 more asset packs (books, plants/props, doors)
+- B — Map tab (fractal navigator)
+- C — Showcase pages + iframe embedding
+- D — Multi-tenancy + auth (cloud backend)</p>
+<hr />
+<h2 id="known-issues-studio-quality-audit-findings">Known issues + Studio quality audit findings</h2>
+<p><strong>Tier 1 polish (5 fixes, addressed by uncommitted edits — NEEDS VERIFICATION):</strong>
+1. ~~Stuck &ldquo;Setting up your blank canvas&hellip;&rdquo; placeholder~~ → blank.json welcome copy refreshed
+2. ~~No live meta strip between hero and tabs~~ → <code>.studio-meta</code> added with 5-field live data
+3. ~~&rdquo;PHASE B / PHASE C&rdquo; tab hints look like TODO labels~~ → replaced with &ldquo;soon&rdquo; pill
+4. ~~Bottom info-strip has obsolete Phase A.1/A.3 copy~~ → cleaned up + Reset link added
+5. ~~Workshop eyebrows lack accent underbar~~ → 18px × 1px accent line added via ::before</p>
+<p><strong>Tier 2 polish (deferred, NOT yet built):</strong>
+6. No serif italic body section header (only page hero italicizes).
+7. Edit-mode visual transformation — bolted-on rather than mode-shift.
+8. Claude drawer no-key empty state — should explicitly point to .env.local setup.</p>
+<p><strong>Tier 3 polish (deferred):</strong>
+9. CRT-style intro animation on first Studio load.
+10. Hide Asset packs view-mode list entirely (only show in edit).</p>
+<p><strong>Pre-existing infra issues</strong> (carried from earlier sessions, not blocked by Studio):
+- Vera Nota repo needs SSH key + pre-push UI test → CI move. Fix instructions queued in <code>chats/vera-nota.json.queued_messages</code> waiting for vera-nota&rsquo;s next turn.
+- Control panel server (<code>bin/control-panel-server.py</code>) was not running last we checked. Port 8080 had a different python process bound. Run <code>lsof -i :8080</code> + <code>launchctl list | grep ensemble</code> if Studio&rsquo;s owner-mode features stop working.
+- <code>ANTHROPIC_API_KEY</code> not yet in <code>~/.claude/orchestrator/.env.local</code> — Claude chat drawer returns 503 with friendly hint until added. Format: <code>ANTHROPIC_API_KEY=sk-...</code> on its own line. Optional: <code>ANTHROPIC_MODEL=claude-sonnet-4-7-20260121</code> (defaults to that anyway).</p>
+<hr />
+<h2 id="what-ships-next-three-real-options-for-the-next-maestro">What ships next — three real options for the next Maestro</h2>
+<h3 id="option-a-recommended-verify-commit-the-tier-1-polish-then-push">Option A (Recommended) — Verify + commit the Tier 1 polish, then push</h3>
+<p>The work is on disk. Verify, commit, push. ~30 min.</p>
+<pre><code class="language-bash"># 1. Regenerate
+bash ~/.claude/orchestrator/bin/dashboard-generate.sh
+
+# 2. py_compile sanity
+python3 -m py_compile ~/.claude/orchestrator/bin/dashgen/__main__.py \
+  ~/.claude/orchestrator/bin/dashgen/pages/*.py \
+  ~/.claude/orchestrator/bin/dashgen/styles/*.py \
+  ~/.claude/orchestrator/bin/dashgen/widgets/*.py
+
+# 3. Visual smoke test via preview MCP or python3 -m http.server
+# Verify:
+#   - Studio loads + shows the new meta strip below the hero
+#   - Tabs say &quot;Map · soon&quot; + &quot;Showcase · soon&quot; (no &quot;PHASE B/C&quot;)
+#   - Footer says &quot;Blank canvas · view mode&quot; + Reset link
+#   - Workshop eyebrows have bronze underbar prefix
+#   - Edit mode toggles &quot;view mode&quot; → &quot;edit mode&quot; in footer
+#   - Reset link prompts confirm + reloads default
+#   - blank canvas welcome text says &quot;Press Edit to start&quot;
+
+# 4. Commit if clean
+cd ~/.claude/orchestrator
+git add bin/dashgen/pages/studio_body.py \
+        bin/dashgen/studio/presets/blank.json \
+        bin/dashgen/styles/studio.py \
+        bin/dashgen/widgets/studio_engine_js.py
+# Use a &quot;Studio Phase A.3 polish (Tier 1) — A+ baseline&quot; subject
+
+# 5. Push
+git push origin main
+bash ~/.claude/orchestrator/bin/dashboard-fire.sh  # fires to live PWA
+</code></pre>
+<h3 id="option-b-skip-polish-jump-to-a3-part-3c-sprite-generation">Option B — Skip polish, jump to A.3 part 3c (sprite generation)</h3>
+<p>If Kevin would rather see another visible feature land first. The polish work stays uncommitted; can come back to it.</p>
+<h3 id="option-c-pause-studio-work-on-vera-nota-infra-fix">Option C — Pause Studio, work on Vera Nota infra fix</h3>
+<p>The vera-nota chat has the queued message but the SSH key + CI workflow setup needs Kevin to paste a pubkey to GitHub. If today&rsquo;s session has cycle to do that, the Vera Nota autopilot loop becomes unstuck.</p>
+<hr />
+<h2 id="the-pitch-delivered-earlier-in-the-session">The pitch (delivered earlier in the session)</h2>
+<p>For onboarding context — this is the locked elevator pitch:</p>
+<blockquote>
+<p><strong>What if your portfolio was a room you could walk into?</strong></p>
+<p>Ensemble is the creative home base for makers shipping with AI. A customizable room where every asset is alive — click an arcade cabinet, play your game. Click a vinyl, hear your track. Click a door, walk to a friend&rsquo;s room. Claude is your design partner: describe what you want, it appears. Mission control for your AI agents lives next door.</p>
+<p><strong><em>Linktree is a list of links. Ensemble is a place.</em></strong></p>
+</blockquote>
+<p>77 words, ~28 sec at confident pace. 15-sec compressed and 60-sec investor extension also captured in the prior turn — search the transcript for the elevator-pitch moment.</p>
 <hr />
 <h2 id="pending-user-action-queue">Pending user-action queue</h2>
-<p>Things ONLY Kevin can do; surface these on his next session-start if relevant:</p>
+<p>Things ONLY Kevin can do:</p>
 <table>
 <thead>
 <tr>
@@ -297,134 +448,53 @@
 </thead>
 <tbody>
 <tr>
-<td>Restart Claude Desktop</td>
-<td>Loads dashboard-fire.sh + weekly-report.sh permission rules; clears any zombie sessions</td>
-<td>His Mac</td>
+<td>Add <code>ANTHROPIC_API_KEY</code> to <code>.env.local</code></td>
+<td>Studio Claude chat needs it for real responses</td>
+<td><code>~/.claude/orchestrator/.env.local</code></td>
 </tr>
 <tr>
-<td>Cloudflare Access setup</td>
-<td>Closes public PWA privacy gap</td>
-<td><code>plugins/ensemble/integrations/cloudflare-access/README.md</code></td>
+<td>Restart control-panel-server</td>
+<td>Owner-mode features depend on it</td>
+<td><code>python3 ~/.claude/orchestrator/bin/control-panel-server.py</code></td>
+</tr>
+<tr>
+<td>Generate SSH key + paste pubkey to github.com/settings/keys</td>
+<td>Vera Nota autopilot can&rsquo;t push otherwise</td>
+<td><code>ssh-keygen -t ed25519 ...</code></td>
+</tr>
+<tr>
+<td>Trigger vera-nota chat</td>
+<td>The queued infra-fix message is waiting</td>
+<td>Studio Operator → Vera Nota → Re-read contract</td>
 </tr>
 <tr>
 <td>Friend hand-off (website-agent)</td>
-<td>Closes Phase 0 exit criterion</td>
+<td>Phase 0 exit criterion</td>
 <td><code>~/Desktop/website-agent-handoff/</code></td>
 </tr>
 <tr>
-<td>GitHub Actions billing fix</td>
-<td>Some CI runs may have failed</td>
-<td>github.com billing</td>
-</tr>
-<tr>
-<td>Marketplace plugin submission</td>
-<td>Repo polish done; ready for review when Kevin chooses</td>
-<td>gh marketplace</td>
-</tr>
-<tr>
-<td>Pushover signup (optional)</td>
-<td>For phone notifications</td>
-<td>pushover.net</td>
-</tr>
-<tr>
-<td>Windows verification pass</td>
-<td>Cross-platform parity exists in code; never field-tested</td>
-<td>(no immediate need)</td>
+<td>Cloudflare Access setup</td>
+<td>Privacy gap on public PWA</td>
+<td><code>plugins/ensemble/integrations/cloudflare-access/README.md</code></td>
 </tr>
 </tbody>
 </table>
-<p>These are NOT blocking the next session. Don&rsquo;t push them — surface only if topic naturally arises.</p>
+<p>These are NOT blocking the next session.</p>
+<hr />
+<h2 id="live-pwa-repo-links">Live PWA + repo links</h2>
+<ul>
+<li><strong>Dashboard (live PWA):</strong> https://kiwimaddog2020.github.io/ensemble-dashboard/</li>
+<li><strong>Studio (the new front door):</strong> https://kiwimaddog2020.github.io/ensemble-dashboard/studio.html</li>
+<li><strong>Source repo:</strong> https://github.com/KiwiMaddog2020/claude-ensemble</li>
+<li><strong>Live PWA repo:</strong> https://github.com/KiwiMaddog2020/ensemble-dashboard</li>
+</ul>
 <hr />
 <h2 id="whats-currently-running-on-kevins-mac">What&rsquo;s currently running on Kevin&rsquo;s Mac</h2>
 <ul>
-<li><strong>Ensemble.app</strong> (native menu bar) — process running, music-note icon in menu bar. Code at <code>plugins/ensemble/integrations/macapp/</code>. Restart via <code>open ~/Applications/Ensemble.app</code> if needed.</li>
-<li><strong>Control panel server</strong> (<code>bin/control-panel-server.py</code>) — should be running via launchd; the PWA&rsquo;s owner mode depends on it being reachable at localhost:8080. Test: <code>curl http://localhost:8080/health</code> should 200.</li>
-<li><strong>Scheduled tasks</strong> — morning-briefing, evening-planning, overnight-heavy, dashboard-update, rotation, backup-snapshot, token-burn-down, weekly-report. View status: <code>~/.claude/scheduled-tasks/</code> or <code>launchctl list | grep -E 'orchestrator|ensemble'</code>.</li>
+<li><strong>Ensemble.app</strong> (native menu bar) — should be running. Restart via <code>open ~/Applications/Ensemble.app</code> if needed.</li>
+<li><strong>Control panel server</strong> — possibly NOT running (see Known Issues above).</li>
+<li><strong>Scheduled tasks</strong> — morning-briefing, evening-planning, dashboard-update, etc. View status: <code>~/.claude/scheduled-tasks/</code> or <code>launchctl list | grep -E 'orchestrator|ensemble'</code>.</li>
 </ul>
-<hr />
-<h2 id="new-systems-shipped-this-session-quick-reference">New systems shipped this session — quick reference</h2>
-<h3 id="cycle-freeze">Cycle freeze</h3>
-<ul>
-<li>State field: <code>state.json.autopilot_freeze_until</code> (ISO timestamp; null = no freeze)</li>
-<li>Server endpoint: <code>POST /freeze-until {value: "reset" | "24h" | "7d" | "&lt;ISO&gt;" | null}</code></li>
-<li>Enforcement: <code>autopilot_session.sh</code> pre-flight + <code>/fire</code> endpoint 409</li>
-<li>PWA widget: <code>cycle-freeze</code> (private section, default layout)</li>
-<li>Memory: <code>~/.claude/projects/-Users-kevin/memory/cycle_freeze.md</code></li>
-<li>Verbal: <code>freeze autopilot</code> / <code>freeze the cycle</code> / <code>lift freeze</code> / <code>unfreeze</code></li>
-</ul>
-<h3 id="codebase-rating-protocol">Codebase Rating Protocol</h3>
-<ul>
-<li>Skill: <code>plugins/ensemble/skills/rate-code/SKILL.md</code> (the engineered prompt itself; ~250 lines)</li>
-<li>Memory pointer: <code>~/.claude/projects/-Users-kevin/memory/code_rating_protocol.md</code></li>
-<li>Trigger phrases (per <code>signal_phrase_detection.md</code>): <code>rate my code</code> / <code>audit my codebase</code> / <code>code rating</code> / etc.</li>
-<li>Output: <code>&lt;repo&gt;/docs/CODE_RATING_&lt;YYYY-MM-DD&gt;.md</code> — executive summary, per-category grades with evidence, objective fit, top-3 strengths/weaknesses, honesty checklist</li>
-<li>PWA widget: <code>code-rate</code> (private section, default layout) — sends &ldquo;rate my code&rdquo; via <code>/chat-message</code> to chosen chat</li>
-</ul>
-<h3 id="native-macos-ensembleapp">Native macOS Ensemble.app</h3>
-<ul>
-<li>Source: <code>plugins/ensemble/integrations/macapp/Sources/main.swift</code> (single-file AppKit, ~340 lines)</li>
-<li>Build: <code>./build.sh</code> (no Apple Developer Program needed; ad-hoc signed)</li>
-<li>Install: <code>./install.sh</code></li>
-<li>Icon: <code>Sources/AppIcon.icns</code> (1.1 MB, all Apple iconset sizes); SVG source at <code>Sources/icon.svg</code></li>
-<li>File-watcher uses DispatchSource on state.json — instant menu refresh, no polling</li>
-</ul>
-<h3 id="apple-quality-icon">Apple-quality icon</h3>
-<ul>
-<li>Master SVG: <code>plugins/ensemble/integrations/macapp/Sources/icon.svg</code> (1024×1024)</li>
-<li>Design: black squircle + bronze hairline frame + diagonal conductor&rsquo;s baton + sine wave + drop shadows</li>
-<li>Lives as: PWA favicon, PWA install icon, topnav brand mark on every page, Ensemble.app <code>.icns</code></li>
-<li>Rebuild .icns: <code>./build-icon.sh</code></li>
-</ul>
-<h3 id="editorial-doc-pipeline">Editorial doc pipeline</h3>
-<ul>
-<li>Hero block: eyebrow (&ldquo;Documentation&rdquo;) + serif italic title (60px clamp) + lead (promoted from first blockquote-tagline if present, else <code>description</code> field)</li>
-<li>First-paragraph drop cap (4.4em bronze serif)</li>
-<li>Section eyebrows with bronze underbar above each h2</li>
-<li>Reading-progress bar (gradient bronze, fixed below topnav)</li>
-<li>Source-path badge in monospace pill</li>
-<li>Code: <code>bin/dashgen/pages/render_doc.py</code></li>
-</ul>
-<h3 id="dashboard-widget-catalog-19-widgets">Dashboard widget catalog (19 widgets)</h3>
-<p>Public (10): project-list, smoke-alerts, active-count, token-cycle, lock-status, recent-commits, routines, theme-switcher, sticky-note, token-cost-chart</p>
-<p>Private (9, including new): mode-pill, quick-fire, kill-switch, pause-toggle, <strong>cycle-freeze</strong>, rapid-fire-toggle, autopilot-cap, chat-control, chat-message, chat-reread, <strong>code-rate</strong></p>
-<hr />
-<h2 id="memory-contract-pointers-canonical">Memory + contract pointers (canonical)</h2>
-<p>The most-load-bearing files. Every Maestro reads these on session-start:</p>
-<ul>
-<li><code>~/.claude/orchestrator/plugins/ensemble/templates/MAESTRO.md</code> — your contract (18+ directives)</li>
-<li><code>~/.claude/orchestrator/plugins/ensemble/templates/AGENT.md</code> — base contract every Agent inherits (22 sections; you&rsquo;re not an Agent but referenced often)</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/MEMORY.md</code> — pointer manifest</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/precedence.md</code> — six-tier ladder for rule conflicts</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/self_audit.md</code> — silent self-check checklist</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/safety_constraints.md</code> — gated rails (destructive ops, billing, store, public-flips)</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/orchestrator_rapid_fire_format.md</code> — the staple decision-point format</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/flow_continuity.md</code> — never offer &ldquo;pause&rdquo; / &ldquo;wrap up&rdquo; options</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/cycle_freeze.md</code> — feature shipped today</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/code_rating_protocol.md</code> — feature shipped today</li>
-</ul>
-<p>Plus all the project-locked decisions in <code>~/.claude/projects/-Users-kevin/memory/tool-builder/*</code> and operational debug notes in <code>~/.claude/projects/-Users-kevin/memory/ops/*</code>.</p>
-<hr />
-<h2 id="known-issues-pitfalls-so-you-dont-step-on-them">Known issues + pitfalls (so you don&rsquo;t step on them)</h2>
-<ol>
-<li>
-<p><strong><code>git push</code> from a feature branch sometimes goes to the feature branch instead of main.</strong> Earlier today I committed to a feature branch by accident, had to cherry-pick to main, and accidentally REGRESSED main twice with feature-branch versions of dashboard-generate.sh that were missing recent work. The fix that&rsquo;s been ironclad since: <code>git checkout main</code> BEFORE the commit, verify with <code>git branch --show-current</code>, then commit. Never <code>git checkout &lt;hash&gt; -- file</code> to copy a file from another branch unless you&rsquo;ve manually verified the file is up to date with main.</p>
-</li>
-<li>
-<p><strong>Markdown library on Python 3.14 (homebrew default).</strong> It&rsquo;s not in the default site-packages; <code>render_doc</code> silently returns None and leaves stale doc pages. Fix: <code>pip3 install --break-system-packages markdown</code>. Already installed in this Mac&rsquo;s environment but worth knowing if Python upgrades break it again.</p>
-</li>
-<li>
-<p><strong>The top-level <code>.gitignore</code> has <code>chats/</code> (line 11).</strong> This excludes the runtime <code>~/.claude/orchestrator/chats/*.json</code> directory from version control (correct), but it ALSO excludes any sub-directory named <code>chats/</code> (e.g. <code>bin/dashgen/chats/</code> — which is why we renamed to <code>bin/dashgen/data/</code>). Avoid creating new directories named <code>chats</code> anywhere.</p>
-</li>
-<li>
-<p><strong>Per-project pages use the legacy <code>head_block</code> + linked <code>style.css</code> pipeline.</strong> Hub pages use <code>SHARED_HEAD</code> (inline). They look similar but live on different rails. Earlier &ldquo;true unification&rdquo; attempts caused CSS specificity collisions that broke per-project layout. Phase 2 of the A-tier plan is the careful path to actually unify them.</p>
-</li>
-<li>
-<p><strong>Scheduled-task auto-approver dislikes dynamic bash.</strong> SKILL.md files with <code>$$</code> / <code>$(...)</code> get denied → zombie sessions hold the per-task limit. Fix: wrap in static-path scripts (<code>bin/dashboard-fire.sh</code>, <code>bin/weekly-report.sh</code>) and add explicit permission rules in <code>~/.claude/settings.local.json</code>. Already done for current scheduled tasks.</p>
-</li>
-<li>
-<p><strong>Safari &ldquo;Add to Dock&rdquo; creates a Web App at <code>~/Applications/Ensemble.app</code>.</strong> Don&rsquo;t confuse with the native <code>Ensemble.app</code> at <code>plugins/ensemble/integrations/macapp/Ensemble.app</code> (or installed at <code>/Applications/Ensemble.app</code>). The Safari one has <code>CFBundleIdentifier: com.apple.Safari.WebApp.&lt;UUID&gt;</code> and contains no executable code.</p>
-</li>
-</ol>
 <hr />
 <h2 id="how-to-fire-dashboard-regen-push">How to fire dashboard regen + push</h2>
 <pre><code class="language-bash"># Local-only regen (writes to /tmp/ensemble-dashboard/)
@@ -435,130 +505,46 @@ bash ~/.claude/orchestrator/bin/dashboard-fire.sh
 </code></pre>
 <p>Permission rule for <code>dashboard-fire.sh</code> is in <code>~/.claude/settings.local.json</code>. The script is idempotent (won&rsquo;t push if no changes detected).</p>
 <hr />
-<h2 id="bindashgen-package-map-phase-1-deliverable">bin/dashgen/ package map (Phase 1 deliverable)</h2>
-<pre><code>bin/dashgen/
-├── __main__.py                       342  ← thin orchestrator
-├── __init__.py
-├── data/
-│   ├── __init__.py
-│   └── milestones.py                 214  MILESTONES + dynamic_milestones
-├── pages/
-│   ├── __init__.py
-│   ├── shared_head.py                706  SHARED_HEAD (design system + 10 themes + widget grid CSS)
-│   ├── shared_nav.py                  38  SHARED_NAV (single source of nav HTML)
-│   ├── shared_footer.py               11  SHARED_FOOTER
-│   ├── shared_scripts.py             212  SHARED_SCRIPTS (state fetch, theme loader, helpers)
-│   ├── settings_body.py              175  SETTINGS_BODY
-│   ├── commands_body.py              434  COMMANDS_BODY (14 cards in 3 sections)
-│   ├── docs_body.py                  162  DOCS_BODY (featured Executive Overview + categorized cards)
-│   ├── docs_to_render.py              40  DOCS_TO_RENDER (registry of 23 docs)
-│   ├── doc_render_helpers.py          42  MD_TO_HTML_SLUG + rewrite_md_links
-│   ├── svg.py                         44  pie_svg + big_pie_svg + tier_label
-│   ├── head_block.py                  58  head_block (legacy &lt;head&gt; for projects)
-│   ├── render_nav.py                  21  render_nav
-│   ├── render_dashboard.py           109  render_dashboard(projects, generated_at, ...)
-│   ├── render_project.py             178  render_project(p, generated_at)
-│   └── render_doc.py                 103  render_doc(slug, md_path, title, description, orch_root)
-├── styles/
-│   ├── __init__.py
-│   └── legacy.py                     505  STYLE_CSS (linked stylesheet)
-├── widgets/
-│   ├── __init__.py
-│   └── engine_js.py                 1019  WIDGET_DASH_JS (full client-side widget engine)
-└── server/
-    ├── __init__.py
-    ├── pwa.py                        133  ICON_SVG + MANIFEST_JSON + SERVICE_WORKER
-    └── control_js.py                 253  CONTROL_JS (legacy interactive layer)
-</code></pre>
-<p>Every module is importable in isolation. Adding a new widget = edit <code>widgets/engine_js.py</code>. Adding a new doc = append to <code>pages/docs_to_render.py</code>. Reconciling CSS for Phase 2 = diff <code>styles/legacy.py</code> against <code>pages/shared_head.py</code>.</p>
-<hr />
-<h2 id="onboarded-chats-current-roster">Onboarded chats — current roster</h2>
-<table>
-<thead>
-<tr>
-<th>Slug</th>
-<th>Tier</th>
-<th>State</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>agent-builder</code></td>
-<td>virtuoso</td>
-<td>active</td>
-<td>Phase 1 product (client-specific LLMs) — 9 research tracks</td>
-</tr>
-<tr>
-<td><code>boo-website</code></td>
-<td>agent</td>
-<td>Warmer</td>
-<td>Live + maintained at bunchofothers.com; needs-your-eyes pill currently</td>
-</tr>
-<tr>
-<td><code>ensemble</code></td>
-<td>agent</td>
-<td>Building</td>
-<td>Self-management chat (this Maestro is conducting)</td>
-</tr>
-<tr>
-<td><code>pinball-roguelight</code></td>
-<td>agent</td>
-<td>Building</td>
-<td></td>
-</tr>
-<tr>
-<td><code>spectra-nova</code></td>
-<td>agent</td>
-<td>Building</td>
-<td></td>
-</tr>
-<tr>
-<td><code>tool-builder</code></td>
-<td>virtuoso</td>
-<td>active</td>
-<td>Phase 2 — AI-native business tools; consultancy website live</td>
-</tr>
-<tr>
-<td><code>vera-nota</code></td>
-<td>agent</td>
-<td>Building</td>
-<td>Stable automation phase</td>
-</tr>
-<tr>
-<td><code>game-builder</code></td>
-<td>virtuoso</td>
-<td>(newly spawned)</td>
-<td>Phase 3 — iOS games via SwiftUI + SpriteKit</td>
-</tr>
-</tbody>
-</table>
-<p>The two virtuosos have <code>virtuoso_subdir</code> set so the freshest-activity heartbeat picks up their commits in the orchestrator repo.</p>
+<h2 id="memory-contract-pointers-canonical">Memory + contract pointers (canonical)</h2>
+<ul>
+<li><code>~/.claude/orchestrator/plugins/ensemble/templates/MAESTRO.md</code> — your contract (18+ directives)</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/MEMORY.md</code> — pointer manifest</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/precedence.md</code> — six-tier ladder</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/self_audit.md</code> — silent self-check</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/safety_constraints.md</code> — gated rails</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/orchestrator_rapid_fire_format.md</code> — staple</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/flow_continuity.md</code> — never offer pause/wrap</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/cycle_freeze.md</code> — autopilot brake (currently lifted)</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/warp_speed.md</code> — triple-threat mode (currently active)</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/code_rating_protocol.md</code> — codebase audit skill</li>
+</ul>
+<p>Plus <code>~/.claude/orchestrator/docs/grand-plan/*.md</code> — the locked v1 strategic package.</p>
 <hr />
 <h2 id="the-recommended-opening-move-for-the-new-chat">The recommended opening move for the new chat</h2>
 <pre><code>Read MAESTRO.md → MEMORY.md (and follow precedence.md, self_audit.md links)
-→ state.json → docs/SESSION_HANDOFF.md (this file) → docs/A_TIER_PLAN.md.
+→ state.json → docs/SESSION_HANDOFF.md (this file)
+→ skim docs/grand-plan/PATH_TO_LAUNCH.md for the v1 contract.
 
 Then open with rapid-fire:
 
-TOP REC: Phase 2 — project page CSS unification.
-  Why: Phase 1 unblocked it. The collisions Kevin hit twice are now
-       solvable because CSS lives in two specific files. Closes the
-       visual gap he asked about across multiple sessions.
-  Effort: M (~3h) | Autopilot: n (cycle freeze active until 2026-05-01) |
-       VM: n | Charter fit: core
+TOP REC: Verify + commit the uncommitted Studio Tier 1 polish edits.
+  Why: Five A+ baseline fixes already on disk (meta strip, tab pills,
+       footer cleanup, eyebrow underbars, blank-canvas copy refresh).
+       Just need: regen + py_compile + visual smoke test + commit + push.
+  Effort: S (~30 min) | Autopilot: n | VM: n | Charter fit: core polish
 
-2) Phase 4 — pytest infrastructure for the new dashgen modules. Locks in
-   a safety floor for future edits. M (~3h).
+2) Phase A.3 part 3c — sprite generation Apply for Claude drawer.
+   The next breakthrough feature in the click-to-* + AI integration chain.
+   Stash the polish; come back to it later. ~6h.
 
-3) Phase 5 — Cloudflare Access walkthrough. ~30 min. Closes the actual
-   privacy gap.
+3) Vera Nota infra fix — Kevin runs the SSH-key setup + paste pubkey,
+   triggers vera-nota chat, the queued message picks up, autopilot
+   becomes unstuck. ~30 min Kevin time + monitoring.
 
 4. Disable Rapid Fire Mode
 </code></pre>
-<p>The cycle freeze is active so anything autopilot-driven won&rsquo;t fire until 2026-05-01. Plan for hands-on-keyboard work this week (or have Kevin lift the freeze if he changes his mind).</p>
 <hr />
-<p><em>The Ensemble lives. Pick up the baton.</em></p>
+<p><em>The Ensemble lives. Pick up the baton. The polish edits are warm — start there.</em></p>
     </article>
     <footer class="doc-foot">
       <a href="../docs.html" class="doc-back">← Back to all documentation</a>

@@ -1410,9 +1410,43 @@ body.hub.studio { background: var(--bg); }
   line-height: 1.45; color: var(--ink-2); margin: 0; max-width: 60ch;
 }
 
+/* Live meta strip — between hero and tabs (matches Ensemble's meta pattern) */
+.studio-meta {
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap;
+  margin: clamp(20px, 2.5vw, 28px) 0 clamp(8px, 1vw, 12px);
+  padding-top: clamp(8px, 1vw, 14px);
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 11.5px;
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+}
+.studio-meta__item {
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.studio-meta__dot {
+  display: inline-block;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 3.2s var(--ease) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-meta__dot { animation: none; }
+}
+.studio-meta__sep { color: var(--ink-4); opacity: 0.6; }
+.studio-meta #studio-meta-preset,
+.studio-meta #studio-meta-component-count,
+.studio-meta #studio-meta-custom-count,
+.studio-meta #studio-meta-theme {
+  color: var(--ink-2); font-weight: 500;
+}
+.studio-meta #studio-meta-last-edited {
+  color: var(--ink-3);
+}
+
 /* Tabs */
 .studio-tabs {
-  display: flex; gap: 4px; margin: clamp(20px, 3vw, 28px) 0 clamp(16px, 2.5vw, 24px);
+  display: flex; gap: 4px; margin: clamp(8px, 1vw, 12px) 0 clamp(16px, 2.5vw, 24px);
   border-bottom: 1px solid var(--rule);
   flex-wrap: wrap;
 }
@@ -1433,6 +1467,15 @@ body.hub.studio { background: var(--bg); }
   font-family: var(--mono); font-size: 10px;
   color: var(--ink-4); margin-left: 6px;
   text-transform: uppercase; letter-spacing: 0.06em;
+}
+.studio-tab__pill {
+  display: inline-block; margin-left: 8px;
+  font-family: var(--mono); font-size: 9px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-4);
+  padding: 2px 7px; border-radius: 999px;
+  background: var(--bg-sunken, var(--rule-2));
+  border: 1px solid var(--rule);
 }
 
 /* Tab panes */
@@ -1723,8 +1766,18 @@ body[data-crt="off"] .studio-stage::after { display: none; }
   font-family: var(--sans); font-size: 11px; font-weight: 700;
   letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--ink-3);
-  margin: 0; padding-bottom: 6px;
+  margin: 0;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.workshop-section__title::before {
+  content: "";
+  display: inline-block;
+  width: 18px; height: 1px;
+  background: var(--accent);
+  margin-right: 10px;
+  vertical-align: middle;
 }
 .workshop-section__sub {
   font-family: var(--sans); font-size: 12px; color: var(--ink-3);
@@ -2694,9 +2747,9 @@ body.studio-editing .studio-claude-drawer { display: flex; }
 
 /* ─── Studio info strip below the stage ──────────────────────────────── */
 .studio-info {
-  display: flex; gap: 16px; flex-wrap: wrap;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
   margin-top: clamp(16px, 2vw, 24px);
-  padding: 14px 18px;
+  padding: 12px 18px;
   background: var(--bg-raised);
   border: 1px solid var(--rule);
   border-radius: var(--radius-sm);
@@ -2709,3 +2762,13 @@ body.studio-editing .studio-claude-drawer { display: flex; }
   display: inline-block; width: 6px; height: 6px; border-radius: 50%;
   background: var(--accent);
 }
+.studio-info__spacer { flex: 1 1 auto; }
+.studio-info__action {
+  font-family: var(--sans); font-size: 12px; font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 4px 10px; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--rule));
+  transition: background 180ms var(--ease);
+}
+.studio-info__action:hover { background: var(--accent-soft); }

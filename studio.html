@@ -88,15 +88,28 @@
     <p class="lead">The creative workshop where every asset can be alive. Default is a blank canvas — open the Workshop drawer for inspiration, asset packs, and starter examples like the Orchestra ensemble or the Game arcade.</p>
   </header>
 
+  <div class="studio-meta" id="studio-meta" aria-live="polite">
+    <span class="studio-meta__item">
+      <span class="studio-meta__dot" aria-hidden="true"></span>
+      <span id="studio-meta-preset">blank canvas</span>
+    </span>
+    <span class="studio-meta__sep">·</span>
+    <span class="studio-meta__item"><span id="studio-meta-component-count">0</span> components</span>
+    <span class="studio-meta__sep">·</span>
+    <span class="studio-meta__item"><span id="studio-meta-custom-count">0</span> custom</span>
+    <span class="studio-meta__sep">·</span>
+    <span class="studio-meta__item">last edited <span id="studio-meta-last-edited">never</span></span>
+    <span class="studio-meta__sep">·</span>
+    <span class="studio-meta__item">theme: <span id="studio-meta-theme">warm</span></span>
+  </div>
+
   <div class="studio-tabs" role="tablist">
-    <button class="studio-tab is-active" data-tab="room" role="tab" type="button">
-      Room <span class="studio-tab__hint">your stage</span>
-    </button>
+    <button class="studio-tab is-active" data-tab="room" role="tab" type="button">Room</button>
     <button class="studio-tab" data-tab="map" role="tab" type="button">
-      Map <span class="studio-tab__hint">phase B</span>
+      Map <span class="studio-tab__pill">soon</span>
     </button>
     <button class="studio-tab" data-tab="showcase" role="tab" type="button">
-      Showcase <span class="studio-tab__hint">phase C</span>
+      Showcase <span class="studio-tab__pill">soon</span>
     </button>
   </div>
 
@@ -220,13 +233,14 @@
         </div>
       </div>
     </div>
-    <div class="studio-info">
+    <div class="studio-info" role="contentinfo">
       <span class="studio-info__item">
         <span class="studio-info__dot" aria-hidden="true"></span>
-        <strong id="studio-current-preset">Blank canvas</strong> · default
+        <strong id="studio-current-preset">Blank canvas</strong>
       </span>
-      <span class="studio-info__item">View mode</span>
-      <span class="studio-info__item">Edit mode arrives in Phase A.3</span>
+      <span class="studio-info__item" id="studio-info-mode">view mode</span>
+      <span class="studio-info__spacer"></span>
+      <a class="studio-info__action" href="#" data-act="reset-to-default">Reset to default</a>
     </div>
   </section>
 
@@ -842,6 +856,77 @@
     if (interaction) bindComponentInteraction(el, comp, interaction);
   }
 
+  // ─── Meta strip + footer (Phase A.3 polish pass) ─────────────────────
+  // Keeps the live status row above the tabs in sync with the current
+  // Room state. Built-in (preset-shipped) components count as
+  // non-custom; user-added components count as "custom" — measured by
+  // the `comp_` ID prefix that addNewComponent / applyComponentSuggestion
+  // generate.
+  function syncStudioMeta() {
+    const room = currentRoom;
+    if (!room) return;
+    const presetEl = $('#studio-meta-preset');
+    const compCountEl = $('#studio-meta-component-count');
+    const customCountEl = $('#studio-meta-custom-count');
+    const editedEl = $('#studio-meta-last-edited');
+    const themeEl = $('#studio-meta-theme');
+    const presetName = room.preset_metadata?.display_name || room.name || room.preset_origin || 'unnamed';
+    if (presetEl) presetEl.textContent = presetName.toLowerCase();
+    if (compCountEl) compCountEl.textContent = room.components.length;
+    if (customCountEl) {
+      const custom = room.components.filter(c => typeof c.id === 'string' && c.id.startsWith('comp_')).length;
+      customCountEl.textContent = custom;
+    }
+    if (editedEl) {
+      editedEl.textContent = room.last_saved_at ? formatRelative(room.last_saved_at) : 'never';
+    }
+    if (themeEl) {
+      const t = (typeof localStorage !== 'undefined' && localStorage.getItem('ENSEMBLE_THEME')) || 'warm';
+      themeEl.textContent = t;
+    }
+    // Footer current-preset label
+    const currentPresetEl = $('#studio-current-preset');
+    if (currentPresetEl) currentPresetEl.textContent = presetName;
+    const modeEl = $('#studio-info-mode');
+    if (modeEl) modeEl.textContent = editMode ? 'edit mode' : 'view mode';
+  }
+
+  function formatRelative(iso) {
+    try {
+      const t = new Date(iso).getTime();
+      if (isNaN(t)) return 'never';
+      const s = Math.max(0, Math.floor((Date.now() - t) / 1000));
+      if (s < 30) return 'just now';
+      if (s < 90) return '1 min ago';
+      if (s < 3600) return Math.floor(s / 60) + ' min ago';
+      if (s < 5400) return '1 hr ago';
+      if (s < 86400) return Math.floor(s / 3600) + ' hr ago';
+      if (s < 172800) return 'yesterday';
+      return Math.floor(s / 86400) + 'd ago';
+    } catch (e) { return 'never'; }
+  }
+
+  function bindFooterActions() {
+    const reset = document.querySelector('[data-act="reset-to-default"]');
+    if (!reset) return;
+    reset.addEventListener('click', async (e) => {
+      e.preventDefault();
+      if (!confirm('Reset to the default preset? Your current edits will be discarded.')) return;
+      discardSavedRoom();
+      const fresh = await loadPreset(DEFAULT_PRESET);
+      if (fresh) {
+        clearSelection();
+        currentRoom = fresh;
+        await renderRoom(fresh);
+        // Mark the workshop default item as current
+        document.querySelectorAll('.workshop-example').forEach(el => el.classList.toggle('is-current', el.dataset.preset === DEFAULT_PRESET));
+        // Drop the restored-from-edits pill if present
+        const pill = document.querySelector('.studio-info__item--restored');
+        if (pill) pill.remove();
+      }
+    });
+  }
+
   // ─── Main render ─────────────────────────────────────────────────────
   async function renderRoom(room) {
     const stage = $('#studio-stage');
@@ -874,6 +959,9 @@
       });
       stage.dataset.editClickWired = '1';
     }
+
+    // Sync the meta strip + footer with the new room
+    syncStudioMeta();
   }
 
   // ─── Tab switching ───────────────────────────────────────────────────
@@ -908,6 +996,9 @@
     if (currentRoom) {
       renderRoom(currentRoom).catch(e => console.error('Studio: edit-mode re-render failed', e));
     }
+    // Update the footer mode indicator
+    const modeEl = $('#studio-info-mode');
+    if (modeEl) modeEl.textContent = editMode ? 'edit mode' : 'view mode';
   }
 
   function clearSelection() {
@@ -1604,10 +1695,11 @@
       t.addEventListener('click', () => switchTab(t.dataset.tab));
     });
 
-    // Workshop drawer + edit toggle + Claude chat drawer wiring
+    // Workshop drawer + edit toggle + Claude chat drawer + footer actions
     bindWorkshop();
     bindEditToggle();
     bindClaudeDrawer();
+    bindFooterActions();
 
     // Try saved room first; fall back to default preset
     const saved = loadSavedRoom();
