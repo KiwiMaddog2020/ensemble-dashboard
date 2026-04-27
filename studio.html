@@ -397,6 +397,13 @@
   }
 
   // ─── Interaction binding (Phase A.2) ─────────────────────────────────
+  // Five interaction types from INTERACTIVE_ASSETS.md:
+  //   launch — sandboxed iframe modal (canonical, Phase A.2.1)
+  //   link   — open URL in new tab (Phase A.2.2)
+  //   embed  — inline player modal for YouTube/Bandcamp/SoundCloud/Vimeo (A.2.2)
+  //   read   — slide-in markdown panel (A.2.2)
+  //   bot    — Phase D.4 (creator-bots)
+  //   door   — Phase D.1 (composable rooms)
   function bindComponentInteraction(el, comp, interaction) {
     el.classList.add('studio-comp--interactive');
     el.classList.add(`studio-comp--int-${interaction.type || 'launch'}`);
@@ -407,12 +414,22 @@
     if (interaction.label) el.setAttribute('aria-label', interaction.label);
 
     const fire = () => {
-      if (!interaction.type || interaction.type === 'launch') {
+      const t = interaction.type || 'launch';
+      if (t === 'launch') {
         openLaunchModal(comp, interaction);
-      } else if (interaction.type === 'link') {
-        if (isAllowedLaunchUrl(interaction.url)) {
+      } else if (t === 'link') {
+        if (interaction.url) {
+          // Links bypass the allowlist (new-tab open is no different
+          // from any other anchor on the page) but rel=noopener is
+          // mandatory to prevent the new tab from controlling us.
           window.open(interaction.url, '_blank', 'noopener,noreferrer');
         }
+      } else if (t === 'embed') {
+        openEmbedModal(comp, interaction);
+      } else if (t === 'read') {
+        openReadPanel(comp, interaction);
+      } else {
+        console.warn('Studio: unknown interaction type', t);
       }
     };
 
@@ -420,6 +437,184 @@
     el.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fire(); }
     });
+  }
+
+  // ─── Embed URL transforms ────────────────────────────────────────────
+  // Convert "watch" URLs to embed URLs for known platforms.
+  // Returns {embedUrl, host, platform} or null if not supported.
+  function transformEmbedUrl(url) {
+    try {
+      const u = new URL(url);
+      const host = u.host.toLowerCase();
+      // YouTube
+      if (/^(www\.)?youtube\.com$/.test(host) && u.pathname === '/watch') {
+        const v = u.searchParams.get('v');
+        if (v) return { embedUrl: `https://www.youtube-nocookie.com/embed/${v}`, host, platform: 'youtube' };
+      }
+      if (host === 'youtu.be') {
+        const v = u.pathname.slice(1);
+        if (v) return { embedUrl: `https://www.youtube-nocookie.com/embed/${v}`, host, platform: 'youtube' };
+      }
+      // Already an embed URL
+      if (host.endsWith('youtube-nocookie.com') && u.pathname.startsWith('/embed/')) {
+        return { embedUrl: url, host, platform: 'youtube' };
+      }
+      // Vimeo
+      if (host === 'vimeo.com' || host === 'www.vimeo.com') {
+        const id = u.pathname.replace(/^\//, '').split('/')[0];
+        if (id && /^\d+$/.test(id)) return { embedUrl: `https://player.vimeo.com/video/${id}`, host, platform: 'vimeo' };
+      }
+      if (host === 'player.vimeo.com') return { embedUrl: url, host, platform: 'vimeo' };
+      // SoundCloud — use the player widget with the source URL encoded
+      if (host === 'soundcloud.com' || host.endsWith('.soundcloud.com')) {
+        const widgetUrl = `https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23c2711f&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false`;
+        return { embedUrl: widgetUrl, host, platform: 'soundcloud' };
+      }
+      // Bandcamp — use the URL as-is and let the iframe handle. Most Bandcamp
+      // pages support EmbedPlayer at the same path; without an album/track ID
+      // we fall back to opening as launch.
+      if (host.endsWith('bandcamp.com')) {
+        return { embedUrl: url, host, platform: 'bandcamp', fallbackToLaunch: true };
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  // ─── Embed modal (Phase A.2.2) ───────────────────────────────────────
+  function ensureEmbedModal() {
+    if (document.getElementById('studio-embed-modal')) return;
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `<div class="studio-embed-modal" id="studio-embed-modal" role="dialog" aria-modal="true" aria-labelledby="studio-embed-modal-title">
+      <div class="studio-embed-modal__backdrop" data-act="close"></div>
+      <div class="studio-embed-modal__panel">
+        <header class="studio-embed-modal__header">
+          <h3 class="studio-embed-modal__title" id="studio-embed-modal-title"></h3>
+          <button class="studio-embed-modal__close" data-act="close" type="button" aria-label="Close">×</button>
+        </header>
+        <div class="studio-embed-modal__body">
+          <iframe class="studio-embed-modal__frame" id="studio-embed-frame"
+            sandbox="allow-scripts allow-same-origin allow-presentation"
+            referrerpolicy="strict-origin-when-cross-origin"
+            loading="lazy"
+            allow="autoplay; encrypted-media; picture-in-picture"
+          ></iframe>
+        </div>
+      </div>
+    </div>`;
+    document.body.appendChild(wrap.firstChild);
+    const modal = document.getElementById('studio-embed-modal');
+    modal.querySelectorAll('[data-act="close"]').forEach(b =>
+      b.addEventListener('click', closeEmbedModal)
+    );
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeEmbedModal();
+    });
+  }
+
+  function openEmbedModal(comp, interaction) {
+    const transform = transformEmbedUrl(interaction.url);
+    if (!transform || transform.fallbackToLaunch) {
+      // Fall back to launch modal (full sandboxed iframe) for unsupported embeds
+      return openLaunchModal(comp, interaction);
+    }
+    ensureEmbedModal();
+    const modal = document.getElementById('studio-embed-modal');
+    const title = modal.querySelector('.studio-embed-modal__title');
+    const frame = modal.querySelector('#studio-embed-frame');
+    title.textContent = interaction.label || comp.props?.label || 'Embed';
+    modal.dataset.platform = transform.platform;
+    frame.src = transform.embedUrl;
+    modal.classList.add('is-open');
+  }
+
+  function closeEmbedModal() {
+    const modal = document.getElementById('studio-embed-modal');
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    const frame = modal.querySelector('#studio-embed-frame');
+    if (frame) frame.src = '';
+  }
+
+  // ─── Read panel (Phase A.2.2) ────────────────────────────────────────
+  // Slide-in side panel that renders markdown-lite content.
+  function ensureReadPanel() {
+    if (document.getElementById('studio-read-panel')) return;
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `<aside class="studio-read-panel" id="studio-read-panel" aria-labelledby="studio-read-panel-title" aria-hidden="true">
+      <div class="studio-read-panel__backdrop" data-act="close"></div>
+      <div class="studio-read-panel__sheet">
+        <header class="studio-read-panel__header">
+          <h3 class="studio-read-panel__title" id="studio-read-panel-title"></h3>
+          <button class="studio-read-panel__close" data-act="close" type="button" aria-label="Close">×</button>
+        </header>
+        <div class="studio-read-panel__body" id="studio-read-panel-body"></div>
+      </div>
+    </aside>`;
+    document.body.appendChild(wrap.firstChild);
+    const panel = document.getElementById('studio-read-panel');
+    panel.querySelectorAll('[data-act="close"]').forEach(b =>
+      b.addEventListener('click', closeReadPanel)
+    );
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && panel.classList.contains('is-open')) closeReadPanel();
+    });
+  }
+
+  function openReadPanel(comp, interaction) {
+    ensureReadPanel();
+    const panel = document.getElementById('studio-read-panel');
+    const title = document.getElementById('studio-read-panel-title');
+    const body = document.getElementById('studio-read-panel-body');
+    title.textContent = interaction.label || comp.props?.label || 'Read';
+    body.innerHTML = renderMarkdownLite(interaction.markdown || interaction.text || '');
+    panel.setAttribute('aria-hidden', 'false');
+    panel.classList.add('is-open');
+  }
+
+  function closeReadPanel() {
+    const panel = document.getElementById('studio-read-panel');
+    if (!panel) return;
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+  }
+
+  // Markdown-lite — covers ~90% of common patterns without a library
+  // dependency. Patterns: # h1, ## h2, ### h3, **bold**, *italic*,
+  // `code`, [link](url), > blockquote, - bullet, ``` code blocks,
+  // paragraph splits on blank lines.
+  function renderMarkdownLite(src) {
+    if (!src) return '';
+    // Escape HTML first
+    let s = String(src)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+    // Code blocks ``` ```
+    s = s.replace(/```([\s\S]*?)```/g, (m, code) => `<pre><code>${code.trim()}</code></pre>`);
+    // Headings (need to preserve order — most specific first)
+    s = s.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+    s = s.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+    s = s.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+    // Blockquotes
+    s = s.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+    // Bullets
+    s = s.replace(/^- (.+)$/gm, '<li>$1</li>');
+    s = s.replace(/(<li>[\s\S]*?<\/li>)(?:\s*<li>)/g, (m) => m); // group preserved
+    s = s.replace(/((?:<li>.*?<\/li>\s*)+)/g, '<ul>$1</ul>');
+    // Inline: bold + italic + code + link
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    // Paragraphs (lines that aren't already wrapped + non-empty)
+    s = s.split(/\n\n+/).map(block => {
+      const trimmed = block.trim();
+      if (!trimmed) return '';
+      if (/^<(h\d|ul|ol|pre|blockquote|p)/.test(trimmed)) return trimmed;
+      return `<p>${trimmed.replace(/\n/g, '<br>')}</p>`;
+    }).join('\n');
+    return s;
   }
 
   // ─── Launch modal (Phase A.2) ────────────────────────────────────────
@@ -554,6 +749,9 @@
     // Allow simple <em> markup in text for italic-as-accent rule
     const text = props.text.replace(/<em>(.*?)<\/em>/g, '<em>$1</em>');
     el.innerHTML = `<span style="${color}">${text}</span>`;
+    // Text components can also be interactive (e.g. click-to-link footer credits)
+    const interaction = comp.interaction || comp.props?.interaction;
+    if (interaction) bindComponentInteraction(el, comp, interaction);
   }
 
   // ─── Main render ─────────────────────────────────────────────────────
