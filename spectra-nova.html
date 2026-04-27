@@ -4,24 +4,21 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<meta http-equiv="refresh" content="900" />
 <title>Spectra Nova · Ensemble</title>
 <meta name="description" content="Cross-platform WiFi analyzer. Native macOS and Windows, built on .NET 8 and Avalonia. Includes spectrum visualization, coverage walk-test, speed testing, and a local knowledge base." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./style.css" />
 <link rel="manifest" href="./manifest.json" />
-<link rel="apple-touch-icon" href="./icon.svg" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+<link rel="apple-touch-icon" href="./icon.svg" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="Ensemble" />
-<script src="./control.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
 <script>
-  // Theme loader — apply saved theme as early as possible to avoid FOUC.
   (function () {
     try {
       var t = localStorage.getItem("ENSEMBLE_THEME") || "warm";
@@ -40,21 +37,34 @@
   }
 </script>
 </head>
-<body>
+<body class="proj-page">
 <nav class="topnav">
   <div class="wrap">
     <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
     <ul>
-      <li><a href="./">Home</a></li>
+      <li><a class="" href="./">Home</a></li>
       <li><a class="active" href="./projects.html">Projects</a></li>
-      <li><a href="./commands.html">Commands</a></li>
-      <li><a href="./settings.html">Settings</a></li>
-      <li><a href="./docs.html">Docs</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./settings.html">Settings</a></li>
+      <li><a class="" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
 </nav>
 
+<div id="smoke-banner">
+  <div class="wrap">
+    <div>
+      <strong>Smoke test required</strong>
+      <p id="smoke-banner-text">…</p>
+    </div>
+    <div class="cmd-row">
+      <button class="btn-primary" onclick="smokeResult('pass')">Pass</button>
+      <button class="btn-secondary" onclick="smokeResult('issues')">Issues</button>
+      <button class="btn-danger" onclick="smokeResult('fail')">Fail</button>
+    </div>
+  </div>
+</div>
 <header class="hero">
   <div class="wrap hero-inner">
     <p class="eyebrow"><a href="./projects.html">← Back to roster</a></p>
@@ -118,15 +128,215 @@
       
     </section>
 
+    <p style="margin-top:48px;"><a class="foot-back" href="./projects.html">← All projects</a></p>
+
   </div>
 </main>
-<footer>
-  <div class="wrap foot-inner">
-    <a class="foot-back" href="./index.html">← All projects</a>
-    <p>Generated <span class="rel-time" data-iso="2026-04-27T09:06:30Z">just now</span></p>
-  </div>
+<footer class="site-footer">
+  <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
+  <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>
 </footer>
 <script>
+const SERVER_URL = (function() {
+  const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
+  if (stored) return stored;
+  return location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    ? "http://localhost:8080"
+    : "";
+})();
+
+function authHeaders() {
+  const t = localStorage.getItem("DASHBOARD_TOKEN") || "";
+  return t ? { "Authorization": "Bearer " + t, "Content-Type": "application/json" }
+           : { "Content-Type": "application/json" };
+}
+
+async function fetchState() {
+  if (!SERVER_URL) return null;
+  try {
+    const r = await fetch(SERVER_URL + "/state", { headers: authHeaders() });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+async function setConfig(field, value) {
+  if (!SERVER_URL) return showHelp("settings-help", "No server URL set.");
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ field, value })
+    });
+    const j = await r.json();
+    showHelp("settings-help", r.ok ? ("✓ " + field + " = " + JSON.stringify(value)) : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("settings-help", "✗ network error: " + e.message); }
+}
+
+function showHelp(id, msg) { const el = document.getElementById(id); if (el) el.textContent = msg; }
+
+function updateNavStatus(state) {
+  const el = document.getElementById("nav-status");
+  if (!el) return;
+  if (!state) { el.textContent = "offline"; return; }
+  el.textContent = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " · " + (state.mode || "?");
+}
+
+function updateSmokeBanner(state) {
+  const banner = document.getElementById("smoke-banner");
+  const text = document.getElementById("smoke-banner-text");
+  if (!banner || !text || !state || !state.projects) { if (banner) banner.style.display = "none"; return; }
+  const pending = state.projects.find(p => p.pending_smoke_test);
+  if (!pending) { banner.style.display = "none"; window._pendingSmokeSlug = null; return; }
+  window._pendingSmokeSlug = pending.slug;
+  text.textContent = pending.slug + " → " + (pending.pending_smoke_test_target || "?") + " — pending verification. Run the smoke test, then click Pass / Issues / Fail.";
+  banner.style.display = "block";
+}
+
+async function smokeResult(result) {
+  if (!window._pendingSmokeSlug) return;
+  const notes = result === "pass" ? "" : prompt("Notes?", "") || "";
+  try {
+    const r = await fetch(SERVER_URL + "/smoke-test-result", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ slug: window._pendingSmokeSlug, result, notes })
+    });
+    const j = await r.json();
+    alert(r.ok ? ("Smoke test " + result + " recorded for " + window._pendingSmokeSlug + (j.state ? ". State now: " + j.state : ".")) : ("Error: " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { alert("Network error: " + e.message); }
+}
+
+let _ALL_STATE = null;
+
+async function refreshState() {
+  const state = await fetchState();
+  _ALL_STATE = state;
+  // Owner mode = state fetch successful (server reachable + token valid)
+  const newOwner = !!state;
+  if (newOwner !== _isOwner) {
+    _isOwner = newOwner;
+    applyOwnerMode();
+  }
+  updateNavStatus(state);
+  updateSmokeBanner(state);
+  if (typeof refreshPageState === "function") refreshPageState(state);
+}
+
+// ─── Owner detection (read-only mode for visitors) ───
+let _isOwner = false;
+function applyOwnerMode() {
+  const banner = document.getElementById("owner-banner");
+  if (_isOwner) {
+    document.body.classList.remove("read-only");
+    if (banner) banner.classList.replace("show", "hide");
+  } else {
+    document.body.classList.add("read-only");
+    if (banner) banner.classList.replace("hide", "show");
+    // Disable form inputs in owner-only sections
+    document.querySelectorAll("[data-owner-only] input, [data-owner-only] select, [data-owner-only] button").forEach(el => {
+      el.disabled = true;
+    });
+  }
+}
+
+// ─── Theme picker (persisted, per-device) ───
+function applyTheme(name) {
+  const themes = ["warm", "slate", "mono", "forest", "aurora", "rose", "ocean", "sunset", "midnight", "sage"];
+  themes.forEach(t => document.body.classList.remove("theme-" + t));
+  if (name && name !== "warm") document.body.classList.add("theme-" + name);
+  // Mark active swatch
+  document.querySelectorAll(".theme-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.theme === (name || "warm"));
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Theme load + bind
+  const savedTheme = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+  applyTheme(savedTheme);
+  document.querySelectorAll(".theme-swatch").forEach(el => {
+    el.addEventListener("click", () => {
+      const t = el.dataset.theme;
+      localStorage.setItem("ENSEMBLE_THEME", t);
+      applyTheme(t);
+    });
+  });
+
+  // Owner mode initial state — pessimistic until state fetch confirms
+  _isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
+  applyOwnerMode();
+
+  refreshState();
+  setInterval(refreshState, 60000);
+  document.querySelectorAll("[data-field]").forEach(el => {
+    el.addEventListener("change", () => {
+      if (!_isOwner) return;  // belt + suspenders; backend also enforces
+      const field = el.dataset.field;
+      let value;
+      if (el.type === "checkbox") value = el.checked;
+      else if (el.type === "number") value = parseInt(el.value, 10);
+      else value = el.value;
+      setConfig(field, value);
+    });
+  });
+});
+
+// Page-specific hooks (defined inline by each page if needed)
+async function fireAutopilot() {
+  const slug = document.getElementById("fire-slug").value;
+  const minutes = parseInt(document.getElementById("fire-mins").value, 10);
+  if (!slug || !minutes) return showHelp("fire-help", "Pick project + minutes");
+  try {
+    const r = await fetch(SERVER_URL + "/fire", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, minutes, prompt: "" }) });
+    const j = await r.json();
+    showHelp("fire-help", r.ok ? ("✓ fired " + slug + " for " + minutes + "m (exit " + j.exit + ")") : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("fire-help", "✗ " + e.message); }
+}
+
+async function setProjectState() {
+  const slug = document.getElementById("state-slug").value;
+  const state = document.getElementById("state-target").value;
+  if (!slug || !state) return showHelp("state-help", "Pick project + state");
+  try {
+    let r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state }) });
+    let j = await r.json();
+    if (r.status === 409 && j.error === "smoke_test_required") {
+      const ok = confirm("Checkpoint " + j.checkpoint + " smoke test required: " + j.current_state + " → " + j.target_state + ".\n\nState held. Run the test, then use the banner above.\n\nForce-skip the smoke test?");
+      if (ok) {
+        r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state, force: true }) });
+        j = await r.json();
+        showHelp("state-help", r.ok ? ("⚠ " + slug + " → " + state + " (forced; logged)") : ("✗ " + (j.error || r.statusText)));
+      } else { showHelp("state-help", "Smoke test held. See banner above."); }
+      setTimeout(refreshState, 500); return;
+    }
+    showHelp("state-help", r.ok ? ("✓ " + slug + " → " + state) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("state-help", "✗ " + e.message); }
+}
+
+async function killAll() {
+  if (!confirm("Kill all autopilot? Six-phase cascade fires.")) return;
+  try {
+    const r = await fetch(SERVER_URL + "/kill", { method: "POST", headers: authHeaders() });
+    const j = await r.json();
+    showHelp("kill-help", r.ok ? ("✓ kill exit=" + j.exit) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 1000);
+  } catch (e) { showHelp("kill-help", "✗ " + e.message); }
+}
+
+async function setTokenReset() {
+  const v = document.getElementById("reset-input")?.value;
+  if (!v) return showHelp("reset-help", "Pick a date/time.");
+  const iso = new Date(v).toISOString();
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", { method: "POST", headers: authHeaders(), body: JSON.stringify({ field: "weekly_token_reset_at", value: iso }) });
+    const j = await r.json();
+    showHelp("reset-help", r.ok ? ("✓ reset set to " + iso) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("reset-help", "✗ " + e.message); }
+}
+
+// ─── Live relative timestamps — every <span class="rel-time" data-iso="..."> ticks ───
 (function () {
   function rel(iso) {
     var t = new Date(iso).getTime();
