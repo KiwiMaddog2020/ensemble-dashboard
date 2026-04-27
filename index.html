@@ -825,7 +825,282 @@
         });
       },
     },
+    "controller-tree": {
+      visibility: "public",
+      title: "Control deck",
+      description: "Maestro + Virtuoso + Agent tree. Tap any node to push remote commands or flip mode toggles.",
+      defaultSize: "2x2",
+      sizes: ["2x2"],
+      render(state) {
+        const offline = !state;
+        const projects = state?.projects || [];
+        const virtuosos = projects.filter(p => p.tier === "virtuoso");
+        const agents = projects.filter(p => p.tier !== "virtuoso");
+        const node = (type, slug, name, badge, alert) => `
+          <button class="ctrl-node ctrl-node--${type}${alert ? ' ctrl-node--alert' : ''}" data-ctrl-type="${type}" data-ctrl-slug="${escapeHtml(slug)}" type="button">
+            <span class="ctrl-node__icon">${type === 'maestro' ? '🎼' : type === 'virtuoso' ? '🎻' : '🎵'}</span>
+            <span class="ctrl-node__name">${escapeHtml(name)}</span>
+            ${badge ? `<span class="ctrl-node__tag">${escapeHtml(badge)}</span>` : ''}
+          </button>`;
+        return `<div class="widget__header">
+            <span class="widget__title">Control deck</span>
+            <span class="widget__hint">${offline ? 'offline · open from your Mac' : 'tap any node'}</span>
+          </div>
+          <div class="widget__body" style="overflow-y:auto;">
+            <div class="ctrl-tree" data-ctrl-tree>
+              <div class="ctrl-tree__root">
+                ${node('maestro', 'maestro', 'Maestro', 'controller', false)}
+              </div>
+              ${virtuosos.length ? `<div class="ctrl-tree__group">
+                <div class="ctrl-tree__label">Virtuosos · phase products</div>
+                ${virtuosos.map(p => node('virtuoso', p.slug, p.name || p.slug, p.state || '', !!p.needs_attention)).join('')}
+              </div>` : ''}
+              ${agents.length ? `<div class="ctrl-tree__group">
+                <div class="ctrl-tree__label">Agents</div>
+                ${agents.map(p => node('agent', p.slug, p.name || p.slug, p.state || '', !!p.needs_attention)).join('')}
+              </div>` : ''}
+              ${(!virtuosos.length && !agents.length) ? '<p class="ctrl-tree__empty">No projects loaded yet — open from your Mac.</p>' : ''}
+            </div>
+          </div>`;
+      },
+      bind(el) {
+        ensureCtrlPopup();
+        el.querySelectorAll('.ctrl-node').forEach(n => {
+          n.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openCtrlPopup(n.dataset.ctrlType, n.dataset.ctrlSlug);
+          });
+        });
+      },
+    },
   };
+
+  // ─── Control deck popup — singleton overlay at body level ───────────
+  function ensureCtrlPopup() {
+    if (document.getElementById('ctrl-popup')) return;
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `<div class="ctrl-popup" id="ctrl-popup" role="dialog" aria-modal="true" aria-labelledby="ctrl-popup-title">
+        <div class="ctrl-popup__panel">
+          <div class="ctrl-popup__header">
+            <h3 class="ctrl-popup__title" id="ctrl-popup-title"></h3>
+            <button class="ctrl-popup__close" id="ctrl-popup-close" type="button" aria-label="Close">×</button>
+          </div>
+          <div class="ctrl-popup__body" id="ctrl-popup-body"></div>
+        </div>
+      </div>`;
+    document.body.appendChild(wrap.firstChild);
+    const popup = document.getElementById('ctrl-popup');
+    document.getElementById('ctrl-popup-close').addEventListener('click', () => popup.classList.remove('show'));
+    popup.addEventListener('click', (e) => { if (e.target === popup) popup.classList.remove('show'); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && popup.classList.contains('show')) popup.classList.remove('show'); });
+  }
+
+  function openCtrlPopup(nodeType, slug) {
+    ensureCtrlPopup();
+    const popup = document.getElementById('ctrl-popup');
+    const title = document.getElementById('ctrl-popup-title');
+    const body = document.getElementById('ctrl-popup-body');
+    if (nodeType === 'maestro') {
+      title.textContent = '🎼 Maestro · system controller';
+      body.innerHTML = renderMaestroActions();
+      bindMaestroActions(body);
+    } else {
+      const proj = (window._ALL_STATE?.projects || []).find(p => p.slug === slug) || { slug };
+      const icon = nodeType === 'virtuoso' ? '🎻' : '🎵';
+      title.textContent = `${icon} ${proj.name || proj.slug} · ${nodeType}` + (proj.state ? ` · ${proj.state}` : '');
+      body.innerHTML = renderChatActions(slug, proj);
+      bindChatActions(body, slug);
+    }
+    popup.classList.add('show');
+  }
+
+  function renderMaestroActions() {
+    const s = window._ALL_STATE || {};
+    return `
+      <div class="ctrl-action">
+        <h4>Mode</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${escapeHtml(s.mode || '?')}</span>
+          <button class="btn-primary" data-act="mode-flip">Flip to ${s.mode === 'orchestrated' ? 'direct' : 'orchestrated'}</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Pause autopilots (soft)</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${s.autopilots_paused ? 'paused' : 'running'}</span>
+          <button class="btn-primary" data-act="pause-toggle">Toggle</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Cycle freeze</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${s.autopilot_freeze_until ? 'frozen · until ' + String(s.autopilot_freeze_until).slice(0,10) : 'lifted'}</span>
+          <button class="btn-primary" data-act="freeze-toggle">${s.autopilot_freeze_until ? 'Lift' : 'Activate (until reset)'}</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Caffeinate during autopilot</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${s.caffeinate_during_autopilot ? 'on' : 'off'}</span>
+          <button class="btn-primary" data-act="caffeinate-toggle">Toggle</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Workshop lock</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${s.lock_held ? '🔒 held' : '✓ free'}</span>
+          <button class="btn-secondary" data-act="release-lock" ${s.lock_held ? '' : 'disabled'}>Force release</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action ctrl-action--danger">
+        <h4>Kill cascade</h4>
+        <div class="ctrl-action__row">
+          <button class="btn-danger" data-act="kill">Kill all autopilot</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+    `;
+  }
+
+  function bindMaestroActions(root) {
+    const map = {
+      'mode-flip': { path: '/set-config', body: () => ({ field: 'mode', value: (window._ALL_STATE?.mode === 'orchestrated' ? 'direct' : 'orchestrated') }) },
+      'pause-toggle': { path: '/pause-autopilots', body: () => ({ value: !window._ALL_STATE?.autopilots_paused }) },
+      'freeze-toggle': { path: '/freeze-until', body: () => ({ value: window._ALL_STATE?.autopilot_freeze_until ? null : 'reset' }) },
+      'caffeinate-toggle': { path: '/set-config', body: () => ({ field: 'caffeinate_during_autopilot', value: !window._ALL_STATE?.caffeinate_during_autopilot }) },
+      'release-lock': { path: '/release-lock', body: () => ({}), confirm: 'Force-release the workshop lock? Logged to lock_steals.log.' },
+      'kill': { path: '/kill', body: () => ({}), confirm: 'Run kill cascade? Releases lock, pauses automations, flips mode to direct.' },
+    };
+    root.querySelectorAll('button[data-act]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const act = btn.dataset.act;
+        const cfg = map[act];
+        if (!cfg) return;
+        if (cfg.confirm && !confirm(cfg.confirm)) return;
+        const fb = btn.closest('.ctrl-action').querySelector('[data-feedback]');
+        if (fb) fb.textContent = '…';
+        try {
+          await apiPost(cfg.path, cfg.body());
+          if (fb) fb.textContent = '✓ done';
+          if (typeof refreshState === 'function') setTimeout(refreshState, 400);
+        } catch (e) {
+          if (fb) fb.textContent = '✗ ' + e.message;
+        }
+      });
+    });
+  }
+
+  function renderChatActions(slug, proj) {
+    const stateOpts = ['Building','Launch Prep','Warmer','R&D','Updates','Hibernating']
+      .map(s => `<option value="${s}" ${proj.state === s ? 'selected' : ''}>${s}</option>`).join('');
+    const visOpts = ['public','private','auto']
+      .map(v => `<option value="${v}" ${(proj.public_visibility || 'public') === v ? 'selected' : ''}>${v}</option>`).join('');
+    return `
+      <div class="ctrl-action">
+        <h4>Fire autopilot</h4>
+        <div class="ctrl-action__row">
+          <input type="number" class="widget__input" data-input="mins" min="1" max="240" value="30" style="max-width:90px;" />
+          <span style="color:var(--ink-3);font-size:12px;">min</span>
+          <button class="btn-primary" data-act="fire">Fire</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Set state</h4>
+        <div class="ctrl-action__row">
+          <select class="widget__select" data-input="state" style="flex:1;">${stateOpts}</select>
+          <button class="btn-primary" data-act="set-state">Set</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Active toggle</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${proj.active === false ? 'inactive' : 'active'}</span>
+          <button class="btn-primary" data-act="toggle-active">Toggle</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Autopilot eligibility</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${proj.autopilot_eligible ? 'eligible' : 'supervised'}</span>
+          <button class="btn-primary" data-act="toggle-autopilot">Toggle</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Visibility</h4>
+        <div class="ctrl-action__row">
+          <select class="widget__select" data-input="vis" style="flex:1;">${visOpts}</select>
+          <button class="btn-primary" data-act="set-visibility">Set</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Send message</h4>
+        <textarea class="widget__textarea" data-input="msg" rows="3" placeholder="message text…" style="margin-bottom:8px;"></textarea>
+        <div class="ctrl-action__row">
+          <button class="btn-primary" data-act="chat-message">Send</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Re-read contract</h4>
+        <div class="ctrl-action__row">
+          <button class="btn-primary" data-act="chat-reread">Trigger</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+    `;
+  }
+
+  function bindChatActions(root, slug) {
+    const handlers = {
+      'fire': async (card) => {
+        const mins = parseInt(card.querySelector('[data-input="mins"]').value, 10);
+        return apiPost('/fire', { slug, minutes: mins, prompt: '' }).then(r => '✓ fired ' + slug + ' for ' + mins + 'm');
+      },
+      'set-state': async (card) => {
+        const state = card.querySelector('[data-input="state"]').value;
+        return apiPost('/set-state', { slug, state }).then(() => '✓ ' + slug + ' → ' + state);
+      },
+      'toggle-active': async () => apiPost('/toggle-active', { slug }).then(r => '✓ active=' + r.active),
+      'toggle-autopilot': async () => apiPost('/toggle-autopilot', { slug }).then(r => '✓ eligible=' + r.autopilot_eligible),
+      'set-visibility': async (card) => {
+        const v = card.querySelector('[data-input="vis"]').value;
+        return apiPost('/set-visibility', { slug, visibility: v }).then(() => '✓ visibility=' + v);
+      },
+      'chat-message': async (card) => {
+        const message = card.querySelector('[data-input="msg"]').value.trim();
+        if (!message) throw new Error('write a message first');
+        return apiPost('/chat-message', { slug, message }).then(r => '✓ queued (count=' + r.queued_count + ')');
+      },
+      'chat-reread': async () => apiPost('/chat-reread', { slug }).then(() => '✓ ' + slug + ' will re-read on next turn'),
+    };
+    root.querySelectorAll('button[data-act]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const card = btn.closest('.ctrl-action');
+        const fb = card.querySelector('[data-feedback]');
+        const act = btn.dataset.act;
+        const handler = handlers[act];
+        if (!handler) return;
+        if (fb) fb.textContent = '…';
+        try {
+          const msg = await handler(card);
+          if (fb) fb.textContent = msg;
+          if (typeof refreshState === 'function') setTimeout(refreshState, 400);
+        } catch (e) {
+          if (fb) fb.textContent = '✗ ' + e.message;
+        }
+      });
+    });
+  }
 
   // ─── Default initial layout (sectioned: public + private) ────────
   const DEFAULT_LAYOUT = {
@@ -841,6 +1116,7 @@
         { id: "token-cost-chart", size: "2x2" },
         { id: "theme-switcher", size: "2x1" },
         { id: "background-picker", size: "2x1" },
+        { id: "controller-tree", size: "2x2" },
       ],
       private: [
         { id: "mode-pill", size: "1x1" },
