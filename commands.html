@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
 <style>
 :root {
   --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
@@ -643,6 +644,52 @@ body.theme-sage {
 .widget-shelf__item.is-on-grid { opacity: 0.4; pointer-events: none; }
 .widget-shelf__item.is-on-grid h3::after { content: " · already on grid"; font-weight: 400; color: var(--ink-4); }
 
+
+/* ─── Widget sections (public + private partitioning) ──────────────── */
+.widget-section { margin: 24px 0 36px; }
+.widget-section + .widget-section { border-top: 1px dashed var(--rule); padding-top: 24px; }
+.widget-section__header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 14px; padding-bottom: 10px;
+}
+.widget-section__heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.widget-section__heading > div { min-width: 0; }
+.widget-section__title {
+  font-family: var(--font-heading, var(--font-display, serif));
+  font-size: 18px; font-weight: 600; margin: 0; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.widget-section__sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
+.widget-section__chip {
+  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.widget-section__chip--public {
+  background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a;
+  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
+}
+.widget-section__chip--private {
+  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.widget-section__move {
+  appearance: none; padding: 6px 14px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule); cursor: pointer;
+  font-size: 12px; font-weight: 600; color: var(--ink-2); font-family: inherit;
+  transition: all 180ms var(--ease); white-space: nowrap; flex-shrink: 0;
+  display: none;
+}
+.editing-dashboard .widget-section__move { display: inline-block; }
+.widget-section__move:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hide section headers when NOT in edit mode for a quieter default view */
+:not(.editing-dashboard) .widget-section__header { opacity: 0.6; }
+:not(.editing-dashboard) .widget-section__sub { display: none; }
+
+/* Shelf row chip */
+.widget-shelf__row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+
 </style>
 </head>
 <body>
@@ -677,7 +724,7 @@ body.theme-sage {
   <div class="wrap">
     <p class="eyebrow">Commands</p>
     <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <p class="lead">Every action wired to a control-panel endpoint. Three-layer mutex enforces every autopilot fire. Safety gates always fire.</p>
   </div>
 </header>
 
@@ -691,8 +738,8 @@ body.theme-sage {
       </div>
     </div>
 
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
+    <h2>System</h2>
+    <p class="section-sub">Whole-Ensemble actions. Mode toggle, kill switch, lock + pause, token cycle.</p>
     <div class="commands-grid">
 
       <div class="command-card">
@@ -706,21 +753,43 @@ body.theme-sage {
       </div>
 
       <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
+        <h3>Quick-fire scheduled tasks</h3>
+        <div class="cmd-row" style="flex-wrap:wrap;gap:6px;">
+          <button class="btn-secondary" onclick="quickFireTask('morning-briefing')">Morning</button>
+          <button class="btn-secondary" onclick="quickFireTask('evening-planning')">Evening</button>
+          <button class="btn-secondary" onclick="quickFireTask('dashboard-update')">Dashboard</button>
+          <button class="btn-secondary" onclick="quickFireTask('weekly-report')">Weekly</button>
+          <button class="btn-secondary" onclick="quickFireTask('token-burn-down')">Burn-down</button>
+          <button class="btn-secondary" onclick="quickFireTask('backup-snapshot')">Backup</button>
         </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
+        <p class="cmd-help" id="quickfire-help">Click any to run on-demand.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Mode</h3>
+        <div class="cmd-row">
+          <span id="mode-display" class="mode-pill">…</span>
+          <button class="btn-primary" onclick="flipSystemMode()">Flip</button>
+        </div>
+        <p class="cmd-help" id="mode-help">Orchestrated: full protocol. Direct: conversational only.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Pause autopilots (soft)</h3>
+        <div class="cmd-row">
+          <span id="pause-display" class="mode-pill">…</span>
+          <button class="btn-primary" onclick="togglePause()">Toggle</button>
+        </div>
+        <p class="cmd-help" id="pause-help">Block new starts without killing existing. Use Kill for hard stop.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Workshop lock</h3>
+        <div class="cmd-row">
+          <span id="lock-display" class="mode-pill">…</span>
+          <button class="btn-danger" onclick="releaseLock()">Force-release</button>
+        </div>
+        <p class="cmd-help" id="lock-help">Logged to lock_steals.log. Use only when stuck.</p>
       </div>
 
       <div class="command-card danger">
@@ -741,9 +810,128 @@ body.theme-sage {
         <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
       </div>
 
+      <div class="command-card">
+        <h3>Concurrency cap</h3>
+        <div class="cmd-row">
+          <input type="range" id="cap-slider" min="1" max="16" value="2" style="flex:1;accent-color:var(--accent);" />
+          <span id="cap-display" class="mode-pill">2</span>
+          <button class="btn-primary" onclick="saveCap()">Save</button>
+        </div>
+        <p class="cmd-help" id="cap-help">Maximum concurrent autopilots allowed.</p>
+      </div>
+
+    </div>
+
+    <h2 style="margin-top:48px;">Per-project</h2>
+    <p class="section-sub">Targeted at a single chat. Pick a slug, then act.</p>
+    <div class="commands-grid">
+
+      <div class="command-card">
+        <h3>Set project state</h3>
+        <div class="cmd-row">
+          <select id="state-slug"><option value="">Project…</option></select>
+          <select id="state-target">
+            <option value="">→ State…</option>
+            <option>Building</option>
+            <option>Launch Prep</option>
+            <option>Warmer</option>
+            <option>R&D</option>
+            <option>Updates</option>
+            <option>Hibernating</option>
+          </select>
+          <button class="btn-primary" onclick="setProjectState()">Set</button>
+        </div>
+        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Active toggle</h3>
+        <div class="cmd-row">
+          <select id="active-slug"><option value="">Project…</option></select>
+          <button class="btn-primary" onclick="togglePerChatActive()">Toggle</button>
+        </div>
+        <p class="cmd-help" id="active-help">Inactive chats stay quiet — no autopilot, no scheduled fires.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Autopilot eligibility</h3>
+        <div class="cmd-row">
+          <select id="ap-slug"><option value="">Project…</option></select>
+          <button class="btn-primary" onclick="togglePerChatAutopilot()">Toggle</button>
+        </div>
+        <p class="cmd-help" id="ap-help">Eligible chats may be picked by autopilot routines.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Rapid-fire (per chat)</h3>
+        <div class="cmd-row">
+          <select id="rf-slug"><option value="">Project…</option></select>
+          <select id="rf-value">
+            <option value="">→ Value…</option>
+            <option value="true">on</option>
+            <option value="false">off</option>
+            <option value="null">inherit (clear)</option>
+          </select>
+          <button class="btn-primary" onclick="setPerChatRapidfire()">Set</button>
+        </div>
+        <p class="cmd-help" id="rf-help">Override system rapid-fire setting for this chat only.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Visibility</h3>
+        <div class="cmd-row">
+          <select id="viz-slug"><option value="">Project…</option></select>
+          <select id="viz-value">
+            <option value="">→ Visibility…</option>
+            <option value="public">public</option>
+            <option value="private">private</option>
+            <option value="auto">auto (follow GitHub)</option>
+          </select>
+          <button class="btn-primary" onclick="setPerChatVisibility()">Set</button>
+        </div>
+        <p class="cmd-help" id="viz-help">Private = no static page generated, no info leak via direct URL.</p>
+      </div>
+
+    </div>
+
+    <h2 style="margin-top:48px;">Send to chat</h2>
+    <p class="section-sub">Queue a message or trigger a contract re-read. Picked up on the chat's next turn.</p>
+    <div class="commands-grid">
+
+      <div class="command-card">
+        <h3>Send message</h3>
+        <div class="cmd-row" style="flex-direction:column;align-items:stretch;gap:8px;">
+          <select id="msg-slug"><option value="">Project…</option></select>
+          <textarea id="msg-text" rows="3" placeholder="message text…" style="width:100%;padding:8px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--bg);color:var(--ink);font-family:inherit;font-size:13px;resize:vertical;"></textarea>
+          <button class="btn-primary" onclick="sendChatMessage()" style="align-self:flex-end;">Send</button>
+        </div>
+        <p class="cmd-help" id="msg-help">Lands in chats/&lt;slug&gt;.queued_messages on next turn.</p>
+      </div>
+
+      <div class="command-card">
+        <h3>Re-read contract</h3>
+        <div class="cmd-row">
+          <select id="reread-slug"><option value="">Project…</option></select>
+          <button class="btn-primary" onclick="triggerReread()">Trigger</button>
+        </div>
+        <p class="cmd-help" id="reread-help">Chat re-reads operating contract on next turn (auto-engages rapid-fire).</p>
+      </div>
+
     </div>
   </div>
 </section>
+
+<style>
+.mode-pill {
+  display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 100px;
+  font-size: 13px; font-weight: 600; background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.mode-pill.warn { background: color-mix(in srgb, #d97706 14%, transparent); color: #d97706; border-color: color-mix(in srgb, #d97706 28%, transparent); }
+.mode-pill.success { background: color-mix(in srgb, #16a34a 14%, transparent); color: #16a34a; border-color: color-mix(in srgb, #16a34a 28%, transparent); }
+.mode-pill.danger { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; border-color: color-mix(in srgb, #dc2626 28%, transparent); }
+.mode-pill.neutral { background: var(--bg-elevated, var(--bg-raised)); color: var(--ink-2); border-color: var(--rule); }
+</style>
 
 <script>
 function refreshPageState(state) {
@@ -760,8 +948,7 @@ function refreshPageState(state) {
     });
     if (cur) el.value = cur;
   };
-  populate("fire-slug");
-  populate("state-slug");
+  ["fire-slug", "state-slug", "active-slug", "ap-slug", "rf-slug", "viz-slug", "msg-slug", "reread-slug"].forEach(populate);
 
   // Token cycle
   const resetEl = document.getElementById("reset-status");
@@ -782,6 +969,179 @@ function refreshPageState(state) {
       inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
     }
   }
+
+  // Mode pill
+  const modeEl = document.getElementById("mode-display");
+  if (modeEl) {
+    modeEl.textContent = state.mode || "?";
+    modeEl.className = "mode-pill " + (state.mode === "orchestrated" ? "success" : (state.mode === "direct" ? "warn" : "neutral"));
+  }
+
+  // Pause pill
+  const pauseEl = document.getElementById("pause-display");
+  if (pauseEl) {
+    const paused = !!state.autopilots_paused;
+    pauseEl.textContent = paused ? "paused" : "running";
+    pauseEl.className = "mode-pill " + (paused ? "warn" : "success");
+  }
+
+  // Lock pill
+  const lockEl = document.getElementById("lock-display");
+  if (lockEl) {
+    const held = !!state.lock_held;
+    const holder = state.lock_holder?.chat_id || state.lock_holder?.slug || "";
+    lockEl.textContent = held ? ("🔒 held" + (holder ? " · " + holder : "")) : "✓ free";
+    lockEl.className = "mode-pill " + (held ? "warn" : "success");
+  }
+
+  // Cap slider
+  const capSlider = document.getElementById("cap-slider");
+  const capDisplay = document.getElementById("cap-display");
+  if (capSlider && capDisplay) {
+    const cap = state.max_concurrent_autopilots ?? 2;
+    if (capSlider.dataset.userTouched !== "1") capSlider.value = cap;
+    capDisplay.textContent = capSlider.value;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const capSlider = document.getElementById("cap-slider");
+  const capDisplay = document.getElementById("cap-display");
+  if (capSlider && capDisplay) {
+    capSlider.addEventListener("input", () => {
+      capSlider.dataset.userTouched = "1";
+      capDisplay.textContent = capSlider.value;
+    });
+  }
+});
+
+async function quickFireTask(task) {
+  const help = document.getElementById("quickfire-help");
+  if (help) help.textContent = "firing " + task + "…";
+  try {
+    const r = await fetch(SERVER_URL + "/fire", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug: task, minutes: 30, prompt: "" }) });
+    const j = await r.json();
+    if (help) help.textContent = r.ok ? ("✓ fired " + task + " (exit " + j.exit + ")") : ("✗ " + (j.error || r.statusText));
+  } catch (e) { if (help) help.textContent = "✗ " + e.message; }
+}
+
+async function flipSystemMode() {
+  const cur = document.getElementById("mode-display")?.textContent?.trim();
+  const next = cur === "orchestrated" ? "direct" : "orchestrated";
+  if (!confirm("Flip system mode to " + next + "?")) return;
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", { method: "POST", headers: authHeaders(), body: JSON.stringify({ field: "mode", value: next }) });
+    const j = await r.json();
+    showHelp("mode-help", r.ok ? ("✓ mode → " + next) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("mode-help", "✗ " + e.message); }
+}
+
+async function togglePause() {
+  const cur = document.getElementById("pause-display")?.textContent === "paused";
+  try {
+    const r = await fetch(SERVER_URL + "/pause-autopilots", { method: "POST", headers: authHeaders(), body: JSON.stringify({ value: !cur }) });
+    const j = await r.json();
+    showHelp("pause-help", r.ok ? ("✓ autopilots " + (!cur ? "paused" : "running")) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("pause-help", "✗ " + e.message); }
+}
+
+async function releaseLock() {
+  if (!confirm("Force-release the workshop lock? Logged to lock_steals.log.")) return;
+  try {
+    const r = await fetch(SERVER_URL + "/release-lock", { method: "POST", headers: authHeaders(), body: JSON.stringify({}) });
+    const j = await r.json();
+    showHelp("lock-help", r.ok ? ("✓ released · prior holder: " + (j.prior_holder || "none")) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("lock-help", "✗ " + e.message); }
+}
+
+async function saveCap() {
+  const v = parseInt(document.getElementById("cap-slider")?.value, 10);
+  if (!v) return;
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", { method: "POST", headers: authHeaders(), body: JSON.stringify({ field: "max_concurrent_autopilots", value: v }) });
+    const j = await r.json();
+    showHelp("cap-help", r.ok ? ("✓ cap → " + v) : ("✗ " + (j.error || r.statusText)));
+    const slider = document.getElementById("cap-slider");
+    if (slider) slider.dataset.userTouched = "0";
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("cap-help", "✗ " + e.message); }
+}
+
+async function togglePerChatActive() {
+  const slug = document.getElementById("active-slug")?.value;
+  if (!slug) return showHelp("active-help", "Pick a project");
+  try {
+    const r = await fetch(SERVER_URL + "/toggle-active", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug }) });
+    const j = await r.json();
+    showHelp("active-help", r.ok ? ("✓ " + slug + " active=" + j.active) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("active-help", "✗ " + e.message); }
+}
+
+async function togglePerChatAutopilot() {
+  const slug = document.getElementById("ap-slug")?.value;
+  if (!slug) return showHelp("ap-help", "Pick a project");
+  try {
+    const r = await fetch(SERVER_URL + "/toggle-autopilot", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug }) });
+    const j = await r.json();
+    showHelp("ap-help", r.ok ? ("✓ " + slug + " eligible=" + j.autopilot_eligible) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("ap-help", "✗ " + e.message); }
+}
+
+async function setPerChatRapidfire() {
+  const slug = document.getElementById("rf-slug")?.value;
+  const raw = document.getElementById("rf-value")?.value;
+  if (!slug || !raw) return showHelp("rf-help", "Pick project + value");
+  let value;
+  if (raw === "true") value = true;
+  else if (raw === "false") value = false;
+  else value = null;
+  try {
+    const r = await fetch(SERVER_URL + "/chat-rapidfire", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, value }) });
+    const j = await r.json();
+    showHelp("rf-help", r.ok ? ("✓ " + slug + " rapid-fire=" + JSON.stringify(value)) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("rf-help", "✗ " + e.message); }
+}
+
+async function setPerChatVisibility() {
+  const slug = document.getElementById("viz-slug")?.value;
+  const v = document.getElementById("viz-value")?.value;
+  if (!slug || !v) return showHelp("viz-help", "Pick project + visibility");
+  try {
+    const r = await fetch(SERVER_URL + "/set-visibility", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, visibility: v }) });
+    const j = await r.json();
+    showHelp("viz-help", r.ok ? ("✓ " + slug + " visibility=" + v) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("viz-help", "✗ " + e.message); }
+}
+
+async function sendChatMessage() {
+  const slug = document.getElementById("msg-slug")?.value;
+  const message = document.getElementById("msg-text")?.value?.trim();
+  if (!slug || !message) return showHelp("msg-help", "Pick project + write a message");
+  try {
+    const r = await fetch(SERVER_URL + "/chat-message", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, message }) });
+    const j = await r.json();
+    showHelp("msg-help", r.ok ? ("✓ sent · " + j.queued_count + " queued") : ("✗ " + (j.error || r.statusText)));
+    if (r.ok) document.getElementById("msg-text").value = "";
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("msg-help", "✗ " + e.message); }
+}
+
+async function triggerReread() {
+  const slug = document.getElementById("reread-slug")?.value;
+  if (!slug) return showHelp("reread-help", "Pick a project");
+  try {
+    const r = await fetch(SERVER_URL + "/chat-reread", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug }) });
+    const j = await r.json();
+    showHelp("reread-help", r.ok ? ("✓ " + slug + " will re-read on next turn") : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("reread-help", "✗ " + e.message); }
 }
 </script>
 <footer class="site-footer">
