@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
+<title>Ensemble — Controls</title>
 <meta name="description" content="Fire autopilot, set project state, kill switch, token." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
@@ -45,13 +45,13 @@
 <body class="hub">
 <nav class="topnav">
   <div class="wrap">
-    <a class="brand" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="" width="28" height="28" /><span class="brand-word">Ensemble</span></a>
+    <a class="brand brand--icon-only" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="Ensemble" width="28" height="28" /></a>
     <ul>
       <li><a href="./">Ensemble</a></li>
       <li><a href="./studio.html">Studio</a></li>
       <li><a class="active" aria-current="page" href="./dashboard.html">Dashboard</a></li>
-      <li><a href="./settings.html">Settings</a></li>
       <li><a href="./docs.html">Docs</a></li>
+      <li><a href="./settings.html">Settings</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -72,11 +72,19 @@
 </div>
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
+    <p class="eyebrow">Controls</p>
     <h1>Fire from <em>anywhere.</em></h1>
     <p class="lead">Every action wired to a control-panel endpoint. Three-layer mutex enforces every autopilot fire. Safety gates always fire.</p>
   </div>
 </header>
+<nav class="dash-subnav" aria-label="Dashboard sections">
+  <div class="wrap">
+    <a class="dash-subnav__link" href="./dashboard.html">Overview</a>
+    <a class="dash-subnav__link" href="./projects.html">Projects</a>
+    <a class="dash-subnav__link is-active" aria-current="page" href="./commands.html">Controls</a>
+  </div>
+</nav>
+
 
 <section data-owner-only>
   <div class="wrap">
