@@ -100,6 +100,31 @@
     </button>
   </div>
 
+  <!-- Claude chat drawer (visible only in edit mode via CSS) -->
+  <aside class="studio-claude-drawer" id="studio-claude-drawer" aria-label="Claude chat">
+    <header class="studio-claude-drawer__header">
+      <div class="studio-claude-drawer__brand">
+        <span class="studio-claude-drawer__icon" aria-hidden="true">✦</span>
+        <span class="studio-claude-drawer__title">Claude</span>
+        <span class="studio-claude-drawer__sub">your edit-mode partner</span>
+      </div>
+      <button class="studio-claude-drawer__minimize" type="button" data-act="claude-min" aria-label="Minimize">–</button>
+    </header>
+    <div class="studio-claude-drawer__body" id="studio-claude-drawer-body">
+      <div class="studio-claude-msg studio-claude-msg--system">
+        <p>Ask me to add a sprite, write a markdown essay for a click-to-read, suggest a layout, or anything else. I have your room's current contents in mind.</p>
+        <p class="studio-claude-drawer__hint">Apply/Discard for component generation lands in part 3b. For now, free-form chat.</p>
+      </div>
+    </div>
+    <form class="studio-claude-drawer__form" id="studio-claude-drawer-form">
+      <textarea class="studio-claude-drawer__input" id="studio-claude-input" rows="2" placeholder="Make me a renaissance painter for my art chats… / Add a music staff… / How should I lay this out?" aria-label="Message Claude"></textarea>
+      <div class="studio-claude-drawer__row">
+        <span class="studio-claude-drawer__status" id="studio-claude-status"></span>
+        <button class="studio-claude-drawer__send" type="submit">Send</button>
+      </div>
+    </form>
+  </aside>
+
   <section class="studio-pane is-active" data-pane="room" role="tabpanel">
     <div class="studio-room-frame">
       <button type="button" class="workshop-toggle" id="workshop-toggle" aria-expanded="true" aria-controls="workshop-drawer">
@@ -1110,6 +1135,150 @@
     try { localStorage.removeItem(SAVED_ROOM_KEY); } catch (e) {}
   }
 
+  // ─── Claude chat drawer (Phase A.3 part 3a) ──────────────────────────
+  // Right-bottom drawer in edit mode. Free-form chat with Claude via the
+  // control panel's /studio/claude/chat endpoint. Per-Room history kept
+  // in localStorage. Apply/Discard for component generation lands in
+  // part 3b.
+
+  let claudeHistory = [];  // [{role, content}]
+  const CLAUDE_HISTORY_KEY = 'ENSEMBLE_STUDIO_CLAUDE_HISTORY';
+
+  function loadClaudeHistory() {
+    try {
+      const raw = localStorage.getItem(CLAUDE_HISTORY_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.slice(-40) : [];
+    } catch (e) { return []; }
+  }
+
+  function saveClaudeHistory() {
+    try {
+      // Cap at 40 messages so localStorage stays small
+      localStorage.setItem(CLAUDE_HISTORY_KEY, JSON.stringify(claudeHistory.slice(-40)));
+    } catch (e) {}
+  }
+
+  function bindClaudeDrawer() {
+    const drawer = $('#studio-claude-drawer');
+    const form = $('#studio-claude-drawer-form');
+    const input = $('#studio-claude-input');
+    const minBtn = drawer?.querySelector('[data-act="claude-min"]');
+    if (!drawer || !form || !input) return;
+
+    minBtn?.addEventListener('click', () => {
+      drawer.classList.toggle('is-minimized');
+      minBtn.textContent = drawer.classList.contains('is-minimized') ? '+' : '–';
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      await sendClaudeMessage(text);
+    });
+
+    // Submit with Cmd+Enter / Ctrl+Enter
+    input.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+        e.preventDefault();
+        form.requestSubmit();
+      }
+    });
+
+    // Restore history on load
+    claudeHistory = loadClaudeHistory();
+    if (claudeHistory.length) {
+      claudeHistory.forEach(msg => appendClaudeMessage(msg.role, msg.content, { skipAnim: true }));
+    }
+  }
+
+  function appendClaudeMessage(role, content, opts) {
+    opts = opts || {};
+    const body = $('#studio-claude-drawer-body');
+    if (!body) return null;
+    const div = document.createElement('div');
+    div.className = `studio-claude-msg studio-claude-msg--${role}`;
+    if (role === 'assistant') {
+      div.innerHTML = renderMarkdownLite(content);
+    } else if (role === 'pending') {
+      div.textContent = 'Claude is thinking';
+    } else if (role === 'error') {
+      div.textContent = content;
+    } else {
+      div.textContent = content;
+    }
+    body.appendChild(div);
+    if (!opts.skipAnim) body.scrollTop = body.scrollHeight;
+    return div;
+  }
+
+  async function sendClaudeMessage(text) {
+    const status = $('#studio-claude-status');
+    const sendBtn = $('.studio-claude-drawer__send');
+    appendClaudeMessage('user', text);
+    claudeHistory.push({ role: 'user', content: text });
+    saveClaudeHistory();
+    if (status) { status.textContent = 'sending…'; status.className = 'studio-claude-drawer__status is-pending'; }
+    if (sendBtn) sendBtn.disabled = true;
+    const pending = appendClaudeMessage('pending', '');
+
+    // Build the message payload — include current Room summary so Claude
+    // has context. Cap context size so we don't hit token budgets.
+    const roomSummary = currentRoom ? {
+      name: currentRoom.name,
+      preset_id: currentRoom.preset_origin,
+      stage: currentRoom.stage,
+      component_ids: currentRoom.components.slice(0, 30).map(c => ({
+        id: c.id, type: c.type, sprite_id: c.props?.sprite_id, x: c.x, y: c.y,
+      })),
+    } : null;
+    const messages = claudeHistory.map(m => ({ role: m.role, content: m.content }));
+    if (roomSummary) {
+      // Prepend a hidden context message at the top of the turn list
+      messages.unshift({ role: 'user', content: 'Current Room state:\n```json\n' + JSON.stringify(roomSummary).slice(0, 4000) + '\n```\n\n(Above is for your context only — owner has not asked you to act on it yet.)' });
+    }
+
+    try {
+      const SERVER_URL = (window.SERVER_URL) || (typeof location !== 'undefined' && location.hostname === 'localhost' ? 'http://localhost:8080' : '');
+      if (!SERVER_URL) throw new Error('Pair this browser first (Settings → Pair) so the Studio can reach the control panel.');
+      const token = localStorage.getItem('DASHBOARD_TOKEN') || '';
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      const r = await fetch(SERVER_URL + '/studio/claude/chat', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ messages }),
+      });
+      const data = await r.json();
+      if (pending && pending.parentNode) pending.remove();
+      if (!r.ok) {
+        const detail = data.error || r.statusText;
+        const hint = data.hint ? '\n\n' + data.hint : '';
+        appendClaudeMessage('error', detail + hint);
+        if (status) { status.textContent = 'error'; status.className = 'studio-claude-drawer__status is-error'; }
+      } else {
+        const reply = data.reply || '(no reply)';
+        appendClaudeMessage('assistant', reply);
+        claudeHistory.push({ role: 'assistant', content: reply });
+        saveClaudeHistory();
+        if (status) {
+          const tokens = data.usage ? ` · ${data.usage.input_tokens || 0}+${data.usage.output_tokens || 0} tok` : '';
+          status.textContent = 'ready' + tokens;
+          status.className = 'studio-claude-drawer__status';
+        }
+      }
+    } catch (e) {
+      if (pending && pending.parentNode) pending.remove();
+      appendClaudeMessage('error', 'Network error: ' + e.message);
+      if (status) { status.textContent = 'error'; status.className = 'studio-claude-drawer__status is-error'; }
+    } finally {
+      if (sendBtn) sendBtn.disabled = false;
+    }
+  }
+
   // ─── Component palette (Phase A.3 part 2) ────────────────────────────
   // Renders the sprite catalog as expandable asset packs inside the
   // Workshop drawer. Active only in edit mode — when not editing, the
@@ -1333,9 +1502,10 @@
       t.addEventListener('click', () => switchTab(t.dataset.tab));
     });
 
-    // Workshop drawer + edit toggle wiring
+    // Workshop drawer + edit toggle + Claude chat drawer wiring
     bindWorkshop();
     bindEditToggle();
+    bindClaudeDrawer();
 
     // Try saved room first; fall back to default preset
     const saved = loadSavedRoom();

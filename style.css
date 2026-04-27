@@ -2417,6 +2417,203 @@ body.studio-editing .studio-comp--interactive:hover {
 body.studio-editing .workshop-packs { display: none; }
 body:not(.studio-editing) .workshop-palette { display: none; }
 
+/* ─── Claude chat drawer (Phase A.3 part 3a) ─────────────────────────── */
+.studio-claude-drawer {
+  position: fixed;
+  bottom: 16px; right: 16px;
+  width: min(360px, calc(100vw - 32px));
+  height: 420px;
+  z-index: 170;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.32),
+              0 0 0 1px color-mix(in srgb, var(--accent) 14%, transparent);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 240ms var(--ease), opacity 240ms var(--ease);
+}
+body.studio-editing .studio-claude-drawer { display: flex; }
+.studio-claude-drawer.is-minimized {
+  height: 48px;
+}
+.studio-claude-drawer.is-minimized .studio-claude-drawer__body,
+.studio-claude-drawer.is-minimized .studio-claude-drawer__form { display: none; }
+
+.studio-claude-drawer__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--accent) 8%, var(--bg-raised)) 0%,
+    var(--bg-raised) 100%);
+  border-bottom: 1px solid var(--rule);
+  flex-shrink: 0;
+}
+.studio-claude-drawer__brand {
+  display: flex; align-items: baseline; gap: 8px;
+}
+.studio-claude-drawer__icon {
+  font-size: 14px;
+  color: var(--accent);
+  font-family: var(--mono);
+}
+.studio-claude-drawer__title {
+  font-family: var(--serif); font-size: 16px; font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.studio-claude-drawer__sub {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+}
+.studio-claude-drawer__minimize {
+  appearance: none; cursor: pointer; border: 0; background: transparent;
+  font-size: 18px; line-height: 1; padding: 4px 10px;
+  border-radius: 999px; color: var(--ink-3);
+  transition: background 180ms var(--ease), color 180ms var(--ease);
+}
+.studio-claude-drawer__minimize:hover {
+  background: var(--bg-sunken, var(--rule-2));
+  color: var(--ink);
+}
+
+.studio-claude-drawer__body {
+  flex: 1; overflow-y: auto;
+  padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 10px;
+  font-size: 13px; line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.studio-claude-msg {
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 90%;
+  word-wrap: break-word;
+}
+.studio-claude-msg--system {
+  align-self: stretch;
+  background: var(--bg-sunken, var(--rule-2));
+  font-family: var(--sans); font-size: 12px;
+  color: var(--ink-3);
+}
+.studio-claude-msg--user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--sans); font-size: 13px;
+  border-bottom-right-radius: 4px;
+}
+.studio-claude-msg--assistant {
+  align-self: flex-start;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  font-family: var(--sans); font-size: 13px;
+  border-bottom-left-radius: 4px;
+}
+.studio-claude-msg--assistant em { font-style: italic; color: var(--accent); }
+.studio-claude-msg--assistant strong { color: var(--ink); font-weight: 600; }
+.studio-claude-msg--assistant code {
+  font-family: var(--mono); font-size: 11px;
+  background: var(--bg-sunken, var(--rule-2));
+  padding: 1px 5px; border-radius: 4px;
+}
+.studio-claude-msg--assistant pre {
+  background: var(--bg-sunken, var(--rule-2));
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin: 8px 0;
+  overflow-x: auto;
+  font-family: var(--mono); font-size: 11px;
+  line-height: 1.4;
+}
+.studio-claude-msg--assistant pre code {
+  background: transparent; padding: 0;
+}
+.studio-claude-msg--error {
+  align-self: stretch;
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+  color: var(--danger);
+  font-family: var(--mono); font-size: 11.5px;
+  line-height: 1.5;
+}
+.studio-claude-msg--pending {
+  align-self: flex-start;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  color: var(--ink-3);
+  font-family: var(--mono); font-size: 11px;
+  font-style: italic;
+}
+.studio-claude-msg--pending::after {
+  content: '...';
+  animation: studio-claude-blink 1.2s steps(4) infinite;
+}
+@keyframes studio-claude-blink {
+  0%, 50%   { opacity: 1; }
+  51%, 100% { opacity: 0.4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-claude-msg--pending::after { animation: none; }
+}
+
+.studio-claude-drawer__hint {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--ink-4);
+  margin: 6px 0 0;
+}
+
+.studio-claude-drawer__form {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--rule);
+  background: var(--bg-elevated, var(--bg-raised));
+  flex-shrink: 0;
+}
+.studio-claude-drawer__input {
+  font-family: var(--sans); font-size: 13px; line-height: 1.4;
+  padding: 8px 10px;
+  border: 1px solid var(--rule); border-radius: 8px;
+  background: var(--bg); color: var(--ink);
+  resize: none;
+  transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease);
+}
+.studio-claude-drawer__input:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.studio-claude-drawer__row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px;
+}
+.studio-claude-drawer__status {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--ink-4);
+  letter-spacing: 0.04em;
+  min-height: 12px;
+}
+.studio-claude-drawer__status.is-error { color: var(--danger); }
+.studio-claude-drawer__status.is-pending { color: var(--accent); }
+.studio-claude-drawer__send {
+  appearance: none; cursor: pointer;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  transition: background 180ms var(--ease);
+}
+.studio-claude-drawer__send:hover { background: var(--accent-2); }
+.studio-claude-drawer__send:disabled {
+  background: var(--ink-4);
+  cursor: not-allowed;
+}
+
 /* Restored-from-saved-edits pill in the info strip */
 .studio-info__item--restored {
   background: var(--accent-soft);
