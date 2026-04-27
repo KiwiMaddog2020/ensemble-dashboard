@@ -220,7 +220,40 @@
   // many in the Workshop drawer, not the forced default.
   // (Studio reorient locked 2026-04-27 — see docs/grand-plan/MANIFESTO.md)
   const DEFAULT_PRESET = 'blank';
-  const EXAMPLE_PRESETS = ['orchestra'];  // Phase A.1 will expand to 5
+  const EXAMPLE_PRESETS = ['orchestra', 'game_arcade'];
+
+  // ─── Click-to-launch allowlist (Phase A.2) ───────────────────────────
+  // Built-in trust tier: hosts that are pre-vetted as safe to embed.
+  // User allowlist (Phase D+) layers on top of these.
+  // Spec: docs/grand-plan/INTERACTIVE_ASSETS.md §1.1
+  const BUILTIN_HOST_PATTERNS = [
+    /^([a-z0-9-]+\.)*itch\.io$/i,
+    /^([a-z0-9-]+\.)*itch\.zone$/i,
+    /^([a-z0-9-]+\.)*github\.io$/i,
+    /^([a-z0-9-]+\.)*bandcamp\.com$/i,
+    /^([a-z0-9-]+\.)*soundcloud\.com$/i,
+    /^([a-z0-9-]+\.)*youtube(-nocookie)?\.com$/i,
+    /^youtu\.be$/i,
+    /^([a-z0-9-]+\.)*vimeo\.com$/i,
+    /^([a-z0-9-]+\.)*substack\.com$/i,
+    /^([a-z0-9-]+\.)*notion\.site$/i,
+    /^([a-z0-9-]+\.)*are\.na$/i,
+    /^([a-z0-9-]+\.)*neocities\.org$/i,
+    /^play2048\.co$/i,
+    /^adarkroom\.doublespeakgames\.com$/i,
+    /^kiwimaddog2020\.github\.io$/i,
+    /^bunchofothers\.com$/i,
+  ];
+
+  function isAllowedLaunchUrl(url) {
+    try {
+      const u = new URL(url);
+      if (u.protocol !== 'https:' && u.protocol !== 'http:') return false;
+      return BUILTIN_HOST_PATTERNS.some(re => re.test(u.host));
+    } catch (e) {
+      return false;
+    }
+  }
 
   // ─── State ───────────────────────────────────────────────────────────
   let currentRoom = null;        // active Room JSON (preset or user-saved)
@@ -357,6 +390,126 @@
   async function renderProp(el, comp) {
     const sprite = await loadSprite(comp.props.sprite_id);
     el.innerHTML = `<div class="studio-prop__sprite">${sprite}</div>`;
+    // Wire interactions if any — Phase A.2: click-to-launch is the
+    // canonical pattern. Other types come in subsequent A.2 chunks.
+    const interaction = comp.interaction || comp.props?.interaction;
+    if (interaction) bindComponentInteraction(el, comp, interaction);
+  }
+
+  // ─── Interaction binding (Phase A.2) ─────────────────────────────────
+  function bindComponentInteraction(el, comp, interaction) {
+    el.classList.add('studio-comp--interactive');
+    el.classList.add(`studio-comp--int-${interaction.type || 'launch'}`);
+    el.style.pointerEvents = 'auto';
+    el.style.cursor = 'pointer';
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    if (interaction.label) el.setAttribute('aria-label', interaction.label);
+
+    const fire = () => {
+      if (!interaction.type || interaction.type === 'launch') {
+        openLaunchModal(comp, interaction);
+      } else if (interaction.type === 'link') {
+        if (isAllowedLaunchUrl(interaction.url)) {
+          window.open(interaction.url, '_blank', 'noopener,noreferrer');
+        }
+      }
+    };
+
+    el.addEventListener('click', (e) => { e.stopPropagation(); fire(); });
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fire(); }
+    });
+  }
+
+  // ─── Launch modal (Phase A.2) ────────────────────────────────────────
+  function ensureLaunchModal() {
+    if (document.getElementById('studio-launch-modal')) return;
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `<div class="studio-launch-modal" id="studio-launch-modal" role="dialog" aria-modal="true" aria-labelledby="studio-launch-modal-title">
+      <div class="studio-launch-modal__backdrop" data-act="close"></div>
+      <div class="studio-launch-modal__panel">
+        <header class="studio-launch-modal__header">
+          <h3 class="studio-launch-modal__title" id="studio-launch-modal-title"></h3>
+          <button class="studio-launch-modal__close" data-act="close" type="button" aria-label="Close">×</button>
+        </header>
+        <div class="studio-launch-modal__body">
+          <div class="studio-launch-modal__placeholder" data-launch-placeholder>
+            <span class="studio-launch-modal__placeholder-text">INSERT COIN</span>
+          </div>
+          <iframe class="studio-launch-modal__frame" id="studio-launch-frame"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock"
+            referrerpolicy="no-referrer"
+            loading="lazy"
+            allow="autoplay 'self'"
+          ></iframe>
+        </div>
+        <footer class="studio-launch-modal__footer">
+          <span class="studio-launch-modal__url" data-launch-url></span>
+          <a class="studio-launch-modal__open-tab" data-launch-open-tab target="_blank" rel="noopener noreferrer">Open in new tab ↗</a>
+        </footer>
+      </div>
+    </div>`;
+    document.body.appendChild(wrap.firstChild);
+    const modal = document.getElementById('studio-launch-modal');
+    modal.querySelectorAll('[data-act="close"]').forEach(b =>
+      b.addEventListener('click', closeLaunchModal)
+    );
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeLaunchModal();
+    });
+  }
+
+  function openLaunchModal(comp, interaction) {
+    ensureLaunchModal();
+    const modal = document.getElementById('studio-launch-modal');
+    const title = modal.querySelector('.studio-launch-modal__title');
+    const frame = modal.querySelector('#studio-launch-frame');
+    const placeholder = modal.querySelector('[data-launch-placeholder]');
+    const urlSpan = modal.querySelector('[data-launch-url]');
+    const openTab = modal.querySelector('[data-launch-open-tab]');
+
+    title.textContent = interaction.label || comp.props?.label || 'Launch';
+
+    if (!isAllowedLaunchUrl(interaction.url)) {
+      placeholder.style.display = 'flex';
+      placeholder.querySelector('.studio-launch-modal__placeholder-text').textContent =
+        'URL not in built-in allowlist · add it to your trusted domains in Settings (Phase D+)';
+      frame.style.display = 'none';
+      urlSpan.textContent = interaction.url || '';
+      openTab.style.display = 'none';
+      modal.classList.add('is-open');
+      return;
+    }
+
+    placeholder.style.display = 'flex';
+    placeholder.querySelector('.studio-launch-modal__placeholder-text').textContent = 'INSERT COIN';
+    frame.style.display = 'none';
+    frame.src = '';  // reset to avoid stale content flash
+
+    urlSpan.textContent = new URL(interaction.url).host;
+    openTab.href = interaction.url;
+    openTab.style.display = '';
+
+    modal.classList.add('is-open');
+
+    // Load frame after a short delay so the modal animation settles first
+    setTimeout(() => {
+      frame.src = interaction.url;
+      frame.addEventListener('load', () => {
+        placeholder.style.display = 'none';
+        frame.style.display = 'block';
+      }, { once: true });
+    }, 200);
+  }
+
+  function closeLaunchModal() {
+    const modal = document.getElementById('studio-launch-modal');
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    // Stop iframe content (releases audio, halts JS) by clearing src
+    const frame = modal.querySelector('#studio-launch-frame');
+    if (frame) frame.src = '';
   }
 
   function renderSvg(el, comp) {
