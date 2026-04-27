@@ -255,6 +255,48 @@
     /^bunchofothers\.com$/i,
   ];
 
+  // ─── Sprite catalog (Phase A.3 part 2) ───────────────────────────────
+  // Metadata for every sprite shipped in studio/sprites/core/. Used by
+  // the Workshop's "Asset packs" section in edit mode to render
+  // draggable sprite tiles. Phase A.1 part 2 will move this to a JSON
+  // file fetched at boot; for now hardcode is fine.
+  const SPRITE_CATALOG = {
+    instruments: {
+      label: 'Music instruments',
+      icon: '🎻',
+      sprites: [
+        { id: 'conductor_default',   name: 'Conductor',     defaultSize: { w: 96, h: 128 } },
+        { id: 'musician_violin',      name: 'Violinist',     defaultSize: { w: 96, h: 128 } },
+        { id: 'musician_viola',       name: 'Violist',       defaultSize: { w: 96, h: 128 } },
+        { id: 'musician_cello',       name: 'Cellist',       defaultSize: { w: 96, h: 128 } },
+        { id: 'musician_drums',       name: 'Percussionist', defaultSize: { w: 96, h: 128 } },
+        { id: 'musician_flute',       name: 'Flutist',       defaultSize: { w: 96, h: 128 } },
+        { id: 'musician_oboe',        name: 'Oboist',        defaultSize: { w: 96, h: 128 } },
+        { id: 'musician_trumpet',     name: 'Trumpeter',     defaultSize: { w: 96, h: 128 } },
+        { id: 'podium_default',       name: 'Podium',        defaultSize: { w: 160, h: 96 } },
+      ],
+    },
+    arcade: {
+      label: 'Arcade machines',
+      icon: '🕹',
+      sprites: [
+        { id: 'arcade_classic',  name: 'Classic upright', defaultSize: { w: 128, h: 192 } },
+        { id: 'arcade_pinball',  name: 'Pinball table',   defaultSize: { w: 160, h: 192 } },
+        { id: 'arcade_racing',   name: 'Sit-down racer',  defaultSize: { w: 160, h: 192 } },
+        { id: 'arcade_cocktail', name: 'Cocktail table',  defaultSize: { w: 160, h: 192 } },
+        { id: 'arcade_claw',     name: 'Claw machine',    defaultSize: { w: 128, h: 192 } },
+      ],
+    },
+    props: {
+      label: 'Props + signs',
+      icon: '📌',
+      sprites: [
+        { id: 'info_sign', name: 'Info sign', defaultSize: { w: 96, h: 144 } },
+        { id: 'speaker',   name: 'Boombox',   defaultSize: { w: 96, h: 144 } },
+      ],
+    },
+  };
+
   function isAllowedLaunchUrl(url) {
     try {
       const u = new URL(url);
@@ -824,7 +866,13 @@
       toggle.setAttribute('aria-pressed', editMode ? 'true' : 'false');
       toggle.textContent = editMode ? 'Done editing' : 'Edit';
     }
-    if (!editMode) clearSelection();
+    if (!editMode) {
+      clearSelection();
+      clearPalette();
+    } else {
+      renderPaletteIntoWorkshop().catch(e => console.error('Studio: palette render failed', e));
+      wireStageDropTarget();
+    }
     // Re-render the room so components pick up (or shed) edit affordances
     if (currentRoom) {
       renderRoom(currentRoom).catch(e => console.error('Studio: edit-mode re-render failed', e));
@@ -1060,6 +1108,153 @@
 
   function discardSavedRoom() {
     try { localStorage.removeItem(SAVED_ROOM_KEY); } catch (e) {}
+  }
+
+  // ─── Component palette (Phase A.3 part 2) ────────────────────────────
+  // Renders the sprite catalog as expandable asset packs inside the
+  // Workshop drawer. Active only in edit mode — when not editing, the
+  // existing pack-count list shows. When editing, each pack expands
+  // to a grid of draggable sprite tiles. Drop on stage = new component.
+
+  async function renderPaletteIntoWorkshop() {
+    const drawer = $('#workshop-drawer');
+    if (!drawer) return;
+    let palette = drawer.querySelector('.workshop-palette');
+    if (!palette) {
+      palette = document.createElement('section');
+      palette.className = 'workshop-section workshop-palette';
+      palette.innerHTML = `
+        <h3 class="workshop-section__title">Component palette</h3>
+        <p class="workshop-section__sub">Drag a sprite onto your stage to add a component.</p>
+        <div class="workshop-palette__packs"></div>
+      `;
+      // Insert before the (now-static) "Asset packs" pack-count list
+      const oldPacks = drawer.querySelector('.workshop-packs');
+      if (oldPacks && oldPacks.parentNode) {
+        oldPacks.parentNode.insertBefore(palette, oldPacks);
+      } else {
+        drawer.appendChild(palette);
+      }
+    }
+    const target = palette.querySelector('.workshop-palette__packs');
+    target.innerHTML = '';
+    for (const [packId, pack] of Object.entries(SPRITE_CATALOG)) {
+      const packEl = document.createElement('div');
+      packEl.className = 'workshop-palette__pack';
+      packEl.innerHTML = `<div class="workshop-palette__pack-header"><span>${pack.icon}</span><span>${escapeHtml(pack.label)}</span></div>`;
+      const grid = document.createElement('div');
+      grid.className = 'workshop-palette__grid';
+      packEl.appendChild(grid);
+      for (const sprite of pack.sprites) {
+        const tile = document.createElement('button');
+        tile.type = 'button';
+        tile.className = 'workshop-palette__tile';
+        tile.dataset.spriteId = sprite.id;
+        tile.dataset.defaultW = sprite.defaultSize.w;
+        tile.dataset.defaultH = sprite.defaultSize.h;
+        tile.draggable = true;
+        tile.title = sprite.name;
+        const svg = await loadSprite(sprite.id);
+        tile.innerHTML = `
+          <div class="workshop-palette__tile-art">${svg}</div>
+          <div class="workshop-palette__tile-name">${escapeHtml(sprite.name)}</div>
+        `;
+        // HTML5 drag-and-drop: write the sprite metadata into dataTransfer
+        tile.addEventListener('dragstart', (e) => {
+          if (!editMode) { e.preventDefault(); return; }
+          tile.classList.add('is-dragging');
+          e.dataTransfer.effectAllowed = 'copy';
+          e.dataTransfer.setData('application/x-ensemble-sprite', JSON.stringify({
+            spriteId: sprite.id,
+            defaultW: sprite.defaultSize.w,
+            defaultH: sprite.defaultSize.h,
+            label: sprite.name,
+          }));
+        });
+        tile.addEventListener('dragend', () => tile.classList.remove('is-dragging'));
+        // Click-to-add-at-center fallback (touch / keyboard accessibility)
+        tile.addEventListener('click', () => {
+          if (!editMode) return;
+          if (tile.classList.contains('is-dragging')) return;
+          addNewComponent({
+            spriteId: sprite.id,
+            defaultW: sprite.defaultSize.w,
+            defaultH: sprite.defaultSize.h,
+            label: sprite.name,
+          }, null);  // null = center of stage
+        });
+        grid.appendChild(tile);
+      }
+      target.appendChild(packEl);
+    }
+  }
+
+  function clearPalette() {
+    const palette = document.querySelector('.workshop-palette');
+    if (palette) palette.remove();
+  }
+
+  function wireStageDropTarget() {
+    const stage = $('#studio-stage');
+    if (!stage || stage.dataset.dropWired) return;
+    stage.addEventListener('dragover', (e) => {
+      if (!editMode) return;
+      const types = e.dataTransfer && e.dataTransfer.types;
+      if (types && Array.from(types).includes('application/x-ensemble-sprite')) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+        stage.classList.add('is-drop-target');
+      }
+    });
+    stage.addEventListener('dragleave', (e) => {
+      if (e.target === stage) stage.classList.remove('is-drop-target');
+    });
+    stage.addEventListener('drop', (e) => {
+      if (!editMode) return;
+      e.preventDefault();
+      stage.classList.remove('is-drop-target');
+      let payload;
+      try {
+        payload = JSON.parse(e.dataTransfer.getData('application/x-ensemble-sprite'));
+      } catch (err) { return; }
+      if (!payload || !payload.spriteId) return;
+      // Convert client coords to stage coords
+      const rect = stage.getBoundingClientRect();
+      const xPxToStage = currentRoom.stage.width / rect.width;
+      const yPxToStage = currentRoom.stage.height / rect.height;
+      const stageX = (e.clientX - rect.left) * xPxToStage - payload.defaultW / 2;
+      const stageY = (e.clientY - rect.top) * yPxToStage - payload.defaultH / 2;
+      addNewComponent(payload, { x: stageX, y: stageY });
+    });
+    stage.dataset.dropWired = '1';
+  }
+
+  async function addNewComponent(payload, position) {
+    if (!currentRoom) return;
+    // Center fallback when position is null (click-to-add)
+    const x = position ? Math.round(position.x / GRID_SIZE) * GRID_SIZE
+                       : Math.round((currentRoom.stage.width / 2 - payload.defaultW / 2) / GRID_SIZE) * GRID_SIZE;
+    const y = position ? Math.round(position.y / GRID_SIZE) * GRID_SIZE
+                       : Math.round((currentRoom.stage.height / 2 - payload.defaultH / 2) / GRID_SIZE) * GRID_SIZE;
+    const newComp = {
+      id: `comp_${Math.random().toString(36).slice(2, 8)}`,
+      type: 'prop',
+      x: Math.max(0, Math.min(currentRoom.stage.width - payload.defaultW, x)),
+      y: Math.max(0, Math.min(currentRoom.stage.height - payload.defaultH, y)),
+      w: payload.defaultW,
+      h: payload.defaultH,
+      z: 5,
+      props: {
+        sprite_id: payload.spriteId,
+        label: payload.label || '',
+      },
+    };
+    currentRoom.components.push(newComp);
+    const el = await renderComponent(newComp, currentRoom.stage);
+    if (editMode) attachEditAffordances(el, newComp);
+    $('#studio-stage').appendChild(el);
+    selectComponent(newComp.id);
+    scheduleAutoSave();
   }
 
   // ─── Workshop drawer ─────────────────────────────────────────────────

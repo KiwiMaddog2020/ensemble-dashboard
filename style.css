@@ -2349,6 +2349,74 @@ body.studio-editing .studio-comp--interactive:hover {
   padding-top: 12px; border-top: 1px dashed var(--rule);
 }
 
+/* Component palette inside the Workshop drawer (Phase A.3 part 2) */
+.workshop-palette { gap: 12px; }
+.workshop-palette__packs {
+  display: flex; flex-direction: column;
+  gap: 14px;
+}
+.workshop-palette__pack {
+  display: flex; flex-direction: column;
+  gap: 8px;
+}
+.workshop-palette__pack-header {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 4px 0;
+}
+.workshop-palette__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 8px;
+}
+.workshop-palette__tile {
+  appearance: none; cursor: grab;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 8px 6px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  transition: border-color 180ms var(--ease), transform 180ms var(--ease), background 180ms var(--ease);
+}
+.workshop-palette__tile:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--accent-soft) 50%, var(--bg));
+}
+.workshop-palette__tile:active { cursor: grabbing; }
+.workshop-palette__tile.is-dragging { opacity: 0.4; }
+.workshop-palette__tile-art {
+  width: 48px; height: 48px;
+  display: flex; align-items: end; justify-content: center;
+  pointer-events: none;  /* let drag fire on the parent button */
+}
+.workshop-palette__tile-art svg {
+  image-rendering: pixelated;
+  width: auto; height: 100%;
+  transform: scale(1.4);
+  transform-origin: center bottom;
+}
+.workshop-palette__tile-name {
+  font-family: var(--sans); font-size: 9.5px; font-weight: 500;
+  color: var(--ink-2);
+  text-align: center;
+  line-height: 1.2;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  width: 100%;
+}
+
+/* Drop-target visualization on the stage */
+.studio-stage.is-drop-target {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+  background: color-mix(in srgb, var(--accent-soft) 30%, var(--bg-sunken));
+}
+
+/* Hide the static asset-pack list when editing (palette replaces it) */
+body.studio-editing .workshop-packs { display: none; }
+body:not(.studio-editing) .workshop-palette { display: none; }
+
 /* Restored-from-saved-edits pill in the info strip */
 .studio-info__item--restored {
   background: var(--accent-soft);
