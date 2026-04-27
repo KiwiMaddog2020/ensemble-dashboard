@@ -730,20 +730,91 @@ body.theme-sage {
       <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/INSTALL.md</code></p>
     </header>
     <article class="doc-content">
-<p>Two install paths: <strong>marketplace</strong> (target — when claude-ensemble flips public + lands on the Claude Code skill marketplace) and <strong>manual</strong> (current path while the repo is private).</p>
+<p>Three install paths, easiest first:</p>
+<ol>
+<li><strong>Conversational install via skill</strong> (Recommended) — <code>/ensemble:install</code> walks you through every step with rapid-fire decisions and idempotent checks. ~10 minutes from zero to running.</li>
+<li><strong>Marketplace</strong> (target — when claude-ensemble flips public). One-line install via <code>/plugin install</code>, then <code>/ensemble:maestro</code> to boot.</li>
+<li><strong>Manual</strong> — clone + run scripts yourself. The current path while the repo is private.</li>
+</ol>
 <hr />
-<h2 id="marketplace-install-future-post-public-flip">Marketplace install (future, post-public-flip)</h2>
+<h2 id="1-conversational-install-recommended">1. Conversational install (Recommended)</h2>
+<p>After cloning the repo OR installing via marketplace, start a fresh Claude Code chat in any directory and say:</p>
+<pre><code>/ensemble:install
+</code></pre>
+<p>(Or naturally: <em>&ldquo;install the Ensemble&rdquo;</em> / <em>&ldquo;set up the Ensemble&rdquo;</em> / <em>&ldquo;first-run setup&rdquo;</em>.)</p>
+<p>The skill walks you through 11 phases with rapid-fire decisions at each fork:</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Sanity check (Python 3, git, jq, Xcode CLI tools)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Create <code>~/.claude/orchestrator/</code> directory layout if missing</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Initialize <code>state.json</code> — asks for <code>max_concurrent_autopilots</code>, <code>weekly_token_reset_at</code>, daily/weekly report times</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Merge PreToolUse + SessionStart hooks into <code>~/.claude/settings.json</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Optional: copy Kevin&rsquo;s canonical memory file set as a starting point</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Register the 8 standard scheduled tasks (morning briefing, dashboard update, weekly report, etc.)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Optional: build + install the native macOS Ensemble.app menu bar</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Optional: create the dashboard PWA repo + GitHub Pages</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Optional: walk through Cloudflare Access setup (~30 min)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Optional: mobile dispatch (Tailscale + SSH key + Termius + iOS Shortcut)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Run <code>bin/status.sh</code> for full verification — every line should be ✅</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Boot the Maestro or onboard a first project Agent</td>
+</tr>
+</tbody>
+</table>
+<p>The skill is <strong>idempotent</strong> — re-running picks up where it left off via a <code>.install-progress.json</code> checkpoint. Safe to interrupt and resume.</p>
+<hr />
+<h2 id="2-marketplace-install-future-post-public-flip">2. Marketplace install (future, post-public-flip)</h2>
 <pre><code>/plugin marketplace add KiwiMaddog2020/claude-ensemble
 /plugin install ensemble@claude-ensemble
 /exit
 </code></pre>
-<p>Open a fresh chat. You&rsquo;ll see <code>[ORCHESTRATOR] hard-enforcement active</code> at the top. Then:</p>
+<p>Open a fresh chat. You&rsquo;ll see <code>[ORCHESTRATOR] hard-enforcement active</code> at the top. Then run <code>/ensemble:install</code> for the conversational setup, or skip straight to:</p>
 <pre><code>/ensemble:maestro          # in any chat → becomes your Maestro
 /ensemble:agent-onboard    # in a project repo → becomes that project's Agent
 </code></pre>
-<p>That&rsquo;s it. The plugin self-installs hooks, skills, and the marketplace registers the slash commands.</p>
+<p>The marketplace plugin self-installs hooks, skills, and registers slash commands. The conversational install (path 1) handles the post-plugin-install configuration.</p>
 <hr />
-<h2 id="manual-install-current-path">Manual install (current path)</h2>
+<h2 id="3-manual-install-current-path">3. Manual install (current path)</h2>
 <p>The repo is private during pre-public-flip. To install today:</p>
 <h3 id="1-clone-the-orchestrator">1. Clone the orchestrator</h3>
 <pre><code class="language-bash">mkdir -p ~/.claude

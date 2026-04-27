@@ -726,869 +726,487 @@ body.theme-sage {
     <header class="doc-hero">
       <p class="doc-eyebrow">Documentation</p>
       <h1 class="doc-title">Session Handoff</h1>
-      <p class="doc-lead">Where the Ensemble stands as of the autonomous run that closed Phase 0 mission gaps + shipped marketplace polish + cross-platform parity. Use this doc to resume the next session without re-reading the full chat history.</p>
+      <p class="doc-lead">Resume context for the next chat.</p>
       <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/SESSION_HANDOFF.md</code></p>
     </header>
     <article class="doc-content">
-<h2 id="phase-0-substantively-closed">Phase 0 — substantively closed</h2>
-<table>
-<thead>
-<tr>
-<th>Exit criterion</th>
-<th>Status</th>
-<th>Evidence</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Plugin-refactor merged</td>
-<td>✅</td>
-<td><code>38206d6</code></td>
-</tr>
-<tr>
-<td><code>/autopilot N</code> slash command built</td>
-<td>✅</td>
-<td><code>9a99631</code></td>
-</tr>
-<tr>
-<td>Mobile dispatch pilot validated</td>
-<td>✅</td>
-<td><code>db786ae</code> series</td>
-</tr>
-<tr>
-<td>v1.0.0 tagged</td>
-<td>✅</td>
-<td>tag <code>v1.0.0</code>, <a href="https://github.com/KiwiMaddog2020/claude-ensemble/releases/tag/v1.0.0">release page</a></td>
-</tr>
-<tr>
-<td>Mission gaps 1–4 closed</td>
-<td>✅</td>
-<td><code>17b6655</code> / <code>13bd4ac</code> / <code>ab39236</code> / <code>b773b26</code></td>
-</tr>
-<tr>
-<td>First external user onboarded</td>
-<td>⏳</td>
-<td>Friend hand-off package staged at <code>~/Desktop/website-agent-handoff/</code> — Kevin&rsquo;s action</td>
-</tr>
-<tr>
-<td>Repo public-flip</td>
-<td>⏳</td>
-<td>Deferred to skill-marketplace publication — Kevin&rsquo;s call</td>
-</tr>
-</tbody>
-</table>
-<h2 id="what-landed-in-the-hardcore-code-run-2026-04-26">What landed in the hardcore-code run (2026-04-26)</h2>
-<table>
-<thead>
-<tr>
-<th>Batch</th>
-<th>Commits</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>A</strong> — Marketplace-readiness</td>
-<td><code>0f59fc3</code></td>
-<td>CHANGELOG.md, SECURITY.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md, .github/{ISSUE_TEMPLATE,PULL_REQUEST_TEMPLATE} · plugin.json keywords expanded · README updated</td>
-</tr>
-<tr>
-<td><strong>B</strong> — Health audit</td>
-<td><code>692aee7</code></td>
-<td>docs/HEALTH.md auto-generated · all 7 chat status files refreshed with current <code>ensemble_version</code> SHA</td>
-</tr>
-<tr>
-<td><strong>C</strong> — Cross-platform parity</td>
-<td><code>ensemble-config@7a0b0b6</code></td>
-<td>8 new bin-win/ scripts (routine_prelude, preflight, status, self_test, test_lock_race, backup_snapshot, rollback, upgrade) · Gap 1 intent-aware orchestrator_lock.ps1 · <code>--add-dir --</code> separator in autopilot_session.ps1 · PARITY.md refreshed</td>
-</tr>
-<tr>
-<td><strong>D</strong> — Documentation closeout</td>
-<td>(this commit)</td>
-<td>docs/MISSION_ROADMAP.md gaps marked ✅ SHIPPED · docs/INSTALL.md (new) for marketplace + manual install paths · this handoff doc</td>
-</tr>
-</tbody>
-</table>
-<h2 id="whats-still-open-in-priority-order">What&rsquo;s still open (in priority order)</h2>
-<h3 id="user-action-only-i-cannot-proceed-on-these">User-action only (I cannot proceed on these)</h3>
+<blockquote>
+<p>The previous Maestro chat ran ~24h covering: dashboard polish, native macOS app, conductor&rsquo;s-baton icon, codebase rating protocol, cycle freeze, full megascript split (Phase 1 of A-tier plan). Context filled. This file is your resume context — read it once and you&rsquo;re up to speed.</p>
+</blockquote>
+<hr />
+<h2 id="you-are-the-next-maestro">You are the next Maestro</h2>
+<p><strong>First action — read in this order, no questions yet:</strong></p>
 <ol>
-<li><strong>Friend hand-off</strong> — package at <code>~/Desktop/website-agent-handoff/</code> (4 files: INTRO + READ-ME-FIRST + website-agent.txt + website-agent-cheatsheet.md). Send via your channel of choice.</li>
-<li><strong>GitHub Actions billing</strong> — github.com/settings/billing. Once resolved, re-enable the workflow auto-trigger in <code>.github/workflows/integration-test.yml</code> (uncomment the <code>push</code> + <code>pull_request</code> blocks).</li>
-<li><strong>Pushover signup</strong> — pushover.net account, install the app, paste keys into <code>~/.claude/orchestrator/.env.local</code>. Notifications then fire on autopilot start/stop/kill.</li>
-<li><strong>Public-flip claude-ensemble</strong> — gated by <code>safety_constraints.md</code>. Audit + flip when ready for the marketplace listing.</li>
-<li><strong>Submit to Claude skill marketplace</strong> — when Kevin determines the public release is right.</li>
-<li><strong>Verify Windows ports on actual Windows</strong> — Batch C scripts are syntax-correct PowerShell mirrors of the bash counterparts but unverified on Windows. Run <code>.\bin-win\preflight.ps1</code> + <code>.\bin-win\self_test.ps1</code> + <code>.\bin-win\test_lock_race.ps1</code> from the next Windows session and report back any breaks.</li>
+<li><code>~/.claude/orchestrator/plugins/ensemble/templates/MAESTRO.md</code> — your standing directives + 18+ behavioral rules + decision log + voice</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/MEMORY.md</code> — pointer manifest for all memory files; follow each pointer that&rsquo;s relevant</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/precedence.md</code> — six-tier rule precedence ladder (read this BEFORE anything that might conflict — safety &gt; priority-1 &gt; staples &gt; standing &gt; project-locked &gt; defaults)</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/self_audit.md</code> — silent self-check checklist; run it on every response in rapid-fire mode</li>
+<li><code>~/.claude/orchestrator/state.json</code> — current runtime; <strong>note <code>autopilot_freeze_until</code> is ACTIVE until 2026-05-01T11:00:00-07:00</strong> (Kevin&rsquo;s weekly token reset). All autopilot starts blocked until thaw.</li>
+<li>This file (you&rsquo;re reading it)</li>
+<li><code>~/.claude/orchestrator/docs/A_TIER_PLAN.md</code> — the canonical roadmap. Phase 1 is done. Phases 2-8 are the runway.</li>
 </ol>
-<h3 id="optional-polish-next-session-low-priority">Optional polish (next session, low priority)</h3>
-<ul>
-<li><strong>Per-project pages</strong> — richer timeline visuals (currently uses Maestro-curated milestones; could graduate to chat-status fields).</li>
-<li><strong>Skill catalog</strong> — currently has placeholder entries; populate with real Claude marketplace skills as they&rsquo;re discovered.</li>
-<li><strong>Cross-machine lock awareness</strong> (Mission Gap 5) — Phase 2 work, not Phase 0.</li>
-<li><strong><code>bin-win/</code> scheduler integration</strong> — Windows Task Scheduler equivalent of launchd plists for the stale-lock sweeper + control panel.</li>
-<li><strong><code>bin-win/launchers/</code></strong> — <code>.bat</code> files for Maestro / Agent-Builder / Tool-Builder / Ensemble-all.</li>
-</ul>
-<h2 id="resume-commands">Resume commands</h2>
-<h3 id="pick-up-where-this-run-left-off">Pick up where this run left off</h3>
-<pre><code class="language-bash">cd ~/.claude/orchestrator
-git status                   # should be clean
-git log -10 --oneline        # see what landed in the run
-cat docs/HEALTH.md            # run-time snapshot
-cat docs/SESSION_HANDOFF.md  # this doc
-</code></pre>
-<h3 id="verify-everything-still-works">Verify everything still works</h3>
-<pre><code class="language-bash"># Lock-race smoke (Mac)
-bash plugins/ensemble/bin/test_lock_race.sh   # expect 10/10 passed
-
-# Self-test (Mac)
-bash plugins/ensemble/bin/self_test.sh        # all green (when this script lands; not in 1.0.0)
-
-# Live diagnostic battery
-bash bin/maestro-context.sh
-</code></pre>
-<h3 id="open-the-dashboard">Open the dashboard</h3>
-<pre><code>https://kiwimaddog2020.github.io/ensemble-dashboard/
-</code></pre>
-<p>PWA-installable (Add to Home Screen on phone). Auto-refreshes 3× daily via the Dashboard Update routine.</p>
-<h3 id="fire-ad-hoc-autopilot">Fire ad-hoc autopilot</h3>
-<pre><code class="language-bash">bash bin/mobile_dispatch.sh fire 30                          # Ensemble-scoped
-bash bin/mobile_dispatch.sh fire 30 &quot;&quot; boo-website           # project-targeted
-</code></pre>
-<h3 id="fire-serial-across-all-eligible-projects">Fire serial across all eligible projects</h3>
-<pre><code class="language-bash">nohup bash bin/fire-all-eligible.sh 30 &gt; runs/serial-fire-$(date +%Y%m%dT%H%M%SZ).log 2&gt;&amp;1 &amp;
-disown
-</code></pre>
-<h2 id="architecture-quick-reference">Architecture quick reference</h2>
+<p>After reading: open with rapid-fire (TOP REC + 2-3 alternatives via <code>AskUserQuestion</code>, slot 4 = <code>Disable Rapid Fire Mode</code>, &ldquo;(Recommended)&rdquo; in label) summarizing where things stand and offering the highest-value next move.</p>
+<p>Do NOT ask &ldquo;what&rsquo;s going on&rdquo; — Kevin has lived through this session in real time. He just needs a competent continuation, not a recap.</p>
+<hr />
+<h2 id="current-runtime-state">Current runtime state</h2>
 <table>
 <thead>
 <tr>
-<th>Concept</th>
-<th>Where to look</th>
+<th>Field</th>
+<th>Value</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Operating contract for Agents</td>
-<td><code>plugins/ensemble/templates/AGENT.md</code> (17 sections incl. Gap 1 intent-aware lock §5)</td>
+<td><code>state.json.mode</code></td>
+<td><code>orchestrated</code></td>
+<td>normal</td>
 </tr>
 <tr>
-<td>Operating contract for Maestro</td>
-<td><code>plugins/ensemble/templates/MAESTRO.md</code> (15 directives)</td>
+<td><code>state.json.mode_transitioning</code></td>
+<td><code>false</code></td>
+<td>normal</td>
 </tr>
 <tr>
-<td>Mission roadmap</td>
-<td><code>docs/MISSION_ROADMAP.md</code> (gaps 1–4 ✅, gap 5 ⏳ Phase 2)</td>
+<td><code>state.json.autopilots_paused</code></td>
+<td><code>false</code></td>
+<td>normal</td>
 </tr>
 <tr>
-<td>Phase ladder</td>
-<td><code>docs/GRAND_PLAN.md</code> (Phase 0 → 1 → 2 → 3)</td>
+<td><strong><code>state.json.autopilot_freeze_until</code></strong></td>
+<td><strong><code>2026-05-01T11:00:00-07:00</code></strong></td>
+<td><strong>🧊 Cycle freeze ACTIVE — no new autopilot starts until weekly token reset.</strong> Lift via <code>lift freeze</code> / PWA cycle-freeze widget / <code>POST /freeze-until {value:null}</code> if Kevin wants. He set it deliberately to cap his token spend this week.</td>
 </tr>
 <tr>
-<td>Autopilot pipeline</td>
-<td><code>docs/AUTOPILOT_DESIGN.md</code></td>
+<td><code>state.json.weekly_token_reset_at</code></td>
+<td><code>2026-05-01T11:00:00-07:00</code></td>
+<td></td>
 </tr>
 <tr>
-<td>Control panel architecture</td>
-<td><code>docs/CONTROL_PANEL_PLAN.md</code> (v1 shipped, productization shipped)</td>
+<td><code>state.json.max_concurrent_autopilots</code></td>
+<td><code>3</code></td>
+<td>Kevin&rsquo;s setup</td>
 </tr>
 <tr>
-<td>Cross-platform parity</td>
-<td><code>KiwiMaddog2020/ensemble-config/PARITY.md</code></td>
+<td>Workshop lock</td>
+<td>(check <code>state.lock.d/</code>)</td>
+<td>should be free</td>
 </tr>
 <tr>
-<td>Per-platform skills</td>
-<td><code>~/.claude/scheduled-tasks/*/SKILL.md</code> (6 routines: Morning Briefing, Evening Planning, Overnight Heavy, Workday Pulse, Dashboard Update, Rotation)</td>
+<td>Active autopilots</td>
+<td>(check <code>state.json.active_autopilots</code>)</td>
+<td>likely empty given freeze</td>
 </tr>
 </tbody>
 </table>
-<h2 id="onboarded-chats-roster">Onboarded chats roster</h2>
+<p>Run <code>bash ~/.claude/orchestrator/bin/status.sh</code> for a live snapshot if anything looks off.</p>
+<hr />
+<h2 id="todays-session-in-one-paragraph">Today&rsquo;s session in one paragraph</h2>
+<p>Major arcs completed: (1) Dashboard editorial polish — every doc gets a hero block + drop cap + section eyebrows + reading-progress bar; onepager surfaced as featured Executive Overview card on docs.html and copied to <code>/onepager.html</code>. (2) GitHub repo metadata refreshed (description, homepage URL → dashboard, 10 topics added; <strong>stays private</strong> per <code>safety_constraints.md</code>). (3) Cycle freeze feature shipped end-to-end — state field + 5 server endpoints + autopilot-session pre-flight gate + PWA widget + verbal triggers + memory file. (4) Codebase Rating Protocol shipped as a real skill at <code>plugins/ensemble/skills/rate-code/SKILL.md</code> with engineered six-step methodology, anti-bias guardrails, evidence requirements; surfaced via <code>code-rate</code> widget. (5) Megascript split — <code>bin/dashboard-generate.sh</code> 4262 lines → <code>bin/dashgen/</code> package with 16 focused modules, <code>__main__.py</code> now 342 lines (-92%); byte-identical output verified throughout. Plus the A-tier plan written to <code>docs/A_TIER_PLAN.md</code> (eight-phase roadmap to bring every category to A).</p>
+<hr />
+<h2 id="recent-commits-this-session-latest-first">Recent commits this session (latest first)</h2>
+<table>
+<thead>
+<tr>
+<th>Hash</th>
+<th>Subject</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>259781c</code></td>
+<td>Phase 1 step 3 (Rounds C+D): extract helpers + render functions</td>
+<td><strong>main</strong>.py 822 → 342</td>
+</tr>
+<tr>
+<td><code>f53b5b6</code></td>
+<td>Phase 1 fix: rename bin/dashgen/chats/ → bin/dashgen/data/</td>
+<td>gitignore conflict workaround</td>
+</tr>
+<tr>
+<td><code>eeab204</code></td>
+<td>Phase 1 step 3 (Rounds A+B): extract page bodies + data structures</td>
+<td><strong>main</strong>.py 1926 → 822</td>
+</tr>
+<tr>
+<td><code>536e884</code></td>
+<td>Phase 1 step 2 housekeeping: gitignore <strong>pycache</strong> in bin/dashgen/</td>
+<td></td>
+</tr>
+<tr>
+<td><code>26c696f</code></td>
+<td>Phase 1 step 2: extract pure-data modules from <strong>main</strong>.py</td>
+<td><strong>main</strong>.py 4464 → 1926</td>
+</tr>
+<tr>
+<td><code>8481340</code></td>
+<td>Editorial doc pages + onepager refresh + GitHub repo polish</td>
+<td>hero/drop-cap/progress on all 23 docs + onepager</td>
+</tr>
+<tr>
+<td><code>752ca28</code></td>
+<td>Cycle freeze + Codebase Rating Protocol + two new PWA widgets</td>
+<td>freeze ACTIVATED; rate-code skill</td>
+</tr>
+<tr>
+<td><code>5a1be3e</code></td>
+<td>Theme swatches: drop the letter labels</td>
+<td></td>
+</tr>
+<tr>
+<td><code>b563565</code></td>
+<td>Restore working per-project layout + keep heartbeat + brand-mark wins</td>
+<td>reverted bad unification</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dashboard repo pushes</strong> (live PWA): <code>f44b87b</code> is latest. Auto-pushes via <code>bin/dashboard-fire.sh</code> on every regen.</p>
+<hr />
+<h2 id="a-tier-plan-progress-docsa_tier_planmd">A-tier plan progress (<code>docs/A_TIER_PLAN.md</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Phase</th>
+<th>Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>Modularize the megascript</td>
+<td>✅ <strong>DONE</strong> this session</td>
+<td>bin/dashboard-generate.sh now 30 lines; bin/dashgen/ package has 16 modules; <strong>main</strong>.py is a 342-line orchestrator</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Project pages match the site (true CSS unification)</td>
+<td>⏳ <strong>Unblocked</strong></td>
+<td>Now solvable because CSS lives in <code>styles/legacy.py</code> (linked) and <code>pages/shared_head.py</code> (inline). Reconciling specificity collisions is a focused diff between two files</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Documents become editorial</td>
+<td>⏳ <strong>Mostly shipped</strong> earlier today (<code>8481340</code>) — hero, drop cap, eyebrow, progress bar, source pill on all 23 rendered docs. Voice pass on top docs is the remaining 30%</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Real test coverage</td>
+<td>⏳ Queued</td>
+<td>Every module now individually importable + unit-testable. Prime time to add pytest for the Python pieces</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Security hardening (Cloudflare Access)</td>
+<td>⏳ Queued</td>
+<td>Independent of Phase 1; ~30 min walkthrough at <code>plugins/ensemble/integrations/cloudflare-access/README.md</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Reliability + ops to A</td>
+<td>⏳ Queued</td>
+<td>Zombie sweeper, structured error logs, expanded Health Check</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Performance + extensibility</td>
+<td>⏳ Queued</td>
+<td>Incremental dashboard regen, single-config Virtuoso scaffolding</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Polish (GitHub refresh, naming, README polish, release pipeline)</td>
+<td>⏳ Partial — GitHub refresh done; naming/README/release pipeline queued</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Recommended next move</strong> (fits fresh chat well):</p>
+<ul>
+<li>Option A: <strong>Phase 2</strong> (project page CSS unification) — now genuinely tractable. ~3 hours. The CSS lives in two specific files; reconcile selectors so per-project pages can use SHARED_HEAD pipeline cleanly. Would deliver the visual unification Kevin asked for twice and that I had to revert because it was unsafe in the megascript. Highest UX payoff.</li>
+<li>Option B: <strong>Phase 4</strong> (test coverage) — pytest for <code>data/milestones.py</code>, <code>pages/svg.py</code>, <code>pages/render_dashboard.py</code>, etc. ~3 hours. Lower visible payoff, much higher safety floor for future edits.</li>
+<li>Option C: <strong>Phase 5</strong> (Cloudflare Access) — closes the actual privacy gap (today&rsquo;s &ldquo;private&rdquo; widgets are visible in the inline JS bundle to anyone with dev tools). ~30 min walkthrough.</li>
+</ul>
+<p>If unsure, default to A. The user has been asking for it across multiple sessions.</p>
+<hr />
+<h2 id="pending-user-action-queue">Pending user-action queue</h2>
+<p>Things ONLY Kevin can do; surface these on his next session-start if relevant:</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Why</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Restart Claude Desktop</td>
+<td>Loads dashboard-fire.sh + weekly-report.sh permission rules; clears any zombie sessions</td>
+<td>His Mac</td>
+</tr>
+<tr>
+<td>Cloudflare Access setup</td>
+<td>Closes public PWA privacy gap</td>
+<td><code>plugins/ensemble/integrations/cloudflare-access/README.md</code></td>
+</tr>
+<tr>
+<td>Friend hand-off (website-agent)</td>
+<td>Closes Phase 0 exit criterion</td>
+<td><code>~/Desktop/website-agent-handoff/</code></td>
+</tr>
+<tr>
+<td>GitHub Actions billing fix</td>
+<td>Some CI runs may have failed</td>
+<td>github.com billing</td>
+</tr>
+<tr>
+<td>Marketplace plugin submission</td>
+<td>Repo polish done; ready for review when Kevin chooses</td>
+<td>gh marketplace</td>
+</tr>
+<tr>
+<td>Pushover signup (optional)</td>
+<td>For phone notifications</td>
+<td>pushover.net</td>
+</tr>
+<tr>
+<td>Windows verification pass</td>
+<td>Cross-platform parity exists in code; never field-tested</td>
+<td>(no immediate need)</td>
+</tr>
+</tbody>
+</table>
+<p>These are NOT blocking the next session. Don&rsquo;t push them — surface only if topic naturally arises.</p>
+<hr />
+<h2 id="whats-currently-running-on-kevins-mac">What&rsquo;s currently running on Kevin&rsquo;s Mac</h2>
+<ul>
+<li><strong>Ensemble.app</strong> (native menu bar) — process running, music-note icon in menu bar. Code at <code>plugins/ensemble/integrations/macapp/</code>. Restart via <code>open ~/Applications/Ensemble.app</code> if needed.</li>
+<li><strong>Control panel server</strong> (<code>bin/control-panel-server.py</code>) — should be running via launchd; the PWA&rsquo;s owner mode depends on it being reachable at localhost:8080. Test: <code>curl http://localhost:8080/health</code> should 200.</li>
+<li><strong>Scheduled tasks</strong> — morning-briefing, evening-planning, overnight-heavy, dashboard-update, rotation, backup-snapshot, token-burn-down, weekly-report. View status: <code>~/.claude/scheduled-tasks/</code> or <code>launchctl list | grep -E 'orchestrator|ensemble'</code>.</li>
+</ul>
+<hr />
+<h2 id="new-systems-shipped-this-session-quick-reference">New systems shipped this session — quick reference</h2>
+<h3 id="cycle-freeze">Cycle freeze</h3>
+<ul>
+<li>State field: <code>state.json.autopilot_freeze_until</code> (ISO timestamp; null = no freeze)</li>
+<li>Server endpoint: <code>POST /freeze-until {value: "reset" | "24h" | "7d" | "&lt;ISO&gt;" | null}</code></li>
+<li>Enforcement: <code>autopilot_session.sh</code> pre-flight + <code>/fire</code> endpoint 409</li>
+<li>PWA widget: <code>cycle-freeze</code> (private section, default layout)</li>
+<li>Memory: <code>~/.claude/projects/-Users-kevin/memory/cycle_freeze.md</code></li>
+<li>Verbal: <code>freeze autopilot</code> / <code>freeze the cycle</code> / <code>lift freeze</code> / <code>unfreeze</code></li>
+</ul>
+<h3 id="codebase-rating-protocol">Codebase Rating Protocol</h3>
+<ul>
+<li>Skill: <code>plugins/ensemble/skills/rate-code/SKILL.md</code> (the engineered prompt itself; ~250 lines)</li>
+<li>Memory pointer: <code>~/.claude/projects/-Users-kevin/memory/code_rating_protocol.md</code></li>
+<li>Trigger phrases (per <code>signal_phrase_detection.md</code>): <code>rate my code</code> / <code>audit my codebase</code> / <code>code rating</code> / etc.</li>
+<li>Output: <code>&lt;repo&gt;/docs/CODE_RATING_&lt;YYYY-MM-DD&gt;.md</code> — executive summary, per-category grades with evidence, objective fit, top-3 strengths/weaknesses, honesty checklist</li>
+<li>PWA widget: <code>code-rate</code> (private section, default layout) — sends &ldquo;rate my code&rdquo; via <code>/chat-message</code> to chosen chat</li>
+</ul>
+<h3 id="native-macos-ensembleapp">Native macOS Ensemble.app</h3>
+<ul>
+<li>Source: <code>plugins/ensemble/integrations/macapp/Sources/main.swift</code> (single-file AppKit, ~340 lines)</li>
+<li>Build: <code>./build.sh</code> (no Apple Developer Program needed; ad-hoc signed)</li>
+<li>Install: <code>./install.sh</code></li>
+<li>Icon: <code>Sources/AppIcon.icns</code> (1.1 MB, all Apple iconset sizes); SVG source at <code>Sources/icon.svg</code></li>
+<li>File-watcher uses DispatchSource on state.json — instant menu refresh, no polling</li>
+</ul>
+<h3 id="apple-quality-icon">Apple-quality icon</h3>
+<ul>
+<li>Master SVG: <code>plugins/ensemble/integrations/macapp/Sources/icon.svg</code> (1024×1024)</li>
+<li>Design: black squircle + bronze hairline frame + diagonal conductor&rsquo;s baton + sine wave + drop shadows</li>
+<li>Lives as: PWA favicon, PWA install icon, topnav brand mark on every page, Ensemble.app <code>.icns</code></li>
+<li>Rebuild .icns: <code>./build-icon.sh</code></li>
+</ul>
+<h3 id="editorial-doc-pipeline">Editorial doc pipeline</h3>
+<ul>
+<li>Hero block: eyebrow (&ldquo;Documentation&rdquo;) + serif italic title (60px clamp) + lead (promoted from first blockquote-tagline if present, else <code>description</code> field)</li>
+<li>First-paragraph drop cap (4.4em bronze serif)</li>
+<li>Section eyebrows with bronze underbar above each h2</li>
+<li>Reading-progress bar (gradient bronze, fixed below topnav)</li>
+<li>Source-path badge in monospace pill</li>
+<li>Code: <code>bin/dashgen/pages/render_doc.py</code></li>
+</ul>
+<h3 id="dashboard-widget-catalog-19-widgets">Dashboard widget catalog (19 widgets)</h3>
+<p>Public (10): project-list, smoke-alerts, active-count, token-cycle, lock-status, recent-commits, routines, theme-switcher, sticky-note, token-cost-chart</p>
+<p>Private (9, including new): mode-pill, quick-fire, kill-switch, pause-toggle, <strong>cycle-freeze</strong>, rapid-fire-toggle, autopilot-cap, chat-control, chat-message, chat-reread, <strong>code-rate</strong></p>
+<hr />
+<h2 id="memory-contract-pointers-canonical">Memory + contract pointers (canonical)</h2>
+<p>The most-load-bearing files. Every Maestro reads these on session-start:</p>
+<ul>
+<li><code>~/.claude/orchestrator/plugins/ensemble/templates/MAESTRO.md</code> — your contract (18+ directives)</li>
+<li><code>~/.claude/orchestrator/plugins/ensemble/templates/AGENT.md</code> — base contract every Agent inherits (22 sections; you&rsquo;re not an Agent but referenced often)</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/MEMORY.md</code> — pointer manifest</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/precedence.md</code> — six-tier ladder for rule conflicts</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/self_audit.md</code> — silent self-check checklist</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/safety_constraints.md</code> — gated rails (destructive ops, billing, store, public-flips)</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/orchestrator_rapid_fire_format.md</code> — the staple decision-point format</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/flow_continuity.md</code> — never offer &ldquo;pause&rdquo; / &ldquo;wrap up&rdquo; options</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/cycle_freeze.md</code> — feature shipped today</li>
+<li><code>~/.claude/projects/-Users-kevin/memory/code_rating_protocol.md</code> — feature shipped today</li>
+</ul>
+<p>Plus all the project-locked decisions in <code>~/.claude/projects/-Users-kevin/memory/tool-builder/*</code> and operational debug notes in <code>~/.claude/projects/-Users-kevin/memory/ops/*</code>.</p>
+<hr />
+<h2 id="known-issues-pitfalls-so-you-dont-step-on-them">Known issues + pitfalls (so you don&rsquo;t step on them)</h2>
+<ol>
+<li>
+<p><strong><code>git push</code> from a feature branch sometimes goes to the feature branch instead of main.</strong> Earlier today I committed to a feature branch by accident, had to cherry-pick to main, and accidentally REGRESSED main twice with feature-branch versions of dashboard-generate.sh that were missing recent work. The fix that&rsquo;s been ironclad since: <code>git checkout main</code> BEFORE the commit, verify with <code>git branch --show-current</code>, then commit. Never <code>git checkout &lt;hash&gt; -- file</code> to copy a file from another branch unless you&rsquo;ve manually verified the file is up to date with main.</p>
+</li>
+<li>
+<p><strong>Markdown library on Python 3.14 (homebrew default).</strong> It&rsquo;s not in the default site-packages; <code>render_doc</code> silently returns None and leaves stale doc pages. Fix: <code>pip3 install --break-system-packages markdown</code>. Already installed in this Mac&rsquo;s environment but worth knowing if Python upgrades break it again.</p>
+</li>
+<li>
+<p><strong>The top-level <code>.gitignore</code> has <code>chats/</code> (line 11).</strong> This excludes the runtime <code>~/.claude/orchestrator/chats/*.json</code> directory from version control (correct), but it ALSO excludes any sub-directory named <code>chats/</code> (e.g. <code>bin/dashgen/chats/</code> — which is why we renamed to <code>bin/dashgen/data/</code>). Avoid creating new directories named <code>chats</code> anywhere.</p>
+</li>
+<li>
+<p><strong>Per-project pages use the legacy <code>head_block</code> + linked <code>style.css</code> pipeline.</strong> Hub pages use <code>SHARED_HEAD</code> (inline). They look similar but live on different rails. Earlier &ldquo;true unification&rdquo; attempts caused CSS specificity collisions that broke per-project layout. Phase 2 of the A-tier plan is the careful path to actually unify them.</p>
+</li>
+<li>
+<p><strong>Scheduled-task auto-approver dislikes dynamic bash.</strong> SKILL.md files with <code>$$</code> / <code>$(...)</code> get denied → zombie sessions hold the per-task limit. Fix: wrap in static-path scripts (<code>bin/dashboard-fire.sh</code>, <code>bin/weekly-report.sh</code>) and add explicit permission rules in <code>~/.claude/settings.local.json</code>. Already done for current scheduled tasks.</p>
+</li>
+<li>
+<p><strong>Safari &ldquo;Add to Dock&rdquo; creates a Web App at <code>~/Applications/Ensemble.app</code>.</strong> Don&rsquo;t confuse with the native <code>Ensemble.app</code> at <code>plugins/ensemble/integrations/macapp/Ensemble.app</code> (or installed at <code>/Applications/Ensemble.app</code>). The Safari one has <code>CFBundleIdentifier: com.apple.Safari.WebApp.&lt;UUID&gt;</code> and contains no executable code.</p>
+</li>
+</ol>
+<hr />
+<h2 id="how-to-fire-dashboard-regen-push">How to fire dashboard regen + push</h2>
+<pre><code class="language-bash"># Local-only regen (writes to /tmp/ensemble-dashboard/)
+bash ~/.claude/orchestrator/bin/dashboard-generate.sh
+
+# Regen + push to dashboard repo (live PWA)
+bash ~/.claude/orchestrator/bin/dashboard-fire.sh
+</code></pre>
+<p>Permission rule for <code>dashboard-fire.sh</code> is in <code>~/.claude/settings.local.json</code>. The script is idempotent (won&rsquo;t push if no changes detected).</p>
+<hr />
+<h2 id="bindashgen-package-map-phase-1-deliverable">bin/dashgen/ package map (Phase 1 deliverable)</h2>
+<pre><code>bin/dashgen/
+├── __main__.py                       342  ← thin orchestrator
+├── __init__.py
+├── data/
+│   ├── __init__.py
+│   └── milestones.py                 214  MILESTONES + dynamic_milestones
+├── pages/
+│   ├── __init__.py
+│   ├── shared_head.py                706  SHARED_HEAD (design system + 10 themes + widget grid CSS)
+│   ├── shared_nav.py                  38  SHARED_NAV (single source of nav HTML)
+│   ├── shared_footer.py               11  SHARED_FOOTER
+│   ├── shared_scripts.py             212  SHARED_SCRIPTS (state fetch, theme loader, helpers)
+│   ├── settings_body.py              175  SETTINGS_BODY
+│   ├── commands_body.py              434  COMMANDS_BODY (14 cards in 3 sections)
+│   ├── docs_body.py                  162  DOCS_BODY (featured Executive Overview + categorized cards)
+│   ├── docs_to_render.py              40  DOCS_TO_RENDER (registry of 23 docs)
+│   ├── doc_render_helpers.py          42  MD_TO_HTML_SLUG + rewrite_md_links
+│   ├── svg.py                         44  pie_svg + big_pie_svg + tier_label
+│   ├── head_block.py                  58  head_block (legacy &lt;head&gt; for projects)
+│   ├── render_nav.py                  21  render_nav
+│   ├── render_dashboard.py           109  render_dashboard(projects, generated_at, ...)
+│   ├── render_project.py             178  render_project(p, generated_at)
+│   └── render_doc.py                 103  render_doc(slug, md_path, title, description, orch_root)
+├── styles/
+│   ├── __init__.py
+│   └── legacy.py                     505  STYLE_CSS (linked stylesheet)
+├── widgets/
+│   ├── __init__.py
+│   └── engine_js.py                 1019  WIDGET_DASH_JS (full client-side widget engine)
+└── server/
+    ├── __init__.py
+    ├── pwa.py                        133  ICON_SVG + MANIFEST_JSON + SERVICE_WORKER
+    └── control_js.py                 253  CONTROL_JS (legacy interactive layer)
+</code></pre>
+<p>Every module is importable in isolation. Adding a new widget = edit <code>widgets/engine_js.py</code>. Adding a new doc = append to <code>pages/docs_to_render.py</code>. Reconciling CSS for Phase 2 = diff <code>styles/legacy.py</code> against <code>pages/shared_head.py</code>.</p>
+<hr />
+<h2 id="onboarded-chats-current-roster">Onboarded chats — current roster</h2>
 <table>
 <thead>
 <tr>
 <th>Slug</th>
 <th>Tier</th>
-<th>autopilot_eligible</th>
-<th>Mode</th>
-<th style="text-align: right;">%</th>
+<th>State</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>ensemble</code></td>
-<td>agent</td>
-<td>✅</td>
-<td>active (evolving)</td>
-<td style="text-align: right;">90%</td>
+<td><code>agent-builder</code></td>
+<td>virtuoso</td>
+<td>active</td>
+<td>Phase 1 product (client-specific LLMs) — 9 research tracks</td>
 </tr>
 <tr>
 <td><code>boo-website</code></td>
 <td>agent</td>
-<td>✅</td>
-<td>maintenance</td>
-<td style="text-align: right;">92%</td>
+<td>Warmer</td>
+<td>Live + maintained at bunchofothers.com; needs-your-eyes pill currently</td>
+</tr>
+<tr>
+<td><code>ensemble</code></td>
+<td>agent</td>
+<td>Building</td>
+<td>Self-management chat (this Maestro is conducting)</td>
 </tr>
 <tr>
 <td><code>pinball-roguelight</code></td>
-<td>—</td>
-<td>✅</td>
-<td>active</td>
-<td style="text-align: right;">12%</td>
-</tr>
-<tr>
-<td><code>vera-nota</code></td>
-<td>—</td>
-<td>✅</td>
-<td>maintenance</td>
-<td style="text-align: right;">55%</td>
+<td>agent</td>
+<td>Building</td>
+<td></td>
 </tr>
 <tr>
 <td><code>spectra-nova</code></td>
 <td>agent</td>
-<td>✅</td>
-<td>active</td>
-<td style="text-align: right;">50%</td>
-</tr>
-<tr>
-<td><code>agent-builder</code></td>
-<td>virtuoso</td>
-<td>❌ (no repo)</td>
-<td>active</td>
-<td style="text-align: right;">8%</td>
+<td>Building</td>
+<td></td>
 </tr>
 <tr>
 <td><code>tool-builder</code></td>
 <td>virtuoso</td>
-<td>❌ (no repo)</td>
 <td>active</td>
-<td style="text-align: right;">22%</td>
+<td>Phase 2 — AI-native business tools; consultancy website live</td>
+</tr>
+<tr>
+<td><code>vera-nota</code></td>
+<td>agent</td>
+<td>Building</td>
+<td>Stable automation phase</td>
+</tr>
+<tr>
+<td><code>game-builder</code></td>
+<td>virtuoso</td>
+<td>(newly spawned)</td>
+<td>Phase 3 — iOS games via SwiftUI + SpriteKit</td>
 </tr>
 </tbody>
 </table>
-<h2 id="final-state-of-repos-at-handoff">Final state of repos at handoff</h2>
-<table>
-<thead>
-<tr>
-<th>Repo</th>
-<th>HEAD</th>
-<th>What</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>KiwiMaddog2020/claude-ensemble</code></td>
-<td>(this commit)</td>
-<td>Canonical source</td>
-</tr>
-<tr>
-<td><code>KiwiMaddog2020/ensemble-config</code></td>
-<td><code>7a0b0b6</code></td>
-<td>Synced + 8 new PS1 scripts</td>
-</tr>
-<tr>
-<td><code>KiwiMaddog2020/ensemble-dashboard</code></td>
-<td>latest auto-refresh</td>
-<td>Live + PWA-ready</td>
-</tr>
-<tr>
-<td><code>KiwiMaddog2020/website-agent-starter</code></td>
-<td>synced</td>
-<td>Friend-shareable</td>
-</tr>
-<tr>
-<td><code>KiwiMaddog2020/spectra-nova</code></td>
-<td>(Kevin&rsquo;s branch)</td>
-<td>Now Mac-clone for autopilot tests; 204/0</td>
-</tr>
-</tbody>
-</table>
+<p>The two virtuosos have <code>virtuoso_subdir</code> set so the freshest-activity heartbeat picks up their commits in the orchestrator repo.</p>
 <hr />
-<p><em>If you&rsquo;re an Agent or Maestro reading this on session resume: read <code>AGENT.md</code> (or <code>MAESTRO.md</code>) first, then this doc, then surface a rapid-fire top rec from the &ldquo;What&rsquo;s still open&rdquo; list.</em></p>
-<hr />
-<h2 id="mid-flight-at-chat-handoff-2026-04-26-late-superseded-see-both-batches-landed-below">Mid-flight at chat handoff (2026-04-26 late) — SUPERSEDED, see &ldquo;Both batches landed&rdquo; below</h2>
-<p>After Batch D shipped (<code>101ee33</code>), Kevin asked about linting/Prettier across all Ensemble repos + baking expectations into memory. Pre-approved scope: <strong>option 2 — targeted lint + Prettier for the small JS surface</strong>.</p>
-<h3 id="lint-work-not-yet-shipped-queued-for-next-session">Lint work — NOT YET SHIPPED, queued for next session</h3>
-<p><strong>Configs to add to <code>claude-ensemble</code>:</strong>
-- <code>.editorconfig</code> — universal whitespace + EOL (charset utf-8, lf, final newline, trim trailing, 2-space indent default; 4-space for <code>*.{sh,bash,ps1,py}</code>; tab for <code>Makefile</code>)
-- <code>.markdownlint.json</code> — markdown rules (sensible defaults; relaxed on line-length)
-- <code>.yamllint</code> — YAML rules for <code>.github/</code> and <code>skill_catalog.yaml</code>
-- <code>ruff.toml</code> — Python lint for <code>bin/control-panel-server.py</code> and embedded Python
-- <code>.prettierrc</code> — Prettier config for the small JS surface (control.js, sw.js, generated dashboard HTML/CSS)
-- <code>.prettierignore</code> — exclude generated files (<code>runs/</code>, <code>briefings/</code>, <code>state.json</code>, <code>chats/</code>, etc.)
-- <code>.github/workflows/integration-test.yml</code> — add new <code>lint</code> job (markdownlint, yamllint, ruff, prettier &ndash;check). Existing shellcheck + jq stays.</p>
-<p><strong>Replicate to companion repos:</strong>
-- <code>KiwiMaddog2020/ensemble-config</code> — same configs (drop ruff if no Python; keep markdownlint/yamllint)
-- <code>KiwiMaddog2020/ensemble-dashboard</code> — <code>.editorconfig</code> + <code>.prettierignore</code> (most files generated)
-- <code>KiwiMaddog2020/website-agent-starter</code> — <code>.editorconfig</code> + <code>.markdownlint.json</code> only (mostly markdown)
-- <code>KiwiMaddog2020/ensemble-phone</code> — <code>.editorconfig</code> + <code>.prettierrc</code> (single index.html)
-- <code>KiwiMaddog2020/ensemble-desktop</code> — same as ensemble-phone
-- (Skip <code>KiwiMaddog2020/spectra-nova</code> — has its own .NET analyzers via <code>dotnet build</code> warnings)</p>
-<p><strong>Memory + contracts:</strong>
-- New memory file at <code>~/.claude/projects/-Users-kevin/memory/lint_expectations.md</code> documenting: which linters per language, which files are linted, where configs live, how to run locally, how CI gates them.
-- <code>MEMORY.md</code> pointer added.
-- <code>AGENT.md</code> §3 (Edit &amp; code discipline) — add a sub-section noting: &ldquo;Every PR runs the lint job in CI; configs are at the repo root; surgical edits should not introduce new lint failures.&rdquo;
-- <code>MAESTRO.md</code> Directive 6 (Apple-quality bar) — reference the lint expectation.</p>
-<p><strong>Why lint matters here:</strong> marketplace publication needs polish-grade rigor. Prettier specifically is overkill for a shell-heavy project, but the small JS surface (control.js, sw.js) and the generated dashboard HTML/CSS benefit from canonical formatting before public-flip. CI gates ensure no contributor (including future autopilot sessions) drifts the style.</p>
-<h3 id="whats-blocking-ship-in-this-chat">What&rsquo;s blocking ship in this chat</h3>
-<p>The <code>Write</code> tool got a permission-stream error on <code>.editorconfig</code>. Context room ran low before retry. <strong>Next session: resume from here. The configs above are fully specified — generate them, commit + push, replicate to companion repos, write the memory file.</strong></p>
-<h3 id="estimated-effort">Estimated effort</h3>
-<p>~35 min for the full sweep (option 2 from the lint AskUserQuestion):
-- 5 min — write 6 config files for claude-ensemble
-- 10 min — update <code>.github/workflows/integration-test.yml</code> with the new <code>lint</code> job
-- 10 min — replicate configs to 5 companion repos
-- 5 min — memory file + MEMORY.md pointer + AGENT.md/MAESTRO.md edits
-- 5 min — sync canonical to ensemble-config, final commit + push round</p>
-<hr />
-<h2 id="marketplace-de-personalization-audit-queued-for-next-session">Marketplace de-personalization audit — queued for next session</h2>
-<p>Pairs naturally with the lint sweep. Both are pre-public-flip polish. Goal: ship a plugin that works for any user, not just Kevin, while preserving intent.</p>
-<h3 id="categories-to-sweep-grep-the-plugin-tree">Categories to sweep (grep the plugin tree)</h3>
-<p>Pattern: <code>M1|Kevin|kevinmadson|kiwimaddog|/Users/kevin|Pushover|Tailscale|Termius|launchd|British Columbia|Pacific</code></p>
-<table>
-<thead>
-<tr>
-<th>Hard-coded today</th>
-<th>Generalize to</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>&ldquo;M1 hardware constraint, single VM&rdquo;</td>
-<td>&ldquo;Single concurrent autopilot by default; configurable in <code>state.json</code> as <code>max_concurrent</code>&ldquo;</td>
-</tr>
-<tr>
-<td>Pushover specifically</td>
-<td>&ldquo;Configurable push provider (Pushover, ntfy, Discord webhook, Slack incoming, etc.) — Pushover is reference impl&rdquo;</td>
-</tr>
-<tr>
-<td>Tailscale + Termius</td>
-<td>&ldquo;Remote-shell + VPN combo of choice; Tailscale+Termius is the reference impl&rdquo;</td>
-</tr>
-<tr>
-<td>iOS Shortcuts for phone fire</td>
-<td>&ldquo;Mobile automation (iOS Shortcuts, Android Tasker, any HTTP client)&rdquo;</td>
-</tr>
-<tr>
-<td>launchd plists in docs</td>
-<td>Add explicit Linux (systemd) + Windows (Task Scheduler) sections; bin-win parity already exists</td>
-</tr>
-<tr>
-<td><code>kiwimaddog2020</code> GitHub handle</td>
-<td><code>&lt;your-github-username&gt;</code> placeholder</td>
-</tr>
-<tr>
-<td><code>/Users/kevin/...</code> absolute paths</td>
-<td><code>~/.claude/orchestrator</code> (audit + replace)</td>
-</tr>
-<tr>
-<td><code>kevinmadson@protonmail.com</code></td>
-<td>Generic placeholder or remove</td>
-</tr>
-<tr>
-<td>BOO-Website, Vera Nota, Spectra Nova, Pinball Roguelight default-shipped</td>
-<td>Ship <code>chats/</code> empty (or with ONE explicit <code>example.json</code>); strip Kevin&rsquo;s projects</td>
-</tr>
-<tr>
-<td>&ldquo;Morning Briefing 7am Pacific&rdquo; routine specifics</td>
-<td>&ldquo;User-configurable cron; defaults are illustrative&rdquo;</td>
-</tr>
-<tr>
-<td>British Columbia / Canada legal defaults</td>
-<td>Already isolated to Tool Builder (separate track); double-check no leakage into Ensemble docs</td>
-</tr>
-<tr>
-<td>&ldquo;Friend hand-off&rdquo; copy</td>
-<td>Strip or relabel as &ldquo;external user onboarding&rdquo;</td>
-</tr>
-</tbody>
-</table>
-<h3 id="memory-file-rename">Memory file rename</h3>
-<ul>
-<li><code>~/.claude/projects/-Users-kevin/memory/hardware_m1.md</code> → <code>hardware_constraints.md</code> with a <code>max_concurrent_autopilot</code> field documented and a generic intent (&ldquo;respect your hardware&rsquo;s concurrency limit, default 1&rdquo;).</li>
-<li>Update <code>MEMORY.md</code> pointer.</li>
-<li>Update <code>AGENT.md</code> §5 + <code>MAESTRO.md</code> Directive 1 to reference the new constraint name (not &ldquo;M1&rdquo;).</li>
-</ul>
-<h3 id="default-state-files-shipped-in-plugin">Default state files shipped in plugin</h3>
-<ul>
-<li><code>plugins/ensemble/templates/state.json.example</code> — keep as-is.</li>
-<li>Strip any Kevin-specific seed data from anything that ships at install time. The user&rsquo;s first onboarding generates their own <code>chats/&lt;slug&gt;.json</code>.</li>
-</ul>
-<h3 id="verification-after-sweep">Verification after sweep</h3>
-<ul>
-<li><code>grep -rE "M1|kevinmadson|kiwimaddog|/Users/kevin|Pushover|Tailscale|Termius|British Columbia" plugins/</code> should return empty (or only flagged-as-example matches).</li>
-<li>Re-run <code>bash plugins/ensemble/bin/self_test.sh</code> — all green.</li>
-<li>Mentally trace: &ldquo;if a stranger on Linux clones this and runs preflight, does anything break?&rdquo; Walk the install steps with their shoes on.</li>
-</ul>
-<h3 id="estimated-effort_1">Estimated effort</h3>
-<p>~30-45 min combined with the lint sweep (do them in the same session — both touch many of the same files).</p>
-<hr />
-<h2 id="one-shot-batch-for-next-maestro-pre-approved-afk-able">ONE-SHOT BATCH for next Maestro — pre-approved, AFK-able</h2>
-<p>Kevin&rsquo;s instruction: pre-stage one big batch he can approve once and walk away. Below is the paste-ready prompt. Drop into a fresh Maestro chat opened in <code>~/.claude/orchestrator</code>, Kevin replies &ldquo;approve, go&rdquo;, and the chat self-drives end-to-end.</p>
-<h3 id="paste-ready-prompt-for-next-maestro">Paste-ready prompt for next Maestro</h3>
-<pre><code>You are my Maestro. Read in order:
-1. plugins/ensemble/templates/MAESTRO.md
-2. docs/SESSION_HANDOFF.md (especially the two queued sections at the bottom)
-3. ~/.claude/projects/-Users-kevin/memory/MEMORY.md (top-level pointers)
+<h2 id="the-recommended-opening-move-for-the-new-chat">The recommended opening move for the new chat</h2>
+<pre><code>Read MAESTRO.md → MEMORY.md (and follow precedence.md, self_audit.md links)
+→ state.json → docs/SESSION_HANDOFF.md (this file) → docs/A_TIER_PLAN.md.
 
-Then execute ONE BIG BATCH covering both queued items in a single
-autonomous run. Pre-approved by Kevin — do not stop for per-step
-confirmation. Stop ONLY for: a true safety gate (public-flip, billing,
-account creation), a conflict you cannot resolve safely, or completion.
+Then open with rapid-fire:
 
-Batch contents:
+TOP REC: Phase 2 — project page CSS unification.
+  Why: Phase 1 unblocked it. The collisions Kevin hit twice are now
+       solvable because CSS lives in two specific files. Closes the
+       visual gap he asked about across multiple sessions.
+  Effort: M (~3h) | Autopilot: n (cycle freeze active until 2026-05-01) |
+       VM: n | Charter fit: core
 
-A. LINT SWEEP (option 2, pre-approved)
-   - Write 6 configs in claude-ensemble: .editorconfig, .markdownlint.json,
-     .yamllint, ruff.toml, .prettierrc, .prettierignore (specs at the
-     &quot;Mid-flight at chat handoff&quot; section above — exact rules baked in)
-   - Add new `lint` job to .github/workflows/integration-test.yml
-     (markdownlint + yamllint + ruff + prettier --check; existing
-     shellcheck + jq stays). Auto-trigger blocks already commented out
-     pending billing — keep that way.
-   - Replicate to: ensemble-config, ensemble-dashboard,
-     website-agent-starter, ensemble-phone, ensemble-desktop
-     (skip spectra-nova — has .NET analyzers)
-   - Memory: write ~/.claude/projects/-Users-kevin/memory/lint_expectations.md
-     + add MEMORY.md pointer
-   - Update plugins/ensemble/templates/AGENT.md §3 (lint reference)
-     + plugins/ensemble/templates/MAESTRO.md Directive 6 (lint reference)
+2) Phase 4 — pytest infrastructure for the new dashgen modules. Locks in
+   a safety floor for future edits. M (~3h).
 
-B. MARKETPLACE DE-PERSONALIZATION AUDIT (pre-approved)
-   - Grep plugin tree for: M1|Kevin|kevinmadson|kiwimaddog|/Users/kevin|
-     Pushover|Tailscale|Termius|launchd|British Columbia|Pacific
-   - For each hit, apply the generalize-to mapping in the table above.
-     Preserve intent; don't strip features.
-   - Rename memory file: hardware_m1.md → hardware_constraints.md
-     (add `max_concurrent_autopilot` field, default 1, document intent).
-     Update MEMORY.md pointer.
-   - Update AGENT.md §5 + MAESTRO.md Directive 1 to reference the
-     renamed constraint.
-   - Strip Kevin-specific data from anything shipping at install time.
-     Default `chats/` ships empty in the plugin (or one explicit
-     `example.json`).
-   - Verification: `grep -rE &quot;M1|kevinmadson|kiwimaddog|/Users/kevin|
-     Pushover|Tailscale|Termius|British Columbia&quot; plugins/` returns
-     empty or only example-flagged matches.
+3) Phase 5 — Cloudflare Access walkthrough. ~30 min. Closes the actual
+   privacy gap.
 
-After both: run `bash plugins/ensemble/bin/self_test.sh` (mac) and
-mentally walk a Linux stranger through the install steps. Commit each
-logical chunk with clear messages. Push to origin/main on each repo.
-Sync canonical → ensemble-config last.
-
-Final report back to Kevin: tight summary of what landed, any judgment
-calls made, anything you couldn't safely resolve.
-
-Begin.
+4. Disable Rapid Fire Mode
 </code></pre>
-<h3 id="what-the-next-maestro-is-allowed-to-do-without-asking">What the next Maestro is allowed to do without asking</h3>
-<ul>
-<li>Write/edit/delete files in any of the 6 repos</li>
-<li>Commit + push to private repos (push gate lifted 2026-04-24)</li>
-<li>Rename memory files (with MEMORY.md pointer updated)</li>
-<li>Make judgment calls on placeholder names, config defaults, generalization phrasing</li>
-<li>Skip a sub-step if blocked, log it, and continue</li>
-</ul>
-<h3 id="hard-stops-next-maestro-must-ask-first">Hard stops (next Maestro MUST ask first)</h3>
-<ul>
-<li>Anything that would public-flip a repo</li>
-<li>Anything touching billing</li>
-<li>Anything that creates a new account</li>
-<li>Genuine ambiguity that risks shipping broken state to the marketplace</li>
-</ul>
-<h3 id="after-the-batch">After the batch</h3>
-<p>Next Maestro reports back with: commits landed (per repo), grep verification output, any deferred items. Kevin reviews, approves any deferred-question items in a follow-up turn.</p>
+<p>The cycle freeze is active so anything autopilot-driven won&rsquo;t fire until 2026-05-01. Plan for hands-on-keyboard work this week (or have Kevin lift the freeze if he changes his mind).</p>
 <hr />
-<h2 id="batch-2-operating-contract-upgrade-pre-approved-afk-able">BATCH 2 — Operating-contract upgrade (pre-approved, AFK-able)</h2>
-<p>Runs <strong>after</strong> Batch 1 completes. Same chat if context permits, fresh chat otherwise. Pre-approved by Kevin via rapid-fire on 2026-04-26. Eight directives bake into the Ensemble&rsquo;s operating contracts (memory + MAESTRO.md + AGENT.md + chats/ schema + dashboard + new spawn-lock infrastructure).</p>
-<h3 id="locked-decisions-from-rapid-fire">Locked decisions (from rapid-fire)</h3>
-<table>
-<thead>
-<tr>
-<th>Question</th>
-<th>Answer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>State taxonomy</td>
-<td>Six-state full lifecycle: <strong>Building → Launch Prep → Warmer ⇄ R&amp;D ⇄ Updates → Hibernating</strong></td>
-</tr>
-<tr>
-<td>Default state for new projects</td>
-<td><strong>Building</strong> (auto-bumps at G7 → Launch Prep, G8 → Warmer)</td>
-</tr>
-<tr>
-<td>Pre-compaction thresholds</td>
-<td><strong>80% warn, 95% hard-stop</strong></td>
-</tr>
-<tr>
-<td>Turbo trigger looseness</td>
-<td><strong>Liberal</strong> — fires on any clear &ldquo;turbo&rdquo; intent</td>
-</tr>
-<tr>
-<td>Sunset state</td>
-<td>Deferred (reversible if needed later)</td>
-</tr>
-<tr>
-<td>Autopilot subprocess concurrency</td>
-<td><strong>Three locked layers + user knob.</strong> Workshop lock (always on, computer-control), per-project lock (always on, file-stomp), resource floor (opt-in). User-adjustable <code>max_concurrent_autopilots: 2</code> default; queue-with-5min-timeout when cap hit. Verbal/PWA adjustable.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="seven-directives-to-ship">Seven directives to ship</h3>
-<p><strong>1. Pre-compaction summary baked into Maestro/Agent</strong></p>
-<ul>
-<li>Both contracts gain a &ldquo;Context awareness&rdquo; section.</li>
-<li>Chat self-checks context window at every major turn boundary.</li>
-<li>At 80%: emit a warning banner, suggest wrap-up, offer to write current-state to a designated handoff file.</li>
-<li>At 95%: hard-stop — do not start new work. Write a comprehensive handoff to <code>docs/SESSION_HANDOFF.md</code> mid-flight section (Maestro chat) or to <code>chats/&lt;slug&gt;.json.handoff_note</code> (Agent chat). Tell user: &ldquo;Context at 95%. Handoff staged. Open fresh chat.&rdquo;</li>
-<li>Summary template includes: current intent, decisions made this session, files touched, pending tasks with file paths, gotchas observed, paste-ready resume prompt.</li>
-<li>Memory file: <code>~/.claude/projects/-Users-kevin/memory/smart_handoff_protocol.md</code></li>
-</ul>
-<p><strong>2. Turbo mode (signal phrase + behavior)</strong></p>
-<ul>
-<li>Signal-phrase detection: liberal — fires on <code>turbo</code>, <code>turbo mode</code>, <code>turbo on</code>, <code>enable turbo</code>, <code>start turbo</code>, <code>let's turbo</code>, <code>go turbo</code>, etc. Same loose-detection treatment goes to ALL existing signal phrases (autopilot, kill, rapid-fire) — bake the looseness pattern into a single <code>signal_phrase_detection.md</code> memory.</li>
-<li>Behavior on trigger: Maestro/Agent enters batch coding mode. User front-loads ALL approvals at session start (presented as a single rapid-fire). Sensitive operations (public-flip, billing, account creation, financial txns) STILL gate per <code>safety_constraints.md</code> — turbo doesn&rsquo;t override safety rules.</li>
-<li>Distinguishes from autopilot: autopilot is a single-project, single-VM scoped batch; turbo is a multi-project, in-chat AFK-able batch driven by the user&rsquo;s instructions.</li>
-<li>Memory file: <code>~/.claude/projects/-Users-kevin/memory/turbo_mode.md</code></li>
-<li>MAESTRO.md gains Directive 16 (turbo), AGENT.md gains §18.</li>
-</ul>
-<p><strong>3. Smart handoff protocol</strong> (covered by directive 1 above; same memory file)</p>
-<p><strong>4. Feedback / bug-report pipeline</strong></p>
-<ul>
-<li>Per-project: live products (any project in a live state — Warmer/R&amp;D/Updates) expose a feedback channel. Channel options offered at G8 transition: GitHub Issues (default for tech), Formspree form (default for non-tech), email forwarding, Discord webhook.</li>
-<li>Weekly aggregation cron (in <code>~/.claude/scheduled-tasks/feedback-briefing/</code>):</li>
-<li>Reads from each live project&rsquo;s feedback channel</li>
-<li>Compiles a per-project briefing markdown: <code>&lt;project&gt;/briefings/feedback-YYYY-MM-DD.md</code></li>
-<li>Categorizes: bugs / UX issues / feature requests</li>
-<li>On Maestro session start (or routine fire): if unread briefings exist, surface as rapid-fire (&ldquo;12 items across 3 projects — triage now / batch later / skip&rdquo;).</li>
-<li>Triage discipline: ALWAYS produce a concise plan first; user approves; THEN changes happen. No &ldquo;I&rsquo;ll just fix this&rdquo; without the plan-then-approve gate.</li>
-<li>Memory file: <code>~/.claude/projects/-Users-kevin/memory/feedback_pipeline.md</code></li>
-<li>New scheduled task: <code>feedback-briefing</code> (Sunday 6am local) — aggregator script + SKILL.md.</li>
-</ul>
-<p><strong>5. Outside-the-box thinking</strong> (priority 1, baked into MAESTRO/AGENT operating posture)</p>
-<ul>
-<li>Memory file: <code>~/.claude/projects/-Users-kevin/memory/outside_the_box_thinking.md</code>. Priority 1.</li>
-<li>Canonical example documented: the visual-glitch debugging trick (isolating each CSS effect into its own row to identify the culprit). That&rsquo;s the bar.</li>
-<li>Discipline rules baked in:</li>
-<li>Thoughtful, not gimmicky — clever tools that take 10min to fix a 2min bug are bad</li>
-<li>No wild goose chases — abandon and use the boring approach if creative angle doesn&rsquo;t pan out</li>
-<li>Brief user before tool-building &gt;5min (&ldquo;I want to build X to debug Y, ~10 min — proceed?&rdquo;)</li>
-<li>Document the trick in project docs when it works</li>
-<li>Use computer access (when available) for: auto-screenshots during tests, calibration tools, diagnostic side-by-sides, one-off CLI helpers</li>
-<li>MAESTRO.md gains Directive 17, AGENT.md gains §19. Both elevate this to operating-posture, not just a memory pointer.</li>
-</ul>
-<p><strong>6. Six-state taxonomy</strong> (replaces existing evolution_modes)</p>
-<p>Full lifecycle:</p>
-<pre><code>        BUILDING  ──&gt;  LAUNCH PREP  ──&gt;  WARMER ⇄ R&amp;D ⇄ UPDATES  ──&gt;  HIBERNATING
-        pre-launch    pre-launch         live triangle (bidirectional)    archive
-</code></pre>
-<table>
-<thead>
-<tr>
-<th>State</th>
-<th>Behavior</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Building</strong></td>
-<td>Pre-launch active dev. Default for new projects at G1. Full autopilot eligibility.</td>
-</tr>
-<tr>
-<td><strong>Launch Prep</strong></td>
-<td>Pre-launch polish sprint. NO new features. Strict shipping discipline. Auto-suggested at G7.</td>
-</tr>
-<tr>
-<td><strong>Warmer</strong></td>
-<td>Live, cozy maintenance. Bug fixes only as feedback comes in. <strong>No UX/front-end changes without explicit user approval.</strong> Default at G8.</td>
-</tr>
-<tr>
-<td><strong>R&amp;D</strong></td>
-<td>Live but exploratory — testing new directions, feature spikes, technical investigation. Live triangle peer.</td>
-</tr>
-<tr>
-<td><strong>Updates</strong></td>
-<td>Live + scheduled content/feature additions (mobile-game updates, blog posts, seasonal features). Live triangle peer.</td>
-</tr>
-<tr>
-<td><strong>Hibernating</strong></td>
-<td>Intentional archive. No autopilot. Not in rotation. Dashboard shows greyed. Reversible.</td>
-</tr>
-</tbody>
-</table>
-<p>Implementation:
-- <code>chats/&lt;slug&gt;.json</code> schema: rename <code>evolution_mode</code> field to <code>state</code>. Migrate values: frozen→Hibernating, reactive→Warmer, maintenance→Warmer, active→Building (or Updates if at G8+).
-- Update <code>project_evolution_modes.md</code> memory → rename to <code>project_states.md</code>. Update MEMORY.md pointer.
-- AGENT.md §17 + MAESTRO.md Directive 6 update to reference the new state names.</p>
-<p><strong>7. State enable/disable from within a chat + PWA</strong></p>
-<ul>
-<li>Verbal command in any chat: <code>set [me|this project|&lt;slug&gt;] to [state]</code> → Maestro/Agent updates <code>chats/&lt;slug&gt;.json</code>, reports the change to dashboard, persists.</li>
-<li>PWA cards gain a state pill: tap pill → menu of 6 states + active/inactive toggle.</li>
-<li>Dashboard regen (<code>bin/dashboard-generate.sh</code>) reads <code>state</code> field, color-codes the card, shows the pill.</li>
-<li>Control panel server (<code>bin/control-panel-server.py</code>) gains <code>POST /chats/&lt;slug&gt;/state</code> endpoint with Bearer auth.</li>
-<li>Active/inactive remains a separate axis (chat open vs closed) — orthogonal to state.</li>
-</ul>
-<p><strong>8. Three-layer autopilot mutex with user-controlled cap</strong></p>
-<p>Existing <code>orchestrator_lock.sh</code> hook gates <strong>MCP tool calls</strong> at the kernel level — bulletproof for computer-control (workshop) collisions. This directive layers TWO additional protections at spawn time, then exposes a user-controlled concurrency cap on top.</p>
-<p>Locked safety layers (always on, never disabled):</p>
-<ol>
-<li><strong>Workshop lock</strong> (existing) — global lock on MCP tool calls (computer-use, Preview, Chrome). Two chats can NEVER both grab the computer/browser. Kernel-enforced, no bypass.</li>
-<li><strong>Per-project spawn lock</strong> (new) — per-slug lock dir <code>state.spawn-lock-&lt;slug&gt;.d/</code>. Two autopilot subprocesses can NEVER target the same project simultaneously. Prevents same-repo file-stomp.</li>
-<li><strong>Resource floor</strong> (new, opt-in, default OFF) — pre-spawn check: if system RAM/CPU is critically taxed, refuse with &ldquo;system busy, retry in N min&rdquo;. Power-user knob.</li>
-</ol>
-<p>User-controlled concurrency layer:</p>
-<ul>
-<li><code>max_concurrent_autopilots</code> field in state.json. <strong>Default: 2.</strong> Range: 1 to whatever the machine handles (no hard ceiling).</li>
-<li>Adjustable via verbal command (<code>set max autopilots to 3</code>) OR PWA dashboard pill (live counter &ldquo;Autopilots: 1/2 running&rdquo; — tap to adjust).</li>
-<li>Soft guardrail: if user sets ≥ 4, one-time confirm: &ldquo;You&rsquo;re scaling beyond the tested range. Monitor system load. Confirm?&rdquo;</li>
-<li><strong>When cap hit: queue with 5-minute timeout</strong> (Kevin&rsquo;s locked decision). New fire waits in <code>state.spawn-queue.json</code> up to 300s for a slot to open, then refuses with clear message.</li>
-</ul>
-<p>Spawn flow:</p>
-<pre><code>User/cron fires autopilot for project &lt;slug&gt;
-  ↓
-Is &lt;slug&gt; already running? (per-project lock check) → Yes → REFUSE
-  ↓ No
-Is len(active_autopilots) &gt;= max_concurrent? → Yes → QUEUE (5min timeout)
-  ↓ No
-Is resource floor enabled AND system taxed? → Yes → REFUSE
-  ↓ No
-Acquire state.spawn-lock-&lt;slug&gt;.d, register {pid, slug, started_at} in
-  state.active_autopilots[&lt;slug&gt;], exec claude -p, trap EXIT releases lock
-</code></pre>
-<p>If any spawned autopilot reaches for computer-control, the existing workshop lock catches contention with other chats. Stack is: workshop (global) + spawn (per-project) + cap (user knob).</p>
-<p>Implementation:</p>
-<ul>
-<li>New script: <code>plugins/ensemble/bin/orchestrator_spawn_lock.sh</code> (POSIX) + <code>bin-win/orchestrator_spawn_lock.ps1</code> (Windows parity).</li>
-<li>state.json schema additions:</li>
-<li><code>max_concurrent_autopilots: 2</code> (number, default 2, user-adjustable)</li>
-<li><code>active_autopilots: {}</code> (dict keyed by slug → {pid, started_at})</li>
-<li><code>resource_floor_enabled: false</code> (bool, opt-in)</li>
-<li><code>resource_floor_thresholds: {ram_pct: 90, cpu_load: 4.0}</code> (defaults; user-tunable)</li>
-<li><code>spawn_queue: []</code> (queue of pending fires with timeouts)</li>
-<li>All autopilot launchers wrap <code>claude -p</code> with spawn-lock acquisition:</li>
-<li><code>bin/autopilot_session.sh</code>, <code>bin/mobile_dispatch.sh</code>, <code>bin/fire-all-eligible.sh</code>, <code>bin/rotation_pick.sh</code>, <code>/autopilot</code> slash command, all scheduled-task autopilot fires</li>
-<li>Stale-lock sweep: existing <code>bin/stale_lock_sweeper.sh</code> extended to clear stale per-project spawn locks (PID gone). 5-min cadence already in launchd plist.</li>
-<li>Queue processor: small daemon thread inside <code>bin/control-panel-server.py</code> checks <code>spawn_queue</code> every 30s, releases queued fires as slots open, expires entries past timeout.</li>
-<li>Logging: every spawn attempt (acquired/queued/refused/expired) → <code>runs/spawn-lock-YYYYMMDD.log</code>.</li>
-<li>Memory file: in renamed <code>hardware_constraints.md</code> (Batch 1 renames from <code>hardware_m1.md</code>), add section &ldquo;Autopilot concurrency&rdquo; documenting the three layers, the cap knob, the 5-min timeout, and the resource floor opt-in.</li>
-<li>MAESTRO.md Directive 1 (updated) + AGENT.md §5 (updated) to reference the three-layer model.</li>
-<li>Cross-platform parity: ensemble-config syncs the new PowerShell port + Windows queue handling.</li>
-</ul>
-<p>PWA / Dashboard:</p>
-<ul>
-<li>New &ldquo;Autopilots&rdquo; pill on the dashboard header: shows &ldquo;1/2&rdquo; (running/cap), color-coded. Tap → menu of 1-N + &ldquo;set custom&rdquo;.</li>
-<li>Per-project card shows green dot if its autopilot is active.</li>
-<li>Setting cap ≥ 4 triggers a confirmation modal first time.</li>
-</ul>
-<p>Test plan:</p>
-<ul>
-<li><code>plugins/ensemble/bin/test_spawn_lock_race.sh</code> — spawn 5 concurrent fires across 5 different projects with cap=2; expect 2 acquired + 3 queued, queued fires acquire as the first 2 finish</li>
-<li><code>bin/test_per_project_lock.sh</code> — spawn 3 fires for same project; expect 1 acquired + 2 refused (per-project lock)</li>
-<li><code>bin/test_cap_timeout.sh</code> — fire when cap is held with no release; expect timeout after 300s</li>
-<li>Windows mirrors of all three</li>
-<li>Self-test (<code>self_test.sh</code>) gains &ldquo;spawn-lock-functional&rdquo; + &ldquo;per-project-lock-functional&rdquo; + &ldquo;queue-functional&rdquo; checks</li>
-<li>Existing <code>test_lock_race.sh</code> (10/10 rounds for MCP workshop lock) unchanged</li>
-</ul>
-<p>What this catches:</p>
-<ul>
-<li>✅ Same-project dual-fire — refused at per-project lock</li>
-<li>✅ Computer-control collision — refused at workshop lock (existing)</li>
-<li>✅ Resource exhaustion — refused at floor (when opt-in enabled)</li>
-<li>✅ Cap exceeded — queued for up to 5 min, then refused if no slot</li>
-<li>✅ User confusion (firing in two chats) — caught by per-project + cap</li>
-</ul>
-<p>What this preserves:</p>
-<ul>
-<li>✅ Multi-project parallelism (different projects can run simultaneously, up to the cap)</li>
-<li>✅ User control over the dial — scale up when machine is fresh, down when running heavy work</li>
-<li>✅ All existing autopilot UX (slash command, mobile dispatch, rotation, /autopilot N)</li>
-</ul>
-<h3 id="paste-ready-prompt-for-batch-2">Paste-ready prompt for Batch 2</h3>
-<pre><code>You are my Maestro. Read in order:
-1. plugins/ensemble/templates/MAESTRO.md
-2. docs/SESSION_HANDOFF.md (the BATCH 2 section, locked decisions + 7 directives)
-3. ~/.claude/projects/-Users-kevin/memory/MEMORY.md
-
-Then execute BATCH 2 as one autonomous run. Pre-approved by Kevin
-via rapid-fire 2026-04-26. Do not stop for per-step confirmation.
-Stop ONLY for: a true safety gate, an unresolvable conflict, or
-completion.
-
-Concrete deliverables:
-
-1. Six new memory files in ~/.claude/projects/-Users-kevin/memory/:
-   - smart_handoff_protocol.md
-   - turbo_mode.md
-   - signal_phrase_detection.md
-   - feedback_pipeline.md
-   - outside_the_box_thinking.md  ← priority 1, mark in MEMORY.md
-   - project_states.md  (rename from project_evolution_modes.md)
-   Update MEMORY.md with all new pointers + remove the old
-   project_evolution_modes pointer. Also add an &quot;Autopilot mutex&quot;
-   section to hardware_constraints.md (the renamed file from Batch 1)
-   covering the total-lockdown default.
-
-2. MAESTRO.md updates: add Directives 16 (turbo), 17 (outside-the-box),
-   18 (total-lockdown autopilot mutex). Update Directive 1 to reference
-   the new spawn-layer mutex (currently only references MCP-tool lock).
-   Update Directive 6 to reference six-state taxonomy. Add a
-   &quot;Context awareness&quot; subsection covering 80%/95% protocol.
-
-3. AGENT.md updates: add §18 (turbo), §19 (outside-the-box), §20
-   (total-lockdown mutex). Update §5 to reference the spawn-layer
-   mutex. Update §17 (states) for new taxonomy. Add context-
-   awareness subsection in §1.
-
-4. chats/&lt;slug&gt;.json schema migration: rename `evolution_mode` →
-   `state`. Migrate all 7 onboarded chats per the mapping above.
-   Update bin/dashboard-generate.sh to read new field. Update
-   bin/control-panel-server.py to add state-change endpoint.
-
-5. Dashboard PWA: add state pill to each card. Tap → menu of 6
-   states. Color-coded (Building=blue, Launch Prep=purple, Warmer=
-   orange, R&amp;D=green, Updates=cyan, Hibernating=grey).
-
-6. New scheduled task ~/.claude/scheduled-tasks/feedback-briefing/
-   with SKILL.md describing weekly aggregation. Cron: Sunday 6am.
-   Default channel suggestions documented (GitHub Issues / Formspree
-   / email / Discord). Skip wiring channels until per-project G8.
-
-7. Three-layer autopilot mutex with user-controlled cap:
-   - Write plugins/ensemble/bin/orchestrator_spawn_lock.sh (POSIX) +
-     ensemble-config/bin-win/orchestrator_spawn_lock.ps1 (Windows)
-   - Add state.json fields: max_concurrent_autopilots (default 2),
-     active_autopilots (dict keyed by slug), resource_floor_enabled
-     (default false), resource_floor_thresholds, spawn_queue
-   - Update bin/autopilot_session.sh, bin/mobile_dispatch.sh,
-     bin/fire-all-eligible.sh, bin/rotation_pick.sh to wrap
-     claude -p invocations with the spawn-lock + cap check + queue
-   - Per-project lock dirs: state.spawn-lock-&lt;slug&gt;.d/ (per-slug, not
-     global)
-   - Queue processor in bin/control-panel-server.py (30s tick, 5min
-     timeout per Kevin's locked decision)
-   - Extend bin/stale_lock_sweeper.sh + bin-win/stale_lock_sweeper.ps1
-     to clear stale per-project spawn locks AND expired queue entries
-   - Write three test scripts: test_spawn_lock_race.sh (5 concurrent
-     across 5 projects, cap=2, expect 2+3 queued), test_per_project_lock.sh
-     (3 fires same project, expect 1+2 refused), test_cap_timeout.sh
-     (cap held, expect timeout after 300s) + bin-win parity for all three
-   - Add spawn-lock + per-project-lock + queue checks to
-     plugins/ensemble/bin/self_test.sh
-   - Dashboard PWA: add &quot;Autopilots&quot; header pill (1/2 counter, tap to
-     adjust). Soft confirm modal at cap &gt;= 4.
-
-8. Verification:
-   - All 6 memory files exist + MEMORY.md updated
-   - MAESTRO.md + AGENT.md self-test (grep for new directives 16/17/18)
-   - chats/*.json all have `state` field, no leftover `evolution_mode`
-   - Dashboard regen runs clean: bash bin/dashboard-generate.sh
-   - Self-test runs clean: bash plugins/ensemble/bin/self_test.sh
-   - All three new lock tests pass: spawn race, per-project, cap timeout
-   - Existing MCP-tool lock race test still passes: bash plugins/ensemble/bin/test_lock_race.sh
-
-Report back with: commits landed, files touched, any deferred items.
-
-Begin.
-</code></pre>
-<h3 id="what-batch-2s-maestro-is-allowed-to-do-without-asking">What Batch 2&rsquo;s Maestro is allowed to do without asking</h3>
-<ul>
-<li>Write all 6 memory files</li>
-<li>Edit MAESTRO.md / AGENT.md / chats/*.json freely</li>
-<li>Migrate the schema (evolution_mode → state) across all chats</li>
-<li>Update dashboard generator + control panel server</li>
-<li>Create the new scheduled-tasks/feedback-briefing/ directory + SKILL.md (no actual cron registration yet — skill stub only)</li>
-<li>Make judgment calls on color codes, state pill UX, state machine constraints</li>
-<li>Commit + push to the canonical repo and ensemble-config</li>
-</ul>
-<h3 id="hard-stops-batch-2-maestro-must-ask-first">Hard stops (Batch 2 Maestro MUST ask first)</h3>
-<ul>
-<li>Wiring actual feedback channels for any specific project (per-project G8 decision; defer)</li>
-<li>Public-flipping any repo</li>
-<li>Anything that touches billing or creates accounts</li>
-<li>A schema migration conflict (e.g. a chat file with malformed JSON) — pause and ask</li>
-<li>Any change that would require Kevin to update his physical phone configuration</li>
-</ul>
-<h3 id="after-batch-2">After Batch 2</h3>
-<p>Maestro reports: schema migration result, file count touched, any chats that needed manual review. Kevin reviews; per-project state assignments may need a quick &ldquo;is X really in Warmer or should it be Updates?&rdquo; rapid-fire — that&rsquo;s a one-turn cleanup, not a blocker.</p>
-<hr />
-<h2 id="both-batches-landed-2026-04-26-commits-below">Both batches LANDED 2026-04-26 (commits below)</h2>
-<p>Cranked through both batches in a single AFK session. All canonical work shipped to claude-ensemble; companion repos updated; Windows PowerShell parity in place.</p>
-<h3 id="commits">Commits</h3>
-<table>
-<thead>
-<tr>
-<th>Commit</th>
-<th>What</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>fb17b0d</code></td>
-<td>Batch 1+2 canonical: lint configs + 7 memory files + 2 renames + MAESTRO/AGENT updates + chats schema migration + state.json fields + orchestrator_spawn_lock.sh + tests + de-personalization</td>
-</tr>
-<tr>
-<td><code>769ddc0</code></td>
-<td>Rapid-fire toggle directive (per-chat <code>rapid_fire_enabled</code>, default true; OFF = prose mode)</td>
-</tr>
-<tr>
-<td><code>c0dfb7c</code></td>
-<td>Launcher integration — autopilot_session.sh wraps <code>claude -p</code> with three-layer mutex</td>
-</tr>
-<tr>
-<td><code>7e6bde0</code></td>
-<td>Dashboard PWA: six-state pills + slugified CSS classes</td>
-</tr>
-</tbody>
-</table>
-<h3 id="companion-repos-each-with-own-commit">Companion repos (each with own commit)</h3>
-<table>
-<thead>
-<tr>
-<th>Repo</th>
-<th>Commit</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ensemble-config</td>
-<td><code>5717593</code> (lint full set) + <code>e63cd8b</code> (orchestrator_spawn_lock.ps1 Windows parity)</td>
-</tr>
-<tr>
-<td>ensemble-dashboard</td>
-<td><code>41222fe</code> (lint subset — editorconfig + prettier)</td>
-</tr>
-<tr>
-<td>website-agent-starter</td>
-<td><code>5384786</code> (lint markdown subset)</td>
-</tr>
-<tr>
-<td>ensemble-phone</td>
-<td><code>12225c7</code> (lint single-page subset)</td>
-</tr>
-<tr>
-<td>ensemble-desktop</td>
-<td><code>583608b</code> (lint single-page subset)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="verified">Verified</h3>
-<ul>
-<li><code>bash plugins/ensemble/bin/self_test.sh</code> — all green (24+ checks passing)</li>
-<li><code>bash plugins/ensemble/bin/test_spawn_lock_race.sh</code> — 9/9 passing</li>
-<li><code>bash bin/dashboard-generate.sh</code> — clean regen, six-state pills render correctly</li>
-</ul>
-<h3 id="kevins-local-config">Kevin&rsquo;s local config</h3>
-<ul>
-<li><code>state.json.max_concurrent_autopilots</code>: <strong>3</strong> (your personal preference)</li>
-<li><code>state.json.rapid_fire_enabled</code>: <strong>true</strong> (default)</li>
-<li>Marketplace ships default cap = 2 (the spawn lock script&rsquo;s <code>// 2</code> fallback)</li>
-</ul>
-<h3 id="still-deferred-low-priority">Still deferred (low priority)</h3>
-<ol>
-<li><strong>Control-panel queue processor</strong> — in-process tick to release queued fires as slots open. Currently the cap-hit queue is functional via the spawn lock script&rsquo;s polling, but a daemon would be more responsive. Skill scaffold exists at <code>bin/control-panel-server.py</code>.</li>
-<li><strong>Round 2 de-personalization</strong> — design docs (PLUGIN_REFACTOR.md, AUTOPILOT_DESIGN.md) still reference Kevin paths as historical examples. Low risk for marketplace since these are internal design docs.</li>
-<li><strong>Feedback pipeline channel wiring</strong> — per-project at G8. The aggregator scaffold lives at <code>~/.claude/scheduled-tasks/feedback-briefing/SKILL.md</code>; activates when ≥1 project completes G8 with a wired channel.</li>
-</ol>
-<h3 id="post-batch-state">Post-batch state</h3>
-<p><code>docs/SESSION_HANDOFF.md</code> is now historical record. Future sessions read it as context but should not treat it as active queue. The active queue is empty — Kevin&rsquo;s call on what&rsquo;s next.</p>
+<p><em>The Ensemble lives. Pick up the baton.</em></p>
     </article>
     <footer class="doc-foot">
       <a href="../docs.html" class="doc-back">← Back to all documentation</a>
