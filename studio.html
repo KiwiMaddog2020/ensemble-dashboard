@@ -91,21 +91,107 @@
   </div>
 
   <section class="studio-pane is-active" data-pane="room" role="tabpanel">
-    <div class="studio-stage-wrap">
-      <div class="studio-stage" id="studio-stage" aria-label="Studio room scene">
-        <div class="studio-empty">
-          <p>Setting up your blank canvas…</p>
+    <div class="studio-room-frame">
+      <button type="button" class="workshop-toggle" id="workshop-toggle" aria-expanded="true" aria-controls="workshop-drawer">
+        <span class="workshop-toggle__icon">⊞</span>
+        <span class="workshop-toggle__label">Workshop</span>
+      </button>
+
+      <aside class="workshop-drawer is-open" id="workshop-drawer" aria-label="Workshop drawer">
+        <header class="workshop-drawer__header">
+          <p class="workshop-drawer__eyebrow">WORKSHOP</p>
+          <h2 class="workshop-drawer__title">Get inspired.</h2>
+        </header>
+
+        <section class="workshop-section">
+          <h3 class="workshop-section__title">Get started</h3>
+          <ul class="workshop-checklist">
+            <li class="workshop-check"><span class="workshop-check__num">1</span><span>Pick an Example below to see what's possible</span></li>
+            <li class="workshop-check"><span class="workshop-check__num">2</span><span>Press Edit (Phase A.3) to start composing your own</span></li>
+            <li class="workshop-check"><span class="workshop-check__num">3</span><span>Drop a sprite, click it to wire an interaction</span></li>
+          </ul>
+        </section>
+
+        <section class="workshop-section">
+          <h3 class="workshop-section__title">Examples</h3>
+          <p class="workshop-section__sub">Tap to load. Each is editable + remixable.</p>
+          <ul class="workshop-examples" id="workshop-examples">
+            <li class="workshop-example" data-preset="blank">
+              <div class="workshop-example__icon">◻</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Blank canvas</div>
+                <div class="workshop-example__desc">Start from nothing. Compose freely.</div>
+              </div>
+            </li>
+            <li class="workshop-example" data-preset="orchestra">
+              <div class="workshop-example__icon">🎼</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Music ensemble</div>
+                <div class="workshop-example__desc">Conductor + 7 musicians. Sprite slots auto-bind to your active chats.</div>
+              </div>
+            </li>
+            <li class="workshop-example" data-preset="game_arcade">
+              <div class="workshop-example__icon">🕹</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Game arcade</div>
+                <div class="workshop-example__desc">Five arcade cabinets ready to wire to your real games (click-to-launch in Phase A.2).</div>
+              </div>
+            </li>
+            <li class="workshop-example workshop-example--coming-soon">
+              <div class="workshop-example__icon">📚</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Personal library</div>
+                <div class="workshop-example__desc">Bookshelves + typewriter. Click a spine to read essays.</div>
+                <span class="workshop-example__pill">soon</span>
+              </div>
+            </li>
+            <li class="workshop-example workshop-example--coming-soon">
+              <div class="workshop-example__icon">🖼</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Gallery</div>
+                <div class="workshop-example__desc">Long wall, framed images, click for full view.</div>
+                <span class="workshop-example__pill">soon</span>
+              </div>
+            </li>
+            <li class="workshop-example workshop-example--coming-soon">
+              <div class="workshop-example__icon">🛠</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Workshop (literal)</div>
+                <div class="workshop-example__desc">Maker's bench, tools, chalkboard, project sketches.</div>
+                <span class="workshop-example__pill">soon</span>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="workshop-section">
+          <h3 class="workshop-section__title">Asset packs</h3>
+          <p class="workshop-section__sub">Drag sprites onto your stage in Edit mode (Phase A.3).</p>
+          <ul class="workshop-packs">
+            <li class="workshop-pack"><span class="workshop-pack__icon">🎻</span><span>Music instruments</span><span class="workshop-pack__count">9</span></li>
+            <li class="workshop-pack"><span class="workshop-pack__icon">🕹</span><span>Arcade machines</span><span class="workshop-pack__count">5</span></li>
+            <li class="workshop-pack workshop-pack--soon"><span class="workshop-pack__icon">📚</span><span>Books + shelves</span><span class="workshop-pack__count">soon</span></li>
+            <li class="workshop-pack workshop-pack--soon"><span class="workshop-pack__icon">🌿</span><span>Plants + props</span><span class="workshop-pack__count">soon</span></li>
+            <li class="workshop-pack workshop-pack--soon"><span class="workshop-pack__icon">🚪</span><span>Doors + portals</span><span class="workshop-pack__count">soon</span></li>
+          </ul>
+        </section>
+      </aside>
+
+      <div class="studio-stage-wrap">
+        <div class="studio-stage" id="studio-stage" aria-label="Studio room scene">
+          <div class="studio-empty">
+            <p>Setting up your blank canvas…</p>
+          </div>
         </div>
       </div>
     </div>
     <div class="studio-info">
       <span class="studio-info__item">
         <span class="studio-info__dot" aria-hidden="true"></span>
-        <strong>Blank canvas</strong> · default
+        <strong id="studio-current-preset">Blank canvas</strong> · default
       </span>
       <span class="studio-info__item">View mode</span>
-      <span class="studio-info__item">Workshop drawer arrives in Phase A.1</span>
-      <span class="studio-info__item">Edit mode arrives in Phase A.1</span>
+      <span class="studio-info__item">Edit mode arrives in Phase A.3</span>
     </div>
   </section>
 
@@ -347,6 +433,49 @@
     $$('.studio-pane').forEach(p => p.classList.toggle('is-active', p.dataset.pane === tabId));
   }
 
+  // ─── Workshop drawer ─────────────────────────────────────────────────
+  function bindWorkshop() {
+    const toggle = $('#workshop-toggle');
+    const drawer = $('#workshop-drawer');
+    if (!toggle || !drawer) return;
+
+    toggle.addEventListener('click', () => {
+      const isOpen = drawer.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    $$('#workshop-examples .workshop-example').forEach(item => {
+      // Skip "coming soon" items (no data-preset)
+      if (!item.dataset.preset) return;
+      item.addEventListener('click', async () => {
+        const presetId = item.dataset.preset;
+        $$('.workshop-example').forEach(e => e.classList.remove('is-loading'));
+        item.classList.add('is-loading');
+        const room = await loadPreset(presetId);
+        if (!room) {
+          item.classList.remove('is-loading');
+          item.classList.add('is-error');
+          setTimeout(() => item.classList.remove('is-error'), 1500);
+          return;
+        }
+        currentRoom = room;
+        await renderRoom(room);
+        item.classList.remove('is-loading');
+        // Update info strip
+        const label = $('#studio-current-preset');
+        if (label && room.preset_metadata) {
+          label.textContent = room.preset_metadata.display_name || room.name || presetId;
+        }
+        // Mark active example
+        $$('.workshop-example').forEach(e => e.classList.toggle('is-current', e === item));
+      });
+    });
+
+    // Mark default preset as current on first load
+    const defaultItem = document.querySelector(`.workshop-example[data-preset="${DEFAULT_PRESET}"]`);
+    if (defaultItem) defaultItem.classList.add('is-current');
+  }
+
   // ─── Bootstrap ───────────────────────────────────────────────────────
   async function boot() {
     // Tab clicks
@@ -354,7 +483,10 @@
       t.addEventListener('click', () => switchTab(t.dataset.tab));
     });
 
-    // Load default Orchestra preset
+    // Workshop drawer
+    bindWorkshop();
+
+    // Load default preset (blank canvas)
     const room = await loadPreset(DEFAULT_PRESET);
     if (!room) {
       $('#studio-stage').innerHTML = '<div class="studio-empty"><p>Studio could not load. Check console for details.</p></div>';
@@ -373,8 +505,15 @@
       }
     };
 
-    // Expose for debugging
-    window.__studio = { currentRoom, spriteCache, switchTab, loadPreset, renderRoom };
+    // Expose for debugging — getters so the debug surface always reflects
+    // current state rather than the boot-time snapshot.
+    window.__studio = {
+      get currentRoom() { return currentRoom; },
+      get spriteCache() { return spriteCache; },
+      switchTab,
+      loadPreset,
+      renderRoom: (r) => renderRoom(r || currentRoom),
+    };
   }
 
   if (document.readyState === 'loading') {
