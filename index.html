@@ -426,9 +426,8 @@ body.theme-sage {
 .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; }
 .theme-swatch {
   width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
-  border: 2px solid var(--rule); transition: border-color 200ms var(--ease), transform 200ms var(--ease);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: white;
+  border: 2px solid var(--rule);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
   background: linear-gradient(135deg, var(--swatch-a), var(--swatch-b));
 }
 .theme-swatch:hover { transform: scale(1.05); }
