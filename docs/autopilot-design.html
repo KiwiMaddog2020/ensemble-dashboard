@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — Autopilot Design</title>
+<meta name="description" content="Pipeline, lock semantics, Plan→Code→Test→Fix→Wrap." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,319 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">docs/AUTOPILOT_DESIGN.md</p>
+    <article class="doc-content">
+<h1>Autopilot Design — <code>/ensemble:autopilot N</code></h1>
+<blockquote>
+<p><strong>Status:</strong> plan, 2026-04-23.
+<strong>Prereqs:</strong> plugin refactor landed; <code>memory/safety_constraints.md</code> locked; Track F (scheduling primitives) + Track G (mobile dispatch) research.
+<strong>Decisions already locked (from earlier AskUserQuestion):</strong>
+- Mobile-primary via Cloud Routine (zero local permission prompts)
+- Full autonomous Agents execution via scheduled spawn
+- Safety model: local-only work + approval-gated push
+- <code>(Recommended)</code> label standard on every option</p>
+</blockquote>
+<hr />
+<h2>1. Context</h2>
+<p>Kevin wants: &ldquo;routines that I can initiate on the fly with a simple <code>/</code> command in this chat. Perhaps the number denoted after the command determines how long we initiate autopilot mode for across the board, and let the Maestro take over. We need to ensure any permissions needed during the session are presented right away as the user may be afk. I also want to be able to initiate from the phone obviously.&rdquo;</p>
+<p>Goal: a single command (desktop or phone) that triggers an N-minute window during which the Ensemble autonomously progresses work across Agents, with no user interaction required mid-flight, and no safety-relevant actions executed without explicit approval.</p>
+<hr />
+<h2>2. Hard constraints (from architecture)</h2>
+<p>These shape what&rsquo;s achievable.</p>
+<ol>
+<li><strong>Cloud Routines have no local filesystem access.</strong> They can&rsquo;t read <code>state.json</code>, can&rsquo;t touch the autopilot lock, can&rsquo;t spawn local Agent sessions. They can ONLY trigger things that bridge to local (iMessage Channels session, SSH via Tailscale, or a polled trigger file in a sync&rsquo;d location).</li>
+<li><strong>Claude Code sessions require user turns to advance.</strong> A single chat can&rsquo;t autonomously loop without scheduled tasks or the <code>/loop</code> skill. Autopilot must either: (a) run as a scheduled task firing every N minutes, or (b) spawn fresh <code>claude -p</code> sessions that auto-complete.</li>
+<li><strong>The autopilot lock is global per machine.</strong> One Agent holds it at a time. Parallel Agent execution is possible only for coding work that doesn&rsquo;t touch the lock (no VMs, no preview servers, no computer-use).</li>
+<li><strong>Hooks fire even in bypass mode</strong> (Track B). So <code>claude -p --dangerously-skip-permissions</code> sessions still honor the lock hook — safety survives automation.</li>
+<li><strong>Plugin data is per-user, machine-local.</strong> <code>${CLAUDE_PLUGIN_DATA}</code> is the source of truth for state; nothing in the bundle (<code>${CLAUDE_PLUGIN_ROOT}</code>) mutates.</li>
+</ol>
+<hr />
+<h2>3. Mobile-primary flow (the headline use case)</h2>
+<p>You&rsquo;re at work, on your phone. You want to fire a 60-minute autopilot.</p>
+<pre><code>┌──────────────┐    ┌────────────────────┐    ┌──────────────────┐    ┌──────────────────────┐
+│ iOS Shortcut │ →  │ Cloud Routine      │ →  │ iMessage self-   │ →  │ Local Channels       │
+│ (one tap)    │    │ ensemble:autopilot │    │ thread message   │    │ session (tmux)       │
+└──────────────┘    └────────────────────┘    └──────────────────┘    └──────────┬───────────┘
+                                                                                  │
+                                                                                  ▼
+                                                           ┌──────────────────────────────────────┐
+                                                           │ autopilot_orchestrator.sh            │
+                                                           │   loops for N minutes:               │
+                                                           │   - reads state.json                 │
+                                                           │   - picks top Agent rec           │
+                                                           │   - spawns claude -p for that repo   │
+                                                           │   - waits for lock release           │
+                                                           │   - aggregates into review queue     │
+                                                           └──────────────────────────────────────┘
+                                                                                  │
+                                                                                  ▼
+                                                                       iMessage summary back
+                                                                       to you with review queue
+</code></pre>
+<h3>Why this specific bridge</h3>
+<ul>
+<li><strong>iOS Shortcut + Cloud Routine:</strong> stateless, works from anywhere with signal, Anthropic handles auth.</li>
+<li><strong>Why NOT Cloud Routine → local directly:</strong> cloud can&rsquo;t touch local FS. Hard architectural block.</li>
+<li><strong>Channels over SSH:</strong> iMessage Channels plugin is first-party-supported. SSH-via-Tailscale works but is more fragile (needs Mac awake + reachable). Channels session in tmux is more robust.</li>
+<li><strong>Channels session must already be running</strong> on the Mac (tmux + launchd KeepAlive per Track G §5). One-time setup.</li>
+</ul>
+<h3>Prereqs for mobile trigger to work</h3>
+<ul>
+<li>[ ] Mac is awake (lid open or &ldquo;Keep computer awake&rdquo; enabled)</li>
+<li>[ ] Persistent tmux session running the iMessage Channels listener (exact <code>claude</code> invocation TBD per installed plugin&rsquo;s docs — <code>--channels</code> syntax was speculative, verify via <code>/plugin marketplace</code>)</li>
+<li>[ ] launchd KeepAlive plist installed</li>
+<li>[ ] Full Disk Access granted to Terminal/iTerm for iMessage plugin</li>
+<li>[ ] Cloud Routine <code>ensemble:autopilot</code> created at <code>claude.ai/code/routines</code></li>
+<li>[ ] iOS Shortcut configured to POST to the routine&rsquo;s <code>/fire</code> endpoint with <code>{"text": "&lt;duration&gt;"}</code></li>
+<li>[ ] Ensemble plugin installed; orchestrator directory populated</li>
+</ul>
+<p>Docs for each in <code>plugins/ensemble/MOBILE_DISPATCH.md</code> (new file).</p>
+<hr />
+<h2>4. Local flow (<code>/ensemble:autopilot 60</code> in Maestro chat)</h2>
+<p>Same as mobile but the Maestro chat is the trigger:</p>
+<ol>
+<li>User types <code>/ensemble:autopilot 60</code> → skill resolves</li>
+<li>Skill parses duration, validates: <code>mode == "orchestrated"</code>, <code>mode_transitioning == false</code>, lock free, Agents have top_recommendations ready</li>
+<li><strong>Pre-flight permission audit</strong>: lists every command the window will run. If any is not in the settings allow-list, offer batch approval via AskUserQuestion (pre-approve or abort)</li>
+<li><strong>Pre-flight summary</strong>: which Agents will be spawned, what their top rec is, estimated token cost, est. wall-clock duration. AskUserQuestion: Proceed / Cancel / Dry-run</li>
+<li>On Proceed: invoke <code>bin/autopilot_orchestrator.sh &lt;duration&gt;</code></li>
+<li>Orchestrator runs; Maestro narrates each spawn&rsquo;s start + complete in chat</li>
+<li>At window end: Maestro surfaces the review queue and any needs_attention flags</li>
+</ol>
+<hr />
+<h2>5. Orchestrator loop (<code>bin/autopilot_orchestrator.sh</code>)</h2>
+<p>Called with one arg: duration in minutes.</p>
+<pre><code>Phase 0 — Validate environment
+  read state.json; assert mode=orchestrated, mode_transitioning=false
+  compute window_end = now + N minutes
+  acquire a &quot;maestro window lock&quot; at ${CLAUDE_PLUGIN_DATA}/maestro.window.d (separate from Agent autopilot lock)
+  write ${CLAUDE_PLUGIN_DATA}/runs/autopilot-&lt;ts&gt;.md with initial header
+
+Phase 1 — Rank Agents by top rec priority
+  for each ${CLAUDE_PLUGIN_DATA}/chats/*.json:
+    skip if needs_attention or status=blocked
+    skip if top_recommendation.requires_autopilot=false (this window is for autopilot work)
+    score by: charter_alignment (core=3, stretch=2, off=1) + effort (S=3, M=2, L=1)
+  sort descending
+
+Phase 2 — Serial spawn loop
+  while now &lt; window_end and Agent queue non-empty:
+    pick next Agent V
+    write ${CLAUDE_PLUGIN_DATA}/runs/autopilot-&lt;ts&gt;.md: &quot;spawning V:&lt;slug&gt;&quot;
+    spawn: claude -p --dangerously-skip-permissions \
+      --cwd &lt;V.repo_path&gt; \
+      &quot;&lt;spawn prompt for V — see §6&gt;&quot;
+    wait for ***AUTOPILOT COMPLETE*** OR timeout (M_per_spawn ceiling) OR user kill-switch in state.json
+    record outcome (success / timeout / abort) + commit SHA + branch name
+    if outcome=success, mark the top_recommendation as attempted in V.status
+    if outcome=timeout or abort, flag needs_attention=true with reason
+
+Phase 3 — Finalize
+  release maestro.window.d
+  write final summary to autopilot-&lt;ts&gt;.md:
+    - Agents attempted, outcomes, feature branches created
+    - Review queue: exact commands the user runs to inspect/merge each branch
+  if mobile-triggered: send iMessage with summary
+  if local-triggered: return summary to Maestro chat
+</code></pre>
+<hr />
+<h2>6. Agent spawn prompt</h2>
+<p>Each spawned <code>claude -p</code> gets a prompt tailored to that Agent:</p>
+<pre><code>You are &lt;slug&gt;, an Agent in The Ensemble. You are running a BOUNDED AUTOPILOT
+SESSION under the Maestro's orchestration — wall-clock ceiling M_per_spawn
+minutes, token ceiling Tcap.
+
+1. Read ${CLAUDE_PLUGIN_ROOT}/templates/AGENT.md in full.
+2. Read your identity: ${CLAUDE_PLUGIN_DATA}/agents/&lt;slug&gt;.md
+3. Read your charter: &lt;repo&gt;/.claude/PROJECT_CHARTER.md
+4. Read safety constraints: ~/.claude/projects/*/memory/safety_constraints.md
+
+Your task: execute the top_recommendation from your status file
+(${CLAUDE_PLUGIN_DATA}/chats/&lt;slug&gt;.json). Work on a feature branch named
+`autopilot/&lt;YYYYMMDD&gt;-&lt;short-desc&gt;`. Commit with prefix `[autopilot]`.
+
+NON-NEGOTIABLE safety rails:
+- Never `git push`. Never.
+- Never merge to main/master. Never.
+- Never run deploys, releases, or publishes.
+- Never force-push, reset --hard, or delete tracked files.
+- If the task requires any of these, STOP and set needs_attention=true in your
+  status file with attention_reason explaining what was blocked. Then say
+  ***AUTOPILOT COMPLETE*** and exit.
+
+Standard autopilot protocol:
+- Acquire the lock via `mkdir ${CLAUDE_PLUGIN_DATA}/state.lock.d` before any
+  VM/preview/computer-use work.
+- Write holder.json with your slug.
+- Heartbeat to your status file every few minutes.
+- On completion OR error, release the lock and say ***AUTOPILOT COMPLETE***.
+
+Verification:
+- For logic changes: run the project's test suite. On red, debug, re-run.
+  Only commit green diffs.
+- For UI changes: spin the dev server, verify live (if your charter allows
+  VM work in this window), commit.
+- If verification requires capabilities beyond this bounded session, describe
+  in your status file's `current_task` what's needed and stop.
+
+Report in rapid-fire format at the end.
+</code></pre>
+<p>The Agent runs this prompt in a fresh <code>claude -p</code> session in its own repo cwd. Hook enforces lock discipline. Bypass mode allows most tool calls but VM-tools still gated by the hook.</p>
+<hr />
+<h2>7. Safety rails (hard-enforced)</h2>
+<p>Layer 1 — <strong>Pre-flight allow-list audit</strong> (local trigger)
+- Skill scans the spawn prompts for any commands that aren&rsquo;t in <code>permissions.allow[]</code>
+- Presents batch: &ldquo;These N commands will run during the window — approve all?&rdquo; AskUserQuestion
+- Any refused → either add to allow-list for this session or abort</p>
+<p>Layer 2 — <strong>Per-Agent spawn prompt</strong> bakes the &ldquo;no push / no deploy / no destructive&rdquo; rails into the system prompt (see §6)</p>
+<p>Layer 3 — <strong>Hook enforcement</strong> still blocks VM tools when lock held by another or mode=direct</p>
+<p>Layer 4 — <strong>Kill-switch unchanged</strong> — if Kevin types <code>***ORCHESTRATOR OFF***</code> anywhere during the window, the cascade fires, Agent spawns in flight get their locks force-released, orchestrator aborts gracefully</p>
+<p>Layer 5 — <strong>Review queue mandatory</strong> — every autopilot window ends with a branch-review handoff. No autopilot commit ever lands on <code>main</code> automatically.</p>
+<hr />
+<h2>8. Token budget + abort conditions</h2>
+<ul>
+<li>Per-spawn ceiling: <code>M_per_spawn = min(20 min, floor(N / len(agents)))</code> — no single Agent monopolizes the window</li>
+<li>Per-spawn token cap: 250k input / 50k output (Sonnet-class)</li>
+<li>Total window token estimate shown in pre-flight. Exceeds budget-cap memory projection → warn Kevin before Proceed (per <code>budget_cap_projection_only.md</code>)</li>
+<li>Abort conditions (any triggers window-wide stop):</li>
+<li>Any spawn exits with <code>needs_attention=true</code> AND its reason contains &ldquo;safety-rail violation&rdquo; → HARD STOP, surface to user, don&rsquo;t continue queue</li>
+<li>Unexpected error in orchestrator itself (bash non-zero exit) → release locks, write partial summary, exit</li>
+<li>User kill-switch (<code>mode=direct</code> detected mid-window) → cascade honored, queue drained</li>
+</ul>
+<hr />
+<h2>9. Review queue (window output)</h2>
+<p>Written to <code>${CLAUDE_PLUGIN_DATA}/runs/autopilot-&lt;ts&gt;.md</code>:</p>
+<pre><code># Autopilot Run — &lt;ts&gt;, N=&lt;duration&gt;min
+
+## Summary
+  Spawned: 3  ·  Successful: 2  ·  Timed out: 1  ·  Safety-blocked: 0
+
+## Review queue
+
+### boo-website
+  Branch: `autopilot/20260423-fix-bio-scroll`
+  Commit: `[autopilot] Fix bio scroll touch-action on iPad` (abc1234)
+  Charter fit: core
+  Review:
+    cd &lt;your-projects-dir&gt;/&lt;your-project&gt;
+    git diff main..autopilot/20260423-fix-bio-scroll
+    # If good: git checkout main &amp;&amp; git merge --ff-only autopilot/... &amp;&amp; git push
+
+### vera-nota
+  Branch: `autopilot/20260423-yin-verification-doc`
+  ...
+
+### pinball-roguelight
+  Branch: (timed out at 17m — no commits)
+  Reason: Godot export template build exceeded wall-clock cap
+  Follow-up: run manually when time allows
+
+## needs_attention at end of window
+  (none)
+</code></pre>
+<p>Kevin wakes up / comes home → reads this one file → reviews each branch → pushes selectively.</p>
+<hr />
+<h2>10. Files to create</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>plugins/ensemble/skills/autopilot/SKILL.md</code></td>
+<td><code>/ensemble:autopilot N</code> slash command definition. Parses N, runs pre-flight, invokes orchestrator.</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/bin/autopilot_orchestrator.sh</code></td>
+<td>The N-minute loop. Validates env, ranks Agents, spawns serially, writes review queue.</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/bin/autopilot_spawn.sh</code></td>
+<td>Wrapper to spawn one Agent: builds the prompt from template, invokes <code>claude -p</code>, captures outcome.</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/templates/autopilot_agent_prompt.md</code></td>
+<td>The prompt template used per spawn (see §6). Parameterized per Agent.</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/MOBILE_DISPATCH.md</code></td>
+<td>User-facing setup guide: Cloud Routine creation, iOS Shortcut config, Channels tmux/launchd setup.</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/bin/autopilot_preflight.sh</code></td>
+<td>Pre-flight check (command audit, budget projection, dry-run). Callable standalone.</td>
+</tr>
+<tr>
+<td>Update <code>plugins/ensemble/templates/CLAUDE_CODE_SETTINGS.example.json</code></td>
+<td>Add allow-list entries the autopilot needs (<code>Bash(claude -p *)</code>, etc.)</td>
+</tr>
+<tr>
+<td>Update <code>plugins/ensemble/.claude-plugin/plugin.json</code></td>
+<td>Register the <code>autopilot</code> skill</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>11. Execution order</h2>
+<p>~8 commits on a new branch <code>feature/autopilot</code> (or directly on <code>plugin-refactor</code> if still unmerged):</p>
+<ol>
+<li><code>feature/autopilot: scaffold skill + empty scripts</code></li>
+<li><code>feature/autopilot: autopilot_preflight.sh (command audit + budget)</code></li>
+<li><code>feature/autopilot: autopilot_spawn.sh (single-Agent spawn)</code></li>
+<li><code>feature/autopilot: autopilot_orchestrator.sh (N-min loop)</code></li>
+<li><code>feature/autopilot: autopilot skill SKILL.md (/ensemble:autopilot parse + invoke)</code></li>
+<li><code>feature/autopilot: autopilot_agent_prompt.md template</code></li>
+<li><code>feature/autopilot: MOBILE_DISPATCH.md (setup docs)</code></li>
+<li><code>feature/autopilot: update plugin.json + settings allow-list</code></li>
+</ol>
+<p>Testing on <code>plugin-refactor</code>&rsquo;s CI: new job that syntax-checks the autopilot scripts + dry-runs the orchestrator against a temp fixture.</p>
+<p>First-real-run protocol: Kevin runs <code>/ensemble:autopilot 15</code> (short window) with the current 3 Agents, watches the full lifecycle, verifies the review queue. If clean, extend to 60-min.</p>
+<hr />
+<h2>12. Out of scope for v1</h2>
+<ul>
+<li><strong>Parallel Agent spawns.</strong> V1 is serial. Parallel coding work (no lock needed) is a v1.1 optimization once we see real usage patterns.</li>
+<li><strong>Auto-push of autopilot branches to origin.</strong> The point of the safety rails is that Kevin approves every push manually. Don&rsquo;t automate around this.</li>
+<li><strong>Auto-PR creation on GitHub.</strong> Could follow once repo-push is proven safe. For v1, user does <code>git push</code> + <code>gh pr create</code> themselves during review.</li>
+<li><strong>Mobile trigger without Channels session.</strong> Requires the persistent tmux session. SSH-via-Tailscale as a fallback is v1.1.</li>
+<li><strong>Windows / Linux support.</strong> Inherits from plugin v1 — macOS only.</li>
+<li><strong>Cross-project parallelism.</strong> Each Agent works its own repo; no coordination between them in a single window. Could be v2 if we see emergent dependencies.</li>
+</ul>
+<hr />
+<h2>13. Open questions — lock before build</h2>
+<ol>
+<li><strong>Channels session setup responsibility</strong> — plugin provides docs only, user sets up manually? Or does the plugin ship a <code>bin/setup_channels.sh</code> helper that handles tmux + launchd? Decision: ship docs only for v1, helper script in v1.1 if friction is real.</li>
+<li><strong>Review queue delivery</strong> — write to a file only, or also iMessage a summary? Decision: file always, iMessage only if mobile-triggered. Saves complexity.</li>
+<li><strong>Token spend visibility</strong> — track per-session usage during the window, or defer to the next morning-briefing&rsquo;s projection? Decision: defer; don&rsquo;t add token-counting infra in v1.</li>
+<li><strong>What if <code>needs_attention</code> is flagged BEFORE the window starts?</strong> Orchestrator skips those Agents. They need user attention first. Decision: print which ones were skipped and why in the pre-flight summary so Kevin can clear them before running.</li>
+</ol>
+<hr />
+<h2>14. Success criteria for v1</h2>
+<ul>
+<li>[ ] Kevin can run <code>/ensemble:autopilot 60</code> in the Maestro chat → window runs → review queue produced</li>
+<li>[ ] Kevin can trigger from iPhone via iOS Shortcut → Cloud Routine → Channels → local orchestrator → iMessage summary</li>
+<li>[ ] Every autopilot commit is on a feature branch, never pushed, never merged</li>
+<li>[ ] Safety rail violations abort the window AND flag <code>needs_attention</code> with a clear reason</li>
+<li>[ ] Kill-switch during window works (cascade fires, locks released, queue drained)</li>
+<li>[ ] Review queue is readable enough that Kevin can review + merge 3-5 branches in &lt; 10 minutes</li>
+</ul>
+<p>When all six check, v1 autopilot is shipped.</p>
+<hr />
+<h2>15. Estimate</h2>
+<ul>
+<li>Build: ~8-12 focused hours across ~8 commits</li>
+<li>First real run: immediately after build, 15-min window against existing 3 Agents</li>
+<li>Iterate from there based on what breaks</li>
+</ul>
+<p>Moves total completion from ~75% → ~85%. The remaining ~15% is public flip + official directory listing + Anthropic-Verified badge (the latter optional).</p>
+    </article>
   </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
-  }
-}
-</script>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

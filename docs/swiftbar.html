@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — SwiftBar Setup</title>
+<meta name="description" content="Mac menu bar indicator. One-shot installer." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,139 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">plugins/ensemble/integrations/swiftbar/README.md</p>
+    <article class="doc-content">
+<h1>SwiftBar — Ensemble menu bar indicator</h1>
+<p>A 30-line shell script that makes the Mac menu bar show your active autopilot count (☕ N/cap) when the Ensemble is firing, and stays hidden when idle. Click → list of running projects + Stop All button + dashboard link.</p>
+<h2>What it looks like</h2>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Menu bar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ensemble idle</td>
+<td>(hidden / faint dot)</td>
+</tr>
+<tr>
+<td>Orchestrator OFF (direct mode)</td>
+<td>💤</td>
+</tr>
+<tr>
+<td>Mode transition</td>
+<td>⏸</td>
+</tr>
+<tr>
+<td>1 autopilot running</td>
+<td>☕ 1/2</td>
+</tr>
+<tr>
+<td>2 autopilots, cap 2</td>
+<td>☕ 2/2 (orange)</td>
+</tr>
+<tr>
+<td>Queue waiting for slot</td>
+<td>Shows queued projects in dropdown</td>
+</tr>
+</tbody>
+</table>
+<p>Click the icon for:
+- List of active autopilots with start times
+- Queued autopilots (if any)
+- <strong>Stop all</strong> (one-click kill)
+- <strong>Refresh now</strong>
+- Open dashboard
+- Reveal state.json (debug)</p>
+<h2>Install (one-time)</h2>
+<h3>1. Install SwiftBar</h3>
+<pre><code class="language-bash">brew install --cask swiftbar
+</code></pre>
+<p>Open SwiftBar from Applications. On first launch it prompts you to choose a plugins folder. Pick somewhere stable like <code>~/Library/Application Support/SwiftBar/Plugins/</code>.</p>
+<h3>2. Symlink the plugin</h3>
+<pre><code class="language-bash">PLUGINS=~/Library/Application\ Support/SwiftBar/Plugins/
+mkdir -p &quot;$PLUGINS&quot;
+ln -s ~/.claude/orchestrator/plugins/ensemble/integrations/swiftbar/ensemble-autopilot.10s.sh &quot;$PLUGINS/&quot;
+chmod +x ~/.claude/orchestrator/plugins/ensemble/integrations/swiftbar/ensemble-autopilot.10s.sh
+</code></pre>
+<p>(Symlink — keeps the script in version control with the rest of the Ensemble; SwiftBar reads through the link.)</p>
+<h3>3. Reload SwiftBar</h3>
+<p>Click the SwiftBar icon → <strong>Refresh All</strong> (or just wait 10s — the filename <code>.10s.sh</code> tells SwiftBar to refresh every 10 seconds).</p>
+<h3>4. Verify</h3>
+<p>You should see ☕ in your menu bar within 10 seconds if any autopilot is running, or a faint indicator if idle.</p>
+<p>Test:</p>
+<pre><code class="language-bash"># Simulate an active autopilot in state.json (manual edit; revert when done)
+jq '.active_autopilots.&quot;test-slug&quot; = {pid: 99999, started_at: &quot;2026-04-26T00:00:00Z&quot;}' \
+    ~/.claude/orchestrator/state.json &gt; /tmp/s.json &amp;&amp; \
+    mv /tmp/s.json ~/.claude/orchestrator/state.json
+
+# Wait 10s, check menu bar — should show ☕ 1/2
+
+# Revert
+jq '.active_autopilots = {}' ~/.claude/orchestrator/state.json &gt; /tmp/s.json &amp;&amp; \
+    mv /tmp/s.json ~/.claude/orchestrator/state.json
+</code></pre>
+<h2>Customize</h2>
+<h3>Refresh rate</h3>
+<p>Rename the file to change polling frequency:
+- <code>.5s.sh</code> — every 5 seconds (snappier, slightly higher CPU)
+- <code>.10s.sh</code> — every 10 seconds (default)
+- <code>.30s.sh</code> — every 30 seconds (gentler)
+- <code>.1m.sh</code> — every 1 minute (idle-friendly)</p>
+<h3>Dashboard URL</h3>
+<p>Set <code>ENSEMBLE_DASHBOARD_URL</code> in your shell environment to override the default.</p>
+<pre><code class="language-bash">echo 'export ENSEMBLE_DASHBOARD_URL=https://your-dashboard.example.com/' &gt;&gt; ~/.zshrc
+</code></pre>
+<h3>Hide when idle</h3>
+<p>Edit the script&rsquo;s idle-state block (<code>COUNT -eq 0</code> branch) to emit an empty title (<code>echo ""</code>) — SwiftBar hides the icon entirely.</p>
+<h2>Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No icon at all</td>
+<td>Click SwiftBar icon → Refresh All. Check <code>~/Library/Logs/SwiftBar/</code> for errors.</td>
+</tr>
+<tr>
+<td>Icon shows but never updates</td>
+<td>Check the script is executable (<code>chmod +x</code>). Confirm SwiftBar&rsquo;s plugins folder matches your symlink path.</td>
+</tr>
+<tr>
+<td><code>❌ jq missing</code></td>
+<td><code>brew install jq</code></td>
+</tr>
+<tr>
+<td>Menu items missing</td>
+<td>The script&rsquo;s output format depends on jq + state.json structure. Run the script manually: <code>bash ~/.claude/orchestrator/plugins/ensemble/integrations/swiftbar/ensemble-autopilot.10s.sh</code> to see the output.</td>
+</tr>
+<tr>
+<td>State changes but icon stuck</td>
+<td>SwiftBar caches outputs. Click SwiftBar&rsquo;s tray icon → Refresh All to force-update.</td>
+</tr>
+</tbody>
+</table>
+<h2>Why SwiftBar over Hammerspoon or a native Swift app</h2>
+<ul>
+<li><strong>SwiftBar</strong> — 15 min install, lightweight, perfect for this use case</li>
+<li><strong>Hammerspoon</strong> — Lua scripting, more capable but heavier (good for power users)</li>
+<li><strong>Native Swift</strong> — full Apple polish but ~1 day of work to build/sign/distribute</li>
+</ul>
+<p>The script is portable: same code works under <a href="https://xbarapp.com/">xbar</a> (the predecessor) or any other BitBar-compatible host. The <code>&lt;bitbar.*&gt;</code> and <code>&lt;swiftbar.*&gt;</code> headers cover both.</p>
+<h2>Cross-platform note</h2>
+<p>This is macOS-only (depends on Mac menu bar). For Linux: similar plugins exist for <a href="https://github.com/p-e-w/argos">Argos</a> (GNOME) or <a href="https://polybar.github.io/">polybar</a>. For Windows: see WinBar / TrafficMonitor. We don&rsquo;t ship those today; PRs welcome.</p>
+    </article>
   </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
-  }
-}
-</script>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

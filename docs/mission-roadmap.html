@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — Mission Roadmap</title>
+<meta name="description" content="Phase 0 closure ledger. Pitch claims + gap closures." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,246 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">docs/MISSION_ROADMAP.md</p>
+    <article class="doc-content">
+<h1>Mission Roadmap — Closing the Ensemble Pitch Gaps</h1>
+<blockquote>
+<p><strong>Status: Phase 0 mission gaps 1–4 CLOSED. v2.0 contract sweep shipped 2026-04-26 (eight directives + three-layer mutex + Tier 1/2/3 hardening + SwiftBar indicator).</strong> Gap 5 (cross-machine sync) deferred to Phase 2. The pitch is architecturally true rather than aspirational. Phase 0 at ~95%; remaining work is friend hand-off + public-flip (user-action-only).</p>
+<p>Original draft 2026-04-25 after honest gap audit. The Ensemble&rsquo;s primitives (lock, kill-switch, autopilot pipeline) were real and stable; the orchestration layer that the business pitch promises (rotation, code-vs-test semantics, plan→code→test→fix loops) was largely aspirational. This doc enumerates what was needed to make the pitch true, sequenced by dependency, with shipping evidence per gap.</p>
+</blockquote>
+<h2>Pitch claim recap (from <code>public/index.html</code>)</h2>
+<blockquote>
+<p><em>&ldquo;Many Claude Code chats coding in parallel, one chat at a time on the test bench. Ensemble enforces it at the filesystem so test runs never collide — and your projects rotate through scheduled Plan → Code → Test loops while you sleep, eat, or work elsewhere.&rdquo;</em></p>
+</blockquote>
+<p>The pitch makes three falsifiable claims:</p>
+<ol>
+<li><strong>Code in parallel, test in single file</strong> — many chats work simultaneously; only one tests at a time</li>
+<li><strong>Scheduled rotation</strong> — projects take turns through the loop on a schedule</li>
+<li><strong>Plan → Code → Test loops</strong> — Claude runs the full loop, including failure recovery</li>
+</ol>
+<p>Today&rsquo;s reality:</p>
+<ol>
+<li><strong>Lock contention applies to ALL autopilot sessions</strong>, not just tests. There&rsquo;s no <code>intent</code> distinction, so coding and testing share the same lock semantics.</li>
+<li><strong>No rotation scheduler exists.</strong> We have 4 fixed-time daily routines (morning-briefing, evening-planning, overnight-heavy, workday-pulse) that fire against the top_rec project — never multiple, never round-robin.</li>
+<li><strong>No loop template.</strong> Autopilot fires a single bounded session; the chat decides what to do within it. There&rsquo;s no canonical prompt that orchestrates plan→code→test→fix→retest.</li>
+</ol>
+<h2>The 5 mission-critical gaps</h2>
+<h3>Gap 1 — Lock-type semantics ✅ SHIPPED <code>17b6655</code> · 2026-04-25</h3>
+<p><strong>Claim:</strong> &ldquo;Code in parallel. Test in single file.&rdquo;</p>
+<p><strong>Reality:</strong> Lock is acquired for all autopilot sessions regardless of what they do.</p>
+<p><strong>Proposed design:</strong>
+- Extend <code>state.lock.d/holder.json</code> schema:
+  <code>json
+  {
+    "chat": "boo-website",
+    "intent": "test",
+    "intent_reason": "running xcodebuild test on simulator",
+    "pid": 12345,
+    "acquired_at": "2026-04-25T08:00:00Z"
+  }</code>
+- <code>intent</code> enum: <code>"test"</code> | <code>"code"</code> | <code>"any"</code> (default <code>"any"</code> for back-compat)
+- <code>orchestrator_lock.sh</code> (PreToolUse hook) gates only when:
+  - holder.intent == &ldquo;test&rdquo; AND incoming tool is test-related (xcrun, xcodebuild, simulator, port-binding, etc.)
+  - OR holder.intent == &ldquo;any&rdquo; (legacy)
+- <code>code</code> intent locks DO NOT block other <code>code</code> intent sessions — they coexist. Only <code>test</code> intent locks contend with each other.
+- Autopilot session prompts declare intent at acquisition time.</p>
+<p><strong>Files affected:</strong>
+- <code>plugins/ensemble/bin/orchestrator_lock.sh</code> — read holder.intent, branch logic
+- <code>plugins/ensemble/bin/orchestrator_lock_healthcheck.sh</code> — surface intent in banner
+- <code>bin/autopilot_session.sh</code> — declare <code>intent</code> when acquiring lock
+- <code>plugins/ensemble/templates/AGENT.md</code> §5 (Autopilot lock) — document new semantics
+- <code>plugins/ensemble/templates/MAESTRO.md</code> Directive 1 — document new semantics
+- <code>bin/maestro-context.sh</code> — show holder.intent in lock-held line
+- <code>bin/morning-digest.sh</code> — same</p>
+<p><strong>Success criteria:</strong>
+- Two chats running <code>intent: code</code> autopilot sessions simultaneously: both proceed, no contention.
+- Two chats both attempting <code>intent: test</code>: second waits or aborts cleanly.
+- Existing autopilot calls (no intent specified) default to <code>"any"</code> — no breaking change.
+- Lock holder JSON validates against expanded schema.</p>
+<p><strong>Effort:</strong> M (~1 hour). Touches the safety-critical lock; needs careful smoke-testing.</p>
+<hr />
+<h3>Gap 2 — Rotation scheduler ✅ SHIPPED <code>13bd4ac</code> · 2026-04-25</h3>
+<p><strong>Claim:</strong> &ldquo;Your projects rotate through scheduled Plan → Code → Test loops.&rdquo;</p>
+<p><strong>Reality:</strong> No rotation logic. Routines fire at fixed times against whichever Agent has the highest top_rec.</p>
+<p><strong>Proposed design:</strong>
+- New scheduled task: <code>orchestrator-rotation</code> firing every 90–120 min during overnight (e.g. 23:00 / 00:30 / 02:00 / 03:30 / 05:00 — 5 fires).
+- Each fire:
+  1. Run prelude. If skip → exit.
+  2. Read all <code>chats/*.json</code> where <code>active: true AND autopilot_eligible: true</code>.
+  3. Sort by <code>last_autopilot_fire_at</code> ascending (least-recently-fired first).
+  4. Pick the first project that doesn&rsquo;t currently hold the lock.
+  5. Fire a bounded autopilot session at that project (intent: test, budget 30–45 min).
+  6. Update <code>last_autopilot_fire_at</code> in the chat&rsquo;s status file on completion.
+- Round-robin emerges naturally from &ldquo;least-recently-fired wins&rdquo; tiebreak.
+- Skips inactive projects, Virtuosos (no repo), and the project currently holding the lock.</p>
+<p><strong>Files affected:</strong>
+- New: <code>plugins/ensemble/bin/rotation_pick.sh</code> — outputs the next slug to fire
+- New: <code>~/.claude/scheduled-tasks/orchestrator-rotation/SKILL.md</code> — the routine
+- <code>chats/*.json</code> — add <code>last_autopilot_fire_at</code> field (or compute from runs/)
+- <code>bin/autopilot_session.sh</code> — write <code>last_autopilot_fire_at</code> on completion
+- <code>docs/AUTOPILOT_DESIGN.md</code> — document rotation semantics</p>
+<p><strong>Success criteria:</strong>
+- Over a 5-fire overnight window, 4 of 5 active autopilot-eligible projects each get exactly one autopilot session (round-robin).
+- If only 2 projects are eligible, they alternate.
+- A project currently holding the lock is skipped without error; rotation moves to the next candidate.</p>
+<p><strong>Effort:</strong> M (~90 min). Pure scheduling logic + state tracking.</p>
+<p><strong>Depends on:</strong> Gap 1 (lock-type semantics) — without that, rotation can&rsquo;t safely fire test sessions back-to-back.</p>
+<hr />
+<h3>Gap 3 — Plan → Code → Test → Fix loop template ✅ SHIPPED <code>ab39236</code> · 2026-04-25</h3>
+<p><strong>Claim:</strong> &ldquo;Claude takes over automation controls and testing himself, then goes in to fix.&rdquo;</p>
+<p><strong>Reality:</strong> Each autopilot session is bounded, but its prompt just says &ldquo;do the top_rec.&rdquo; No structured loop.</p>
+<p><strong>Proposed design:</strong>
+- New autopilot prompt template at <code>plugins/ensemble/templates/autopilot_loop.txt</code>:
+  <code>Acquire test-intent lock. You have N minutes.
+  Phase 1 (Plan, ~5 min): Read state files, charter, top_rec. Write a precise unit-of-work plan.
+  Phase 2 (Code, ~N/3 min): Implement. Commit at logical checkpoints.
+  Phase 3 (Test, ~N/3 min): Run the test suite or smoke test. Capture results.
+  Phase 4 (Fix loop, remaining time): If tests fail, diagnose + fix + re-test. Maximum 3 attempts within budget.
+  Phase 5 (Wrap, last 2 min): Commit final state. Update SESSION_LOG. Release lock.</code>
+- <code>bin/autopilot_session.sh</code> reads this template and embeds it in the claude-p prompt for <code>intent: test</code> sessions.
+- Per-project overrides allowed via <code>chats/&lt;slug&gt;.json::autopilot_loop_override</code> (optional).</p>
+<p><strong>Files affected:</strong>
+- New: <code>plugins/ensemble/templates/autopilot_loop.txt</code>
+- <code>bin/autopilot_session.sh</code> — load + interpolate template
+- <code>chats/&lt;slug&gt;.json</code> — optional <code>autopilot_loop_override</code> field</p>
+<p><strong>Success criteria:</strong>
+- An autopilot session run against a project with failing tests visibly cycles through plan → code → test → fix → re-test in its run log.
+- Session respects budget; doesn&rsquo;t enter infinite loops.
+- If tests pass on first try, phases 4 is skipped; remaining time goes to either next-unit-of-work or graceful wrap.</p>
+<p><strong>Effort:</strong> S (~30 min). Prompt + small wrapper change.</p>
+<p><strong>Depends on:</strong> Gap 1 (intent-aware lock) so the test phase actually contends correctly.</p>
+<hr />
+<h3>Gap 4 — Per-project time-window prefs ✅ SHIPPED <code>b773b26</code> · 2026-04-25</h3>
+<p><strong>Claim:</strong> Implicit — projects have natural cadences (you wouldn&rsquo;t fire iOS tests during work hours, but doc work overnight is fine).</p>
+<p><strong>Reality:</strong> Routines fire blindly across all eligible projects.</p>
+<p><strong>Proposed design:</strong>
+- <code>chats/&lt;slug&gt;.json</code> carries:
+  <code>json
+  "preferred_windows": ["overnight", "evening"],
+  "blocked_windows": ["work-hours"]</code>
+- Window definitions in <code>~/.claude/orchestrator/work_hours.json</code> (already exists for work-hours; extend for &ldquo;overnight&rdquo;, &ldquo;evening&rdquo;, etc.).
+- Rotation scheduler honors prefs: skips projects whose preferred windows don&rsquo;t include &ldquo;now.&rdquo;</p>
+<p><strong>Files affected:</strong>
+- <code>chats/*.json</code> — new fields
+- <code>work_hours.json</code> — define window labels
+- <code>bin/rotation_pick.sh</code> — filter by current window
+- AGENT.md §16 / MAESTRO.md Directive 14 — document prefs</p>
+<p><strong>Success criteria:</strong>
+- A project with <code>preferred_windows: ["overnight"]</code> is never fired during work-hours rotation.
+- A project with <code>blocked_windows: ["work-hours"]</code> is skipped at 14:00 even if it&rsquo;s &ldquo;next&rdquo; in round-robin.</p>
+<p><strong>Effort:</strong> S (~30 min).</p>
+<p><strong>Depends on:</strong> Gap 2 (rotation scheduler).</p>
+<hr />
+<h3>Gap 5 — Cross-machine lock awareness 🌐 DEFERRED TO PHASE 2</h3>
+<p><strong>Claim:</strong> Implicit — Spectra Nova lives on Windows; Mac runs Boo, Pinball, Vera Nota. Two machines could collide if both have an Ensemble installation and both want to test.</p>
+<p><strong>Reality:</strong> Lock state is per-machine. No cloud-sync.</p>
+<p><strong>Proposed design (future):</strong>
+- Cloud-synced lock state via private gist or S3.
+- Each machine writes its <code>state.json.lock_acquired_at</code> + holder info to the shared store.
+- Acquiring locally also writes to cloud; releasing clears.
+- Cross-machine conflicts surface in maestro-context briefings.</p>
+<p><strong>Files affected (when shipped):</strong>
+- New: <code>bin/lock_sync.sh</code> — push/pull lock state
+- <code>orchestrator_lock.sh</code> — call sync after acquire/release
+- <code>state.json</code> — add <code>cloud_sync_enabled</code> flag</p>
+<p><strong>Effort:</strong> L (~3-4 hours).</p>
+<p><strong>Depends on:</strong> Stable single-machine implementation of Gaps 1–3 first. Not in this immediate roadmap.</p>
+<hr />
+<h2>Sequencing — recommended order</h2>
+<pre><code>Gap 1 (lock-type semantics)      ─┬─→  Gap 2 (rotation scheduler)  ─→  Gap 4 (window prefs)
+                                  └─→  Gap 3 (loop template)
+                                                                       ↓
+                                                                  Gap 5 (cross-machine, future)
+</code></pre>
+<p><strong>Session 1 (next):</strong> Gap 1 alone. Foundational + safety-critical; needs careful testing. Ship + smoke-test.</p>
+<p><strong>Session 2:</strong> Gap 2 + Gap 3 in parallel (rotation needs intent-aware lock; loop template uses intent declaration). Both depend on Gap 1.</p>
+<p><strong>Session 3:</strong> Gap 4 (window prefs) layered onto rotation.</p>
+<p><strong>Phase 2:</strong> Gap 5 (cross-machine).</p>
+<h2>Effort summary</h2>
+<table>
+<thead>
+<tr>
+<th>Gap</th>
+<th>Effort</th>
+<th>Risk</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Lock-type semantics</td>
+<td>M (~1 hr)</td>
+<td>Medium (safety-critical)</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>2. Rotation scheduler</td>
+<td>M (~90 min)</td>
+<td>Low</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>3. Loop template</td>
+<td>S (~30 min)</td>
+<td>Low</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>4. Window prefs</td>
+<td>S (~30 min)</td>
+<td>Low</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>5. Cross-machine sync</td>
+<td>L (~3-4 hr)</td>
+<td>Medium (network deps)</td>
+<td>P2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total Session 1 work:</strong> ~1 hour (Gap 1)
+<strong>Total to land Session 1 + 2 + 3:</strong> ~3 hours across 2-3 sessions
+<strong>Phase 2 (Gap 5):</strong> later</p>
+<h2>Out of scope for this roadmap</h2>
+<ul>
+<li>Auto-onboarding (one-line install) — separate UX work, not mission-critical</li>
+<li>Pushover signup walkthrough — Kevin&rsquo;s config</li>
+<li>v1.0.0 release notes — already tagged; notes are nice-to-have</li>
+<li>Menu bar app — P0-A from UX_STREAMLINING.md, deferred Swift session</li>
+<li>Dashboard auto-update wiring — small, separate, can ship anytime</li>
+<li>Public-flip + Claude skill marketplace publication — gated; tied to readiness</li>
+<li>Per-project milestones graduating from hard-code → status field — polish</li>
+</ul>
+<h2>Risk register</h2>
+<ul>
+<li><strong>Lock-type semantics breaking existing autopilot calls</strong> — mitigated by <code>"any"</code> default for back-compat. Smoke-test all 4 currently-eligible projects (ensemble, boo-website, pinball-roguelight, vera-nota) before shipping.</li>
+<li><strong>Rotation firing during user activity</strong> — mitigated by mode gate (already implemented) + work-hours prelude (already implemented).</li>
+<li><strong>Loop template inducing infinite retry</strong> — bounded by the Phase 4 max-3-attempts cap + the existing gtimeout wrapper.</li>
+<li><strong>CI billing wall blocking commits</strong> — Kevin&rsquo;s action; not blocking development since auto-trigger is disabled.</li>
+</ul>
+<h2>Acceptance — when is the pitch true?</h2>
+<p>After Sessions 1–3 land:</p>
+<ul>
+<li>[ ] Lock holder JSON includes <code>intent</code> field</li>
+<li>[ ] Two chats with <code>intent: code</code> run simultaneously without contention (verified)</li>
+<li>[ ] Two chats with <code>intent: test</code> contend correctly (one waits) (verified)</li>
+<li>[ ] <code>orchestrator-rotation</code> scheduled task fires every ~90 min overnight</li>
+<li>[ ] Rotation distributes fires across ≥3 active projects in a single overnight window</li>
+<li>[ ] Autopilot session prompts use the <code>autopilot_loop.txt</code> template by default</li>
+<li>[ ] A test-failure scenario shows visible plan→code→test→fix→re-test cycling in run logs</li>
+<li>[ ] Per-project <code>preferred_windows</code> honored by rotation</li>
+<li>[ ] <code>public/index.html</code> pitch claims align with shipped behavior — no asterisks, no &ldquo;aspirational&rdquo;</li>
+</ul>
+<p>When all 8 boxes are checked, the pitch is true. Until then, the pitch overpromises.</p>
+<hr />
+<p><em>Maintained as a living document. Update sequencing if priorities shift.</em></p>
+    </article>
   </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
-  }
-}
-</script>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

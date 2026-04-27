@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — Install Guide</title>
+<meta name="description" content="Marketplace + manual install paths. macOS / Linux / Windows." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,202 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
-  </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">docs/INSTALL.md</p>
+    <article class="doc-content">
+<h1>Installing the Ensemble</h1>
+<p>Two install paths: <strong>marketplace</strong> (target — when claude-ensemble flips public + lands on the Claude Code skill marketplace) and <strong>manual</strong> (current path while the repo is private).</p>
+<hr />
+<h2>Marketplace install (future, post-public-flip)</h2>
+<pre><code>/plugin marketplace add KiwiMaddog2020/claude-ensemble
+/plugin install ensemble@claude-ensemble
+/exit
+</code></pre>
+<p>Open a fresh chat. You&rsquo;ll see <code>[ORCHESTRATOR] hard-enforcement active</code> at the top. Then:</p>
+<pre><code>/ensemble:maestro          # in any chat → becomes your Maestro
+/ensemble:agent-onboard    # in a project repo → becomes that project's Agent
+</code></pre>
+<p>That&rsquo;s it. The plugin self-installs hooks, skills, and the marketplace registers the slash commands.</p>
+<hr />
+<h2>Manual install (current path)</h2>
+<p>The repo is private during pre-public-flip. To install today:</p>
+<h3>1. Clone the orchestrator</h3>
+<pre><code class="language-bash">mkdir -p ~/.claude
+git clone git@github.com:KiwiMaddog2020/claude-ensemble.git ~/.claude/orchestrator
+cd ~/.claude/orchestrator
+</code></pre>
+<h3>2. Pre-flight check</h3>
+<p><strong>macOS / Linux:</strong></p>
+<pre><code class="language-bash">bash plugins/ensemble/bin/preflight.sh
+</code></pre>
+<p><strong>Windows (Git Bash):</strong></p>
+<pre><code class="language-bash">bash plugins/ensemble/bin/preflight.sh
+</code></pre>
+<p><strong>Windows (PowerShell):</strong></p>
+<pre><code class="language-powershell">.\plugins\ensemble\bin\preflight.ps1
+</code></pre>
+<p>This verifies: <code>git</code>, <code>gh</code> (optional), <code>python3</code>, <code>jq</code> (optional), <code>claude</code> CLI. Fixes any blockers before continuing.</p>
+<h3>3. Configure the Claude Code hook</h3>
+<p>Open <code>~/.claude/settings.json</code> (create if missing) and add:</p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;PreToolUse&quot;: [
+      {
+        &quot;matcher&quot;: &quot;mcp__(computer-use|Claude_Preview|Claude_in_Chrome)__.*&quot;,
+        &quot;command&quot;: &quot;/Users/&lt;you&gt;/.claude/orchestrator/plugins/ensemble/bin/orchestrator_lock.sh&quot;,
+        &quot;timeout&quot;: 10
+      }
+    ],
+    &quot;SessionStart&quot;: [
+      {
+        &quot;matcher&quot;: &quot;startup|resume|clear&quot;,
+        &quot;command&quot;: &quot;/Users/&lt;you&gt;/.claude/orchestrator/plugins/ensemble/bin/orchestrator_lock_healthcheck.sh&quot;
+      }
+    ]
   }
 }
-</script>
+</code></pre>
+<p>(Windows uses <code>${USERPROFILE}\.claude\orchestrator\plugins\ensemble\bin\orchestrator_lock.ps1</code> instead.)</p>
+<h3>4. Seed <code>state.json</code></h3>
+<pre><code class="language-bash">cat &gt; ~/.claude/orchestrator/state.json &lt;&lt;'EOF'
+{
+  &quot;schema_version&quot;: 1,
+  &quot;mode&quot;: &quot;orchestrated&quot;,
+  &quot;mode_transitioning&quot;: false,
+  &quot;active_autopilot_chat&quot;: null,
+  &quot;active_vm&quot;: null,
+  &quot;lock_acquired_at&quot;: null,
+  &quot;lock_intent&quot;: null,
+  &quot;cascade&quot;: null
+}
+EOF
+</code></pre>
+<h3>5. Verify with self-test</h3>
+<p><strong>macOS / Linux:</strong></p>
+<pre><code class="language-bash">bash plugins/ensemble/bin/test_lock_race.sh   # expect 10/10 rounds passed
+bash plugins/ensemble/bin/self_test.sh        # all green
+</code></pre>
+<p><strong>Windows:</strong></p>
+<pre><code class="language-powershell">.\plugins\ensemble\bin\test_lock_race.ps1     # expect 10/10 rounds passed
+.\plugins\ensemble\bin\self_test.ps1          # all green
+</code></pre>
+<h3>6. Become the Maestro</h3>
+<p>Open a fresh Claude Code chat. Paste the contents of <code>plugins/ensemble/bootstraps/maestro.txt</code> as your first message. The chat self-onboards as your Maestro.</p>
+<h3>7. Onboard your first project as an Agent</h3>
+<p>In a different project&rsquo;s repo:</p>
+<pre><code class="language-bash">cd ~/Projects/my-project
+claude
+</code></pre>
+<p>In the chat, paste the contents of <code>plugins/ensemble/templates/onboarding_prompt.md</code>. The chat walks through repo discovery → interview → charter → status file → identity → reports back to the Maestro.</p>
+<h3>8. Optional — wire mobile dispatch</h3>
+<p>If you want phone-triggered autopilot via Tailscale + Termius, run:</p>
+<p><strong>macOS:</strong></p>
+<pre><code class="language-bash">bash bin/setup-mobile-dispatch.sh
+</code></pre>
+<p>This installs Tailscale (if not present), generates an SSH key, configures the launchd trigger consumer, and prints the snippets to paste into Termius.</p>
+<p><strong>Windows:</strong> see <code>docs/MOBILE_DISPATCH.md</code> for the manual steps (no setup wizard yet — coming in a future release).</p>
+<h3>9. Optional — install the dashboard</h3>
+<pre><code class="language-bash">bash plugins/ensemble/bin/setup-dashboard.sh
+</code></pre>
+<p>Idempotently creates your <code>&lt;your-username&gt;/ensemble-dashboard</code> GitHub repo (public; for marketplace listing), enables Pages, wires the Dashboard Update routine, and prints your dashboard URL. After this, your project state is glanceable at <code>https://&lt;you&gt;.github.io/ensemble-dashboard/</code>.</p>
+<p>For interactive control (toggle flags, fire autopilot, embedded chat), start the local server:</p>
+<pre><code class="language-bash"># macOS / Linux:
+bash bin/control-panel-server.sh &amp;
+
+# Or via launchd (auto-restart, runs across reboots):
+launchctl bootstrap gui/$UID launchd/com.kevin.ensemble.control-panel.plist
+</code></pre>
+<p>The dashboard auto-detects the local server and shows interactive buttons when you visit it on the same machine or via Tailscale.</p>
+<hr />
+<h2>Companion repos (synced from canonical)</h2>
+<table>
+<thead>
+<tr>
+<th>Repo</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>KiwiMaddog2020/claude-ensemble</code></strong> (this)</td>
+<td>Source of truth. Plugin contents.</td>
+</tr>
+<tr>
+<td><strong><code>KiwiMaddog2020/ensemble-config</code></strong></td>
+<td>Cross-machine sync layer (<code>bin-mac/</code> ↔ <code>bin-win/</code> parity, shared docs/templates/memory).</td>
+</tr>
+<tr>
+<td><strong><code>KiwiMaddog2020/ensemble-dashboard</code></strong></td>
+<td>Public dashboard (auto-generated 3× daily).</td>
+</tr>
+<tr>
+<td><strong><code>KiwiMaddog2020/website-agent-starter</code></strong></td>
+<td>Friend-shareable bootstrap for the website-agent.</td>
+</tr>
+</tbody>
+</table>
+<p>If you&rsquo;re contributing, install all four; the sync expectations are documented in <a href="./contributing.html"><code>CONTRIBUTING.md</code></a>.</p>
+<hr />
+<h2>Uninstall</h2>
+<pre><code class="language-bash"># Remove hooks from ~/.claude/settings.json
+# Remove launchd plist (if installed)
+launchctl bootout gui/$UID/com.kevin.ensemble.control-panel 2&gt;/dev/null
+launchctl bootout gui/$UID/com.kevin.ensemble.autopilot-trigger 2&gt;/dev/null
+launchctl bootout gui/$UID/com.kevin.orchestrator.stale-lock-sweeper 2&gt;/dev/null
+
+# Remove the orchestrator dir
+rm -rf ~/.claude/orchestrator
+</code></pre>
+<p>Uninstall is intentionally simple — no system-level state lives outside <code>~/.claude/orchestrator</code> and a few launchd plists.</p>
+<hr />
+<h2>Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[ORCHESTRATOR] hard-enforcement hook MISSING</code></td>
+<td>hook not in <code>~/.claude/settings.json</code></td>
+<td>re-add (step 3)</td>
+</tr>
+<tr>
+<td><code>[ORCHESTRATOR] hard-enforcement hook INSTALLED but not registered</code></td>
+<td>path in settings.json doesn&rsquo;t match where the script lives</td>
+<td>fix the path</td>
+</tr>
+<tr>
+<td>Autopilot session hangs at &ldquo;## Session&rdquo; with no output</td>
+<td>claude CLI version mismatch with <code>--add-dir</code> variadic parsing</td>
+<td>upgrade claude CLI to ≥ 2.1.120; the <code>--</code> separator is now in place</td>
+</tr>
+<tr>
+<td>Lock held forever after a crashed session</td>
+<td>stale lock</td>
+<td>run <code>bash bin/mobile_dispatch.sh kill</code> (or <code>.\bin-win\stale_lock_sweeper.ps1</code>)</td>
+</tr>
+<tr>
+<td>All scheduled tasks fail to run</td>
+<td><code>state.json</code> missing</td>
+<td>re-seed (step 4)</td>
+</tr>
+<tr>
+<td>Dashboard regen fails with <code>chats/ does not exist</code></td>
+<td>first install — no Agents onboarded yet</td>
+<td>onboard at least one Agent (step 7)</td>
+</tr>
+</tbody>
+</table>
+<p>For everything else: paste the exact error to your Maestro chat. The Ensemble&rsquo;s troubleshooting cookbook lives in <a href="./troubleshooting.html"><code>docs/TROUBLESHOOTING.md</code></a> (when added).</p>
+    </article>
+  </div>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

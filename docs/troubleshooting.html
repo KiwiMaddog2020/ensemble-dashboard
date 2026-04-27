@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — Troubleshooting</title>
+<meta name="description" content="23 failure modes with diagnostics + recovery." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,350 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">plugins/ensemble/TROUBLESHOOTING.md</p>
+    <article class="doc-content">
+<h1>TROUBLESHOOTING — The Ensemble</h1>
+<p>Fifteen sections, ordered by how often you&rsquo;re likely to hit each. Every section follows the same shape: <strong>Symptom → Diagnostic → Recovery</strong>. If a recovery step involves a command, it&rsquo;s a play-button you can click.</p>
+<hr />
+<h2>1. <code>git clone</code> fails during install with auth error</h2>
+<p><strong>Symptom:</strong> installer step 3 halts with <code>remote: Repository not found</code> or <code>Authentication failed for 'https://github.com/...'</code>.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">gh auth status
+gh repo view KiwiMaddog2020/claude-ensemble
+</code></pre>
+<p><strong>Recovery:</strong>
+- Not logged in → <code>gh auth login</code> and pick HTTPS / GitHub.com / paste token or browser.
+- Logged in as the wrong account → <code>gh auth logout</code> then <code>gh auth login</code> again.
+- Repo is private and you&rsquo;re not a collaborator → ping the user for an invite before re-running the installer.</p>
+<hr />
+<h2>2. Tools blocked with <code>ORCHESTRATION LOCK:</code> message</h2>
+<p><strong>Symptom:</strong> MCP VM tool calls (computer-use, Claude_Preview, Claude_in_Chrome) fail with <code>ORCHESTRATION LOCK: mode=direct</code> or <code>ORCHESTRATION LOCK: autopilot held by '&lt;slug&gt;'</code>.</p>
+<p><strong>This is correct behavior.</strong> The hook is doing its job.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">jq '.mode, .mode_transitioning, .active_autopilot_chat' ${CLAUDE_PLUGIN_DATA}/state.json
+</code></pre>
+<p><strong>Recovery:</strong>
+- <code>mode=direct</code> → say <code>***ORCHESTRATOR ON***</code> verbatim in a chat to flip back to <code>orchestrated</code>.
+- <code>mode_transitioning=true</code> → shutdown cascade in progress; wait 30 s then re-check. If stuck, see §10.
+- <code>active_autopilot_chat != null and != you</code> → another Agent holds the lock. Wait for <code>***AUTOPILOT COMPLETE***</code> or read the holder&rsquo;s status file to see what they&rsquo;re doing.
+- Lock held by you but shouldn&rsquo;t be → crash recovery. Force-release (see §4).</p>
+<hr />
+<h2>3. <code>[ORCHESTRATOR] ... MISSING</code> at SessionStart</h2>
+<p><strong>Symptom:</strong> new chat&rsquo;s context shows <code>[ORCHESTRATOR] hard-enforcement hook MISSING at ${CLAUDE_PLUGIN_ROOT}/bin/orchestrator_lock.sh</code> or <code>... INSTALLED but not registered in ...</code>.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">ls -la ${CLAUDE_PLUGIN_ROOT}/bin/orchestrator_lock.sh
+jq '.hooks.PreToolUse' ~/.claude/settings.json
+</code></pre>
+<p><strong>Recovery:</strong>
+- Script missing → re-run the installer or <code>git pull</code> in <code>${CLAUDE_PLUGIN_ROOT}</code> and <code>chmod +x bin/*.sh</code>.
+- Script present, not in settings → copy <code>templates/CLAUDE_CODE_SETTINGS.example.json</code> contents into <code>~/.claude/settings.json</code>, merging any existing hooks you want to keep.
+- Script present, registered, but healthcheck still says MISSING → bug. Paste the healthcheck output into this chat for diagnosis.</p>
+<hr />
+<h2>4. Autopilot lock stuck</h2>
+<p><strong>Symptom:</strong> <code>jq '.active_autopilot_chat' ${CLAUDE_PLUGIN_DATA}/state.json</code> shows a slug, but the chat that held it is closed or unresponsive for &gt; 45 min.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">cat ${CLAUDE_PLUGIN_DATA}/state.lock.d/holder.json 2&gt;/dev/null
+stat -f '%Sm' ${CLAUDE_PLUGIN_DATA}/state.lock.d 2&gt;/dev/null
+</code></pre>
+<p><strong>Recovery:</strong>
+- Wait 15 min → the <code>stale_lock_sweeper.sh</code> cron (if loaded via launchd) auto-releases locks older than 45 min. Tail <code>/tmp/orchestrator-sweeper.out</code> to watch.
+- Force-release immediately:</p>
+<pre><code class="language-bash">rm -rf ${CLAUDE_PLUGIN_DATA}/state.lock.d &amp;&amp; jq '.active_autopilot_chat=null | .active_vm=null | .lock_acquired_at=null' ${CLAUDE_PLUGIN_DATA}/state.json &gt; /tmp/s.json &amp;&amp; mv /tmp/s.json ${CLAUDE_PLUGIN_DATA}/state.json &amp;&amp; echo &quot;lock force-released&quot;
+</code></pre>
+<ul>
+<li>Log the manual release so the audit trail is complete:</li>
+</ul>
+<pre><code class="language-bash">echo &quot;$(date -u +%FT%TZ) MANUAL_STEAL by kevin — stuck chat recovery&quot; &gt;&gt; ${CLAUDE_PLUGIN_DATA}/lock_steals.log
+</code></pre>
+<hr />
+<h2>5. <code>settings.json</code> merge conflict during install</h2>
+<p><strong>Symptom:</strong> installer step 5 halts with &ldquo;existing PreToolUse matcher conflicts with ours&rdquo; or <code>jq</code> parse error.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">jq '.hooks.PreToolUse[].matcher' ~/.claude/settings.json
+</code></pre>
+<p><strong>Recovery:</strong>
+- Existing identical matcher → your previous hook is already there. Safe to skip step 5.
+- Existing different command on the same matcher → rename ours to use a unique matcher, or merge the two commands into a single shell script. Ping me with the diff and I&rsquo;ll propose a merge.
+- Invalid JSON → back up + start fresh:</p>
+<pre><code class="language-bash">mv ~/.claude/settings.json ~/.claude/settings.json.broken-$(date +%s) &amp;&amp; cp ${CLAUDE_PLUGIN_ROOT}/templates/CLAUDE_CODE_SETTINGS.example.json ~/.claude/settings.json
+</code></pre>
+<hr />
+<h2>6. Scheduled routine didn&rsquo;t fire overnight</h2>
+<p><strong>Symptom:</strong> expected briefing at <code>${CLAUDE_PLUGIN_DATA}/briefings/YYYY-MM-DD.md</code> but file doesn&rsquo;t exist.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash"># Did the Mac sleep past the fire time?
+pmset -g log | grep -i &quot;wake\|sleep&quot; | tail -20
+# Is the Desktop app running?
+pgrep -f &quot;Claude.app&quot; &gt; /dev/null &amp;&amp; echo &quot;app running&quot; || echo &quot;app NOT running&quot;
+# What's scheduled?
+ls -la ~/.claude/scheduled-tasks/
+</code></pre>
+<p><strong>Recovery:</strong>
+- Mac was asleep → Desktop scheduled tasks only fire when the Mac is awake + the app is running. Enable &ldquo;Keep computer awake&rdquo; in Desktop app settings, and don&rsquo;t close the lid overnight.
+- App wasn&rsquo;t running → open Claude Desktop and the 7-day catch-up may trigger one replay. Otherwise the fire is lost; wait for tomorrow.
+- Mode was <code>direct</code> at the scheduled time → routine no-oped silently by design. Flip mode back with <code>***ORCHESTRATOR ON***</code>.</p>
+<hr />
+<h2>7. <code>state.json</code> is corrupt or missing</h2>
+<p><strong>Symptom:</strong> <code>jq . ${CLAUDE_PLUGIN_DATA}/state.json</code> fails; hook healthcheck reports state unreadable; tools fail-closed.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">ls -la ${CLAUDE_PLUGIN_DATA}/state.json*
+cat ${CLAUDE_PLUGIN_DATA}/state.json
+</code></pre>
+<p><strong>Recovery:</strong>
+- Restore from latest backup snapshot (if <code>backup_snapshot.sh</code> has been running):</p>
+<pre><code class="language-bash">ls -la ${CLAUDE_PLUGIN_ROOT}/backups/ | tail -5
+cp ${CLAUDE_PLUGIN_ROOT}/backups/&lt;most-recent&gt;/state.json ${CLAUDE_PLUGIN_DATA}/state.json
+jq . ${CLAUDE_PLUGIN_DATA}/state.json &amp;&amp; echo &quot;restored&quot;
+</code></pre>
+<ul>
+<li>Or re-initialize from schema:</li>
+</ul>
+<pre><code class="language-bash">cat &gt; ${CLAUDE_PLUGIN_DATA}/state.json &lt;&lt;'EOF'
+{&quot;schema_version&quot;:1,&quot;mode&quot;:&quot;orchestrated&quot;,&quot;mode_transitioning&quot;:false,&quot;last_mode_change&quot;:null,&quot;last_mode_change_reason&quot;:null,&quot;active_autopilot_chat&quot;:null,&quot;active_vm&quot;:null,&quot;lock_acquired_at&quot;:null,&quot;current_task&quot;:null,&quot;orchestrator_automations&quot;:[],&quot;automation_registry&quot;:[],&quot;cascade&quot;:null,&quot;notes&quot;:&quot;Re-initialized $(date -u +%FT%TZ) after corruption.&quot;}
+EOF
+</code></pre>
+<ul>
+<li>Then re-register any <code>automation_registry</code> entries by running <code>bin/status.sh</code> to confirm.</li>
+</ul>
+<hr />
+<h2>8. Launchd sweeper not firing</h2>
+<p><strong>Symptom:</strong> locks older than 45 min sit un-stolen; <code>lock_steals.log</code> has no recent entries.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">launchctl list | grep orchestrator
+ls -la /tmp/orchestrator-sweeper.out /tmp/orchestrator-sweeper.err
+tail -20 /tmp/orchestrator-sweeper.err 2&gt;/dev/null
+</code></pre>
+<p><strong>Recovery:</strong>
+- Not loaded → load it:</p>
+<pre><code class="language-bash">launchctl load ${CLAUDE_PLUGIN_ROOT}/launchd/com.kevin.orchestrator.stale-lock-sweeper.plist
+</code></pre>
+<ul>
+<li>Loaded but erroring → check stderr; common causes: python3 missing, script not executable (<code>chmod +x ${CLAUDE_PLUGIN_ROOT}/bin/stale_lock_sweeper.sh</code>), or the plist pointing at a stale path after a git pull moved files.</li>
+<li>Reload after edits:</li>
+</ul>
+<pre><code class="language-bash">launchctl unload ${CLAUDE_PLUGIN_ROOT}/launchd/com.kevin.orchestrator.stale-lock-sweeper.plist 2&gt;/dev/null
+launchctl load ${CLAUDE_PLUGIN_ROOT}/launchd/com.kevin.orchestrator.stale-lock-sweeper.plist
+</code></pre>
+<hr />
+<h2>9. Permission prompt blocking automated work</h2>
+<p><strong>Symptom:</strong> a scheduled routine or Channels-session request stalls on a Claude Code permission dialog that nobody&rsquo;s there to click.</p>
+<p><strong>Diagnostic:</strong> check the session in <code>claude.ai/code</code> scheduled tasks sidebar — running tasks that pause for permission show a pending-approval state.</p>
+<p><strong>Recovery:</strong>
+- Click &ldquo;Run now&rdquo; once in the Scheduled sidebar with you at the keyboard — approvals from that run are saved to the task and auto-applied to future fires.
+- Or add the command to the starter allow-list by editing <code>~/.claude/settings.json</code>:</p>
+<pre><code class="language-json">{&quot;permissions&quot;: {&quot;allow&quot;: [&quot;Bash(your-command *)&quot;]}}
+</code></pre>
+<ul>
+<li>For Channels sessions, start them with <code>--dangerously-skip-permissions</code> — the <code>PreToolUse</code> hook still blocks VM tools (hooks run before perm check), so bypassing prompts does not bypass safety.</li>
+</ul>
+<hr />
+<h2>10. Shutdown cascade stuck (<code>mode_transitioning=true</code> forever)</h2>
+<p><strong>Symptom:</strong> <code>state.json.mode_transitioning</code> shows <code>true</code> for &gt; 1 minute; chats print &ldquo;⏸ ORCHESTRATOR IN TRANSITION — standing by.&rdquo; on every turn.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">jq '.cascade' ${CLAUDE_PLUGIN_DATA}/state.json
+</code></pre>
+<p><strong>Recovery:</strong>
+- Check <code>cascade.phase</code> and <code>cascade.executor_heartbeat</code> ages.
+- If <code>phase != "done"</code> and heartbeat &gt; 30 s old, any chat can resume the cascade (Track D §3 takeover). Say <code>***ORCHESTRATOR OFF***</code> verbatim in any chat.
+- Force-reset (last resort):</p>
+<pre><code class="language-bash">jq '.mode=&quot;direct&quot; | .mode_transitioning=false | .cascade=null | .active_autopilot_chat=null | .active_vm=null | .lock_acquired_at=null' ${CLAUDE_PLUGIN_DATA}/state.json &gt; /tmp/s.json &amp;&amp; mv /tmp/s.json ${CLAUDE_PLUGIN_DATA}/state.json
+rm -rf ${CLAUDE_PLUGIN_DATA}/state.lock.d
+echo &quot;$(date -u +%FT%TZ) MANUAL_CASCADE_RESET by kevin&quot; &gt;&gt; ${CLAUDE_PLUGIN_DATA}/lock_steals.log
+</code></pre>
+<ul>
+<li>Then <code>***ORCHESTRATOR ON***</code> in a fresh chat to resume normal operation.</li>
+</ul>
+<hr />
+<h2>11. Chat slug mismatch — hook can&rsquo;t identify the chat</h2>
+<p><strong>Symptom:</strong> <code>ORCHESTRATION LOCK: autopilot held by 'other-slug'. This chat ('unknown') must queue.</code> when you expect the chat to BE the holder.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">cat &quot;$PWD/.claude/.chat_slug&quot; 2&gt;/dev/null
+jq '.active_autopilot_chat' ${CLAUDE_PLUGIN_DATA}/state.json
+</code></pre>
+<p><strong>Recovery:</strong>
+- <code>.chat_slug</code> missing → write it:</p>
+<pre><code class="language-bash">mkdir -p &quot;$PWD/.claude&quot; &amp;&amp; echo &quot;&lt;your-slug&gt;&quot; &gt; &quot;$PWD/.claude/.chat_slug&quot;
+</code></pre>
+<ul>
+<li>Slug written but <code>cwd</code> at tool-call time is a different directory (e.g. subagent working elsewhere) → move the slug up to the repo root, or use an absolute <code>$CLAUDE_PROJECT_DIR</code>-based path in your hook.</li>
+<li>Slug mismatch vs <code>state.json</code> → just update <code>state.json.active_autopilot_chat</code> manually if you own the lock:</li>
+</ul>
+<pre><code class="language-bash">jq '.active_autopilot_chat=&quot;&lt;your-slug&gt;&quot;' ${CLAUDE_PLUGIN_DATA}/state.json &gt; /tmp/s.json &amp;&amp; mv /tmp/s.json ${CLAUDE_PLUGIN_DATA}/state.json
+</code></pre>
+<hr />
+<h2>12. Hook smoke test fails during install</h2>
+<p><strong>Symptom:</strong> installer step 7 reports <code>✗ Hook did not block. Exit code: 0.</code> when mode was flipped to <code>direct</code>.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">echo '{&quot;tool_name&quot;:&quot;mcp__computer-use__screenshot&quot;,&quot;cwd&quot;:&quot;/tmp&quot;}' | ${CLAUDE_PLUGIN_ROOT}/bin/orchestrator_lock.sh
+echo &quot;exit=$?&quot;
+which jq
+test -x ${CLAUDE_PLUGIN_ROOT}/bin/orchestrator_lock.sh &amp;&amp; echo &quot;executable&quot; || echo &quot;NOT executable&quot;
+</code></pre>
+<p><strong>Recovery:</strong>
+- jq missing → <code>brew install jq</code>, re-run test.
+- Not executable → <code>chmod +x ${CLAUDE_PLUGIN_ROOT}/bin/*.sh</code>.
+- Script reads <code>$HOME</code> from somewhere unexpected → set an explicit <code>ORCH=${CLAUDE_PLUGIN_ROOT}</code> at the top (already done in the shipped script).
+- Still failing → <code>set -x</code> at the top of the hook, re-run, paste the trace.</p>
+<hr />
+<h2>13. <code>gh auth</code> surprises</h2>
+<p><strong>Symptom:</strong> <code>gh</code> commands unexpectedly fail, the auto-GitHub extension can&rsquo;t create repos, or <code>git push</code> prompts for a password.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">gh auth status
+git config --global credential.helper
+</code></pre>
+<p><strong>Recovery:</strong>
+- Multiple accounts → <code>gh auth switch</code> to the right one.
+- Token expired → <code>gh auth refresh</code>.
+- HTTPS vs SSH mismatch → check <code>git remote -v</code> and <code>gh auth setup-git</code>.
+- Two-factor popping repeatedly → use a personal access token scoped to <code>repo</code> + <code>workflow</code> instead of browser auth.</p>
+<hr />
+<h2>14. Multi-machine sync surprises</h2>
+<p><strong>Symptom:</strong> new Mac doesn&rsquo;t have the same state as the old one; charters in the new clone are stale.</p>
+<p><strong>Recovery:</strong>
+- Re-run installer on the new Mac.
+- Clone your personal <code>&lt;gh-user&gt;/my-ensemble-config</code> repo to <code>${CLAUDE_PLUGIN_ROOT}-config/</code> (if you opted into the auto-GitHub extension):</p>
+<pre><code class="language-bash">git clone https://github.com/&lt;you&gt;/my-ensemble-config.git ${CLAUDE_PLUGIN_ROOT}-config
+</code></pre>
+<ul>
+<li>Run <code>bin/sync-config.sh</code> to apply your <code>work_hours.json</code> + allow-list delta from the config repo into the canonical paths.</li>
+<li><code>state.json</code>, <code>chats/</code>, and <code>state.lock.d/</code> are runtime-local and <strong>do not sync across machines</strong> by design.</li>
+</ul>
+<hr />
+<h2>15. Channels session dropped</h2>
+<blockquote>
+<p><strong>Note:</strong> The exact Claude Code invocation for an iMessage Channels listener is plugin-documented, not a core <code>claude</code> CLI flag. The <code>--channels</code> references in earlier drafts were speculative. Before relying on this recovery path, verify the current command via <code>/plugin marketplace</code> and the installed iMessage plugin&rsquo;s own documentation. Path B (Cloud Routine + iMessage Channels) is still v2-scope per <code>plugins/ensemble/MOBILE_DISPATCH.md §3</code>.</p>
+</blockquote>
+<p><strong>Symptom:</strong> iMessage commands to kill the Ensemble or trigger a routine don&rsquo;t produce replies. The persistent tmux session that should be listening isn&rsquo;t.</p>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-bash">tmux ls 2&gt;/dev/null           # list tmux sessions
+pgrep -fl claude | head       # look for a running claude process (exact match string depends on install)
+</code></pre>
+<p><strong>Recovery:</strong>
+- Not running → restart the session. Placeholder shape pending plugin-doc verification:</p>
+<pre><code class="language-bash"># Exact invocation TBD per installed iMessage plugin's docs.
+cd ${CLAUDE_PLUGIN_ROOT} &amp;&amp; tmux new-session -d -s orchestrator 'claude &lt;channel-flags-per-plugin&gt; --dangerously-skip-permissions'
+</code></pre>
+<ul>
+<li>Frequent drops → enable launchd KeepAlive (ship a <code>com.kevin.orchestrator.channels.plist</code> that respawns the tmux session on crash).</li>
+<li>Full Disk Access revoked → System Settings → Privacy &amp; Security → Full Disk Access → add Terminal/iTerm back.</li>
+</ul>
+<hr />
+<h2>v2.0 failure modes (2026-04-26 contract sweep)</h2>
+<h3>16. Per-project spawn lock conflict (refusal code 2)</h3>
+<p><strong>Symptom</strong>: Autopilot fires fail with <code>SPAWN-LOCK: per-project lock held for '&lt;slug&gt;' (pid=N). Refused.</code></p>
+<p><strong>Cause</strong>: Another autopilot is already targeting the same project. The per-project lock prevents two subprocesses from stomping on the same repo simultaneously.</p>
+<p><strong>Fix</strong>:</p>
+<pre><code class="language-bash"># See what's holding it
+bash plugins/ensemble/bin/orchestrator_spawn_lock.sh status
+
+# If the holder PID is dead but lock dir lingers, sweep stale
+bash plugins/ensemble/bin/orchestrator_spawn_lock.sh sweep
+
+# Or force release a specific slug (only if you're SURE no autopilot is running)
+bash plugins/ensemble/bin/orchestrator_spawn_lock.sh release &lt;slug&gt;
+</code></pre>
+<h3>17. Concurrency cap hit + queue timeout (refusal code 3)</h3>
+<p><strong>Symptom</strong>: <code>SPAWN-LOCK: cap held &gt;300s, no slot opened for '&lt;slug&gt;'. Refused.</code></p>
+<p><strong>Cause</strong>: <code>state.json.max_concurrent_autopilots</code> is at capacity, no slot opened within the 5-minute queue timeout.</p>
+<p><strong>Fix</strong>: Raise cap or kill an existing autopilot:</p>
+<pre><code class="language-bash">jq '.max_concurrent_autopilots = 3' state.json &gt; s.tmp &amp;&amp; mv s.tmp state.json
+# or
+bash bin/mobile_dispatch.sh kill
+</code></pre>
+<h3>18. Resource floor refused (refusal code 4)</h3>
+<p><strong>Symptom</strong>: <code>SPAWN-LOCK: resource floor — RAM N% &gt; threshold M%. Refused.</code> (or CPU variant)</p>
+<p><strong>Cause</strong>: <code>state.json.resource_floor_enabled = true</code> and the system is taxed at spawn time.</p>
+<p><strong>Fix</strong>: Wait or relax thresholds:</p>
+<pre><code class="language-bash">jq '.resource_floor_thresholds.ram_pct = 95' state.json &gt; s.tmp &amp;&amp; mv s.tmp state.json
+# or disable
+jq '.resource_floor_enabled = false' state.json &gt; s.tmp &amp;&amp; mv s.tmp state.json
+</code></pre>
+<h3>19. Mid-run resource watchdog killed an autopilot</h3>
+<p><strong>Symptom</strong>: Autopilot session aborts mid-run; <code>runs/watchdog-&lt;date&gt;.log</code> shows <code>KILLING parent process group (sustained pressure)</code>.</p>
+<p><strong>Cause</strong>: <code>state.json.resource_watchdog_enabled = true</code> and the watchdog detected sustained pressure (default: 3 consecutive breaches at 95% RAM or load &gt; 6.0).</p>
+<p><strong>Fix</strong>: Accept and reduce parallelism, or relax thresholds:</p>
+<pre><code class="language-bash">jq '.resource_watchdog_enabled = false' state.json &gt; s.tmp &amp;&amp; mv s.tmp state.json
+# or env-tune
+WATCHDOG_RAM_PCT_THRESHOLD=98 WATCHDOG_BREACHES_TO_KILL=5 bash bin/autopilot_session.sh 60
+</code></pre>
+<h3>20. Network pre-flight failure</h3>
+<p><strong>Symptom</strong>: <code>[autopilot] ABORT: network pre-flight failed (cannot reach api.anthropic.com).</code></p>
+<p><strong>Fix</strong>: Check connectivity. If offline by design, disable:</p>
+<pre><code class="language-bash">jq '.require_network_check = false' state.json &gt; s.tmp &amp;&amp; mv s.tmp state.json
+</code></pre>
+<h3>21. Claude CLI version too old</h3>
+<p><strong>Symptom</strong>: <code>[autopilot] ABORT: claude CLI X.Y.Z &lt; required A.B.C.</code></p>
+<p><strong>Fix</strong>:</p>
+<pre><code class="language-bash">npm i -g @anthropic-ai/claude-code
+# or relax the pin
+jq '.min_claude_cli_version = &quot;&quot;' state.json &gt; s.tmp &amp;&amp; mv s.tmp state.json
+</code></pre>
+<h3>22. Project state is Hibernating</h3>
+<p><strong>Symptom</strong>: <code>[autopilot] ABORT: project '&lt;slug&gt;' is Hibernating; promote first.</code></p>
+<p><strong>Fix</strong>: Move it out of Hibernating before firing:</p>
+<pre><code class="language-bash"># Verbal in any chat:
+&quot;set &lt;slug&gt; to Building&quot;  # or Warmer / R&amp;D / Updates / Launch Prep
+
+# Or directly:
+jq '.state = &quot;Warmer&quot;' chats/&lt;slug&gt;.json &gt; s.tmp &amp;&amp; mv s.tmp chats/&lt;slug&gt;.json
+</code></pre>
+<h3>23. State.json corruption recovery</h3>
+<p><strong>Symptom</strong>: <code>state.json</code> won&rsquo;t parse; autopilot/hooks fail closed.</p>
+<p><strong>Recovery path</strong> (in order):</p>
+<ol>
+<li>
+<p><strong>Check for atomic-rename leftover</strong> — every state-write uses <code>.tmp</code> + <code>mv</code>. If a write was interrupted, look for <code>state.json.tmp</code>:
+   <code>bash
+   ls state.json* | head
+   jq . state.json.tmp &amp;&amp; mv state.json.tmp state.json</code></p>
+</li>
+<li>
+<p><strong>Restore from backup_snapshot</strong> — <code>bin/backup_snapshot.sh</code> runs nightly:
+   <code>bash
+   ls backups/state.json.*
+   cp backups/state.json.YYYYMMDD-HHMMSS state.json</code></p>
+</li>
+<li>
+<p><strong>Hand-rebuild from schema</strong> — if no backup, create minimum viable:
+   <code>bash
+   cat &gt; state.json &lt;&lt;'EOF'
+   {
+     "schema_version": 1,
+     "mode": "orchestrated",
+     "mode_transitioning": false,
+     "active_autopilot_chat": null,
+     "active_vm": null,
+     "lock_acquired_at": null,
+     "lock_intent": null,
+     "max_concurrent_autopilots": 2,
+     "active_autopilots": {},
+     "resource_floor_enabled": false,
+     "resource_floor_thresholds": {"ram_pct": 90, "cpu_load": 4.0},
+     "spawn_queue": [],
+     "parallel_code_allowed": true,
+     "rapid_fire_enabled": true,
+     "caffeinate_during_autopilot": true,
+     "require_ac_power": false,
+     "min_free_disk_gb": 5,
+     "require_network_check": true,
+     "min_claude_cli_version": "",
+     "resource_watchdog_enabled": false,
+     "cascade": null
+   }
+   EOF</code></p>
+</li>
+<li>
+<p><strong>Re-heartbeat all chats</strong> — after recovery, run a Maestro session that bumps each <code>chats/*.json.last_heartbeat</code> so the dashboard reflects current state.</p>
+</li>
+</ol>
+<hr />
+<p><em>If you hit something not in this list, grab <code>bin/status.sh</code> output and a one-line symptom and ping the Maestro. The failure catalog grows from real incidents.</em></p>
+    </article>
   </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
-  }
-}
-</script>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

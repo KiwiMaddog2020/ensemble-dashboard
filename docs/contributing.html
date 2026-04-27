@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — Contributing</title>
+<meta name="description" content="How to contribute to the Ensemble." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,118 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">CONTRIBUTING.md</p>
+    <article class="doc-content">
+<h1>Contributing to the Ensemble</h1>
+<p>The Ensemble is a personal project, currently in private preview. Public contribution is not yet open — but if you find a bug, have a security concern, or want to suggest something, this is how to do it.</p>
+<h2>TL;DR</h2>
+<ul>
+<li><strong>Bugs:</strong> open a GitHub issue using the bug template</li>
+<li><strong>Security:</strong> see <code>SECURITY.md</code> (do <strong>not</strong> open public issues for vulnerabilities)</li>
+<li><strong>Features / ideas:</strong> open a discussion or use the feature-request template</li>
+<li><strong>Code:</strong> if you really want to send a PR, read this file first</li>
+</ul>
+<h2>The contract</h2>
+<p>Every change to this repo follows the <a href="plugins/ensemble/templates/AGENT.md#3-edit--code-discipline">Edit &amp; Code Discipline</a> — non-negotiable rules baked into every chat that operates here:</p>
+<ol>
+<li><strong>Touch only what the task requires.</strong> No drive-by refactors. No opportunistic formatting.</li>
+<li><strong>Retain all other elements</strong> unless explicitly removing them.</li>
+<li><strong>Never leave dead code.</strong> No commented-out blocks. No orphan imports. No <code>TODO: fix later</code>.</li>
+<li><strong>When removing, remove cleanly.</strong> Delete the code, update callers, verify nothing references it.</li>
+</ol>
+<p>If your change doesn&rsquo;t follow this, we&rsquo;re going to disagree about how it lands.</p>
+<h2>Commit messages</h2>
+<ul>
+<li><strong>First line ≤ 72 chars</strong> in imperative mood: <code>"Fix lock release race when..."</code> not <code>"Fixed lock release race when..."</code></li>
+<li><strong>Body</strong> explains <strong>why</strong>, not just <strong>what</strong> (the diff shows what)</li>
+<li><strong>Co-authored-by trailer</strong> for AI-pair-programmed commits — every commit by the Ensemble&rsquo;s autopilot/Maestro/Agents includes:
+  <code>Co-Authored-By: Claude Opus 4.7 (1M context) &lt;noreply@anthropic.com&gt;</code></li>
+<li><strong>No <code>[autopilot]</code> prefix on human-authored commits</strong> — that prefix is reserved for autopilot sessions so we can <code>git log --grep '\[autopilot\]'</code> to audit machine-only work.</li>
+</ul>
+<h2>Testing</h2>
+<p>This is a shell-script + plugin-prompt project, so testing means:</p>
+<ul>
+<li><strong>Lock-race smoke</strong> — <code>bash plugins/ensemble/bin/test_lock_race.sh</code> from a clean repo. Should report <code>10/10 rounds passed</code>.</li>
+<li><strong>Routine prelude smoke</strong> — <code>ROUTINE_NAME="smoke" bash plugins/ensemble/bin/routine_prelude.sh</code>. Should print <code>PRELUDE_OK: …</code>.</li>
+<li><strong>Hook unit pre-flight</strong> — the <code>.github/workflows/integration-test.yml</code> covers JSON validity, plugin manifest schema, lock-race concurrency, and PreToolUse hook unit tests. CI is currently disabled pending billing resolution; run locally:
+  <code>bash
+  bash -c 'set -e; for f in plugins/ensemble/bin/*.sh; do bash -n "$f"; done; echo OK'</code></li>
+<li><strong>Live diagnostic battery</strong> — there&rsquo;s a 1-minute battery captured in earlier session logs; periodic re-runs land in <code>docs/HEALTH.md</code> (when generated).</li>
+</ul>
+<h2>Branching</h2>
+<ul>
+<li><strong><code>main</code></strong> — protected. CI gates on the workflow file (currently disabled).</li>
+<li><strong>Feature branches</strong> — name like <code>gap-N-&lt;description&gt;</code> for mission-roadmap work, <code>feat/&lt;area&gt;</code> for new capabilities, <code>fix/&lt;area&gt;</code> for bugs.</li>
+<li><strong>PR target</strong> — always <code>main</code>. Squash-merge preferred to keep history readable.</li>
+</ul>
+<h2>Architecture references</h2>
+<p>If you&rsquo;re touching anything beyond docs, read the relevant canonical first:</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Canonical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operating contract for Agents</td>
+<td><code>plugins/ensemble/templates/AGENT.md</code></td>
+</tr>
+<tr>
+<td>Operating contract for Maestro</td>
+<td><code>plugins/ensemble/templates/MAESTRO.md</code></td>
+</tr>
+<tr>
+<td>Mission gaps + roadmap</td>
+<td><code>docs/MISSION_ROADMAP.md</code></td>
+</tr>
+<tr>
+<td>Phase ladder</td>
+<td><code>docs/GRAND_PLAN.md</code></td>
+</tr>
+<tr>
+<td>Autopilot pipeline</td>
+<td><code>docs/AUTOPILOT_DESIGN.md</code></td>
+</tr>
+<tr>
+<td>Control panel architecture</td>
+<td><code>docs/CONTROL_PANEL_PLAN.md</code></td>
+</tr>
+<tr>
+<td>Per-platform parity</td>
+<td><code>KiwiMaddog2020/ensemble-config/PARITY.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>When you change a rule, update the canonical. Never fork it. If the canonical is wrong, fix the canonical.</p>
+<h2>Cross-repo work</h2>
+<p>The Ensemble&rsquo;s source-of-truth is <strong>this repo</strong> (<code>claude-ensemble</code>). Three companion repos sync from canonical:</p>
+<ul>
+<li><strong><code>KiwiMaddog2020/ensemble-config</code></strong> — cross-machine sync layer (templates + memory + bin-mac/bin-win)</li>
+<li><strong><code>KiwiMaddog2020/website-agent-starter</code></strong> — friend-shareable starter for the website-agent</li>
+<li><strong><code>KiwiMaddog2020/ensemble-dashboard</code></strong> — public dashboard generated by <code>bin/dashboard-generate.sh</code></li>
+</ul>
+<p>If your change affects a synced file, the sync to companion repos is the responsibility of the same PR (or a follow-up commit on <code>main</code>).</p>
+<h2>What to avoid</h2>
+<ul>
+<li><strong>Don&rsquo;t bypass the lock.</strong> Don&rsquo;t write <code>state.json.active_autopilot_chat</code> or <code>state.lock.d/</code> unless you&rsquo;ve followed the acquire protocol.</li>
+<li><strong>Don&rsquo;t skip the prelude.</strong> Every scheduled task starts with <code>routine_prelude.sh</code>. Mode gates + work-hours respect live there.</li>
+<li><strong>Don&rsquo;t add narration comments.</strong> Per AGENT.md §3 — only write a comment when the WHY is genuinely non-obvious and no identifier name can carry it.</li>
+<li><strong>Don&rsquo;t introduce a build step.</strong> This stays vanilla shell + Python stdlib + no JS frameworks. Tempted? STOP and ask.</li>
+</ul>
+<h2>Code of conduct</h2>
+<p>See <code>CODE_OF_CONDUCT.md</code>. The short version: be respectful, focus on the work.</p>
+<h2>License</h2>
+<p>By contributing, you agree your contribution is MIT-licensed (the project license).</p>
+<h2>Thanks</h2>
+<p>If you read this far, you understand the rigor we&rsquo;re aiming for. The Ensemble exists because no two test runs should ever collide on the same machine. Every contribution should preserve that invariant.</p>
+    </article>
   </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
-  }
-}
-</script>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

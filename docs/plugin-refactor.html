@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — Plugin Refactor</title>
+<meta name="description" content="Self-hosted bundle to Claude Code plugin shape." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,435 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
-  </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">docs/PLUGIN_REFACTOR.md</p>
+    <article class="doc-content">
+<h1>Plugin Refactor — The Ensemble as a Claude Code Plugin</h1>
+<blockquote>
+<p><strong>Status:</strong> plan, 2026-04-22.
+<strong>Prereq:</strong> Track I publication research at <code>research/track_i_publication.md</code>.
+<strong>Target:</strong> The Ensemble publicly installable via <code>/plugin install ensemble@claude-ensemble</code> by flipping the repo public + adding two manifest files + path migration. Estimated 10–20 focused hours; 1–2 weeks calendar.
+<strong>Execution strategy:</strong> branch <code>plugin-refactor</code>; Kevin&rsquo;s current install stays on <code>main</code> until cutover.</p>
+</blockquote>
+<hr />
+<h2>1. Why this refactor</h2>
+<p>The Ensemble today is a self-hosted bundle of scripts + templates under <code>~/.claude/orchestrator/</code>. To be a Claude Code <strong>plugin</strong> (the only format distributable via marketplaces), we need:</p>
+<ol>
+<li>A <code>.claude-plugin/plugin.json</code> manifest naming the plugin <code>ensemble</code> (so skills surface as <code>/ensemble:maestro</code> and <code>/ensemble:agent-onboard</code>).</li>
+<li>A <code>.claude-plugin/marketplace.json</code> at repo root cataloguing the plugin.</li>
+<li>All file references using plugin-relative env vars (<code>${CLAUDE_PLUGIN_ROOT}</code> for read-only bundle, <code>${CLAUDE_PLUGIN_DATA}</code> for writable state) instead of hardcoded <code>/Users/kevin/...</code>.</li>
+<li>A public GitHub repo with LICENSE.</li>
+<li>Hooks registered via <code>plugin.json</code> (not the user&rsquo;s <code>~/.claude/settings.json</code>).</li>
+<li><code>launchd/</code> and scheduled-task integration migrated into the plugin&rsquo;s own <code>hooks/</code> + <code>monitors/</code> where possible, or clearly documented for reviewers.</li>
+</ol>
+<p>Post-refactor: anyone worldwide can run three commands and have a working Ensemble.</p>
+<hr />
+<h2>2. Target repo layout</h2>
+<pre><code>claude-ensemble/                              # repo root = marketplace root
+├── .claude-plugin/
+│   └── marketplace.json                      # NEW — self-hosted marketplace catalog
+├── plugins/
+│   └── ensemble/                             # THE plugin
+│       ├── .claude-plugin/
+│       │   └── plugin.json                   # NEW — plugin manifest
+│       ├── skills/
+│       │   ├── maestro/SKILL.md              # moved from ../../skills/maestro/
+│       │   └── agent-onboard/SKILL.md        # moved from ../../skills/agent-onboard/
+│       ├── templates/
+│       │   ├── MAESTRO.md                    # moved from ../../MAESTRO.md
+│       │   ├── AGENT.md                   # moved from ../../templates/AGENT.md
+│       │   ├── PROJECT_CHARTER.md            # moved
+│       │   ├── onboarding_prompt.md          # moved
+│       │   └── CLAUDE_CODE_SETTINGS.example.json  # moved (legacy; plugin.json replaces most of it)
+│       ├── bin/                              # moved from ../../bin/
+│       │   ├── orchestrator_lock.sh
+│       │   ├── orchestrator_lock_healthcheck.sh
+│       │   ├── routine_prelude.sh
+│       │   ├── stale_lock_sweeper.sh
+│       │   ├── status.sh
+│       │   ├── preflight.sh
+│       │   ├── self_test.sh
+│       │   ├── upgrade.sh
+│       │   ├── backup_snapshot.sh
+│       │   ├── sync-config.sh
+│       │   ├── rollback.sh
+│       │   └── test_lock_race.sh
+│       ├── hooks/
+│       │   └── hooks.json                    # NEW — PreToolUse + SessionStart wired to the bin scripts
+│       ├── CHEATSHEET.md                     # moved — user-facing reference
+│       ├── TROUBLESHOOTING.md                # moved
+│       ├── MAESTRO_BOOTSTRAP.md              # moved (paste-in-chat prompts stay with plugin)
+│       ├── AGENT_BOOTSTRAP.md                # moved
+│       ├── INSTALL.md                        # moved (documents plugin-flavored install)
+│       ├── README.md                         # NEW — plugin-level readme for marketplace display
+│       ├── CHANGELOG.md                      # NEW — version history
+│       └── LICENSE                           # NEW — MIT
+├── launchd/                                  # STAYS at repo root (installer artifact, not plugin code)
+│   └── com.kevin.orchestrator.stale-lock-sweeper.plist
+├── docs/
+│   ├── ONBOARDING_DESIGN.md                  # stays
+│   └── PLUGIN_REFACTOR.md                    # this file
+├── research/                                 # stays
+├── public/                                   # stays (one-pager)
+├── uninstall.sh                              # stays (legacy self-hosted uninstall)
+├── README.md                                 # top-level: &quot;How to install The Ensemble&quot;
+├── LICENSE                                   # repo-root LICENSE (mirrors plugin LICENSE)
+├── .github/workflows/integration-test.yml    # stays, paths updated
+└── .gitignore
+</code></pre>
+<h3>Why <code>launchd/</code> stays at repo root, not in the plugin</h3>
+<p>The sweeper plist is a macOS user-agent that runs outside Claude Code. It&rsquo;s an installer artifact — the user opts in by running <code>launchctl load</code>. Packaging it inside the plugin would blur the line between &ldquo;plugin code&rdquo; (runs in Claude Code) and &ldquo;host-machine automation&rdquo; (runs as a user agent). Reviewers flagged this as a scrutiny risk (Track I §7 gotcha). Keeping it at repo root, with INSTALL.md documenting the opt-in step, makes the boundary crisp.</p>
+<hr />
+<h2>3. File-by-file migration</h2>
+<table>
+<thead>
+<tr>
+<th>Current path</th>
+<th>New path</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MAESTRO.md</code></td>
+<td><code>plugins/ensemble/templates/MAESTRO.md</code></td>
+<td>Move + path variable pass</td>
+</tr>
+<tr>
+<td><code>README.md</code></td>
+<td><code>README.md</code> (repo-root) + NEW <code>plugins/ensemble/README.md</code></td>
+<td>Split: repo readme = &ldquo;install this plugin&rdquo;, plugin readme = catalog display</td>
+</tr>
+<tr>
+<td><code>CHEATSHEET.md</code></td>
+<td><code>plugins/ensemble/CHEATSHEET.md</code></td>
+<td>Move + path variables</td>
+</tr>
+<tr>
+<td><code>TROUBLESHOOTING.md</code></td>
+<td><code>plugins/ensemble/TROUBLESHOOTING.md</code></td>
+<td>Move + path variables</td>
+</tr>
+<tr>
+<td><code>INSTALL.md</code></td>
+<td><code>plugins/ensemble/INSTALL.md</code></td>
+<td>Move + rewrite as plugin-install doc</td>
+</tr>
+<tr>
+<td><code>MAESTRO_BOOTSTRAP.md</code></td>
+<td><code>plugins/ensemble/MAESTRO_BOOTSTRAP.md</code></td>
+<td>Move + path variables</td>
+</tr>
+<tr>
+<td><code>AGENT_BOOTSTRAP.md</code></td>
+<td><code>plugins/ensemble/AGENT_BOOTSTRAP.md</code></td>
+<td>Move + path variables</td>
+</tr>
+<tr>
+<td><code>templates/AGENT.md</code></td>
+<td><code>plugins/ensemble/templates/AGENT.md</code></td>
+<td>Move + path variables</td>
+</tr>
+<tr>
+<td><code>templates/PROJECT_CHARTER.md</code></td>
+<td><code>plugins/ensemble/templates/PROJECT_CHARTER.md</code></td>
+<td>Move (no content changes — users&rsquo; charters are theirs)</td>
+</tr>
+<tr>
+<td><code>templates/onboarding_prompt.md</code></td>
+<td><code>plugins/ensemble/templates/onboarding_prompt.md</code></td>
+<td>Move + path variables</td>
+</tr>
+<tr>
+<td><code>templates/CLAUDE_CODE_SETTINGS.example.json</code></td>
+<td><code>plugins/ensemble/templates/CLAUDE_CODE_SETTINGS.example.json</code></td>
+<td>Move; kept as legacy reference</td>
+</tr>
+<tr>
+<td><code>skills/maestro/SKILL.md</code></td>
+<td><code>plugins/ensemble/skills/maestro/SKILL.md</code></td>
+<td>Move + path variables in body</td>
+</tr>
+<tr>
+<td><code>skills/agent-onboard/SKILL.md</code></td>
+<td><code>plugins/ensemble/skills/agent-onboard/SKILL.md</code></td>
+<td>Move + path variables</td>
+</tr>
+<tr>
+<td><code>bin/*.sh</code> (all 12)</td>
+<td><code>plugins/ensemble/bin/*.sh</code></td>
+<td>Move + parameterize paths via env var (keep backward-compat default where sensible)</td>
+</tr>
+<tr>
+<td><code>launchd/*.plist</code></td>
+<td><code>launchd/*.plist</code> (unchanged)</td>
+<td>Stays at repo root</td>
+</tr>
+<tr>
+<td><code>state.json</code> (gitignored)</td>
+<td><code>${CLAUDE_PLUGIN_DATA}/state.json</code></td>
+<td>Runtime relocation on cutover</td>
+</tr>
+<tr>
+<td><code>work_hours.json</code> (gitignored)</td>
+<td><code>${CLAUDE_PLUGIN_DATA}/work_hours.json</code></td>
+<td>Runtime relocation on cutover</td>
+</tr>
+<tr>
+<td><code>work_hours.example.json</code></td>
+<td><code>plugins/ensemble/work_hours.example.json</code></td>
+<td>Move</td>
+</tr>
+<tr>
+<td><code>chats/</code>, <code>briefings/</code>, <code>queue/</code>, <code>pulse/</code>, <code>runs/</code></td>
+<td><code>${CLAUDE_PLUGIN_DATA}/chats/</code> etc.</td>
+<td>Runtime relocation on cutover</td>
+</tr>
+<tr>
+<td><code>charters/</code></td>
+<td><code>${CLAUDE_PLUGIN_DATA}/charters/</code></td>
+<td>Runtime relocation</td>
+</tr>
+<tr>
+<td><code>research/*</code>, <code>docs/*</code>, <code>public/*</code></td>
+<td>unchanged (repo-level, not plugin)</td>
+<td>Stay</td>
+</tr>
+<tr>
+<td><code>uninstall.sh</code></td>
+<td>unchanged (legacy self-hosted support)</td>
+<td>Stay</td>
+</tr>
+<tr>
+<td><code>.github/workflows/integration-test.yml</code></td>
+<td>unchanged</td>
+<td>Stay; paths updated to match <code>plugins/ensemble/bin/...</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Count:</strong> 12 shell scripts + 9 markdown files + 2 template JSONs + 2 SKILL.md files = 25 files moved; 6 new files created (plugin.json, marketplace.json, hooks.json, plugin README, plugin CHANGELOG, plugin LICENSE).</p>
+<hr />
+<h2>4. Path-variable migration pass</h2>
+<p>Two env vars replace all hardcoded paths:</p>
+<table>
+<thead>
+<tr>
+<th>Path type</th>
+<th>Old (hardcoded)</th>
+<th>New</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plugin bundle (read-only) — scripts, templates, skills</td>
+<td><code>~/.claude/orchestrator</code></td>
+<td><code>${CLAUDE_PLUGIN_ROOT}</code></td>
+</tr>
+<tr>
+<td>Plugin data (writable, per-user, survives updates) — state.json, work_hours.json, chats/, briefings/, queue/, pulse/, runs/, charters/, lock_steals.log, state.lock.d/</td>
+<td>same hardcoded root</td>
+<td><code>${CLAUDE_PLUGIN_DATA}</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Scripts (12 files in <code>plugins/ensemble/bin/</code>)</h3>
+<p>Current pattern: <code>ORCH="~/.claude/orchestrator"</code>. New pattern:</p>
+<pre><code class="language-bash">ORCH=&quot;${CLAUDE_PLUGIN_ROOT:-~/.claude/orchestrator}&quot;        # for bundle files (templates, other scripts)
+ORCH_DATA=&quot;${CLAUDE_PLUGIN_DATA:-$ORCH}&quot;                              # for writable state — falls back to ORCH for legacy compat
+STATE=&quot;$ORCH_DATA/state.json&quot;
+LOCK_DIR=&quot;$ORCH_DATA/state.lock.d&quot;
+LOG=&quot;$ORCH_DATA/lock_steals.log&quot;
+WORK_HOURS=&quot;$ORCH_DATA/work_hours.json&quot;
+CHATS_DIR=&quot;$ORCH_DATA/chats&quot;
+BRIEFINGS_DIR=&quot;$ORCH_DATA/briefings&quot;
+# etc.
+</code></pre>
+<p>The <code>${VAR:-default}</code> pattern preserves backward-compat for the current self-hosted install on Kevin&rsquo;s machine. Once the plugin is installed, Claude Code sets the env vars and the old paths stop being used.</p>
+<h3>Markdown files (templates, SKILL.md, bootstraps, CHEATSHEET, TROUBLESHOOTING, onboarding_prompt)</h3>
+<p>Current pattern: absolute paths in prose like <code>Read ~/.claude/orchestrator/templates/AGENT.md</code>.</p>
+<p>New pattern: use <code>${CLAUDE_PLUGIN_ROOT}</code> in prose and provide path resolution in-context. For SKILL.md files specifically, Claude Code&rsquo;s agent will know how to resolve <code>${CLAUDE_PLUGIN_ROOT}</code> because it&rsquo;s the standard plugin env var.</p>
+<p>Example (maestro/SKILL.md):</p>
+<pre><code>Read `${CLAUDE_PLUGIN_ROOT}/templates/MAESTRO.md` in full.
+Read `${CLAUDE_PLUGIN_DATA}/state.json`.
+</code></pre>
+<h3>Grep targets for the path sweep</h3>
+<p>Before the refactor, enumerate every hit:</p>
+<pre><code class="language-bash">cd claude-ensemble
+grep -rn '~/.claude/orchestrator' --include='*.sh' --include='*.md' --include='*.json' --include='*.yml' --include='*.plist'
+grep -rn '/Users/kevin/' --include='*.sh' --include='*.md' --include='*.json' --include='*.yml'
+grep -rn '\$HOME/\.claude/orchestrator' --include='*.sh' --include='*.md' --include='*.json'
+</code></pre>
+<p>Expected hits (baseline): ~80–120 references across scripts, markdown, and example JSONs. Each needs a targeted substitution.</p>
+<hr />
+<h2>5. <code>plugin.json</code> — manifest content</h2>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;ensemble&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Multi-chat orchestration for Claude Code. One Maestro conducts many Agents across projects with shared state, rapid-fire decisions, an atomic autopilot lock, and a global kill-switch.&quot;,
+  &quot;author&quot;: {
+    &quot;name&quot;: &quot;Kevin Madson&quot;,
+    &quot;url&quot;: &quot;https://github.com/KiwiMaddog2020&quot;
+  },
+  &quot;homepage&quot;: &quot;https://github.com/KiwiMaddog2020/claude-ensemble&quot;,
+  &quot;repository&quot;: &quot;https://github.com/KiwiMaddog2020/claude-ensemble&quot;,
+  &quot;license&quot;: &quot;MIT&quot;,
+  &quot;keywords&quot;: [&quot;orchestration&quot;, &quot;multi-chat&quot;, &quot;coordination&quot;, &quot;workflow&quot;, &quot;maestro&quot;, &quot;agent&quot;],
+  &quot;hooks&quot;: {
+    &quot;PreToolUse&quot;: [
+      {
+        &quot;matcher&quot;: &quot;mcp__(computer-use|Claude_Preview|Claude_in_Chrome)__.*&quot;,
+        &quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/bin/orchestrator_lock.sh&quot;,
+        &quot;timeout&quot;: 10
+      }
+    ],
+    &quot;SessionStart&quot;: [
+      {
+        &quot;matcher&quot;: &quot;startup|resume|clear&quot;,
+        &quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/bin/orchestrator_lock_healthcheck.sh&quot;
+      }
+    ]
   }
 }
-</script>
+</code></pre>
+<p>Hooks declared here are auto-registered when the plugin is installed — <strong>the user does not need to edit <code>~/.claude/settings.json</code></strong>. That&rsquo;s the biggest UX win of plugin-form distribution.</p>
+<h2>6. <code>marketplace.json</code> — repo-root catalog</h2>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;claude-ensemble&quot;,
+  &quot;description&quot;: &quot;The Ensemble — multi-chat orchestration for Claude Code&quot;,
+  &quot;owner&quot;: {
+    &quot;name&quot;: &quot;Kevin Madson&quot;
+  },
+  &quot;plugins&quot;: [
+    {
+      &quot;name&quot;: &quot;ensemble&quot;,
+      &quot;source&quot;: &quot;./plugins/ensemble&quot;,
+      &quot;description&quot;: &quot;Multi-chat orchestration: Maestro + Agents with shared state, kill-switch, and rapid-fire decisions.&quot;,
+      &quot;version&quot;: &quot;1.0.0&quot;,
+      &quot;category&quot;: &quot;productivity&quot;,
+      &quot;keywords&quot;: [&quot;orchestration&quot;, &quot;multi-chat&quot;, &quot;workflow&quot;],
+      &quot;homepage&quot;: &quot;https://github.com/KiwiMaddog2020/claude-ensemble&quot;,
+      &quot;license&quot;: &quot;MIT&quot;
+    }
+  ]
+}
+</code></pre>
+<p>Users install via: <code>/plugin marketplace add KiwiMaddog2020/claude-ensemble</code> → <code>/plugin install ensemble@claude-ensemble</code>.</p>
+<hr />
+<h2>7. Scheduled tasks — keep as optional post-install extension</h2>
+<p>The 4 Desktop scheduled tasks (morning-briefing, evening-planning, overnight-heavy, workday-pulse) + the launchd sweeper are <strong>not</strong> part of the plugin bundle. They are opt-in side effects the user enables after install. The plugin ships a command (<code>/ensemble:enable-routines</code> or a section in INSTALL.md) that walks through creating them via <code>mcp__scheduled-tasks__create_scheduled_task</code> calls pointing at <code>${CLAUDE_PLUGIN_ROOT}/bin/routine_prelude.sh</code>.</p>
+<p>Rationale (from Track I §7 gotcha): plugins that spawn persistent host processes invite reviewer scrutiny. By making routines an explicit post-install opt-in with user approval per-task, we keep the core plugin&rsquo;s surface minimal — only hooks + skills — and the riskier automation is user-consented.</p>
+<hr />
+<h2>8. Kevin&rsquo;s install migration</h2>
+<p>Two-stage cutover. Work happens on <code>plugin-refactor</code> branch; Kevin&rsquo;s current install stays on <code>main</code> throughout.</p>
+<h3>Stage 1 — Branch work (no impact on current install)</h3>
+<ol>
+<li><code>git checkout -b plugin-refactor</code></li>
+<li>Execute sections 3–6 of this plan (file moves, path sweep, manifests).</li>
+<li>CI passes on the branch.</li>
+<li>Branch is ready to cut over.</li>
+</ol>
+<h3>Stage 2 — Cutover (atomic, takes ~15 minutes)</h3>
+<ol>
+<li><strong>Backup first</strong> — run <code>bin/backup_snapshot.sh</code> on Kevin&rsquo;s live install. Snapshot lands at <code>backups/&lt;YYYY-MM-DD&gt;/</code>.</li>
+<li><strong>Merge <code>plugin-refactor</code> → <code>main</code></strong> on GitHub.</li>
+<li><strong>Install the plugin locally:</strong>
+   <code>/plugin marketplace add KiwiMaddog2020/claude-ensemble
+   /plugin install ensemble@claude-ensemble</code></li>
+<li><strong>Migrate state into <code>${CLAUDE_PLUGIN_DATA}</code></strong> via a one-shot migration script <code>plugins/ensemble/bin/migrate-from-legacy.sh</code> that:
+   - Copies <code>~/.claude/orchestrator/state.json</code> → <code>${CLAUDE_PLUGIN_DATA}/state.json</code>
+   - Copies <code>chats/*.json</code>, <code>charters/*</code>, <code>briefings/*</code>, <code>queue/*</code>, <code>pulse/*</code>, <code>runs/*</code>, <code>lock_steals.log</code>, <code>work_hours.json</code> → <code>${CLAUDE_PLUGIN_DATA}/...</code>
+   - Verifies: <code>jq . ${CLAUDE_PLUGIN_DATA}/state.json</code> passes.</li>
+<li><strong>Update the 4 scheduled tasks</strong> — edit each task&rsquo;s prompt to point at <code>${CLAUDE_PLUGIN_ROOT}/bin/routine_prelude.sh</code> (via <code>mcp__scheduled-tasks__update_scheduled_task</code>). Or delete and recreate.</li>
+<li><strong>Remove the old hook entries</strong> from <code>~/.claude/settings.json</code> (the plugin now owns hooks).</li>
+<li><strong>Verify:</strong> <code>~/.claude/orchestrator/bin/status.sh</code> (if it still runs) OR the new <code>/ensemble:status</code> command reports all systems go.</li>
+<li><strong>Archive old install</strong> — <code>mv ~/.claude/orchestrator ~/.claude/orchestrator.legacy.&lt;ts&gt;</code>.</li>
+<li><strong>Dogfood</strong> for 24–48 hours. Anything breaks, rollback via <code>mv</code> + <code>/plugin uninstall</code>.</li>
+</ol>
+<h3>Stage 3 — Public flip</h3>
+<ol>
+<li>Confirm 48 hours of clean dogfood post-cutover.</li>
+<li>GitHub → Settings → flip repo visibility to public.</li>
+<li>Add LICENSE + refresh README.</li>
+<li>Tweet/post the install command. The Ensemble is publicly installable.</li>
+</ol>
+<hr />
+<h2>9. De-personalization pass</h2>
+<p>Before going public, grep for and excise anything Kevin-specific from the plugin bundle:</p>
+<ul>
+<li><code>/Users/kevin</code> references — already covered by the path sweep (§4).</li>
+<li><code>kevinmadson@protonmail.com</code> — currently NOT in <code>plugin.json</code> (author field has no email). If added later for skill-marketplace listing, this is the canonical author email; the legacy <code>kevinmadson3@gmail.com</code> shows in pre-v1.0.0 commit history only (history rewrite would be destructive-ops-gated).</li>
+<li>References to &ldquo;Kevin&rdquo; in prose inside <code>plugins/ensemble/</code> — the plugin should address &ldquo;the user&rdquo; generically. Keep Kevin-specific standing directives (Apple-quality bar, M1 constraint, work hours) in <code>~/.claude/projects/-Users-kevin/memory/</code> which is Kevin-only and not in the plugin.</li>
+<li>BOO-Website, Vera Nota, Pinball Roguelight, LLM Creation Toolkit names — purge from templates/examples. Keep as comments in docs/ if illustrative.</li>
+</ul>
+<p>Memory files in <code>~/.claude/projects/-Users-kevin/memory/</code> are <strong>not</strong> in the repo at all (they live outside <code>~/.claude/orchestrator/</code>). No action needed; they stay Kevin-private.</p>
+<hr />
+<h2>10. Testing plan</h2>
+<h3>Local (before merge)</h3>
+<ol>
+<li><code>claude plugin validate ./plugins/ensemble</code> — structural validation.</li>
+<li>Test-install from branch: <code>git checkout plugin-refactor &amp;&amp; claude --plugin-dir ./plugins/ensemble</code>.</li>
+<li>Run <code>/ensemble:maestro</code> in a fresh chat — verify it reads the templates from <code>${CLAUDE_PLUGIN_ROOT}</code> and state from <code>${CLAUDE_PLUGIN_DATA}</code>.</li>
+<li>Run <code>/ensemble:agent-onboard</code> in a test repo — verify full onboarding flow.</li>
+<li>Simulate the hook trigger: flip state to <code>mode=direct</code>, call a VM tool, confirm exit 2.</li>
+<li>Run all 12 scripts from <code>${CLAUDE_PLUGIN_ROOT}/bin/</code> manually — verify each respects env vars.</li>
+</ol>
+<h3>CI (on branch)</h3>
+<p>Extend <code>.github/workflows/integration-test.yml</code>:
+- Add <code>plugin-manifest</code> job: runs <code>claude plugin validate</code> against <code>plugins/ensemble</code>.
+- Update existing <code>hook-unit</code> job paths to <code>plugins/ensemble/bin/orchestrator_lock.sh</code>.
+- Update <code>lock-race</code> job paths to <code>plugins/ensemble/bin/test_lock_race.sh</code>.
+- Keep <code>shell-syntax</code> + <code>json-validity</code> as-is (they scan the whole repo).</p>
+<h3>Post-cutover validation (Kevin&rsquo;s install, 48 hrs)</h3>
+<ol>
+<li>Morning briefing fires from the plugin-installed version — writes <code>${CLAUDE_PLUGIN_DATA}/briefings/&lt;date&gt;.md</code>.</li>
+<li>Hook blocks a VM tool when mode flipped to <code>direct</code> (manual test).</li>
+<li>At least one Agent runs an autopilot cycle end-to-end (acquire lock from plugin bin, release cleanly).</li>
+<li><code>bin/status.sh</code> still works from plugin install path.</li>
+</ol>
+<hr />
+<h2>11. Execution order (ordered commits, smallest first)</h2>
+<p>Commits should be incremental and reversible. Target ~10 commits on <code>plugin-refactor</code>:</p>
+<ol>
+<li><code>plugin-refactor: scaffold plugins/ensemble/ directory tree</code> (empty dirs + placeholder manifests)</li>
+<li><code>plugin-refactor: write plugin.json and marketplace.json manifests</code></li>
+<li><code>plugin-refactor: move skills/ to plugins/ensemble/skills/ with path-variable updates</code></li>
+<li><code>plugin-refactor: move templates/ to plugins/ensemble/templates/ with path-variable updates</code></li>
+<li><code>plugin-refactor: move bin/ to plugins/ensemble/bin/ with env var parameterization</code></li>
+<li><code>plugin-refactor: move user-facing markdown (CHEATSHEET, TROUBLESHOOTING, INSTALL, bootstraps)</code></li>
+<li><code>plugin-refactor: write plugin README + CHANGELOG + LICENSE</code></li>
+<li><code>plugin-refactor: write bin/migrate-from-legacy.sh for state cutover</code></li>
+<li><code>plugin-refactor: update .github/workflows/integration-test.yml paths + add plugin-manifest job</code></li>
+<li><code>plugin-refactor: refresh repo-root README to describe install path</code></li>
+</ol>
+<p>Each commit builds atomically. After #10, CI green on the branch.</p>
+<hr />
+<h2>12. Out of scope for this refactor</h2>
+<ul>
+<li><strong>Official directory submission.</strong> That&rsquo;s Phase 2 per Track I §6. After Phase 1 (this refactor) lands + 1 week of public availability, submit via the form.</li>
+<li><strong>&ldquo;Anthropic Verified&rdquo; badge.</strong> Discretionary; weeks-to-months. Not blocking anything.</li>
+<li><strong>Plugin-native monitors.</strong> Track I §7 suggests migrating launchd + scheduled-tasks to plugin-native monitors if the format supports them. Research confirmed <code>plugin.json</code> supports <code>hooks</code> and MCP servers; monitors as a built-in may or may not exist. Keep current opt-in model for v1.0, revisit for v1.1.</li>
+<li><strong>Multi-machine / Linux support.</strong> v1.0 is macOS only. Linux port is v2.</li>
+<li><strong>Migrating Kevin&rsquo;s memory files into the plugin.</strong> They stay in <code>~/.claude/projects/-Users-kevin/memory/</code> — user-specific, not plugin content.</li>
+</ul>
+<hr />
+<h2>13. Success criteria</h2>
+<p>Phase 1 — this refactor — is done when:</p>
+<ul>
+<li>✅ Repo contains valid <code>plugin.json</code> + <code>marketplace.json</code>, passes <code>claude plugin validate</code>.</li>
+<li>✅ All Kevin-specific hardcoded paths removed from the plugin bundle.</li>
+<li>✅ Kevin&rsquo;s install is running off the plugin-form (no <code>~/.claude/orchestrator</code> in active use).</li>
+<li>✅ Hook + lock + routines all still work from plugin paths.</li>
+<li>✅ 48 hours of clean dogfood post-cutover.</li>
+<li>✅ Repo is public with LICENSE + README.</li>
+<li>✅ Another Claude Code user can run <code>/plugin marketplace add</code> + <code>/plugin install</code> and have a working Ensemble on a fresh machine.</li>
+</ul>
+<p>When all six check, The Ensemble is publicly installable. Completion goes from ~60% → ~75%.</p>
+<p>Phase 2 (official directory listing) takes completion to ~90%. &ldquo;Anthropic Verified&rdquo; takes it to 100%, but that&rsquo;s not required for &ldquo;fully published&rdquo;.</p>
+    </article>
+  </div>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

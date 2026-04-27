@@ -1,0 +1,1515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>Ensemble — Grand Plan</title>
+<meta name="description" content="Strategic context. Phase ladder. Founding principles." />
+<link rel="manifest" href="./manifest.json" />
+<link rel="icon" type="image/svg+xml" href="./icon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4;
+  --ink: #18150f; --ink-2: #3c362c; --ink-3: #6e6657; --ink-4: #a8a193;
+  --rule: #ebe4d4; --rule-2: #f0ead9;
+  --accent: #c2711f; --accent-2: #e08a2c; --accent-soft: rgba(194,113,31,0.08);
+  --serif: "EB Garamond", ui-serif, Georgia, serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  --maxw: 1080px; --gutter: clamp(20px, 4vw, 40px);
+  --radius: 16px; --radius-sm: 10px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --shadow-sm: 0 1px 2px rgba(24,21,15,0.04), 0 2px 4px rgba(24,21,15,0.02);
+  --shadow-md: 0 4px 24px -8px rgba(194,113,31,0.18), 0 2px 8px rgba(24,21,15,0.04);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0d0a; --bg-raised: #1a1711; --bg-elevated: #1f1b14;
+    --ink: #f3ecdd; --ink-2: #d6cdb9; --ink-3: #9a9078; --ink-4: #5e564a;
+    --rule: #2a2620; --rule-2: #221e18;
+    --accent: #e08a2c; --accent-2: #f3c07a; --accent-soft: rgba(224,138,44,0.10);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 24px -8px rgba(224,138,44,0.25);
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--sans); background: var(--bg); color: var(--ink-2);
+  line-height: 1.55; -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* Top nav */
+.topnav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.topnav .wrap { display: flex; align-items: center; gap: 24px; height: 56px; }
+.topnav .brand {
+  font-family: var(--serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
+  color: var(--ink); text-decoration: none;
+}
+.topnav .brand em { color: var(--accent); font-style: normal; }
+.topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex: 1; }
+.topnav li a {
+  display: block; padding: 8px 14px; font-size: 14px; font-weight: 500;
+  color: var(--ink-3); text-decoration: none; border-radius: 8px;
+  transition: background 200ms var(--ease), color 200ms var(--ease);
+}
+.topnav li a:hover { color: var(--ink); background: var(--accent-soft); }
+.topnav li a.active { color: var(--accent); background: var(--accent-soft); }
+.topnav .nav-status {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-3);
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .topnav ul { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .topnav .nav-status { display: none; }
+}
+
+/* Smoke-test banner */
+#smoke-banner {
+  display: none; padding: 16px 0;
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+  border-bottom: 2px solid var(--accent);
+}
+#smoke-banner .wrap {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+}
+#smoke-banner strong {
+  display: block; color: var(--accent); font-size: 12px;
+  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px;
+}
+#smoke-banner-text { margin: 0; font-size: 14px; color: var(--ink-2); }
+#smoke-banner .cmd-row { display: flex; gap: 8px; flex: 0 0 auto; }
+
+/* Hero */
+.hero { padding: clamp(56px, 9vw, 96px) 0 clamp(32px, 5vw, 56px); }
+.hero .eyebrow {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);
+  margin: 0 0 16px;
+}
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(40px, 6vw, 68px);
+  line-height: 1.05; letter-spacing: -0.02em; font-weight: 600;
+  color: var(--ink); margin: 0 0 16px;
+}
+.hero h1 em { font-style: italic; font-weight: 500; color: var(--accent); }
+.hero p.lead {
+  font-family: var(--serif); font-size: clamp(18px, 2.4vw, 22px);
+  line-height: 1.45; color: var(--ink-2); margin: 0; max-width: 60ch;
+}
+.hero .meta {
+  display: flex; gap: 18px; flex-wrap: wrap; margin-top: 28px;
+  font-size: 13px; color: var(--ink-3); font-family: var(--mono);
+}
+.hero .meta span { display: inline-flex; align-items: center; gap: 8px; }
+.hero .meta .dot {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+}
+
+section { padding: clamp(40px, 6vw, 64px) 0; }
+section h2 {
+  font-family: var(--serif); font-size: clamp(26px, 3.4vw, 36px);
+  line-height: 1.15; letter-spacing: -0.01em; font-weight: 500;
+  color: var(--ink); margin: 0 0 8px;
+}
+section .section-sub { color: var(--ink-3); font-size: 14px; margin: 0 0 28px; }
+
+/* Tile cards (home) */
+.tiles {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (max-width: 640px) { .tiles { grid-template-columns: 1fr; } }
+.tile {
+  display: block; background: var(--bg-raised);
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 32px 28px 28px; text-decoration: none; color: var(--ink-2);
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
+  position: relative; overflow: hidden;
+}
+.tile:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--rule));
+  transform: translateY(-2px); box-shadow: var(--shadow-md);
+}
+.tile .glyph {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--accent-soft); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 18px;
+}
+.tile h3 {
+  font-family: var(--serif); font-size: 26px; font-weight: 500;
+  letter-spacing: -0.01em; color: var(--ink); margin: 0 0 6px;
+}
+.tile p.tile-sub { font-size: 14px; color: var(--ink-3); margin: 0 0 12px; }
+.tile p.tile-stat {
+  font-family: var(--mono); font-size: 13px; color: var(--accent);
+  margin: 0; font-weight: 500;
+}
+.tile .arrow {
+  position: absolute; right: 22px; top: 28px; color: var(--ink-4);
+  font-size: 20px; transition: transform 200ms var(--ease), color 200ms var(--ease);
+}
+.tile:hover .arrow { color: var(--accent); transform: translateX(4px); }
+
+/* Cards (docs) */
+.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (min-width: 768px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1024px) { .cards.two { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+.card {
+  display: block; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 22px 22px 20px; text-decoration: none;
+  color: var(--ink-2); transition: border-color 200ms var(--ease), transform 200ms var(--ease), box-shadow 200ms var(--ease);
+}
+.card:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--rule));
+  transform: translateY(-1px); box-shadow: var(--shadow-md);
+}
+.card .ico {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--accent-soft); display: inline-flex; align-items: center;
+  justify-content: center; color: var(--accent); margin-bottom: 14px; font-size: 18px;
+}
+.card h3 {
+  font-family: var(--sans); font-size: 16px; font-weight: 600;
+  letter-spacing: -0.005em; color: var(--ink); margin: 0 0 4px;
+}
+.card p { font-size: 14px; color: var(--ink-3); margin: 0; line-height: 1.5; }
+.card .tag {
+  display: inline-block; font-family: var(--mono); font-size: 11px;
+  font-weight: 500; color: var(--accent); margin-top: 10px;
+}
+.cards.repos .card { padding: 18px 20px; }
+.cards.repos .card h3 { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--ink); }
+
+/* Settings */
+.settings-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
+@media (min-width: 768px) { .settings-grid { grid-template-columns: repeat(3, 1fr); } }
+.setting {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 16px; background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); cursor: pointer;
+  transition: border-color 200ms var(--ease);
+}
+.setting:hover { border-color: color-mix(in srgb, var(--accent) 30%, var(--rule)); }
+.setting-name { font-size: 13px; font-weight: 500; color: var(--ink-2); }
+.setting input[type="number"], .setting select {
+  font-family: var(--mono); font-size: 13px; padding: 6px 10px;
+  border: 1px solid var(--rule); border-radius: 6px;
+  background: var(--bg); color: var(--ink); width: 110px;
+}
+.setting input[type="checkbox"] {
+  width: 38px; height: 22px; appearance: none; background: var(--rule);
+  border-radius: 999px; cursor: pointer; position: relative;
+  transition: background 200ms var(--ease);
+}
+.setting input[type="checkbox"]:checked { background: var(--accent); }
+.setting input[type="checkbox"]::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 18px; height: 18px; border-radius: 50%; background: white;
+  transition: transform 200ms var(--ease);
+}
+.setting input[type="checkbox"]:checked::after { transform: translateX(16px); }
+.settings-help {
+  font-size: 12px; color: var(--ink-3); margin-top: 14px; font-family: var(--mono);
+}
+
+/* Commands */
+.commands-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 768px) { .commands-grid { grid-template-columns: repeat(2, 1fr); } }
+.command-card {
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 24px 24px 20px;
+}
+.command-card.danger { border-color: color-mix(in srgb, #c73a2a 30%, var(--rule)); }
+.command-card h3 {
+  font-family: var(--sans); font-size: 14px; font-weight: 600;
+  letter-spacing: -0.005em; color: var(--ink); margin: 0 0 16px;
+}
+.cmd-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.cmd-row select, .cmd-row input {
+  font-family: var(--mono); font-size: 13px; padding: 8px 10px;
+  border: 1px solid var(--rule); border-radius: 6px;
+  background: var(--bg); color: var(--ink); flex: 1; min-width: 0;
+}
+.cmd-row input[type="number"], .cmd-row input[type="datetime-local"] { max-width: 160px; }
+.btn-primary {
+  background: var(--accent); color: white; border: 0; padding: 8px 16px;
+  border-radius: 6px; font-family: var(--sans); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: background 200ms var(--ease);
+}
+.btn-primary:hover { background: var(--accent-2); }
+.btn-secondary {
+  background: transparent; color: var(--ink-2); border: 1px solid var(--rule);
+  padding: 8px 12px; border-radius: 6px; font-family: var(--sans);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-danger {
+  background: #c73a2a; color: white; border: 0; padding: 8px 16px;
+  border-radius: 6px; font-family: var(--sans); font-size: 13px;
+  font-weight: 600; cursor: pointer; transition: filter 200ms var(--ease);
+}
+.btn-danger:hover { filter: brightness(1.1); }
+.cmd-help { font-size: 11px; color: var(--ink-3); margin-top: 12px; line-height: 1.5; }
+.cmd-help a { color: var(--accent); text-decoration: none; }
+.cmd-help a:hover { text-decoration: underline; }
+
+/* Footer */
+footer.site-footer {
+  padding: 48px 0 64px; color: var(--ink-3); font-size: 13px;
+  text-align: center; border-top: 1px solid var(--rule); margin-top: 56px;
+}
+footer.site-footer a { color: var(--accent); text-decoration: none; }
+footer.site-footer a:hover { text-decoration: underline; }
+footer.site-footer .brand { font-family: var(--serif); font-weight: 500; }
+
+/* Owner-only banner (read-only mode) */
+.owner-banner {
+  padding: 12px 16px; background: color-mix(in srgb, var(--ink-3) 8%, var(--bg));
+  border: 1px dashed var(--rule); border-radius: var(--radius-sm);
+  font-size: 13px; color: var(--ink-3); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.owner-banner.show { display: flex; }
+.owner-banner.hide { display: none; }
+.owner-banner strong { color: var(--ink); }
+.read-only [data-owner-only] { opacity: 0.5; pointer-events: none; }
+.read-only [data-owner-only] input,
+.read-only [data-owner-only] select,
+.read-only [data-owner-only] button { cursor: not-allowed; }
+
+/* Theme palettes — applied via body.theme-<name> class. */
+body.theme-slate {
+  --bg: #eef2f7; --bg-raised: #ffffff; --bg-elevated: #f6f8fb;
+  --ink: #0f172a; --ink-2: #334155; --ink-3: #64748b; --ink-4: #94a3b8;
+  --rule: #d8dee8; --rule-2: #e6ebf2;
+  --accent: #2563eb; --accent-2: #3b82f6; --accent-soft: rgba(37,99,235,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-slate {
+  --bg: #0a0e1a; --bg-raised: #131826; --bg-elevated: #181d2c;
+  --ink: #e2e8f0; --ink-2: #cbd5e1; --ink-3: #94a3b8; --ink-4: #64748b;
+  --rule: #232a3d; --rule-2: #1c2235;
+  --accent: #3b82f6; --accent-2: #60a5fa; --accent-soft: rgba(59,130,246,0.14);
+} }
+
+body.theme-mono {
+  --bg: #ffffff; --bg-raised: #f8f8f8; --bg-elevated: #fcfcfc;
+  --ink: #000000; --ink-2: #1a1a1a; --ink-3: #555555; --ink-4: #999999;
+  --rule: #d4d4d4; --rule-2: #e8e8e8;
+  --accent: #000000; --accent-2: #333333; --accent-soft: rgba(0,0,0,0.06);
+}
+@media (prefers-color-scheme: dark) { body.theme-mono {
+  --bg: #050505; --bg-raised: #111111; --bg-elevated: #161616;
+  --ink: #ffffff; --ink-2: #e5e5e5; --ink-3: #999999; --ink-4: #666666;
+  --rule: #2a2a2a; --rule-2: #1f1f1f;
+  --accent: #ffffff; --accent-2: #cccccc; --accent-soft: rgba(255,255,255,0.08);
+} }
+
+body.theme-forest {
+  --bg: #f4f7f3; --bg-raised: #ffffff; --bg-elevated: #f9fbf8;
+  --ink: #0f1f15; --ink-2: #2c3d33; --ink-3: #5d6f64; --ink-4: #97a59c;
+  --rule: #d8e2d6; --rule-2: #e8efe5;
+  --accent: #16a34a; --accent-2: #22c55e; --accent-soft: rgba(22,163,74,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-forest {
+  --bg: #0a120c; --bg-raised: #131c16; --bg-elevated: #18241c;
+  --ink: #e8f0e8; --ink-2: #c8d4c9; --ink-3: #8a9a8c; --ink-4: #5a6a5c;
+  --rule: #243228; --rule-2: #1c2820;
+  --accent: #22c55e; --accent-2: #4ade80; --accent-soft: rgba(34,197,94,0.14);
+} }
+
+body.theme-aurora {
+  --bg: #f8f5ff; --bg-raised: #ffffff; --bg-elevated: #fcfaff;
+  --ink: #1a0f2e; --ink-2: #3a2c52; --ink-3: #7060a0; --ink-4: #a896c8;
+  --rule: #e2d8f0; --rule-2: #ece4f5;
+  --accent: #8b5cf6; --accent-2: #a78bfa; --accent-soft: rgba(139,92,246,0.10);
+}
+@media (prefers-color-scheme: dark) { body.theme-aurora {
+  --bg: #0d0820; --bg-raised: #160d2e; --bg-elevated: #1c1238;
+  --ink: #ede4ff; --ink-2: #d4c4f5; --ink-3: #a08cc8; --ink-4: #6e5e8e;
+  --rule: #2c2046; --rule-2: #221638;
+  --accent: #a78bfa; --accent-2: #c4b5fd; --accent-soft: rgba(167,139,250,0.14);
+} }
+
+/* Theme picker UI */
+.theme-picker { display: flex; gap: 8px; flex-wrap: wrap; }
+.theme-swatch {
+  width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
+  border: 2px solid var(--rule); transition: border-color 200ms var(--ease), transform 200ms var(--ease);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; color: white;
+  background: linear-gradient(135deg, var(--swatch-a), var(--swatch-b));
+}
+.theme-swatch:hover { transform: scale(1.05); }
+.theme-swatch.active { border-color: var(--ink); transform: scale(1.05); box-shadow: var(--shadow-md); }
+.theme-swatch.warm     { --swatch-a: #c2711f; --swatch-b: #e08a2c; }
+.theme-swatch.slate    { --swatch-a: #2563eb; --swatch-b: #3b82f6; }
+.theme-swatch.mono     { --swatch-a: #0a0a0a; --swatch-b: #555555; }
+.theme-swatch.forest   { --swatch-a: #16a34a; --swatch-b: #22c55e; }
+.theme-swatch.aurora   { --swatch-a: #8b5cf6; --swatch-b: #a78bfa; }
+.theme-swatch.rose     { --swatch-a: #e11d48; --swatch-b: #f43f5e; }
+.theme-swatch.ocean    { --swatch-a: #0891b2; --swatch-b: #06b6d4; }
+.theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
+.theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
+.theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <div class="wrap">
+    <a class="brand" href="./">Ensemble</a>
+    <ul>
+      <li><a class="" href="./">Home</a></li>
+      <li><a class="" href="./projects.html">Projects</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./settings.html">Settings</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
+    </ul>
+    <span class="nav-status" id="nav-status">…</span>
+  </div>
+</nav>
+
+<div id="smoke-banner">
+  <div class="wrap">
+    <div>
+      <strong>Smoke test required</strong>
+      <p id="smoke-banner-text">…</p>
+    </div>
+    <div class="cmd-row">
+      <button class="btn-primary" onclick="smokeResult('pass')">Pass</button>
+      <button class="btn-secondary" onclick="smokeResult('issues')">Issues</button>
+      <button class="btn-danger" onclick="smokeResult('fail')">Fail</button>
+    </div>
+  </div>
+</div>
+<main class="doc-page">
+  <div class="wrap">
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">docs/GRAND_PLAN.md</p>
+    <article class="doc-content">
+<h1>GRAND_PLAN.md — The Ensemble → Agent Builder → Tool Builder (three products, one integrated suite)</h1>
+<blockquote>
+<p><strong>Status:</strong> strategic plan, 2026-04-22 (revised same-day with Kevin&rsquo;s cognition-flexibility + amalgamation corrections).
+<strong>Author:</strong> Kevin (vision) + Maestro (synthesis + tech-stack research).
+<strong>Audience:</strong> future-Kevin, future-Agents spawned for Phase 2+ projects, future-contributors if the plan goes public.
+<strong>Scope:</strong> no implementation in this doc. This is direction + architecture + known-unknowns. Individual Phases get their own design docs (e.g. <code>virtuosos/agent-builder/DESIGN.md</code>) when we&rsquo;re ready to build them.
+<strong>Motto:</strong> Proper Prior Planning Prevents Piss Poor Performance.</p>
+</blockquote>
+<h2>Founding principles (read these before anything else)</h2>
+<p>These override anything that contradicts them later in the doc.</p>
+<ol>
+<li><strong>Rocket-grade engineering.</strong> This is not web-app engineering. We&rsquo;re building a system that will eventually run inside regulated industries, on client hardware, in critical workflows. Every design decision gets shuttle-launch scrutiny — pre-mortems, explicit failure modes, redundancy, the 6 P&rsquo;s. Fast is a byproduct of ruthlessly eliminating rework; it is never the goal.</li>
+<li><strong>Apple-grade user experience.</strong> The setup feels like unboxing an Apple product: dense capability, invisible complexity, delight in the small moments. &ldquo;Considering the scope&rdquo; is an internal concern, never a user-facing excuse. The shiny package is part of the engineering.</li>
+<li><strong>Cognition flexibility is a feature, not a concession.</strong> Every chatbot and every AI surface we build <strong>must</strong> support Claude integration as an option. But the primary runtime is the client&rsquo;s choice: a custom fine-tuned LLM, an open-weight model on their hardware, a commercial API (Claude, Gemini, etc.), or a hybrid that routes by task. We never lock a client into one vendor. See §3.1.</li>
+<li><strong>Private by default, powerful by choice.</strong> Privacy is the ground state. Clients who want full-cloud can opt in; clients who want air-gapped get it. The architecture supports both without forks.</li>
+<li><strong>Three products, one integrated suite.</strong> Ensemble, Agent Builder, and Tool Builder (Phase 0/1/2 — see §1) <strong>amalgamate</strong>. They are not three standalone offerings that share a logo. A client using Tool Builder gets tools that embed an Agent Builder-crafted LLM and are built by an Ensemble of Agents. The packaging to the client is one thing: &ldquo;your AI-native business, shipped.&rdquo;</li>
+<li><strong>Human-approval gate on destructive + publishing external state.</strong> Per <code>safety_constraints.md</code> (updated 2026-04-24). Destructive git ops, App Store / Play Store / TestFlight submissions, deploys beyond GitHub Pages auto-deploy, public-flip of private repos, and billing changes all require explicit per-turn approval. <code>git push</code> to origin on the current branch is NOT gated — commit + push flows freely. Recursive loops may push proposed changes; humans review + intervene if needed.</li>
+</ol>
+<hr />
+<h2>0. What this document is</h2>
+<p>Kevin has an arc: The Ensemble is <strong>Phase 0</strong> of a larger vision that culminates in a packaged AI-integration product for small and mid-market businesses. This doc captures:</p>
+<ol>
+<li>The full product ladder — each rung building on the one below.</li>
+<li>The <em>unifying architectural pattern</em> that makes it all one thing, not three unrelated products.</li>
+<li>Tech-stack decisions — what to <strong>leverage</strong> (existing OSS), what to <strong>build</strong> (our differentiator), what to <strong>defer</strong> (not yet worth the added surface area).</li>
+<li>Privacy tiers — how the same architecture serves a regulated healthcare client and a scrappy 10-person SMB without collapsing.</li>
+<li>A phased roadmap with explicit critical path and off-ramps.</li>
+<li>Risks, unknowns, and the specific decisions that need to happen before each phase begins.</li>
+</ol>
+<p>It does <strong>not</strong> commit Kevin to anything. It&rsquo;s a shuttle-launch checklist: an item is either ready, not ready, or not even the right item to check for right now.</p>
+<hr />
+<h2>1. The product ladder</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Product</th>
+<th>Internal tier</th>
+<th>Customer</th>
+<th>Primary value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0 — now</strong></td>
+<td><strong>The Ensemble</strong></td>
+<td>The system itself — Maestro + Agents</td>
+<td>Solo developer (Kevin)</td>
+<td>Multi-chat Claude Code orchestration. Builds software at shuttle-launch standard.</td>
+</tr>
+<tr>
+<td><strong>1 — next</strong></td>
+<td><strong>Agent Builder</strong></td>
+<td><strong>Virtuoso-tier</strong> (elevated special-purpose builder)</td>
+<td>Non-technical individual, small team, or SMB buying a custom agent</td>
+<td>Interview-driven pipeline that produces a client-specific LLM (or hybrid LLM + KB + orchestration) tailored to one use case. Privacy-tier-aware.</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>Tool Builder</strong></td>
+<td><strong>Virtuoso-tier</strong> (elevated special-purpose builder)</td>
+<td>SMB owner / ops lead</td>
+<td>Scan the business + competition, design AI-integrated in-house tools (websites, PWAs, native apps, CRM, team chat, inventory, dashboards), build + deploy them — each tool hosts an Agent Builder LLM inside it.</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>Unified AI-Native Business Suite</strong></td>
+<td>Packaged product</td>
+<td>SMB / mid-market paying client</td>
+<td>Amalgamates Phases 0–2 with client dashboard, billing, support tier, SLA.</td>
+</tr>
+</tbody>
+</table>
+<p>Phase 0 is live. Phase 1 has been sketched but never built (the old &ldquo;LLM Creation Toolkit&rdquo; project never scaffolded). Phase 2 and 3 are new explicit scope from 2026-04-22.</p>
+<h3>1.1. How the three products amalgamate (the critical architectural claim)</h3>
+<p>These are <strong>not</strong> three products that happen to share a codebase. They are one stack with three surfaces:</p>
+<pre><code>                  ┌────────────────────────────────────────────────────┐
+                  │  Unified Suite (Phase 3 — the shipping carton)      │
+                  │                                                    │
+                  │   ┌─────────────────────────────────────────────┐  │
+                  │   │  Tool Builder tools (Phase 2)                    │  │
+                  │   │  CRM · chat · inventory · website · ...     │  │
+                  │   │                                             │  │
+                  │   │   ┌─────────────────────────────────────┐   │  │
+                  │   │   │  Agent Builder LLM (Phase 1)              │   │  │
+                  │   │   │  fine-tuned on client's KB,         │   │  │
+                  │   │   │  runs on client's privacy tier      │   │  │
+                  │   │   └─────────────────────────────────────┘   │  │
+                  │   │                                             │  │
+                  │   │   …embedded inside the tool as its AI layer │  │
+                  │   └─────────────────────────────────────────────┘  │
+                  │                                                    │
+                  │  All three built + maintained by the Ensemble      │
+                  │  (Phase 0 orchestrator + Agents).                │
+                  └────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>Concrete example</strong> of what amalgamation means in practice:</p>
+<p>A boutique retail client signs up for the Unified Suite. We run Tool Builder&rsquo;s scan, we pick three tools (a customer-service chat widget, an inventory dashboard, a marketing-copy generator). We run Agent Builder once per tool to fine-tune a Qwen 2.5 14B on:
+- their product catalog (for the chat widget),
+- their sales history (for the inventory dashboard),
+- their brand voice corpus (for the marketing-copy tool).</p>
+<p>Each tool embeds its own Agent Builder-crafted LLM. The client&rsquo;s data never leaves their infra (Tier 2). The Ensemble built + deployed + maintains all of it.</p>
+<p>The client sees one product: &ldquo;our AI-native business.&rdquo; They never see the three-phase architecture unless they ask.</p>
+<h3>1.2. Naming — the three-tier taxonomy</h3>
+<p>Kevin&rsquo;s 2026-04-22 direction: keep <strong>Ensemble</strong> as the umbrella brand, keep <strong>Maestro</strong> as the controller, rename the rank-and-file to <strong>Agents</strong>, and reserve <strong>Virtuoso</strong> as a tier designation for the two elevated special-purpose builders — <strong>Agent Builder</strong> and <strong>Tool Builder</strong>.</p>
+<p><strong>The three tiers:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Role</th>
+<th>Count</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Maestro</strong></td>
+<td>Controller chat. Orchestrates the portfolio, ranks top recs, never holds the autopilot lock.</td>
+<td>1 per system</td>
+<td>This chat.</td>
+</tr>
+<tr>
+<td><strong>Virtuoso</strong></td>
+<td>Elevated special-purpose builder. Runs a multi-week planning + interview + construction process whose output (an LLM, a tool suite) is what a client uses. Bigger scope, longer horizon, stricter Apple-grade bar.</td>
+<td>Two products to start (Agent Builder, Tool Builder); more can be added later.</td>
+<td>Agent Builder, Tool Builder.</td>
+</tr>
+<tr>
+<td><strong>Agent</strong></td>
+<td>Standard worker chat scoped to one project (a repo, a module, a deliverable). Ships code. Acquires the autopilot lock. Reports in rapid-fire.</td>
+<td>Many; one per project.</td>
+<td>BOO-Website, Vera Nota, Pinball Roguelight; build-time Agents spawned by a Virtuoso during construction.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why Virtuoso fits the elevated tier:</strong> a virtuoso is a master performer — someone who has mastered one instrument (or one craft) and operates at a level most performers don&rsquo;t reach. Agent Builder masters the craft of shaping custom LLMs; Tool Builder masters the craft of designing AI-native business software. &ldquo;Agent&rdquo; fits the general worker; &ldquo;Virtuoso&rdquo; fits the mastery class. The two-word product names (Agent Builder, Tool Builder) are also SMB-legible for the eventual client-facing materials.</p>
+<p><strong>Why these names over alternatives:</strong> earlier drafts tried musical metaphors (Luthier, Atelier) that were precise but obscure. Then generic industrial frames (Agency, Controller, Agent). Kevin settled on hybrid: <strong>Ensemble + Maestro stay</strong> (they&rsquo;re shipped and they work); <strong>Virtuoso stays but gets promoted</strong> from &ldquo;regular chat&rdquo; to &ldquo;elevated tier&rdquo;; <strong>Agent</strong> replaces the general-worker sense of Virtuoso. The result is three tiers, two of which survive from the original musical family, plus the literal &ldquo;Agent&rdquo; for the rank-and-file.</p>
+<p><strong>The strategic bet:</strong> the same orchestration pattern works at every rung. Each rung is the previous rung with a different intake surface and a different output surface. We don&rsquo;t re-invent the machinery — we re-skin it. And because the output of each phase is the input of the next, they compose into a single suite rather than stacking as separate SKUs.</p>
+<hr />
+<h2>2. The unifying pattern (this is the key insight)</h2>
+<p>Every rung of the ladder is the same six-step loop:</p>
+<pre><code>┌─────────┐  ┌───────┐  ┌──────┐  ┌───────┐  ┌──────┐  ┌──────┐
+│ Intake  ├─►│ Scan  ├─►│ Plan ├─►│ Build ├─►│ Ship ├─►│ Loop │
+└─────────┘  └───────┘  └──────┘  └───────┘  └──────┘  └──┬───┘
+                                                          │
+                                            ◄─────────────┘
+</code></pre>
+<p><strong>What changes per rung is the I/O, not the engine:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Phase 0 (Ensemble)</th>
+<th>Phase 1 (Agent Builder)</th>
+<th>Phase 2 (Tool Builder)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Intake</strong></td>
+<td>Repo + bootstrap prompt</td>
+<td>Conversational interview about use case + privacy tier + cognition preference (Claude / local / hybrid)</td>
+<td>Conversational interview about the business + competitive landscape</td>
+</tr>
+<tr>
+<td><strong>Scan</strong></td>
+<td>Detect stack, read repo</td>
+<td>Inventory client&rsquo;s knowledge sources, baseline eval on current workflow</td>
+<td>Scrape competitor sites, audit client stack, map social + review surface</td>
+</tr>
+<tr>
+<td><strong>Plan</strong></td>
+<td><code>PROJECT_CHARTER.md</code></td>
+<td><code>LLM_SPEC.md</code> (intended behavior, safety, eval set, deployment target, cognition routing rules)</td>
+<td><code>BUSINESS_ROADMAP.md</code> (prioritized tool list + ROI estimate + which Agent Builder LLMs each tool will embed)</td>
+</tr>
+<tr>
+<td><strong>Build</strong></td>
+<td>Agents write code</td>
+<td>Fine-tune / compose / RAG / agent-chain → Agent Builder LLM artifact</td>
+<td>Agents build CRM / chat / inventory / website / dashboards — each embeds one or more Agent Builder LLMs as its AI layer</td>
+</tr>
+<tr>
+<td><strong>Ship</strong></td>
+<td>Commit, PR, deploy</td>
+<td>Deploy model to client infra at chosen privacy tier; publish eval report</td>
+<td>Deploy apps to client infra; wire in Agent Builder LLMs; hand over admin + runbook</td>
+</tr>
+<tr>
+<td><strong>Loop</strong></td>
+<td>Morning briefing, overnight autopilot</td>
+<td>Ongoing eval + re-fine-tune on new client data</td>
+<td>Ops-tier Ensemble watches usage across tools, proposes updates, routes back through Agent Builder for model refreshes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why this matters:</strong> we write Phase 1 and Phase 2 as <strong>configurations</strong> of the Ensemble machinery, not as separate products. The Ensemble plugin already knows how to spawn specialized Agents, coordinate them, enforce safety, accept phone dispatch. Agent Builder = Ensemble with a different onboarding skill + different Agent templates + <code>LLM_SPEC.md</code> as output. Tool Builder = Ensemble with a different onboarding skill + business-scan Agents + <code>BUSINESS_ROADMAP.md</code> → a portfolio of tool repos, each with an Agent Builder LLM embedded.</p>
+<p><strong>And because Tool Builder consumes Agent Builder output, and Ensemble builds both</strong>, the three products compose at runtime. A client doesn&rsquo;t buy &ldquo;Agent Builder + Tool Builder&rdquo;; they buy the Unified Suite, and the phases are internal architecture.</p>
+<p>This is the architectural discipline that keeps the surface area flat as the product ladder grows.</p>
+<hr />
+<h2>3. Tech stack — leverage vs build vs defer</h2>
+<p><strong>Leverage policy:</strong> prefer a small number of mature, well-maintained OSS deps over writing our own. Every accepted dep must pass three gates:</p>
+<ol>
+<li><strong>Net simplicity</strong> — does it remove more code than it adds? (A library with its own DSL usually fails this.)</li>
+<li><strong>Stay-in-lane</strong> — does it handle one thing well, or is it a kitchen sink? (Avoid LangChain-as-Framework; consider LangChain-as-utilities.)</li>
+<li><strong>Anthropic-compatible</strong> — does it assume OpenAI-only or does it let us stay with Claude as the cognition engine?</li>
+</ol>
+<h3>3.1 Cognition (the &ldquo;thinking&rdquo; layer) — <strong>flexibility is the design</strong></h3>
+<p>The cognition architecture is <strong>per-phase different</strong> because the customer is different. For Ensemble (Phase 0) we make one vendor bet because it&rsquo;s our internal tool. For Agent Builder + Tool Builder (Phase 1 + 2) the client&rsquo;s business has different needs than our internal needs, so we build for vendor-pluggability from day one.</p>
+<h4>3.1.a Phase 0 — The Ensemble (internal, Kevin)</h4>
+<p>Claude is the primary. No change.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Orchestrator reasoning</td>
+<td><strong>Claude API (Opus 4.7)</strong> — the Ensemble IS a Claude amplifier, by design.</td>
+</tr>
+<tr>
+<td>Cheap reasoning</td>
+<td><strong>Claude Haiku 4.5</strong> — already in use for light routines.</td>
+</tr>
+<tr>
+<td>Embeddings</td>
+<td><strong>OpenAI <code>text-embedding-3-large</code></strong> via API — fast, cheap, works.</td>
+</tr>
+</tbody>
+</table>
+<h4>3.1.b Phase 1 + 2 — Agent Builder + Tool Builder (client-facing) — <strong>hybrid cognition with per-task routing</strong></h4>
+<p>Every client-facing AI surface routes across <strong>four cognition tiers</strong> based on the task. The routing is defined at Agent Builder-time in <code>LLM_SPEC.md</code> and can be changed by the client at any time.</p>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>What runs there</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>K — Knowledge base lookup</strong></td>
+<td>Pure retrieval (pgvector + BM25 + re-rank). No generation.</td>
+<td>Factual answers with citations. Cheapest. Must-be-right queries.</td>
+</tr>
+<tr>
+<td><strong>L — Local custom LLM (Agent Builder-built)</strong></td>
+<td>Fine-tuned Qwen / Llama / Mistral / Phi running on client infra via Ollama or vLLM.</td>
+<td>Domain-specific generation, brand-voice writing, classification, extraction. Private by default.</td>
+</tr>
+<tr>
+<td><strong>O — Open-weight LLM (general-purpose)</strong></td>
+<td>Un-tuned open-weight (Llama 3.1 70B, Qwen 2.5 72B) on client infra or inside client VPC.</td>
+<td>General reasoning that the custom model can&rsquo;t handle. No data exits client boundary.</td>
+</tr>
+<tr>
+<td><strong>C — Commercial API (opt-in)</strong></td>
+<td>Claude (Sonnet/Opus), Gemini, GPT-5, etc. — client chooses vendors.</td>
+<td>Hardest reasoning tasks when the client has opted in to send that class of data over the wire. Configurable per-task + per-data-class.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The default routing policy</strong> (clients can override per-task):</p>
+<pre><code>request
+   │
+   ▼
+ classify data-class (pii? proprietary? internal? public?)
+   │
+   ▼
+ is the answer in the KB with high confidence?
+   ├── yes → serve K (citations) → return
+   └── no ↓
+   │
+   ▼
+ is this a task the Agent Builder LLM is trained for?
+   ├── yes → serve L → return
+   └── no ↓
+   │
+   ▼
+ is data-class allowed to leave client infra?
+   ├── no → serve O (local open-weight) → return
+   └── yes ↓
+   │
+   ▼
+ serve C (client's chosen commercial provider — Claude by default if opted in)
+</code></pre>
+<p>This means:
+- <strong>Every chatbot supports Claude integration</strong> — Tier C slot is always wired, even if it&rsquo;s currently disabled for that client.
+- <strong>Every chatbot works without Claude</strong> — Tiers K + L + O cover the zero-external-cognition path.
+- <strong>Clients can go fully exclusive</strong> either direction — &ldquo;Claude only, no local&rdquo; or &ldquo;local only, no cloud.&rdquo; Same architecture, different policy.
+- <strong>Hybrid is the default</strong> for clients who don&rsquo;t care: use each tier where it&rsquo;s best.</p>
+<h4>3.1.c Cognition-stack components</h4>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Choice</th>
+<th>Phase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KB tier retrieval</td>
+<td><strong>pgvector + BM25 + bge-reranker-v2</strong> (free, local) OR <strong>Cohere Rerank</strong> (paid, better)</td>
+<td>1+</td>
+</tr>
+<tr>
+<td>Local LLM serving</td>
+<td><strong>Ollama</strong> (default) / <strong>vLLM</strong> (GPU) / <strong>llama.cpp</strong> (edge)</td>
+<td>1+</td>
+</tr>
+<tr>
+<td>Fine-tune engine</td>
+<td><strong>Unsloth</strong> (primary) + <strong>HuggingFace TRL</strong> (features)</td>
+<td>1+</td>
+</tr>
+<tr>
+<td>Base-model shortlist</td>
+<td><strong>Qwen 2.5 14B</strong> (default), <strong>Llama 3.1 8B / 70B</strong>, <strong>Mistral Small</strong>, <strong>Phi-3.5-mini</strong>, <strong>Gemma 2 9B</strong></td>
+<td>1+</td>
+</tr>
+<tr>
+<td>Commercial providers (Tier C)</td>
+<td><strong>Claude (Anthropic)</strong> always wired. Secondary: <strong>Gemini (Google)</strong>, <strong>OpenAI</strong>, <strong>Mistral (cloud)</strong>, <strong>Cohere</strong>. Selected per-client.</td>
+<td>1+</td>
+</tr>
+<tr>
+<td>Router</td>
+<td>Custom — a small Python/TS service that reads the <code>LLM_SPEC.md</code> routing rules and dispatches. Simple enough to own; too central to hand to a framework.</td>
+<td>1+</td>
+</tr>
+<tr>
+<td>Embeddings — cloud OK</td>
+<td><strong>OpenAI <code>text-embedding-3-large</code></strong> (best quality/$)</td>
+<td>1+</td>
+</tr>
+<tr>
+<td>Embeddings — private</td>
+<td><strong><code>nomic-embed-text</code></strong> or <strong><code>bge-m3</code></strong> via Ollama</td>
+<td>1+</td>
+</tr>
+</tbody>
+</table>
+<h4>3.1.d Why we own the router</h4>
+<p>The router is the most load-bearing piece of client-facing code. It enforces privacy-tier boundaries (§4), it chooses cognition, it logs everything for audit. Third-party routers (e.g. OpenRouter) assume the whole world is cloud APIs; they don&rsquo;t reason about &ldquo;send to Tier C only if data-class is <code>public</code>.&rdquo; We write ours.</p>
+<p>Tiny — low hundreds of lines. The reasoning is in the <code>LLM_SPEC.md</code>, not the code.</p>
+<h3>3.2 Agent orchestration (reference, don&rsquo;t adopt)</h3>
+<p><strong>Decision:</strong> Claude Code + the Ensemble is our orchestrator. We look at these for patterns, not as dependencies.</p>
+<table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>What to take from it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LangGraph</strong></td>
+<td>State-machine patterns for long-running workflows with check-pointing. Useful reference for the autopilot <code>N</code>-minute window.</td>
+</tr>
+<tr>
+<td><strong>CrewAI</strong></td>
+<td>Role-based agent definitions (analyst/engineer/reviewer). Schema inspiration for Agent templates.</td>
+</tr>
+<tr>
+<td><strong>AutoGen</strong> (Microsoft)</td>
+<td>Conversation-based multi-agent protocol. Closest existing match for Ensemble. Reference for message-passing format.</td>
+</tr>
+<tr>
+<td><strong>MetaGPT</strong></td>
+<td>SDLC-role decomposition (PM, architect, engineer, QA). Template for Phase 2 Business Tool Designer&rsquo;s Agents.</td>
+</tr>
+<tr>
+<td><strong>OpenDevin / OpenHands</strong></td>
+<td>Sandboxed code-exec harness. Reference for future Phase-1 fine-tuning workers.</td>
+</tr>
+<tr>
+<td><strong>Aider</strong></td>
+<td>Git-aware patch generation. Reference for Agent commit discipline.</td>
+</tr>
+</tbody>
+</table>
+<p>We adopt <strong>zero</strong> of these as a dependency. We extract patterns and re-implement in our lane.</p>
+<h3>3.3 LLM serving (for client-deployed models)</h3>
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Recommended</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Client-local on M-series Mac or modest Linux box</td>
+<td><strong>Ollama</strong> — one-command install, OpenAI-compatible API, swaps models easily. Default for Phase 1 personal toolkit.</td>
+</tr>
+<tr>
+<td>Client has a GPU server</td>
+<td><strong>vLLM</strong> — high-throughput batched inference. Production-grade.</td>
+</tr>
+<tr>
+<td>On edge / IoT / phone</td>
+<td><strong>llama.cpp</strong> (directly) or <strong>MLC-LLM</strong>. Defer until an actual client needs it.</td>
+</tr>
+<tr>
+<td>Non-technical client, runs on their laptop</td>
+<td><strong>LM Studio</strong> — GUI. Worth a test for &ldquo;grandma&rsquo;s personal AI&rdquo; scenarios.</td>
+</tr>
+</tbody>
+</table>
+<h3>3.4 Fine-tuning + customization (making client-specific LLMs)</h3>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Unsloth</strong></td>
+<td><strong>Default.</strong> 2–5× faster LoRA/QLoRA on one consumer GPU. Qwen + Llama + Mistral supported.</td>
+</tr>
+<tr>
+<td><strong>HuggingFace TRL</strong></td>
+<td>When we need SFT → DPO → RLHF chain, or when Unsloth doesn&rsquo;t cover a method. Pair with <strong>peft</strong>.</td>
+</tr>
+<tr>
+<td><strong>Axolotl</strong></td>
+<td>Config-driven repeatable recipes. Good for CI / regenerate-from-config.</td>
+</tr>
+<tr>
+<td><strong>LLaMA-Factory</strong></td>
+<td>UI experimentation phase. Not the production path.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Base model shortlist</strong> (open-weight, non-restrictive license, Unsloth-supported):</p>
+<ul>
+<li><strong>Qwen 2.5 14B</strong> — strong general + coding. First choice.</li>
+<li><strong>Llama 3.1 8B / 70B</strong> — Meta ecosystem weight. Good fallback.</li>
+<li><strong>Mistral Small / Medium</strong> — Apache license. Use when license politics matters.</li>
+<li><strong>Phi-3.5-mini</strong> — 3.8B parameters, surprisingly capable. For on-device-only clients.</li>
+<li><strong>Gemma 2 9B</strong> — Google weights. Strong for size.</li>
+</ul>
+<h3>3.5 Retrieval / RAG (client-specific knowledge injection)</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Document ingestion + chunking</td>
+<td><strong>LlamaIndex</strong> — lean usage, just the loaders + node-parsers. Not the full framework.</td>
+</tr>
+<tr>
+<td>Vector store</td>
+<td><strong>pgvector on Postgres</strong>. Commodity. We already know Postgres. Skip specialty DBs (Qdrant / Chroma / Weaviate) until pgvector actually can&rsquo;t keep up — it gets us to ~10M vectors without sweat.</td>
+</tr>
+<tr>
+<td>Re-rank</td>
+<td><strong>Cohere Rerank API</strong> (paid, good) OR <strong>bge-reranker-v2</strong> via HF Transformers (free, local, slower). Per-tier decision.</td>
+</tr>
+</tbody>
+</table>
+<h3>3.6 Evaluation / observability</h3>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Regression testing (CI)</td>
+<td><strong>promptfoo</strong> — config-as-code, matrix runs, CI-friendly. Adopt Phase 1.</td>
+</tr>
+<tr>
+<td>Real-time tracing + debugging</td>
+<td><strong>Arize Phoenix</strong> — OSS, LangSmith-alternative, visualizes agent traces well. Adopt Phase 2.</td>
+</tr>
+<tr>
+<td>Test-framework-style evals</td>
+<td><strong>DeepEval</strong> — when we need pytest-style assertions over LLM outputs. Adopt when it actually hurts to not have.</td>
+</tr>
+<tr>
+<td>Cost + latency tracking</td>
+<td><strong>Helicone</strong> (self-host) OR Claude API&rsquo;s own logs. Cheap path first.</td>
+</tr>
+</tbody>
+</table>
+<h3>3.7 Business-environment scanning (Phase 2)</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web scrape + markdown conversion</td>
+<td><strong>Firecrawl</strong> — built for LLM input, respects robots.txt, handles JS.</td>
+</tr>
+<tr>
+<td>LLM-driven extraction</td>
+<td><strong>ScrapeGraphAI</strong> — when we want the LLM to decide what to extract. Defer unless Firecrawl + a Claude pass isn&rsquo;t enough.</td>
+</tr>
+<tr>
+<td>Headless browser for dynamic sites</td>
+<td><strong>Playwright</strong> — when scraping alone isn&rsquo;t enough (auth, interaction).</td>
+</tr>
+<tr>
+<td>Tech-stack detection from a URL</td>
+<td><strong>Wappalyzer</strong> (open-source CLI / Node module). Free.</td>
+</tr>
+<tr>
+<td>Commercial stack intel</td>
+<td><strong>BuiltWith API</strong> — paid, broader data. Tier-2 decision.</td>
+</tr>
+<tr>
+<td>Review / social surface</td>
+<td>Google Places API for reviews; manual scrape for social until a client wants more.</td>
+</tr>
+</tbody>
+</table>
+<h3>3.8 In-house business tool scaffolds (Phase 2 deliverables)</h3>
+<p>When we build a CRM, chat, inventory system, website, or dashboard for a client, we don&rsquo;t start from zero. These are the reference starting points:</p>
+<table>
+<thead>
+<tr>
+<th>Deliverable type</th>
+<th>Default stack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Custom web app (any)</td>
+<td><strong>Next.js 15 + Supabase (Postgres + auth + storage + edge functions)</strong>. Boring, reliable, cheap.</td>
+</tr>
+<tr>
+<td>Admin panel / internal tool</td>
+<td><strong>Refine</strong> (React-based) OR <strong>Retool self-hosted</strong> (paid-but-cheap, huge leverage). Test both on first build.</td>
+</tr>
+<tr>
+<td>Team chat</td>
+<td><strong>Mattermost</strong> (self-host) — Slack-equivalent, open-source.</td>
+</tr>
+<tr>
+<td>Video / meetings</td>
+<td>Defer — no good OSS match for client expectations. Recommend Google Meet / Zoom for now.</td>
+</tr>
+<tr>
+<td>E-commerce / inventory</td>
+<td><strong>Medusa</strong> (Shopify-equivalent, open-source) OR custom Postgres + Next.js if the client needs unusual workflows.</td>
+</tr>
+<tr>
+<td>Docs / wiki</td>
+<td><strong>Outline</strong> (Slack-integrated wiki) OR <strong>BookStack</strong>.</td>
+</tr>
+<tr>
+<td>Form builder / intake</td>
+<td><strong>Formbricks</strong> (self-host, OSS).</td>
+</tr>
+<tr>
+<td>Workflow automation</td>
+<td><strong>n8n</strong> (self-host) — fair-code license, huge node catalog. Replaces Zapier for a client who doesn&rsquo;t want per-task SaaS fees.</td>
+</tr>
+</tbody>
+</table>
+<h3>3.9 What we DON&rsquo;T adopt (and why)</h3>
+<ul>
+<li><strong>LangChain as a framework</strong> — too much churn, too much abstraction, Claude isn&rsquo;t first-class. OK as a loader library (import specific utilities); not OK as the orchestrator.</li>
+<li><strong>Haystack</strong> — older, smaller ecosystem than LlamaIndex.</li>
+<li><strong>Pinecone / Weaviate / Qdrant (as vector DB)</strong> — overkill at our scale; lock-in we don&rsquo;t need. pgvector buys us everything through the first 50 clients.</li>
+<li><strong>Ray / Dask</strong> — distributed compute we don&rsquo;t need. A single fine-tuning box is enough through Phase 2.</li>
+<li><strong>Kubernetes as default</strong> — operational tax that doesn&rsquo;t pay off at our client scale. Docker Compose first; graduate to k8s only when a single client needs HA.</li>
+<li><strong>Helm charts, Terraform modules</strong> — same argument. Defer until a client has real infra-as-code requirements.</li>
+</ul>
+<h3>3.10 What&rsquo;s genuinely uncertain</h3>
+<ul>
+<li><strong>Vector DB at 100M+ vectors</strong> — pgvector might not hold. Plan a re-eval at Phase 3.</li>
+<li><strong>Reranker quality</strong> — BGE models are good enough for us now, but commercial Cohere is meaningfully better. Re-test at Phase 2.</li>
+<li><strong>On-device inference for privacy-tier-1 clients</strong> — llama.cpp quality on M-series is great, but we haven&rsquo;t validated the client-install UX. Needs a pilot.</li>
+<li><strong>Fine-tuning budget per client</strong> — unclear until we do our first 3 real client builds. Hypothesis: $500–2000 in GPU time for Phase 1; $2k–10k for Phase 2 mid-sized client.</li>
+</ul>
+<hr />
+<h2>4. Privacy tiers (the framework for serving different client risk profiles)</h2>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Deployment</th>
+<th>Who it&rsquo;s for</th>
+<th>Data movement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>T1 — On-prem / air-gapped</strong></td>
+<td>Client&rsquo;s own hardware; no outbound calls during inference.</td>
+<td>Healthcare (HIPAA), finance (SOX), legal (privilege), defense.</td>
+<td>Data never leaves. Fine-tuning done on client premises or on approved cloud with DPA.</td>
+</tr>
+<tr>
+<td><strong>T2 — Client VPC</strong></td>
+<td>AWS / GCP / Azure tenant owned by client. We have admin during build; revoked post-handoff.</td>
+<td>Mid-market, regulated-adjacent.</td>
+<td>Data stays in client cloud boundary. Claude API calls go direct (covered by Anthropic BAA where applicable).</td>
+</tr>
+<tr>
+<td><strong>T3 — Managed cloud (tenant-isolated)</strong></td>
+<td>Our infra, one schema per client in shared Postgres, encrypted at rest, RLS.</td>
+<td>SMB default.</td>
+<td>Client data stored by us under DPA. We own uptime.</td>
+</tr>
+<tr>
+<td><strong>T4 — Shared cloud (multi-tenant)</strong></td>
+<td>Our infra, row-level isolation.</td>
+<td>Smallest clients, prosumers.</td>
+<td>Client data stored by us; cheaper, less isolation.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Data-classification tags on every agent output:</strong></p>
+<ul>
+<li><code>pii</code> / <code>phi</code> / <code>pci</code> — never crosses to lower-privacy tiers.</li>
+<li><code>proprietary</code> — client-bounded; no training on it without opt-in.</li>
+<li><code>internal</code> — inside the client&rsquo;s org, but not sensitive.</li>
+<li><code>public</code> — OK to use in aggregated prompts or (with opt-in) training data.</li>
+</ul>
+<p>The orchestrator has a hook that refuses to ship an output to a lower-privacy sink than its tags allow. Same pattern as the autopilot lock: fail closed, surface the attempt, log it.</p>
+<hr />
+<h2>5. The Agent Builder Interview (Phase 1 intake)</h2>
+<p>This is the <strong>Virtuoso-tier</strong> chat Kevin described — the &ldquo;special&rdquo; builder whose job is not to ship code but to shape a client&rsquo;s raw need into a manufacturable LLM spec. Agent Builder is one of two Virtuosos (the other is Tool Builder; see §6). Replaces &ldquo;drop a repo&rdquo; with &ldquo;describe a goal.&rdquo; Designed for non-technical users. UX target: Apple-product onboarding quality (see Founding Principle §2).</p>
+<p><strong>Conversational interview structure</strong> (adaptive — skip branches based on answers):</p>
+<ol>
+<li><strong>Who are you?</strong> — individual / team / business; technical / non-technical; industry.</li>
+<li><strong>What outcome do you want?</strong> — describe the problem, not the solution. (&ldquo;I waste 4 hours a week answering the same customer emails.&rdquo;)</li>
+<li><strong>How do you do this today?</strong> — existing tools, workflows, pain points.</li>
+<li><strong>What data could help?</strong> — documents, databases, chat logs, calendars, emails.</li>
+<li><strong>Who can see what?</strong> — privacy tier, data classes, consent boundaries.</li>
+<li><strong>What does &ldquo;done&rdquo; look like?</strong> — specific, measurable success criteria.</li>
+<li><strong>What&rsquo;s your budget + timeline?</strong> — money, calendar time, GPU time.</li>
+<li><strong>What&rsquo;s your risk tolerance?</strong> — ship fast vs. ship careful.</li>
+<li><strong>Cognition preferences</strong> <em>(new — per Kevin&rsquo;s 2026-04-22 direction)</em> — which of Tiers K / L / O / C (see §3.1.b) are you open to? &ldquo;Local only,&rdquo; &ldquo;Claude integration welcome for hardest tasks,&rdquo; &ldquo;fully cloud,&rdquo; &ldquo;surprise me with a hybrid.&rdquo; The answer sets the default routing policy in <code>LLM_SPEC.md</code>; client can flip it any time post-deploy.</li>
+</ol>
+<p><strong>Output artifact:</strong> <code>LLM_SPEC.md</code> — structured spec containing:</p>
+<ul>
+<li>Problem statement.</li>
+<li>Target behaviors (with examples).</li>
+<li>Non-behaviors (things the LLM must refuse or escalate).</li>
+<li>Knowledge sources + ingestion plan.</li>
+<li>Privacy tier + data-class map.</li>
+<li>Eval set (10–30 labeled examples the LLM must pass).</li>
+<li>Deployment target (Ollama local, client VPC, etc.).</li>
+<li>Monitoring + update cadence.</li>
+</ul>
+<p><strong>Build flow (after the interview):</strong></p>
+<ol>
+<li><strong>Assemble baseline</strong> — pick base model, RAG or fine-tune or both.</li>
+<li><strong>Produce candidate v0</strong> — quick build, usually in the first 30 min post-interview.</li>
+<li><strong>Run eval set</strong> — promptfoo against the 10–30 examples.</li>
+<li><strong>Iterate</strong> — adjust prompt / re-fine-tune / tune retrieval until eval passes.</li>
+<li><strong>User acceptance</strong> — live session with the user driving, we watch.</li>
+<li><strong>Ship</strong> — deploy to chosen target, hand over docs + monitoring.</li>
+<li><strong>Ongoing loop</strong> — monthly re-eval, new examples added, model updated.</li>
+</ol>
+<p><strong>Unifying-pattern check:</strong> this is the Ensemble&rsquo;s onboarding + autopilot loop with a different output artifact. ✓</p>
+<hr />
+<h2>6. Tool Builder — the Business Tool Workshop (Phase 2 intake + build)</h2>
+<p>Same shape as Agent Builder, scaled up to a business + its competitive environment. This is where the amalgamation becomes visible: every tool Tool Builder ships <strong>embeds one or more Agent Builder LLMs</strong> as its AI layer. The tools aren&rsquo;t &ldquo;AI-bolted-on&rdquo;; they&rsquo;re AI-native from the first commit.</p>
+<p><strong>Scan pipeline:</strong></p>
+<ol>
+<li><strong>Business intake</strong> — website URL, basic info, industry, privacy tier preference.</li>
+<li><strong>Competitor discovery</strong> — Google queries + industry lists; user confirms a shortlist of 3–7 competitors.</li>
+<li><strong>Scrape + normalize</strong> — Firecrawl each site into markdown; Wappalyzer detects stack; capture marketing copy, pricing, feature list.</li>
+<li><strong>Social + review surface</strong> — Google Business reviews, LinkedIn presence, Glassdoor (if B2B), Trustpilot (if consumer).</li>
+<li><strong>Client stack audit</strong> — guided interview: what CRM, what chat, what docs, what inventory, what ops tools. Plus: what do you hate about your current stack?</li>
+<li><strong>Gap analysis</strong> — Claude ranks opportunities by impact × feasibility, produces a build list. Each candidate tool is tagged with what Agent Builder LLM it would embed (e.g. &ldquo;customer-service chatbot → Agent Builder LLM fine-tuned on support tickets&rdquo;).</li>
+<li><strong>Cognition preferences</strong> — client chooses default routing policy for the tools: local-only / Claude-welcome / hybrid / per-tool overrides.</li>
+<li><strong>Human-in-loop prioritization</strong> — client picks top 3 (the Ensemble executes; we don&rsquo;t barrel into 12 projects).</li>
+</ol>
+<p><strong>Build phase</strong> — for each picked tool:</p>
+<ul>
+<li><strong>Agent Builder sub-run</strong> — if the tool embeds a custom LLM, Agent Builder runs first to produce the <code>.gguf</code> or LoRA adapter.</li>
+<li>Spawn a dedicated Agent with a charter for that tool.</li>
+<li>Agent scaffolds from the Phase 2 reference stacks (§3.8).</li>
+<li>AI layer wired in: the tool imports the router (§3.1.d), which routes across Tiers K/L/O/C per the client&rsquo;s <code>LLM_SPEC.md</code>.</li>
+<li>Tests + eval + deploy via Ensemble standard flow.</li>
+<li><strong>Setup experience for the client:</strong> Apple-product grade (Founding Principle §2). One-command install when possible. Pre-filled sample data. Readme that reads like a product manual, not an engineer&rsquo;s note.</li>
+</ul>
+<p><strong>Artifact:</strong> <code>BUSINESS_ROADMAP.md</code> — updated quarterly; shows what&rsquo;s built, what&rsquo;s queued, what the current top 3 are, what metrics each tool is moving, what Agent Builder LLMs are live and when they last refreshed.</p>
+<hr />
+<h2>7. The autonomous-improvement loop</h2>
+<p>Kevin&rsquo;s exact words: <em>&ldquo;feed the info back into claude to review, reorient and implement changes then the loop continues.&rdquo;</em></p>
+<p>This is the Ensemble&rsquo;s overnight-autopilot pattern applied to the client product:</p>
+<pre><code>   Deployed tool
+       │
+       ▼
+┌────────────────────────┐
+│ Observability (Phoenix)│ ◄──── user interactions, model outputs,
+│ captures traces        │       errors, latency, cost
+└───────────┬────────────┘
+            ▼
+┌────────────────────────┐
+│ Eval Agent          │ ──► reads last-7-days traces, identifies
+│ (nightly cron)         │     regressions, categorizes errors
+└───────────┬────────────┘
+            ▼
+┌────────────────────────┐
+│ Re-orient Agent     │ ──► decides: prompt tweak? more RAG? 
+│ (Claude Opus)          │     fine-tune refresh? alert human?
+└───────────┬────────────┘
+            ▼
+┌────────────────────────┐
+│ Implement Agent     │ ──► makes the change in a feature branch,
+│ (scoped to tool repo)  │     runs eval set, opens PR with diff + 
+│                        │     justification
+└───────────┬────────────┘
+            ▼
+┌────────────────────────┐
+│ Human approval gate    │ ◄──── Kevin (or client admin) approves
+│ (review queue)         │       or rejects
+└───────────┬────────────┘
+            ▼
+     Merge + redeploy
+            │
+            ▼
+       (loop)
+</code></pre>
+<p><strong>Key design choice:</strong> the improvement loop never ships to production without human approval. This aligns with <code>safety_constraints.md</code> — no auto-push, no auto-deploy. The loop produces a <em>proposed change</em>; a human decides.</p>
+<hr />
+<h2>8. Phased roadmap</h2>
+<h3>Phase 0 — The Ensemble (now → Q2 2026)</h3>
+<p>Status: ~90% shipped. Remaining critical path:</p>
+<ul>
+<li>[x] Plugin refactor merged to main (commit <code>38206d6</code>, 2026-04-23).</li>
+<li>[ ] <code>/ensemble:autopilot N</code> slash command (see <code>docs/AUTOPILOT_DESIGN.md</code>).</li>
+<li>[ ] Mobile dispatch pilot (see <code>plugins/ensemble/MOBILE_DISPATCH.md</code>, test tomorrow).</li>
+<li>[ ] 48h dogfood post-cutover.</li>
+<li>[ ] First external user onboarded end-to-end.</li>
+<li>[ ] ~~Repo flip to public~~ — <strong>explicitly kept private per Kevin 2026-04-23.</strong> Private preview only; no public marketplace listing planned. Close-of-trust distribution instead.</li>
+</ul>
+<p><strong>Exit criterion for Phase 0:</strong> one non-Kevin user successfully bootstraps a new project as an Agent, uses autopilot to ship a real change, and it works without our intervention. (User is onboarded via private-repo invitation + <code>/plugin install</code> from the private marketplace URL, not from a public listing.)</p>
+<h3>Phase 1 — Agent Builder (Q2–Q3 2026)</h3>
+<p>Prereq: Phase 0 exits cleanly.</p>
+<p>Deliverables:</p>
+<ul>
+<li><code>virtuosos/agent-builder/DESIGN.md</code> — full design doc (like <code>AUTOPILOT_DESIGN.md</code> but for the LLM pipeline).</li>
+<li><code>plugins/agent-builder/</code> — separate plugin OR skill inside ensemble. <em>Decision to make: one plugin or two?</em> Likely <strong>skill inside ensemble</strong> at first; split if the bundle gets heavy.</li>
+<li><code>skills/agent-builder-interview/SKILL.md</code> — the conversational intake (§5).</li>
+<li><code>skills/agent-builder-build/SKILL.md</code> — the fine-tune / RAG / compose / hybrid-router pipeline.</li>
+<li>Reference <strong>router implementation</strong> (§3.1.d) — the per-request cognition-tier router, wired for Tiers K/L/O/C.</li>
+<li>Reference end-to-end: one real pilot (Kevin&rsquo;s personal use case — &ldquo;summarize my daily Code activity&rdquo; or similar), taken from intake → deployed Ollama model → eval pass.</li>
+</ul>
+<p><strong>Exit criterion:</strong> one stranger successfully uses Agent Builder to build a custom LLM for their personal use case, deploys it on their hardware, runs it exclusively in local mode (Tier L + K) for 30 days, then flips on Tier C for a week to validate the hybrid path works.</p>
+<h3>Phase 2 — Tool Builder (Q4 2026 – Q1 2027)</h3>
+<p>Prereq: Phase 1 has one real external success.</p>
+<p>Deliverables:</p>
+<ul>
+<li><code>virtuosos/tool-builder/DESIGN.md</code>.</li>
+<li>Scan pipeline (Firecrawl + Wappalyzer + Claude synthesis).</li>
+<li>Reference tool-builds: CRM template, team-chat template, inventory template, website template, marketing-copy template — each an Agent-buildable starter that <strong>imports the Agent Builder router and embeds a per-tool Agent Builder LLM</strong>.</li>
+<li>Client-install experience polished to Apple-grade: one-command Docker Compose or installer, pre-filled sample data, product-manual-grade readme.</li>
+<li>First paying client.</li>
+</ul>
+<p><strong>Exit criterion:</strong> one SMB pays us to run the full Tool Builder pipeline; they deploy at least 2 of the generated tools, each embedding its own Agent Builder LLM; they use them for 60 days without our intervention.</p>
+<h3>Phase 3 — Unified AI-Native Business Suite (2027+)</h3>
+<p>Prereq: Phase 2 has ≥3 paying clients generating ≥6 months of real operational data.</p>
+<p>Deliverables: packaging, billing, support tier, multi-tenant cloud dashboard (for us, not the clients), sales + marketing surface, public pricing, SLA. Brand consolidation — decide whether the suite lives under the &ldquo;Ensemble&rdquo; brand or a new umbrella.</p>
+<p><strong>Exit criterion:</strong> $MRR from Phase 3 covers Kevin&rsquo;s full-time work. This is the &ldquo;we have a business, not a project&rdquo; gate.</p>
+<hr />
+<h2>9. Risks &amp; unknowns</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Severity</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anthropic changes Claude API terms or pricing in a way that breaks our per-client math</td>
+<td>High</td>
+<td>Cognition flexibility is the insurance (§3.1). Tiers K/L/O carry the essential path; Tier C is upgradable/replaceable. Test the Claude-disabled path end-to-end at every Phase exit.</td>
+</tr>
+<tr>
+<td>Open-weight model quality plateaus; we can&rsquo;t fine-tune well enough for client accuracy bars</td>
+<td>Medium</td>
+<td>Bias toward RAG + prompting over fine-tuning; reserve fine-tune for narrow-domain wins. Router can fall back to Tier C (opted-in clients) for hard tasks.</td>
+</tr>
+<tr>
+<td>A regulated client needs compliance (HIPAA, SOC 2) we don&rsquo;t have</td>
+<td>Medium</td>
+<td>Stay in Tier 3/4 until we have one deal worth the certification burden. Partner with an MSP who already has it for Tier 1/2.</td>
+</tr>
+<tr>
+<td>The Ensemble doesn&rsquo;t scale beyond Kevin — pattern breaks when there&rsquo;s a team of humans, not just a solo dev</td>
+<td>Medium</td>
+<td>Watch for it at Phase 0 exit; design the multi-human handoff explicitly in Phase 3.</td>
+</tr>
+<tr>
+<td>We try to build all three phases in parallel, dilute execution, ship none well</td>
+<td><strong>High</strong></td>
+<td>This doc&rsquo;s phased gates. Each phase exits before the next begins. No parallel phase work.</td>
+</tr>
+<tr>
+<td>Competing products (CrewAI, AutoGen, OpenDevin) eat our lunch</td>
+<td>Low-medium</td>
+<td>Our moat is the orchestration + the Apple-quality polish + the end-to-end pipeline from intake to deployed product. Frameworks don&rsquo;t ship businesses; we do.</td>
+</tr>
+<tr>
+<td>Privacy tier boundaries are violated in practice, not just in theory</td>
+<td><strong>High</strong></td>
+<td>Build the data-class enforcement hook <strong>at Agent Builder start (Phase 1)</strong>, not as an afterthought. Red-team it. The router (§3.1.d) is the choke point; test it like the autopilot lock was tested.</td>
+</tr>
+<tr>
+<td>The router becomes a bottleneck or single point of failure</td>
+<td>Medium</td>
+<td>Keep it tiny, stateless, horizontally scalable. Failure mode: fail-closed → degrade to Tier K only, never leak to lower privacy.</td>
+</tr>
+<tr>
+<td>&ldquo;Cognition flexibility&rdquo; becomes &ldquo;cognition chaos&rdquo; — too many knobs, confusing for clients</td>
+<td>Medium</td>
+<td>The Agent Builder Interview (§5) collapses the choice to 4 preset profiles (&ldquo;local only&rdquo; / &ldquo;Claude-welcome hybrid&rdquo; / &ldquo;cloud-first&rdquo; / &ldquo;custom&rdquo;). Advanced clients can hand-edit <code>LLM_SPEC.md</code>; defaults handle 95%.</td>
+</tr>
+<tr>
+<td>Quality bar slips in the rush to ship Phase 1</td>
+<td><strong>High</strong></td>
+<td>Founding Principle §1. Every Phase exits on real-world use + 30-day operation, not on &ldquo;feature complete.&rdquo; Ugly is not ship-ready.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>10. Immediate next moves (concrete starting points)</h2>
+<p>These are the moves that matter <em>right after this doc is filed</em>, in rough priority order. Each is a standalone task that doesn&rsquo;t commit us to Phase 1 — they&rsquo;re preparatory.</p>
+<ol>
+<li><strong>Finish Phase 0 critical path</strong> (autopilot slash command, mobile dispatch pilot, plugin cutover). Don&rsquo;t start Agent Builder until Ensemble has a clean exit.</li>
+<li><strong>Confirm the naming</strong> — lock &ldquo;Agent Builder&rdquo; for Phase 1 or pick an alternative. Soft-lock &ldquo;Tool Builder&rdquo; for Phase 2 with option to revisit at Phase 2 kickoff.</li>
+<li><strong>One end-to-end Agent Builder mini-pilot</strong> before writing <code>AGENT_BUILDER_DESIGN.md</code>: Kevin picks a personal use case, does the Agent Builder Interview by hand (no skill yet), builds the LLM manually using the stack in §3 — <strong>including a routed-cognition demo</strong> (answer query through Tier K for factual, Tier L for generation, Tier C for hard reasoning) — documents the friction. This tells us what Agent Builder actually needs to automate.</li>
+<li><strong>Router proof-of-concept</strong> — standalone ~300-line service (Python FastAPI or TypeScript Hono) that implements §3.1.d routing logic against a stub <code>LLM_SPEC.md</code>. Test with one KB + one Ollama model + one Claude endpoint. This is the load-bearing piece; prove it works before Agent Builder depends on it.</li>
+<li><strong>Vector DB scale test</strong> — load 10M synthetic vectors into pgvector on a laptop; measure p50/p95 retrieval. This answers §3.5&rsquo;s open question before Agent Builder commits.</li>
+<li><strong>Tier-1 UX test</strong> — install Ollama + a fine-tuned Qwen 2.5 on a fresh Mac, pretend to be a non-technical client, time the full install. If it&rsquo;s &gt;20 min, the Agent Builder client-install experience is too expensive. Apple-grade means sub-10-min install.</li>
+<li><strong>License + BAA prep</strong> — get a standard client agreement drafted (probably from a template + lawyer review) before the first paying client shows up.</li>
+</ol>
+<h3>Things to <strong>not</strong> do right now</h3>
+<ul>
+<li>Don&rsquo;t spin up Tool Builder scaffolds. Premature.</li>
+<li>Don&rsquo;t try to pick a front-end framework for the eventual Phase 3 dashboard. Far too early.</li>
+<li>Don&rsquo;t buy domains for anything branded past &ldquo;Ensemble.&rdquo; Lock Agent Builder + Tool Builder names in the plan; buy domains only after the mini-pilot proves the architecture.</li>
+<li>Don&rsquo;t pitch the full vision to anyone outside of close trust. Let Phase 0 + an Agent Builder mini-pilot speak first.</li>
+</ul>
+<hr />
+<h2>11. Open questions (decide before Agent Builder starts)</h2>
+<ul>
+<li>[ ] <strong>Phase 1 name</strong> — &ldquo;Agent Builder&rdquo; (recommended) or alternative? Lock this doc&rsquo;s naming before Agent Builder mini-pilot.</li>
+<li>[ ] <strong>Phase 2 name</strong> — &ldquo;Tool Builder&rdquo; placeholder held. Kevin to develop the concept further; revisit at Phase 2 kickoff.</li>
+<li>[ ] <strong>Single plugin vs plugin-per-phase?</strong> — one <code>ensemble</code> plugin with many skills, or separate <code>ensemble</code> / <code>agent builder</code> / <code>tool builder</code> plugins sharing common primitives? Leaning: one plugin with skills until it hurts.</li>
+<li>[ ] <strong>Business entity?</strong> — LLC? Sole prop? Partnership? Changes at Tool Builder client start, not before.</li>
+<li>[ ] <strong>Pricing model for Agent Builder?</strong> — free toolkit + pay-for-build? Subscription? One-time fee + monthly maintenance? Depends on whether the toolkit&rsquo;s output is our differentiator or the concierge service around it.</li>
+<li>[ ] <strong>Will Agent Builder be open-source, source-available, or closed?</strong> — affects tech-stack choices (license compatibility). Leaning: open-source Agent Builder, monetize the Tool Builder + Unified service layer. Like how Ensemble will be MIT but the service of onboarding someone&rsquo;s business is a paid engagement.</li>
+<li>[ ] <strong>Router — open-source or proprietary?</strong> — the router is tiny but load-bearing and a differentiator. Open-sourcing it advertises the architecture; keeping it proprietary protects the amalgamation moat. Probably open-source with the core routing logic; keep the policy-DSL compiler proprietary.</li>
+<li>[ ] <strong>Do we want a dedicated GPU box for fine-tuning in-house?</strong> — an M3 Ultra Mac Studio + MLX is ~$6k and covers most Qwen-14B jobs; a rented A100 is $2–3/hr. Math changes at roughly 15 client fine-tunes.</li>
+<li>[ ] <strong>Does Claude Code&rsquo;s plugin ecosystem allow the kinds of hooks we need for Agent Builder safety enforcement?</strong> — verify via Anthropic&rsquo;s public plugin docs before committing Agent Builder&rsquo;s architecture.</li>
+<li>[ ] <strong>Branding umbrella</strong> — is &ldquo;The Ensemble&rdquo; the top-level brand and Agent Builder / Tool Builder are products under it, or is Ensemble specifically the dev tool and the business-facing brand is something else (e.g. a new name that speaks to SMB owners, not devs)? Decide before Tool Builder client 1.</li>
+<li>[ ] <strong>Cognition-preference UX</strong> — how many presets do we offer in Agent Builder Interview §5 Q9? Four feels right (&ldquo;local only,&rdquo; &ldquo;Claude hybrid,&rdquo; &ldquo;cloud first,&rdquo; &ldquo;custom&rdquo;). Validate with mini-pilot.</li>
+</ul>
+<hr />
+<h2>12. How to use this document</h2>
+<ul>
+<li><strong>Before starting any phase:</strong> re-read §2 (unifying pattern) and §8 (phased roadmap). Re-validate the exit criterion for the current phase.</li>
+<li><strong>When evaluating a new tool or dep:</strong> apply §3.9&rsquo;s three gates. Also re-check the decision matrix in §3.1–§3.8 — we may already have a default.</li>
+<li><strong>When a client / pilot surfaces a surprise:</strong> update §9 (risks) and §11 (open questions). This doc is living; surprises are data.</li>
+<li><strong>When Phase N exits cleanly:</strong> update §8 timestamps, file the phase&rsquo;s design doc, and review §10 for the next phase&rsquo;s starting moves.</li>
+<li><strong>When pitching externally</strong> (interview, investor, client): §1 + §2 + the matching phase&rsquo;s exit criterion. The rest is internal.</li>
+</ul>
+<hr />
+<h2>13. Appendix — what Kevin said verbatim (the origin)</h2>
+<p><strong>From 2026-04-22 (initial vision):</strong></p>
+<blockquote>
+<p>&ldquo;I want to take advantage of resources that are out there to make this project even better, i will let you in on something. I want to make a full AI integration tool for businesses eventually and I will use this as part of the grand plan. We will have an LLM maker that can customize solutions using clever agent prompts and .md files and the underlying architecture of ensemble to facilitate coding, testing and training in some ways for the bots if we can. We will feed the info back into claude to review, reorient and implement changes then the loop continues. A full suite of tools will be needed for training, and we want to consider privacy and other variables based on the clients needs. Basically a smart virtuosi prompt will unpack and instead of making a project it will ask the user questions to guide the creation of the perfect LLM for given needs. &hellip; We will also have a smart business tool designer that scans the business environment/competition before building tools with AI integration baked in. Things like company team chats, websites, inventory systems etc can all be done in house. &hellip; This will not all be handled within the scope of this chat, but i need to inject some direction and overall scope now as things are starting to move towards my goal at an accelerating rate.&rdquo;</p>
+</blockquote>
+<p><strong>From 2026-04-22 (cognition + amalgamation correction, same day):</strong></p>
+<blockquote>
+<p>&ldquo;let&rsquo;s try to always leave the option for claude integration for the chat bots but primarily kb and local custom LLM in conjuction with open source llms that already exist. we can form hybrids, or exlusively integrate claude, gemini etc based on a business and their needs. flexibility is key and high quality output is a must. the whole process must be treated like we are building a rocket.</p>
+<p>there are 3 core projects that will eventually amalgamate. Ensemble for maximizing claude efficiency and automating processes, a LLM Creation Toolkit that operates as a custom virtuosi, we can even give it another name that makes sense here because it&rsquo;s kind of a special agent. we also have a custom business digital tool creation toolkit. I will build on that concept more later, but the key here is that the custom LLMs will operate within the custom tools we build so we can offer AI driven solutions while maintaining privacy and complete control if desired (can be tailored to suite needs and setup is like an apple product, great user experience, easy to follow along considering the scope of what we are doing and all wrapped in a nice shiny package)&rdquo;</p>
+</blockquote>
+<p>Both directions are load-bearing. The first defines the ladder; the second defines the cognition architecture and the amalgamation principle. Any future rewrite of this plan must honor both.</p>
+<p>This doc is the first-pass synthesis. It&rsquo;s expected to be revised as Phase 0 exits and Agent Builder mini-pilots surface real information.</p>
+<hr />
+<p><em>End of GRAND_PLAN.md v0.2 — revised 2026-04-22 for cognition flexibility + amalgamation.</em></p>
+    </article>
+  </div>
+</main>
+<footer class="site-footer">
+  <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
+  <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>
+</footer>
+<script>
+const SERVER_URL = (function() {
+  const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
+  if (stored) return stored;
+  return location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    ? "http://localhost:8080"
+    : "";
+})();
+
+function authHeaders() {
+  const t = localStorage.getItem("DASHBOARD_TOKEN") || "";
+  return t ? { "Authorization": "Bearer " + t, "Content-Type": "application/json" }
+           : { "Content-Type": "application/json" };
+}
+
+async function fetchState() {
+  if (!SERVER_URL) return null;
+  try {
+    const r = await fetch(SERVER_URL + "/state", { headers: authHeaders() });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+async function setConfig(field, value) {
+  if (!SERVER_URL) return showHelp("settings-help", "No server URL set.");
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ field, value })
+    });
+    const j = await r.json();
+    showHelp("settings-help", r.ok ? ("✓ " + field + " = " + JSON.stringify(value)) : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("settings-help", "✗ network error: " + e.message); }
+}
+
+function showHelp(id, msg) { const el = document.getElementById(id); if (el) el.textContent = msg; }
+
+function updateNavStatus(state) {
+  const el = document.getElementById("nav-status");
+  if (!el) return;
+  if (!state) { el.textContent = "offline"; return; }
+  el.textContent = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " · " + (state.mode || "?");
+}
+
+function updateSmokeBanner(state) {
+  const banner = document.getElementById("smoke-banner");
+  const text = document.getElementById("smoke-banner-text");
+  if (!banner || !text || !state || !state.projects) { if (banner) banner.style.display = "none"; return; }
+  const pending = state.projects.find(p => p.pending_smoke_test);
+  if (!pending) { banner.style.display = "none"; window._pendingSmokeSlug = null; return; }
+  window._pendingSmokeSlug = pending.slug;
+  text.textContent = pending.slug + " → " + (pending.pending_smoke_test_target || "?") + " — pending verification. Run the smoke test, then click Pass / Issues / Fail.";
+  banner.style.display = "block";
+}
+
+async function smokeResult(result) {
+  if (!window._pendingSmokeSlug) return;
+  const notes = result === "pass" ? "" : prompt("Notes?", "") || "";
+  try {
+    const r = await fetch(SERVER_URL + "/smoke-test-result", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ slug: window._pendingSmokeSlug, result, notes })
+    });
+    const j = await r.json();
+    alert(r.ok ? ("Smoke test " + result + " recorded for " + window._pendingSmokeSlug + (j.state ? ". State now: " + j.state : ".")) : ("Error: " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { alert("Network error: " + e.message); }
+}
+
+let _ALL_STATE = null;
+
+async function refreshState() {
+  const state = await fetchState();
+  _ALL_STATE = state;
+  // Owner mode = state fetch successful (server reachable + token valid)
+  const newOwner = !!state;
+  if (newOwner !== _isOwner) {
+    _isOwner = newOwner;
+    applyOwnerMode();
+  }
+  updateNavStatus(state);
+  updateSmokeBanner(state);
+  if (typeof refreshPageState === "function") refreshPageState(state);
+}
+
+// ─── Owner detection (read-only mode for visitors) ───
+let _isOwner = false;
+function applyOwnerMode() {
+  const banner = document.getElementById("owner-banner");
+  if (_isOwner) {
+    document.body.classList.remove("read-only");
+    if (banner) banner.classList.replace("show", "hide");
+  } else {
+    document.body.classList.add("read-only");
+    if (banner) banner.classList.replace("hide", "show");
+    // Disable form inputs in owner-only sections
+    document.querySelectorAll("[data-owner-only] input, [data-owner-only] select, [data-owner-only] button").forEach(el => {
+      el.disabled = true;
+    });
+  }
+}
+
+// ─── Theme picker (persisted, per-device) ───
+function applyTheme(name) {
+  const themes = ["warm", "slate", "mono", "forest", "aurora", "rose", "ocean", "sunset", "midnight", "sage"];
+  themes.forEach(t => document.body.classList.remove("theme-" + t));
+  if (name && name !== "warm") document.body.classList.add("theme-" + name);
+  // Mark active swatch
+  document.querySelectorAll(".theme-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.theme === (name || "warm"));
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Theme load + bind
+  const savedTheme = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+  applyTheme(savedTheme);
+  document.querySelectorAll(".theme-swatch").forEach(el => {
+    el.addEventListener("click", () => {
+      const t = el.dataset.theme;
+      localStorage.setItem("ENSEMBLE_THEME", t);
+      applyTheme(t);
+    });
+  });
+
+  // Owner mode initial state — pessimistic until state fetch confirms
+  _isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
+  applyOwnerMode();
+
+  refreshState();
+  setInterval(refreshState, 60000);
+  document.querySelectorAll("[data-field]").forEach(el => {
+    el.addEventListener("change", () => {
+      if (!_isOwner) return;  // belt + suspenders; backend also enforces
+      const field = el.dataset.field;
+      let value;
+      if (el.type === "checkbox") value = el.checked;
+      else if (el.type === "number") value = parseInt(el.value, 10);
+      else value = el.value;
+      setConfig(field, value);
+    });
+  });
+});
+
+// Page-specific hooks (defined inline by each page if needed)
+async function fireAutopilot() {
+  const slug = document.getElementById("fire-slug").value;
+  const minutes = parseInt(document.getElementById("fire-mins").value, 10);
+  if (!slug || !minutes) return showHelp("fire-help", "Pick project + minutes");
+  try {
+    const r = await fetch(SERVER_URL + "/fire", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, minutes, prompt: "" }) });
+    const j = await r.json();
+    showHelp("fire-help", r.ok ? ("✓ fired " + slug + " for " + minutes + "m (exit " + j.exit + ")") : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("fire-help", "✗ " + e.message); }
+}
+
+async function setProjectState() {
+  const slug = document.getElementById("state-slug").value;
+  const state = document.getElementById("state-target").value;
+  if (!slug || !state) return showHelp("state-help", "Pick project + state");
+  try {
+    let r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state }) });
+    let j = await r.json();
+    if (r.status === 409 && j.error === "smoke_test_required") {
+      const ok = confirm("Checkpoint " + j.checkpoint + " smoke test required: " + j.current_state + " → " + j.target_state + ".\n\nState held. Run the test, then use the banner above.\n\nForce-skip the smoke test?");
+      if (ok) {
+        r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state, force: true }) });
+        j = await r.json();
+        showHelp("state-help", r.ok ? ("⚠ " + slug + " → " + state + " (forced; logged)") : ("✗ " + (j.error || r.statusText)));
+      } else { showHelp("state-help", "Smoke test held. See banner above."); }
+      setTimeout(refreshState, 500); return;
+    }
+    showHelp("state-help", r.ok ? ("✓ " + slug + " → " + state) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("state-help", "✗ " + e.message); }
+}
+
+async function killAll() {
+  if (!confirm("Kill all autopilot? Six-phase cascade fires.")) return;
+  try {
+    const r = await fetch(SERVER_URL + "/kill", { method: "POST", headers: authHeaders() });
+    const j = await r.json();
+    showHelp("kill-help", r.ok ? ("✓ kill exit=" + j.exit) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 1000);
+  } catch (e) { showHelp("kill-help", "✗ " + e.message); }
+}
+
+async function setTokenReset() {
+  const v = document.getElementById("reset-input")?.value;
+  if (!v) return showHelp("reset-help", "Pick a date/time.");
+  const iso = new Date(v).toISOString();
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", { method: "POST", headers: authHeaders(), body: JSON.stringify({ field: "weekly_token_reset_at", value: iso }) });
+    const j = await r.json();
+    showHelp("reset-help", r.ok ? ("✓ reset set to " + iso) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("reset-help", "✗ " + e.message); }
+}
+</script>
+</body>
+</html>

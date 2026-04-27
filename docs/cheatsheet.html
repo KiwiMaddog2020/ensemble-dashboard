@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — Cheat Sheet</title>
+<meta name="description" content="Signal phrases, key files, common play-button commands." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,374 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">plugins/ensemble/CHEATSHEET.md</p>
+    <article class="doc-content">
+<h1>CHEATSHEET — The Ensemble</h1>
+<p>Quick reference. Open this when you need a signal phrase, a file path, or a play-button command. For deep-dive, see the <a href="./onboarding-design.html">onboarding design</a> or <a href="research/">research/</a>.</p>
+<hr />
+<h2>Signal phrases (exact verbatim)</h2>
+<table>
+<thead>
+<tr>
+<th>Phrase</th>
+<th>Who says it</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>***INITIATING AUTOPILOT***</code></td>
+<td>Agent or Maestro</td>
+<td>Announces they&rsquo;re about to take the wheel. Always the LAST line of that turn. You approve to proceed.</td>
+</tr>
+<tr>
+<td><code>***AUTOPILOT COMPLETE***</code></td>
+<td>The chat that held autopilot</td>
+<td>Lock released. Work done.</td>
+</tr>
+<tr>
+<td><code>***ORCHESTRATOR OFF***</code></td>
+<td><strong>You</strong></td>
+<td>Kill-switch. Any chat that sees this verbatim executes the six-phase cascade. Releases lock, pauses automations, flips mode to <code>direct</code>.</td>
+</tr>
+<tr>
+<td><code>***ORCHESTRATOR ON***</code></td>
+<td><strong>You</strong></td>
+<td>Resume. Clears cascade tombstone, flips mode to <code>orchestrated</code>.</td>
+</tr>
+<tr>
+<td><code>⏸ ORCHESTRATOR IN TRANSITION — standing by.</code></td>
+<td>Any chat</td>
+<td>Someone else is running the cascade; this chat waits.</td>
+</tr>
+<tr>
+<td><code>[&lt;slug&gt;:&lt;task&gt; AUTOMATION FIRE]</code></td>
+<td>First output line of any scheduled task</td>
+<td>Makes automation events instantly identifiable in logs.</td>
+</tr>
+</tbody>
+</table>
+<h2>Liberal signal phrases (loose word-level detection)</h2>
+<p>These don&rsquo;t need exact phrasing — any clear intent triggers. See <code>signal_phrase_detection.md</code> for the full catalog.</p>
+<table>
+<thead>
+<tr>
+<th>Intent</th>
+<th>Triggers</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Turbo mode</td>
+<td><code>turbo</code>, <code>turbo on</code>, <code>enable turbo</code>, <code>let's turbo</code>, <code>go turbo</code></td>
+<td>AFK batch coding mode. Auto-engages rapid-fire if off. Safety gates still fire.</td>
+</tr>
+<tr>
+<td>Rapid-fire toggle</td>
+<td><code>rapid fire on/off</code>, <code>enable/disable rapid fire</code>, <code>turn on/off rapid fire</code></td>
+<td>ON = AskUserQuestion at decisions; OFF = prose mode</td>
+</tr>
+<tr>
+<td>Active/inactive</td>
+<td><code>set &lt;slug&gt; active/inactive</code>, <code>pause &lt;slug&gt;</code>, <code>resume &lt;slug&gt;</code></td>
+<td>Update <code>chats/&lt;slug&gt;.json.active</code></td>
+</tr>
+<tr>
+<td>State change</td>
+<td><code>set &lt;slug&gt; to &lt;state&gt;</code>, <code>&lt;slug&gt; goes to R&amp;D</code></td>
+<td>Update <code>chats/&lt;slug&gt;.json.state</code> (six-state lifecycle)</td>
+</tr>
+<tr>
+<td>Concurrency cap</td>
+<td><code>set max autopilots to N</code></td>
+<td>Update <code>state.json.max_concurrent_autopilots</code> (default 2)</td>
+</tr>
+<tr>
+<td>Smoke test confirm</td>
+<td><code>pass</code> / <code>fail</code> / <code>issues — &lt;details&gt;</code> (after a checkpoint prompt)</td>
+<td>Advance state or hold pending; logged to <code>chats/&lt;slug&gt;.json.smoke_test_log</code></td>
+</tr>
+<tr>
+<td>Smoke test override</td>
+<td><code>force &lt;slug&gt; to &lt;state&gt;</code>, <code>skip smoke test for &lt;slug&gt;</code></td>
+<td>Bypass checkpoint (logged)</td>
+</tr>
+<tr>
+<td>Token reset (set)</td>
+<td><code>set token reset to &lt;ISO&gt;</code>, <code>weekly reset is &lt;ISO&gt;</code></td>
+<td><code>state.json.weekly_token_reset_at</code>; Token Burn-Down routine</td>
+</tr>
+<tr>
+<td>Token burn toggle</td>
+<td><code>enable/disable burn-down</code>, <code>turn off token burn</code></td>
+<td><code>state.json.token_burn_down_enabled</code> (default true)</td>
+</tr>
+<tr>
+<td>Daily report time</td>
+<td><code>set daily report to &lt;HH:MM&gt;</code>, <code>morning briefing at &lt;time&gt;</code></td>
+<td>Updates <code>state.json.daily_report_time</code>; Maestro updates <code>morning-briefing</code> cron</td>
+</tr>
+<tr>
+<td>Weekly report day+time</td>
+<td><code>set weekly report to &lt;day&gt; &lt;HH:MM&gt;</code>, <code>weekly on &lt;day&gt; at &lt;time&gt;</code></td>
+<td>Updates <code>state.json.weekly_report_day</code> + <code>weekly_report_time</code>; Maestro updates <code>weekly-report</code> cron</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Turbo session (60-min autonomous chat)</h2>
+<p>Paste this into any onboarded Agent or Virtuoso chat to run a 60-minute autonomous work session that picks up new tasks when current ones finish early, then audits everything at the end:</p>
+<pre><code class="language-bash">cat ~/.claude/orchestrator/plugins/ensemble/templates/turbo_session.txt
+# copy the full output between BEGIN/END markers and paste into the chat
+</code></pre>
+<p>What it does:
+1. Reads operating contract + charter + memory files
+2. Acquires per-project spawn lock (Layer 2 of three-layer mutex)
+3. Loops Plan→Code→Test→Fix→Wrap on top_recommendation, then alternatives, then charter priorities
+4. At T+55min: stops new tasks, finalizes
+5. At T+60min: writes comprehensive audit (per-task summary, quality check, open questions, next-session recs) to <code>runs/turbo-&lt;slug&gt;-&lt;stamp&gt;.md</code>
+6. Releases lock, prints tight summary, stops</p>
+<p>Adjust budget by editing <code>SESSION_BUDGET_MINUTES</code> at the top of the prompt before pasting (default 60).</p>
+<p>User AFKs the entire time. Chat doesn&rsquo;t ask questions during autonomous phase. Safety gates (public-flip, billing, account creation) still fire if encountered.</p>
+<hr />
+<h2>Key files</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>${CLAUDE_PLUGIN_DATA}/state.json</code></td>
+<td>Global mode, three-layer mutex view, cap, cascade. Read-first every response.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_DATA}/state.lock.d/holder.json</code></td>
+<td>Workshop lock holder (computer-control gate). Only exists while held.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_DATA}/state.spawn-lock-&lt;slug&gt;.d/</code></td>
+<td>Per-project spawn lock (Layer 2). Only exists while held.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_DATA}/work_hours.json</code></td>
+<td>Your schedule. Drives routine gates.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_ROOT}/templates/MAESTRO.md</code></td>
+<td>Maestro&rsquo;s identity + 18 standing directives.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_ROOT}/templates/AGENT.md</code></td>
+<td>Every Agent&rsquo;s operating contract. 20 sections (v2.0).</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_ROOT}/templates/PROJECT_CHARTER.md</code></td>
+<td>Scaffold for per-project charters.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_ROOT}/templates/example.chat.json</code></td>
+<td>Annotated example status file.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_ROOT}/templates/onboarding_prompt.md</code></td>
+<td>Bootstrap prompt for new Agents.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_ROOT}/templates/turbo_session.txt</code></td>
+<td>Paste-ready 60-min autonomous prompt.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_DATA}/chats/&lt;slug&gt;.json</code></td>
+<td>Per-Agent status file (v2.0 schema with <code>state</code> field).</td>
+</tr>
+<tr>
+<td><code>&lt;repo&gt;/.claude/PROJECT_CHARTER.md</code></td>
+<td>Per-project truth. Read at the start of every significant task.</td>
+</tr>
+<tr>
+<td><code>&lt;repo&gt;/.claude/.chat_slug</code></td>
+<td>One-line slug for hook identification.</td>
+</tr>
+<tr>
+<td><code>~/.claude/settings.json</code></td>
+<td>PreToolUse + SessionStart hook config.</td>
+</tr>
+<tr>
+<td><code>~/.claude/projects/-Users-kevin/memory/MEMORY.md</code></td>
+<td>Memory pointer manifest (CI-checked by self_test).</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_DATA}/lock_steals.log</code></td>
+<td>Audit of every stale-lock steal.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_DATA}/runs/spawn-lock-YYYYMMDD.log</code></td>
+<td>Daily spawn-lock acquire/release/refuse log.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_DATA}/runs/watchdog-YYYYMMDD.log</code></td>
+<td>Resource watchdog samples + kill events.</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_DATA}/backups/</code></td>
+<td>Nightly state.json + chats/ snapshots (Backup Snapshot routine).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Common commands (play-button)</h2>
+<h3>System health at a glance</h3>
+<pre><code class="language-bash">${CLAUDE_PLUGIN_ROOT}/bin/status.sh
+</code></pre>
+<h3>List active scheduled tasks</h3>
+<pre><code class="language-bash">ls ~/.claude/scheduled-tasks/ 2&gt;/dev/null &amp;&amp; echo &quot;--- and launchctl ---&quot; &amp;&amp; launchctl list | grep -E 'orchestrator|ensemble'
+</code></pre>
+<h3>Three-layer mutex status</h3>
+<pre><code class="language-bash">${CLAUDE_PLUGIN_ROOT}/plugins/ensemble/bin/orchestrator_spawn_lock.sh status
+</code></pre>
+<h3>Sweep stale spawn locks</h3>
+<pre><code class="language-bash">${CLAUDE_PLUGIN_ROOT}/plugins/ensemble/bin/orchestrator_spawn_lock.sh sweep
+</code></pre>
+<h3>Run the v2.0 race test (9-test mutex suite)</h3>
+<pre><code class="language-bash">${CLAUDE_PLUGIN_ROOT}/plugins/ensemble/bin/test_spawn_lock_race.sh
+</code></pre>
+<h3>Sync lint configs to all 5 companion repos</h3>
+<pre><code class="language-bash">${CLAUDE_PLUGIN_ROOT}/plugins/ensemble/bin/sync-lint-configs.sh
+</code></pre>
+<h3>SwiftBar menu bar — install one-shot</h3>
+<pre><code class="language-bash">bash ${CLAUDE_PLUGIN_ROOT}/plugins/ensemble/integrations/swiftbar/setup.sh
+</code></pre>
+<h3>Inspect current state</h3>
+<pre><code class="language-bash">jq . ${CLAUDE_PLUGIN_DATA}/state.json
+</code></pre>
+<h3>Who holds the autopilot lock (if any)?</h3>
+<pre><code class="language-bash">[[ -d ${CLAUDE_PLUGIN_DATA}/state.lock.d ]] &amp;&amp; jq . ${CLAUDE_PLUGIN_DATA}/state.lock.d/holder.json || echo &quot;lock is free&quot;
+</code></pre>
+<h3>Force-release the lock (emergency only; normally the cascade handles this)</h3>
+<pre><code class="language-bash">rm -rf ${CLAUDE_PLUGIN_DATA}/state.lock.d &amp;&amp; jq '.active_autopilot_chat=null | .active_vm=null | .lock_acquired_at=null' ${CLAUDE_PLUGIN_DATA}/state.json &gt; /tmp/s.json &amp;&amp; mv /tmp/s.json ${CLAUDE_PLUGIN_DATA}/state.json &amp;&amp; echo &quot;lock force-released&quot;
+</code></pre>
+<h3>Recent steal log (post-mortem)</h3>
+<pre><code class="language-bash">tail -30 ${CLAUDE_PLUGIN_DATA}/lock_steals.log 2&gt;/dev/null || echo &quot;no steals yet&quot;
+</code></pre>
+<h3>Today&rsquo;s morning briefing</h3>
+<pre><code class="language-bash">cat ${CLAUDE_PLUGIN_DATA}/briefings/$(date -u +%Y-%m-%d).md 2&gt;/dev/null || echo &quot;no briefing yet&quot;
+</code></pre>
+<h3>Roster of onboarded Agents</h3>
+<pre><code class="language-bash">for f in ${CLAUDE_PLUGIN_DATA}/chats/*.json; do
+  jq -r '&quot;\(.chat_id) — \(.status) — \(.top_recommendation.title // &quot;no rec&quot;)&quot;' &quot;$f&quot; 2&gt;/dev/null
+done
+</code></pre>
+<h3>Pull latest orchestrator updates</h3>
+<pre><code class="language-bash">${CLAUDE_PLUGIN_ROOT}/bin/upgrade.sh
+</code></pre>
+<h3>Run the concurrency test on the lock</h3>
+<pre><code class="language-bash">${CLAUDE_PLUGIN_ROOT}/bin/test_lock_race.sh
+</code></pre>
+<h3>Reload the stale-lock sweeper</h3>
+<pre><code class="language-bash">launchctl unload ${CLAUDE_PLUGIN_ROOT}/launchd/com.kevin.orchestrator.stale-lock-sweeper.plist 2&gt;/dev/null; launchctl load ${CLAUDE_PLUGIN_ROOT}/launchd/com.kevin.orchestrator.stale-lock-sweeper.plist &amp;&amp; echo &quot;sweeper reloaded&quot;
+</code></pre>
+<h3>Tail sweeper logs</h3>
+<pre><code class="language-bash">tail -f /tmp/orchestrator-sweeper.out
+</code></pre>
+<hr />
+<h2>Quick troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Fast check</th>
+<th>Deeper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tools blocked with <code>ORCHESTRATION LOCK:</code> message</td>
+<td>Correct — the hook is working. Read the message.</td>
+<td><a href="./troubleshooting.html">TROUBLESHOOTING § 2</a></td>
+</tr>
+<tr>
+<td><code>[ORCHESTRATOR] … MISSING</code> at session start</td>
+<td>Hook not registered. Check <code>~/.claude/settings.json</code>.</td>
+<td><a href="./troubleshooting.html">TROUBLESHOOTING § 3</a></td>
+</tr>
+<tr>
+<td>Routine didn&rsquo;t fire overnight</td>
+<td>Desktop app closed or Mac asleep. Check &ldquo;Keep computer awake&rdquo; + don&rsquo;t close lid.</td>
+<td><a href="./troubleshooting.html">TROUBLESHOOTING § 6</a></td>
+</tr>
+<tr>
+<td>Autopilot lock stuck</td>
+<td>Wait 45 min for sweeper, or force-release (above).</td>
+<td><a href="./troubleshooting.html">TROUBLESHOOTING § 4</a></td>
+</tr>
+<tr>
+<td>state.json broken</td>
+<td>Restore from <code>*.backup.*</code> or re-init from schema.</td>
+<td><a href="./troubleshooting.html">TROUBLESHOOTING § 7</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Mode quick-reference</h2>
+<table>
+<thead>
+<tr>
+<th><code>state.json.mode</code></th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>orchestrated</code></td>
+<td>Full protocol. Hooks enforce. Routines fire.</td>
+</tr>
+<tr>
+<td><code>direct</code></td>
+<td>Conversational only. No rapid-fire format. Hooks block all VM tools. Routines no-op.</td>
+</tr>
+<tr>
+<td><code>mode_transitioning: true</code></td>
+<td>Shutdown cascade in flight. New autopilot blocked.</td>
+</tr>
+</tbody>
+</table>
+<p>To flip: say <code>***ORCHESTRATOR OFF***</code> or <code>***ORCHESTRATOR ON***</code> verbatim on its own line to any chat.</p>
+<hr />
+<h2>the user&rsquo;s working-chat shorthand (still honored)</h2>
+<p>For back-compat with pre-Ensemble chats on projects like BOO-Website:</p>
+<table>
+<thead>
+<tr>
+<th>Reply</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1</code>, <code>go</code>, <code>yes</code>, <code>y</code>, <code>ok</code>, empty</td>
+<td>Apply the recommendation</td>
+</tr>
+<tr>
+<td><code>skip</code>, <code>s</code></td>
+<td>Defer the decision</td>
+</tr>
+<tr>
+<td>Free text</td>
+<td>Override with your own direction</td>
+</tr>
+</tbody>
+</table>
+<p>In Agents under The Ensemble, multiple-choice decisions use the <code>AskUserQuestion</code> tool (click-button). These text shortcuts still work if an Agent presents a textual fallback.</p>
+    </article>
   </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
-  }
-}
-</script>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

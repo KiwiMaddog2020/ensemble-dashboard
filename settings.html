@@ -357,11 +357,16 @@ body.theme-aurora {
 }
 .theme-swatch:hover { transform: scale(1.05); }
 .theme-swatch.active { border-color: var(--ink); transform: scale(1.05); box-shadow: var(--shadow-md); }
-.theme-swatch.warm   { --swatch-a: #c2711f; --swatch-b: #e08a2c; }
-.theme-swatch.slate  { --swatch-a: #2563eb; --swatch-b: #3b82f6; }
-.theme-swatch.mono   { --swatch-a: #0a0a0a; --swatch-b: #555555; }
-.theme-swatch.forest { --swatch-a: #16a34a; --swatch-b: #22c55e; }
-.theme-swatch.aurora { --swatch-a: #8b5cf6; --swatch-b: #a78bfa; }
+.theme-swatch.warm     { --swatch-a: #c2711f; --swatch-b: #e08a2c; }
+.theme-swatch.slate    { --swatch-a: #2563eb; --swatch-b: #3b82f6; }
+.theme-swatch.mono     { --swatch-a: #0a0a0a; --swatch-b: #555555; }
+.theme-swatch.forest   { --swatch-a: #16a34a; --swatch-b: #22c55e; }
+.theme-swatch.aurora   { --swatch-a: #8b5cf6; --swatch-b: #a78bfa; }
+.theme-swatch.rose     { --swatch-a: #e11d48; --swatch-b: #f43f5e; }
+.theme-swatch.ocean    { --swatch-a: #0891b2; --swatch-b: #06b6d4; }
+.theme-swatch.sunset   { --swatch-a: #ea580c; --swatch-b: #f97316; }
+.theme-swatch.midnight { --swatch-a: #4f46e5; --swatch-b: #6366f1; }
+.theme-swatch.sage     { --swatch-a: #65a30d; --swatch-b: #84cc16; }
 </style>
 </head>
 <body>
@@ -413,11 +418,16 @@ body.theme-aurora {
     <h2>Appearance</h2>
     <p class="section-sub">Choose your color theme. Saved locally in your browser.</p>
     <div class="theme-picker" data-theme-picker>
-      <div class="theme-swatch warm"   data-theme="warm"   title="Warm (default)">W</div>
-      <div class="theme-swatch slate"  data-theme="slate"  title="Slate">S</div>
-      <div class="theme-swatch mono"   data-theme="mono"   title="Mono">M</div>
-      <div class="theme-swatch forest" data-theme="forest" title="Forest">F</div>
-      <div class="theme-swatch aurora" data-theme="aurora" title="Aurora">A</div>
+      <div class="theme-swatch warm"     data-theme="warm"     title="Warm (default)">W</div>
+      <div class="theme-swatch slate"    data-theme="slate"    title="Slate">S</div>
+      <div class="theme-swatch mono"     data-theme="mono"     title="Mono">M</div>
+      <div class="theme-swatch forest"   data-theme="forest"   title="Forest">F</div>
+      <div class="theme-swatch aurora"   data-theme="aurora"   title="Aurora">A</div>
+      <div class="theme-swatch rose"     data-theme="rose"     title="Rose">R</div>
+      <div class="theme-swatch ocean"    data-theme="ocean"    title="Ocean">O</div>
+      <div class="theme-swatch sunset"   data-theme="sunset"   title="Sunset">Su</div>
+      <div class="theme-swatch midnight" data-theme="midnight" title="Midnight">Mi</div>
+      <div class="theme-swatch sage"     data-theme="sage"     title="Sage">Sa</div>
     </div>
     <p class="settings-help" style="margin-top:12px;">Theme persists across visits and per-device. Default is <strong>Warm</strong>.</p>
   </div>
@@ -661,7 +671,7 @@ function applyOwnerMode() {
 
 // ─── Theme picker (persisted, per-device) ───
 function applyTheme(name) {
-  const themes = ["warm", "slate", "mono", "forest", "aurora"];
+  const themes = ["warm", "slate", "mono", "forest", "aurora", "rose", "ocean", "sunset", "midnight", "sage"];
   themes.forEach(t => document.body.classList.remove("theme-" + t));
   if (name && name !== "warm") document.body.classList.add("theme-" + name);
   // Mark active swatch

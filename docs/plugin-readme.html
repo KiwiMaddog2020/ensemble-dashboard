@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — Plugin README</title>
+<meta name="description" content="The Ensemble plugin marketplace listing — cast, safety, slash commands." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,246 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">plugins/ensemble/README.md</p>
+    <article class="doc-content">
+<h1>Ensemble</h1>
+<p><strong>Multi-chat orchestration for Claude Code.</strong> One Maestro conducts many Agents — building, testing, and shipping real software autonomously while you&rsquo;re at work, asleep, or out with your phone.</p>
+<pre><code class="language-bash"># Install (one-time)
+/plugin marketplace add KiwiMaddog2020/claude-ensemble
+/plugin install ensemble@claude-ensemble
+
+# Boot the Maestro in any new chat
+/ensemble:maestro
+
+# Onboard an Agent for a specific repo (from inside that repo)
+/ensemble:agent-onboard
+</code></pre>
+<hr />
+<h2>What this solves</h2>
+<p>Running many Claude Code chats at once feels powerful — until two of them spin a VM on the same machine, or both rewrite <code>state.json</code>, or you forget which one you told to ship. Ensemble gives every chat a role, every action a lock, and you a single kill-switch.</p>
+<h2>The cast</h2>
+<ul>
+<li><strong>Maestro</strong> — one chat, one baton. Coordinates, ranks top recs across projects, owns <code>orchestrator:*</code> scheduled tasks. Never holds the autopilot lock.</li>
+<li><strong>Agents</strong> — the other chats. Each one is scoped to a single project (repo), reads a per-project charter, reports status in a rapid-fire format, and acquires the autopilot mutex before any work.</li>
+</ul>
+<h2>What&rsquo;s in v2.0</h2>
+<p>The v2.0 contract sweep (2026-04-26) added eight operating directives + a three-layer mutex + Tier 1 hardening:</p>
+<h3>Three-layer autopilot mutex</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it prevents</th>
+<th>Configurable?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Workshop lock</strong> (kernel-enforced via PreToolUse hook)</td>
+<td>Two chats grabbing computer/browser simultaneously</td>
+<td>No, always on</td>
+</tr>
+<tr>
+<td><strong>Per-project spawn lock</strong> (atomic mkdir per slug)</td>
+<td>Same-repo dual-fire (file stomps)</td>
+<td>No, always on</td>
+</tr>
+<tr>
+<td><strong>Resource floor</strong> (RAM/CPU pre-check)</td>
+<td>Spawning under critical system pressure</td>
+<td>Yes, opt-in default OFF</td>
+</tr>
+</tbody>
+</table>
+<p>Plus a user-controlled cap: <strong><code>max_concurrent_autopilots</code></strong> (default 2; adjustable via verbal <code>set max autopilots to N</code> or PWA dashboard). Cap-hit = queue with 5-min timeout.</p>
+<h3>Six-state project lifecycle</h3>
+<pre><code>BUILDING → LAUNCH PREP → WARMER ⇄ R&amp;D ⇄ UPDATES → HIBERNATING
+pre-launch  pre-launch    live triangle (bidirectional)   archive
+</code></pre>
+<p>Every project&rsquo;s <code>chats/&lt;slug&gt;.json</code> carries a <code>state</code> field. Auto-transitions at G1/G7/G8. Manual override via verbal <code>set &lt;slug&gt; to &lt;state&gt;</code> or PWA dashboard pill. Live triangle (Warmer/R&amp;D/Updates) is bidirectional.</p>
+<h3>Operating directives</h3>
+<table>
+<thead>
+<tr>
+<th>Directive</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Smart handoff</strong></td>
+<td>Self-monitor context: 80% warn, 90% auto-stage, 95% hard-stop. Each chat dies cleanly with paste-ready resume prompt.</td>
+</tr>
+<tr>
+<td><strong>Turbo mode</strong></td>
+<td>Liberal <code>turbo</code> signal → AFK batch coding mode. All approvals up-front, then run autonomously until completion. Safety gates still fire.</td>
+</tr>
+<tr>
+<td><strong>Outside-the-box thinking</strong></td>
+<td>Priority 1 operating posture. Build fancy debug/calibration tools when warranted. Canonical: isolate each CSS effect on its own row to spot a glitch.</td>
+</tr>
+<tr>
+<td><strong>Feedback pipeline</strong></td>
+<td>Sunday 6am aggregator pulls from each live project&rsquo;s channel (GitHub Issues / Formspree / email / Discord), compiles per-project briefings. Strict plan-then-approve gate for live products.</td>
+</tr>
+<tr>
+<td><strong>Rapid-fire toggle</strong></td>
+<td><code>state.json.rapid_fire_enabled</code>, default true. ON = AskUserQuestion at decisions. Every call reserves slot 4 for &ldquo;Disable Rapid Fire Mode&rdquo; — one-click escape hatch.</td>
+</tr>
+<tr>
+<td><strong>Lint discipline</strong></td>
+<td><code>.editorconfig</code> + markdownlint + yamllint + ruff + prettier configs at repo root. CI gates lint on every PR. Surgical edits never introduce new lint failures.</td>
+</tr>
+<tr>
+<td><strong>Active/inactive control</strong></td>
+<td>Per-chat <code>active</code> flag — <code>set &lt;slug&gt; active/inactive</code> in any chat. Inactive chats skipped by routines but state preserved.</td>
+</tr>
+<tr>
+<td><strong>Flow continuity</strong></td>
+<td>Never offer &ldquo;pause&rdquo; / &ldquo;stop&rdquo; / &ldquo;sleep on it&rdquo; — user dictates when work ceases.</td>
+</tr>
+</tbody>
+</table>
+<h3>Tier 1 hardening (2026-04-26)</h3>
+<table>
+<thead>
+<tr>
+<th>Protection</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>caffeinate -i</code> wrap</strong></td>
+<td>Mac can&rsquo;t idle-sleep mid-autopilot, suspending the subprocess. Honored via <code>caffeinate_during_autopilot</code> (default true).</td>
+</tr>
+<tr>
+<td><strong>Battery awareness</strong></td>
+<td>Optional <code>require_ac_power</code> flag refuses fires on battery. Default off (opt-in).</td>
+</tr>
+<tr>
+<td><strong>Disk pre-flight</strong></td>
+<td><code>min_free_disk_gb</code> threshold (default 5). Refuses fires under threshold.</td>
+</tr>
+<tr>
+<td><strong>Log rotation</strong></td>
+<td>Sunday 5am scheduled task. 30/60/90-day retention per directory. Stops <code>runs/</code> from growing unbounded.</td>
+</tr>
+</tbody>
+</table>
+<h3>Menu bar indicator (SwiftBar)</h3>
+<p>A 30-line shell script that drops into <a href="https://swiftbar.app">SwiftBar</a> and shows ☕ + active autopilot count in the Mac menu bar. Click → project list with start times, queued autopilots, <strong>Stop All</strong> button, dashboard link. One-shot installer at <code>plugins/ensemble/integrations/swiftbar/setup.sh</code>.</p>
+<h2>Safety by design (foundations, unchanged from v1)</h2>
+<ul>
+<li><strong>Atomic autopilot lock</strong> — POSIX <code>mkdir</code>, one winner, no races. Filesystem-enforced.</li>
+<li><strong>Hooks, not vibes</strong> — <code>PreToolUse</code> hook hard-blocks VM tools when state disagrees. Fires before permission-mode checks, so it blocks even under <code>--dangerously-skip-permissions</code>.</li>
+<li><strong>Distributed kill-switch</strong> — say <code>***ORCHESTRATOR OFF***</code> verbatim in any chat. Six-phase cascade releases the lock, pauses automations, flips the system to <code>direct</code> mode. Any chat can execute; protocol handles races.</li>
+<li><strong>Fail closed</strong> — if shared <code>state.json</code> goes missing, every VM tool is blocked.</li>
+</ul>
+<h2>Slash commands this plugin provides</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/ensemble:maestro</code></td>
+<td>Boot the current chat as the Maestro. Reads its identity contract, scans status files, surfaces the cross-project top rec.</td>
+</tr>
+<tr>
+<td><code>/ensemble:agent-onboard</code></td>
+<td>Onboard the current chat as an Agent scoped to <code>cwd</code>. Runs discovery + adaptive interview + writes charter + status file.</td>
+</tr>
+<tr>
+<td><code>/ensemble:autopilot N</code></td>
+<td>Fire an N-minute autopilot session on the current project (wraps spawn lock + caffeinate).</td>
+</tr>
+<tr>
+<td><code>/active &lt;slug&gt;</code></td>
+<td>Set a project active in routine rotations.</td>
+</tr>
+<tr>
+<td><code>/inactive &lt;slug&gt;</code></td>
+<td>Set a project inactive (state preserved).</td>
+</tr>
+<tr>
+<td><code>/projects</code></td>
+<td>Roster of all chats with state, active flag, autopilot eligibility.</td>
+</tr>
+</tbody>
+</table>
+<h2>Hooks this plugin registers</h2>
+<p>Auto-registered by the plugin runtime; no <code>~/.claude/settings.json</code> edits needed.</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Matcher</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PreToolUse</code></td>
+<td><code>mcp__(computer-use\|Claude_Preview\|Claude_in_Chrome)__.*</code></td>
+<td>Blocks VM tools when mode≠orchestrated or another Agent holds the workshop lock.</td>
+</tr>
+<tr>
+<td><code>SessionStart</code></td>
+<td><code>startup\|resume\|clear</code></td>
+<td>Prints <code>[ORCHESTRATOR] hard-enforcement active</code> (or <code>MISSING</code>) into context.</td>
+</tr>
+</tbody>
+</table>
+<h2>Optional extensions</h2>
+<p>After core install, the Maestro can walk you through:</p>
+<ul>
+<li><strong>Scheduled routines</strong> — Morning Briefing, Evening Planning, Overnight Heavy, Workday Pulse, Dashboard Update, Log Rotation. Mode-gated; respect your work hours. Most fire via Mac scheduled-tasks; mobile-triggered via cloud Routines.</li>
+<li><strong>Mobile dispatch</strong> — iOS Shortcuts + Termius/Tailscale to fire autopilot from your phone. One tap to kick off work; one tap to kill everything.</li>
+<li><strong>PWA dashboard</strong> — Live cross-project completion roster with state pills (six colors), tap-to-fire-autopilot, embedded chat. Auto-refreshes 3× daily, installable to phone home screen.</li>
+<li><strong>SwiftBar menu bar</strong> — <code>bash plugins/ensemble/integrations/swiftbar/setup.sh</code> installs SwiftBar + symlinks the plugin + configures everything in one shot.</li>
+<li><strong>Cross-machine sync</strong> — companion repo <code>ensemble-config</code> syncs templates/memory/scripts between Mac (<code>bin-mac/</code>) and Windows (<code>bin-win/</code>). Full PowerShell parity for the three-layer mutex.</li>
+</ul>
+<h2>Files</h2>
+<p>Read-only plugin bundle (<code>${CLAUDE_PLUGIN_ROOT}</code>):
+- <code>templates/MAESTRO.md</code> — Maestro&rsquo;s operating contract (18 directives)
+- <code>templates/AGENT.md</code> — Agent&rsquo;s operating contract (20 sections)
+- <code>templates/PROJECT_CHARTER.md</code> — scaffold for per-project charters
+- <code>templates/onboarding_prompt.md</code> — full onboarding flow
+- <code>bin/*.sh</code> — hook scripts + operational helpers (orchestrator_lock, orchestrator_spawn_lock, self_test, test_lock_race, test_spawn_lock_race, …)
+- <code>skills/*/SKILL.md</code> — slash-command definitions
+- <code>integrations/swiftbar/</code> — Mac menu bar indicator + one-shot installer
+- <code>bootstraps/*.txt</code> — paste-friendly identity prompts (alternative to slash commands)</p>
+<p>Writable user state (<code>${CLAUDE_PLUGIN_DATA}</code>):
+- <code>state.json</code> — global mode, mutex view, cascade state, concurrency knobs
+- <code>state.lock.d/</code> — atomic workshop lock (only exists while held)
+- <code>state.spawn-lock-&lt;slug&gt;.d/</code> — per-project spawn locks (only exist while held)
+- <code>chats/&lt;slug&gt;.json</code> — one per Agent; status + heartbeat + state + top rec
+- <code>work_hours.json</code> — your schedule gate for routines
+- <code>briefings/</code>, <code>queue/</code>, <code>pulse/</code>, <code>runs/</code> — routine outputs
+- <code>lock_steals.log</code> — audit of stale-lock steals</p>
+<h2>Docs</h2>
+<ul>
+<li><strong>Cheat sheet</strong> — <code>CHEATSHEET.md</code> — signal phrases, key paths, play-button commands</li>
+<li><strong>Troubleshooting</strong> — <code>TROUBLESHOOTING.md</code> — failure catalog with diagnostic + recovery</li>
+<li><strong>Install details</strong> — <code>INSTALL.md</code></li>
+<li><strong>Mobile dispatch</strong> — <code>MOBILE_DISPATCH.md</code> + <code>PHONE_QUICKSTART.md</code></li>
+<li><strong>SwiftBar setup</strong> — <code>integrations/swiftbar/README.md</code></li>
+<li><strong>Bootstrap prompts</strong> — <code>bootstraps/maestro.txt</code>, <code>bootstraps/agent-builder.txt</code>, <code>bootstraps/tool-builder.txt</code>, <code>bootstraps/website-agent.txt</code></li>
+</ul>
+<h2>License</h2>
+<p>MIT. See <code>LICENSE</code>.</p>
+<h2>Author</h2>
+<p>Kevin Madson — <a href="https://github.com/KiwiMaddog2020">github.com/KiwiMaddog2020</a></p>
+    </article>
   </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
-  }
-}
-</script>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

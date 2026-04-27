@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — Repo README</title>
+<meta name="description" content="Top-level claude-ensemble README — concepts, install, repo layout." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,227 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">README.md</p>
+    <article class="doc-content">
+<h1>claude-ensemble</h1>
+<p><strong>Claude Code marketplace hosting the Ensemble plugin.</strong> One chat conducts many — multi-chat orchestration with shared state, rapid-fire decisions, a three-layer autopilot mutex, and a global kill-switch. Built for users running several Claude Code sessions at once on the same machine.</p>
+<hr />
+<h2>Install</h2>
+<pre><code class="language-bash">/plugin marketplace add KiwiMaddog2020/claude-ensemble
+/plugin install ensemble@claude-ensemble
+/exit   # so the SessionStart hook attaches next time you open a chat
+</code></pre>
+<p>Open a fresh chat. You should see <code>[ORCHESTRATOR] hard-enforcement active</code> at the top of context. Then:</p>
+<pre><code>/ensemble:maestro           # in any new chat → becomes your orchestrator
+/ensemble:agent-onboard     # in a project repo → onboard the chat as an Agent
+</code></pre>
+<p>Full install walkthrough: <a href="./install.html"><code>docs/INSTALL.md</code></a>.</p>
+<h2>Core concepts</h2>
+<ul>
+<li><strong>Maestro</strong> — one chat, one baton. Coordinates, ranks top recs across projects, never holds the autopilot mutex.</li>
+<li><strong>Agents</strong> — scoped to one repo each. Read a per-project charter, report status in rapid-fire format, acquire the autopilot mutex before firing work.</li>
+<li><strong>Three-layer autopilot mutex</strong> — workshop lock (computer-control) + per-project spawn lock (file-stomp prevention) + resource floor (opt-in RAM/CPU pre-check), with a user-controlled <code>max_concurrent_autopilots</code> cap (default 2). Cap-hit = queue with 5-min timeout.</li>
+<li><strong>Six-state lifecycle</strong> — every project moves through Building → Launch Prep → Warmer ⇄ R&amp;D ⇄ Updates → Hibernating. Auto-transitions at G1/G7/G8.</li>
+<li><strong>Kill-switch</strong> — say <code>***ORCHESTRATOR OFF***</code> in any chat. Six-phase cascade releases all locks, pauses automations, flips mode to <code>direct</code>. Any chat can execute; protocol handles races.</li>
+</ul>
+<p>More detail on each piece: <a href="./cloudflare-access.html"><code>plugins/ensemble/README.md</code></a>.</p>
+<h2>What&rsquo;s new in v2.0 (2026-04-26)</h2>
+<p>Eight new operating directives, baked into MAESTRO.md + AGENT.md:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Directive</th>
+<th>One-line</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Smart handoff</strong></td>
+<td>Self-monitor context: 80% warn → 90% stage → 95% hard-stop with paste-ready resume prompt</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Turbo mode</strong></td>
+<td>Liberal <code>turbo</code> signal triggers AFK batch coding; safety gates still fire</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Outside-the-box thinking</strong></td>
+<td>Priority 1 operating posture; build calibration tools when warranted</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Feedback pipeline</strong></td>
+<td>Sunday 6am aggregator + plan-then-approve gate for live products</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Six-state taxonomy</strong></td>
+<td>Replaces evolution_modes; bidirectional live triangle</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>State enable/disable</strong></td>
+<td>Verbal + PWA; <code>set &lt;slug&gt; to &lt;state&gt;</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Three-layer mutex</strong></td>
+<td>Workshop + per-project spawn + opt-in resource floor; user-controlled cap</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Rapid-fire toggle</strong></td>
+<td>Per-chat toggle; every AskUserQuestion call reserves slot 4 for &ldquo;Disable Rapid Fire Mode&rdquo; escape hatch</td>
+</tr>
+</tbody>
+</table>
+<p>Plus <strong>Tier 1 hardening</strong>: <code>caffeinate -i</code> wrap (anti-sleep), battery awareness, disk pre-flight, log rotation. <strong>SwiftBar menu bar indicator</strong> with one-shot installer. <strong>Lint discipline</strong> baked into CI (markdownlint / yamllint / ruff / prettier / EditorConfig).</p>
+<h2>Repo layout</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What&rsquo;s there</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.claude-plugin/marketplace.json</code></td>
+<td>Self-hosted marketplace catalog — registered by <code>/plugin marketplace add KiwiMaddog2020/claude-ensemble</code></td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/</code></td>
+<td>The Ensemble plugin — skills, templates, hooks, scripts, integrations, docs</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/.claude-plugin/plugin.json</code></td>
+<td>Plugin manifest (hooks, metadata)</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/skills/</code></td>
+<td>Slash-command definitions (<code>maestro</code>, <code>agent-onboard</code>, <code>autopilot</code>)</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/templates/</code></td>
+<td>MAESTRO (18 directives), AGENT (20 sections), PROJECT_CHARTER, onboarding_prompt</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/bin/</code></td>
+<td>Helper scripts: <code>orchestrator_lock.sh</code> (workshop hook), <code>orchestrator_spawn_lock.sh</code> (three-layer spawn mutex), <code>self_test.sh</code>, <code>test_lock_race.sh</code>, <code>test_spawn_lock_race.sh</code>, plus dashboard regen, prelude, status, upgrade, backup, sync, rollback</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/bootstraps/</code></td>
+<td>Paste-friendly identity prompts</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/integrations/swiftbar/</code></td>
+<td>Mac menu bar indicator + one-shot setup wizard</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/README.md</code></td>
+<td>Plugin-level README (marketplace display)</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/CHANGELOG.md</code></td>
+<td>Version history</td>
+</tr>
+<tr>
+<td><code>plugins/ensemble/LICENSE</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><code>launchd/</code></td>
+<td>Optional <code>launchd</code> plist for the stale-lock sweeper</td>
+</tr>
+<tr>
+<td><code>public/</code></td>
+<td>Marketing onepager (HTML, deployable to Cloudflare Pages)</td>
+</tr>
+<tr>
+<td><code>docs/</code></td>
+<td>Design + install + roadmap docs</td>
+</tr>
+<tr>
+<td><code>research/</code></td>
+<td>Research tracks (atomic lock, hooks, failure modes, kill-switch, routines, mobile, publication)</td>
+</tr>
+<tr>
+<td><code>.github/workflows/</code></td>
+<td>CI: shellcheck + JSON validity + plugin manifest schema + lint job + lock-race + hook-unit</td>
+</tr>
+<tr>
+<td><code>uninstall.sh</code></td>
+<td>Legacy self-hosted uninstall (pre-plugin installs)</td>
+</tr>
+</tbody>
+</table>
+<p>Lint configs at the repo root: <code>.editorconfig</code>, <code>.markdownlint.json</code>, <code>.yamllint</code>, <code>ruff.toml</code>, <code>.prettierrc</code>, <code>.prettierignore</code> — synced to all five companion repos.</p>
+<h2>Companion repos</h2>
+<table>
+<thead>
+<tr>
+<th>Repo</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ensemble-config</code></td>
+<td>Cross-machine sync layer (<code>bin-mac/</code> ↔ <code>bin-win/</code> PowerShell parity, shared docs/templates/memory)</td>
+</tr>
+<tr>
+<td><code>ensemble-dashboard</code></td>
+<td>Live cross-project completion roster with state pills + PWA install</td>
+</tr>
+<tr>
+<td><code>website-agent-starter</code></td>
+<td>Friend-shareable bootstrap for the website-agent (lifecycle-aware, 9 phase gates)</td>
+</tr>
+<tr>
+<td><code>ensemble-phone</code></td>
+<td>Beautiful phone cheat sheet for Termius+Tailscale dispatch</td>
+</tr>
+<tr>
+<td><code>ensemble-desktop</code></td>
+<td>Desktop-sized phone dispatch reference</td>
+</tr>
+</tbody>
+</table>
+<p>All five sync lint configs from this canonical repo.</p>
+<h2>Docs</h2>
+<ul>
+<li><strong>Install</strong> — <a href="./install.html"><code>docs/INSTALL.md</code></a> (marketplace + manual paths, macOS/Linux/Windows)</li>
+<li><strong>Cheat sheet</strong> — <a href="./cheatsheet.html"><code>plugins/ensemble/CHEATSHEET.md</code></a></li>
+<li><strong>Troubleshooting</strong> — <a href="./troubleshooting.html"><code>plugins/ensemble/TROUBLESHOOTING.md</code></a></li>
+<li><strong>SwiftBar setup</strong> — <a href="./cloudflare-access.html"><code>plugins/ensemble/integrations/swiftbar/README.md</code></a></li>
+<li><strong>Mobile dispatch</strong> — <a href="./mobile-dispatch.html"><code>plugins/ensemble/MOBILE_DISPATCH.md</code></a> + <a href="./phone-quickstart.html"><code>PHONE_QUICKSTART.md</code></a></li>
+<li><strong>Mission roadmap</strong> — <a href="./mission-roadmap.html"><code>docs/MISSION_ROADMAP.md</code></a></li>
+<li><strong>Grand plan</strong> — <a href="./grand-plan.html"><code>docs/GRAND_PLAN.md</code></a> (Phase 0 → 1 → 2 → 3 ladder)</li>
+</ul>
+<h2>Status</h2>
+<ul>
+<li><strong>v2.0 contract shipped</strong> 2026-04-26 — eight directives + three-layer mutex + Tier 1 hardening + SwiftBar indicator</li>
+<li><strong>v1.0.0</strong> tagged earlier — first plugin release</li>
+<li><strong>Phase 0</strong> at 90% — remaining: friend hand-off + public-flip</li>
+<li><strong>Cross-platform</strong> — macOS + Linux today (bash); Windows via PowerShell parity in <code>ensemble-config</code></li>
+<li><strong>Marketplace</strong> — public-flip pending; submission timeline 1–4 weeks after</li>
+</ul>
+<h2>License</h2>
+<p>MIT. See <a href="LICENSE"><code>LICENSE</code></a>. Copyright © 2026 Kevin Madson.</p>
+<h2>Contributing</h2>
+<p>See <a href="./contributing.html"><code>CONTRIBUTING.md</code></a> for the contract — surgical edits only, commit message conventions, smoke tests, cross-repo sync expectations. Security issues go via <a href="./security.html"><code>SECURITY.md</code></a>, never public issues. Code of conduct: <a href="./code-of-conduct.html"><code>CODE_OF_CONDUCT.md</code></a>.</p>
+<p>The repo is a private preview today; public release lands with the Claude skill marketplace publication.</p>
+<h2>Changelog</h2>
+<p>See <a href="./changelog.html"><code>CHANGELOG.md</code></a> for release notes and <a href="./mission-roadmap.html"><code>docs/MISSION_ROADMAP.md</code></a> for the gap-closure ledger.</p>
+    </article>
   </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
-  }
-}
-</script>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

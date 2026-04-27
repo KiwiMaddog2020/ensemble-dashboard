@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — Mobile Dispatch</title>
+<meta name="description" content="Termius + Tailscale. Phone-fired autopilot." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,308 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">plugins/ensemble/MOBILE_DISPATCH.md</p>
+    <article class="doc-content">
+<h1>Mobile Dispatch — phone → Mac → Ensemble</h1>
+<blockquote>
+<p><strong>Status:</strong> first draft, 2026-04-22. Written for the first live test tomorrow at work.
+<strong>Goal for this weekend:</strong> from your phone, kick off a 60-minute autopilot window (or kill everything) without touching the laptop.</p>
+</blockquote>
+<p>This doc gives you <strong>two paths</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Setup time</th>
+<th>Robustness</th>
+<th>Works offline of WiFi</th>
+<th>Recommended for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A — Tailscale + SSH Shortcut</strong></td>
+<td>~15 min</td>
+<td>Good</td>
+<td>Yes (cellular + Tailscale mesh)</td>
+<td><strong>Recommended path</strong> — production-ready.</td>
+</tr>
+<tr>
+<td><strong>B — Cloud Routine + iMessage Channels</strong></td>
+<td>~45 min</td>
+<td>Best</td>
+<td>Yes</td>
+<td>The target end-state. Ship next weekend.</td>
+</tr>
+</tbody>
+</table>
+<p>Path A gets you a working &ldquo;fire from phone&rdquo; demo <strong>tonight</strong> with no plugin install, no new accounts, and a failure mode you can debug over the phone. Path B is the plan-of-record once Channels is installed and the <code>/ensemble:autopilot</code> skill ships.</p>
+<hr />
+<h2>0. What you&rsquo;ll have when done</h2>
+<p><strong>Tomorrow at 10am:</strong></p>
+<ol>
+<li>You&rsquo;re at your desk at work.</li>
+<li>You tap a home-screen icon: <strong>&ldquo;Ensemble: Fire 60 min&rdquo;</strong>.</li>
+<li>3 seconds later, your phone buzzes: <em>&ldquo;Autopilot started. Lock held by maestro. I&rsquo;ll ping you at 11:02 or sooner.&rdquo;</em></li>
+<li>At 11:02, another buzz: <em>&ldquo;Autopilot complete. 4 commits, 0 pushes. Review queue has 2 items. Next rec: ship BOO-Website V1_58.&rdquo;</em></li>
+<li>You tap the message to open a summary; if anything feels wrong, you tap <strong>&ldquo;Ensemble: Kill&rdquo;</strong> and within 10s everything on the Mac stops.</li>
+</ol>
+<p><strong>Crucially:</strong> at no point have you unlocked your laptop. It might be shut in a drawer. The Mac just needs to be awake (lid open or &ldquo;Prevent sleep&rdquo; on a charger) and on the network.</p>
+<hr />
+<h2>1. Prereqs (all paths)</h2>
+<ul>
+<li>[ ] Mac is awake during the dispatch window. Lid open, power adapter plugged in, and <strong>System Settings → Lock Screen → Start Screen Saver when inactive: Never</strong> + <strong>Turn display off: Never on power adapter</strong> (or use <code>caffeinate -d -i -s</code> in a launchd-kept terminal).</li>
+<li>[ ] You have admin on the Mac.</li>
+<li>[ ] You have iCloud signed in on both devices (used for fallback file-trigger path if SSH flakes).</li>
+<li>[ ] Apple Shortcuts is installed on your phone (default on iOS 16+).</li>
+</ul>
+<hr />
+<h2>2. PATH A — Tailscale + SSH Shortcut (ship tonight)</h2>
+<h3>2.1. Install Tailscale on the Mac (5 min)</h3>
+<p>Tailscale is free for personal use, gives every device a permanent stable IP on a private mesh, and <strong>works over cellular</strong> the moment your phone has signal. It&rsquo;s transport-layer only — Claude Code doesn&rsquo;t need to know about it; any SSH or HTTPS request over a Tailscale IP just works.</p>
+<ol>
+<li>Open Terminal on the Mac.</li>
+<li>Run:
+   <code>bash
+   brew install --cask tailscale
+   open -a Tailscale</code></li>
+<li>Sign in with the account you want to use (your personal email is fine). Choose <strong>&ldquo;Install system extension&rdquo;</strong> when prompted.</li>
+<li>After sign-in, Tailscale shows a popover with your Mac&rsquo;s Tailscale IP — something like <code>100.64.0.12</code>. <strong>Note this IP.</strong> (You can always see it later with <code>tailscale ip -4</code>.)</li>
+</ol>
+<h3>2.2. Install Tailscale on the iPhone (2 min)</h3>
+<ol>
+<li>App Store → <strong>Tailscale</strong> → install → sign in with the same account.</li>
+<li>Grant VPN permission when prompted.</li>
+<li>Open the app and confirm the Mac appears in the device list, green dot, same magic name (e.g. <code>kevins-macbook-pro</code>).</li>
+</ol>
+<p><strong>Test:</strong> in Safari on the phone, go to <code>http://&lt;mac-tailscale-ip&gt;:8000</code> — if you have a local dev server running on the Mac on port 8000 you&rsquo;ll see it. If not, Safari will just fail to connect, but that&rsquo;s fine — you&rsquo;re verifying the network, not a specific service.</p>
+<h3>2.3. Enable Remote Login on the Mac (1 min)</h3>
+<ol>
+<li><strong>System Settings → General → Sharing → Remote Login: ON</strong>.</li>
+<li><strong>Allow access for:</strong> pick &ldquo;Only these users&rdquo; and add yourself. Don&rsquo;t use &ldquo;All users.&rdquo;</li>
+<li>Confirm your SSH username by running <code>whoami</code> in Terminal (mine is <code>kevin</code>).</li>
+</ol>
+<h3>2.4. Generate an SSH key for the phone (3 min)</h3>
+<p>You don&rsquo;t want to paste your Mac password into a Shortcut. Key-based auth + a passphrase-protected key is the right move.</p>
+<ol>
+<li>On the Mac, in Terminal:
+   <code>bash
+   ssh-keygen -t ed25519 -f ~/.ssh/ensemble_phone -C "ensemble-phone"
+   # Hit enter twice for no passphrase (simpler for Shortcut) OR set one (more secure)
+   cat ~/.ssh/ensemble_phone.pub &gt;&gt; ~/.ssh/authorized_keys
+   chmod 600 ~/.ssh/authorized_keys</code></li>
+<li>Copy the <strong>private</strong> key to your clipboard:
+   <code>bash
+   pbcopy &lt; ~/.ssh/ensemble_phone</code></li>
+<li>On the phone, open Notes, create a new note called &ldquo;ensemble_phone.key&rdquo;, and paste. We&rsquo;ll copy it into the Shortcut in a moment.</li>
+</ol>
+<blockquote>
+<p><strong>Security note:</strong> Anyone with this key file + your Mac&rsquo;s Tailscale IP can run arbitrary shell commands as you. Treat it like a password. If you lose the phone, remote-wipe via iCloud and <code>rm ~/.ssh/authorized_keys</code> on the Mac to revoke immediately.</p>
+</blockquote>
+<h3>2.5. Write the dispatch shell script on the Mac (3 min)</h3>
+<p>This is the single entry point that the phone will call. It writes a log, fires the intended command, and pushes a notification back.</p>
+<p>Create <code>~/.claude/orchestrator/bin/mobile_dispatch.sh</code>:</p>
+<pre><code class="language-bash">#!/bin/bash
+# Mobile dispatch entrypoint.
+# Called by the phone via SSH: bash -c &quot;bin/mobile_dispatch.sh &lt;action&gt; [minutes]&quot;
+# Actions: fire | kill | status | brief
+
+set -euo pipefail
+
+ORCH=&quot;${CLAUDE_PLUGIN_ROOT:-$HOME/.claude/orchestrator}&quot;
+ORCH_DATA=&quot;${CLAUDE_PLUGIN_DATA:-$ORCH}&quot;
+LOG=&quot;$ORCH_DATA/mobile_dispatch.log&quot;
+
+action=&quot;${1:-status}&quot;
+minutes=&quot;${2:-60}&quot;
+stamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+echo &quot;[$stamp] dispatch: action=$action minutes=$minutes&quot; &gt;&gt; &quot;$LOG&quot;
+
+case &quot;$action&quot; in
+  fire)
+    # This is a harmless diagnostic.
+    # Once /ensemble:autopilot N ships, replace the echo line with:
+    #   (cd &quot;$ORCH&quot; &amp;&amp; claude -p &quot;/ensemble:autopilot $minutes&quot;)
+    # (Claude Code has no --cwd flag; cd into the repo then invoke.)
+    echo &quot;[$stamp] FIRE requested ($minutes min) — placeholder: no autopilot skill yet&quot; &gt;&gt; &quot;$LOG&quot;
+    bash &quot;$ORCH/bin/status.sh&quot; &gt;&gt; &quot;$LOG&quot; 2&gt;&amp;1
+    osascript -e &quot;display notification \&quot;Fire acknowledged ($minutes min). Check mobile_dispatch.log.\&quot; with title \&quot;Ensemble\&quot;&quot;
+    printf &quot;OK fire acknowledged (%s min) at %s\n&quot; &quot;$minutes&quot; &quot;$stamp&quot;
+    ;;
+  kill)
+    # Write the kill-switch signal phrase to a file the Maestro watches.
+    # Once Channels is wired, this becomes an iMessage send.
+    echo &quot;***ORCHESTRATOR OFF***  (mobile kill at $stamp)&quot; &gt; &quot;$ORCH_DATA/kill_signal.txt&quot;
+    osascript -e &quot;display notification \&quot;Kill-switch dropped at $stamp\&quot; with title \&quot;Ensemble\&quot;&quot;
+    printf &quot;OK kill at %s\n&quot; &quot;$stamp&quot;
+    ;;
+  status)
+    if [ -x &quot;$ORCH/bin/status.sh&quot; ]; then
+      bash &quot;$ORCH/bin/status.sh&quot;
+    else
+      echo &quot;no status.sh at $ORCH/bin/status.sh&quot;
+    fi
+    ;;
+  brief)
+    briefing=&quot;$ORCH_DATA/briefings/$(date -u +%Y-%m-%d).md&quot;
+    if [ -r &quot;$briefing&quot; ]; then
+      head -40 &quot;$briefing&quot;
+    else
+      echo &quot;no briefing yet for $(date -u +%Y-%m-%d)&quot;
+    fi
+    ;;
+  *)
+    echo &quot;unknown action: $action&quot; &gt;&amp;2
+    exit 2
+    ;;
+esac
+</code></pre>
+<p>Then:</p>
+<pre><code class="language-bash">chmod +x ~/.claude/orchestrator/bin/mobile_dispatch.sh
+</code></pre>
+<p><strong>Test it locally first:</strong></p>
+<pre><code class="language-bash">~/.claude/orchestrator/bin/mobile_dispatch.sh status
+~/.claude/orchestrator/bin/mobile_dispatch.sh fire 5
+# Should see a notification on the Mac; should see lines appended to mobile_dispatch.log.
+</code></pre>
+<h3>2.6. Build the iOS Shortcut &ldquo;Ensemble: Fire 60 min&rdquo; (5 min)</h3>
+<p>On the phone:</p>
+<ol>
+<li>Open <strong>Shortcuts</strong> → <strong>+</strong> (top right) to create a new shortcut.</li>
+<li>Name it <strong>Ensemble: Fire 60 min</strong>. Pick an icon (flame is fitting).</li>
+<li>Add the following actions, in order:</li>
+</ol>
+<p><strong>Action 1: Run Script Over SSH</strong>
+   - <strong>Host:</strong> <code>100.64.0.12</code> (your Mac&rsquo;s Tailscale IP from step 2.1).
+   - <strong>Port:</strong> <code>22</code>.
+   - <strong>User:</strong> <code>kevin</code> (or whatever <code>whoami</code> returned).
+   - <strong>Authentication:</strong> <strong>SSH Key</strong> → tap <strong>Choose Key</strong> → <strong>Create New SSH Key</strong> → name it <code>ensemble_phone</code>, type <code>ed25519</code>. Now tap <strong>Share Public Key</strong> and AirDrop it to the Mac. Append the phone&rsquo;s public key to <code>~/.ssh/authorized_keys</code> on the Mac:
+     <code>bash
+     cat ~/Downloads/ensemble_phone.pub &gt;&gt; ~/.ssh/authorized_keys</code>
+     (Remove the file from Downloads after.)
+     <em>Back in the Shortcut, pick the <code>ensemble_phone</code> key you just generated.</em>
+   - <strong>Input:</strong> Shortcut Input.
+   - <strong>Script:</strong> <code>bash ~/.claude/orchestrator/bin/mobile_dispatch.sh fire 60</code></p>
+<p><strong>Action 2: Show Notification</strong>
+   - <strong>Title:</strong> <code>Ensemble</code>
+   - <strong>Body:</strong> the output of Action 1 (use the &ldquo;Shell Script Result&rdquo; variable)
+   - <strong>Duration:</strong> 3 seconds</p>
+<ol start="4">
+<li>Tap <strong>Done</strong>.</li>
+<li>Tap <strong>…</strong> on the shortcut tile → <strong>Add to Home Screen</strong> → choose icon and name.</li>
+</ol>
+<p>Repeat for <strong>Ensemble: Kill</strong> (script: <code>bash ~/.claude/orchestrator/bin/mobile_dispatch.sh kill</code>) and optionally <strong>Ensemble: Status</strong> (<code>status</code>) and <strong>Ensemble: Brief</strong> (<code>brief</code>).</p>
+<h3>2.7. Tomorrow morning&rsquo;s test sequence (2 min)</h3>
+<p>Before you leave the house:</p>
+<ol>
+<li>Lid open, power plugged in.</li>
+<li>In Terminal: <code>caffeinate -d -i -s -u &amp;</code> and leave it running. (Or install the Amphetamine app and toggle on.)</li>
+<li>Confirm Tailscale is green on both devices.</li>
+</ol>
+<p>At work:</p>
+<ol>
+<li>Tap <strong>Ensemble: Status</strong> — you should see a one-screen status print.</li>
+<li>Tap <strong>Ensemble: Fire 60 min</strong> — you should get a Mac notification (mirrored to the phone via iCloud if you have notifications forwarded) within ~3 seconds.</li>
+<li>Wait 5 minutes. Tap <strong>Ensemble: Kill</strong> — verify <code>kill_signal.txt</code> appears in <code>~/.claude/orchestrator/</code> when you next open the Mac.</li>
+</ol>
+<p>If any step fails, see §5 <strong>Troubleshooting</strong>.</p>
+<hr />
+<h2>3. PATH B — Cloud Routine + iMessage Channels (next weekend)</h2>
+<p>This is the target end-state for mobile dispatch — it doesn&rsquo;t need the Mac to be on the same network (Anthropic&rsquo;s cloud is the intermediary), it survives flaky home WiFi, and the trigger is a single HTTP call from any device.</p>
+<p>Deferred to a separate session because it requires:</p>
+<ul>
+<li>iMessage Channels plugin install + tmux session + launchd KeepAlive + Full Disk Access grant.</li>
+<li>A Cloud Routine at <code>claude.ai/code/routines</code> named <code>ensemble:autopilot</code> with an API trigger.</li>
+<li>An API token generated at <code>claude.ai/settings/tokens</code>.</li>
+<li>An iOS Shortcut that POSTs to the Routine&rsquo;s <code>/fire</code> endpoint with <code>{"text": "60"}</code>.</li>
+</ul>
+<p><strong>Rough outline</strong> (to flesh out next session):</p>
+<ol>
+<li><strong>Install iMessage Channels plugin</strong> on the Mac. Exact plugin name + install syntax to be verified against the current Claude Code plugin marketplace before shipping Path B — the <code>imessage@claude-plugins-official</code> path is a working placeholder pending confirmation. Run <code>/plugin marketplace</code> in a Claude Code chat to browse.</li>
+<li><strong>Grant Full Disk Access</strong> to Terminal (System Settings → Privacy &amp; Security → Full Disk Access → add Terminal.app).</li>
+<li><strong>Start a persistent Channels session in tmux</strong>. The exact <code>claude</code> invocation to start a headless iMessage-listening session will depend on what the installed plugin documents — the <code>--channels</code> flag was speculative. Plan to verify when Kevin picks up Path B; placeholder shape:
+   <code>bash
+   # Exact command TBD per installed plugin's docs
+   tmux new-session -d -s ensemble-channels 'claude &lt;channel-flags-per-plugin&gt;'</code></li>
+<li><strong>Install a launchd plist</strong> at <code>~/Library/LaunchAgents/com.kevin.ensemble-channels.plist</code> with <code>KeepAlive=true</code> so tmux respawns on reboot.</li>
+<li><strong>Create the Cloud Routine</strong> at <code>claude.ai/code/routines</code>:
+   - Name: <code>ensemble:autopilot</code>
+   - Trigger: API POST
+   - Prompt: <em>&ldquo;iMessage <your-imessage-address> with the body &lsquo;/ensemble:autopilot {{ text }} — fired from Cloud Routine at {{ now }}&rsquo;.&rdquo;</em></li>
+<li><strong>Generate an API token</strong> at <code>claude.ai/settings/tokens</code> → scope: <code>routines:fire</code>. Copy to phone&rsquo;s Notes briefly.</li>
+<li><strong>Build iOS Shortcut</strong> that POSTs to the Routine with <code>Authorization: Bearer &lt;token&gt;</code> and <code>{"text": "60"}</code> body.</li>
+</ol>
+<p>The Channels session on the Mac receives the iMessage, the content is passed to a local Claude Code session, and that session executes <code>/ensemble:autopilot N</code> — which is where the autonomous orchestrator takes over per <code>docs/AUTOPILOT_DESIGN.md</code>.</p>
+<p><strong>Why this is worth the extra setup eventually:</strong></p>
+<ul>
+<li>The Mac doesn&rsquo;t need to be reachable on the network — Apple&rsquo;s Push Notification Service delivers the iMessage whenever the Mac is next awake.</li>
+<li>You get a readable history of every dispatch in the iMessage thread.</li>
+<li>The Routine can itself be triggered by a calendar event, a webhook, or another AI agent — not just your phone.</li>
+<li>Response comes back as an iMessage reply with full-context text, not a truncated SSH stdout.</li>
+</ul>
+<hr />
+<h2>4. Kill-switch from the phone</h2>
+<p>Both paths expose a &ldquo;kill&rdquo; action. In Path A, the shortcut writes <code>kill_signal.txt</code> into the orchestrator directory, which any Maestro session polls-for-presence on every turn and executes the full shutdown cascade:</p>
+<ol>
+<li>Release the autopilot lock.</li>
+<li>Pause scheduled tasks (morning-briefing, evening-planning, overnight-heavy).</li>
+<li>Flip <code>state.json.mode</code> to <code>direct</code>.</li>
+<li>Print the loud banner.</li>
+<li>Delete the kill_signal.txt so the next turn doesn&rsquo;t re-fire.</li>
+</ol>
+<blockquote>
+<p><strong>The kill cascade already runs</strong> via the standing <code>***ORCHESTRATOR OFF***</code> phrase in any Maestro chat. Mobile kill just writes that phrase into a file the Maestro&rsquo;s next turn reads. If you&rsquo;re paranoid, also text <code>***ORCHESTRATOR OFF***</code> to your own number via iMessage — Path B&rsquo;s Channels session will catch it directly.</p>
+</blockquote>
+<hr />
+<h2>5. Troubleshooting</h2>
+<h3>SSH connection refuses</h3>
+<ul>
+<li>Tailscale green on both? <code>tailscale status</code> on the Mac should show the phone as a peer.</li>
+<li><code>Remote Login</code> actually enabled? <code>sudo systemsetup -getremotelogin</code> should print <code>On</code>.</li>
+<li>Firewall? <code>sudo /usr/libexec/ApplicationFirewall/socketfilterfw --listapps</code> — sshd should be allowed.</li>
+<li><code>~/.ssh/authorized_keys</code> has the right content? Run <code>cat ~/.ssh/authorized_keys | tail -1</code> and make sure it ends with <code>ensemble-phone</code> (the comment from <code>ssh-keygen -C</code>).</li>
+<li>Permissions on <code>.ssh</code> directory: <code>chmod 700 ~/.ssh &amp;&amp; chmod 600 ~/.ssh/authorized_keys</code>.</li>
+</ul>
+<h3>&ldquo;Run Script Over SSH&rdquo; returns empty</h3>
+<ul>
+<li>On the phone Shortcut, tap the action&rsquo;s <strong>…</strong> → <strong>Show When Run</strong> to see the raw response.</li>
+<li>SSH into the Mac manually from another terminal (or <code>ssh &lt;tailscale-ip&gt;</code> from an iPad) using the same key — if that works but Shortcut doesn&rsquo;t, it&rsquo;s a Shortcut key-format issue. Regenerate the key IN the Shortcut action (not CLI) for guaranteed format match.</li>
+</ul>
+<h3>Mac sleeps mid-day</h3>
+<ul>
+<li>Check <code>pmset -g</code> — on AC power <code>sleep</code> should be 0.</li>
+<li><code>caffeinate -d -i -s</code> in a tmux session works but dies on reboot. For permanent:
+  <code>bash
+  sudo pmset -c sleep 0 displaysleep 5 disksleep 0
+  # -c = on AC power only; phone dispatch assumes you're charging</code></li>
+<li>Verify with <code>pmset -g | grep sleep</code>.</li>
+</ul>
+<h3>No notification back to the phone</h3>
+<ul>
+<li>Mac&rsquo;s local notification fires (<code>osascript -e "display notification ..."</code>) but doesn&rsquo;t push to the phone unless you have <strong>Notifications forwarding</strong> configured (System Settings → Notifications → your phone → ON).</li>
+<li>Alternative: use the Pushover app + <code>curl -F "token=..." -F "user=..." -F "message=..."</code> in <code>mobile_dispatch.sh</code>. Free tier is enough for personal use.</li>
+</ul>
+<h3>Kill signal file gets left behind after a crash</h3>
+<ul>
+<li>The Maestro&rsquo;s next normal turn always consumes and deletes <code>kill_signal.txt</code>. If stale: <code>rm ~/.claude/orchestrator/kill_signal.txt</code> by SSH.</li>
+</ul>
+<hr />
+<h2>6. After first deploy</h2>
+<p>Once Path A is working, the next increments are — in recommended order:</p>
+<ol>
+<li>Add a Pushover-based notification back to phone so you get a <em>push</em>, not just a Mac-local notification.</li>
+<li>Wire the real <code>/ensemble:autopilot N</code> slash command (per <code>docs/AUTOPILOT_DESIGN.md</code>) and swap the placeholder in <code>mobile_dispatch.sh fire</code>.</li>
+<li>Install Channels + tmux + launchd (Path B §3 steps 1–4).</li>
+<li>Migrate <code>fire</code> from SSH-into-Mac to Cloud Routine + iMessage as the primary; keep SSH as fallback.</li>
+</ol>
+<p>Log what works and what doesn&rsquo;t as you go. Your first real mobile autopilot test run is the kind of event that surfaces 5 small bugs at once — capture them while they&rsquo;re fresh.</p>
+    </article>
   </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
-  }
-}
-</script>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — UX Streamlining</title>
+<meta name="description" content="Refinements to the click-button + rapid-fire UX." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,218 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">docs/UX_STREAMLINING.md</p>
+    <article class="doc-content">
+<h1>UX_STREAMLINING.md — Making the Ensemble Disappear</h1>
+<blockquote>
+<p><strong>Status:</strong> research + prioritized opportunity catalog, 2026-04-24.
+<strong>Author:</strong> Kevin (direction) + Maestro (synthesis).
+<strong>Goal (Kevin&rsquo;s words):</strong> <em>&ldquo;streamline user consciousness and make inputs disappear… manage agents effectively… elevate the project&rsquo;s goal of efficiency overall and improved UX with Claude.&rdquo;</em>
+<strong>Audience:</strong> future self-Kevin + any Virtuoso/Agent planning UX work.</p>
+</blockquote>
+<hr />
+<h2>0. What we&rsquo;re trying to achieve</h2>
+<p>Three levers, in order of leverage:</p>
+<ol>
+<li><strong>Invisible inputs.</strong> The Agent should act on what it can already infer — cwd, time of day, recent activity, pending work. Kevin should only be asked about genuine forks, not about sub-steps.</li>
+<li><strong>Ambient status.</strong> Kevin should see the Ensemble&rsquo;s health without checking. A glance at the menu bar, the phone, the desk — not a <code>status</code> command.</li>
+<li><strong>Push, don&rsquo;t pull.</strong> When attention is genuinely needed, the Ensemble reaches out (notification, iMessage, Pushover). Kevin doesn&rsquo;t hunt for state.</li>
+</ol>
+<p>The anti-goal is automation so aggressive it loses control. Decisions that actually matter — scope, architecture, launch — stay in Kevin&rsquo;s hands. Everything else is friction we remove.</p>
+<hr />
+<h2>1. Current friction audit — where Kevin clicks or types the most today</h2>
+<p>Ranked by observed frequency:</p>
+<table>
+<thead>
+<tr>
+<th>Friction</th>
+<th>Estimated clicks/turn</th>
+<th>Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&ldquo;Where am I in this project?&rdquo;</td>
+<td>Every session start</td>
+<td>No per-agent dashboard; must ask chat or read status file manually</td>
+</tr>
+<tr>
+<td>&ldquo;What did autopilot do last night?&rdquo;</td>
+<td>Every morning</td>
+<td>No consolidated view; must <code>tail</code> logs or open Maestro chat</td>
+</tr>
+<tr>
+<td>Answering AskUserQuestion for sub-steps</td>
+<td>Several per hour</td>
+<td>Some Agents still interrupt for sub-steps; the batching memory is new</td>
+</tr>
+<tr>
+<td>Firing autopilot for a specific project</td>
+<td>Every phone trigger</td>
+<td>Requires knowing the slug; Termius snippets hardcode it per-button</td>
+</tr>
+<tr>
+<td>Running <code>status</code> / <code>brief</code> / checking run logs</td>
+<td>Daily+</td>
+<td>No always-visible health surface</td>
+</tr>
+<tr>
+<td>Typing in Claude Code chat vs voice</td>
+<td>Every instruction</td>
+<td>No voice input wired up (Mac has Dictation; unused for Claude)</td>
+</tr>
+<tr>
+<td>Deciding which Agent to use</td>
+<td>Per task</td>
+<td>No contextual dispatch — Kevin picks the chat</td>
+</tr>
+</tbody>
+</table>
+<p>Total cost: rough estimate <strong>~40–80 button clicks / key presses per productive hour</strong> that exist only to surface state or route requests — pure interaction tax, not decision-making.</p>
+<hr />
+<h2>2. Opportunity catalog (12 items, prioritized)</h2>
+<p>Each opportunity: <strong>what it is · how it helps · rough effort · existing-tool basis</strong>.</p>
+<h3>P0 — highest leverage, lowest effort (do first)</h3>
+<h4>A. Menu bar app — always-visible Ensemble health</h4>
+<p><strong>What:</strong> A tiny macOS menu-bar icon (SwiftUI <code>MenuBarExtra</code> or Swift + AppKit, ~200 lines) that polls <code>state.json</code> + <code>chats/*.json</code> every 30 sec. Shows:
+- 🟢 / 🟡 / 🔴 overall health (mode, lock state, any pending attention)
+- Count of unreviewed <code>[autopilot]</code> commits across all repos
+- Last autopilot run timestamp + project
+- Click → dropdown with quick actions: fire autopilot per project, open latest run log, view status.</p>
+<p><strong>How it helps:</strong> Kevin sees state in his peripheral vision. Zero clicks to check health. Status commands retire.
+<strong>Effort:</strong> 1 focused day in Xcode. Tailor via SwiftUI <code>MenuBarExtra</code> (native since macOS 13). No App Store submission — unsigned <code>.app</code> with <code>xattr -d com.apple.quarantine</code>.
+<strong>Basis:</strong> Ice / Bartender / Xbar / SwiftBar — any &ldquo;read JSON + render&rdquo; menubar utility.</p>
+<h4>B. Context-sensitive <code>/autopilot</code> slash command</h4>
+<p><strong>What:</strong> Claude Code skill <code>/ensemble:autopilot N</code> that reads the current chat&rsquo;s cwd, infers which project it&rsquo;s in (via <code>chats/*.json</code> <code>repo_path</code> match), and fires autopilot against THAT project without Kevin specifying.</p>
+<p><strong>How it helps:</strong> In a BOO chat, <code>/autopilot 30</code> fires BOO. In Vera Nota, fires Vera Nota. No project slug typing.
+<strong>Effort:</strong> 1-line extension to <code>mobile_dispatch.sh</code> (already supports project arg) + a <code>.claude/commands/autopilot.md</code> skill file with a small bash wrapper. ~30 min.
+<strong>Basis:</strong> Claude Code&rsquo;s custom slash command pattern.</p>
+<h4>C. Push notifications to phone (not just Mac-local)</h4>
+<p><strong>What:</strong> When autopilot fires / finishes / needs attention, the Ensemble pushes to Kevin&rsquo;s Android via Pushover (free tier, 10k notifications/month). Replace or supplement the current Mac-local <code>osascript</code> notifications.</p>
+<p><strong>How it helps:</strong> Kevin knows state changes without looking at his Mac. Phone on desk = ambient status.
+<strong>Effort:</strong> Pushover app install on Android (one-time, free). Pushover API: <code>curl -F 'token=' -F 'user=' -F 'message='</code>. Add to <code>autopilot_session.sh</code> post-flight + <code>mobile_dispatch.sh</code> for key events. ~20 min.
+<strong>Basis:</strong> Pushover — battle-tested, cheap, integrates with basically anything.</p>
+<h4>D. Morning digest — one page, overnight in one glance</h4>
+<p><strong>What:</strong> The existing <code>orchestrator-morning-briefing</code> scheduled task writes a daily <code>briefings/YYYY-MM-DD.md</code> but Kevin has to go find it. Enhance: also write a single <code>briefings/today.html</code> that covers:
+- Overnight autopilot runs: project, duration, commits landed, diff summary
+- Any Agent&rsquo;s <code>needs_attention = true</code> flag raised
+- Cross-project top rec: the single thing worth doing first today
+- Tail of <code>launchd-consumer.log</code> for any errors</p>
+<p>HTML is served locally by <code>python3 -m http.server</code> or pushed to the <code>ensemble-phone</code> repo&rsquo;s GitHub Pages at <code>/brief.html</code>.</p>
+<p><strong>How it helps:</strong> Kevin opens a bookmark, sees yesterday + this morning in one scroll.
+<strong>Effort:</strong> ~2 hr. Mostly bash + python for the report generator; HTML template reused from <code>ensemble-phone</code> visual system.
+<strong>Basis:</strong> existing morning-briefing routine; the <code>bin/status.sh</code> + new report builder.</p>
+<h3>P1 — meaningful impact, moderate effort</h3>
+<h4>E. Review queue web view</h4>
+<p><strong>What:</strong> A locally-hosted (or Pages-hosted, via private-URL) page that lists all unreviewed <code>[autopilot]</code> commits across all project repos, each with: project, commit hash, one-line summary, diff preview (via <code>git show --stat</code>), buttons to approve (mark reviewed) or revert.</p>
+<p><strong>How it helps:</strong> Autopilot runs overnight. Kevin triages in 5 min over coffee instead of cd-ing into each repo.
+<strong>Effort:</strong> ~1 day. Bash script walks repos, extracts <code>[autopilot]</code> commits since last marker, writes JSON + renders HTML. No backend needed; click handlers can shell out via a small local HTTP helper.
+<strong>Basis:</strong> same pattern as the morning digest.</p>
+<h4>F. Voice input via macOS Dictation → Claude Code</h4>
+<p><strong>What:</strong> Global keyboard shortcut (default <code>Fn Fn</code>) for Dictation is already set. Add a step: build a Shortcut that captures dictated text → sends to Claude Code chat via AppleScript / URL scheme. &ldquo;Siri, fire 30m on BOO&rdquo; → Shortcut → <code>mobile_dispatch.sh fire 30 "" boo-website</code>.</p>
+<p><strong>How it helps:</strong> Hands-free autopilot trigger. Particularly useful mid-task at the Mac.
+<strong>Effort:</strong> ~2 hr. macOS Shortcuts + Dictation already native; wiring is glue.
+<strong>Basis:</strong> macOS built-ins.</p>
+<h4>G. Raycast extension for Ensemble</h4>
+<p><strong>What:</strong> Raycast (free, Mac power-user launcher) supports custom extensions. Build an &ldquo;Ensemble&rdquo; extension with commands: <code>ens status</code>, <code>ens fire boo 30</code>, <code>ens read latest run</code>, <code>ens kill</code>, <code>ens open phone cheat sheet</code>. Raycast&rsquo;s fuzzy-match means Kevin types <code>ef b 30</code> for &ldquo;ensemble fire boo 30.&rdquo;</p>
+<p><strong>How it helps:</strong> Cmd-Space → type 3 chars → fire autopilot. No Terminal, no Claude Code chat, no phone.
+<strong>Effort:</strong> ~4 hr. Raycast extensions are TypeScript + their SDK. Thin wrapper around <code>mobile_dispatch.sh</code>.
+<strong>Basis:</strong> Raycast extensions API (~2024-mature).</p>
+<h4>H. Automated agent state summary on Maestro spawn</h4>
+<p><strong>What:</strong> When a Maestro chat spawns (bootstrap), it already reads <code>chats/*.json</code>. Enhance: also pre-compute a one-sentence &ldquo;what&rsquo;s changed since last Maestro session&rdquo; — diff of <code>last_heartbeat</code> timestamps, new entries, <code>needs_attention</code> flags. Surface as the opening line of the rapid-fire report.</p>
+<p><strong>How it helps:</strong> Maestro&rsquo;s first response is already context-rich; Kevin skips &ldquo;catch me up&rdquo; back-and-forth.
+<strong>Effort:</strong> ~30 min. Edit the Maestro bootstrap + add a python helper.</p>
+<h3>P2 — longer-horizon or bigger surface</h3>
+<h4>I. iMessage reply-to-respond — the Dispatch pattern, self-hosted</h4>
+<p><strong>What:</strong> A persistent iMessage thread to yourself. When Agent needs attention, it sends an iMessage (&ldquo;BOO autopilot paused at G7 pre-launch — approve push to production? Reply YES or NO.&rdquo;). Kevin replies. A launchd agent watches the Messages database, parses &ldquo;YES,&rdquo; writes the approval to a trigger file, autopilot resumes.</p>
+<p><strong>How it helps:</strong> Kevin already checks iMessage. No new app, no new UI. Reply from Apple Watch.
+<strong>Effort:</strong> ~1 day. Messages DB watcher + parser + trigger writer. Requires Full Disk Access for the watcher process.
+<strong>Basis:</strong> macOS Messages SQLite database (~/Library/Messages/chat.db).</p>
+<h4>J. Contextual autopilot — intent inference</h4>
+<p><strong>What:</strong> Autopilot reads calendar (Google Calendar via MCP), time of day, recent commits across all projects, any <code>needs_attention</code> flags, and autonomously picks project + task when Kevin fires a bare <code>fire 30</code> without a slug. Rules:
+- Morning (6–10am): pick project with most <code>needs_attention</code>
+- Workday (10–4): pick project with most-stale <code>last_heartbeat</code> (least attention recently)
+- Evening (4–10): pick project with most-recent-commit momentum (keep shipping)
+- Weekend: pick BOO (personal-project day)</p>
+<p><strong>How it helps:</strong> Single phone button that figures out what to work on.
+<strong>Effort:</strong> ~half day. Rule engine in python; fed by chats/<em>.json and git.
+</em><em>Basis:</em>* simple heuristics, not ML.</p>
+<h4>K. Cross-project commit feed</h4>
+<p><strong>What:</strong> Single <code>git log</code>-style feed merging commits from all onboarded project repos, annotated with project name. Live view or daily digest. Shows velocity, patterns, what autopilot is actually doing.</p>
+<p><strong>How it helps:</strong> Kevin sees &ldquo;what Ensemble shipped this week&rdquo; in one list. Useful for retrospectives.
+<strong>Effort:</strong> ~2 hr bash + HTML.</p>
+<h3>P3 — exploratory / bigger bets</h3>
+<h4>L. iOS native companion app</h4>
+<p><strong>What:</strong> A lightweight Swift app that replaces Termius for Ensemble-specific workflows. Home screen widget showing status; one-tap fire buttons; native iOS notifications; native secure SSH key storage; Apple Watch complication.</p>
+<p><strong>How it helps:</strong> Premium phone experience. Widget is always-visible status.
+<strong>Effort:</strong> 1–2 weeks, plus App Store submission (App Store gated per <code>safety_constraints.md</code>). Maybe ship via TestFlight for personal use only.
+<strong>Basis:</strong> Swift + NMSSH library + SwiftUI widget kit.</p>
+<hr />
+<h2>3. Priority matrix</h2>
+<pre><code>high impact │         D (digest)          A (menubar)      C (pushover)
+            │                                              B (cwd slash)
+            │         H (maestro spawn)   G (Raycast)
+            │         F (voice)
+            │                             E (review queue)
+            │                             J (contextual autopilot)
+            │                             I (iMessage reply)
+            │                             K (commit feed)
+            │                             L (iOS app)
+low impact  └─────────────────────────────────────────────────
+              low effort                                  high effort
+</code></pre>
+<p><strong>Near-term (next 2 weeks):</strong> A, B, C, D, H — all low-effort, high-impact. Reduces clicks materially.
+<strong>Mid-term (next 2 months):</strong> E, F, G, J — moderate effort, compound benefit.
+<strong>Long-term (next 6 months):</strong> I, K, L — bigger bets, built on top of the mid-term foundation.</p>
+<hr />
+<h2>4. Recommended sequence</h2>
+<ol>
+<li><strong>Pushover push notifications (C).</strong> 20 min. Immediate feedback loop improvement; Kevin knows state changes from anywhere.</li>
+<li><strong>Menu bar app (A).</strong> 1 day. Ambient health indicator.</li>
+<li><strong>Context-sensitive slash command (B).</strong> 30 min. Kills &ldquo;which slug?&rdquo; friction.</li>
+<li><strong>Morning digest HTML page (D).</strong> 2 hr. Single scroll for overnight summary.</li>
+<li><strong>Maestro-spawn context auto-compute (H).</strong> 30 min. First response is always warm.</li>
+<li>Evaluate after 1–2 weeks of living with these five. Decide whether P1 items are still valuable.</li>
+</ol>
+<hr />
+<h2>5. Principles to keep</h2>
+<p>When building any of these:</p>
+<ul>
+<li><strong>Never break the kill switch.</strong> Every surface must honor <code>bash ~/.claude/orchestrator/bin/mobile_dispatch.sh kill</code>. Global escape hatch.</li>
+<li><strong>Respect <code>safety_constraints.md</code>.</strong> The gated actions (destructive ops, store submissions, deploys beyond Pages, public-flip, billing) stay gated even from cool new UIs.</li>
+<li><strong>Local-first.</strong> State lives in the Mac&rsquo;s filesystem. UIs read from there. No cloud round-trip for basic operations.</li>
+<li><strong>Stateless surfaces.</strong> The menu bar app, Raycast extension, etc. all render from current state — they don&rsquo;t accumulate local state that could drift.</li>
+<li><strong>Throughput &gt; gloss.</strong> A rough menu bar icon that works is better than a polished one that doesn&rsquo;t ship.</li>
+<li><strong>Undoable actions prefer the phone/chat/Raycast tier; irreversible actions stay in interactive Claude Code chat.</strong> Keeps the UX calibrated to reversibility.</li>
+</ul>
+<hr />
+<h2>6. What this doc is NOT</h2>
+<ul>
+<li>Not a commitment to build any of these. It&rsquo;s a catalog.</li>
+<li>Not exhaustive. Other opportunities exist (Slack integration, web-based Maestro chat, multi-user Ensemble) — those are deferred as lower-priority for Kevin&rsquo;s current solo use.</li>
+<li>Not a replacement for the Maestro chat + Claude Code as primary interface. These are accelerants, not substitutes.</li>
+<li>Not a plan for the friend-facing website-agent (that lives in its own lane).</li>
+</ul>
+<hr />
+<h2>7. References</h2>
+<ul>
+<li><strong>SwiftUI MenuBarExtra</strong> — macOS 13+, native menu-bar apps</li>
+<li><strong>Pushover</strong> — https://pushover.net (free tier, 10k notifs/mo)</li>
+<li><strong>Raycast Extensions</strong> — https://developers.raycast.com</li>
+<li><strong>macOS Shortcuts + Dictation</strong> — built-in</li>
+<li><strong>iMessage DB path</strong> — <code>~/Library/Messages/chat.db</code> (SQLite; requires Full Disk Access)</li>
+<li><strong>Claude Code custom slash commands</strong> — <code>.claude/commands/&lt;name&gt;.md</code></li>
+<li><strong>NMSSH / Citadel</strong> — Swift SSH libraries for iOS client</li>
+<li><strong>xbar / SwiftBar</strong> — menu-bar plugin frameworks if going cross-platform</li>
+</ul>
+<hr />
+<p><em>End of UX_STREAMLINING.md v1.0. Expected to revise as items ship and reveal next-layer friction.</em></p>
+    </article>
   </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
-  }
-}
-</script>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>

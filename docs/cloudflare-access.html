@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Commands</title>
-<meta name="description" content="Fire autopilot, set project state, kill switch, token." />
+<title>Ensemble — Cloudflare Access</title>
+<meta name="description" content="Auth-gate the public PWA + HTML sites. ~30 min setup." />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" type="image/svg+xml" href="./icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -376,9 +376,9 @@ body.theme-aurora {
     <ul>
       <li><a class="" href="./">Home</a></li>
       <li><a class="" href="./projects.html">Projects</a></li>
-      <li><a class="active" href="./commands.html">Commands</a></li>
+      <li><a class="" href="./commands.html">Commands</a></li>
       <li><a class="" href="./settings.html">Settings</a></li>
-      <li><a class="" href="./docs.html">Docs</a></li>
+      <li><a class="active" href="./docs.html">Docs</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -397,117 +397,145 @@ body.theme-aurora {
     </div>
   </div>
 </div>
-<header class="hero">
+<main class="doc-page">
   <div class="wrap">
-    <p class="eyebrow">Commands</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Three-layer mutex enforces every fire. Safety gates always fire. Token cycle counts down.</p>
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <p class="doc-meta">plugins/ensemble/integrations/cloudflare-access/README.md</p>
+    <article class="doc-content">
+<h1>Cloudflare Access — auth-gating the public dashboard + HTML sites</h1>
+<p>The Ensemble&rsquo;s public-facing assets — <code>ensemble-dashboard</code> (PWA), <code>public/index.html</code> + <code>public/dossier.html</code> (marketing), <code>ensemble-phone</code>, <code>ensemble-desktop</code> — should require login before rendering. Cloudflare Access is the cleanest free path: real auth, no hosting migration, ~30 min one-time setup.</p>
+<h2>What you get</h2>
+<ul>
+<li>Login page in front of every URL — magic-link email OR Google / GitHub OAuth</li>
+<li>Free for up to 50 users (way more than the Ensemble needs)</li>
+<li>PWA installs respect the auth: first launch on each device requires login</li>
+<li>Audit log of every successful + failed login</li>
+<li>Optional: device posture checks (only authorize known devices)</li>
+<li>Doesn&rsquo;t move hosting — your GitHub Pages backend stays put; Cloudflare just sits in front</li>
+</ul>
+<h2>Prerequisites</h2>
+<ul>
+<li>A domain you control (<code>example.com</code>) OR willingness to use a <code>*.workers.dev</code> Cloudflare-provided subdomain</li>
+<li>A Cloudflare account (free tier; sign up at cloudflare.com)</li>
+<li>Access to your domain&rsquo;s DNS records (if using your own domain)</li>
+</ul>
+<h2>Setup walkthrough</h2>
+<h3>Step 1 — Sign up for Cloudflare (one-time, ~2 min)</h3>
+<ol>
+<li>Go to <a href="https://cloudflare.com">cloudflare.com</a>, sign up free</li>
+<li>Verify email</li>
+<li>From the dashboard, navigate to <strong>Zero Trust</strong> in the left sidebar (creates a free Zero Trust org on first click)</li>
+</ol>
+<h3>Step 2 — Add your domain (one-time, ~5 min)</h3>
+<p>If you already have a domain:</p>
+<ol>
+<li>Cloudflare dashboard → <strong>Add a Site</strong></li>
+<li>Enter your domain (e.g. <code>your-ensemble.com</code>)</li>
+<li>Choose <strong>Free</strong> plan</li>
+<li>Cloudflare will scan existing DNS; review and click Continue</li>
+<li><strong>Update nameservers at your registrar</strong> to the two Cloudflare-provided nameservers (Cloudflare emails the values)</li>
+<li>Wait ~5 min for DNS to propagate; status flips to &ldquo;Active&rdquo;</li>
+</ol>
+<p>If you don&rsquo;t have a domain:</p>
+<ol>
+<li>Buy one through Cloudflare (~$10/year for <code>.com</code>) — they auto-configure</li>
+<li>OR use a workers.dev subdomain (no domain purchase needed but uglier URL)</li>
+</ol>
+<h3>Step 3 — Add a CNAME pointing at GitHub Pages</h3>
+<p>In Cloudflare → DNS → Records:</p>
+<pre><code>Type:    CNAME
+Name:    ensemble (or whatever subdomain you want — gives you ensemble.your-domain.com)
+Target:  kiwimaddog2020.github.io
+Proxy:   ON (orange cloud — REQUIRED for Access to work)
+</code></pre>
+<h3>Step 4 — Configure GitHub Pages custom domain</h3>
+<p>In your <code>ensemble-dashboard</code> repo → Settings → Pages:</p>
+<ul>
+<li><strong>Custom domain</strong>: <code>ensemble.your-domain.com</code></li>
+<li><strong>Enforce HTTPS</strong>: ON (after the cert provisions, ~15 min)</li>
+</ul>
+<p>This makes GitHub Pages serve the dashboard at the new URL.</p>
+<h3>Step 5 — Create an Access application (the auth gate)</h3>
+<p>In Cloudflare → Zero Trust → Access → Applications → Add an application:</p>
+<ol>
+<li><strong>Type</strong>: Self-hosted</li>
+<li><strong>Name</strong>: Ensemble Dashboard</li>
+<li><strong>Subdomain</strong>: <code>ensemble</code> (or whatever you used)</li>
+<li><strong>Domain</strong>: <code>your-domain.com</code></li>
+<li><strong>Path</strong>: leave blank (gates everything)</li>
+<li><strong>Session duration</strong>: 24 hours (or your preference; longer = less friction, shorter = more security)</li>
+</ol>
+<h3>Step 6 — Add a policy</h3>
+<p>Define who can log in:</p>
+<ul>
+<li><strong>Policy name</strong>: My access</li>
+<li><strong>Action</strong>: Allow</li>
+<li><strong>Configure rules</strong> → <strong>Include</strong> → <strong>Emails</strong> → list of allowed emails (just yours for now; add friend/team emails later)</li>
+</ul>
+<p>OR use <strong>GitHub OAuth</strong> if you only want yourself / your GitHub org members:</p>
+<ul>
+<li>Cloudflare → Zero Trust → Settings → Authentication → Add a login method → GitHub</li>
+<li>Then in your Access policy, <strong>Include</strong> → <strong>GitHub</strong> → your username/org</li>
+</ul>
+<h3>Step 7 — Enable identity provider (IdP)</h3>
+<p>In Zero Trust → Settings → Authentication, the default &ldquo;One-time PIN&rdquo; (magic-link email) is enabled by default. Optionally add Google / GitHub / etc.</p>
+<h3>Step 8 — Test</h3>
+<ol>
+<li>Open an incognito window</li>
+<li>Visit <code>https://ensemble.your-domain.com</code></li>
+<li>Cloudflare&rsquo;s login page appears asking for email</li>
+<li>Email arrives with the magic link</li>
+<li>Click the link → redirected back to your dashboard, logged in</li>
+<li>Re-test: dashboard loads directly because session cookie is valid</li>
+</ol>
+<h3>Step 9 — PWA install</h3>
+<p>After logging in once on a device, install the PWA via &ldquo;Add to Home Screen&rdquo;:</p>
+<ul>
+<li>iOS: Safari → Share → Add to Home Screen</li>
+<li>macOS: Safari → File → Add to Dock</li>
+<li>Android: Chrome → menu → Add to Home screen</li>
+</ul>
+<p>Cookie persists in the PWA shell. Re-login on session expiry.</p>
+<h3>Step 10 — Update Ensemble references</h3>
+<p>Once auth is live and tested, update places that reference the public URL:</p>
+<ul>
+<li><code>bin/dashboard-generate.sh</code> — <code>DASHBOARD_URL</code> env var defaults</li>
+<li><code>plugins/ensemble/integrations/swiftbar/ensemble-autopilot.10s.sh</code> — dashboard link</li>
+<li><code>public/index.html</code> (marketing) — same domain, same auth (separate Access app or include path)</li>
+<li>README badges, MOBILE_DISPATCH.md walkthroughs</li>
+</ul>
+<h2>Multiple sub-paths under one Access policy</h2>
+<p>If you want phone + desktop cheat sheets behind the same auth:</p>
+<ul>
+<li>Add CNAMEs for each (<code>phone.your-domain.com</code>, <code>desktop.your-domain.com</code>)</li>
+<li>Create an Access application for each, OR one app with multiple subdomain entries</li>
+<li>Same policy can cover all of them</li>
+</ul>
+<h2>Costs</h2>
+<ul>
+<li>Free tier: 50 seats (way more than enough)</li>
+<li>Paid: $7/user/month if you ever exceed 50 (you won&rsquo;t)</li>
+</ul>
+<h2>Rollback</h2>
+<p>If anything breaks, you can disable Access without losing the GitHub Pages backend:</p>
+<ul>
+<li>Cloudflare → Zero Trust → Access → Applications → toggle the app to Disabled</li>
+<li>DNS still routes through Cloudflare; site is now public again</li>
+<li>OR set proxy off (grey cloud) → Cloudflare bypassed entirely, GitHub Pages serves directly</li>
+</ul>
+<h2>Alternatives considered</h2>
+<ul>
+<li><strong>Client-side password gate</strong> — basic JS check, breakable via DevTools. Good MVP only.</li>
+<li><strong>Tailscale-only</strong> — fully private but loses any public access for demos.</li>
+<li><strong>Vercel/Netlify migration</strong> — real auth via their platforms but moves hosting off GitHub Pages.</li>
+</ul>
+<p>Cloudflare Access wins on: real security + free + keeps GitHub Pages + supports PWA + audit log.</p>
+<h2>When to do this</h2>
+<p>Before public-flipping <code>claude-ensemble</code> and submitting to the Claude marketplace. The marketplace listing will surface the dashboard URL to users; auth-gating is mandatory before that point.</p>
+<p>For private preview (current state): nice-to-have. Most random visitors won&rsquo;t find the URL.</p>
+    </article>
   </div>
-</header>
-
-<section data-owner-only>
-  <div class="wrap">
-    <div id="owner-banner" class="owner-banner hide">
-      <span>🔒</span>
-      <div>
-        <strong>Read-only mode.</strong>
-        Controls are visible but disabled. Only the Ensemble owner can fire autopilot, change state, or kill running work.
-      </div>
-    </div>
-
-    <h2>Quick actions</h2>
-    <p class="section-sub">All commands run via the local control panel.</p>
-    <div class="commands-grid">
-
-      <div class="command-card">
-        <h3>Fire autopilot</h3>
-        <div class="cmd-row">
-          <select id="fire-slug"><option value="">Project…</option></select>
-          <input type="number" id="fire-mins" min="1" max="240" value="30" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
-        </div>
-        <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Set project state</h3>
-        <div class="cmd-row">
-          <select id="state-slug"><option value="">Project…</option></select>
-          <select id="state-target">
-            <option value="">→ State…</option>
-            <option>Building</option>
-            <option>Launch Prep</option>
-            <option>Warmer</option>
-            <option>R&D</option>
-            <option>Updates</option>
-            <option>Hibernating</option>
-          </select>
-          <button class="btn-primary" onclick="setProjectState()">Set</button>
-        </div>
-        <p class="cmd-help" id="state-help">Smoke-test gate fires on major transitions.</p>
-      </div>
-
-      <div class="command-card danger">
-        <h3>Kill switch</h3>
-        <div class="cmd-row">
-          <button class="btn-danger" onclick="killAll()">Kill all autopilot</button>
-          <button class="btn-secondary" onclick="refreshState()">Refresh</button>
-        </div>
-        <p class="cmd-help" id="kill-help">Six-phase cascade. Releases lock, pauses automations, flips mode to direct.</p>
-      </div>
-
-      <div class="command-card">
-        <h3>Token cycle</h3>
-        <div class="cmd-row">
-          <input type="datetime-local" id="reset-input" />
-          <button class="btn-primary" onclick="setTokenReset()">Save</button>
-        </div>
-        <p class="cmd-help" id="reset-help"><span id="reset-status">Loading reset time…</span> · Burn-Down activates 2-12h before reset.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-function refreshPageState(state) {
-  if (!state) return;
-  const populate = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const cur = el.value;
-    while (el.options.length > 1) el.remove(1);
-    (state.roster || []).forEach(r => {
-      const o = document.createElement("option");
-      o.value = r.slug; o.textContent = r.slug;
-      el.appendChild(o);
-    });
-    if (cur) el.value = cur;
-  };
-  populate("fire-slug");
-  populate("state-slug");
-
-  // Token cycle
-  const resetEl = document.getElementById("reset-status");
-  const inputEl = document.getElementById("reset-input");
-  if (!state.weekly_token_reset_at) {
-    if (resetEl) resetEl.textContent = "No reset time set yet.";
-  } else {
-    const reset = new Date(state.weekly_token_reset_at);
-    const h = Math.floor((reset - new Date()) / 3600000);
-    let posture = "(no-op)";
-    if (h < 0) posture = "(reset passed; routine will roll forward)";
-    else if (h < 2) posture = "(<2h: standing down)";
-    else if (h <= 12) posture = "(burn-down active)";
-    if (resetEl) resetEl.textContent = "Reset in " + h + "h " + posture;
-    if (inputEl && !inputEl.value) {
-      const local = new Date(state.weekly_token_reset_at);
-      const pad = n => String(n).padStart(2, "0");
-      inputEl.value = local.getFullYear() + "-" + pad(local.getMonth()+1) + "-" + pad(local.getDate()) + "T" + pad(local.getHours()) + ":" + pad(local.getMinutes());
-    }
-  }
-}
-</script>
+</main>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>
