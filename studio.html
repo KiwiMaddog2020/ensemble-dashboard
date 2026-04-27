@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Pair</title>
-<meta name="description" content="Pair this browser to the Mac control panel — one key, every command." />
+<title>Ensemble — Studio</title>
+<meta name="description" content="Your stage. The expressive surface — Maestro at the podium, Agents as musicians." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -50,9 +50,9 @@
       <li><a href="./">Home</a></li>
       <li><a href="./projects.html">Projects</a></li>
       <li><a href="./commands.html">Commands</a></li>
-      <li><a class="active" aria-current="page" href="./settings.html">Settings</a></li>
+      <li><a href="./settings.html">Settings</a></li>
       <li><a href="./docs.html">Docs</a></li>
-      <li><a href="./studio.html">Studio</a></li>
+      <li><a class="active" aria-current="page" href="./studio.html">Studio</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
   </div>
@@ -71,141 +71,312 @@
     </div>
   </div>
 </div>
-<header class="hero">
-  <div class="wrap">
-    <p class="eyebrow">Pair this browser</p>
-    <h1>One key. <em>One handshake.</em></h1>
-    <p class="lead">Link this browser to your Mac control panel. Owner mode lights up across every page — kill switch, fire autopilot, control deck, smoke gates, themes. Same token works on every device; only the server URL changes (use the Tailscale URL for the phone PWA).</p>
+<div class="studio-shell">
+  <header class="studio-header">
+    <p class="eyebrow">Studio</p>
+    <h1>Your <em>stage.</em></h1>
+    <p class="lead">The expressive surface. Default state is the Orchestra preset — Maestro at the podium, Agents arranged as musicians. Make it yours.</p>
+  </header>
+
+  <div class="studio-tabs" role="tablist">
+    <button class="studio-tab is-active" data-tab="room" role="tab" type="button">
+      Room <span class="studio-tab__hint">live</span>
+    </button>
+    <button class="studio-tab" data-tab="map" role="tab" type="button">
+      Map <span class="studio-tab__hint">phase B</span>
+    </button>
+    <button class="studio-tab" data-tab="showcase" role="tab" type="button">
+      Showcase <span class="studio-tab__hint">phase C</span>
+    </button>
   </div>
-</header>
 
-<section>
-  <div class="wrap" style="max-width: 600px;">
-    <div class="pair-card">
-      <div class="pair-field">
-        <label for="pair-url">
-          <span class="pair-field__name">Mac control panel URL</span>
-          <span class="pair-field__hint">localhost on this Mac · Tailscale URL on phone</span>
-        </label>
-        <input id="pair-url" type="url" class="pair-input"
-               placeholder="http://localhost:8080"
-               value="http://localhost:8080" autocomplete="url" />
-      </div>
-
-      <div class="pair-field">
-        <label for="pair-token">
-          <span class="pair-field__name">Dashboard token</span>
-          <span class="pair-field__hint">From <code>~/.claude/orchestrator/.env.local</code></span>
-        </label>
-        <div class="pair-input-row">
-          <input id="pair-token" type="password" class="pair-input"
-                 placeholder="paste token…" autocomplete="off" spellcheck="false" />
-          <button class="btn-secondary pair-toggle" type="button" data-act="reveal">show</button>
-          <button class="btn-secondary" type="button" data-act="paste">Paste</button>
+  <section class="studio-pane is-active" data-pane="room" role="tabpanel">
+    <div class="studio-stage-wrap">
+      <div class="studio-stage" id="studio-stage" aria-label="Studio room scene">
+        <div class="studio-empty">
+          <p>Loading the Orchestra preset…</p>
         </div>
       </div>
-
-      <div class="pair-actions">
-        <button class="btn-primary pair-go" type="button" data-act="pair">Pair</button>
-        <button class="btn-secondary" type="button" data-act="clear">Clear pairing</button>
-      </div>
-
-      <div id="pair-status" class="pair-status"></div>
     </div>
+    <div class="studio-info">
+      <span class="studio-info__item">
+        <span class="studio-info__dot" aria-hidden="true"></span>
+        <strong>Orchestra</strong> · default preset
+      </span>
+      <span class="studio-info__item">View mode</span>
+      <span class="studio-info__item">Edit mode arrives in Phase A.1</span>
+    </div>
+  </section>
 
-    <p class="settings-help" style="margin-top:28px; line-height: 1.6;">
-      What this stores: <code>localStorage.DASHBOARD_TOKEN</code> +
-      <code>localStorage.ENSEMBLE_SERVER_URL</code>. Cleared only when you
-      clear browsing data — otherwise persistent. Pair a new browser
-      anytime by visiting this page; existing pairings can be cleared with
-      the button above.
-    </p>
-    <p class="settings-help" style="margin-top:8px; line-height: 1.6;">
-      Same token works for every command (fire autopilot · kill cascade · cycle freeze · all chat actions on the control deck). One key, one handshake, every endpoint.
-    </p>
-  </div>
-</section>
+  <section class="studio-pane" data-pane="map" role="tabpanel">
+    <div class="studio-empty">
+      <p>The fractal navigator will land here.</p>
+      <p class="studio-empty__hint">Phase B · ~6 hours of build · force-directed graph showing how your projects connect</p>
+    </div>
+  </section>
 
+  <section class="studio-pane" data-pane="showcase" role="tabpanel">
+    <div class="studio-empty">
+      <p>Showcase pages will land here.</p>
+      <p class="studio-empty__hint">Phase C · ~8 hours of build · public-facing per-project pages with rich layouts</p>
+    </div>
+  </section>
+</div>
 <script>
 (function () {
-  const urlEl = document.getElementById("pair-url");
-  const tokEl = document.getElementById("pair-token");
-  const status = document.getElementById("pair-status");
-  const revealBtn = document.querySelector('[data-act="reveal"]');
+  'use strict';
 
-  // Prefill from existing localStorage so re-pairing is idempotent
-  try {
-    const u = localStorage.getItem("ENSEMBLE_SERVER_URL");
-    if (u) urlEl.value = u;
-    const t = localStorage.getItem("DASHBOARD_TOKEN");
-    if (t) tokEl.value = t;
-  } catch (e) {}
+  // ─── Config ──────────────────────────────────────────────────────────
+  const PRESETS_DIR = './studio/presets';
+  const SPRITES_DIR = './studio/sprites/core';
+  const DEFAULT_PRESET = 'orchestra';
 
-  function setStatus(text, kind) {
-    status.textContent = text;
-    status.className = "pair-status pair-status--" + (kind || "info");
+  // ─── State ───────────────────────────────────────────────────────────
+  let currentRoom = null;        // active Room JSON (preset or user-saved)
+  let spriteCache = new Map();   // sprite_id → svg string
+  let activeTab = 'room';        // room / map / showcase
+
+  // ─── Helpers ─────────────────────────────────────────────────────────
+  const $ = (sel, root) => (root || document).querySelector(sel);
+  const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+  const escapeHtml = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+  function pct(value, max) { return Math.max(0, Math.min(100, (value / max) * 100)); }
+
+  // ─── Preset loader ───────────────────────────────────────────────────
+  async function loadPreset(presetId) {
+    try {
+      const r = await fetch(`${PRESETS_DIR}/${presetId}.json`);
+      if (!r.ok) throw new Error(`preset ${presetId} not found (HTTP ${r.status})`);
+      return await r.json();
+    } catch (e) {
+      console.error('Studio: failed to load preset', e);
+      return null;
+    }
   }
 
-  revealBtn.addEventListener("click", () => {
-    if (tokEl.type === "password") { tokEl.type = "text"; revealBtn.textContent = "hide"; }
-    else { tokEl.type = "password"; revealBtn.textContent = "show"; }
-  });
-
-  document.querySelector('[data-act="paste"]').addEventListener("click", async () => {
+  async function loadSprite(spriteId) {
+    if (spriteCache.has(spriteId)) return spriteCache.get(spriteId);
     try {
-      const t = await navigator.clipboard.readText();
-      if (t && t.trim()) { tokEl.value = t.trim(); setStatus("Token pasted from clipboard.", "info"); }
-      else { setStatus("Clipboard was empty.", "warn"); }
+      const r = await fetch(`${SPRITES_DIR}/${spriteId}.svg`);
+      if (!r.ok) throw new Error(`sprite ${spriteId} not found (HTTP ${r.status})`);
+      const svg = await r.text();
+      spriteCache.set(spriteId, svg);
+      return svg;
     } catch (e) {
-      setStatus("Clipboard read denied — paste manually.", "warn");
+      console.warn('Studio: missing sprite', spriteId);
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="none" stroke="currentColor" stroke-dasharray="2 2"/><text x="16" y="20" font-size="6" text-anchor="middle" fill="currentColor">?</text></svg>`;
     }
-  });
+  }
 
-  document.querySelector('[data-act="clear"]').addEventListener("click", () => {
-    localStorage.removeItem("DASHBOARD_TOKEN");
-    localStorage.removeItem("ENSEMBLE_SERVER_URL");
-    tokEl.value = "";
-    urlEl.value = "http://localhost:8080";
-    setStatus("Pairing cleared. This browser is read-only until you pair again.", "info");
-  });
+  // ─── Slot resolution ─────────────────────────────────────────────────
+  // Maps slot props (slot_role / data_binding / auto_bind_index) to a
+  // chat slug from window._ALL_STATE.
+  function resolveSlotChat(slotProps) {
+    const state = window._ALL_STATE;
+    if (!state || !state.projects) return null;
 
-  document.querySelector('[data-act="pair"]').addEventListener("click", async () => {
-    const url = urlEl.value.trim().replace(/\/$/, "");
-    const tok = tokEl.value.trim();
-    if (!url || !tok) { setStatus("Both URL and token are required.", "warn"); return; }
-    setStatus("Testing reachability…", "info");
-    // 1. Check reachability via /health (no auth required)
-    try {
-      const h = await fetch(url + "/health", { method: "GET" });
-      if (!h.ok) { setStatus("Server returned " + h.status + " on /health.", "error"); return; }
-    } catch (e) {
-      setStatus("Could not reach server. Check URL and that control-panel-server.py is running on the Mac.", "error");
-      return;
-    }
-    // 2. Check token via /state (auth required)
-    setStatus("Verifying token…", "info");
-    try {
-      const s = await fetch(url + "/state", { headers: { "Authorization": "Bearer " + tok } });
-      if (s.status === 401 || s.status === 403) {
-        setStatus("Token rejected. Check it matches DASHBOARD_TOKEN in ~/.claude/orchestrator/.env.local.", "error");
-        return;
+    // Explicit binding wins
+    if (slotProps.data_binding) {
+      if (slotProps.data_binding === 'maestro') {
+        return { slug: 'maestro', name: 'Maestro', tier: 'controller', state: state.mode || 'orchestrated', synthetic: true };
       }
-      if (!s.ok) { setStatus("Server returned " + s.status + " on /state.", "error"); return; }
-    } catch (e) {
-      setStatus("Token test failed: " + e.message, "error");
+      const proj = state.projects.find(p => p.slug === slotProps.data_binding);
+      if (proj) return proj;
+    }
+
+    // Auto-bind by index in the active-chats list (sorted: virtuosos first, then alphabetical)
+    if (typeof slotProps.auto_bind_index === 'number') {
+      const sorted = [...state.projects]
+        .filter(p => p.slug !== 'ensemble')   // skip the orchestrator chat itself
+        .sort((a, b) => {
+          if (a.tier === 'virtuoso' && b.tier !== 'virtuoso') return -1;
+          if (b.tier === 'virtuoso' && a.tier !== 'virtuoso') return 1;
+          return a.slug.localeCompare(b.slug);
+        });
+      return sorted[slotProps.auto_bind_index] || null;
+    }
+
+    return null;
+  }
+
+  // ─── Component renderers ─────────────────────────────────────────────
+  async function renderComponent(comp, stage) {
+    const el = document.createElement('div');
+    el.className = `studio-comp studio-comp--${comp.type}`;
+    el.dataset.id = comp.id;
+    if (comp.locked) el.classList.add('is-locked');
+    if (comp.hidden) el.classList.add('is-hidden');
+
+    // Position + size in stage coords (1920×1080 nominal)
+    el.style.left = `${pct(comp.x, stage.width)}%`;
+    el.style.top = `${pct(comp.y, stage.height)}%`;
+    el.style.width = `${pct(comp.w, stage.width)}%`;
+    el.style.height = `${pct(comp.h, stage.height)}%`;
+    el.style.zIndex = comp.z || 0;
+    if (comp.rotation) el.style.transform = `rotate(${comp.rotation}deg)`;
+
+    switch (comp.type) {
+      case 'slot': await renderSlot(el, comp); break;
+      case 'prop': await renderProp(el, comp); break;
+      case 'svg': renderSvg(el, comp); break;
+      case 'staff': renderStaff(el, comp); break;
+      case 'text': renderText(el, comp); break;
+      default:
+        el.innerHTML = `<div class="studio-comp__missing">unknown type: ${escapeHtml(comp.type)}</div>`;
+    }
+
+    return el;
+  }
+
+  async function renderSlot(el, comp) {
+    const props = comp.props || {};
+    const chat = resolveSlotChat(props);
+    const sprite = await loadSprite(props.sprite_id);
+
+    // Compute glow + animation tempo from chat state
+    let glowClass = '';
+    if (chat) {
+      if (chat.needs_attention) glowClass = 'studio-slot--alert';
+      else if (chat.current_task && chat.current_task.length > 0) glowClass = 'studio-slot--active';
+      else if (chat.state === 'Hibernating') glowClass = 'studio-slot--hibernating';
+    } else {
+      glowClass = 'studio-slot--empty';
+    }
+    el.classList.add(glowClass);
+
+    const role = escapeHtml(props.slot_role || 'slot');
+    const label = chat ? `${chat.name || chat.slug}` : '(empty seat)';
+    const sublabel = chat
+      ? (chat.synthetic ? 'controller' : (chat.state || ''))
+      : 'awaiting cast';
+
+    el.innerHTML = `
+      <div class="studio-slot__sprite" data-anim="${escapeHtml(props.idle_animation || 'idle')}">${sprite}</div>
+      <div class="studio-slot__nameplate">
+        <div class="studio-slot__role">${role}</div>
+        <div class="studio-slot__label">${escapeHtml(label)}</div>
+        <div class="studio-slot__sublabel">${escapeHtml(sublabel)}</div>
+      </div>
+    `;
+    el.title = `${role} — ${label}`;
+    if (chat && chat.slug) el.dataset.slug = chat.slug;
+  }
+
+  async function renderProp(el, comp) {
+    const sprite = await loadSprite(comp.props.sprite_id);
+    el.innerHTML = `<div class="studio-prop__sprite">${sprite}</div>`;
+  }
+
+  function renderSvg(el, comp) {
+    const props = comp.props || {};
+    if (props.shape === 'stage_floor') {
+      el.innerHTML = `
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+          <defs>
+            <linearGradient id="floor-${comp.id}" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="var(--bg-sunken)"/>
+              <stop offset="1" stop-color="var(--bg)"/>
+            </linearGradient>
+          </defs>
+          <rect width="100" height="100" fill="url(#floor-${comp.id})"/>
+        </svg>`;
+    } else if (props.shape === 'rect') {
+      el.innerHTML = `<div class="studio-rect" style="background: var(--${escapeHtml(props.fill_token || 'accent')});"></div>`;
+    } else {
+      el.innerHTML = `<svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%"><rect width="100" height="100" fill="var(--${escapeHtml(props.fill_token || 'accent-soft')})"/></svg>`;
+    }
+  }
+
+  function renderStaff(el, comp) {
+    const props = comp.props || {};
+    const lines = props.lines || 5;
+    const opacity = props.opacity ?? 0.18;
+    const colorVar = `var(--${props.color_token || 'ink-3'})`;
+    let html = `<svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" style="opacity:${opacity};">`;
+    for (let i = 0; i < lines; i++) {
+      const y = ((i + 1) * 100) / (lines + 1);
+      html += `<line x1="0" y1="${y}" x2="100" y2="${y}" stroke="${colorVar}" stroke-width="0.4"/>`;
+    }
+    html += '</svg>';
+    el.innerHTML = html;
+  }
+
+  function renderText(el, comp) {
+    const props = comp.props || {};
+    const variant = props.variant || 'body';
+    const color = props.color_token ? `color: var(--${props.color_token});` : '';
+    el.classList.add(`studio-text--${variant}`);
+    // Allow simple <em> markup in text for italic-as-accent rule
+    const text = props.text.replace(/<em>(.*?)<\/em>/g, '<em>$1</em>');
+    el.innerHTML = `<span style="${color}">${text}</span>`;
+  }
+
+  // ─── Main render ─────────────────────────────────────────────────────
+  async function renderRoom(room) {
+    const stage = $('#studio-stage');
+    if (!stage) return;
+    stage.innerHTML = '';
+    stage.style.aspectRatio = `${room.stage.width} / ${room.stage.height}`;
+
+    // Apply preset theme + bg if specified (overrides global)
+    if (room.theme) document.body.dataset.studioTheme = room.theme;
+    if (room.background) document.body.dataset.studioBg = room.background;
+
+    // Render components in z-order
+    const sorted = [...room.components].sort((a, b) => (a.z || 0) - (b.z || 0));
+    for (const comp of sorted) {
+      try {
+        const el = await renderComponent(comp, room.stage);
+        stage.appendChild(el);
+      } catch (e) {
+        console.error('Studio: component render failed', comp.id, e);
+      }
+    }
+  }
+
+  // ─── Tab switching ───────────────────────────────────────────────────
+  function switchTab(tabId) {
+    activeTab = tabId;
+    $$('.studio-tab').forEach(t => t.classList.toggle('is-active', t.dataset.tab === tabId));
+    $$('.studio-pane').forEach(p => p.classList.toggle('is-active', p.dataset.pane === tabId));
+  }
+
+  // ─── Bootstrap ───────────────────────────────────────────────────────
+  async function boot() {
+    // Tab clicks
+    $$('.studio-tab').forEach(t => {
+      t.addEventListener('click', () => switchTab(t.dataset.tab));
+    });
+
+    // Load default Orchestra preset
+    const room = await loadPreset(DEFAULT_PRESET);
+    if (!room) {
+      $('#studio-stage').innerHTML = '<div class="studio-empty"><p>Studio could not load. Check console for details.</p></div>';
       return;
     }
-    // 3. Persist
-    try {
-      localStorage.setItem("ENSEMBLE_SERVER_URL", url);
-      localStorage.setItem("DASHBOARD_TOKEN", tok);
-    } catch (e) {
-      setStatus("Could not write localStorage: " + e.message, "error");
-      return;
-    }
-    setStatus("Paired ✓ Owner mode active. Redirecting…", "success");
-    setTimeout(() => { window.location.href = "./"; }, 900);
-  });
+    currentRoom = room;
+    await renderRoom(room);
+
+    // Hook into SHARED_SCRIPTS state refresh — re-resolve slot bindings on every refresh
+    const originalRefresh = window.refreshPageState;
+    window.refreshPageState = function (state) {
+      if (originalRefresh) try { originalRefresh(state); } catch (e) {}
+      // Re-render slots in place when state updates
+      if (currentRoom) {
+        renderRoom(currentRoom).catch(e => console.error('Studio: re-render failed', e));
+      }
+    };
+
+    // Expose for debugging
+    window.__studio = { currentRoom, spriteCache, switchTab, loadPreset, renderRoom };
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
 })();
 </script>
 <footer class="site-footer">

@@ -1330,3 +1330,295 @@ body.bg-aurora {
   color: var(--danger);
   border-color: color-mix(in srgb, var(--danger) 28%, transparent);
 }
+
+/* ─── Studio surface ─────────────────────────────────────────────────── */
+body.hub.studio { background: var(--bg); }
+
+.studio-shell {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 40px) clamp(16px, 4vw, 40px) clamp(40px, 6vw, 80px);
+}
+
+/* ─── Studio header (eyebrow + title + tabs) ─────────────────────────── */
+.studio-header {
+  margin: 0 0 clamp(20px, 3vw, 32px);
+}
+.studio-header .eyebrow {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);
+  margin: 0 0 12px;
+}
+.studio-header h1 {
+  font-family: var(--serif); font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.05; letter-spacing: -0.02em; font-weight: 600;
+  color: var(--ink); margin: 0 0 6px;
+}
+.studio-header h1 em { font-style: italic; font-weight: 500; color: var(--accent); }
+.studio-header .lead {
+  font-family: var(--serif); font-size: clamp(16px, 1.8vw, 19px);
+  line-height: 1.45; color: var(--ink-2); margin: 0; max-width: 60ch;
+}
+
+/* Tabs */
+.studio-tabs {
+  display: flex; gap: 4px; margin: clamp(20px, 3vw, 28px) 0 clamp(16px, 2.5vw, 24px);
+  border-bottom: 1px solid var(--rule);
+  flex-wrap: wrap;
+}
+.studio-tab {
+  appearance: none; cursor: pointer;
+  background: transparent; border: 0; padding: 10px 18px 12px;
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--ink-3);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 180ms var(--ease), border-color 180ms var(--ease);
+}
+.studio-tab:hover { color: var(--ink); }
+.studio-tab.is-active {
+  color: var(--accent); border-bottom-color: var(--accent);
+}
+.studio-tab__hint {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--ink-4); margin-left: 6px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* Tab panes */
+.studio-pane {
+  display: none;
+}
+.studio-pane.is-active {
+  display: block;
+}
+
+/* ─── Stage (the Room canvas) ────────────────────────────────────────── */
+.studio-stage-wrap {
+  position: relative;
+  background: var(--bg-sunken);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.studio-stage {
+  position: relative;
+  width: 100%;
+  /* aspect-ratio set inline by engine from preset.stage.width/height */
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-sunken) 50%, var(--bg-elevated) 100%);
+}
+
+/* CRT overlay — genre signature. Toggle via body[data-crt="off"] to disable. */
+.studio-stage::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  z-index: 100;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      color-mix(in srgb, var(--ink) 5%, transparent) 2px,
+      color-mix(in srgb, var(--ink) 5%, transparent) 3px
+    ),
+    radial-gradient(ellipse at center, transparent 60%, color-mix(in srgb, var(--ink) 18%, transparent) 100%);
+  mix-blend-mode: multiply;
+}
+body[data-crt="off"] .studio-stage::after { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .studio-stage::after { animation: none; }
+}
+
+/* ─── Components (positioned absolutely in stage coords) ────────────── */
+.studio-comp {
+  position: absolute;
+  pointer-events: none;
+}
+.studio-comp.is-hidden { display: none; }
+.studio-comp.is-locked { cursor: default; }
+
+/* Slot — character with sprite + nameplate */
+.studio-comp--slot {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+  pointer-events: auto;
+}
+.studio-slot__sprite {
+  position: relative;
+  width: 64px; height: 96px;
+  display: flex; align-items: end; justify-content: center;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.18));
+}
+.studio-slot__sprite svg {
+  image-rendering: pixelated;
+  width: auto; height: 100%;
+  /* Scale 32×48 sprite to 64×96 (2x integer scale for retina crispness) */
+  transform: scale(2);
+  transform-origin: center bottom;
+}
+.studio-slot__nameplate {
+  background: color-mix(in srgb, var(--bg-raised) 92%, transparent);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-family: var(--mono); font-size: 9px; line-height: 1.3;
+  color: var(--ink-2);
+  text-align: center;
+  min-width: 90px; max-width: 140px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.studio-slot__role {
+  font-family: var(--mono); font-size: 8px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-4); margin-bottom: 2px;
+}
+.studio-slot__label {
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  color: var(--ink); letter-spacing: -0.005em;
+}
+.studio-slot__sublabel {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--ink-3); margin-top: 1px;
+  letter-spacing: 0.04em;
+}
+
+/* Slot states — glow tells you what's happening with the bound chat */
+.studio-comp--slot.studio-slot--active .studio-slot__sprite {
+  filter: drop-shadow(0 0 16px var(--accent-soft))
+          drop-shadow(0 4px 8px rgba(0,0,0,0.18));
+}
+.studio-comp--slot.studio-slot--active .studio-slot__sprite svg {
+  animation: studio-slot-active 3.2s ease-in-out infinite;
+}
+@keyframes studio-slot-active {
+  0%, 100% { transform: scale(2) translateY(0); }
+  50% { transform: scale(2) translateY(-1px); }
+}
+
+.studio-comp--slot.studio-slot--alert .studio-slot__sprite {
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--danger) 70%, transparent))
+          drop-shadow(0 4px 8px rgba(0,0,0,0.18));
+}
+.studio-comp--slot.studio-slot--alert .studio-slot__nameplate {
+  border-color: color-mix(in srgb, var(--danger) 50%, var(--rule));
+}
+.studio-comp--slot.studio-slot--alert .studio-slot__role {
+  color: var(--danger);
+}
+
+.studio-comp--slot.studio-slot--hibernating { opacity: 0.55; }
+.studio-comp--slot.studio-slot--hibernating .studio-slot__sprite {
+  filter: grayscale(0.6) drop-shadow(0 4px 8px rgba(0,0,0,0.10));
+}
+
+.studio-comp--slot.studio-slot--empty { opacity: 0.35; }
+.studio-comp--slot.studio-slot--empty .studio-slot__sprite { filter: grayscale(1) brightness(0.85); }
+.studio-comp--slot.studio-slot--empty .studio-slot__nameplate {
+  border-style: dashed;
+  background: transparent;
+}
+
+/* Honoring reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .studio-comp--slot.studio-slot--active .studio-slot__sprite svg {
+    animation: none;
+  }
+}
+
+/* Prop — environmental sprite without nameplate */
+.studio-comp--prop { display: flex; align-items: end; justify-content: center; }
+.studio-prop__sprite {
+  width: 100%; height: 100%;
+  display: flex; align-items: end; justify-content: center;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));
+}
+.studio-prop__sprite svg {
+  image-rendering: pixelated;
+  width: auto; height: 100%;
+  transform: scale(2);
+  transform-origin: center bottom;
+}
+
+/* SVG components (stage floor, rim, generic shapes) */
+.studio-comp--svg, .studio-comp--svg svg { width: 100%; height: 100%; }
+.studio-rect { width: 100%; height: 100%; }
+
+/* Music staff background */
+.studio-comp--staff { width: 100%; }
+
+/* Text components */
+.studio-comp--text {
+  pointer-events: none;
+  display: flex; align-items: start;
+}
+.studio-text--eyebrow {
+  font-family: var(--sans); font-size: clamp(11px, 1vw, 13px);
+  font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent);
+}
+.studio-text--hero {
+  font-family: var(--serif); font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.05; letter-spacing: -0.02em; font-weight: 600;
+  color: var(--ink);
+}
+.studio-text--hero em { font-style: italic; font-weight: 500; color: var(--accent); }
+.studio-text--body {
+  font-family: var(--serif); font-size: clamp(14px, 1.4vw, 18px);
+  line-height: 1.5; color: var(--ink-2);
+}
+
+.studio-comp__missing {
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  border: 1px dashed var(--danger);
+  color: var(--danger);
+  font-family: var(--mono); font-size: 11px;
+  padding: 4px 8px; border-radius: 4px;
+}
+
+/* ─── Empty + placeholder states ─────────────────────────────────────── */
+.studio-empty {
+  padding: clamp(40px, 6vw, 80px) clamp(20px, 4vw, 40px);
+  text-align: center;
+  color: var(--ink-3);
+}
+.studio-empty p {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(16px, 1.8vw, 20px);
+  max-width: 40ch; margin: 0 auto 12px;
+  line-height: 1.5;
+}
+.studio-empty__hint {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-4);
+}
+
+/* Map and Showcase placeholders (Phases B & C will replace).
+   These rules only fire when the pane is the active one — we don't
+   want to override the base `display: none` for inactive panes. */
+.studio-pane[data-pane="map"].is-active,
+.studio-pane[data-pane="showcase"].is-active {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 320px;
+  background: var(--bg-sunken);
+  border: 1px dashed var(--rule);
+  border-radius: var(--radius);
+  padding: clamp(40px, 6vw, 80px);
+}
+
+/* ─── Studio info strip below the stage ──────────────────────────────── */
+.studio-info {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  margin-top: clamp(16px, 2vw, 24px);
+  padding: 14px 18px;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  font-family: var(--mono); font-size: 12px;
+  color: var(--ink-3);
+}
+.studio-info__item { display: inline-flex; align-items: center; gap: 6px; }
+.studio-info__item strong { color: var(--ink-2); font-weight: 600; }
+.studio-info__dot {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+}
