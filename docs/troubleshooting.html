@@ -547,7 +547,7 @@ function applyOwnerMode() {
 
 // ─── Theme picker (persisted, per-device) ───
 const THEMES = ["crimson", "rose", "sunset", "amber", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono"];
-const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora"];
+const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora", "scanlines", "topo", "vignette", "paper", "custom"];
 
 function applyTheme(name) {
   THEMES.forEach(t => document.body.classList.remove("theme-" + t));
@@ -574,6 +574,19 @@ function applyBackground(name) {
   document.querySelectorAll(".bg-swatch").forEach(el => {
     el.classList.toggle("active", el.dataset.bg === (name || "solid"));
   });
+  // Custom uploaded wallpaper — apply the persisted data URL inline.
+  // Falls back to solid if no upload yet (the swatch click handler also
+  // intercepts to open the file picker first time the tile is clicked).
+  if (name === "custom") {
+    const dataUrl = localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+    if (dataUrl) {
+      document.body.style.backgroundImage = `url("${dataUrl}")`;
+    } else {
+      document.body.style.backgroundImage = "";
+    }
+  } else {
+    document.body.style.backgroundImage = "";
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -594,10 +607,52 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".bg-swatch").forEach(el => {
     el.addEventListener("click", () => {
       const b = el.dataset.bg;
+      // Custom-upload tile: open the file picker on every click.  If the
+      // user already has a saved upload, clicking re-applies it without
+      // prompting (so they can switch back to it from another bg).
+      if (b === "custom") {
+        const hasSaved = !!localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+        if (!hasSaved || el.classList.contains("active")) {
+          // Open file picker (no saved upload yet, OR custom is already
+          // active and the user is clicking to replace it).
+          const input = document.getElementById("bg-upload-input");
+          if (input) input.click();
+          return;
+        }
+      }
       localStorage.setItem("ENSEMBLE_BG", b);
       applyBackground(b);
     });
   });
+
+  // Custom wallpaper upload flow.
+  const bgUpload = document.getElementById("bg-upload-input");
+  if (bgUpload) {
+    bgUpload.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      // Reasonable size cap — localStorage has a ~5MB ceiling on most browsers.
+      if (file.size > 4.5 * 1024 * 1024) {
+        alert("Image too large (max ~4.5MB). Pick a smaller one or compress first.");
+        e.target.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const dataUrl = ev.target && ev.target.result;
+        try {
+          localStorage.setItem("ENSEMBLE_BG_CUSTOM", dataUrl);
+          localStorage.setItem("ENSEMBLE_BG", "custom");
+          applyBackground("custom");
+        } catch (err) {
+          alert("Couldn't save wallpaper to local storage (it may be too large). Try a smaller image.");
+        }
+      };
+      reader.readAsDataURL(file);
+      // Reset the input so picking the same file again still triggers change.
+      e.target.value = "";
+    });
+  }
 
   // Owner mode initial state — pessimistic until state fetch confirms
   _isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));

@@ -859,6 +859,82 @@ body.bg-aurora {
   from { background-position: 0% 0%; }
   to   { background-position: 100% 100%; }
 }
+
+/* ─── New backgrounds (Phase A.4 polish — wallpapers expansion 2026-04-27) ─── */
+
+body.bg-scanlines {
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    transparent 3px,
+    color-mix(in srgb, var(--ink-3) 14%, transparent) 3px,
+    color-mix(in srgb, var(--ink-3) 14%, transparent) 4px
+  );
+  background-attachment: fixed;
+}
+
+body.bg-topo {
+  /* Layered radial-gradient rings — topographic contour feel. */
+  background-image:
+    radial-gradient(ellipse at 18% 22%, transparent 12%, color-mix(in srgb, var(--accent) 10%, transparent) 13%, transparent 14%, transparent 22%, color-mix(in srgb, var(--accent) 8%, transparent) 23%, transparent 24%, transparent 32%, color-mix(in srgb, var(--accent) 6%, transparent) 33%, transparent 34%),
+    radial-gradient(ellipse at 78% 68%, transparent 15%, color-mix(in srgb, var(--accent-2) 9%, transparent) 16%, transparent 17%, transparent 27%, color-mix(in srgb, var(--accent-2) 7%, transparent) 28%, transparent 29%, transparent 39%, color-mix(in srgb, var(--accent-2) 5%, transparent) 40%, transparent 41%),
+    radial-gradient(ellipse at 50% 90%, transparent 10%, color-mix(in srgb, var(--accent-3) 7%, transparent) 11%, transparent 12%, transparent 20%, color-mix(in srgb, var(--accent-3) 5%, transparent) 21%, transparent 22%);
+  background-attachment: fixed;
+}
+
+body.bg-vignette {
+  background-image: radial-gradient(ellipse at center,
+    transparent 0%,
+    transparent 40%,
+    color-mix(in srgb, var(--ink) 12%, transparent) 100%);
+  background-attachment: fixed;
+}
+
+body.bg-paper {
+  /* Heavier turbulence + warm tint = vintage paper texture. */
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.7  0 0 0 0 0.55  0 0 0 0 0.4  0 0 0 0.30 0'/></filter><rect width='100%' height='100%' filter='url(%23p)' opacity='0.32'/></svg>"),
+    radial-gradient(ellipse at center, transparent 60%, color-mix(in srgb, var(--ink) 8%, transparent) 100%);
+  background-attachment: fixed;
+}
+
+/* Custom-uploaded wallpaper: applied via inline style.backgroundImage from
+   shared_scripts.js when bg=custom (data URL persisted in localStorage).
+   This rule supplies the cover sizing + fixed attachment so the inline
+   image renders correctly. */
+body.bg-custom {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Swatch previews for the new backgrounds (visible in Settings → Appearance) */
+.bg-swatch.scanlines {
+  background-image: repeating-linear-gradient(180deg, var(--bg) 0 2px, var(--ink-3) 2px 3px);
+}
+.bg-swatch.topo {
+  background-image: radial-gradient(circle at 30% 30%, transparent 25%, var(--accent) 26% 28%, transparent 29% 45%, var(--accent-2) 46% 48%, transparent 49% 65%, var(--accent-3) 66% 68%, transparent 69%);
+  background-color: var(--bg);
+}
+.bg-swatch.vignette {
+  background-image: radial-gradient(ellipse at center, var(--bg) 30%, var(--ink) 100%);
+}
+.bg-swatch.paper {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3'/></filter><rect width='100%' height='100%' filter='url(%23p)' opacity='0.4'/></svg>");
+  background-color: color-mix(in srgb, var(--accent) 12%, var(--bg));
+}
+.bg-swatch.custom {
+  background-image: linear-gradient(135deg, color-mix(in srgb, var(--accent) 24%, transparent), transparent);
+  background-color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  font-size: 16px;
+  color: var(--accent);
+}
+.bg-swatch.custom::before { content: "↑"; font-weight: 600; }
 @media (prefers-reduced-motion: reduce) {
   body.bg-aurora { animation: none; }
 }

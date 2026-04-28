@@ -168,14 +168,20 @@
     <h3 style="font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--ink); margin: 28px 0 6px;">Background pattern</h3>
     <p class="section-sub" style="margin-bottom: 12px;">Subtle texture for the page background. Default is solid.</p>
     <div class="bg-picker" data-bg-picker>
-      <div class="bg-swatch solid"  data-bg="solid"  title="Solid (default)" aria-label="Solid background"><span class="bg-swatch__label">solid</span></div>
-      <div class="bg-swatch dots"   data-bg="dots"   title="Dots"            aria-label="Dots background"><span class="bg-swatch__label">dots</span></div>
-      <div class="bg-swatch grid"   data-bg="grid"   title="Grid"            aria-label="Grid background"><span class="bg-swatch__label">grid</span></div>
-      <div class="bg-swatch mesh"   data-bg="mesh"   title="Mesh"            aria-label="Mesh gradient background"><span class="bg-swatch__label">mesh</span></div>
-      <div class="bg-swatch noise"  data-bg="noise"  title="Noise"           aria-label="Noise background"><span class="bg-swatch__label">noise</span></div>
-      <div class="bg-swatch aurora" data-bg="aurora" title="Aurora"          aria-label="Aurora background"><span class="bg-swatch__label">aurora</span></div>
+      <div class="bg-swatch solid"     data-bg="solid"     title="Solid (default)" aria-label="Solid background"><span class="bg-swatch__label">solid</span></div>
+      <div class="bg-swatch dots"      data-bg="dots"      title="Dots"            aria-label="Dots background"><span class="bg-swatch__label">dots</span></div>
+      <div class="bg-swatch grid"      data-bg="grid"      title="Grid"            aria-label="Grid background"><span class="bg-swatch__label">grid</span></div>
+      <div class="bg-swatch mesh"      data-bg="mesh"      title="Mesh"            aria-label="Mesh gradient background"><span class="bg-swatch__label">mesh</span></div>
+      <div class="bg-swatch noise"     data-bg="noise"     title="Noise"           aria-label="Noise background"><span class="bg-swatch__label">noise</span></div>
+      <div class="bg-swatch aurora"    data-bg="aurora"    title="Aurora"          aria-label="Aurora background"><span class="bg-swatch__label">aurora</span></div>
+      <div class="bg-swatch scanlines" data-bg="scanlines" title="Scanlines"       aria-label="Scanlines background"><span class="bg-swatch__label">scanlines</span></div>
+      <div class="bg-swatch topo"      data-bg="topo"      title="Topographic"     aria-label="Topographic background"><span class="bg-swatch__label">topo</span></div>
+      <div class="bg-swatch vignette"  data-bg="vignette"  title="Vignette"        aria-label="Vignette background"><span class="bg-swatch__label">vignette</span></div>
+      <div class="bg-swatch paper"     data-bg="paper"     title="Paper"           aria-label="Paper texture background"><span class="bg-swatch__label">paper</span></div>
+      <div class="bg-swatch custom"    data-bg="custom"    title="Upload your own" aria-label="Upload your own wallpaper" tabindex="0" role="button"><span class="bg-swatch__label">upload</span></div>
     </div>
-    <p class="settings-help" style="margin-top:12px;">Animated patterns honor your reduced-motion preference.</p>
+    <input type="file" id="bg-upload-input" accept="image/*" style="display:none" />
+    <p class="settings-help" style="margin-top:12px;">Animated patterns honor your reduced-motion preference. Custom wallpapers persist locally in your browser (~5MB max).</p>
   </div>
 </section>
 
@@ -700,7 +706,7 @@ function applyOwnerMode() {
 
 // ─── Theme picker (persisted, per-device) ───
 const THEMES = ["crimson", "rose", "sunset", "amber", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono"];
-const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora"];
+const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora", "scanlines", "topo", "vignette", "paper", "custom"];
 
 function applyTheme(name) {
   THEMES.forEach(t => document.body.classList.remove("theme-" + t));
@@ -727,6 +733,19 @@ function applyBackground(name) {
   document.querySelectorAll(".bg-swatch").forEach(el => {
     el.classList.toggle("active", el.dataset.bg === (name || "solid"));
   });
+  // Custom uploaded wallpaper — apply the persisted data URL inline.
+  // Falls back to solid if no upload yet (the swatch click handler also
+  // intercepts to open the file picker first time the tile is clicked).
+  if (name === "custom") {
+    const dataUrl = localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+    if (dataUrl) {
+      document.body.style.backgroundImage = `url("${dataUrl}")`;
+    } else {
+      document.body.style.backgroundImage = "";
+    }
+  } else {
+    document.body.style.backgroundImage = "";
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -747,10 +766,52 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".bg-swatch").forEach(el => {
     el.addEventListener("click", () => {
       const b = el.dataset.bg;
+      // Custom-upload tile: open the file picker on every click.  If the
+      // user already has a saved upload, clicking re-applies it without
+      // prompting (so they can switch back to it from another bg).
+      if (b === "custom") {
+        const hasSaved = !!localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+        if (!hasSaved || el.classList.contains("active")) {
+          // Open file picker (no saved upload yet, OR custom is already
+          // active and the user is clicking to replace it).
+          const input = document.getElementById("bg-upload-input");
+          if (input) input.click();
+          return;
+        }
+      }
       localStorage.setItem("ENSEMBLE_BG", b);
       applyBackground(b);
     });
   });
+
+  // Custom wallpaper upload flow.
+  const bgUpload = document.getElementById("bg-upload-input");
+  if (bgUpload) {
+    bgUpload.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      // Reasonable size cap — localStorage has a ~5MB ceiling on most browsers.
+      if (file.size > 4.5 * 1024 * 1024) {
+        alert("Image too large (max ~4.5MB). Pick a smaller one or compress first.");
+        e.target.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const dataUrl = ev.target && ev.target.result;
+        try {
+          localStorage.setItem("ENSEMBLE_BG_CUSTOM", dataUrl);
+          localStorage.setItem("ENSEMBLE_BG", "custom");
+          applyBackground("custom");
+        } catch (err) {
+          alert("Couldn't save wallpaper to local storage (it may be too large). Try a smaller image.");
+        }
+      };
+      reader.readAsDataURL(file);
+      // Reset the input so picking the same file again still triggers change.
+      e.target.value = "";
+    });
+  }
 
   // Owner mode initial state — pessimistic until state fetch confirms
   _isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
