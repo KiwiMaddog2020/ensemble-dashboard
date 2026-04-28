@@ -127,46 +127,196 @@
   </div>
 </section>
 
-<section class="ensemble-featured">
+<section class="ensemble-featured-carousel" id="ensemble-featured-carousel" aria-label="Featured Studios">
   <div class="wrap">
-    <p class="eyebrow">FEATURED AT LAUNCH</p>
-    <h2>Studios from the<br /><em>first ten makers.</em></h2>
-    <p class="lead">Ten hand-picked creators are building their Studios as v1.0&rsquo;s living references. Yours could be the eleventh.</p>
-    <div class="ensemble-featured__grid">
-      <article class="ensemble-featured__card ensemble-featured__card--coming">
-        <div class="ensemble-featured__thumb"><span>v1.0</span></div>
-        <h3>An indie game dev</h3>
-        <p>Three Steam releases. Devlog on itch. Click any cabinet, the game plays.</p>
-      </article>
-      <article class="ensemble-featured__card ensemble-featured__card--coming">
-        <div class="ensemble-featured__thumb"><span>v1.0</span></div>
-        <h3>A newsletter writer</h3>
-        <p>A year of essays. A podcast. Bookshelves where the spines open into the post.</p>
-      </article>
-      <article class="ensemble-featured__card ensemble-featured__card--coming">
-        <div class="ensemble-featured__thumb"><span>v1.0</span></div>
-        <h3>A music producer</h3>
-        <p>Five albums. A tape deck plays the latest single. Vinyls click into Bandcamp.</p>
-      </article>
-      <article class="ensemble-featured__card ensemble-featured__card--your">
-        <div class="ensemble-featured__thumb"><span>?</span></div>
-        <h3>Your Studio could be here.</h3>
-        <p>v1.0 closed beta opens to 25 hand-picked makers. Get on the list.</p>
-      </article>
+    <p class="eyebrow">FEATURED STUDIOS</p>
+    <h2>Makers building<br /><em>in public.</em></h2>
+    <div class="carousel-viewport" aria-live="polite" aria-atomic="false">
+      <div class="carousel-track" id="carousel-track">
+
+        <article class="featured-card" data-preset="tinkerer" tabindex="0" aria-label="Riley — Building a CNC controller in public">
+          <div class="featured-card__thumb" style="--card-accent: var(--accent-soft);">
+            <img src="./studio/sprites/tinker/oscilloscope.svg" width="96" height="96" alt="" aria-hidden="true" />
+          </div>
+          <h3 class="featured-card__title">Riley</h3>
+          <p class="featured-card__headline">Building a CNC controller in public</p>
+          <p class="featured-card__blurb">Daily commits. Schematics in the margin. The benchtop is the homepage.</p>
+          <p class="featured-card__preset">Studio: <strong>Tinkerer&rsquo;s bench</strong></p>
+        </article>
+
+        <article class="featured-card" data-preset="wordsmith" tabindex="0" aria-label="Mara — A sci-fi novella in 12 chapters">
+          <div class="featured-card__thumb" style="--card-accent: var(--accent-soft);">
+            <img src="./studio/sprites/zen/fountain-pen.svg" width="96" height="96" alt="" aria-hidden="true" />
+          </div>
+          <h3 class="featured-card__title">Mara</h3>
+          <p class="featured-card__headline">A sci-fi novella in 12 chapters</p>
+          <p class="featured-card__blurb">Drafts in the margins, finals in the spine. The bookshelf clicks open into the post.</p>
+          <p class="featured-card__preset">Studio: <strong>Wordsmith&rsquo;s desk</strong></p>
+        </article>
+
+        <article class="featured-card" data-preset="director" tabindex="0" aria-label="Theo — Editing a documentary across 4 cities">
+          <div class="featured-card__thumb" style="--card-accent: var(--accent-soft);">
+            <img src="./studio/sprites/studio/vinyl.svg" width="96" height="96" alt="" aria-hidden="true" />
+          </div>
+          <h3 class="featured-card__title">Theo</h3>
+          <p class="featured-card__headline">Editing a documentary across 4 cities</p>
+          <p class="featured-card__blurb">Footage rolls in. Each subject gets a frame. The reel turns; the room turns with it.</p>
+          <p class="featured-card__preset">Studio: <strong>Director&rsquo;s chair</strong></p>
+        </article>
+
+        <article class="featured-card" data-preset="producer" tabindex="0" aria-label="Jules — Lo-fi tracks between sets">
+          <div class="featured-card__thumb" style="--card-accent: var(--accent-soft);">
+            <img src="./studio/sprites/studio/fader.svg" width="96" height="96" alt="" aria-hidden="true" />
+          </div>
+          <h3 class="featured-card__title">Jules</h3>
+          <p class="featured-card__headline">Lo-fi tracks between sets</p>
+          <p class="featured-card__blurb">The mixer is the front door. Vinyls click into Bandcamp. The hum is part of the room.</p>
+          <p class="featured-card__preset">Studio: <strong>Producer&rsquo;s booth</strong></p>
+        </article>
+
+        <article class="featured-card" data-preset="game_arcade" tabindex="0" aria-label="Sam — A Steam game in 90 days">
+          <div class="featured-card__thumb" style="--card-accent: var(--accent-soft);">
+            <img src="./studio/sprites/core/arcade_classic.svg" width="96" height="96" alt="" aria-hidden="true" />
+          </div>
+          <h3 class="featured-card__title">Sam</h3>
+          <p class="featured-card__headline">A Steam game in 90 days</p>
+          <p class="featured-card__blurb">Devlog on the wall. Sprite cabinet at the back. Click any cabinet, the game plays.</p>
+          <p class="featured-card__preset">Studio: <strong>Arcade workshop</strong></p>
+        </article>
+
+        <article class="featured-card featured-card--your" data-preset="your-studio" tabindex="0" aria-label="Your Studio could be here">
+          <div class="featured-card__thumb featured-card__thumb--empty" style="--card-accent: var(--accent-soft);">
+            <span aria-hidden="true">?</span>
+          </div>
+          <h3 class="featured-card__title">Your Studio could be here.</h3>
+          <p class="featured-card__headline">v1.0 closed beta opens to 25 hand-picked makers. Get on the list.</p>
+          <p class="featured-card__blurb"></p>
+          <p class="featured-card__preset"></p>
+        </article>
+
+      </div>
     </div>
+
+    <div class="carousel-controls" aria-label="Carousel controls">
+      <button class="carousel-btn carousel-btn--prev" id="carousel-prev" aria-label="Previous studio">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Go to studio">
+        <button class="carousel-dot is-active" role="tab" aria-selected="true"  aria-label="Studio 1 of 6" data-index="0"></button>
+        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Studio 2 of 6" data-index="1"></button>
+        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Studio 3 of 6" data-index="2"></button>
+        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Studio 4 of 6" data-index="3"></button>
+        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Studio 5 of 6" data-index="4"></button>
+        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Studio 6 of 6" data-index="5"></button>
+      </div>
+      <button class="carousel-btn carousel-btn--next" id="carousel-next" aria-label="Next studio">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</section>
+<section class="ensemble-wall" id="ensemble-wall">
+  <div class="wrap">
+    <p class="eyebrow">COMMUNITY WALL</p>
+    <h2>What the <em>ensemble</em> is making</h2>
+    <p class="lead">Read-only preview. v1.0 closed beta unlocks posting + reactions.</p>
+
+    <ul class="ensemble-wall__feed">
+      <li class="ensemble-wall__entry" data-preset="tinkerer">
+        <div class="ensemble-wall__avatar">
+          <img src="./studio/sprites/tinker/oscilloscope.svg" alt="" width="48" height="48" />
+        </div>
+        <div class="ensemble-wall__body">
+          <div class="ensemble-wall__byline">
+            <strong class="ensemble-wall__name">Riley</strong>
+            <span class="ensemble-wall__preset-tag">Tinkerer&rsquo;s bench</span>
+            <span class="ensemble-wall__time">12 minutes ago</span>
+          </div>
+          <p class="ensemble-wall__activity">Posted a linkage diagram for the Z-axis lead screw</p>
+        </div>
+      </li>
+      <li class="ensemble-wall__entry" data-preset="producer">
+        <div class="ensemble-wall__avatar">
+          <img src="./studio/sprites/studio/vinyl.svg" alt="" width="48" height="48" />
+        </div>
+        <div class="ensemble-wall__body">
+          <div class="ensemble-wall__byline">
+            <strong class="ensemble-wall__name">Jules</strong>
+            <span class="ensemble-wall__preset-tag">Producer&rsquo;s booth</span>
+            <span class="ensemble-wall__time">1 hour ago</span>
+          </div>
+          <p class="ensemble-wall__activity">Released this week&rsquo;s track &mdash; <em>Stillwater (lo-fi cut)</em></p>
+        </div>
+      </li>
+      <li class="ensemble-wall__entry" data-preset="wordsmith">
+        <div class="ensemble-wall__avatar">
+          <img src="./studio/sprites/zen/fountain-pen.svg" alt="" width="48" height="48" />
+        </div>
+        <div class="ensemble-wall__body">
+          <div class="ensemble-wall__byline">
+            <strong class="ensemble-wall__name">Mara</strong>
+            <span class="ensemble-wall__preset-tag">Wordsmith&rsquo;s desk</span>
+            <span class="ensemble-wall__time">3 hours ago</span>
+          </div>
+          <p class="ensemble-wall__activity">Published Chapter 7. Mara left a footnote about a salt-water lullaby.</p>
+        </div>
+      </li>
+      <li class="ensemble-wall__entry" data-preset="director">
+        <div class="ensemble-wall__avatar">
+          <img src="./studio/sprites/studio/vu-meter.svg" alt="" width="48" height="48" />
+        </div>
+        <div class="ensemble-wall__body">
+          <div class="ensemble-wall__byline">
+            <strong class="ensemble-wall__name">Theo</strong>
+            <span class="ensemble-wall__preset-tag">Director&rsquo;s chair</span>
+            <span class="ensemble-wall__time">yesterday</span>
+          </div>
+          <p class="ensemble-wall__activity">Posted a rough cut of the Karachi opener</p>
+        </div>
+      </li>
+      <li class="ensemble-wall__entry" data-preset="game_arcade">
+        <div class="ensemble-wall__avatar">
+          <img src="./studio/sprites/core/arcade_classic.svg" alt="" width="48" height="48" />
+        </div>
+        <div class="ensemble-wall__body">
+          <div class="ensemble-wall__byline">
+            <strong class="ensemble-wall__name">Sam</strong>
+            <span class="ensemble-wall__preset-tag">Arcade workshop</span>
+            <span class="ensemble-wall__time">2 days ago</span>
+          </div>
+          <p class="ensemble-wall__activity">Hit alpha milestone. Devlog up. Sprite cabinet has 12 new pieces.</p>
+        </div>
+      </li>
+    </ul>
+
+    <p class="ensemble-wall__cta-note">Want your work here? <a href="#waitlist">Join the waitlist.</a></p>
   </div>
 </section>
 
-<section class="ensemble-cta">
+
+<section class="ensemble-cta" id="waitlist">
   <div class="wrap">
     <p class="eyebrow">JOIN THE WAITLIST</p>
     <h2>Build a place that<br /><em>looks like you.</em></h2>
     <p class="lead">Wave 1 stealth waitlist opens at month 4. Wave 2 closed beta at month 5. Wave 3 soft public launch at month 6. Get on the list now and we&rsquo;ll send the build log along the way.</p>
     <form class="ensemble-cta__form" action="https://formspree.io/f/placeholder" method="POST" novalidate>
-      <input type="email" name="email" placeholder="you@whatever.com" autocomplete="email" required class="ensemble-cta__input" />
-      <button type="submit" class="btn-primary ensemble-cta__btn">Get on the waitlist</button>
+      <input type="email" name="email" placeholder="you@whatever.com" autocomplete="email" required class="ensemble-cta__input" id="ensemble-cta-email" aria-describedby="ensemble-cta-error" />
+      <button type="submit" class="btn-primary ensemble-cta__btn" id="ensemble-cta-submit">
+        <span class="ensemble-cta__btn-label">Get on the waitlist</span>
+        <span class="ensemble-cta__spinner" aria-hidden="true"></span>
+      </button>
     </form>
+    <p class="ensemble-cta__error" id="ensemble-cta-error" role="alert" aria-live="polite"></p>
+    <div class="ensemble-cta__success" id="ensemble-cta-success" hidden>
+      <p class="ensemble-cta__success-msg">🎉 You&rsquo;re on the list. Check your email for confirmation.</p>
+    </div>
     <p class="ensemble-cta__note">No spam. No third-party tracking. We&rsquo;ll write you when there&rsquo;s something worth seeing.</p>
+    <p class="ensemble-cta__note ensemble-cta__note--cadence">We send the build log every 2 weeks. Unsubscribe anytime.</p>
   </div>
 </section>
 <div class="first-run-overlay" id="first-run-overlay" role="dialog" aria-modal="true" aria-labelledby="first-run-title" hidden>
@@ -330,6 +480,505 @@
 .cta-generate:hover { background: var(--accent-2); transform: translateY(-1px); }
 .cta-generate:active { transform: translateY(0); }
 </style>
+<style>
+.ensemble-featured-carousel {
+  padding: 60px 0;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .ensemble-featured-carousel { padding: 40px 0; }
+}
+.ensemble-featured-carousel .wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.ensemble-featured-carousel h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 32px;
+  line-height: 1.15;
+}
+.ensemble-featured-carousel h2 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* Viewport clips the track */
+.carousel-viewport {
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+/* Track slides horizontally */
+.carousel-track {
+  display: flex;
+  gap: 0;
+  transition: transform 280ms cubic-bezier(.32,.72,.36,1);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track { transition: none; }
+}
+
+/* Cards */
+.featured-card {
+  flex: 0 0 100%;
+  min-width: 0;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  outline: none;
+  cursor: default;
+  transition: box-shadow 180ms var(--ease);
+}
+.featured-card:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-soft), 0 4px 16px rgba(0,0,0,0.08);
+}
+.featured-card--your {
+  border-style: dashed;
+  background: transparent;
+}
+
+/* Thumb area */
+.featured-card__thumb {
+  width: 96px;
+  height: 96px;
+  background: var(--card-accent, var(--accent-soft));
+  border-radius: calc(var(--radius) * 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.featured-card__thumb img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  color: var(--accent);
+}
+.featured-card__thumb--empty {
+  font-family: var(--serif);
+  font-size: 40px;
+  color: var(--ink-2);
+}
+
+/* Typography */
+.featured-card__title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+.featured-card__headline {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.4;
+}
+.featured-card__blurb {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--ink-2);
+  margin: 0;
+  line-height: 1.6;
+}
+.featured-card__blurb:empty { display: none; }
+.featured-card__preset {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink-3, var(--ink-2));
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+.featured-card__preset:empty { display: none; }
+.featured-card__preset strong { color: var(--accent); font-weight: 600; }
+
+/* Controls row */
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* Prev/next buttons */
+.carousel-btn {
+  appearance: none;
+  border: 1px solid var(--rule);
+  background: var(--bg-raised);
+  color: var(--ink-2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 180ms var(--ease), color 180ms var(--ease), background 180ms var(--ease);
+  flex-shrink: 0;
+}
+.carousel-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.carousel-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Dot indicators */
+.carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.carousel-dot {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rule);
+  cursor: pointer;
+  transition: background 200ms var(--ease), transform 200ms var(--ease);
+}
+.carousel-dot.is-active,
+.carousel-dot[aria-selected="true"] {
+  background: var(--accent);
+  transform: scale(1.3);
+}
+.carousel-dot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .featured-card { padding: 24px 20px; }
+  .featured-card__thumb { width: 72px; height: 72px; }
+  .featured-card__thumb img { width: 48px; height: 48px; }
+}
+</style>
+<style>
+/* Community wall (Phase 3) */
+.ensemble-wall {
+  padding: 60px 0;
+  background: var(--bg);
+  border-top: 1px solid var(--rule);
+}
+.ensemble-wall .wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.ensemble-wall h2 {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 8px 0 10px;
+}
+.ensemble-wall h2 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+.ensemble-wall .lead {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 0 0 28px;
+}
+.ensemble-wall__feed {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--rule);
+}
+.ensemble-wall__entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 4px;
+  border-bottom: 1px solid var(--rule);
+  transition: transform 200ms var(--ease), box-shadow 200ms var(--ease), background 200ms var(--ease);
+  border-radius: var(--radius);
+}
+.ensemble-wall__entry:hover {
+  transform: translateY(-1px);
+  background: var(--bg-raised);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.ensemble-wall__avatar {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.ensemble-wall__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.ensemble-wall__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ensemble-wall__byline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  line-height: 1.4;
+}
+.ensemble-wall__name {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.ensemble-wall__preset-tag {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.ensemble-wall__time {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink-3);
+  letter-spacing: 0.005em;
+}
+.ensemble-wall__activity {
+  font-family: var(--serif);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 2px 0 0;
+}
+.ensemble-wall__activity em {
+  font-style: italic;
+  color: var(--ink);
+}
+.ensemble-wall__cta-note {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-3);
+  margin: 24px 0 0;
+  text-align: center;
+}
+.ensemble-wall__cta-note a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-soft);
+  transition: border-color 200ms var(--ease);
+}
+.ensemble-wall__cta-note a:hover {
+  border-bottom-color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .ensemble-wall { padding: 40px 0; }
+  .ensemble-wall h2 { font-size: 26px; }
+  .ensemble-wall__entry { gap: 12px; padding: 16px 2px; }
+  .ensemble-wall__avatar { width: 40px; height: 40px; padding: 6px; }
+  .ensemble-wall__byline { gap: 6px; }
+  .ensemble-wall__preset-tag { order: 3; flex-basis: 100%; align-self: flex-start; }
+}
+</style>
+<style>
+/* Waitlist polish (Phase 3) */
+.ensemble-cta__form { position: relative; }
+.ensemble-cta__error {
+  color: var(--accent-danger, #b3261e);
+  font-family: var(--sans);
+  font-size: 13px;
+  min-height: 1.2em;
+  margin: 8px 0 0;
+}
+.ensemble-cta__error:empty { display: none; }
+.ensemble-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.ensemble-cta__btn[disabled] { opacity: 0.7; cursor: progress; }
+.ensemble-cta__spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: ensemble-cta-spin 700ms linear infinite;
+}
+.ensemble-cta__btn.is-loading .ensemble-cta__spinner { display: inline-block; }
+@keyframes ensemble-cta-spin { to { transform: rotate(360deg); } }
+.ensemble-cta__input[aria-invalid="true"] {
+  border-color: var(--accent-danger, #b3261e);
+  outline-color: var(--accent-danger, #b3261e);
+}
+.ensemble-cta__success {
+  text-align: center;
+  padding: 24px 16px;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  margin: 0 auto;
+  max-width: 520px;
+}
+.ensemble-cta__success-msg {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2.5vw, 22px);
+  font-weight: 500;
+  margin: 0;
+  color: var(--ink);
+}
+.ensemble-cta__note--cadence {
+  opacity: 0.75;
+  font-size: 12px;
+  margin-top: 6px;
+}
+</style>
+<script>
+(function() {
+  var CARD_COUNT = 6;
+  var ROTATE_MS = 6000;
+  var RESUME_AFTER_MANUAL_MS = 20000;
+  var SWIPE_THRESHOLD = 40;
+
+  document.addEventListener("DOMContentLoaded", function() {
+    var section = document.getElementById("ensemble-featured-carousel");
+    if (!section) return;
+
+    var track = document.getElementById("carousel-track");
+    var prevBtn = document.getElementById("carousel-prev");
+    var nextBtn = document.getElementById("carousel-next");
+    var dotsContainer = document.getElementById("carousel-dots");
+    if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
+
+    var dots = dotsContainer.querySelectorAll(".carousel-dot");
+    var current = 0;
+    var autoTimer = null;
+    var resumeTimer = null;
+    var isPaused = false;
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function goTo(index, fromManual) {
+      current = (index + CARD_COUNT) % CARD_COUNT;
+      track.style.transform = "translateX(-" + (current * 100) + "%)";
+      dots.forEach(function(dot, i) {
+        var active = i === current;
+        dot.classList.toggle("is-active", active);
+        dot.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      if (fromManual) {
+        clearTimeout(resumeTimer);
+        clearInterval(autoTimer);
+        autoTimer = null;
+        if (!reducedMotion) {
+          resumeTimer = setTimeout(function() {
+            resumeTimer = null;
+            if (!isPaused) startAuto();
+          }, RESUME_AFTER_MANUAL_MS);
+        }
+      }
+    }
+
+    function startAuto() {
+      if (reducedMotion || autoTimer) return;
+      autoTimer = setInterval(function() {
+        goTo(current + 1, false);
+      }, ROTATE_MS);
+    }
+
+    function stopAuto() {
+      clearInterval(autoTimer);
+      autoTimer = null;
+    }
+
+    prevBtn.addEventListener("click", function() { goTo(current - 1, true); });
+    nextBtn.addEventListener("click", function() { goTo(current + 1, true); });
+
+    dots.forEach(function(dot) {
+      dot.addEventListener("click", function() {
+        var idx = parseInt(dot.getAttribute("data-index"), 10);
+        if (!isNaN(idx)) goTo(idx, true);
+      });
+    });
+
+    section.addEventListener("keydown", function(e) {
+      if (e.key === "ArrowLeft") { goTo(current - 1, true); e.preventDefault(); }
+      if (e.key === "ArrowRight") { goTo(current + 1, true); e.preventDefault(); }
+    });
+
+    section.addEventListener("mouseenter", function() { isPaused = true; stopAuto(); });
+    section.addEventListener("mouseleave", function() {
+      isPaused = false;
+      if (!reducedMotion && !resumeTimer) startAuto();
+    });
+    section.addEventListener("focusin", function() { isPaused = true; stopAuto(); });
+    section.addEventListener("focusout", function(e) {
+      if (!section.contains(e.relatedTarget)) {
+        isPaused = false;
+        if (!reducedMotion && !resumeTimer) startAuto();
+      }
+    });
+
+    var touchStartX = null;
+    track.addEventListener("touchstart", function(e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    track.addEventListener("touchend", function(e) {
+      if (touchStartX === null) return;
+      var delta = e.changedTouches[0].clientX - touchStartX;
+      touchStartX = null;
+      if (Math.abs(delta) < SWIPE_THRESHOLD) return;
+      goTo(delta < 0 ? current + 1 : current - 1, true);
+    }, { passive: true });
+
+    goTo(0, false);
+    startAuto();
+  });
+})();
+
+</script>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>
@@ -751,6 +1400,67 @@ function wireFirstRunModal() {
 }
 
 document.addEventListener("DOMContentLoaded", wireFirstRunModal);
+
+// Waitlist polish (Phase 3)
+function wireWaitlistPolish() {
+  const form = document.querySelector('.ensemble-cta__form');
+  if (!form) return;
+  const input = form.querySelector('.ensemble-cta__input');
+  const button = form.querySelector('.ensemble-cta__btn');
+  const errorEl = document.getElementById('ensemble-cta-error');
+  const successEl = document.getElementById('ensemble-cta-success');
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function clearError() {
+    if (errorEl) errorEl.textContent = '';
+    if (input) input.setAttribute('aria-invalid', 'false');
+  }
+
+  function showError(msg) {
+    if (errorEl) errorEl.textContent = msg;
+    if (input) input.setAttribute('aria-invalid', 'true');
+  }
+
+  if (input) input.addEventListener('input', clearError);
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    clearError();
+    const email = (input && input.value || '').trim();
+    if (!EMAIL_RE.test(email)) {
+      showError('Please enter a valid email address.');
+      if (input) input.focus();
+      return;
+    }
+    if (button) {
+      button.disabled = true;
+      button.classList.add('is-loading');
+    }
+    try {
+      const body = 'email=' + encodeURIComponent(email);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        body: body
+      });
+      if (!response.ok) {
+        throw new Error('http ' + response.status);
+      }
+      form.hidden = true;
+      if (successEl) successEl.hidden = false;
+    } catch (e) {
+      showError('Something went wrong, please try again.');
+      if (button) {
+        button.disabled = false;
+        button.classList.remove('is-loading');
+      }
+    }
+  });
+}
+document.addEventListener("DOMContentLoaded", wireWaitlistPolish);
 </script>
 </body>
 </html>

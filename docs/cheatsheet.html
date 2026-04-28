@@ -883,6 +883,67 @@ function wireFirstRunModal() {
 }
 
 document.addEventListener("DOMContentLoaded", wireFirstRunModal);
+
+// Waitlist polish (Phase 3)
+function wireWaitlistPolish() {
+  const form = document.querySelector('.ensemble-cta__form');
+  if (!form) return;
+  const input = form.querySelector('.ensemble-cta__input');
+  const button = form.querySelector('.ensemble-cta__btn');
+  const errorEl = document.getElementById('ensemble-cta-error');
+  const successEl = document.getElementById('ensemble-cta-success');
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function clearError() {
+    if (errorEl) errorEl.textContent = '';
+    if (input) input.setAttribute('aria-invalid', 'false');
+  }
+
+  function showError(msg) {
+    if (errorEl) errorEl.textContent = msg;
+    if (input) input.setAttribute('aria-invalid', 'true');
+  }
+
+  if (input) input.addEventListener('input', clearError);
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    clearError();
+    const email = (input && input.value || '').trim();
+    if (!EMAIL_RE.test(email)) {
+      showError('Please enter a valid email address.');
+      if (input) input.focus();
+      return;
+    }
+    if (button) {
+      button.disabled = true;
+      button.classList.add('is-loading');
+    }
+    try {
+      const body = 'email=' + encodeURIComponent(email);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        body: body
+      });
+      if (!response.ok) {
+        throw new Error('http ' + response.status);
+      }
+      form.hidden = true;
+      if (successEl) successEl.hidden = false;
+    } catch (e) {
+      showError('Something went wrong, please try again.');
+      if (button) {
+        button.disabled = false;
+        button.classList.remove('is-loading');
+      }
+    }
+  });
+}
+document.addEventListener("DOMContentLoaded", wireWaitlistPolish);
 </script>
 </body>
 </html>

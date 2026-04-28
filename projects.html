@@ -75,7 +75,7 @@
     <div class="hero-left">
       <p class="eyebrow">Project Roster</p>
       <h1>What's <em>cooking.</em></h1>
-      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-28T19:36:22Z">just now</span> · refreshes every 15 min</p>
+      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-28T21:05:48Z">just now</span> · refreshes every 15 min</p>
     </div>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">7</span><span class="stat-label">Projects in motion</span></div>
@@ -164,7 +164,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 15m ago</span>
+    <span class="meta-hb">last seen 1s ago</span>
   </div>
 </a>
 <a class="card" href="./pinball-roguelight.html" data-pct="12">
@@ -188,7 +188,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 13h ago</span>
+    <span class="meta-hb">last seen 14h ago</span>
   </div>
 </a>
 <a class="card" href="./spectra-nova.html" data-pct="50">
@@ -212,7 +212,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 10h ago</span>
+    <span class="meta-hb">last seen 12h ago</span>
   </div>
 </a>
 <a class="card" href="./tool-builder.html" data-pct="22">
@@ -260,7 +260,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 2h ago</span>
+    <span class="meta-hb">last seen 4h ago</span>
   </div>
 </a>
     </div>
@@ -687,6 +687,67 @@ function wireFirstRunModal() {
 }
 
 document.addEventListener("DOMContentLoaded", wireFirstRunModal);
+
+// Waitlist polish (Phase 3)
+function wireWaitlistPolish() {
+  const form = document.querySelector('.ensemble-cta__form');
+  if (!form) return;
+  const input = form.querySelector('.ensemble-cta__input');
+  const button = form.querySelector('.ensemble-cta__btn');
+  const errorEl = document.getElementById('ensemble-cta-error');
+  const successEl = document.getElementById('ensemble-cta-success');
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function clearError() {
+    if (errorEl) errorEl.textContent = '';
+    if (input) input.setAttribute('aria-invalid', 'false');
+  }
+
+  function showError(msg) {
+    if (errorEl) errorEl.textContent = msg;
+    if (input) input.setAttribute('aria-invalid', 'true');
+  }
+
+  if (input) input.addEventListener('input', clearError);
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    clearError();
+    const email = (input && input.value || '').trim();
+    if (!EMAIL_RE.test(email)) {
+      showError('Please enter a valid email address.');
+      if (input) input.focus();
+      return;
+    }
+    if (button) {
+      button.disabled = true;
+      button.classList.add('is-loading');
+    }
+    try {
+      const body = 'email=' + encodeURIComponent(email);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        body: body
+      });
+      if (!response.ok) {
+        throw new Error('http ' + response.status);
+      }
+      form.hidden = true;
+      if (successEl) successEl.hidden = false;
+    } catch (e) {
+      showError('Something went wrong, please try again.');
+      if (button) {
+        button.disabled = false;
+        button.classList.remove('is-loading');
+      }
+    }
+  });
+}
+document.addEventListener("DOMContentLoaded", wireWaitlistPolish);
 </script>
 </body>
 </html>
