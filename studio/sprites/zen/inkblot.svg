@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Symmetric inkblot — left half mirrored to right -->
+  <!-- Main body -->
+  <path d="M 50 14
+    C 44 14 36 18 32 26
+    C 26 30 18 34 18 42
+    C 18 52 26 58 30 62
+    C 26 68 28 76 34 80
+    C 40 86 48 84 50 82
+    C 52 84 60 86 66 80
+    C 72 76 74 68 70 62
+    C 74 58 82 52 82 42
+    C 82 34 74 30 68 26
+    C 64 18 56 14 50 14 Z"
+    fill="currentColor" opacity="0.7"/>
+  <!-- Highlight drip left -->
+  <path d="M 34 76 C 32 82 30 88 34 92 C 36 94 38 90 38 86 C 38 82 36 78 34 76 Z"
+    fill="currentColor" opacity="0.5"/>
+  <!-- Highlight drip right -->
+  <path d="M 66 76 C 68 82 70 88 66 92 C 64 94 62 90 62 86 C 62 82 64 78 66 76 Z"
+    fill="currentColor" opacity="0.5"/>
+  <!-- Splatters — small drops -->
+  <circle cx="22" cy="28" r="3" fill="currentColor" opacity="0.35"/>
+  <circle cx="78" cy="28" r="3" fill="currentColor" opacity="0.35"/>
+  <circle cx="18" cy="56" r="2" fill="currentColor" opacity="0.3"/>
+  <circle cx="82" cy="56" r="2" fill="currentColor" opacity="0.3"/>
+  <circle cx="50" cy="8" r="2.5" fill="currentColor" opacity="0.3"/>
+  <!-- Center gloss highlight -->
+  <ellipse cx="42" cy="36" rx="5" ry="3" fill="currentColor" opacity="0.15" transform="rotate(-20 42 36)"/>
+</svg>

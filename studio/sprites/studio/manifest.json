@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "pack_slug": "studio",
+  "display_name": "Studio pack",
+  "kind": "sprites",
+  "version": 1,
+  "license": "MIT",
+  "author": "Ensemble built-in",
+  "paired_preset": "producer",
+  "items": [
+    {
+      "id": "knob",
+      "file": "knob.svg",
+      "display_name": "Potentiometer knob",
+      "tags": [
+        "gear",
+        "analog",
+        "control"
+      ]
+    },
+    {
+      "id": "fader",
+      "file": "fader.svg",
+      "display_name": "Mixing fader",
+      "tags": [
+        "mixer",
+        "fader",
+        "analog"
+      ]
+    },
+    {
+      "id": "vu-meter",
+      "file": "vu-meter.svg",
+      "display_name": "VU meter",
+      "tags": [
+        "meter",
+        "level",
+        "audio"
+      ]
+    },
+    {
+      "id": "patch-cable",
+      "file": "patch-cable.svg",
+      "display_name": "Patch cable",
+      "tags": [
+        "cable",
+        "patch",
+        "modular"
+      ]
+    },
+    {
+      "id": "vinyl",
+      "file": "vinyl.svg",
+      "display_name": "Vinyl record",
+      "tags": [
+        "vinyl",
+        "record",
+        "music"
+      ]
+    },
+    {
+      "id": "tape-reel",
+      "file": "tape-reel.svg",
+      "display_name": "Tape reel",
+      "tags": [
+        "tape",
+        "analog",
+        "recording"
+      ]
+    }
+  ]
+}

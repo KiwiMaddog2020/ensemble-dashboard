@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "preset_metadata": {
+    "id": "tinkerer",
+    "display_name": "Tinkerer's bench",
+    "description": "Hardware/software hacker's bench. Terminal aesthetic, blueprint grid, exposed circuits. For builders who think in soldering iron and `git diff`.",
+    "thumbnail": null,
+    "natural_themes": [
+      "lime",
+      "ash",
+      "mono"
+    ],
+    "min_chats": 0,
+    "recommended_chats": 3,
+    "max_chats": 8,
+    "author": "Ensemble built-in",
+    "version": 1,
+    "is_default": false
+  },
+  "name": "Tinkerer's bench",
+  "preset_origin": "tinkerer",
+  "theme": null,
+  "background": null,
+  "stage": {
+    "width": 1920,
+    "height": 1080,
+    "background_layer": "stage_default",
+    "ambient_sound": null
+  },
+  "components": [
+    {
+      "id": "bench_floor",
+      "type": "svg",
+      "x": 0,
+      "y": 540,
+      "w": 1920,
+      "h": 540,
+      "z": 0,
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
+      "locked": true
+    },
+    {
+      "id": "bench_rim",
+      "type": "svg",
+      "x": 0,
+      "y": 540,
+      "w": 1920,
+      "h": 4,
+      "z": 1,
+      "props": {
+        "shape": "rect",
+        "fill_token": "accent"
+      },
+      "locked": true
+    },
+    {
+      "id": "blueprint_grid",
+      "type": "staff",
+      "x": 0,
+      "y": 0,
+      "w": 1920,
+      "h": 1080,
+      "z": 0,
+      "props": {
+        "lines": 18,
+        "opacity": 0.09,
+        "color_token": "accent"
+      },
+      "locked": true
+    },
+    {
+      "id": "title_eyebrow",
+      "type": "text",
+      "x": 96,
+      "y": 64,
+      "w": 700,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "THE TINKERER'S BENCH",
+        "variant": "eyebrow",
+        "color_token": "accent"
+      }
+    },
+    {
+      "id": "title_main",
+      "type": "text",
+      "x": 96,
+      "y": 96,
+      "w": 900,
+      "h": 64,
+      "z": 6,
+      "props": {
+        "text": "Build. Break. <em>Repeat.</em>",
+        "variant": "hero"
+      }
+    },
+    {
+      "id": "title_lead",
+      "type": "text",
+      "x": 96,
+      "y": 200,
+      "w": 720,
+      "h": 48,
+      "z": 6,
+      "props": {
+        "text": "Drop agents on the bench. Wire them to repos, terminals, and tests. Ship from here.",
+        "variant": "body",
+        "color_token": "ink-2"
+      }
+    },
+    {
+      "id": "terminal_prop",
+      "type": "prop",
+      "x": 96,
+      "y": 556,
+      "w": 320,
+      "h": 200,
+      "z": 4,
+      "props": {
+        "sprite_id": "terminal",
+        "sprite_pack": "tinker",
+        "label": "Terminal"
+      }
+    },
+    {
+      "id": "oscilloscope_prop",
+      "type": "prop",
+      "x": 480,
+      "y": 572,
+      "w": 240,
+      "h": 160,
+      "z": 4,
+      "props": {
+        "sprite_id": "oscilloscope",
+        "sprite_pack": "tinker",
+        "label": "Oscilloscope"
+      }
+    },
+    {
+      "id": "bench_prop",
+      "type": "prop",
+      "x": 796,
+      "y": 584,
+      "w": 400,
+      "h": 160,
+      "z": 3,
+      "props": {
+        "sprite_id": "solder-iron",
+        "sprite_pack": "tinker",
+        "label": "Workbench"
+      }
+    },
+    {
+      "id": "slot_lead",
+      "type": "slot",
+      "x": 928,
+      "y": 380,
+      "w": 96,
+      "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Lead engineer",
+        "sprite_id": "circuit-trace",
+        "sprite_pack": "tinker",
+        "idle_animation": "typing",
+        "auto_bind_index": 0
+      }
+    },
+    {
+      "id": "slot_pair",
+      "type": "slot",
+      "x": 1100,
+      "y": 400,
+      "w": 96,
+      "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Pair programmer",
+        "sprite_id": "circuit-trace",
+        "sprite_pack": "tinker",
+        "idle_animation": "typing",
+        "auto_bind_index": 1
+      }
+    },
+    {
+      "id": "footer_hint",
+      "type": "text",
+      "x": 96,
+      "y": 1020,
+      "w": 800,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "Bench is hot. Agents are live.",
+        "variant": "body",
+        "color_token": "ink-3"
+      }
+    }
+  ],
+  "custom_css": "",
+  "custom_js": "",
+  "history_seq": 0,
+  "last_saved_at": null,
+  "visibility": "private"
+}

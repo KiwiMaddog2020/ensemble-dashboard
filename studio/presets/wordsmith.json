@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "preset_metadata": {
+    "id": "wordsmith",
+    "display_name": "Wordsmith's nook",
+    "description": "A writer's nook. Paper textures, serif type, deep margins. Room for thought; no UI clutter.",
+    "thumbnail": null,
+    "natural_themes": [
+      "paper",
+      "warm",
+      "sand"
+    ],
+    "min_chats": 0,
+    "recommended_chats": 2,
+    "max_chats": 4,
+    "author": "Ensemble built-in",
+    "version": 1,
+    "is_default": false
+  },
+  "name": "Wordsmith's nook",
+  "preset_origin": "wordsmith",
+  "theme": null,
+  "background": null,
+  "stage": {
+    "width": 1920,
+    "height": 1080,
+    "background_layer": null,
+    "ambient_sound": null
+  },
+  "components": [
+    {
+      "id": "title_eyebrow",
+      "type": "text",
+      "x": 300,
+      "y": 80,
+      "w": 500,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "THE NOOK",
+        "variant": "eyebrow",
+        "color_token": "accent"
+      }
+    },
+    {
+      "id": "title_main",
+      "type": "text",
+      "x": 300,
+      "y": 112,
+      "w": 900,
+      "h": 72,
+      "z": 6,
+      "props": {
+        "text": "Words. <em>Just words.</em>",
+        "variant": "hero"
+      }
+    },
+    {
+      "id": "manuscript_block",
+      "type": "text",
+      "x": 300,
+      "y": 220,
+      "w": 1100,
+      "h": 560,
+      "z": 5,
+      "props": {
+        "text": "Your draft lives here. Ask an agent to outline, continue, or cut. The margin is yours.",
+        "variant": "body",
+        "color_token": "ink-2"
+      }
+    },
+    {
+      "id": "margin_notes",
+      "type": "text",
+      "x": 96,
+      "y": 300,
+      "w": 180,
+      "h": 420,
+      "z": 5,
+      "props": {
+        "text": "\u2190 margin",
+        "variant": "body",
+        "color_token": "ink-3"
+      }
+    },
+    {
+      "id": "bookshelf_prop",
+      "type": "prop",
+      "x": 1520,
+      "y": 580,
+      "w": 200,
+      "h": 300,
+      "z": 4,
+      "props": {
+        "sprite_id": "bookshelf",
+        "sprite_pack": "zen",
+        "label": "Reference shelf"
+      }
+    },
+    {
+      "id": "pen_ornament",
+      "type": "prop",
+      "x": 96,
+      "y": 820,
+      "w": 64,
+      "h": 140,
+      "z": 4,
+      "props": {
+        "sprite_id": "fountain-pen",
+        "sprite_pack": "zen",
+        "label": "Fountain pen"
+      }
+    },
+    {
+      "id": "slot_writer",
+      "type": "slot",
+      "x": 1700,
+      "y": 200,
+      "w": 96,
+      "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Writing partner",
+        "sprite_id": "paper-texture",
+        "sprite_pack": "zen",
+        "idle_animation": "writing",
+        "auto_bind_index": 0
+      }
+    },
+    {
+      "id": "footer_hint",
+      "type": "text",
+      "x": 300,
+      "y": 1020,
+      "w": 800,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "Quiet room. Long thoughts.",
+        "variant": "body",
+        "color_token": "ink-3"
+      }
+    }
+  ],
+  "custom_css": "",
+  "custom_js": "",
+  "history_seq": 0,
+  "last_saved_at": null,
+  "visibility": "private"
+}

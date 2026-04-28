@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Barrel body — tapered cylinder -->
+  <rect x="12" y="44" width="52" height="12" rx="6" fill="currentColor" opacity="0.2"/>
+  <rect x="13" y="45" width="50" height="10" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <!-- Grip section — slightly narrower -->
+  <rect x="56" y="46" width="18" height="8" rx="4" fill="currentColor" opacity="0.3"/>
+  <!-- Cap ring accent ring -->
+  <rect x="60" y="45" width="4" height="10" rx="0.5" fill="var(--accent, currentColor)" opacity="0.7"/>
+  <!-- Clip on barrel -->
+  <rect x="18" y="42" width="2" height="18" rx="1" fill="currentColor" opacity="0.4"/>
+  <rect x="18" y="56" width="4" height="3" rx="1.5" fill="currentColor" opacity="0.4"/>
+  <!-- Nib section — tapers to point -->
+  <path d="M 74 47 L 92 49 L 92 51 L 74 53 Z" fill="currentColor" opacity="0.35"/>
+  <path d="M 74 47 L 92 49 L 92 51 L 74 53 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+  <!-- Nib split line -->
+  <line x1="80" y1="49.5" x2="92" y2="50" stroke="currentColor" stroke-width="0.75" opacity="0.5"/>
+  <!-- Nib tip — ink drop -->
+  <circle cx="93" cy="50" r="2" fill="var(--accent, currentColor)" opacity="0.85"/>
+  <!-- Ink drop below nib -->
+  <path d="M 93 53 Q 92 57 93 60 Q 94 57 93 53 Z" fill="var(--accent, currentColor)" opacity="0.5"/>
+  <!-- Gold trim ring near grip -->
+  <rect x="72" y="45" width="3" height="10" rx="0.5" fill="var(--accent, currentColor)" opacity="0.5"/>
+  <!-- Cap (left end, round) -->
+  <rect x="12" y="44" width="12" height="12" rx="6" fill="currentColor" opacity="0.3"/>
+  <rect x="13" y="45" width="10" height="10" rx="5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+</svg>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Meter face — rounded rectangle -->
+  <rect x="6" y="16" width="88" height="70" rx="5" fill="currentColor" opacity="0.08"/>
+  <rect x="7" y="17" width="86" height="68" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <!-- Semicircular scale arc background -->
+  <path d="M 16 78 A 40 40 0 0 1 84 78" fill="none" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+  <!-- Scale arc segments — green zone -->
+  <path d="M 16 78 A 40 40 0 0 1 32 43" fill="none" stroke="currentColor" stroke-width="4" opacity="0.25" stroke-linecap="round"/>
+  <path d="M 32 43 A 40 40 0 0 1 50 38" fill="none" stroke="currentColor" stroke-width="4" opacity="0.35" stroke-linecap="round"/>
+  <!-- Scale arc — yellow warning zone -->
+  <path d="M 50 38 A 40 40 0 0 1 68 43" fill="none" stroke="currentColor" stroke-width="4" opacity="0.4" stroke-linecap="round"/>
+  <!-- Scale arc — red peak zone -->
+  <path d="M 68 43 A 40 40 0 0 1 84 78" fill="none" stroke="var(--accent, currentColor)" stroke-width="4" opacity="0.6" stroke-linecap="round"/>
+  <!-- Scale tick marks -->
+  <line x1="16" y1="78" x2="19" y2="71" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <line x1="24" y1="56" x2="27" y2="50" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <line x1="38" y1="39" x2="40" y2="33" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <line x1="50" y1="38" x2="50" y2="31" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+  <line x1="62" y1="39" x2="60" y2="33" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <line x1="76" y1="56" x2="73" y2="50" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <line x1="84" y1="78" x2="81" y2="71" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <!-- Needle — angled to ~60% -->
+  <line x1="50" y1="78" x2="70" y2="41" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  <!-- Needle pivot circle -->
+  <circle cx="50" cy="78" r="5" fill="currentColor" opacity="0.25"/>
+  <circle cx="50" cy="78" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="50" cy="78" r="2" fill="currentColor" opacity="0.6"/>
+  <!-- VU label area (horizontal lines) -->
+  <rect x="18" y="86" width="20" height="2" rx="1" fill="currentColor" opacity="0.2"/>
+  <rect x="62" y="86" width="20" height="2" rx="1" fill="currentColor" opacity="0.2"/>
+  <!-- Peak indicator LED -->
+  <rect x="82" y="20" width="8" height="5" rx="2" fill="var(--accent, currentColor)" opacity="0.3"/>
+  <rect x="83" y="21" width="6" height="3" rx="1.5" fill="var(--accent, currentColor)" opacity="0.6"/>
+</svg>

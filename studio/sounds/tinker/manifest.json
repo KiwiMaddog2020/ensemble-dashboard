@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "pack_slug": "tinker",
+  "display_name": "Tinker pack",
+  "kind": "sounds",
+  "version": 1,
+  "license": "MIT",
+  "author": "Ensemble built-in",
+  "paired_preset": "tinkerer",
+  "items": [
+    {
+      "id": "click",
+      "file": "click.js",
+      "display_name": "Mechanical click",
+      "tags": [
+        "click",
+        "crisp"
+      ],
+      "duration_ms": 30
+    },
+    {
+      "id": "key-press",
+      "file": "key-press.js",
+      "display_name": "Key press",
+      "tags": [
+        "keyboard",
+        "crisp"
+      ],
+      "duration_ms": 80
+    },
+    {
+      "id": "beep",
+      "file": "beep.js",
+      "display_name": "Digital beep",
+      "tags": [
+        "beep",
+        "alert"
+      ],
+      "duration_ms": 210
+    }
+  ]
+}

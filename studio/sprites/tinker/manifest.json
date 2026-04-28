@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "pack_slug": "tinker",
+  "display_name": "Tinker pack",
+  "kind": "sprites",
+  "version": 1,
+  "license": "MIT",
+  "author": "Ensemble built-in",
+  "paired_preset": "tinkerer",
+  "items": [
+    {
+      "id": "terminal",
+      "file": "terminal.svg",
+      "display_name": "Terminal window",
+      "tags": [
+        "chat",
+        "code",
+        "terminal"
+      ]
+    },
+    {
+      "id": "blueprint-grid",
+      "file": "blueprint-grid.svg",
+      "display_name": "Blueprint grid",
+      "tags": [
+        "technical",
+        "design",
+        "engineering"
+      ]
+    },
+    {
+      "id": "oscilloscope",
+      "file": "oscilloscope.svg",
+      "display_name": "Oscilloscope",
+      "tags": [
+        "measurement",
+        "signal",
+        "electronics"
+      ]
+    },
+    {
+      "id": "solder-iron",
+      "file": "solder-iron.svg",
+      "display_name": "Soldering iron",
+      "tags": [
+        "hardware",
+        "maker",
+        "electronics"
+      ]
+    },
+    {
+      "id": "circuit-trace",
+      "file": "circuit-trace.svg",
+      "display_name": "Circuit trace",
+      "tags": [
+        "pcb",
+        "electronics",
+        "code"
+      ]
+    },
+    {
+      "id": "dip-chip",
+      "file": "dip-chip.svg",
+      "display_name": "DIP IC chip",
+      "tags": [
+        "chip",
+        "hardware",
+        "electronics"
+      ]
+    }
+  ]
+}

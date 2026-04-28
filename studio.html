@@ -197,6 +197,34 @@
                 <div class="workshop-example__desc">Five arcade cabinets ready to wire to your real games (click-to-launch in Phase A.2).</div>
               </div>
             </li>
+            <li class="workshop-example" data-preset="tinkerer">
+              <div class="workshop-example__icon">🔧</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Tinkerer&#39;s workbench</div>
+                <div class="workshop-example__desc">Gear sprites + maker&#39;s desk. Wire slots to your build chats.</div>
+              </div>
+            </li>
+            <li class="workshop-example" data-preset="wordsmith">
+              <div class="workshop-example__icon">🖊</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Wordsmith&#39;s desk</div>
+                <div class="workshop-example__desc">Typewriter, inkwell, candle. Quiet and focused.</div>
+              </div>
+            </li>
+            <li class="workshop-example" data-preset="director">
+              <div class="workshop-example__icon">🎬</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Director&#39;s cut</div>
+                <div class="workshop-example__desc">Wide stage, seat slots for your whole crew. Engine chrome only.</div>
+              </div>
+            </li>
+            <li class="workshop-example" data-preset="producer">
+              <div class="workshop-example__icon">🎚</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Producer&#39;s studio</div>
+                <div class="workshop-example__desc">Mixing board, mic stand, reel-to-reel. Slot in your music chats.</div>
+              </div>
+            </li>
             <li class="workshop-example workshop-example--coming-soon">
               <div class="workshop-example__icon">📚</div>
               <div class="workshop-example__body">
@@ -230,6 +258,9 @@
           <ul class="workshop-packs">
             <li class="workshop-pack"><span class="workshop-pack__icon">🎻</span><span>Music instruments</span><span class="workshop-pack__count">9</span></li>
             <li class="workshop-pack"><span class="workshop-pack__icon">🕹</span><span>Arcade machines</span><span class="workshop-pack__count">5</span></li>
+            <li class="workshop-pack" data-pack="tinker"><span class="workshop-pack__icon">🔧</span><span>Tinkerer&#39;s kit</span><span class="workshop-pack__count">5–7</span></li>
+            <li class="workshop-pack" data-pack="zen"><span class="workshop-pack__icon">🖊</span><span>Wordsmith&#39;s desk</span><span class="workshop-pack__count">5–7</span></li>
+            <li class="workshop-pack" data-pack="studio"><span class="workshop-pack__icon">🎚</span><span>Producer&#39;s studio</span><span class="workshop-pack__count">5–7</span></li>
             <li class="workshop-pack workshop-pack--soon"><span class="workshop-pack__icon">📚</span><span>Books + shelves</span><span class="workshop-pack__count">soon</span></li>
             <li class="workshop-pack workshop-pack--soon"><span class="workshop-pack__icon">🌿</span><span>Plants + props</span><span class="workshop-pack__count">soon</span></li>
             <li class="workshop-pack workshop-pack--soon"><span class="workshop-pack__icon">🚪</span><span>Doors + portals</span><span class="workshop-pack__count">soon</span></li>
@@ -281,7 +312,11 @@
   // many in the Workshop drawer, not the forced default.
   // (Studio reorient locked 2026-04-27 — see docs/grand-plan/MANIFESTO.md)
   const DEFAULT_PRESET = 'blank';
-  const EXAMPLE_PRESETS = ['orchestra', 'game_arcade'];
+  const EXAMPLE_PRESETS = ['orchestra', 'game_arcade', 'tinkerer', 'wordsmith', 'director', 'producer'];
+
+  const PACK_SPRITES_BASE = './studio/sprites';
+  const PACK_SOUNDS_BASE  = './studio/sounds';
+  const PACK_SLUGS        = ['tinker', 'zen', 'studio'];
 
   // ─── Click-to-launch allowlist (Phase A.2) ───────────────────────────
   // Built-in trust tier: hosts that are pre-vetted as safe to embed.
@@ -361,6 +396,7 @@
   // ─── State ───────────────────────────────────────────────────────────
   let currentRoom = null;        // active Room JSON (preset or user-saved)
   let spriteCache = new Map();   // sprite_id → svg string
+  let packManifestCache = new Map();  // '<slug>/<kind>' → manifest | null
   let activeTab = 'room';        // room / map / showcase
   let editMode = false;          // owner editing? (Phase A.3 part 1)
   let selectedCompId = null;     // currently selected component id
@@ -398,6 +434,49 @@
     } catch (e) {
       console.warn('Studio: missing sprite', spriteId);
       return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="none" stroke="currentColor" stroke-dasharray="2 2"/><text x="16" y="20" font-size="6" text-anchor="middle" fill="currentColor">?</text></svg>`;
+    }
+  }
+
+  // ─── Pack asset loaders ────────────────────────────────────────────
+  async function loadPackManifest(packSlug, kind) {
+    const key = `${packSlug}/${kind}`;
+    if (packManifestCache.has(key)) return packManifestCache.get(key);
+    const base = kind === 'sounds' ? PACK_SOUNDS_BASE : PACK_SPRITES_BASE;
+    let manifest = null;
+    try {
+      const r = await fetch(`${base}/${packSlug}/manifest.json`);
+      if (r.ok) manifest = await r.json();
+      else console.warn(`Studio: pack manifest ${key} not found (HTTP ${r.status})`);
+    } catch (e) {
+      console.warn('Studio: failed to fetch pack manifest', key, e);
+    }
+    packManifestCache.set(key, manifest);
+    return manifest;
+  }
+
+  async function loadPackSprite(packSlug, fileName) {
+    const cacheKey = `pack:${packSlug}:${fileName}`;
+    if (spriteCache.has(cacheKey)) return spriteCache.get(cacheKey);
+    let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="none" stroke="currentColor" stroke-dasharray="2 2"/><text x="16" y="20" font-size="6" text-anchor="middle" fill="currentColor">?</text></svg>`;
+    try {
+      const r = await fetch(`${PACK_SPRITES_BASE}/${packSlug}/${fileName}`);
+      if (r.ok) svg = await r.text();
+      else console.warn(`Studio: missing pack sprite ${packSlug}/${fileName} (HTTP ${r.status})`);
+    } catch (e) {
+      console.warn('Studio: failed to fetch pack sprite', packSlug, fileName, e);
+    }
+    spriteCache.set(cacheKey, svg);
+    return svg;
+  }
+
+  async function loadSoundModule(packSlug, soundFile) {
+    try {
+      const url = new URL(`${PACK_SOUNDS_BASE}/${packSlug}/${soundFile}`, location.href).href;
+      const mod = await import(url);
+      return mod;
+    } catch (e) {
+      console.warn('Studio: failed to load sound module', packSlug, soundFile, e);
+      return null;
     }
   }
 
@@ -464,7 +543,9 @@
   async function renderSlot(el, comp) {
     const props = comp.props || {};
     const chat = resolveSlotChat(props);
-    const sprite = await loadSprite(props.sprite_id);
+    const sprite = props.sprite_pack
+      ? await loadPackSprite(props.sprite_pack, props.sprite_file || (props.sprite_id + '.svg'))
+      : await loadSprite(props.sprite_id);
 
     // Compute glow + animation tempo from chat state
     let glowClass = '';
@@ -496,7 +577,9 @@
   }
 
   async function renderProp(el, comp) {
-    const sprite = await loadSprite(comp.props.sprite_id);
+    const sprite = comp.props.sprite_pack
+      ? await loadPackSprite(comp.props.sprite_pack, comp.props.sprite_file || (comp.props.sprite_id + '.svg'))
+      : await loadSprite(comp.props.sprite_id);
     el.innerHTML = `<div class="studio-prop__sprite">${sprite}</div>`;
     // Wire interactions if any — Phase A.2: click-to-launch is the
     // canonical pattern. Other types come in subsequent A.2 chunks.
@@ -1679,6 +1762,62 @@
       }
       target.appendChild(packEl);
     }
+    // Render new asset pack manifests (tinker / zen / studio) after core catalog
+    for (const packSlug of PACK_SLUGS) {
+      const manifest = await loadPackManifest(packSlug, 'sprites');
+      if (!manifest || !manifest.items || manifest.items.length === 0) continue;
+      const packEl = document.createElement('div');
+      packEl.className = 'workshop-palette__pack';
+      packEl.innerHTML = `<div class="workshop-palette__pack-header"><span>📦</span><span>${escapeHtml(manifest.display_name || packSlug)}</span></div>`;
+      const grid = document.createElement('div');
+      grid.className = 'workshop-palette__grid';
+      packEl.appendChild(grid);
+      for (const item of manifest.items) {
+        const tile = document.createElement('button');
+        tile.type = 'button';
+        tile.className = 'workshop-palette__tile';
+        tile.dataset.spriteId = item.id;
+        tile.dataset.spritePack = packSlug;
+        tile.dataset.spriteFile = item.file;
+        tile.dataset.defaultW = '96';
+        tile.dataset.defaultH = '128';
+        tile.draggable = true;
+        tile.title = item.display_name || item.id;
+        const svg = await loadPackSprite(packSlug, item.file);
+        tile.innerHTML = `
+          <div class="workshop-palette__tile-art">${svg}</div>
+          <div class="workshop-palette__tile-name">${escapeHtml(item.display_name || item.id)}</div>
+        `;
+        tile.addEventListener('dragstart', (e) => {
+          if (!editMode) { e.preventDefault(); return; }
+          tile.classList.add('is-dragging');
+          e.dataTransfer.effectAllowed = 'copy';
+          e.dataTransfer.setData('application/x-ensemble-sprite', JSON.stringify({
+            spriteId: item.id,
+            spritePack: packSlug,
+            spriteFile: item.file,
+            defaultW: 96,
+            defaultH: 128,
+            label: item.display_name || item.id,
+          }));
+        });
+        tile.addEventListener('dragend', () => tile.classList.remove('is-dragging'));
+        tile.addEventListener('click', () => {
+          if (!editMode) return;
+          if (tile.classList.contains('is-dragging')) return;
+          addNewComponent({
+            spriteId: item.id,
+            spritePack: packSlug,
+            spriteFile: item.file,
+            defaultW: 96,
+            defaultH: 128,
+            label: item.display_name || item.id,
+          }, null);
+        });
+        grid.appendChild(tile);
+      }
+      target.appendChild(packEl);
+    }
   }
 
   function clearPalette() {
@@ -1738,6 +1877,7 @@
       z: 5,
       props: {
         sprite_id: payload.spriteId,
+        ...(payload.spritePack ? { sprite_pack: payload.spritePack, sprite_file: payload.spriteFile } : {}),
         label: payload.label || '',
       },
     };

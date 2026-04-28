@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "preset_metadata": {
+    "id": "producer",
+    "display_name": "Producer's room",
+    "description": "Audio production room. Vintage gear, warm hum, cable runs, mixing console. For musicians, podcasters, sound designers.",
+    "thumbnail": null,
+    "natural_themes": [
+      "warm",
+      "plum",
+      "ash"
+    ],
+    "min_chats": 0,
+    "recommended_chats": 4,
+    "max_chats": 8,
+    "author": "Ensemble built-in",
+    "version": 1,
+    "is_default": false
+  },
+  "name": "Producer's room",
+  "preset_origin": "producer",
+  "theme": null,
+  "background": null,
+  "stage": {
+    "width": 1920,
+    "height": 1080,
+    "background_layer": "stage_default",
+    "ambient_sound": null
+  },
+  "components": [
+    {
+      "id": "studio_floor",
+      "type": "svg",
+      "x": 0,
+      "y": 540,
+      "w": 1920,
+      "h": 540,
+      "z": 0,
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
+      "locked": true
+    },
+    {
+      "id": "studio_rim",
+      "type": "svg",
+      "x": 0,
+      "y": 540,
+      "w": 1920,
+      "h": 4,
+      "z": 1,
+      "props": {
+        "shape": "rect",
+        "fill_token": "accent"
+      },
+      "locked": true
+    },
+    {
+      "id": "title_eyebrow",
+      "type": "text",
+      "x": 96,
+      "y": 64,
+      "w": 700,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "PRODUCER'S ROOM",
+        "variant": "eyebrow",
+        "color_token": "accent"
+      }
+    },
+    {
+      "id": "title_main",
+      "type": "text",
+      "x": 96,
+      "y": 96,
+      "w": 1000,
+      "h": 64,
+      "z": 6,
+      "props": {
+        "text": "Everything through <em>the board.</em>",
+        "variant": "hero"
+      }
+    },
+    {
+      "id": "title_lead",
+      "type": "text",
+      "x": 96,
+      "y": 200,
+      "w": 720,
+      "h": 48,
+      "z": 6,
+      "props": {
+        "text": "Route your agents like tracks. Bounce when it sounds right.",
+        "variant": "body",
+        "color_token": "ink-2"
+      }
+    },
+    {
+      "id": "mixer_prop",
+      "type": "prop",
+      "x": 640,
+      "y": 556,
+      "w": 640,
+      "h": 280,
+      "z": 4,
+      "props": {
+        "sprite_id": "fader",
+        "sprite_pack": "studio",
+        "label": "Mixing console"
+      }
+    },
+    {
+      "id": "vinyl_shelf_prop",
+      "type": "prop",
+      "x": 96,
+      "y": 560,
+      "w": 200,
+      "h": 240,
+      "z": 3,
+      "props": {
+        "sprite_id": "vinyl",
+        "sprite_pack": "studio",
+        "label": "Vinyl shelf"
+      }
+    },
+    {
+      "id": "vu_meter_left",
+      "type": "prop",
+      "x": 360,
+      "y": 580,
+      "w": 80,
+      "h": 200,
+      "z": 4,
+      "props": {
+        "sprite_id": "vu-meter",
+        "sprite_pack": "studio",
+        "label": "VU left"
+      }
+    },
+    {
+      "id": "vu_meter_right",
+      "type": "prop",
+      "x": 1480,
+      "y": 580,
+      "w": 80,
+      "h": 200,
+      "z": 4,
+      "props": {
+        "sprite_id": "vu-meter",
+        "sprite_pack": "studio",
+        "label": "VU right"
+      }
+    },
+    {
+      "id": "slot_engineer",
+      "type": "slot",
+      "x": 816,
+      "y": 380,
+      "w": 96,
+      "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Sound engineer",
+        "sprite_id": "tape-reel",
+        "sprite_pack": "studio",
+        "idle_animation": "mixing",
+        "auto_bind_index": 0
+      }
+    },
+    {
+      "id": "slot_artist",
+      "type": "slot",
+      "x": 1008,
+      "y": 380,
+      "w": 96,
+      "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Artist",
+        "sprite_id": "patch-cable",
+        "sprite_pack": "studio",
+        "idle_animation": "idle",
+        "auto_bind_index": 1
+      }
+    },
+    {
+      "id": "footer_hint",
+      "type": "text",
+      "x": 96,
+      "y": 1020,
+      "w": 900,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "Red light on. Session is live.",
+        "variant": "body",
+        "color_token": "ink-3"
+      }
+    }
+  ],
+  "custom_css": "",
+  "custom_js": "",
+  "history_seq": 0,
+  "last_saved_at": null,
+  "visibility": "private"
+}

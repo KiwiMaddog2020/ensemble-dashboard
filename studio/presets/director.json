@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "preset_metadata": {
+    "id": "director",
+    "display_name": "Director's room",
+    "description": "Cinematic widescreen. Reels, frames, deep contrast. For film and video creators cutting in their head.",
+    "thumbnail": null,
+    "natural_themes": [
+      "midnight",
+      "crimson",
+      "aurora"
+    ],
+    "min_chats": 0,
+    "recommended_chats": 5,
+    "max_chats": 10,
+    "author": "Ensemble built-in",
+    "version": 1,
+    "is_default": false
+  },
+  "name": "Director's room",
+  "preset_origin": "director",
+  "theme": null,
+  "background": null,
+  "stage": {
+    "width": 1920,
+    "height": 1080,
+    "background_layer": "stage_default",
+    "ambient_sound": null
+  },
+  "components": [
+    {
+      "id": "stage_floor",
+      "type": "svg",
+      "x": 0,
+      "y": 540,
+      "w": 1920,
+      "h": 540,
+      "z": 0,
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
+      "locked": true
+    },
+    {
+      "id": "letterbox_top",
+      "type": "svg",
+      "x": 0,
+      "y": 0,
+      "w": 1920,
+      "h": 96,
+      "z": 8,
+      "props": {
+        "shape": "rect",
+        "fill_token": "bg"
+      },
+      "locked": true
+    },
+    {
+      "id": "letterbox_bottom",
+      "type": "svg",
+      "x": 0,
+      "y": 984,
+      "w": 1920,
+      "h": 96,
+      "z": 8,
+      "props": {
+        "shape": "rect",
+        "fill_token": "bg"
+      },
+      "locked": true
+    },
+    {
+      "id": "title_eyebrow",
+      "type": "text",
+      "x": 96,
+      "y": 112,
+      "w": 700,
+      "h": 24,
+      "z": 9,
+      "props": {
+        "text": "DIRECTOR'S ROOM",
+        "variant": "eyebrow",
+        "color_token": "accent"
+      }
+    },
+    {
+      "id": "title_main",
+      "type": "text",
+      "x": 96,
+      "y": 144,
+      "w": 1000,
+      "h": 72,
+      "z": 9,
+      "props": {
+        "text": "Scene one. <em>Take one.</em>",
+        "variant": "hero"
+      }
+    },
+    {
+      "id": "title_lead",
+      "type": "text",
+      "x": 96,
+      "y": 244,
+      "w": 800,
+      "h": 48,
+      "z": 9,
+      "props": {
+        "text": "Agents as crew. Wire each seat to a script, a cut, a revision. Roll when ready.",
+        "variant": "body",
+        "color_token": "ink-2"
+      }
+    },
+    {
+      "id": "clapboard_prop",
+      "type": "prop",
+      "x": 780,
+      "y": 520,
+      "w": 160,
+      "h": 128,
+      "z": 5,
+      "props": {
+        "label": "Scene slate"
+      }
+    },
+    {
+      "id": "film_reel_left",
+      "type": "prop",
+      "x": 120,
+      "y": 556,
+      "w": 160,
+      "h": 160,
+      "z": 4,
+      "props": {
+        "label": "Reel A"
+      }
+    },
+    {
+      "id": "film_reel_right",
+      "type": "prop",
+      "x": 1640,
+      "y": 556,
+      "w": 160,
+      "h": 160,
+      "z": 4,
+      "props": {
+        "label": "Reel B"
+      }
+    },
+    {
+      "id": "slot_director",
+      "type": "slot",
+      "x": 912,
+      "y": 360,
+      "w": 96,
+      "h": 128,
+      "z": 6,
+      "props": {
+        "slot_role": "Director",
+        "idle_animation": "directing",
+        "auto_bind_index": 0
+      }
+    },
+    {
+      "id": "slot_dp",
+      "type": "slot",
+      "x": 680,
+      "y": 400,
+      "w": 96,
+      "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Director of photography",
+        "idle_animation": "idle",
+        "auto_bind_index": 1
+      }
+    },
+    {
+      "id": "slot_editor",
+      "type": "slot",
+      "x": 1144,
+      "y": 400,
+      "w": 96,
+      "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Editor",
+        "idle_animation": "idle",
+        "auto_bind_index": 2
+      }
+    }
+  ],
+  "custom_css": "",
+  "custom_js": "",
+  "history_seq": 0,
+  "last_saved_at": null,
+  "visibility": "private"
+}

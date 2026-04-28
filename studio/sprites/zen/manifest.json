@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "pack_slug": "zen",
+  "display_name": "Zen pack",
+  "kind": "sprites",
+  "version": 1,
+  "license": "MIT",
+  "author": "Ensemble built-in",
+  "paired_preset": "wordsmith",
+  "items": [
+    {
+      "id": "paper-texture",
+      "file": "paper-texture.svg",
+      "display_name": "Paper texture",
+      "tags": [
+        "paper",
+        "writing",
+        "tactile"
+      ]
+    },
+    {
+      "id": "bookmark",
+      "file": "bookmark.svg",
+      "display_name": "Bookmark",
+      "tags": [
+        "bookmark",
+        "reading",
+        "books"
+      ]
+    },
+    {
+      "id": "fountain-pen",
+      "file": "fountain-pen.svg",
+      "display_name": "Fountain pen",
+      "tags": [
+        "pen",
+        "writing",
+        "ink"
+      ]
+    },
+    {
+      "id": "inkblot",
+      "file": "inkblot.svg",
+      "display_name": "Inkblot",
+      "tags": [
+        "ink",
+        "art",
+        "abstract"
+      ]
+    },
+    {
+      "id": "bookshelf",
+      "file": "bookshelf.svg",
+      "display_name": "Bookshelf",
+      "tags": [
+        "books",
+        "library",
+        "reading"
+      ]
+    },
+    {
+      "id": "wax-seal",
+      "file": "wax-seal.svg",
+      "display_name": "Wax seal",
+      "tags": [
+        "seal",
+        "letter",
+        "craft"
+      ]
+    }
+  ]
+}

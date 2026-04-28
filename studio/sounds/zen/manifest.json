@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "pack_slug": "zen",
+  "display_name": "Zen pack",
+  "kind": "sounds",
+  "version": 1,
+  "license": "MIT",
+  "author": "Ensemble built-in",
+  "paired_preset": "wordsmith",
+  "items": [
+    {
+      "id": "bell",
+      "file": "bell.js",
+      "display_name": "Singing bowl bell",
+      "tags": [
+        "bell",
+        "gentle"
+      ],
+      "duration_ms": 1000
+    },
+    {
+      "id": "wind",
+      "file": "wind.js",
+      "display_name": "Gentle wind",
+      "tags": [
+        "wind",
+        "ambient"
+      ],
+      "duration_ms": 1200
+    },
+    {
+      "id": "page-turn",
+      "file": "page-turn.js",
+      "display_name": "Page turn",
+      "tags": [
+        "paper",
+        "soft"
+      ],
+      "duration_ms": 400
+    }
+  ]
+}
