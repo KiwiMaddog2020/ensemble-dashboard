@@ -1,75 +1,56 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!--
+    Ensemble brand mark — "The Ensemble Field" (v9, locked 2026-04-27 evening).
+
+    Meaning: "Linked by each other.  Each carries the others.  Inseparable."
+
+    Six rings in a 6-fold symmetric mandala.  Three core rings form a
+    threaded Borromean knot (full opacity, cyclic over-under threading);
+    three mid rings sit at complementary positions (25% opacity), creating
+    an atmospheric field of voices that extends the ensemble beyond the
+    visible knot.
+
+    Sacred-geometry / mathematical heritage: combines flower-of-life
+    (6 rings around center) with Trinity-knot threading.  Two ancient
+    traditions layered.  Inked-workshop aesthetic (flat-ink rings on
+    paper-textured dark background, single thin frame with one tiny
+    imperfection).
+  -->
   <defs>
-    <linearGradient id="bg" x1="50%" y1="0%" x2="50%" y2="100%">
-      <stop offset="0%" stop-color="#1a1308"/>
-      <stop offset="55%" stop-color="#100c06"/>
-      <stop offset="100%" stop-color="#080503"/>
-    </linearGradient>
-    <linearGradient id="bronzeFront" x1="50%" y1="0%" x2="50%" y2="100%">
-      <stop offset="0%"   stop-color="#ffe2bc"/>
-      <stop offset="20%"  stop-color="#f5be84"/>
-      <stop offset="55%"  stop-color="#d68a30"/>
+    <pattern id="craftBg" x="0" y="0" width="320" height="320" patternUnits="userSpaceOnUse">
+      <rect width="320" height="320" fill="#0e0a06"/>
+      <filter id="craft">
+        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="3"/>
+        <feColorMatrix values="0 0 0 0 0.06  0 0 0 0 0.04  0 0 0 0 0.02  0 0 0 0.55 0"/>
+      </filter>
+      <rect width="320" height="320" filter="url(#craft)" opacity="0.30"/>
+    </pattern>
+    <radialGradient id="ringMetal" cx="35%" cy="25%" r="85%">
+      <stop offset="0%"   stop-color="#e8a050"/>
+      <stop offset="50%"  stop-color="#c2711f"/>
       <stop offset="100%" stop-color="#7a3d0c"/>
-    </linearGradient>
-    <linearGradient id="bronzeMid" x1="50%" y1="0%" x2="50%" y2="100%">
-      <stop offset="0%"   stop-color="#e8932e"/>
-      <stop offset="60%"  stop-color="#9a5212"/>
-      <stop offset="100%" stop-color="#4d2a08"/>
-    </linearGradient>
-    <linearGradient id="bronzeBack" x1="50%" y1="0%" x2="50%" y2="100%">
-      <stop offset="0%"   stop-color="#a85a14"/>
-      <stop offset="100%" stop-color="#321906"/>
-    </linearGradient>
-    <radialGradient id="topGlow" cx="50%" cy="0%" r="78%">
-      <stop offset="0%"  stop-color="#e08a2c" stop-opacity="0.16"/>
-      <stop offset="55%" stop-color="#e08a2c" stop-opacity="0"/>
     </radialGradient>
-    <filter id="frontShadow" x="-15%" y="-15%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="14" stdDeviation="20" flood-color="#000" flood-opacity="0.50"/>
-    </filter>
-    <filter id="depthShadow" x="-15%" y="-15%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000" flood-opacity="0.42"/>
-    </filter>
-    <style>
-      .E {
-        font-family: 'Big Caslon', Cochin, 'Hoefler Text', Garamond, 'EB Garamond', Georgia, serif;
-        font-size: 720px;
-        font-weight: 500;
-        text-anchor: middle;
-      }
-    </style>
   </defs>
-  <!-- Tile + frame (Vera Nota family convention; thinner stroke for refinement) -->
-  <rect x="0" y="0" width="1024" height="1024" rx="232" ry="232" fill="url(#bg)"/>
-  <rect x="0" y="0" width="1024" height="1024" rx="232" ry="232" fill="url(#topGlow)"/>
-  <rect x="28" y="28" width="968" height="968" rx="206" ry="206"
-        fill="none" stroke="#c2711f" stroke-width="2.0" stroke-opacity="0.66"/>
-  <!-- Three Es in cascade — many voices contributing to one mark.  Front
-       E anchored at canvas center; middle + back trail leftward at decreasing
-       luminance.  v6 refinements: tighter 28px offset, 720px font (more
-       breathing room), softer 20px-stdDev shadow, refined gradient stops.
-       Locked 2026-04-27 evening; concept "C v6 elegant" in
-       /tmp/ensemble-logo-concepts/. -->
-  <g filter="url(#depthShadow)" opacity="0.62">
-    <text class="E" x="456" y="696" fill="url(#bronzeBack)">E</text>
+  <rect x="0" y="0" width="1024" height="1024" fill="#0e0a06"/>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#craftBg)" opacity="0.85"/>
+  <!-- Frame with 4° gap at upper-right (signature imperfection) -->
+  <path d="M 990 512 A 478 478 0 0 1 940 740 M 902 802 A 478 478 0 1 1 990 506"
+        fill="none" stroke="#c2711f" stroke-width="2.2" stroke-opacity="0.78"/>
+  <!-- MID TIER (atmospheric backdrop, 25% opacity, no threading) -->
+  <g opacity="0.25">
+    <circle cx="754" cy="372" r="180" fill="none" stroke="#c2711f" stroke-width="16"/>
+    <circle cx="270" cy="372" r="180" fill="none" stroke="#c2711f" stroke-width="16"/>
+    <circle cx="512" cy="792" r="180" fill="none" stroke="#c2711f" stroke-width="16"/>
   </g>
-  <g filter="url(#depthShadow)" opacity="0.82">
-    <text class="E" x="484" y="696" fill="url(#bronzeMid)">E</text>
-  </g>
-  <g filter="url(#frontShadow)">
-    <text class="E" x="512" y="696" fill="url(#bronzeFront)">E</text>
-  </g>
-  <!-- Signature element: three thin parallel hairlines below the Es,
-       echoing "three voices, unified rhythm."  Center hairline brightest;
-       outer two dimmer.  Reads at large sizes; gracefully disappears at
-       favicon size. -->
-  <g opacity="0.55">
-    <line x1="386" y1="816" x2="638" y2="816" stroke="#c2711f" stroke-width="1.2" stroke-linecap="round"/>
-  </g>
-  <g opacity="0.85">
-    <line x1="362" y1="828" x2="662" y2="828" stroke="#e8932e" stroke-width="1.6" stroke-linecap="round"/>
-  </g>
-  <g opacity="0.55">
-    <line x1="386" y1="840" x2="638" y2="840" stroke="#c2711f" stroke-width="1.2" stroke-linecap="round"/>
-  </g>
+  <!-- CORE TIER (threaded Borromean knot, full opacity, +6 lift on top ring) -->
+  <circle cx="358" cy="601" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="18"/>
+  <circle cx="666" cy="601" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="18"/>
+  <circle cx="512" cy="328" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="18"/>
+  <!-- THREADING BLADES (cyclic: top-over-left, left-over-right, right-over-top) -->
+  <line x1="291.0" y1="365.0" x2="304.0" y2="412.0" stroke="#0e0a06" stroke-width="28" stroke-linecap="round"/>
+  <line x1="589.0" y1="540.0" x2="554.0" y2="552.0" stroke="#0e0a06" stroke-width="28" stroke-linecap="round"/>
+  <line x1="499.0" y1="430.0" x2="525.0" y2="458.0" stroke="#0e0a06" stroke-width="28" stroke-linecap="round"/>
+  <line x1="525.0" y1="744.0" x2="499.0" y2="772.0" stroke="#0e0a06" stroke-width="28" stroke-linecap="round"/>
+  <line x1="445.0" y1="526.0" x2="460.0" y2="566.0" stroke="#0e0a06" stroke-width="28" stroke-linecap="round"/>
+  <line x1="743.0" y1="396.0" x2="707.0" y2="382.0" stroke="#0e0a06" stroke-width="28" stroke-linecap="round"/>
 </svg>
