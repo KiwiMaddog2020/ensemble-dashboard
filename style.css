@@ -1454,6 +1454,58 @@ body.bg-aurora {
   .github-link__btn { width: 100%; text-align: center; }
 }
 
+/* ─── BYOK Anthropic key card variant (Phase A.4 part 2.5) ─────────── */
+.byok-card { margin-top: 12px; }
+.byok-card[data-state="byok"] {
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+.byok-card[data-state="missing"] {
+  border-color: color-mix(in srgb, var(--ink-2) 28%, transparent);
+}
+.byok-form {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed color-mix(in srgb, var(--ink-2) 18%, transparent);
+}
+.byok-form__label {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.byok-form__row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.byok-form__input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: var(--mono);
+  background: color-mix(in srgb, var(--ink-1) 4%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink-2) 22%, transparent);
+  border-radius: 8px;
+  color: var(--ink-1);
+  transition: border-color 0.16s ease;
+}
+.byok-form__input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.byok-form__actions {
+  display: flex;
+  gap: 8px;
+}
+.byok-form__help {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+
 /* ─── Dashboard sub-nav (Overview / Projects / Controls — locked 2026-04-27 evening) ──── */
 
 .dash-subnav {

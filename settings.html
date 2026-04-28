@@ -116,6 +116,31 @@
       <p class="github-link__notice" id="github-link-notice" hidden></p>
     </div>
 
+    <div class="github-link byok-card" id="byok-card" data-state="loading">
+      <div class="github-link__row">
+        <div class="github-link__avatar" aria-hidden="true">⚙︎</div>
+        <div class="github-link__body">
+          <p class="github-link__status" id="byok-status">Checking Anthropic key…</p>
+          <p class="github-link__detail" id="byok-detail"></p>
+        </div>
+        <div class="github-link__actions" id="byok-actions"></div>
+      </div>
+      <div class="byok-form" id="byok-form" hidden>
+        <label for="byok-input" class="byok-form__label">Anthropic API key</label>
+        <div class="byok-form__row">
+          <input type="password" id="byok-input" class="byok-form__input"
+                 placeholder="sk-ant-..." autocomplete="off" spellcheck="false" />
+          <button class="btn-secondary" id="byok-reveal" type="button" aria-label="Show or hide key">show</button>
+        </div>
+        <div class="byok-form__actions">
+          <button class="btn-primary" id="byok-save" type="button">Save key</button>
+          <button class="btn-secondary" id="byok-cancel" type="button">Cancel</button>
+        </div>
+        <p class="settings-help byok-form__help">Stored locally in <code>~/.claude/orchestrator/.env.local</code> at chmod 600. Used for Studio generation in preference to the platform default. Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> — $5 covers ~250 generations.</p>
+      </div>
+      <p class="github-link__notice" id="byok-notice" hidden></p>
+    </div>
+
     <h2>Appearance</h2>
     <p class="section-sub">Color theme — warm to cool. 18 options. Saved locally in your browser.</p>
     <div class="theme-picker" data-theme-picker>
@@ -221,18 +246,22 @@
 async function loadGithubLink() {
   if (!SERVER_URL) {
     renderGithubLink({ is_linked: false, oauth_configured: false, _offline: true });
+    renderByokState({ byok_anthropic_set: false, platform_anthropic_set: false, _offline: true });
     return;
   }
   try {
     const r = await fetch(SERVER_URL + "/github/profile");
     if (!r.ok) {
       renderGithubLink({ is_linked: false, oauth_configured: false, _http_error: r.status });
+      renderByokState({ _http_error: r.status });
       return;
     }
     const j = await r.json();
     renderGithubLink(j);
+    renderByokState(j);
   } catch (e) {
     renderGithubLink({ is_linked: false, oauth_configured: false, _network_error: true });
+    renderByokState({ _network_error: true });
   }
 }
 
@@ -305,6 +334,145 @@ function renderGithubLink(state) {
     toggleHelp.textContent = "When on, your starting Studio can pull from private repos. Off by default; revoke any time.";
   }
   toggleInput.onchange = togglePrivate;
+}
+
+// ─── BYOK Anthropic key (Phase A.4 part 2.5) ─────────────────────────────
+
+function renderByokState(state) {
+  const root = document.getElementById("byok-card");
+  const status = document.getElementById("byok-status");
+  const detail = document.getElementById("byok-detail");
+  const actions = document.getElementById("byok-actions");
+  if (!root || !status || !actions) return;
+
+  if (state._offline || state._network_error) {
+    root.dataset.state = "offline";
+    status.textContent = "Control panel offline.";
+    detail.textContent = "Pair this browser to manage your Anthropic key.";
+    actions.innerHTML = "";
+    return;
+  }
+
+  if (state.byok_anthropic_set) {
+    root.dataset.state = "byok";
+    status.innerHTML = "Using <strong>your own</strong> Anthropic key";
+    detail.textContent = "Studio generation is billed to your Anthropic account. Stored locally at chmod 600.";
+    actions.innerHTML = `
+      <button class="btn-secondary github-link__btn" id="byok-replace-btn" type="button">Replace</button>
+      <button class="btn-secondary github-link__btn" id="byok-clear-btn" type="button">Clear</button>`;
+    document.getElementById("byok-replace-btn").addEventListener("click", showByokForm);
+    document.getElementById("byok-clear-btn").addEventListener("click", clearByok);
+  } else if (state.platform_anthropic_set) {
+    root.dataset.state = "platform";
+    status.textContent = "Using the platform Anthropic key";
+    detail.textContent = "Studio generation works out of the box. Add your own key to use your Anthropic budget instead.";
+    actions.innerHTML = `<button class="btn-secondary github-link__btn" id="byok-add-btn" type="button">Add my key</button>`;
+    document.getElementById("byok-add-btn").addEventListener("click", showByokForm);
+  } else {
+    root.dataset.state = "missing";
+    status.textContent = "Anthropic API key not configured";
+    detail.textContent = "Studio generation needs a key — yours, or the platform default in .env.local.";
+    actions.innerHTML = `<button class="btn-primary github-link__btn" id="byok-add-btn" type="button">Add my key</button>`;
+    document.getElementById("byok-add-btn").addEventListener("click", showByokForm);
+  }
+}
+
+function showByokForm() {
+  const form = document.getElementById("byok-form");
+  const input = document.getElementById("byok-input");
+  if (!form) return;
+  form.hidden = false;
+  if (input) {
+    input.type = "password";
+    input.value = "";
+    input.focus();
+  }
+  // One-time wire of the form's own buttons
+  const reveal = document.getElementById("byok-reveal");
+  const save = document.getElementById("byok-save");
+  const cancel = document.getElementById("byok-cancel");
+  if (reveal && !reveal._wired) {
+    reveal._wired = true;
+    reveal.addEventListener("click", () => {
+      const inp = document.getElementById("byok-input");
+      if (!inp) return;
+      const showing = inp.type === "text";
+      inp.type = showing ? "password" : "text";
+      reveal.textContent = showing ? "show" : "hide";
+    });
+  }
+  if (save && !save._wired) {
+    save._wired = true;
+    save.addEventListener("click", saveByok);
+  }
+  if (cancel && !cancel._wired) {
+    cancel._wired = true;
+    cancel.addEventListener("click", hideByokForm);
+  }
+}
+
+function hideByokForm() {
+  const form = document.getElementById("byok-form");
+  if (form) form.hidden = true;
+  const input = document.getElementById("byok-input");
+  if (input) { input.value = ""; input.type = "password"; }
+  setByokNotice("", "");
+}
+
+function setByokNotice(kind, text) {
+  const el = document.getElementById("byok-notice");
+  if (!el) return;
+  if (!text) { el.hidden = true; el.textContent = ""; return; }
+  el.hidden = false;
+  el.textContent = text;
+  el.className = "github-link__notice github-link__notice--" + kind;
+}
+
+async function saveByok() {
+  const input = document.getElementById("byok-input");
+  if (!input || !SERVER_URL) return;
+  const key = input.value.trim();
+  if (!key) { setByokNotice("err", "Paste your Anthropic key first."); return; }
+  if (!key.startsWith("sk-") || key.length < 20) {
+    setByokNotice("err", "Doesn't look like an Anthropic key. They start with sk- and are at least 20 characters.");
+    return;
+  }
+  try {
+    const r = await fetch(SERVER_URL + "/settings/anthropic-byok", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ key }),
+    });
+    const j = await r.json();
+    if (!r.ok) {
+      setByokNotice("err", j.hint || j.error || ("HTTP " + r.status));
+      return;
+    }
+    setByokNotice("ok", "✓ Key saved. Studio generation now uses your Anthropic account.");
+    hideByokForm();
+    loadGithubLink();
+  } catch (e) {
+    setByokNotice("err", "Network error: " + e.message);
+  }
+}
+
+async function clearByok() {
+  if (!SERVER_URL) return;
+  if (!confirm("Clear your Anthropic key? Studio generation will fall back to the platform default (or fail if there isn't one).")) return;
+  try {
+    const r = await fetch(SERVER_URL + "/settings/anthropic-byok-clear", {
+      method: "POST", headers: authHeaders(),
+      body: "{}",
+    });
+    if (!r.ok) {
+      const j = await r.json().catch(() => ({}));
+      setByokNotice("err", j.error || ("HTTP " + r.status));
+      return;
+    }
+    setByokNotice("ok", "Key cleared.");
+    loadGithubLink();
+  } catch (e) {
+    setByokNotice("err", "Network error: " + e.message);
+  }
 }
 
 async function unlinkGithub() {
