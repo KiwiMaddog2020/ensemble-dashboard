@@ -535,6 +535,114 @@ async function setTokenReset() {
   update();
   setInterval(update, 30000);
 })();
+// First-run onboarding modal (Phase A.4-3)
+const FIRST_RUN_SEEN_KEY = "ensemble:first-run-seen";
+
+function isEnsembleHomepage() {
+  const p = location.pathname;
+  return p.endsWith("/index.html") || p === "/" || p.endsWith("/ensemble.html");
+}
+
+function openFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  overlay.hidden = false;
+  const err = document.getElementById("first-run-error");
+  if (err) err.innerHTML = "";
+  const firstField = document.getElementById("frq-building");
+  if (firstField) setTimeout(() => firstField.focus(), 50);
+}
+
+function closeFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  overlay.hidden = true;
+  try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+}
+
+async function submitFirstRunModal(ev) {
+  ev.preventDefault();
+  const err = document.getElementById("first-run-error");
+  const submitBtn = document.getElementById("first-run-submit");
+  const building = (document.getElementById("frq-building").value || "").trim();
+  const vibe = (document.getElementById("frq-vibe").value || "").trim();
+  const problem = (document.getElementById("frq-problem").value || "").trim();
+  if (!building || !vibe || !problem) {
+    if (err) err.textContent = "Please answer all three questions.";
+    return;
+  }
+  if (err) err.innerHTML = "";
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.classList.add("is-loading"); }
+  try {
+    const r = await fetch("/studio/generate-from-answers", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ building: building, vibe: vibe, problem: problem })
+    });
+    let body = {};
+    try { body = await r.json(); } catch (e) {}
+    if (r.ok) {
+      try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+      window.location.href = "/studio.html";
+      return;
+    }
+    if (r.status === 400) {
+      const msg = (body && body.error) ? String(body.error) : "Validation error.";
+      if (msg.toLowerCase().includes("byok")) {
+        if (err) err.innerHTML = "You'll need to add an Anthropic API key first. <a href='/settings.html#anthropic-byok'>Open Settings</a>";
+      } else {
+        if (err) err.textContent = msg;
+      }
+    } else if (r.status === 500) {
+      const stage = (body && body.stage) ? body.stage : "?";
+      if (err) err.textContent = "Something went wrong (stage: " + stage + "). Please try again.";
+    } else {
+      if (err) err.textContent = "Unexpected response (" + r.status + "). Please try again.";
+    }
+  } catch (e) {
+    if (err) err.textContent = "Network error: " + (e && e.message ? e.message : "unknown");
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.classList.remove("is-loading"); }
+  }
+}
+
+function ctaGenerateClicked() {
+  fetch("/ensemble/cta-clicked", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: "{}",
+    keepalive: true
+  }).catch(() => {});
+  openFirstRunModal();
+}
+
+function wireFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  const closeBtn = document.getElementById("first-run-close");
+  const cancelBtn = document.getElementById("first-run-cancel");
+  const form = document.getElementById("first-run-form");
+  const cta = document.getElementById("cta-generate-studio");
+  if (closeBtn) closeBtn.addEventListener("click", closeFirstRunModal);
+  if (cancelBtn) cancelBtn.addEventListener("click", closeFirstRunModal);
+  if (form) form.addEventListener("submit", submitFirstRunModal);
+  if (cta) cta.addEventListener("click", ctaGenerateClicked);
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeFirstRunModal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !overlay.hidden) closeFirstRunModal();
+  });
+  if (isEnsembleHomepage()) {
+    let seen = "0";
+    try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+    if (seen !== "1") {
+      setTimeout(openFirstRunModal, 200);
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", wireFirstRunModal);
 </script>
 </body>
 </html>

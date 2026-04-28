@@ -74,6 +74,7 @@
   <div class="wrap">
     <p class="eyebrow">ENSEMBLE</p>
     <h1>Your stage. <em>Alive.</em></h1>
+    <button type="button" class="cta-generate" id="cta-generate-studio">Generate your Studio</button>
     <p class="lead">A vibe coder's playground where every creator gets a navigable space, the agent-management depth is the moat, and Claude is your design partner. Walk through your friends' Studios. Share the Claude setups that make your work fly. Build a world that looks like you.</p>
     <div class="meta">
       <span><span class="dot"></span> v1.0 building · cadence: a launch-worthy hook every 8&ndash;12 weeks</span>
@@ -168,6 +169,167 @@
     <p class="ensemble-cta__note">No spam. No third-party tracking. We&rsquo;ll write you when there&rsquo;s something worth seeing.</p>
   </div>
 </section>
+<div class="first-run-overlay" id="first-run-overlay" role="dialog" aria-modal="true" aria-labelledby="first-run-title" hidden>
+  <div class="first-run-panel">
+    <div class="first-run-header">
+      <h2 class="first-run-title" id="first-run-title">Generate your <em>Studio.</em></h2>
+      <button type="button" class="first-run-close" id="first-run-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="first-run-body">
+      <p class="first-run-lead">Three questions. Claude builds your starting Studio from your answers.</p>
+      <form class="first-run-form" id="first-run-form" novalidate>
+        <label class="first-run-field">
+          <span class="first-run-q">What are you building?</span>
+          <textarea id="frq-building" name="building" rows="2" placeholder="a creator-platform PWA for vibe coders" required></textarea>
+        </label>
+        <label class="first-run-field">
+          <span class="first-run-q">What&rsquo;s the vibe / your taste?</span>
+          <textarea id="frq-vibe" name="vibe" rows="2" placeholder="warm, inked, sacred-geometry, Apple-quality" required></textarea>
+        </label>
+        <label class="first-run-field">
+          <span class="first-run-q">What hot-mess problem are you solving?</span>
+          <textarea id="frq-problem" name="problem" rows="2" placeholder="a Linktree page is alone &mdash; community + tools live elsewhere" required></textarea>
+        </label>
+        <p class="first-run-error" id="first-run-error" role="alert" aria-live="polite"></p>
+        <div class="first-run-actions">
+          <button type="button" class="first-run-cancel" id="first-run-cancel">Cancel</button>
+          <button type="submit" class="first-run-submit" id="first-run-submit">
+            <span class="first-run-submit-label">Generate my Studio</span>
+            <span class="first-run-spinner" aria-hidden="true"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<style>
+/* First-run onboarding modal (Phase A.4-3) */
+.first-run-overlay {
+  position: fixed; inset: 0; z-index: 220;
+  background: rgba(0,0,0,0.55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: first-run-fade 180ms var(--ease);
+}
+.first-run-overlay[hidden] { display: none; }
+@keyframes first-run-fade { from { opacity: 0; } to { opacity: 1; } }
+.first-run-panel {
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  max-width: 560px; width: 100%;
+  max-height: 88vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.32), 0 4px 12px rgba(0,0,0,0.18);
+  animation: first-run-rise 220ms var(--ease);
+}
+@keyframes first-run-rise {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.first-run-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--rule);
+  flex-shrink: 0;
+}
+.first-run-title {
+  font-family: var(--serif); font-size: 22px; font-weight: 500;
+  letter-spacing: -0.01em; margin: 0; color: var(--ink);
+}
+.first-run-title em { font-style: italic; font-weight: 500; color: var(--accent); }
+.first-run-close {
+  appearance: none; border: 0; background: transparent; cursor: pointer;
+  font-size: 26px; line-height: 1; padding: 4px 12px;
+  border-radius: 999px; color: var(--ink-3);
+  transition: background 180ms var(--ease), color 180ms var(--ease);
+}
+.first-run-close:hover { background: var(--bg-sunken, var(--rule-2)); color: var(--ink); }
+.first-run-body {
+  padding: 18px 22px 22px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.first-run-lead {
+  font-family: var(--serif); font-size: 16px; line-height: 1.5;
+  color: var(--ink-2); margin: 0 0 4px;
+}
+.first-run-form { display: flex; flex-direction: column; gap: 14px; margin: 0; }
+.first-run-field { display: flex; flex-direction: column; gap: 6px; }
+.first-run-q {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--ink); letter-spacing: -0.005em;
+}
+.first-run-field textarea {
+  font-family: var(--sans); font-size: 14px; line-height: 1.5;
+  padding: 10px 12px;
+  border: 1px solid var(--rule); border-radius: 8px;
+  background: var(--bg); color: var(--ink);
+  resize: vertical; min-height: 56px;
+  transition: border-color 180ms var(--ease), background 180ms var(--ease);
+}
+.first-run-field textarea::placeholder { color: var(--ink-4); }
+.first-run-field textarea:focus {
+  outline: 0; border-color: var(--accent);
+  background: var(--bg-raised);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.first-run-error {
+  font-family: var(--sans); font-size: 13px; color: var(--danger);
+  margin: 0; min-height: 18px;
+}
+.first-run-error:empty { display: none; }
+.first-run-error a { color: var(--accent); text-decoration: underline; }
+.first-run-actions {
+  display: flex; gap: 10px; justify-content: flex-end;
+  margin-top: 4px;
+}
+.first-run-cancel {
+  background: transparent; color: var(--ink-2);
+  border: 1px solid var(--rule);
+  padding: 10px 16px; border-radius: 8px;
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  cursor: pointer;
+  transition: border-color 180ms var(--ease), color 180ms var(--ease);
+}
+.first-run-cancel:hover { border-color: var(--accent); color: var(--accent); }
+.first-run-submit {
+  background: var(--accent); color: white; border: 0;
+  padding: 10px 18px; border-radius: 8px;
+  font-family: var(--sans); font-size: 14px; font-weight: 600;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background 180ms var(--ease), opacity 180ms var(--ease);
+}
+.first-run-submit:hover { background: var(--accent-2); }
+.first-run-submit[disabled] { opacity: 0.7; cursor: progress; }
+.first-run-spinner {
+  display: none;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: first-run-spin 700ms linear infinite;
+}
+.first-run-submit.is-loading .first-run-spinner { display: inline-block; }
+@keyframes first-run-spin { to { transform: rotate(360deg); } }
+
+/* Hero CTA: Generate your Studio */
+.cta-generate {
+  appearance: none; border: 0; cursor: pointer;
+  background: var(--accent); color: white;
+  font-family: var(--sans); font-size: 16px; font-weight: 600;
+  letter-spacing: -0.005em;
+  padding: 14px 28px; border-radius: 10px;
+  margin-top: 22px;
+  box-shadow: var(--shadow-md);
+  transition: background 200ms var(--ease), transform 200ms var(--ease);
+}
+.cta-generate:hover { background: var(--accent-2); transform: translateY(-1px); }
+.cta-generate:active { transform: translateY(0); }
+</style>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>
@@ -481,6 +643,114 @@ async function setTokenReset() {
   update();
   setInterval(update, 30000);
 })();
+// First-run onboarding modal (Phase A.4-3)
+const FIRST_RUN_SEEN_KEY = "ensemble:first-run-seen";
+
+function isEnsembleHomepage() {
+  const p = location.pathname;
+  return p.endsWith("/index.html") || p === "/" || p.endsWith("/ensemble.html");
+}
+
+function openFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  overlay.hidden = false;
+  const err = document.getElementById("first-run-error");
+  if (err) err.innerHTML = "";
+  const firstField = document.getElementById("frq-building");
+  if (firstField) setTimeout(() => firstField.focus(), 50);
+}
+
+function closeFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  overlay.hidden = true;
+  try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+}
+
+async function submitFirstRunModal(ev) {
+  ev.preventDefault();
+  const err = document.getElementById("first-run-error");
+  const submitBtn = document.getElementById("first-run-submit");
+  const building = (document.getElementById("frq-building").value || "").trim();
+  const vibe = (document.getElementById("frq-vibe").value || "").trim();
+  const problem = (document.getElementById("frq-problem").value || "").trim();
+  if (!building || !vibe || !problem) {
+    if (err) err.textContent = "Please answer all three questions.";
+    return;
+  }
+  if (err) err.innerHTML = "";
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.classList.add("is-loading"); }
+  try {
+    const r = await fetch("/studio/generate-from-answers", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ building: building, vibe: vibe, problem: problem })
+    });
+    let body = {};
+    try { body = await r.json(); } catch (e) {}
+    if (r.ok) {
+      try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+      window.location.href = "/studio.html";
+      return;
+    }
+    if (r.status === 400) {
+      const msg = (body && body.error) ? String(body.error) : "Validation error.";
+      if (msg.toLowerCase().includes("byok")) {
+        if (err) err.innerHTML = "You'll need to add an Anthropic API key first. <a href='/settings.html#anthropic-byok'>Open Settings</a>";
+      } else {
+        if (err) err.textContent = msg;
+      }
+    } else if (r.status === 500) {
+      const stage = (body && body.stage) ? body.stage : "?";
+      if (err) err.textContent = "Something went wrong (stage: " + stage + "). Please try again.";
+    } else {
+      if (err) err.textContent = "Unexpected response (" + r.status + "). Please try again.";
+    }
+  } catch (e) {
+    if (err) err.textContent = "Network error: " + (e && e.message ? e.message : "unknown");
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.classList.remove("is-loading"); }
+  }
+}
+
+function ctaGenerateClicked() {
+  fetch("/ensemble/cta-clicked", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: "{}",
+    keepalive: true
+  }).catch(() => {});
+  openFirstRunModal();
+}
+
+function wireFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  const closeBtn = document.getElementById("first-run-close");
+  const cancelBtn = document.getElementById("first-run-cancel");
+  const form = document.getElementById("first-run-form");
+  const cta = document.getElementById("cta-generate-studio");
+  if (closeBtn) closeBtn.addEventListener("click", closeFirstRunModal);
+  if (cancelBtn) cancelBtn.addEventListener("click", closeFirstRunModal);
+  if (form) form.addEventListener("submit", submitFirstRunModal);
+  if (cta) cta.addEventListener("click", ctaGenerateClicked);
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeFirstRunModal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !overlay.hidden) closeFirstRunModal();
+  });
+  if (isEnsembleHomepage()) {
+    let seen = "0";
+    try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+    if (seen !== "1") {
+      setTimeout(openFirstRunModal, 200);
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", wireFirstRunModal);
 </script>
 </body>
 </html>
