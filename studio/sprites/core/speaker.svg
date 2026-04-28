@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 48" width="32" height="48" shape-rendering="crispEdges" data-sprite-id="speaker" data-tags="prop,music,speaker,boombox">
+  <!-- Cabinet body -->
+  <rect x="2" y="10" width="28" height="34" fill="#1a0d02"/>
+  <rect x="3" y="11" width="26" height="32" fill="#3a1f04"/>
+  <!-- Top bezel highlight -->
+  <rect x="3" y="11" width="26" height="2" fill="#5a3210"/>
+  <!-- Carrying handle -->
+  <rect x="10" y="6" width="12" height="3" fill="#3a1f04"/>
+  <rect x="11" y="7" width="10" height="2" fill="#5a3210"/>
+  <rect x="9" y="8" width="2" height="2" fill="#3a1f04"/>
+  <rect x="21" y="8" width="2" height="2" fill="#3a1f04"/>
+  <!-- Big speaker (woofer) -->
+  <rect x="6" y="22" width="12" height="12" fill="#0d0703"/>
+  <rect x="7" y="23" width="10" height="10" fill="#1a0d02"/>
+  <rect x="8" y="24" width="8" height="8" fill="#3a1f04"/>
+  <rect x="9" y="25" width="6" height="6" fill="#7e4a18"/>
+  <rect x="10" y="26" width="4" height="4" fill="#1a0d02"/>
+  <!-- Small speaker (tweeter) -->
+  <rect x="20" y="22" width="8" height="8" fill="#0d0703"/>
+  <rect x="21" y="23" width="6" height="6" fill="#1a0d02"/>
+  <rect x="22" y="24" width="4" height="4" fill="#7e4a18"/>
+  <rect x="23" y="25" width="2" height="2" fill="#1a0d02"/>
+  <!-- Tape deck slot -->
+  <rect x="6" y="14" width="20" height="4" fill="#0d0703"/>
+  <rect x="7" y="15" width="18" height="2" fill="#3a1f04"/>
+  <!-- LED indicator -->
+  <rect x="24" y="35" width="2" height="2" fill="#c2711f"/>
+  <rect x="20" y="35" width="2" height="2" fill="#1a0d02"/>
+  <!-- Volume knob -->
+  <rect x="6" y="36" width="4" height="4" fill="#1a0d02"/>
+  <rect x="7" y="37" width="2" height="2" fill="#5a3210"/>
+  <!-- Bottom bezel -->
+  <rect x="3" y="42" width="26" height="1" fill="#1a0d02"/>
+</svg>

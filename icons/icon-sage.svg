@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <pattern id="craftBg" x="0" y="0" width="320" height="320" patternUnits="userSpaceOnUse">
+      <rect width="320" height="320" fill="#060c03"/>
+      <filter id="craft">
+        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="3"/>
+        <feColorMatrix values="0 0 0 0 0.06  0 0 0 0 0.04  0 0 0 0 0.02  0 0 0 0.55 0"/>
+      </filter>
+      <rect width="320" height="320" filter="url(#craft)" opacity="0.30"/>
+    </pattern>
+    <radialGradient id="ringMetal" cx="35%" cy="25%" r="85%">
+      <stop offset="0%"   stop-color="#a3e635"/>
+      <stop offset="50%"  stop-color="#65a30d"/>
+      <stop offset="100%" stop-color="#1a2c06"/>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="0" width="1024" height="1024" fill="#060c03"/>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#craftBg)" opacity="0.85"/>
+  <path d="M 990 512 A 478 478 0 0 1 940 740 M 902 802 A 478 478 0 1 1 990 506"
+        fill="none" stroke="#65a30d" stroke-width="2.2" stroke-opacity="0.78"/>
+  <circle cx="358" cy="601" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="30"/>
+  <circle cx="666" cy="601" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="30"/>
+  <circle cx="512" cy="328" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="30"/>
+  <line x1="291.0" y1="365.0" x2="304.0" y2="412.0" stroke="#060c03" stroke-width="38" stroke-linecap="round"/>
+  <line x1="589.0" y1="540.0" x2="554.0" y2="552.0" stroke="#060c03" stroke-width="38" stroke-linecap="round"/>
+  <line x1="499.0" y1="430.0" x2="525.0" y2="458.0" stroke="#060c03" stroke-width="38" stroke-linecap="round"/>
+  <line x1="525.0" y1="744.0" x2="499.0" y2="772.0" stroke="#060c03" stroke-width="38" stroke-linecap="round"/>
+  <line x1="445.0" y1="526.0" x2="460.0" y2="566.0" stroke="#060c03" stroke-width="38" stroke-linecap="round"/>
+  <line x1="743.0" y1="396.0" x2="707.0" y2="382.0" stroke="#060c03" stroke-width="38" stroke-linecap="round"/>
+</svg>

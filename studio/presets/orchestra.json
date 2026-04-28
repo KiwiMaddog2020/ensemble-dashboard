@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "preset_metadata": {
+    "id": "orchestra",
+    "display_name": "Orchestra",
+    "description": "Concert hall. Maestro at the podium, Agents arranged as musicians in a semicircle. The default state for every new Ensemble.",
+    "thumbnail": "studio/presets/orchestra.png",
+    "natural_themes": ["warm", "amber", "sand", "sunset"],
+    "min_chats": 1,
+    "recommended_chats": 7,
+    "max_chats": 12,
+    "author": "Ensemble built-in",
+    "version": 1
+  },
+  "name": "Orchestra (default)",
+  "preset_origin": "orchestra",
+  "theme": null,
+  "background": null,
+  "stage": {
+    "width": 1920,
+    "height": 1080,
+    "background_layer": "stage_default",
+    "ambient_sound": "ambient/orchestra.opus"
+  },
+  "components": [
+    {
+      "id": "stage_floor",
+      "type": "svg",
+      "x": 0, "y": 540,
+      "w": 1920, "h": 540,
+      "z": 0,
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
+      "locked": true
+    },
+    {
+      "id": "stage_rim",
+      "type": "svg",
+      "x": 0, "y": 540,
+      "w": 1920, "h": 6,
+      "z": 1,
+      "props": {
+        "shape": "rect",
+        "fill_token": "accent"
+      },
+      "locked": true
+    },
+    {
+      "id": "music_staff_bg",
+      "type": "staff",
+      "x": 96, "y": 96,
+      "w": 1728, "h": 280,
+      "z": 1,
+      "props": {
+        "lines": 5,
+        "opacity": 0.18,
+        "color_token": "ink-3"
+      },
+      "locked": true
+    },
+    {
+      "id": "podium",
+      "type": "prop",
+      "x": 880, "y": 460,
+      "w": 160, "h": 96,
+      "z": 4,
+      "props": {
+        "sprite_id": "podium_default"
+      },
+      "locked": false
+    },
+    {
+      "id": "slot_maestro",
+      "type": "slot",
+      "x": 928, "y": 360,
+      "w": 96, "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "maestro",
+        "sprite_id": "conductor_default",
+        "idle_animation": "baton_sweep",
+        "data_binding": "maestro"
+      },
+      "locked": false
+    },
+    {
+      "id": "slot_violin_1",
+      "type": "slot",
+      "x": 432, "y": 640,
+      "w": 96, "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "1st violin",
+        "sprite_id": "musician_violin",
+        "idle_animation": "bowing",
+        "auto_bind_index": 0
+      }
+    },
+    {
+      "id": "slot_violin_2",
+      "type": "slot",
+      "x": 624, "y": 720,
+      "w": 96, "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "2nd violin",
+        "sprite_id": "musician_violin",
+        "idle_animation": "bowing",
+        "auto_bind_index": 1
+      }
+    },
+    {
+      "id": "slot_viola",
+      "type": "slot",
+      "x": 816, "y": 760,
+      "w": 96, "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Viola",
+        "sprite_id": "musician_viola",
+        "idle_animation": "bowing",
+        "auto_bind_index": 2
+      }
+    },
+    {
+      "id": "slot_cello",
+      "type": "slot",
+      "x": 1008, "y": 760,
+      "w": 96, "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Cello",
+        "sprite_id": "musician_cello",
+        "idle_animation": "bowing_slow",
+        "auto_bind_index": 3
+      }
+    },
+    {
+      "id": "slot_drums",
+      "type": "slot",
+      "x": 1200, "y": 720,
+      "w": 96, "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Percussion",
+        "sprite_id": "musician_drums",
+        "idle_animation": "drumming",
+        "auto_bind_index": 4
+      }
+    },
+    {
+      "id": "slot_flute",
+      "type": "slot",
+      "x": 1392, "y": 640,
+      "w": 96, "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Flute",
+        "sprite_id": "musician_flute",
+        "idle_animation": "playing_woodwind",
+        "auto_bind_index": 5
+      }
+    },
+    {
+      "id": "slot_trumpet",
+      "type": "slot",
+      "x": 1556, "y": 540,
+      "w": 96, "h": 128,
+      "z": 5,
+      "props": {
+        "slot_role": "Trumpet",
+        "sprite_id": "musician_trumpet",
+        "idle_animation": "brass_play",
+        "auto_bind_index": 6
+      }
+    },
+    {
+      "id": "title_eyebrow",
+      "type": "text",
+      "x": 96, "y": 64,
+      "w": 600, "h": 24,
+      "z": 6,
+      "props": {
+        "text": "TONIGHT'S PROGRAM",
+        "variant": "eyebrow",
+        "color_token": "accent"
+      }
+    },
+    {
+      "id": "title_main",
+      "type": "text",
+      "x": 96, "y": 96,
+      "w": 800, "h": 64,
+      "z": 6,
+      "props": {
+        "text": "The Ensemble in <em>concert.</em>",
+        "variant": "hero"
+      }
+    }
+  ],
+  "custom_css": "",
+  "custom_js": "",
+  "history_seq": 0,
+  "last_saved_at": null,
+  "visibility": "private"
+}

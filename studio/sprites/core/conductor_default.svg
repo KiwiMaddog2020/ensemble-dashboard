@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 48" width="32" height="48" shape-rendering="crispEdges" data-sprite-id="conductor_default" data-tags="music,conductor,maestro,person">
+  <!-- Hair -->
+  <rect x="11" y="4" width="10" height="2" fill="#3a1f04"/>
+  <rect x="10" y="6" width="12" height="3" fill="#3a1f04"/>
+  <!-- Face -->
+  <rect x="11" y="9" width="10" height="6" fill="#f3c498"/>
+  <rect x="13" y="11" width="2" height="1" fill="#18150f"/>
+  <rect x="17" y="11" width="2" height="1" fill="#18150f"/>
+  <rect x="14" y="13" width="4" height="1" fill="#c2711f" opacity="0.5"/>
+  <!-- Neck + collar -->
+  <rect x="13" y="15" width="6" height="1" fill="#f3c498"/>
+  <rect x="12" y="16" width="8" height="1" fill="#0f0d0a"/>
+  <!-- Tuxedo torso -->
+  <rect x="10" y="17" width="12" height="14" fill="#0f0d0a"/>
+  <rect x="14" y="17" width="4" height="14" fill="#ffffff"/>
+  <rect x="15" y="20" width="2" height="1" fill="var(--accent, #c2711f)"/>
+  <!-- Tails -->
+  <rect x="9" y="31" width="14" height="6" fill="#0f0d0a"/>
+  <rect x="11" y="37" width="3" height="6" fill="#0f0d0a"/>
+  <rect x="18" y="37" width="3" height="6" fill="#0f0d0a"/>
+  <!-- Right arm raised with baton -->
+  <rect x="22" y="17" width="2" height="6" fill="#0f0d0a"/>
+  <rect x="24" y="14" width="2" height="3" fill="#0f0d0a"/>
+  <rect x="26" y="11" width="1" height="3" fill="#f3c498"/>
+  <!-- Baton -->
+  <rect x="27" y="6" width="1" height="6" fill="#c8a070"/>
+  <rect x="27" y="5" width="2" height="1" fill="#f3c07a"/>
+  <!-- Left arm relaxed -->
+  <rect x="8" y="17" width="2" height="8" fill="#0f0d0a"/>
+  <rect x="9" y="25" width="1" height="2" fill="#f3c498"/>
+  <!-- Shoes -->
+  <rect x="11" y="43" width="3" height="2" fill="#1a0d02"/>
+  <rect x="18" y="43" width="3" height="2" fill="#1a0d02"/>
+</svg>
