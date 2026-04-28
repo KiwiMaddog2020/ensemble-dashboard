@@ -5,57 +5,71 @@
       <stop offset="55%" stop-color="#100c06"/>
       <stop offset="100%" stop-color="#080503"/>
     </linearGradient>
-    <linearGradient id="bronzeFront" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%"   stop-color="#ffd9a8"/>
-      <stop offset="35%"  stop-color="#f0b06c"/>
-      <stop offset="70%"  stop-color="#c87018"/>
-      <stop offset="100%" stop-color="#7e3f0c"/>
+    <linearGradient id="bronzeFront" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%"   stop-color="#ffe2bc"/>
+      <stop offset="20%"  stop-color="#f5be84"/>
+      <stop offset="55%"  stop-color="#d68a30"/>
+      <stop offset="100%" stop-color="#7a3d0c"/>
     </linearGradient>
-    <linearGradient id="bronzeMid" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%"   stop-color="#e08a2c"/>
-      <stop offset="50%"  stop-color="#a85b14"/>
-      <stop offset="100%" stop-color="#5a3210"/>
+    <linearGradient id="bronzeMid" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%"   stop-color="#e8932e"/>
+      <stop offset="60%"  stop-color="#9a5212"/>
+      <stop offset="100%" stop-color="#4d2a08"/>
     </linearGradient>
-    <linearGradient id="bronzeBack" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%"   stop-color="#b66218"/>
-      <stop offset="100%" stop-color="#3a1d08"/>
+    <linearGradient id="bronzeBack" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%"   stop-color="#a85a14"/>
+      <stop offset="100%" stop-color="#321906"/>
     </linearGradient>
     <radialGradient id="topGlow" cx="50%" cy="0%" r="78%">
-      <stop offset="0%"  stop-color="#e08a2c" stop-opacity="0.18"/>
+      <stop offset="0%"  stop-color="#e08a2c" stop-opacity="0.16"/>
       <stop offset="55%" stop-color="#e08a2c" stop-opacity="0"/>
     </radialGradient>
     <filter id="frontShadow" x="-15%" y="-15%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity="0.55"/>
+      <feDropShadow dx="0" dy="14" stdDeviation="20" flood-color="#000" flood-opacity="0.50"/>
     </filter>
     <filter id="depthShadow" x="-15%" y="-15%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.50"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000" flood-opacity="0.42"/>
     </filter>
     <style>
       .E {
         font-family: 'Big Caslon', Cochin, 'Hoefler Text', Garamond, 'EB Garamond', Georgia, serif;
-        font-size: 760px;
+        font-size: 720px;
         font-weight: 500;
         text-anchor: middle;
       }
     </style>
   </defs>
-  <!-- Tile + frame (Vera Nota family convention) -->
+  <!-- Tile + frame (Vera Nota family convention; thinner stroke for refinement) -->
   <rect x="0" y="0" width="1024" height="1024" rx="232" ry="232" fill="url(#bg)"/>
   <rect x="0" y="0" width="1024" height="1024" rx="232" ry="232" fill="url(#topGlow)"/>
-  <rect x="26" y="26" width="972" height="972" rx="208" ry="208"
-        fill="none" stroke="#c2711f" stroke-width="2.6" stroke-opacity="0.70"/>
-  <!-- Three Es in cascade — many voices contributing to one mark.
-       Front E anchored at canvas center (the optical anchor); middle and
-       back trail to the left at decreasing luminance, suggesting voices
-       joining the lead.  Locked 2026-04-27 evening.  Concept "C v5" in
+  <rect x="28" y="28" width="968" height="968" rx="206" ry="206"
+        fill="none" stroke="#c2711f" stroke-width="2.0" stroke-opacity="0.66"/>
+  <!-- Three Es in cascade — many voices contributing to one mark.  Front
+       E anchored at canvas center; middle + back trail leftward at decreasing
+       luminance.  v6 refinements: tighter 28px offset, 720px font (more
+       breathing room), softer 20px-stdDev shadow, refined gradient stops.
+       Locked 2026-04-27 evening; concept "C v6 elegant" in
        /tmp/ensemble-logo-concepts/. -->
-  <g filter="url(#depthShadow)" opacity="0.66">
-    <text class="E" x="448" y="720" fill="url(#bronzeBack)">E</text>
+  <g filter="url(#depthShadow)" opacity="0.62">
+    <text class="E" x="456" y="696" fill="url(#bronzeBack)">E</text>
   </g>
-  <g filter="url(#depthShadow)" opacity="0.84">
-    <text class="E" x="480" y="720" fill="url(#bronzeMid)">E</text>
+  <g filter="url(#depthShadow)" opacity="0.82">
+    <text class="E" x="484" y="696" fill="url(#bronzeMid)">E</text>
   </g>
   <g filter="url(#frontShadow)">
-    <text class="E" x="512" y="720" fill="url(#bronzeFront)">E</text>
+    <text class="E" x="512" y="696" fill="url(#bronzeFront)">E</text>
+  </g>
+  <!-- Signature element: three thin parallel hairlines below the Es,
+       echoing "three voices, unified rhythm."  Center hairline brightest;
+       outer two dimmer.  Reads at large sizes; gracefully disappears at
+       favicon size. -->
+  <g opacity="0.55">
+    <line x1="386" y1="816" x2="638" y2="816" stroke="#c2711f" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+  <g opacity="0.85">
+    <line x1="362" y1="828" x2="662" y2="828" stroke="#e8932e" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+  <g opacity="0.55">
+    <line x1="386" y1="840" x2="638" y2="840" stroke="#c2711f" stroke-width="1.2" stroke-linecap="round"/>
   </g>
 </svg>
