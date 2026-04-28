@@ -1,20 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
   <!--
-    Ensemble brand mark — "The Ensemble Field" (v9, locked 2026-04-27 evening).
+    Ensemble brand mark — "Threaded Trinity in the Garden" (v10, locked 2026-04-28).
 
     Meaning: "Linked by each other.  Each carries the others.  Inseparable."
 
-    Six rings in a 6-fold symmetric mandala.  Three core rings form a
-    threaded Borromean knot (full opacity, cyclic over-under threading);
-    three mid rings sit at complementary positions (25% opacity), creating
-    an atmospheric field of voices that extends the ensemble beyond the
-    visible knot.
+    v10 builds on v9's threaded Borromean knot but adds two layers of
+    visual richness:
 
-    Sacred-geometry / mathematical heritage: combines flower-of-life
-    (6 rings around center) with Trinity-knot threading.  Two ancient
-    traditions layered.  Inked-workshop aesthetic (flat-ink rings on
-    paper-textured dark background, single thin frame with one tiny
-    imperfection).
+      1. Three rings, each in its own ink — the Inked Workshop palette
+         (sanguine red-ochre / burnt sienna / sepia black).  Same old-
+         master sketch tradition Atelier-grade Studios reach for.  Each
+         ring still carries the metallic-radial-gradient depth from v9
+         (light highlight upper-left, deep shadow lower-right).
+
+      2. A faint flower-of-life rosette behind the rings (~12% opacity,
+         single pen-stroke).  Not ornament-for-ornament's-sake — it's
+         the sacred-geometry FIELD that the rings live within, the
+         atmospheric background a master draftsman would lay down before
+         inking the figure.  Composed in ochre to harmonize with the
+         frame and cream textured paper.
+
+    Sacred-geometry / mathematical heritage: still the threaded Borromean
+    knot at full opacity (no compromise on the structural identity), but
+    now resting in the flower-of-life field that the threading was always
+    drawn from.  v9 was the figure; v10 is figure + ground.
+
+    Apple-quality discipline: 3 colors, 1 palette family, no random
+    primaries.  Ornament is below the silhouette in the visual hierarchy.
+    Master mark first; themed variants will inherit the same structure
+    via theme_icons.py once this is locked.
   -->
   <defs>
     <pattern id="craftBg" x="0" y="0" width="320" height="320" patternUnits="userSpaceOnUse">
@@ -25,30 +39,58 @@
       </filter>
       <rect width="320" height="320" filter="url(#craft)" opacity="0.30"/>
     </pattern>
-    <radialGradient id="ringMetal" cx="35%" cy="25%" r="85%">
-      <stop offset="0%"   stop-color="#e8a050"/>
-      <stop offset="50%"  stop-color="#c2711f"/>
-      <stop offset="100%" stop-color="#7a3d0c"/>
+    <!-- Three Inked Workshop ring gradients (highlight → mid → shadow).
+         Each ring keeps the v9 metallic-radial illusion but in its own ink. -->
+    <radialGradient id="inkSanguine" cx="35%" cy="25%" r="85%">
+      <stop offset="0%"   stop-color="#e58a82"/>
+      <stop offset="50%"  stop-color="#a8403a"/>
+      <stop offset="100%" stop-color="#5a1f1d"/>
+    </radialGradient>
+    <radialGradient id="inkSienna" cx="35%" cy="25%" r="85%">
+      <stop offset="0%"   stop-color="#d99066"/>
+      <stop offset="50%"  stop-color="#a0522d"/>
+      <stop offset="100%" stop-color="#4f2616"/>
+    </radialGradient>
+    <radialGradient id="inkSepia" cx="35%" cy="25%" r="85%">
+      <stop offset="0%"   stop-color="#8a6852"/>
+      <stop offset="50%"  stop-color="#3a261a"/>
+      <stop offset="100%" stop-color="#14100c"/>
     </radialGradient>
   </defs>
   <rect x="0" y="0" width="1024" height="1024" fill="#0e0a06"/>
   <rect x="0" y="0" width="1024" height="1024" fill="url(#craftBg)" opacity="0.85"/>
+  <!-- Flower-of-life rosette, drawn in faint ochre behind everything else.
+       Standard 7-circle composition: 1 center + 6 hex-arrayed at 60° intervals.
+       Radius 220 for each, distance 220 from origin → classic overlapping
+       petal pattern.  Opacity 0.12 reads as atmospheric ground without
+       competing with the threaded silhouette.  Ochre matches the frame. -->
+  <g opacity="0.20" stroke="#c2711f" stroke-width="2.6" fill="none">
+    <circle cx="512" cy="512" r="220"/>
+    <circle cx="732" cy="512" r="220"/>
+    <circle cx="622" cy="322" r="220"/>
+    <circle cx="402" cy="322" r="220"/>
+    <circle cx="292" cy="512" r="220"/>
+    <circle cx="402" cy="702" r="220"/>
+    <circle cx="622" cy="702" r="220"/>
+  </g>
   <!-- Frame with 4° gap at upper-right (signature imperfection) -->
   <path d="M 990 512 A 478 478 0 0 1 940 740 M 902 802 A 478 478 0 1 1 990 506"
         fill="none" stroke="#c2711f" stroke-width="2.2" stroke-opacity="0.78"/>
-  <!-- CORE TIER ONLY (the surrounding mid-tier was dropped 2026-04-28
-       per Kevin's "3 is enough" lock — cleaner, more confident silhouette).
-       Threaded Borromean knot, full opacity, +6 lift on top ring.
-       Stroke 30px so the mark reads at favicon / nav scales. -->
-  <circle cx="358" cy="601" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="30"/>
-  <circle cx="666" cy="601" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="30"/>
-  <circle cx="512" cy="328" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="30"/>
+  <!-- Three rings, threaded Borromean knot, each in its own ink.
+       Top ring   = sanguine (the highest, the "voice")
+       Lower-left = sienna  (the middle warm)
+       Lower-right= sepia   (the deepest, the "ground note")
+       Stroke 30px reads at favicon / nav scales. -->
+  <circle cx="358" cy="601" r="220" fill="none" stroke="url(#inkSienna)"   stroke-width="34"/>
+  <circle cx="666" cy="601" r="220" fill="none" stroke="url(#inkSepia)"    stroke-width="34"/>
+  <circle cx="512" cy="328" r="220" fill="none" stroke="url(#inkSanguine)" stroke-width="34"/>
   <!-- THREADING BLADES (cyclic: top-over-left, left-over-right,
-       right-over-top).  Width bumped to 38 to match the thicker rings. -->
-  <line x1="291.0" y1="365.0" x2="304.0" y2="412.0" stroke="#0e0a06" stroke-width="38" stroke-linecap="round"/>
-  <line x1="589.0" y1="540.0" x2="554.0" y2="552.0" stroke="#0e0a06" stroke-width="38" stroke-linecap="round"/>
-  <line x1="499.0" y1="430.0" x2="525.0" y2="458.0" stroke="#0e0a06" stroke-width="38" stroke-linecap="round"/>
-  <line x1="525.0" y1="744.0" x2="499.0" y2="772.0" stroke="#0e0a06" stroke-width="38" stroke-linecap="round"/>
-  <line x1="445.0" y1="526.0" x2="460.0" y2="566.0" stroke="#0e0a06" stroke-width="38" stroke-linecap="round"/>
-  <line x1="743.0" y1="396.0" x2="707.0" y2="382.0" stroke="#0e0a06" stroke-width="38" stroke-linecap="round"/>
+       right-over-top).  Width 38 punches through any ring color.
+       Stroke = bg color so the cuts visually disappear into the paper. -->
+  <line x1="291.0" y1="365.0" x2="304.0" y2="412.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
+  <line x1="589.0" y1="540.0" x2="554.0" y2="552.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
+  <line x1="499.0" y1="430.0" x2="525.0" y2="458.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
+  <line x1="525.0" y1="744.0" x2="499.0" y2="772.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
+  <line x1="445.0" y1="526.0" x2="460.0" y2="566.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
+  <line x1="743.0" y1="396.0" x2="707.0" y2="382.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
 </svg>
