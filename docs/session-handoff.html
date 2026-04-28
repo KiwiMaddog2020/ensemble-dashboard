@@ -927,7 +927,15 @@ async function submitFirstRunModal(ev) {
     try { body = await r.json(); } catch (e) {}
     if (r.ok) {
       try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
-      window.location.href = "/studio.html";
+      // Stash the generated studio so /your-studio.html can render it.
+      // Phase A.4-3 part 2 fix (2026-04-28): the modal previously
+      // discarded body.studio and redirected to the static engine page.
+      try {
+        if (body && body.studio) {
+          localStorage.setItem("ensemble:generated-studio", JSON.stringify(body.studio));
+        }
+      } catch (e) {}
+      window.location.href = "/your-studio.html";
       return;
     }
     if (r.status === 400) {

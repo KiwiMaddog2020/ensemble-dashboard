@@ -75,7 +75,7 @@
     <div class="hero-left">
       <p class="eyebrow">Project Roster</p>
       <h1>What's <em>cooking.</em></h1>
-      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-28T22:07:06Z">just now</span> · refreshes every 15 min</p>
+      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-28T22:30:40Z">just now</span> · refreshes every 15 min</p>
     </div>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">7</span><span class="stat-label">Projects in motion</span></div>
@@ -164,7 +164,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 1h ago</span>
+    <span class="meta-hb">last seen 2s ago</span>
   </div>
 </a>
 <a class="card" href="./pinball-roguelight.html" data-pct="12">
@@ -260,7 +260,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 24m ago</span>
+    <span class="meta-hb">last seen 47m ago</span>
   </div>
 </a>
     </div>
@@ -627,7 +627,15 @@ async function submitFirstRunModal(ev) {
     try { body = await r.json(); } catch (e) {}
     if (r.ok) {
       try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
-      window.location.href = "/studio.html";
+      // Stash the generated studio so /your-studio.html can render it.
+      // Phase A.4-3 part 2 fix (2026-04-28): the modal previously
+      // discarded body.studio and redirected to the static engine page.
+      try {
+        if (body && body.studio) {
+          localStorage.setItem("ensemble:generated-studio", JSON.stringify(body.studio));
+        }
+      } catch (e) {}
+      window.location.href = "/your-studio.html";
       return;
     }
     if (r.status === 400) {

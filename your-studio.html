@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Install Guide</title>
-<meta name="description" content="Marketplace + manual install paths. macOS / Linux / Windows." />
+<title>Ensemble — Your Studio</title>
+<meta name="description" content="Your generated Studio — fresh from Claude." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -42,15 +42,15 @@
   }
 </script>
 </head>
-<body class="hub doc-page">
+<body class="hub">
 <nav class="topnav">
   <div class="wrap">
     <a class="brand brand--icon-only" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="Ensemble" width="28" height="28" /></a>
     <ul>
       <li><a href="./">Ensemble</a></li>
-      <li><a href="./studio.html">Studio</a></li>
+      <li><a class="active" aria-current="page" href="./studio.html">Studio</a></li>
       <li><a href="./dashboard.html">Dashboard</a></li>
-      <li><a class="active" aria-current="page" href="./docs.html">Docs</a></li>
+      <li><a href="./docs.html">Docs</a></li>
       <li><a href="./settings.html">Settings</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
@@ -70,297 +70,145 @@
     </div>
   </div>
 </div>
-<main class="doc-page">
-  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
-  <div class="wrap doc-wrap">
-    <a href="../docs.html" class="doc-back">← All documentation</a>
-    <header class="doc-hero">
-      <p class="doc-eyebrow">Documentation</p>
-      <h1 class="doc-title">Install Guide</h1>
-      <p class="doc-lead">Marketplace + manual install paths. macOS / Linux / Windows.</p>
-      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/INSTALL.md</code></p>
-    </header>
-    <article class="doc-content">
-<p>Three install paths, easiest first:</p>
-<ol>
-<li><strong>Conversational install via skill</strong> (Recommended) — <code>/ensemble:install</code> walks you through every step with rapid-fire decisions and idempotent checks. ~10 minutes from zero to running.</li>
-<li><strong>Marketplace</strong> (target — when claude-ensemble flips public). One-line install via <code>/plugin install</code>, then <code>/ensemble:maestro</code> to boot.</li>
-<li><strong>Manual</strong> — clone + run scripts yourself. The current path while the repo is private.</li>
-</ol>
-<hr />
-<h2 id="1-conversational-install-recommended">1. Conversational install (Recommended)</h2>
-<p>After cloning the repo OR installing via marketplace, start a fresh Claude Code chat in any directory and say:</p>
-<pre><code>/ensemble:install
-</code></pre>
-<p>(Or naturally: <em>&ldquo;install the Ensemble&rdquo;</em> / <em>&ldquo;set up the Ensemble&rdquo;</em> / <em>&ldquo;first-run setup&rdquo;</em>.)</p>
-<p>The skill walks you through 11 phases with rapid-fire decisions at each fork:</p>
-<table>
-<thead>
-<tr>
-<th>Phase</th>
-<th>What it does</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>Sanity check (Python 3, git, jq, Xcode CLI tools)</td>
-</tr>
-<tr>
-<td>1</td>
-<td>Create <code>~/.claude/orchestrator/</code> directory layout if missing</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Initialize <code>state.json</code> — asks for <code>max_concurrent_autopilots</code>, <code>weekly_token_reset_at</code>, daily/weekly report times</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Merge PreToolUse + SessionStart hooks into <code>~/.claude/settings.json</code></td>
-</tr>
-<tr>
-<td>4</td>
-<td>Optional: copy Kevin&rsquo;s canonical memory file set as a starting point</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Register the 8 standard scheduled tasks (morning briefing, dashboard update, weekly report, etc.)</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Optional: build + install the native macOS Ensemble.app menu bar</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Optional: create the dashboard PWA repo + GitHub Pages</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Optional: walk through Cloudflare Access setup (~30 min)</td>
-</tr>
-<tr>
-<td>9</td>
-<td>Optional: mobile dispatch (Tailscale + SSH key + Termius + iOS Shortcut)</td>
-</tr>
-<tr>
-<td>10</td>
-<td>Run <code>bin/status.sh</code> for full verification — every line should be ✅</td>
-</tr>
-<tr>
-<td>11</td>
-<td>Boot the Maestro or onboard a first project Agent</td>
-</tr>
-</tbody>
-</table>
-<p>The skill is <strong>idempotent</strong> — re-running picks up where it left off via a <code>.install-progress.json</code> checkpoint. Safe to interrupt and resume.</p>
-<hr />
-<h2 id="2-marketplace-install-future-post-public-flip">2. Marketplace install (future, post-public-flip)</h2>
-<pre><code>/plugin marketplace add KiwiMaddog2020/claude-ensemble
-/plugin install ensemble@claude-ensemble
-/exit
-</code></pre>
-<p>Open a fresh chat. You&rsquo;ll see <code>[ORCHESTRATOR] hard-enforcement active</code> at the top. Then run <code>/ensemble:install</code> for the conversational setup, or skip straight to:</p>
-<pre><code>/ensemble:maestro          # in any chat → becomes your Maestro
-/ensemble:agent-onboard    # in a project repo → becomes that project's Agent
-</code></pre>
-<p>The marketplace plugin self-installs hooks, skills, and registers slash commands. The conversational install (path 1) handles the post-plugin-install configuration.</p>
-<hr />
-<h2 id="3-manual-install-current-path">3. Manual install (current path)</h2>
-<p>The repo is private during pre-public-flip. To install today:</p>
-<h3 id="1-clone-the-orchestrator">1. Clone the orchestrator</h3>
-<pre><code class="language-bash">mkdir -p ~/.claude
-git clone git@github.com:KiwiMaddog2020/claude-ensemble.git ~/.claude/orchestrator
-cd ~/.claude/orchestrator
-</code></pre>
-<h3 id="2-pre-flight-check">2. Pre-flight check</h3>
-<p><strong>macOS / Linux:</strong></p>
-<pre><code class="language-bash">bash plugins/ensemble/bin/preflight.sh
-</code></pre>
-<p><strong>Windows (Git Bash):</strong></p>
-<pre><code class="language-bash">bash plugins/ensemble/bin/preflight.sh
-</code></pre>
-<p><strong>Windows (PowerShell):</strong></p>
-<pre><code class="language-powershell">.\plugins\ensemble\bin\preflight.ps1
-</code></pre>
-<p>This verifies: <code>git</code>, <code>gh</code> (optional), <code>python3</code>, <code>jq</code> (optional), <code>claude</code> CLI. Fixes any blockers before continuing.</p>
-<h3 id="3-configure-the-claude-code-hook">3. Configure the Claude Code hook</h3>
-<p>Open <code>~/.claude/settings.json</code> (create if missing) and add:</p>
-<pre><code class="language-json">{
-  &quot;hooks&quot;: {
-    &quot;PreToolUse&quot;: [
-      {
-        &quot;matcher&quot;: &quot;mcp__(computer-use|Claude_Preview|Claude_in_Chrome)__.*&quot;,
-        &quot;command&quot;: &quot;/Users/&lt;you&gt;/.claude/orchestrator/plugins/ensemble/bin/orchestrator_lock.sh&quot;,
-        &quot;timeout&quot;: 10
-      }
-    ],
-    &quot;SessionStart&quot;: [
-      {
-        &quot;matcher&quot;: &quot;startup|resume|clear&quot;,
-        &quot;command&quot;: &quot;/Users/&lt;you&gt;/.claude/orchestrator/plugins/ensemble/bin/orchestrator_lock_healthcheck.sh&quot;
-      }
-    ]
-  }
-}
-</code></pre>
-<p>(Windows uses <code>${USERPROFILE}\.claude\orchestrator\plugins\ensemble\bin\orchestrator_lock.ps1</code> instead.)</p>
-<h3 id="4-seed-statejson">4. Seed <code>state.json</code></h3>
-<pre><code class="language-bash">cat &gt; ~/.claude/orchestrator/state.json &lt;&lt;'EOF'
-{
-  &quot;schema_version&quot;: 1,
-  &quot;mode&quot;: &quot;orchestrated&quot;,
-  &quot;mode_transitioning&quot;: false,
-  &quot;active_autopilot_chat&quot;: null,
-  &quot;active_vm&quot;: null,
-  &quot;lock_acquired_at&quot;: null,
-  &quot;lock_intent&quot;: null,
-  &quot;cascade&quot;: null
-}
-EOF
-</code></pre>
-<h3 id="5-verify-with-self-test">5. Verify with self-test</h3>
-<p><strong>macOS / Linux:</strong></p>
-<pre><code class="language-bash">bash plugins/ensemble/bin/test_lock_race.sh   # expect 10/10 rounds passed
-bash plugins/ensemble/bin/self_test.sh        # all green
-</code></pre>
-<p><strong>Windows:</strong></p>
-<pre><code class="language-powershell">.\plugins\ensemble\bin\test_lock_race.ps1     # expect 10/10 rounds passed
-.\plugins\ensemble\bin\self_test.ps1          # all green
-</code></pre>
-<h3 id="6-become-the-maestro">6. Become the Maestro</h3>
-<p>Open a fresh Claude Code chat. Paste the contents of <code>plugins/ensemble/bootstraps/maestro.txt</code> as your first message. The chat self-onboards as your Maestro.</p>
-<h3 id="7-onboard-your-first-project-as-an-agent">7. Onboard your first project as an Agent</h3>
-<p>In a different project&rsquo;s repo:</p>
-<pre><code class="language-bash">cd ~/Projects/my-project
-claude
-</code></pre>
-<p>In the chat, paste the contents of <code>plugins/ensemble/templates/onboarding_prompt.md</code>. The chat walks through repo discovery → interview → charter → status file → identity → reports back to the Maestro.</p>
-<h3 id="8-optional-wire-mobile-dispatch">8. Optional — wire mobile dispatch</h3>
-<p>If you want phone-triggered autopilot via Tailscale + Termius, run:</p>
-<p><strong>macOS:</strong></p>
-<pre><code class="language-bash">bash bin/setup-mobile-dispatch.sh
-</code></pre>
-<p>This installs Tailscale (if not present), generates an SSH key, configures the launchd trigger consumer, and prints the snippets to paste into Termius.</p>
-<p><strong>Windows:</strong> see <code>docs/MOBILE_DISPATCH.md</code> for the manual steps (no setup wizard yet — coming in a future release).</p>
-<h3 id="9-optional-install-the-dashboard">9. Optional — install the dashboard</h3>
-<pre><code class="language-bash">bash plugins/ensemble/bin/setup-dashboard.sh
-</code></pre>
-<p>Idempotently creates your <code>&lt;your-username&gt;/ensemble-dashboard</code> GitHub repo (public; for marketplace listing), enables Pages, wires the Dashboard Update routine, and prints your dashboard URL. After this, your project state is glanceable at <code>https://&lt;you&gt;.github.io/ensemble-dashboard/</code>.</p>
-<p>For interactive control (toggle flags, fire autopilot, embedded chat), start the local server:</p>
-<pre><code class="language-bash"># macOS / Linux:
-bash bin/control-panel-server.sh &amp;
-
-# Or via launchd (auto-restart, runs across reboots):
-launchctl bootstrap gui/$UID launchd/com.kevin.ensemble.control-panel.plist
-</code></pre>
-<p>The dashboard auto-detects the local server and shows interactive buttons when you visit it on the same machine or via Tailscale.</p>
-<hr />
-<h2 id="companion-repos-synced-from-canonical">Companion repos (synced from canonical)</h2>
-<table>
-<thead>
-<tr>
-<th>Repo</th>
-<th>What</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong><code>KiwiMaddog2020/claude-ensemble</code></strong> (this)</td>
-<td>Source of truth. Plugin contents.</td>
-</tr>
-<tr>
-<td><strong><code>KiwiMaddog2020/ensemble-config</code></strong></td>
-<td>Cross-machine sync layer (<code>bin-mac/</code> ↔ <code>bin-win/</code> parity, shared docs/templates/memory).</td>
-</tr>
-<tr>
-<td><strong><code>KiwiMaddog2020/ensemble-dashboard</code></strong></td>
-<td>Public dashboard (auto-generated 3× daily).</td>
-</tr>
-<tr>
-<td><strong><code>KiwiMaddog2020/website-agent-starter</code></strong></td>
-<td>Friend-shareable bootstrap for the website-agent.</td>
-</tr>
-</tbody>
-</table>
-<p>If you&rsquo;re contributing, install all four; the sync expectations are documented in <a href="./contributing.html"><code>CONTRIBUTING.md</code></a>.</p>
-<hr />
-<h2 id="uninstall">Uninstall</h2>
-<pre><code class="language-bash"># Remove hooks from ~/.claude/settings.json
-# Remove launchd plist (if installed)
-launchctl bootout gui/$UID/com.kevin.ensemble.control-panel 2&gt;/dev/null
-launchctl bootout gui/$UID/com.kevin.ensemble.autopilot-trigger 2&gt;/dev/null
-launchctl bootout gui/$UID/com.kevin.orchestrator.stale-lock-sweeper 2&gt;/dev/null
-
-# Remove the orchestrator dir
-rm -rf ~/.claude/orchestrator
-</code></pre>
-<p>Uninstall is intentionally simple — no system-level state lives outside <code>~/.claude/orchestrator</code> and a few launchd plists.</p>
-<hr />
-<h2 id="troubleshooting">Troubleshooting</h2>
-<table>
-<thead>
-<tr>
-<th>Symptom</th>
-<th>Likely cause</th>
-<th>Fix</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>[ORCHESTRATOR] hard-enforcement hook MISSING</code></td>
-<td>hook not in <code>~/.claude/settings.json</code></td>
-<td>re-add (step 3)</td>
-</tr>
-<tr>
-<td><code>[ORCHESTRATOR] hard-enforcement hook INSTALLED but not registered</code></td>
-<td>path in settings.json doesn&rsquo;t match where the script lives</td>
-<td>fix the path</td>
-</tr>
-<tr>
-<td>Autopilot session hangs at &ldquo;## Session&rdquo; with no output</td>
-<td>claude CLI version mismatch with <code>--add-dir</code> variadic parsing</td>
-<td>upgrade claude CLI to ≥ 2.1.120; the <code>--</code> separator is now in place</td>
-</tr>
-<tr>
-<td>Lock held forever after a crashed session</td>
-<td>stale lock</td>
-<td>run <code>bash bin/mobile_dispatch.sh kill</code> (or <code>.\bin-win\stale_lock_sweeper.ps1</code>)</td>
-</tr>
-<tr>
-<td>All scheduled tasks fail to run</td>
-<td><code>state.json</code> missing</td>
-<td>re-seed (step 4)</td>
-</tr>
-<tr>
-<td>Dashboard regen fails with <code>chats/ does not exist</code></td>
-<td>first install — no Agents onboarded yet</td>
-<td>onboard at least one Agent (step 7)</td>
-</tr>
-</tbody>
-</table>
-<p>For everything else: paste the exact error to your Maestro chat. The Ensemble&rsquo;s troubleshooting cookbook lives in <a href="./troubleshooting.html"><code>docs/TROUBLESHOOTING.md</code></a> (when added).</p>
-    </article>
-    <footer class="doc-foot">
-      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
-    </footer>
+<header class="hero your-studio-hero">
+  <div class="wrap">
+    <p class="eyebrow">YOUR STUDIO</p>
+    <h1 id="ys-headline">Your Studio.</h1>
+    <p class="lead" id="ys-summary">Loading…</p>
+    <div class="your-studio-actions">
+      <button type="button" class="btn-secondary" id="ys-regenerate">Regenerate from new answers</button>
+      <a class="btn-secondary" href="/index.html#waitlist">Get the build log</a>
+    </div>
   </div>
-  <script>
-    (function () {
-      var bar = document.getElementById('docProgressBar');
-      if (!bar) return;
-      function update() {
-        var h = document.documentElement;
-        var scrolled = (h.scrollTop || document.body.scrollTop);
-        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
-        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
-        bar.style.width = pct + '%';
+</header>
+
+<section class="your-studio-frame-wrap" id="ys-frame-wrap" hidden>
+  <iframe id="ys-frame" class="your-studio-frame"
+          sandbox="allow-scripts allow-same-origin"
+          title="Your generated Studio"></iframe>
+</section>
+
+<section class="your-studio-empty" id="ys-empty" hidden>
+  <div class="wrap">
+    <h2>No generated Studio yet.</h2>
+    <p class="lead">Head over to <a href="/index.html">the Ensemble homepage</a> and answer the three questions — Claude will build you one in about 90 seconds.</p>
+  </div>
+</section>
+
+<style>
+.your-studio-hero { padding: 60px 0 24px; }
+.your-studio-hero h1 { font-family: var(--serif); font-size: 56px; font-weight: 500; letter-spacing: -0.02em; margin: 12px 0 16px; }
+.your-studio-hero h1 em { color: var(--accent); font-style: italic; font-weight: 500; }
+.your-studio-hero .lead { color: var(--ink-2); font-size: 17px; line-height: 1.55; max-width: 680px; }
+.your-studio-actions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+.your-studio-actions .btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 10px;
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--rule);
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  cursor: pointer; text-decoration: none;
+  transition: border-color 180ms var(--ease), color 180ms var(--ease);
+}
+.your-studio-actions .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.your-studio-frame-wrap { padding: 0 0 60px; }
+.your-studio-frame-wrap .wrap-inner { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+.your-studio-frame {
+  display: block; width: 100%; min-height: 80vh;
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  background: var(--bg-raised);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+}
+.your-studio-empty { padding: 80px 0; text-align: center; }
+.your-studio-empty h2 { font-family: var(--serif); font-size: 36px; font-weight: 500; margin: 0 0 12px; }
+.your-studio-empty .lead { color: var(--ink-2); }
+.your-studio-empty a { color: var(--accent); text-decoration: underline; }
+</style>
+
+<script>
+(function () {
+  const STUDIO_KEY = "ensemble:generated-studio";
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  function renderStudio(studio) {
+    const summary = (studio.meta && studio.meta.prompt_summary) || "";
+    const summaryEl = document.getElementById("ys-summary");
+    if (summary && summaryEl) summaryEl.textContent = summary;
+
+    // Build a self-contained document for the iframe srcdoc.
+    // Claude's output is already a full document; we wrap defensively
+    // so partial outputs (just <body>... or just style+content) still work.
+    const html = String(studio.html || "");
+    const css = String(studio.css || "");
+    const js = String(studio.js || "");
+    const looksFullDoc = /<!doctype/i.test(html) || /<html/i.test(html);
+    const doc = looksFullDoc ? html : `<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<style>${css}</style>
+</head><body>
+${html}
+<script>${js}<\/script>
+</body></html>`;
+
+    const frame = document.getElementById("ys-frame");
+    const wrap = document.getElementById("ys-frame-wrap");
+    if (frame && wrap) {
+      // If Claude's HTML is already a full doc, inject extra css/js too —
+      // gracefully degrades when those fields are also embedded inline.
+      let finalDoc = doc;
+      if (looksFullDoc && (css || js)) {
+        const extra = (css ? `<style>${css}</style>` : "") + (js ? `<script>${js}<\/script>` : "");
+        finalDoc = doc.replace(/<\/body>/i, extra + "</body>");
       }
-      document.addEventListener('scroll', update, { passive: true });
-      window.addEventListener('resize', update);
-      update();
-    })();
-  </script>
-</main>
+      frame.srcdoc = finalDoc;
+      wrap.hidden = false;
+    }
+  }
+
+  function showEmpty() {
+    const empty = document.getElementById("ys-empty");
+    const summaryEl = document.getElementById("ys-summary");
+    if (summaryEl) summaryEl.textContent = "Nothing to see here yet — generate one first.";
+    if (empty) empty.hidden = false;
+    const actions = document.querySelector(".your-studio-actions");
+    if (actions) actions.style.display = "none";
+  }
+
+  function load() {
+    let raw = null;
+    try { raw = localStorage.getItem(STUDIO_KEY); } catch (e) {}
+    if (!raw) { showEmpty(); return; }
+    let studio;
+    try { studio = JSON.parse(raw); } catch (e) { showEmpty(); return; }
+    if (!studio || (!studio.html && !studio.css && !studio.js)) { showEmpty(); return; }
+    renderStudio(studio);
+  }
+
+  function bindRegenerate() {
+    const btn = document.getElementById("ys-regenerate");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      try {
+        localStorage.removeItem(STUDIO_KEY);
+        localStorage.removeItem("ensemble:first-run-seen");
+      } catch (e) {}
+      window.location.href = "/index.html";
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    load();
+    bindRegenerate();
+  });
+})();
+</script>
 <footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>
