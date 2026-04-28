@@ -159,6 +159,19 @@
           </ul>
         </section>
 
+        <section class="workshop-section workshop-genesis" data-state="loading">
+          <h3 class="workshop-section__title">Generate from your work</h3>
+          <p class="workshop-section__sub">Studio composes a starting Room from your GitHub — README, recent commits, language palette. Edit freely from second one.</p>
+          <button class="workshop-genesis__btn" id="workshop-genesis-btn" type="button">
+            <span class="workshop-genesis__icon" aria-hidden="true">⌨︎</span>
+            <span class="workshop-genesis__body">
+              <strong class="workshop-genesis__title" id="workshop-genesis-title">Generate Studio from GitHub</strong>
+              <span class="workshop-genesis__sub" id="workshop-genesis-sub">Checking link status…</span>
+            </span>
+          </button>
+          <p class="workshop-genesis__notice" id="workshop-genesis-notice" hidden></p>
+        </section>
+
         <section class="workshop-section">
           <h3 class="workshop-section__title">Examples</h3>
           <p class="workshop-section__sub">Tap to load. Each is editable + remixable.</p>
@@ -924,6 +937,124 @@
         if (pill) pill.remove();
       }
     });
+  }
+
+  // ─── Workshop "Generate from your work" (Phase A.4 part 2) ───────────
+  // Reads /github/profile to know if GitHub is linked + Anthropic configured;
+  // wires the button to POST /studio/generate-from-repos. On success the
+  // returned Room replaces currentRoom and auto-saves so a refresh keeps it.
+  function bindWorkshopGenesis() {
+    const section = document.querySelector('.workshop-genesis');
+    const btn = document.getElementById('workshop-genesis-btn');
+    const titleEl = document.getElementById('workshop-genesis-title');
+    const subEl = document.getElementById('workshop-genesis-sub');
+    const noticeEl = document.getElementById('workshop-genesis-notice');
+    if (!section || !btn) return;
+
+    const SERVER_URL = (window.SERVER_URL) || (typeof location !== 'undefined' && location.hostname === 'localhost' ? 'http://localhost:8080' : '');
+
+    function setNotice(kind, text) {
+      if (!noticeEl) return;
+      if (!text) { noticeEl.hidden = true; noticeEl.textContent = ''; return; }
+      noticeEl.hidden = false;
+      noticeEl.textContent = text;
+      noticeEl.className = 'workshop-genesis__notice workshop-genesis__notice--' + kind;
+    }
+
+    async function refreshState() {
+      if (!SERVER_URL) {
+        section.dataset.state = 'offline';
+        if (titleEl) titleEl.textContent = 'Generate Studio from GitHub';
+        if (subEl) subEl.textContent = 'Pair this browser to enable.';
+        return;
+      }
+      try {
+        const r = await fetch(SERVER_URL + '/github/profile');
+        const j = await r.json();
+        if (!j.oauth_configured) {
+          section.dataset.state = 'unconfigured';
+          if (subEl) subEl.textContent = 'Configure GitHub OAuth in Settings.';
+          return;
+        }
+        if (!j.is_linked) {
+          section.dataset.state = 'unlinked';
+          if (subEl) subEl.textContent = 'Link GitHub first → Settings.';
+          return;
+        }
+        section.dataset.state = 'ready';
+        if (subEl) subEl.textContent = 'Linked as @' + j.github_handle + ' — click to generate.';
+      } catch (e) {
+        section.dataset.state = 'offline';
+        if (subEl) subEl.textContent = 'Control panel offline.';
+      }
+    }
+
+    async function generate() {
+      // If unlinked, route them to Settings rather than firing a doomed POST.
+      if (section.dataset.state === 'unlinked') {
+        window.location.href = './settings.html';
+        return;
+      }
+      if (section.dataset.state !== 'ready') {
+        setNotice('err', "Generation isn't ready yet — link GitHub first.");
+        return;
+      }
+      if (!SERVER_URL) {
+        setNotice('err', 'Control panel offline. Pair this browser first.');
+        return;
+      }
+      const prevTitle = titleEl?.textContent;
+      const prevSub = subEl?.textContent;
+      section.dataset.state = 'generating';
+      if (titleEl) titleEl.textContent = 'Composing your Studio…';
+      if (subEl) subEl.textContent = '~30 seconds. Claude is reading your repos.';
+      setNotice('', '');
+      btn.disabled = true;
+      try {
+        const r = await fetch(SERVER_URL + '/studio/generate-from-repos', {
+          method: 'POST',
+          headers: authHeaders(),
+          body: JSON.stringify({}),
+        });
+        const j = await r.json();
+        if (!r.ok) {
+          setNotice('err', j.message || j.hint || j.error || ('HTTP ' + r.status));
+          section.dataset.state = 'ready';
+          if (titleEl) titleEl.textContent = prevTitle || 'Generate Studio from GitHub';
+          if (subEl) subEl.textContent = prevSub || '';
+          return;
+        }
+        const room = j.room;
+        if (!room) {
+          setNotice('err', 'No Room in response.');
+          section.dataset.state = 'ready';
+          return;
+        }
+        // Replace currentRoom + render + save so refresh persists.
+        clearSelection();
+        currentRoom = room;
+        await renderRoom(room);
+        scheduleAutoSave();
+        setNotice('ok', '✓ Generated. ' + (j.quota ? `(${j.quota.used_today}/${j.quota.cap} today)` : ''));
+        section.dataset.state = 'ready';
+        if (titleEl) titleEl.textContent = 'Re-generate from GitHub';
+        if (subEl) subEl.textContent = 'Edit freely — your changes persist.';
+      } catch (e) {
+        setNotice('err', 'Network error: ' + e.message);
+        section.dataset.state = 'ready';
+        if (titleEl) titleEl.textContent = prevTitle || 'Generate Studio from GitHub';
+        if (subEl) subEl.textContent = prevSub || '';
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    btn.addEventListener('click', generate);
+    refreshState();
+    // If the user comes back from Settings after linking, the linked state
+    // may have flipped — refresh whenever the workshop drawer is opened.
+    const drawerToggle = document.querySelector('[data-act="workshop-toggle"]');
+    if (drawerToggle) drawerToggle.addEventListener('click', () => setTimeout(refreshState, 200));
   }
 
   // ─── Main render ─────────────────────────────────────────────────────
@@ -1699,6 +1830,7 @@
     bindEditToggle();
     bindClaudeDrawer();
     bindFooterActions();
+    bindWorkshopGenesis();
 
     // Try saved room first; fall back to default preset
     const saved = loadSavedRoom();
