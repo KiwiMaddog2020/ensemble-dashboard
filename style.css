@@ -119,6 +119,19 @@ body.theme-plum { --bg: #fdf4ff; --bg-raised: #ffffff; --bg-sunken: #f5d0fe; --i
 body.theme-ash { --bg: #f5f5f4; --bg-raised: #ffffff; --bg-sunken: #e7e5e4; --ink: #1c1917; --ink-2: #44403c; --ink-3: #78716c; --ink-4: #a8a29e; --rule: #d6d3d1; --rule-2: #e7e5e4; --accent: #525252; --accent-2: #737373; --accent-3: #a3a3a3; --accent-soft: rgba(82,82,82,0.10); }
 @media (prefers-color-scheme: dark) { body.theme-ash { --bg: #0a0a09; --bg-raised: #14140f; --bg-sunken: #050504; --ink: #e7e5e4; --ink-2: #a8a29e; --ink-3: #78716c; --ink-4: #44403c; --rule: #292524; --rule-2: #1c1c18; --accent: #a3a3a3; --accent-2: #d4d4d4; --accent-3: #e5e5e5; --accent-soft: rgba(163,163,163,0.14); } }
 
+/* ─── Three new themes added 2026-04-28 (palette gaps: bold red, true yellow, light neutral) ─── */
+body.theme-ruby { --bg: #fff5f5; --bg-raised: #ffffff; --bg-sunken: #ffe4e4; --ink: #2a0606; --ink-2: #4a1414; --ink-3: #8a3a3a; --ink-4: #c87878; --rule: #f0c0c0; --rule-2: #f5d4d4; --accent: #c81825; --accent-2: #ee2e3a; --accent-3: #fca5a5; --accent-soft: rgba(238,46,58,0.10); }
+@media (prefers-color-scheme: dark) { body.theme-ruby { --bg: #1a0606; --bg-raised: #2c0a0a; --bg-sunken: #0e0303; --ink: #ffd0d0; --ink-2: #f5a0a0; --ink-3: #c87070; --ink-4: #8a4848; --rule: #3a1010; --rule-2: #2c0c0c; --accent: #ee2e3a; --accent-2: #f87171; --accent-3: #fecaca; --accent-soft: rgba(244,113,113,0.16); } }
+
+body.theme-lemon { --bg: #fefce8; --bg-raised: #ffffff; --bg-sunken: #fef9c3; --ink: #2a2002; --ink-2: #4a3a05; --ink-3: #8a6e15; --ink-4: #c8a830; --rule: #f0e8a8; --rule-2: #f5edc4; --accent: #a16207; --accent-2: #ca8a04; --accent-3: #facc15; --accent-soft: rgba(202,138,4,0.10); }
+@media (prefers-color-scheme: dark) { body.theme-lemon { --bg: #1a1602; --bg-raised: #2c2408; --bg-sunken: #0e0a01; --ink: #fef08a; --ink-2: #fde047; --ink-3: #c8a830; --ink-4: #8a7020; --rule: #3a2c08; --rule-2: #2c2006; --accent: #facc15; --accent-2: #fde047; --accent-3: #fef9c3; --accent-soft: rgba(250,204,21,0.16); } }
+
+/* paper: light variant — INTENTIONALLY light regardless of system mode.
+   For users who explicitly want a light/neutral interface.  No dark-mode
+   override — paper stays paper. */
+body.theme-paper { --bg: #f5f5f3; --bg-raised: #ffffff; --bg-sunken: #ebebe8; --ink: #0a0a0a; --ink-2: #262626; --ink-3: #525252; --ink-4: #8a8a8a; --rule: #d4d4d2; --rule-2: #e3e3e0; --accent: #262626; --accent-2: #404040; --accent-3: #737373; --accent-soft: rgba(38,38,38,0.10); }
+@media (prefers-color-scheme: dark) { body.theme-paper { --bg: #f5f5f3; --bg-raised: #ffffff; --bg-sunken: #ebebe8; --ink: #0a0a0a; --ink-2: #262626; --ink-3: #525252; --ink-4: #8a8a8a; --rule: #d4d4d2; --rule-2: #e3e3e0; --accent: #262626; --accent-2: #404040; --accent-3: #737373; --accent-soft: rgba(38,38,38,0.10); } }
+
 /* ─── Documentation pages — onepager-grade editorial ─────────────────── */
 .doc-page { position: relative; padding: clamp(40px, 6vw, 64px) 0 clamp(72px, 9vw, 120px); }
 .doc-wrap { max-width: 760px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 40px); }
@@ -771,6 +784,9 @@ footer.site-footer .brand { font-family: var(--serif); font-weight: 500; }
 .theme-swatch.plum     { --swatch-a: #a21caf; --swatch-b: #c026d3; }
 .theme-swatch.ash      { --swatch-a: #525252; --swatch-b: #a3a3a3; }
 .theme-swatch.mono     { --swatch-a: #0a0a0a; --swatch-b: #555555; }
+.theme-swatch.ruby     { --swatch-a: #c81825; --swatch-b: #ee2e3a; }
+.theme-swatch.lemon    { --swatch-a: #ca8a04; --swatch-b: #facc15; }
+.theme-swatch.paper    { --swatch-a: #f5f5f3; --swatch-b: #e3e3e0; border: 1px solid #d4d4d2; }
 
 /* ─── Funky backgrounds — applied via body.bg-<name> class ──────────── */
 
