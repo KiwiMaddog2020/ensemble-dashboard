@@ -92,6 +92,30 @@
     <p class="section-sub">Link this browser to your Mac control panel so every command works without dev-tools console.</p>
     <p style="margin: 0 0 24px;"><a href="./pair.html" class="btn-primary" style="display:inline-block; text-decoration:none; padding: 10px 22px;">Pair this browser →</a></p>
 
+    <h2>Account links</h2>
+    <p class="section-sub">Connect GitHub so Claude can build a starting Studio from your actual work — README, recent commits, language palette.</p>
+
+    <div class="github-link" id="github-link" data-state="loading">
+      <div class="github-link__row">
+        <div class="github-link__avatar" id="github-link-avatar" aria-hidden="true">⌨︎</div>
+        <div class="github-link__body">
+          <p class="github-link__status" id="github-link-status">Checking link status…</p>
+          <p class="github-link__detail" id="github-link-detail"></p>
+        </div>
+        <div class="github-link__actions" id="github-link-actions"></div>
+      </div>
+
+      <div class="github-link__toggle" id="github-link-toggle-row" hidden>
+        <label class="github-link__toggle-label">
+          <input type="checkbox" id="github-include-private" />
+          <span>Include private repos in generative scenes</span>
+        </label>
+        <p class="settings-help github-link__toggle-help" id="github-link-toggle-help">When on, your starting Studio can pull from private repos. To take effect you'll be asked to re-link GitHub with the broader permission. Off by default; revoke any time.</p>
+      </div>
+
+      <p class="github-link__notice" id="github-link-notice" hidden></p>
+    </div>
+
     <h2>Appearance</h2>
     <p class="section-sub">Color theme — warm to cool. 18 options. Saved locally in your browser.</p>
     <div class="theme-picker" data-theme-picker>
@@ -189,6 +213,137 @@
 </section>
 
 <script>
+// ─── GitHub linking (Phase A.4 part 1) ───────────────────────────────────
+// Reads /github/profile to determine linked state, renders the Link / Unlink
+// UI, and reflects ?github=linked / ?github=error from the OAuth callback
+// redirect. Toggling include-private hits POST /github/include-private-toggle.
+
+async function loadGithubLink() {
+  if (!SERVER_URL) {
+    renderGithubLink({ is_linked: false, oauth_configured: false, _offline: true });
+    return;
+  }
+  try {
+    const r = await fetch(SERVER_URL + "/github/profile");
+    if (!r.ok) {
+      renderGithubLink({ is_linked: false, oauth_configured: false, _http_error: r.status });
+      return;
+    }
+    const j = await r.json();
+    renderGithubLink(j);
+  } catch (e) {
+    renderGithubLink({ is_linked: false, oauth_configured: false, _network_error: true });
+  }
+}
+
+function renderGithubLink(state) {
+  const root = document.getElementById("github-link");
+  const statusEl = document.getElementById("github-link-status");
+  const detailEl = document.getElementById("github-link-detail");
+  const actionsEl = document.getElementById("github-link-actions");
+  const toggleRow = document.getElementById("github-link-toggle-row");
+  const toggleInput = document.getElementById("github-include-private");
+  const toggleHelp = document.getElementById("github-link-toggle-help");
+  const noticeEl = document.getElementById("github-link-notice");
+  if (!root || !statusEl || !actionsEl) return;
+
+  // URL-banner notice from the OAuth callback redirect.
+  const params = new URLSearchParams(window.location.search);
+  const cbStatus = params.get("github");
+  if (cbStatus === "linked") {
+    noticeEl.hidden = false;
+    noticeEl.className = "github-link__notice github-link__notice--ok";
+    noticeEl.textContent = "✓ GitHub linked. You can re-link to broaden permissions any time.";
+  } else if (cbStatus === "error") {
+    noticeEl.hidden = false;
+    noticeEl.className = "github-link__notice github-link__notice--err";
+    noticeEl.textContent = "Couldn't link GitHub: " + (params.get("detail") || "unknown") + ". Try again — or check that the OAuth App callback URL matches /auth/github/callback.";
+  }
+
+  if (state._offline || state._network_error) {
+    root.dataset.state = "offline";
+    statusEl.textContent = "Control panel offline.";
+    detailEl.textContent = "Pair this browser to manage GitHub linking.";
+    actionsEl.innerHTML = "";
+    toggleRow.hidden = true;
+    return;
+  }
+
+  if (!state.oauth_configured) {
+    root.dataset.state = "unconfigured";
+    statusEl.textContent = "GitHub OAuth not configured.";
+    detailEl.innerHTML = 'Add <code>GITHUB_OAUTH_CLIENT_ID</code> and <code>GITHUB_OAUTH_CLIENT_SECRET</code> to <code>~/.claude/orchestrator/.env.local</code> and restart the control panel. <a href="./docs/how-to-link-github.html" style="color:var(--accent);">How-to →</a>';
+    actionsEl.innerHTML = "";
+    toggleRow.hidden = true;
+    return;
+  }
+
+  if (!state.is_linked) {
+    root.dataset.state = "unlinked";
+    statusEl.textContent = "GitHub not linked.";
+    detailEl.textContent = "Link GitHub so Claude can build your Studio from your real work — README, recent commits, language palette.";
+    actionsEl.innerHTML = `<a class="btn-primary github-link__btn" href="${SERVER_URL || ""}/auth/github/start">Link GitHub</a>`;
+    toggleRow.hidden = true;
+    return;
+  }
+
+  // Linked.
+  root.dataset.state = "linked";
+  statusEl.innerHTML = `Linked as <strong>${escapeHtml(state.github_handle)}</strong>`;
+  const dt = state.linked_at ? new Date(state.linked_at).toLocaleString() : "";
+  detailEl.textContent = dt ? `Linked at ${dt} · scopes: ${(state.scopes || []).join(", ") || "default"}` : "";
+  actionsEl.innerHTML = `<button class="btn-secondary github-link__btn" id="github-link-unlink-btn" type="button">Unlink</button>`;
+  document.getElementById("github-link-unlink-btn").addEventListener("click", unlinkGithub);
+  toggleRow.hidden = false;
+  toggleInput.checked = !!state.include_private;
+  // If on but the current scopes don't include private-repo access, show the
+  // re-link CTA inline so the user knows they need to re-consent.
+  const hasPrivate = (state.scopes || []).some(s => s === "repo" || s === "repo:status" || s === "private_repos");
+  if (toggleInput.checked && !hasPrivate) {
+    toggleHelp.innerHTML = 'On, but scopes need to expand. <a href="' + (SERVER_URL || "") + '/auth/github/start?include_private=1" style="color:var(--accent);">Re-link with private-repo access →</a>';
+  } else {
+    toggleHelp.textContent = "When on, your starting Studio can pull from private repos. Off by default; revoke any time.";
+  }
+  toggleInput.onchange = togglePrivate;
+}
+
+async function unlinkGithub() {
+  if (!SERVER_URL) return;
+  try {
+    const r = await fetch(SERVER_URL + "/github/unlink", { method: "POST", headers: authHeaders(), body: "{}" });
+    const j = await r.json();
+    if (r.ok) {
+      // Clear ?github=... from the URL on success.
+      try { history.replaceState({}, "", window.location.pathname); } catch (e) {}
+      loadGithubLink();
+    } else {
+      alert("Couldn't unlink: " + (j.error || r.statusText));
+    }
+  } catch (e) { alert("Network error: " + e.message); }
+}
+
+async function togglePrivate(ev) {
+  if (!SERVER_URL) return;
+  try {
+    const r = await fetch(SERVER_URL + "/github/include-private-toggle", { method: "POST", headers: authHeaders(), body: "{}" });
+    if (!r.ok) {
+      const j = await r.json().catch(() => ({}));
+      alert("Couldn't update: " + (j.error || r.statusText));
+      ev.target.checked = !ev.target.checked;
+      return;
+    }
+    loadGithubLink();
+  } catch (e) {
+    alert("Network error: " + e.message);
+    ev.target.checked = !ev.target.checked;
+  }
+}
+
+function escapeHtml(s) {
+  const map = {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"};
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => map[c]);
+}
+
 async function setVisibility(slug, visibility) {
   if (!SERVER_URL) return;
   try {
@@ -256,7 +411,16 @@ function refreshPageState(state) {
   set("cfg-disk", state.min_free_disk_gb);
   set("cfg-followgh", state.follow_github_visibility);
   renderPrivacyList(state);
+  loadGithubLink();
   showHelp("settings-help", "✓ connected · last sync " + new Date().toLocaleTimeString());
+}
+
+// Initial fetch — also runs when state refresh is offline so we can show the
+// "control panel offline" message in the GitHub link card right away.
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadGithubLink);
+} else {
+  loadGithubLink();
 }
 </script>
 <footer class="site-footer">

@@ -1331,6 +1331,129 @@ body.bg-aurora {
   border-color: color-mix(in srgb, var(--danger) 28%, transparent);
 }
 
+/* ─── GitHub link card (Settings, Phase A.4 part 1, locked 2026-04-27 evening) ─────── */
+
+.github-link {
+  margin: 4px 0 28px;
+  padding: 18px 20px;
+  background: color-mix(in srgb, var(--ink-1) 3%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink-2) 18%, transparent);
+  border-radius: 12px;
+  max-width: 720px;
+}
+.github-link[data-state="linked"] {
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.github-link[data-state="unconfigured"] {
+  background: color-mix(in srgb, var(--ink-1) 3%, transparent);
+  border-color: color-mix(in srgb, var(--ink-2) 22%, transparent);
+}
+.github-link[data-state="offline"] {
+  opacity: 0.7;
+}
+.github-link__row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.github-link__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.github-link__body {
+  flex: 1;
+  min-width: 0;
+}
+.github-link__status {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: var(--ink-1);
+  font-weight: 500;
+}
+.github-link__status strong {
+  color: var(--accent);
+}
+.github-link__detail {
+  margin: 0;
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+.github-link__detail code {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: color-mix(in srgb, var(--ink-1) 6%, transparent);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+.github-link__actions {
+  flex-shrink: 0;
+}
+.github-link__btn {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 13px;
+  text-decoration: none;
+  border-radius: 8px;
+}
+.github-link__toggle {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed color-mix(in srgb, var(--ink-2) 18%, transparent);
+}
+.github-link__toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ink-1);
+}
+.github-link__toggle-label input[type="checkbox"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+.github-link__toggle-help {
+  margin: 8px 0 0 26px;
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+.github-link__notice {
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  font-size: 13px;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+.github-link__notice--ok {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--ink-1);
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+}
+.github-link__notice--err {
+  background: color-mix(in srgb, var(--danger, #c44) 14%, transparent);
+  color: var(--ink-1);
+  border: 1px solid color-mix(in srgb, var(--danger, #c44) 28%, transparent);
+}
+
+@media (max-width: 540px) {
+  .github-link__row { flex-wrap: wrap; }
+  .github-link__actions { width: 100%; margin-top: 8px; }
+  .github-link__btn { width: 100%; text-align: center; }
+}
+
 /* ─── Dashboard sub-nav (Overview / Projects / Controls — locked 2026-04-27 evening) ──── */
 
 .dash-subnav {
