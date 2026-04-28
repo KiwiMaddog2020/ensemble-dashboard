@@ -75,7 +75,7 @@
     <div class="hero-left">
       <p class="eyebrow">Project Roster</p>
       <h1>What's <em>cooking.</em></h1>
-      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-28T17:37:39Z">just now</span> · refreshes every 15 min</p>
+      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-04-28T18:06:36Z">just now</span> · refreshes every 15 min</p>
     </div>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">7</span><span class="stat-label">Projects in motion</span></div>
@@ -164,7 +164,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 25m ago</span>
+    <span class="meta-hb">last seen 3m ago</span>
   </div>
 </a>
 <a class="card" href="./pinball-roguelight.html" data-pct="12">
@@ -212,7 +212,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 8h ago</span>
+    <span class="meta-hb">last seen 9h ago</span>
   </div>
 </a>
 <a class="card" href="./tool-builder.html" data-pct="22">
@@ -260,7 +260,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 41m ago</span>
+    <span class="meta-hb">last seen 1h ago</span>
   </div>
 </a>
     </div>
@@ -620,7 +620,7 @@ async function submitFirstRunModal(ev) {
   try {
     const r = await fetch("/studio/generate-from-answers", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: authHeaders(),
       body: JSON.stringify({ building: building, vibe: vibe, problem: problem })
     });
     let body = {};
@@ -653,7 +653,7 @@ async function submitFirstRunModal(ev) {
 function ctaGenerateClicked() {
   fetch("/ensemble/cta-clicked", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: "{}",
     keepalive: true
   }).catch(() => {});

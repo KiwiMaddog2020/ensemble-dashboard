@@ -596,7 +596,7 @@ async function submitFirstRunModal(ev) {
   try {
     const r = await fetch("/studio/generate-from-answers", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: authHeaders(),
       body: JSON.stringify({ building: building, vibe: vibe, problem: problem })
     });
     let body = {};
@@ -629,7 +629,7 @@ async function submitFirstRunModal(ev) {
 function ctaGenerateClicked() {
   fetch("/ensemble/cta-clicked", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: "{}",
     keepalive: true
   }).catch(() => {});
