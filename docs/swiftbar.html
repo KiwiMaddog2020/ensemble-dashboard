@@ -9,8 +9,8 @@
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
-<link rel="icon" type="image/svg+xml" href="./icon.svg" />
-<link rel="apple-touch-icon" href="./icon.svg" />
+<link rel="icon" id="favicon" type="image/svg+xml" href="./icon.svg" />
+<link rel="apple-touch-icon" id="apple-touch-icon" href="./icon.svg" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="Ensemble" />
@@ -344,6 +344,17 @@ function applyTheme(name) {
   document.querySelectorAll(".theme-swatch").forEach(el => {
     el.classList.toggle("active", el.dataset.theme === (name || "warm"));
   });
+  // Swap the brand mark + favicon to the per-theme variant.  Each theme's
+  // icon lives at ./icons/icon-<theme>.svg; the warm default stays at
+  // ./icon.svg for compatibility with the PWA manifest's cached install
+  // image.  See bin/dashgen/server/theme_icons.py for the design rules.
+  const theme = name || "warm";
+  const iconHref = (theme === "warm") ? "./icon.svg" : ("./icons/icon-" + theme + ".svg");
+  const fav = document.getElementById("favicon");
+  if (fav) fav.href = iconHref;
+  const apple = document.getElementById("apple-touch-icon");
+  if (apple) apple.href = iconHref;
+  document.querySelectorAll(".brand-mark").forEach(el => { el.src = iconHref; });
 }
 
 function applyBackground(name) {
