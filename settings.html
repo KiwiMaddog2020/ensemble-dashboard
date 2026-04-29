@@ -219,6 +219,136 @@
       <p class="github-link__notice" id="byok-notice" hidden></p>
     </div>
 
+    <section class="settings-section" id="settings-byok" data-owner-only>
+  <div class="wrap">
+    <h2>Anthropic API key</h2>
+    <p class="settings-section__lead section-sub">Link your own Anthropic key to use Claude on your own terms. Free users get a starting platform allotment of 5 calls/day; linking your key removes that limit. Pro users get a 500/month platform allotment plus unlimited usage with their own key.</p>
+
+    <div class="settings-byok__status" id="settings-byok-status">Checking BYOK status…</div>
+
+    <form class="settings-byok__form" id="settings-byok-form" hidden>
+      <label for="byok-key">Your Anthropic key (sk-ant-…)</label>
+      <input type="password" id="byok-key" autocomplete="off" spellcheck="false" required>
+      <label for="byok-label">Label (optional)</label>
+      <input type="text" id="byok-label" placeholder="MacBook Air, iPhone 15…">
+      <button type="submit" class="btn-primary">Link key</button>
+      <p class="settings-byok__error" id="settings-byok-error" hidden></p>
+    </form>
+
+    <div class="settings-byok__aup"><div class="aup-disclosure">
+  <p><strong>Heads up:</strong> When you link your Anthropic key, your Claude
+  conversations go directly from your key to Anthropic's API. The Ensemble
+  doesn't store or proxy your prompts.</p>
+  <p>You're bound by <a href="https://www.anthropic.com/aup" target="_blank"
+  rel="noopener">Anthropic's Acceptable Use Policy</a> when using your own
+  key. Don't use it for anything that violates Anthropic's terms.</p>
+  <p>You can revoke or rotate your key from this page anytime.</p>
+</div></div>
+
+    <div class="settings-byok__actions" id="settings-byok-actions" hidden>
+      <button class="btn-secondary" id="byok-rotate" type="button">Rotate key</button>
+      <button class="btn-destructive" id="byok-revoke" type="button">Revoke key</button>
+    </div>
+  </div>
+</section>
+
+<script>
+async function loadByokV2() {
+  const status = document.getElementById("settings-byok-status");
+  const form = document.getElementById("settings-byok-form");
+  const actions = document.getElementById("settings-byok-actions");
+  if (!status || !form || !actions) return;
+  if (!SERVER_URL) {
+    status.textContent = "Pair this browser to manage your Anthropic key.";
+    form.hidden = true; actions.hidden = true;
+    return;
+  }
+  try {
+    const r = await fetch(SERVER_URL + "/byok", { headers: authHeaders() });
+    if (r.status === 404) {
+      status.textContent = "Not linked.";
+      form.hidden = false; actions.hidden = true;
+    } else if (r.status === 401) {
+      status.textContent = "Pair this browser to manage your Anthropic key.";
+      form.hidden = true; actions.hidden = true;
+    } else if (r.ok) {
+      const j = await r.json();
+      const label = j.label ? (": " + j.label) : "";
+      const lu = j.last_used_at ? (" · last used " + new Date(j.last_used_at * 1000).toLocaleString()) : "";
+      status.textContent = "Linked" + label + lu;
+      form.hidden = true; actions.hidden = false;
+    } else {
+      status.textContent = "Couldn’t check key status (HTTP " + r.status + ").";
+    }
+  } catch (e) {
+    status.textContent = "Network error: " + e.message;
+  }
+}
+
+async function submitByokV2(ev) {
+  ev.preventDefault();
+  const keyInput = document.getElementById("byok-key");
+  const labelInput = document.getElementById("byok-label");
+  const errEl = document.getElementById("settings-byok-error");
+  if (!keyInput || !SERVER_URL) return;
+  const key = (keyInput.value || "").trim();
+  const label = (labelInput && labelInput.value || "").trim();
+  if (!key.startsWith("sk-")) {
+    if (errEl) { errEl.hidden = false; errEl.textContent = "Doesn’t look like an Anthropic key."; }
+    return;
+  }
+  try {
+    const r = await fetch(SERVER_URL + "/byok/link", {
+      method: "POST",
+      headers: Object.assign({"Content-Type": "application/json"}, authHeaders()),
+      body: JSON.stringify({ key, label }),
+    });
+    if (r.status === 201 || r.ok) {
+      keyInput.value = "";
+      if (errEl) errEl.hidden = true;
+      loadByokV2();
+    } else {
+      const j = await r.json().catch(() => ({}));
+      if (errEl) { errEl.hidden = false; errEl.textContent = j.error || ("HTTP " + r.status); }
+    }
+  } catch (e) {
+    if (errEl) { errEl.hidden = false; errEl.textContent = "Network error: " + e.message; }
+  }
+}
+
+async function rotateByokV2() {
+  const keyInput = document.getElementById("byok-key");
+  if (!keyInput || !SERVER_URL) return;
+  const form = document.getElementById("settings-byok-form");
+  const actions = document.getElementById("settings-byok-actions");
+  if (form) form.hidden = false;
+  if (actions) actions.hidden = true;
+  if (keyInput) keyInput.focus();
+}
+
+async function revokeByokV2() {
+  if (!SERVER_URL) return;
+  if (!confirm("Revoke your Anthropic key? Studio chat will fall back to the platform allotment.")) return;
+  try {
+    const r = await fetch(SERVER_URL + "/byok", {
+      method: "DELETE",
+      headers: authHeaders(),
+    });
+    if (r.status === 204 || r.ok) loadByokV2();
+  } catch (e) {}
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById("settings-byok-form");
+  if (form) form.addEventListener("submit", submitByokV2);
+  const rot = document.getElementById("byok-rotate");
+  if (rot) rot.addEventListener("click", rotateByokV2);
+  const rev = document.getElementById("byok-revoke");
+  if (rev) rev.addEventListener("click", revokeByokV2);
+  loadByokV2();
+});
+</script>
+
     <h2>Appearance</h2>
     <p class="section-sub">Color theme — warm to cool. 18 options. Saved locally in your browser.</p>
     <div class="theme-picker" data-theme-picker>

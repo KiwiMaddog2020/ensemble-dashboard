@@ -470,6 +470,17 @@
           <input type="checkbox" id="first-run-tos-check" required />
           <span>I agree to the <a href="/legal/terms.html" target="_blank" rel="noopener">Terms of Service</a> and have read the <a href="/legal/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
         </label>
+        <div class="first-run-step first-run-step--byok" data-step="byok" id="first-run-byok-step">
+          <h3 class="first-run-step__title">Optional: link your Anthropic key</h3>
+          <p class="first-run-step__lead">If you already have an Anthropic API key, link it now to use Claude on your terms. Skip if you&rsquo;d rather try the platform&rsquo;s free allotment first.</p>
+          <input type="password" id="first-run-byok-key" class="first-run-step__input" placeholder="sk-ant-&hellip;" autocomplete="off" spellcheck="false" />
+          <div class="first-run-step__actions">
+            <button type="button" class="first-run-step__btn first-run-step__btn--primary" data-action="link-byok" id="first-run-byok-link">Link key</button>
+            <button type="button" class="first-run-step__btn first-run-step__btn--ghost" data-action="skip-byok" id="first-run-byok-skip">Skip for now</button>
+          </div>
+          <p class="first-run-step__status" id="first-run-byok-status" aria-live="polite"></p>
+          <p class="first-run-step__note">You can always link or change your key later in Settings.</p>
+        </div>
         <p class="first-run-error" id="first-run-error" role="alert" aria-live="polite"></p>
         <div class="first-run-actions">
           <button type="button" class="first-run-cancel" id="first-run-cancel">Cancel</button>
@@ -498,6 +509,56 @@
     </div>
   </div>
 </div>
+<script id="first-run-byok-js">
+(function () {
+  var step = document.getElementById("first-run-byok-step");
+  if (!step) return;
+  var input = document.getElementById("first-run-byok-key");
+  var status = document.getElementById("first-run-byok-status");
+  var linkBtn = document.getElementById("first-run-byok-link");
+  var skipBtn = document.getElementById("first-run-byok-skip");
+
+  function set(msg, kind) {
+    if (!status) return;
+    status.textContent = msg || "";
+    status.className = "first-run-step__status" + (kind ? " is-" + kind : "");
+  }
+
+  if (skipBtn) {
+    skipBtn.addEventListener("click", function () {
+      step.hidden = true;
+      set("Skipped — you can link a key later from Settings.", null);
+    });
+  }
+  if (linkBtn && input) {
+    linkBtn.addEventListener("click", function () {
+      var key = (input.value || "").trim();
+      if (!key) { set("Paste a key starting with sk-ant- to link.", "error"); return; }
+      if (key.indexOf("sk-ant-") !== 0) { set("That doesn’t look like an Anthropic key (expected sk-ant-…).", "error"); return; }
+      linkBtn.disabled = true; set("Linking…", null);
+      fetch("/byok/link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key: key, label: "Linked at signup" })
+      }).then(function (r) {
+        linkBtn.disabled = false;
+        if (r.ok) {
+          step.classList.add("is-linked");
+          input.value = "";
+          set("Linked. Claude calls now go through your key.", "success");
+        } else if (r.status === 404) {
+          set("BYOK isn’t available in this build yet — link from Settings later.", "error");
+        } else {
+          set("Couldn’t link that key (status " + r.status + "). You can try again from Settings.", "error");
+        }
+      }).catch(function () {
+        linkBtn.disabled = false;
+        set("Network error. You can link from Settings later.", "error");
+      });
+    });
+  }
+})();
+</script>
 <style>/* First-run onboarding modal (Phase A.4-3) */
 .first-run-overlay {
   position: fixed; inset: 0; z-index: 220;
@@ -641,6 +702,64 @@
 .first-run-tos a:hover { color: var(--accent-2); }
 .first-run-submit[disabled] { opacity: 0.55; cursor: not-allowed; }
 .first-run-submit[disabled]:hover { background: var(--accent); }
+
+/* Stamp 2 / warp:s2c (2026-04-29): optional BYOK link step in signup. */
+.first-run-step--byok {
+  border: 1px solid var(--rule); border-radius: 10px;
+  padding: 14px 14px 12px;
+  background: var(--bg-sunken, var(--bg, #fffaf3));
+  display: flex; flex-direction: column; gap: 8px;
+  margin: 4px 0 2px;
+}
+.first-run-step__title {
+  font-family: var(--sans); font-size: 14px; font-weight: 600;
+  margin: 0; color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.first-run-step__lead {
+  font-family: var(--sans); font-size: 13px; line-height: 1.45;
+  margin: 0; color: var(--ink-2);
+}
+.first-run-step__input {
+  font-family: var(--mono, ui-monospace, SFMono-Regular, monospace);
+  font-size: 13px; line-height: 1.4;
+  padding: 8px 10px;
+  border: 1px solid var(--rule); border-radius: 8px;
+  background: var(--bg-raised, #fff);
+  color: var(--ink);
+  transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease);
+}
+.first-run-step__input:focus {
+  outline: 0; border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft, rgba(184,117,60,0.18));
+}
+.first-run-step__actions { display: flex; gap: 8px; align-items: center; }
+.first-run-step__btn {
+  appearance: none; cursor: pointer;
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  padding: 7px 14px; border-radius: 8px;
+  border: 1px solid var(--rule); background: transparent; color: var(--ink);
+  transition: background 180ms var(--ease), color 180ms var(--ease), border-color 180ms var(--ease);
+}
+.first-run-step__btn--primary {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.first-run-step__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); }
+.first-run-step__btn--ghost { color: var(--ink-2); }
+.first-run-step__btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
+.first-run-step__status {
+  font-family: var(--sans); font-size: 12px; line-height: 1.4;
+  margin: 0; min-height: 16px;
+  color: var(--ink-3, var(--ink-2));
+}
+.first-run-step__status.is-success { color: var(--accent-2, var(--accent)); }
+.first-run-step__status.is-error { color: var(--danger, #b04141); }
+.first-run-step__note {
+  font-family: var(--sans); font-size: 12px; line-height: 1.4;
+  margin: 0; color: var(--ink-3, var(--ink-2));
+}
+.first-run-step--byok.is-linked .first-run-step__input,
+.first-run-step--byok.is-linked .first-run-step__actions { display: none; }
 </style><style>.ensemble-featured-carousel {
   padding: 60px 0;
   overflow: hidden;

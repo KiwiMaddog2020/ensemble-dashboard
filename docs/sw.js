@@ -6,7 +6,7 @@
    plus the build's generation timestamp (see build_service_worker below)
    so each `dashboard-generate.sh` run produces a deterministic-per-build
    cache name without requiring a hand-bumped version string. */
-const CACHE = 'ensemble-758f8cbbbd81';
+const CACHE = 'ensemble-b8d58f2c1236';
 const STATIC = ["./", "./index.html", "./studio.html", "./dashboard.html", "./projects.html", "./commands.html", "./settings.html", "./docs.html", "./style.css", "./studio.js", "./dashboard.js", "./icon.svg", "./manifest.json"];
 
 self.addEventListener('install', (e) => {

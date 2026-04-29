@@ -199,12 +199,29 @@
         <span class="studio-claude-drawer__title">Claude</span>
         <span class="studio-claude-drawer__sub">your edit-mode partner</span>
       </div>
-      <button class="studio-claude-drawer__minimize" type="button" data-act="claude-min" aria-label="Minimize">–</button>
+      <div class="studio-claude-drawer__toolbar">
+        <button class="studio-claude-drawer__new-conversation" type="button" data-act="claude-new" aria-label="Start a new conversation">New</button>
+        <button class="studio-claude-drawer__minimize" type="button" data-act="claude-min" aria-label="Minimize">–</button>
+      </div>
     </header>
     <div class="studio-claude-drawer__body" id="studio-claude-drawer-body">
       <div class="studio-claude-msg studio-claude-msg--system">
         <p>Ask me to add a sprite, write a markdown essay for a click-to-read, suggest a layout, or anything else. I have your room's current contents in mind.</p>
-        <p class="studio-claude-drawer__hint">Apply/Discard for component generation lands in part 3b. For now, free-form chat.</p>
+        <p class="studio-claude-drawer__hint">Apply/Discard cards appear under Claude's component suggestions.</p>
+      </div>
+      <div class="studio-claude-byok-onboarding" id="studio-claude-byok-onboarding" data-state="hidden" role="region" aria-label="BYOK onboarding">
+        <p class="studio-claude-byok-onboarding__title">Your Anthropic key is linked.</p>
+        <p class="studio-claude-byok-onboarding__body">Try the chat drawer to build components with Claude. After your first turn, you're spending tokens on your own key directly.</p>
+        <div class="studio-claude-byok-onboarding__row">
+          <button type="button" class="studio-claude-byok-onboarding__cta" data-act="byok-onboarding-go">Show me</button>
+          <button type="button" class="studio-claude-byok-onboarding__dismiss" data-act="byok-onboarding-dismiss">Not now</button>
+        </div>
+      </div>
+      <div class="studio-claude-drawer__quota-exceeded" id="studio-claude-quota-exceeded" data-state="hidden" role="alert">
+        <p class="studio-claude-drawer__quota-title">Daily Claude limit reached</p>
+        <p class="studio-claude-drawer__quota-body">You've used today's Claude allowance. Link your Anthropic key or upgrade to Pro to keep building.</p>
+        <a class="studio-claude-drawer__quota-cta" href="./settings.html#settings-byok">Link your key</a>
+        <a class="studio-claude-drawer__quota-cta studio-claude-drawer__quota-cta--ghost" href="./settings.html#settings-billing">Upgrade to Pro</a>
       </div>
     </div>
     <form class="studio-claude-drawer__form" id="studio-claude-drawer-form">
@@ -214,6 +231,11 @@
         <button class="studio-claude-drawer__send" type="submit">Send</button>
       </div>
     </form>
+    <div class="studio-claude-drawer__token-meter" id="studio-claude-token-meter" data-state="ok" aria-live="polite">
+      <span class="studio-claude-drawer__token-meter-tokens">no tokens used yet</span>
+      <span class="studio-claude-drawer__token-meter-cost"></span>
+      <span class="studio-claude-drawer__token-meter-source" data-source="unknown"></span>
+    </div>
   </aside>
 
   <section class="studio-pane is-active" data-pane="room" role="tabpanel">
@@ -976,7 +998,214 @@
   }
 })();
 </script>
-<script src="./studio.js" defer></script><footer class="site-footer">
+<script src="./studio.js" defer></script><style id="byok-onboarding-css">
+.byok-onboarding-overlay {
+  position: fixed; inset: 0; z-index: 230;
+  background: rgba(0,0,0,0.55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: byok-onboarding-fade 200ms var(--ease, ease);
+}
+.byok-onboarding-overlay[hidden] { display: none; }
+@keyframes byok-onboarding-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.byok-onboarding__card {
+  background: var(--bg-raised, #faf7f2);
+  color: var(--ink, #1a1814);
+  border: 1px solid var(--rule, rgba(0,0,0,0.12));
+  border-radius: var(--radius, 12px);
+  max-width: 640px; width: 100%;
+  padding: 28px 28px 22px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.32), 0 4px 12px rgba(0,0,0,0.18);
+  animation: byok-onboarding-rise 240ms var(--ease, ease);
+}
+@keyframes byok-onboarding-rise {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.byok-onboarding__title {
+  font-family: var(--serif, "EB Garamond", Georgia, serif);
+  font-size: 24px; font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+  color: var(--ink, #1a1814);
+}
+.byok-onboarding__lead {
+  font-family: var(--sans, system-ui, -apple-system, sans-serif);
+  font-size: 15px; line-height: 1.5;
+  margin: 0 0 20px;
+  color: var(--ink-2, #3a342c);
+}
+
+.byok-onboarding__options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+@media (max-width: 540px) {
+  .byok-onboarding__options { grid-template-columns: 1fr; }
+}
+
+.byok-onboarding__option {
+  background: var(--bg, #fffaf3);
+  border: 1px solid var(--rule, rgba(0,0,0,0.12));
+  border-radius: 10px;
+  padding: 16px 16px 18px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.byok-onboarding__option--featured {
+  border-color: var(--accent, #b8753c);
+  box-shadow: 0 0 0 1px var(--accent, #b8753c) inset;
+}
+.byok-onboarding__option-title {
+  font-family: var(--sans, system-ui, sans-serif);
+  font-size: 14px; font-weight: 600;
+  margin: 0;
+  color: var(--ink, #1a1814);
+  letter-spacing: -0.005em;
+}
+.byok-onboarding__option-sub {
+  font-family: var(--sans, system-ui, sans-serif);
+  font-size: 13px; line-height: 1.45;
+  margin: 0 0 6px;
+  color: var(--ink-3, #6e6557);
+}
+
+.byok-onboarding__btn {
+  appearance: none; display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--sans, system-ui, sans-serif);
+  font-size: 14px; font-weight: 600;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--rule, rgba(0,0,0,0.12));
+  background: transparent;
+  color: var(--ink, #1a1814);
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+  margin-top: auto;
+}
+.byok-onboarding__btn--secondary:hover {
+  border-color: var(--accent, #b8753c);
+  color: var(--accent, #b8753c);
+}
+.byok-onboarding__btn--primary {
+  background: var(--accent, #b8753c);
+  border-color: var(--accent, #b8753c);
+  color: #fff;
+}
+.byok-onboarding__btn--primary:hover {
+  background: var(--accent-2, #8c5828);
+  border-color: var(--accent-2, #8c5828);
+  color: #fff;
+}
+.byok-onboarding__btn:focus-visible {
+  outline: 2px solid var(--accent-2, #8c5828);
+  outline-offset: 2px;
+}
+
+.byok-onboarding__skip {
+  text-align: center;
+  margin: 6px 0 0;
+}
+.byok-onboarding__link-btn {
+  appearance: none; background: transparent; border: 0; cursor: pointer;
+  font-family: var(--sans, system-ui, sans-serif);
+  font-size: 13px; color: var(--ink-3, #6e6557);
+  text-decoration: underline;
+  padding: 4px 8px;
+}
+.byok-onboarding__link-btn:hover { color: var(--ink-2, #3a342c); }
+</style>
+<div class="byok-onboarding-overlay" id="byok-onboarding" role="dialog" aria-modal="true" aria-labelledby="byok-onboarding-title" hidden>
+  <div class="byok-onboarding__card">
+    <h2 class="byok-onboarding__title" id="byok-onboarding-title">Build with Claude inside your Studio</h2>
+    <p class="byok-onboarding__lead">Free users get 5 Claude calls a day from the platform&rsquo;s key. Want unlimited? Link your own Anthropic API key and use Claude on your terms.</p>
+
+    <div class="byok-onboarding__options">
+      <div class="byok-onboarding__option">
+        <h3 class="byok-onboarding__option-title">Use the free allotment</h3>
+        <p class="byok-onboarding__option-sub">5 calls/day &middot; 30/month &middot; platform pays</p>
+        <button type="button" class="byok-onboarding__btn byok-onboarding__btn--secondary" data-action="use-platform">Got it, let me try</button>
+      </div>
+      <div class="byok-onboarding__option byok-onboarding__option--featured">
+        <h3 class="byok-onboarding__option-title">Link your Anthropic key</h3>
+        <p class="byok-onboarding__option-sub">Unlimited &middot; your key, your usage</p>
+        <a class="byok-onboarding__btn byok-onboarding__btn--primary" href="/settings.html#settings-byok">Link key &rarr;</a>
+      </div>
+    </div>
+
+    <p class="byok-onboarding__skip">
+      <button type="button" class="byok-onboarding__link-btn" data-action="dismiss">Don&rsquo;t show this again</button>
+    </p>
+  </div>
+</div>
+<script id="byok-onboarding-js">
+(function () {
+  var KEY = "byok-onboarding-shown";
+  var overlay = document.getElementById("byok-onboarding");
+  if (!overlay) return;
+
+  function alreadyDismissed() {
+    try { return localStorage.getItem(KEY) === "1"; } catch (e) { return false; }
+  }
+  function markDismissed() {
+    try { localStorage.setItem(KEY, "1"); } catch (e) {}
+  }
+  function show() {
+    overlay.hidden = false;
+    var btn = overlay.querySelector('[data-action="dismiss"]');
+    if (btn) { setTimeout(function () { try { btn.focus(); } catch (e) {} }, 80); }
+  }
+  function hideAndRemember() {
+    markDismissed();
+    overlay.hidden = true;
+  }
+
+  if (alreadyDismissed()) return;
+
+  // Buttons close the overlay. The "Link key" anchor navigates and
+  // we treat that as an implicit dismissal too.
+  overlay.addEventListener("click", function (e) {
+    var t = e.target;
+    if (!t) return;
+    var action = t.getAttribute && t.getAttribute("data-action");
+    if (action === "use-platform" || action === "dismiss") {
+      hideAndRemember();
+      e.preventDefault();
+    }
+  });
+  var linkBtn = overlay.querySelector('.byok-onboarding__btn--primary');
+  if (linkBtn) {
+    linkBtn.addEventListener("click", function () { markDismissed(); });
+  }
+
+  // Surface the first time the user enters edit mode (= chat drawer
+  // becomes visible). The Studio toggles aria-pressed on
+  // #studio-edit-toggle when edit mode flips on.
+  var toggle = document.getElementById("studio-edit-toggle");
+  if (!toggle) return;
+
+  function maybeShow() {
+    if (alreadyDismissed()) return;
+    if (toggle.getAttribute("aria-pressed") === "true") {
+      show();
+      observer.disconnect();
+    }
+  }
+
+  var observer = new MutationObserver(maybeShow);
+  observer.observe(toggle, { attributes: true, attributeFilter: ["aria-pressed"] });
+  // If the page boots already in edit mode, fire once on next tick.
+  if (toggle.getAttribute("aria-pressed") === "true") {
+    setTimeout(maybeShow, 0);
+  }
+})();
+</script>
+<footer class="site-footer">
   <div class="site-footer__cols">
     <div class="site-footer__col site-footer__col--brand">
       <p><span class="brand">Ensemble</span> &middot; <em>One conductor. Many performers.</em></p>

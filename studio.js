@@ -955,6 +955,13 @@
   }
   let claudeHistory = [];  // [{role, content}]
   const CLAUDE_HISTORY_KEY = 'ENSEMBLE_STUDIO_CLAUDE_HISTORY';
+  const CLAUDE_USAGE_KEY = 'ENSEMBLE_STUDIO_CLAUDE_USAGE';
+  const CLAUDE_BYOK_ONBOARDING_KEY = 'studio:byok-onboarding-shown';
+  let claudeUsage = { input: 0, output: 0, source: 'unknown' };
+  const CLAUDE_PRICE_PER_1M_INPUT = 3.0;
+  const CLAUDE_PRICE_PER_1M_OUTPUT = 15.0;
+  const CLAUDE_FREE_TIER_WARN_TOKENS = 80000;
+  const CLAUDE_FREE_TIER_HARD_TOKENS = 100000;
   function loadClaudeHistory() {
     try {
       const raw = localStorage.getItem(CLAUDE_HISTORY_KEY);
@@ -968,15 +975,121 @@
       localStorage.setItem(CLAUDE_HISTORY_KEY, JSON.stringify(claudeHistory.slice(-40)));
     } catch (e) {}
   }
+  function loadClaudeUsage() {
+    try {
+      const raw = localStorage.getItem(CLAUDE_USAGE_KEY);
+      if (!raw) return { input: 0, output: 0, source: 'unknown' };
+      const parsed = JSON.parse(raw);
+      return {
+        input: Number(parsed.input) || 0,
+        output: Number(parsed.output) || 0,
+        source: parsed.source || 'unknown',
+      };
+    } catch (e) { return { input: 0, output: 0, source: 'unknown' }; }
+  }
+  function saveClaudeUsage() {
+    try {
+      localStorage.setItem(CLAUDE_USAGE_KEY, JSON.stringify(claudeUsage));
+    } catch (e) {}
+  }
+  function formatUsdCost(usd) {
+    if (usd < 0.01) return '~$' + usd.toFixed(4);
+    if (usd < 1)    return '~$' + usd.toFixed(3);
+    return '~$' + usd.toFixed(2);
+  }
+  function updateClaudeTokenMeter() {
+    const meter = $('#studio-claude-token-meter');
+    if (!meter) return;
+    const total = claudeUsage.input + claudeUsage.output;
+    const cost = (claudeUsage.input / 1e6) * CLAUDE_PRICE_PER_1M_INPUT
+               + (claudeUsage.output / 1e6) * CLAUDE_PRICE_PER_1M_OUTPUT;
+    const tokensEl = meter.querySelector('.studio-claude-drawer__token-meter-tokens');
+    const costEl = meter.querySelector('.studio-claude-drawer__token-meter-cost');
+    const sourceEl = meter.querySelector('.studio-claude-drawer__token-meter-source');
+    if (tokensEl) {
+      tokensEl.textContent = total === 0
+        ? 'no tokens used yet'
+        : total.toLocaleString() + ' tokens used';
+    }
+    if (costEl) {
+      const note = claudeUsage.source === 'byok' ? 'your key'
+                 : claudeUsage.source === 'platform' ? 'platform credit'
+                 : 'pricing estimate';
+      costEl.textContent = total === 0 ? '' : formatUsdCost(cost) + ' (' + note + ')';
+    }
+    if (sourceEl) {
+      sourceEl.dataset.source = claudeUsage.source;
+      sourceEl.textContent = claudeUsage.source === 'byok' ? 'BYOK'
+                           : claudeUsage.source === 'platform' ? 'platform'
+                           : '';
+    }
+    if (claudeUsage.source === 'platform' && total >= CLAUDE_FREE_TIER_WARN_TOKENS) {
+      meter.dataset.state = 'warning';
+    } else {
+      meter.dataset.state = 'ok';
+    }
+  }
+  function showClaudeQuotaExceeded(detail) {
+    const banner = $('#studio-claude-quota-exceeded');
+    if (!banner) return;
+    const titleEl = banner.querySelector('.studio-claude-drawer__quota-title');
+    const bodyEl = banner.querySelector('.studio-claude-drawer__quota-body');
+    if (titleEl) titleEl.textContent = (detail && detail.title) || 'Daily Claude limit reached';
+    if (bodyEl) {
+      bodyEl.textContent = (detail && detail.message)
+        || "You've used today's Claude allowance. Link your Anthropic key or upgrade to Pro to keep building.";
+    }
+    banner.dataset.state = 'visible';
+  }
+  function hideClaudeQuotaExceeded() {
+    const banner = $('#studio-claude-quota-exceeded');
+    if (banner) banner.dataset.state = 'hidden';
+  }
+  function clearClaudeConversation() {
+    claudeHistory = [];
+    saveClaudeHistory();
+    const body = $('#studio-claude-drawer-body');
+    if (body) {
+      const keepers = body.querySelectorAll('.studio-claude-msg--system, #studio-claude-quota-exceeded, #studio-claude-byok-onboarding');
+      body.innerHTML = '';
+      keepers.forEach(node => body.appendChild(node));
+    }
+    hideClaudeQuotaExceeded();
+  }
+  function maybeShowByokOnboarding() {
+    try {
+      if (localStorage.getItem(CLAUDE_BYOK_ONBOARDING_KEY) === '1') return;
+      if (localStorage.getItem('ENSEMBLE_BYOK_LINKED') !== '1') return;
+      const card = $('#studio-claude-byok-onboarding');
+      if (card) card.dataset.state = 'visible';
+    } catch (e) {}
+  }
+  function dismissByokOnboarding() {
+    try { localStorage.setItem(CLAUDE_BYOK_ONBOARDING_KEY, '1'); } catch (e) {}
+    const card = $('#studio-claude-byok-onboarding');
+    if (card) card.dataset.state = 'hidden';
+  }
   function bindClaudeDrawer() {
     const drawer = $('#studio-claude-drawer');
     const form = $('#studio-claude-drawer-form');
     const input = $('#studio-claude-input');
     const minBtn = drawer?.querySelector('[data-act="claude-min"]');
+    const newConvBtn = drawer?.querySelector('[data-act="claude-new"]');
+    const onboardCta = drawer?.querySelector('[data-act="byok-onboarding-go"]');
+    const onboardDismiss = drawer?.querySelector('[data-act="byok-onboarding-dismiss"]');
     if (!drawer || !form || !input) return;
     minBtn?.addEventListener('click', () => {
       drawer.classList.toggle('is-minimized');
-      minBtn.textContent = drawer.classList.contains('is-minimized') ? '+' : '–';
+      minBtn.textContent = drawer.classList.contains('is-minimized') ? '+' : '\u2013';
+    });
+    newConvBtn?.addEventListener('click', () => {
+      clearClaudeConversation();
+    });
+    onboardCta?.addEventListener('click', () => {
+      dismissByokOnboarding();
+    });
+    onboardDismiss?.addEventListener('click', () => {
+      dismissByokOnboarding();
     });
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -995,6 +1108,9 @@
     if (claudeHistory.length) {
       claudeHistory.forEach(msg => appendClaudeMessage(msg.role, msg.content, { skipAnim: true }));
     }
+    claudeUsage = loadClaudeUsage();
+    updateClaudeTokenMeter();
+    maybeShowByokOnboarding();
   }
   function appendClaudeMessage(role, content, opts) {
     opts = opts || {};
@@ -1132,7 +1248,13 @@
       });
       const data = await r.json();
       if (pending && pending.parentNode) pending.remove();
-      if (!r.ok) {
+      if (r.status === 402 || r.status === 429) {
+        showClaudeQuotaExceeded({
+          title: data.error_title || 'Daily Claude limit reached',
+          message: data.message || data.error || "You've reached today's Claude allowance. Link your Anthropic key or upgrade to Pro to keep building.",
+        });
+        if (status) { status.textContent = 'quota'; status.className = 'studio-claude-drawer__status is-error'; }
+      } else if (!r.ok) {
         const detail = data.error || r.statusText;
         const hint = data.hint ? '\n\n' + data.hint : '';
         appendClaudeMessage('error', detail + hint);
@@ -1142,6 +1264,16 @@
         appendClaudeMessage('assistant', reply);
         claudeHistory.push({ role: 'assistant', content: reply });
         saveClaudeHistory();
+        if (data.usage) {
+          claudeUsage.input += Number(data.usage.input_tokens) || 0;
+          claudeUsage.output += Number(data.usage.output_tokens) || 0;
+        }
+        if (data.source === 'byok' || data.source === 'platform') {
+          claudeUsage.source = data.source;
+        }
+        saveClaudeUsage();
+        updateClaudeTokenMeter();
+        hideClaudeQuotaExceeded();
         if (status) {
           const tokens = data.usage ? ` · ${data.usage.input_tokens || 0}+${data.usage.output_tokens || 0} tok` : '';
           status.textContent = 'ready' + tokens;
