@@ -349,34 +349,16 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-    <h2>Appearance</h2>
-    <p class="section-sub">Color theme — warm to cool. 18 options. Saved locally in your browser.</p>
-    <div class="theme-picker" data-theme-picker>
-      <div class="theme-swatch crimson"  data-theme="crimson"  title="Crimson"  aria-label="Crimson theme"></div>
-      <div class="theme-swatch ruby"     data-theme="ruby"     title="Ruby"     aria-label="Ruby theme"></div>
-      <div class="theme-swatch rose"     data-theme="rose"     title="Rose"     aria-label="Rose theme"></div>
-      <div class="theme-swatch sunset"   data-theme="sunset"   title="Sunset"   aria-label="Sunset theme"></div>
-      <div class="theme-swatch amber"    data-theme="amber"    title="Amber"    aria-label="Amber theme"></div>
-      <div class="theme-swatch lemon"    data-theme="lemon"    title="Lemon"    aria-label="Lemon theme"></div>
-      <div class="theme-swatch warm"     data-theme="warm"     title="Warm (default)" aria-label="Warm theme"></div>
-      <div class="theme-swatch sand"     data-theme="sand"     title="Sand"     aria-label="Sand theme"></div>
-      <div class="theme-swatch sage"     data-theme="sage"     title="Sage"     aria-label="Sage theme"></div>
-      <div class="theme-swatch lime"     data-theme="lime"     title="Lime"     aria-label="Lime theme"></div>
-      <div class="theme-swatch forest"   data-theme="forest"   title="Forest"   aria-label="Forest theme"></div>
-      <div class="theme-swatch teal"     data-theme="teal"     title="Teal"     aria-label="Teal theme"></div>
-      <div class="theme-swatch ocean"    data-theme="ocean"    title="Ocean"    aria-label="Ocean theme"></div>
-      <div class="theme-swatch slate"    data-theme="slate"    title="Slate"    aria-label="Slate theme"></div>
-      <div class="theme-swatch cobalt"   data-theme="cobalt"   title="Cobalt"   aria-label="Cobalt theme"></div>
-      <div class="theme-swatch midnight" data-theme="midnight" title="Midnight" aria-label="Midnight theme"></div>
-      <div class="theme-swatch aurora"   data-theme="aurora"   title="Aurora"   aria-label="Aurora theme"></div>
-      <div class="theme-swatch plum"     data-theme="plum"     title="Plum"     aria-label="Plum theme"></div>
-      <div class="theme-swatch ash"      data-theme="ash"      title="Ash"      aria-label="Ash theme"></div>
-      <div class="theme-swatch mono"     data-theme="mono"     title="Mono"     aria-label="Mono theme"></div>
-      <div class="theme-swatch paper"    data-theme="paper"    title="Paper (light)" aria-label="Paper light theme"></div>
-    </div>
-    <p class="settings-help" style="margin-top:12px;">Theme persists across visits and per-device. Default is <strong>Warm</strong>.</p>
+    <!--
+      Legacy .theme-picker block deleted 2026-04-29 evening per visual audit
+      RED bug 2 (duplicate <h2>Appearance</h2> stacked with the new
+      _SETTINGS_APPEARANCE_SECTION rendered earlier in the page). Theme
+      selection now lives in the accessibility-graded .settings-theme-grid
+      inside _SETTINGS_APPEARANCE_SECTION (fieldset/legend/role=radiogroup/
+      focus-visible/named tiles). Background pattern picker below stays.
+    -->
 
-    <h3 style="font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--ink); margin: 28px 0 6px;">Background pattern</h3>
+    <h2>Background pattern</h2>
     <p class="section-sub" style="margin-bottom: 12px;">Subtle texture for the page background. Default is solid.</p>
     <div class="bg-picker" data-bg-picker>
       <div class="bg-swatch solid"     data-bg="solid"     title="Solid (default)" aria-label="Solid background"><span class="bg-swatch__label">solid</span></div>
