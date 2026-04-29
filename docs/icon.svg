@@ -1,32 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
   <!--
-    Ensemble brand mark — "Threaded Trinity, Painted" (v10v, locked 2026-04-29).
+    Ensemble brand mark — "Threaded Trinity, Painted" (v10w, locked 2026-04-29).
 
-    Meaning: "Two voices make a new pigment.  Three voices make light."
-
-    Three filled disks (burgundy / ochre / navy) in a true equilateral
-    arrangement, centroid at canvas center.  Where two rings meet, their
-    pigments mix into the natural color-theory primary blend (carmine /
-    plum / verdigris).  Where all three meet at the very center, a
-    luminous white-gold core — the additive answer to the subtractive
-    blends, the "ensemble" born from all three voices together.
-
-    Heraldic palette (Gules / Or / Azure) used since the 12th century.
-    Color theory: subtractive pigment mixing for pairs, additive light
-    for the trinity.  Sacred-geometry: equilateral, centered, with a
-    signature pin-prick at the exact canvas centroid (512, 512) inside
-    the luminous core — the soul-spark, our trademark distinguishing
-    detail.
-
-    See docs/TRADEMARK_CLEARANCE.md for the brand color system spec.
-
-    Iteration: v10a-h refined Borromean threading, v10i-l explored
-    threading polish + math precision, v10m-n tried clean overlap +
-    masked threading, v10o-r locked the filled-Venn artist-palette
-    direction with calibrated rich-dark blends + glowing white core +
-    fractal experiments, v10s-t tuned the bigger center + dual-mode +
-    white-in-both-modes, v10u shifted Carmine more red, v10v added the
-    signature centroid pin-prick + warmer navy for palette cohesion.
+    v10w changes from v10v: containing frame circle removed; rings
+    scaled up ~18% (radius 226→270, centroid-distance 181→214).
   -->
   <defs>
     <pattern id="craftBg" x="0" y="0" width="320" height="320" patternUnits="userSpaceOnUse">
@@ -47,42 +24,24 @@
     <radialGradient id="vHalo" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/><stop offset="20%" stop-color="#fff0b8" stop-opacity="0.30"/><stop offset="50%" stop-color="#f5c878" stop-opacity="0.10"/><stop offset="100%" stop-color="#c2711f" stop-opacity="0"/></radialGradient>
     <radialGradient id="vCenterField" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#c2711f" stop-opacity="0.18"/><stop offset="40%" stop-color="#c2711f" stop-opacity="0.08"/><stop offset="75%" stop-color="#c2711f" stop-opacity="0.02"/><stop offset="100%" stop-color="#c2711f" stop-opacity="0"/></radialGradient>
     <radialGradient id="vVignette" cx="50%" cy="50%" r="65%"><stop offset="0%" stop-color="#000" stop-opacity="0"/><stop offset="70%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity="0.35"/></radialGradient>
-    <clipPath id="clipT"><circle cx="512" cy="331" r="226"/></clipPath>
-    <clipPath id="clipL"><circle cx="355" cy="602" r="226"/></clipPath>
-    <clipPath id="clipR"><circle cx="669" cy="602" r="226"/></clipPath>
+    <clipPath id="clipT"><circle cx="512" cy="298" r="270"/></clipPath>
+    <clipPath id="clipL"><circle cx="327" cy="619" r="270"/></clipPath>
+    <clipPath id="clipR"><circle cx="697" cy="619" r="270"/></clipPath>
   </defs>
-
   <rect x="0" y="0" width="1024" height="1024" fill="#0e0a06"/>
   <rect x="0" y="0" width="1024" height="1024" fill="url(#craftBg)" opacity="0.85"/>
   <rect x="0" y="0" width="1024" height="1024" fill="url(#vCenterField)"/>
-
-  <!-- Containing frame circle, ochre, complete -->
-  <circle cx="512" cy="512" r="478" fill="none" stroke="#c2711f" stroke-width="2.4" stroke-opacity="0.82"/>
-
-  <!-- Three base disks (filled with metallic-radial gradient, equilateral, r=226) -->
-  <circle cx="355" cy="602" r="226" fill="url(#vOchre)"/>
-  <circle cx="669" cy="602" r="226" fill="url(#vNavy)"/>
-  <circle cx="512" cy="331" r="226" fill="url(#vBurg)"/>
-
-  <!-- Pairwise blend lenses (computed-color subtractive mixes) -->
+  <circle cx="327" cy="619" r="270" fill="url(#vOchre)"/>
+  <circle cx="697" cy="619" r="270" fill="url(#vNavy)"/>
+  <circle cx="512" cy="298" r="270" fill="url(#vBurg)"/>
   <g clip-path="url(#clipT)"><g clip-path="url(#clipL)"><rect width="1024" height="1024" fill="url(#vCarmine)"/></g></g>
   <g clip-path="url(#clipT)"><g clip-path="url(#clipR)"><rect width="1024" height="1024" fill="url(#vPlum)"/></g></g>
   <g clip-path="url(#clipL)"><g clip-path="url(#clipR)"><rect width="1024" height="1024" fill="url(#vVerd)"/></g></g>
-
-  <!-- Halo behind triple intersection — bleeds into surrounding lenses -->
-  <circle cx="512" cy="512" r="200" fill="url(#vHalo)"/>
-
-  <!-- Triple intersection: luminous white-gold (additive light at the center) -->
+  <circle cx="512" cy="512" r="238" fill="url(#vHalo)"/>
   <g clip-path="url(#clipT)"><g clip-path="url(#clipL)"><g clip-path="url(#clipR)"><rect width="1024" height="1024" fill="url(#vLumin)"/></g></g></g>
-
-  <!-- SIGNATURE: pure-white pin-prick at exact canvas centroid -->
   <circle cx="512" cy="512" r="3.5" fill="#ffffff"/>
-
-  <!-- Inked edges per ring (deep-shadow color of each parent) -->
-  <circle cx="355" cy="602" r="226" fill="none" stroke="#7a3d0c" stroke-width="2.5" stroke-opacity="0.45"/>
-  <circle cx="669" cy="602" r="226" fill="none" stroke="#0a0e2c" stroke-width="2.5" stroke-opacity="0.45"/>
-  <circle cx="512" cy="331" r="226" fill="none" stroke="#2c0a14" stroke-width="2.5" stroke-opacity="0.45"/>
-
-  <!-- Outer vignette for focus -->
+  <circle cx="327" cy="619" r="270" fill="none" stroke="#7a3d0c" stroke-width="2.5" stroke-opacity="0.45"/>
+  <circle cx="697" cy="619" r="270" fill="none" stroke="#0a0e2c" stroke-width="2.5" stroke-opacity="0.45"/>
+  <circle cx="512" cy="298" r="270" fill="none" stroke="#2c0a14" stroke-width="2.5" stroke-opacity="0.45"/>
   <rect width="1024" height="1024" fill="url(#vVignette)"/>
 </svg>

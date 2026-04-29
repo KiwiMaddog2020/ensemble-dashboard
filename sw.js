@@ -1,7 +1,7 @@
 /* Ensemble dashboard — service worker. Caches static assets so the
    read-only view works offline (Mac asleep / off Tailscale). Network-first
    for HTML so updates are picked up; cache-first for CSS/JS/icon. */
-const CACHE = 'ensemble-v10v-painted-trinity';
+const CACHE = 'ensemble-v10w-frameless';
 const STATIC = ['./', './index.html', './studio.html', './dashboard.html', './projects.html', './commands.html', './settings.html', './docs.html', './style.css', './icon.svg', './manifest.json'];
 
 self.addEventListener('install', (e) => {
