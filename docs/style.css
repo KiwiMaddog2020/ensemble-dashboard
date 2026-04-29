@@ -355,6 +355,7 @@ code { font-family:var(--mono); font-size:.9em; }
 }
 .eyebrow::before { content:""; width:22px; height:1px; background:var(--accent); display:inline-block; }
 .eyebrow a { color:inherit; border-bottom:1px dotted color-mix(in srgb,var(--accent) 40%,transparent); }
+.tm-mark { font-size:0.55em; font-weight:500; letter-spacing:0; vertical-align:super; line-height:1; opacity:0.85; padding-left:1px; }
 h1 { font-family:var(--serif); font-weight:600; font-size:clamp(36px,6.5vw,60px); line-height:1.06; letter-spacing:-.014em; margin:0; color:var(--ink); }
 h1 em { font-style:italic; color:var(--accent); font-weight:500; padding:0 .03em; }
 h2 { font-family:var(--serif); font-weight:500; font-size:clamp(26px,4vw,38px); line-height:1.16; letter-spacing:-.01em; margin:0 0 14px; color:var(--ink); }
