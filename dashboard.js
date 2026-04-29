@@ -1,0 +1,1265 @@
+(function () {
+  'use strict';
+  const STORAGE_KEY = "ENSEMBLE_DASHBOARD_LAYOUT";
+  const $ = (sel, root) => (root || document).querySelector(sel);
+  const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+  const escapeHtml = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  function authHeaders_() {
+    const t = localStorage.getItem("DASHBOARD_TOKEN") || "";
+    return t ? { "Authorization": "Bearer " + t, "Content-Type": "application/json" }
+             : { "Content-Type": "application/json" };
+  }
+  function srv_() {
+    const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
+    if (stored) return stored;
+    return location.hostname === "localhost" || location.hostname === "127.0.0.1" ? "http://localhost:8080" : "";
+  }
+  function apiPost(path, body) {
+    const u = srv_() + path;
+    if (!srv_()) return Promise.reject(new Error("Server URL not set — open from your Mac."));
+    return fetch(u, { method: "POST", headers: authHeaders_(), body: JSON.stringify(body || {}) })
+      .then(async r => {
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) {
+          const err = new Error(j.error || r.statusText);
+          err.status = r.status; err.body = j;
+          throw err;
+        }
+        return j;
+      });
+  }
+  function fmtCountdown(iso) {
+    if (!iso) return "—";
+    const ms = new Date(iso).getTime() - Date.now();
+    if (ms <= 0) return "now";
+    const days = Math.floor(ms / 86400000);
+    const hours = Math.floor((ms % 86400000) / 3600000);
+    if (days > 0) return days + "d " + hours + "h";
+    const mins = Math.floor((ms % 3600000) / 60000);
+    return hours + "h " + mins + "m";
+  }
+  const WIDGETS = {
+    "mode-pill": {
+      visibility: "private",
+      title: "Mode",
+      description: "Toggle between orchestrated (full protocol) and direct (conversational) mode.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const m = s ? (s.mode || "?") : "—";
+        const next = m === "orchestrated" ? "direct" : "orchestrated";
+        const cls = m === "orchestrated" ? "widget__chip--success" : (m === "direct" ? "widget__chip--warn" : "widget__chip--neutral");
+        return `<div class="widget__header"><span class="widget__title">System mode</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__chip ${cls}" style="font-size:14px;padding:6px 14px;">${escapeHtml(m)}</span>
+            <button class="widget__btn" data-act="set-mode" data-target="${next}" data-owner-only>flip to ${next}</button>
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="set-mode"]')?.addEventListener('click', async (ev) => {
+          try { await apiPost("/set-config", { field: "mode", value: ev.currentTarget.dataset.target }); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "active-count": {
+      visibility: "public",
+      title: "Active autopilots",
+      description: "Currently running autopilots vs. concurrency cap.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const a = s?.active_count ?? 0;
+        const c = s?.max_concurrent_autopilots ?? 2;
+        const tag = a === 0 ? "idle" : (a >= c ? "at cap" : "running");
+        return `<div class="widget__header"><span class="widget__title">Autopilots</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__numeral">${a}<span class="muted">/${c}</span></span>
+            <small style="font-size:11px;color:var(--ink-3);">${tag}</small>
+          </div>`;
+      },
+      bind() {},
+    },
+    "token-cycle": {
+      visibility: "public",
+      title: "Token reset",
+      description: "Countdown to your weekly token reset. Click to edit.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const reset = s?.weekly_token_reset_at;
+        const txt = fmtCountdown(reset);
+        const cls = !reset ? "widget__chip--neutral" : (txt === "now" ? "widget__chip--danger" : (!txt.includes("d") ? "widget__chip--warn" : "widget__chip--success"));
+        return `<div class="widget__header"><span class="widget__title">Token reset</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__chip ${cls}" style="font-size:16px;font-weight:700;padding:6px 16px;">${escapeHtml(txt)}</span>
+            <button class="widget__btn widget__btn--ghost" data-act="edit-token" data-owner-only>edit</button>
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="edit-token"]')?.addEventListener('click', async () => {
+          const cur = window._ALL_STATE?.weekly_token_reset_at || "";
+          const next = prompt("Weekly token reset (ISO 8601):", cur);
+          if (!next) return;
+          try { await apiPost("/set-config", { field: "weekly_token_reset_at", value: new Date(next).toISOString() }); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "lock-status": {
+      visibility: "public",
+      title: "Workshop lock",
+      description: "Workshop autopilot lock status, with emergency force-release.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const held = !!s?.lock_held;
+        const holder = s?.lock_holder?.chat_id || s?.lock_holder?.slug || "";
+        return `<div class="widget__header"><span class="widget__title">Workshop lock</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__chip ${held ? 'widget__chip--warn' : 'widget__chip--success'}" style="font-size:14px;padding:6px 14px;">${held ? '🔒 held' : '✓ free'}</span>
+            ${held && holder ? `<small style="font-size:11px;color:var(--ink-3);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(holder)}</small>` : ''}
+            ${held ? `<button class="widget__btn widget__btn--danger" data-act="release-lock" data-owner-only>force-release</button>` : ''}
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="release-lock"]')?.addEventListener('click', async () => {
+          if (!confirm("Force-release the workshop lock? Logged to lock_steals.log.")) return;
+          try { const r = await apiPost("/release-lock", {}); alert("Released. Prior holder: " + (r.prior_holder || "none")); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "smoke-alerts": {
+      visibility: "public",
+      title: "Smoke tests",
+      description: "Count of projects with checkpoints awaiting your eyes-on review.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const projects = s?.projects || [];
+        const pending = projects.filter(p => p.pending_smoke_test);
+        return `<div class="widget__header"><span class="widget__title">Smoke tests</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__numeral" style="color:${pending.length ? 'var(--accent)' : 'var(--ink-2)'};">${pending.length}</span>
+            <small style="font-size:11px;color:var(--ink-3);">${pending.length ? 'pending review' : 'all clear'}</small>
+            ${pending.length ? `<a class="widget__btn widget__btn--ghost" href="./projects.html">review</a>` : ''}
+          </div>`;
+      },
+      bind() {},
+    },
+    "quick-fire": {
+      visibility: "private",
+      title: "Quick fire",
+      description: "One-click triggers for the main scheduled tasks (morning briefing, dashboard, weekly report, etc.)",
+      defaultSize: "2x1", sizes: ["2x1", "2x2"],
+      render() {
+        const tasks = [["morning-briefing","Morning"],["evening-planning","Evening"],["dashboard-update","Dashboard"],["weekly-report","Weekly"],["token-burn-down","Burn-down"],["backup-snapshot","Backup"]];
+        return `<div class="widget__header"><span class="widget__title">Quick fire</span><span class="widget__hint">click to run · 30 min</span></div>
+          <div class="widget__body">
+            <div class="widget__row">${tasks.map(([slug, label]) => `<button class="widget__btn" data-act="qf" data-task="${slug}" data-owner-only>${label}</button>`).join('')}</div>
+            <small style="font-size:11px;color:var(--ink-3);" data-status></small>
+          </div>`;
+      },
+      bind(el) {
+        const status = el.querySelector('[data-status]');
+        el.querySelectorAll('[data-act="qf"]').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const task = btn.dataset.task;
+            if (status) status.textContent = "firing " + task + "…";
+            try {
+              await apiPost("/fire", { slug: task, minutes: 30, prompt: "" });
+              if (status) status.textContent = "✓ fired " + task;
+              setTimeout(() => { if (status && status.textContent.startsWith("✓")) status.textContent = ""; }, 4000);
+            } catch (e) { if (status) status.textContent = "✗ " + e.message; }
+          });
+        });
+      },
+    },
+    "kill-switch": {
+      visibility: "private",
+      title: "Kill switch",
+      description: "Emergency: full kill cascade — releases lock, pauses automations, flips to direct mode.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render() {
+        return `<div class="widget__header"><span class="widget__title">Kill switch</span></div>
+          <div class="widget__body widget__body--center">
+            <button class="widget__btn widget__btn--danger widget__btn--big" data-act="kill" data-owner-only>KILL</button>
+            <small style="font-size:11px;color:var(--ink-3);">cascade: lock → pause → mode</small>
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="kill"]')?.addEventListener('click', async () => {
+          if (!confirm("Run full kill cascade?\n\nReleases lock, pauses automations, flips to direct mode.")) return;
+          try { await apiPost("/kill", {}); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "pause-toggle": {
+      visibility: "private",
+      title: "Pause autopilots",
+      description: "Soft pause — block new autopilot starts without killing existing ones.",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const paused = !!s?.autopilots_paused;
+        return `<div class="widget__header"><span class="widget__title">Pause autopilots</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__chip ${paused ? 'widget__chip--warn' : 'widget__chip--success'}" style="font-size:14px;padding:6px 14px;">${paused ? 'paused' : 'running'}</span>
+            <button class="widget__btn" data-act="pause" data-target="${!paused}" data-owner-only>${paused ? 'resume' : 'pause'}</button>
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="pause"]')?.addEventListener('click', async (ev) => {
+          const target = ev.currentTarget.dataset.target === 'true';
+          try { await apiPost("/pause-autopilots", { value: target }); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "rapid-fire-toggle": {
+      visibility: "private",
+      title: "Rapid-fire",
+      description: "System-wide rapid-fire mode (button-driven decisions vs. prose).",
+      defaultSize: "1x1", sizes: ["1x1"],
+      render(s) {
+        const on = !!s?.rapid_fire_enabled;
+        return `<div class="widget__header"><span class="widget__title">Rapid-fire</span></div>
+          <div class="widget__body widget__body--center">
+            <span class="widget__chip ${on ? 'widget__chip--success' : 'widget__chip--neutral'}" style="font-size:14px;padding:6px 14px;">${on ? 'on' : 'off'}</span>
+            <button class="widget__btn" data-act="rf" data-target="${!on}" data-owner-only>${on ? 'turn off' : 'turn on'}</button>
+          </div>`;
+      },
+      bind(el) {
+        el.querySelector('[data-act="rf"]')?.addEventListener('click', async (ev) => {
+          const target = ev.currentTarget.dataset.target === 'true';
+          try { await apiPost("/set-config", { field: "rapid_fire_enabled", value: target }); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "autopilot-cap": {
+      visibility: "private",
+      title: "Autopilot cap",
+      description: "Maximum concurrent autopilot sessions. Drag the slider to adjust.",
+      defaultSize: "2x1", sizes: ["2x1", "1x1"],
+      render(s) {
+        const cap = s?.max_concurrent_autopilots ?? 2;
+        return `<div class="widget__header"><span class="widget__title">Concurrency cap</span><span class="widget__hint">simultaneous autopilots</span></div>
+          <div class="widget__body" style="justify-content:center;">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <input type="range" min="1" max="16" value="${cap}" data-act="cap-slider" data-owner-only style="flex:1;accent-color:var(--accent);" />
+              <span class="widget__numeral" style="font-size:32px;" data-display>${cap}</span>
+            </div>
+            <small style="font-size:11px;color:var(--ink-3);text-align:center;">3 = Kevin's setup · 1 = serial only · 16 = unbounded</small>
+          </div>`;
+      },
+      bind(el) {
+        const slider = el.querySelector('[data-act="cap-slider"]');
+        const display = el.querySelector('[data-display]');
+        if (!slider) return;
+        slider.addEventListener('input', () => { if (display) display.textContent = slider.value; });
+        slider.addEventListener('change', async () => {
+          try { await apiPost("/set-config", { field: "max_concurrent_autopilots", value: parseInt(slider.value, 10) }); window.refreshState && window.refreshState(); }
+          catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "project-list": {
+      visibility: "public",
+      title: "Projects",
+      description: "Roster of all onboarded chats with state pills + completion %.",
+      defaultSize: "2x2", sizes: ["2x2", "1x2", "2x1"],
+      render(s) {
+        const projects = s?.projects || [];
+        if (!projects.length) return `<div class="widget__header"><span class="widget__title">Projects</span></div><div class="widget__body widget__body--center"><small style="color:var(--ink-3);">no projects yet</small></div>`;
+        const items = projects.map(p => {
+          const cls = p.state === 'Hibernating' ? 'widget__chip--neutral' : (p.needs_attention ? 'widget__chip--warn' : 'widget__chip--success');
+          const pct = p.completion_percent ?? '—';
+          return `<li><a href="./${escapeHtml(p.slug)}.html" style="text-decoration:none;color:var(--ink);flex:1;font-weight:500;font-size:13px;">${escapeHtml(p.name || p.slug)}</a>
+            <span class="widget__chip ${cls}" style="font-size:10px;padding:2px 8px;">${escapeHtml(p.state || '?')}</span>
+            <span style="font-size:11px;color:var(--ink-3);min-width:40px;text-align:right;">${pct}${pct === '—' ? '' : '%'}</span></li>`;
+        }).join('');
+        return `<div class="widget__header"><span class="widget__title">Projects</span><span class="widget__hint">${projects.length} total</span></div>
+          <div class="widget__body" style="overflow-y:auto;"><ul class="widget__list">${items}</ul></div>`;
+      },
+      bind() {},
+    },
+    "recent-commits": {
+      visibility: "public",
+      title: "Recent activity",
+      description: "Most recent project heartbeats — freshest first.",
+      defaultSize: "2x1", sizes: ["2x1", "2x2"],
+      render(s) {
+        const projects = s?.projects || [];
+        const recent = projects.filter(p => p.last_heartbeat).sort((a, b) => (b.last_heartbeat || '').localeCompare(a.last_heartbeat || '')).slice(0, 6);
+        if (!recent.length) return `<div class="widget__header"><span class="widget__title">Recent activity</span></div><div class="widget__body widget__body--center"><small style="color:var(--ink-3);">no recent heartbeats</small></div>`;
+        return `<div class="widget__header"><span class="widget__title">Recent activity</span></div>
+          <div class="widget__body" style="overflow-y:auto;">
+            <ul class="widget__list">
+              ${recent.map(p => `<li><span style="flex:1;font-size:12px;">${escapeHtml(p.name || p.slug)}</span><small style="font-size:11px;color:var(--ink-3);">${escapeHtml((p.last_heartbeat || '').slice(0, 10))}</small></li>`).join('')}
+            </ul>
+          </div>`;
+      },
+      bind() {},
+    },
+    "routines": {
+      visibility: "public",
+      title: "Scheduled tasks",
+      description: "Active routines: morning briefing, dashboard refresh, weekly report, etc.",
+      defaultSize: "1x2", sizes: ["1x2", "2x1", "2x2"],
+      render() {
+        const routines = [
+          ["Morning briefing", "08:30 daily"],
+          ["Evening planning", "20:00 daily"],
+          ["Overnight heavy", "02:00 nightly"],
+          ["Dashboard update", "3× daily"],
+          ["Backup snapshot", "00:00 nightly"],
+          ["Token burn-down", "hourly (window)"],
+          ["Weekly report", "Sun 06:00"],
+          ["Rotation", "weekly"],
+        ];
+        return `<div class="widget__header"><span class="widget__title">Routines</span></div>
+          <div class="widget__body" style="overflow-y:auto;">
+            <ul class="widget__list">
+              ${routines.map(([n, t]) => `<li><span style="flex:1;font-size:12px;">${escapeHtml(n)}</span><small style="font-size:10px;color:var(--ink-3);">${escapeHtml(t)}</small></li>`).join('')}
+            </ul>
+          </div>`;
+      },
+      bind() {},
+    },
+    "chat-control": {
+      visibility: "private",
+      title: "Chat control",
+      description: "Per-chat: state advance, active toggle, rapid-fire toggle, autopilot toggle.",
+      defaultSize: "2x2", sizes: ["2x2", "2x1"],
+      render(s, props) {
+        const chats = s?.projects || [];
+        const chosen = props?.chatSlug || (chats[0] && chats[0].slug);
+        const c = chats.find(x => x.slug === chosen);
+        let rfText = "inherit";
+        if (c) {
+          if (c.rapid_fire_enabled === true) rfText = "on";
+          else if (c.rapid_fire_enabled === false) rfText = "off";
+        }
+        return `<div class="widget__header"><span class="widget__title">Chat control</span></div>
+          <div class="widget__body" style="gap:8px;">
+            <select class="widget__select" data-act="cc-pick" data-owner-only>
+              ${chats.map(ch => `<option value="${escapeHtml(ch.slug)}" ${ch.slug === chosen ? 'selected' : ''}>${escapeHtml(ch.name || ch.slug)}</option>`).join('')}
+            </select>
+            ${c ? `
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;"><span style="color:var(--ink-3);">state</span><span class="widget__chip widget__chip--neutral" style="font-size:10px;">${escapeHtml(c.state || '?')}</span></div>
+            <select class="widget__select" data-act="cc-state" data-owner-only>
+              <option value="">advance state…</option>
+              <option value="Building">Building</option>
+              <option value="Launch Prep">Launch Prep</option>
+              <option value="Warmer">Warmer</option>
+              <option value="R&D">R&amp;D</option>
+              <option value="Updates">Updates</option>
+              <option value="Hibernating">Hibernating</option>
+            </select>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;"><span style="color:var(--ink-3);">active</span><button class="widget__btn" data-act="cc-active" data-owner-only>${c.active ? 'on · turn off' : 'off · turn on'}</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;"><span style="color:var(--ink-3);">rapid-fire</span><button class="widget__btn" data-act="cc-rf" data-owner-only>${rfText}</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;"><span style="color:var(--ink-3);">autopilot</span><button class="widget__btn" data-act="cc-ap" data-owner-only>${c.autopilot_eligible ? 'eligible · disable' : 'disabled · enable'}</button></div>
+            ${c.has_queued_messages ? `<small style="color:var(--accent);font-size:11px;">${c.queued_count} message${c.queued_count === 1 ? '' : 's'} queued</small>` : ''}
+            ` : '<small style="color:var(--ink-3);">no chat selected</small>'}
+          </div>`;
+      },
+      bind(el, props, ctx) {
+        const sel = el.querySelector('[data-act="cc-pick"]');
+        sel?.addEventListener('change', () => { ctx.setProps({ chatSlug: sel.value }); ctx.rerender(); });
+        const slug = props?.chatSlug || sel?.value;
+        if (!slug) return;
+        const stateSel = el.querySelector('[data-act="cc-state"]');
+        stateSel?.addEventListener('change', async () => {
+          if (!stateSel.value) return;
+          try {
+            let r = await fetch(srv_() + "/set-state", { method: "POST", headers: authHeaders_(), body: JSON.stringify({ slug, state: stateSel.value }) });
+            let j = await r.json();
+            if (r.status === 409 && j.error === "smoke_test_required") {
+              const ok = confirm("Checkpoint " + j.checkpoint + " smoke test required: " + j.current_state + " → " + j.target_state + ".\n\nForce-skip?");
+              if (ok) {
+                r = await fetch(srv_() + "/set-state", { method: "POST", headers: authHeaders_(), body: JSON.stringify({ slug, state: stateSel.value, force: true }) });
+                j = await r.json();
+              }
+            }
+            if (!r.ok) throw new Error(j.error || r.statusText);
+            window.refreshState && window.refreshState();
+          } catch (e) { alert(e.message); }
+        });
+        el.querySelector('[data-act="cc-active"]')?.addEventListener('click', async () => {
+          try { await apiPost("/toggle-active", { slug }); window.refreshState && window.refreshState(); } catch (e) { alert(e.message); }
+        });
+        el.querySelector('[data-act="cc-rf"]')?.addEventListener('click', async () => {
+          const cur = window._ALL_STATE?.projects?.find(p => p.slug === slug)?.rapid_fire_enabled;
+          let next;
+          if (cur === null || cur === undefined) next = true;
+          else if (cur === true) next = false;
+          else next = null;
+          try { await apiPost("/chat-rapidfire", { slug, value: next }); window.refreshState && window.refreshState(); } catch (e) { alert(e.message); }
+        });
+        el.querySelector('[data-act="cc-ap"]')?.addEventListener('click', async () => {
+          try { await apiPost("/toggle-autopilot", { slug }); window.refreshState && window.refreshState(); } catch (e) { alert(e.message); }
+        });
+      },
+    },
+    "chat-message": {
+      visibility: "private",
+      title: "Send chat message",
+      description: "Queue a note for a chat — lands in queued_messages, picked up on next turn.",
+      defaultSize: "2x1", sizes: ["2x1", "2x2"],
+      render(s, props) {
+        const chats = s?.projects || [];
+        const chosen = props?.chatSlug || (chats[0] && chats[0].slug);
+        return `<div class="widget__header"><span class="widget__title">Send to chat</span></div>
+          <div class="widget__body" style="gap:8px;">
+            <select class="widget__select" data-act="cm-pick" data-owner-only>
+              ${chats.map(ch => `<option value="${escapeHtml(ch.slug)}" ${ch.slug === chosen ? 'selected' : ''}>${escapeHtml(ch.name || ch.slug)}</option>`).join('')}
+            </select>
+            <textarea class="widget__textarea" data-act="cm-text" placeholder="message text…" data-owner-only></textarea>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+              <small style="font-size:11px;color:var(--ink-3);" data-status></small>
+              <button class="widget__btn widget__btn--primary" data-act="cm-send" data-owner-only>Send</button>
+            </div>
+          </div>`;
+      },
+      bind(el, props, ctx) {
+        const sel = el.querySelector('[data-act="cm-pick"]');
+        const txt = el.querySelector('[data-act="cm-text"]');
+        const status = el.querySelector('[data-status]');
+        sel?.addEventListener('change', () => ctx.setProps({ chatSlug: sel.value }));
+        el.querySelector('[data-act="cm-send"]')?.addEventListener('click', async () => {
+          const slug = sel?.value;
+          const message = (txt?.value || "").trim();
+          if (!slug || !message) { if (status) status.textContent = "pick chat + write a message"; return; }
+          try {
+            const r = await apiPost("/chat-message", { slug, message });
+            if (status) status.textContent = "✓ sent · " + r.queued_count + " queued";
+            if (txt) txt.value = "";
+            setTimeout(() => { if (status) status.textContent = ""; }, 4000);
+          } catch (e) { if (status) status.textContent = "✗ " + e.message; }
+        });
+      },
+    },
+    "chat-reread": {
+      visibility: "private",
+      title: "Re-read contract",
+      description: "Trigger a chat to re-read its operating contract (and auto-engage rapid-fire).",
+      defaultSize: "1x1", sizes: ["1x1", "2x1"],
+      render(s, props) {
+        const chats = s?.projects || [];
+        const chosen = props?.chatSlug || (chats[0] && chats[0].slug);
+        return `<div class="widget__header"><span class="widget__title">Re-read contract</span></div>
+          <div class="widget__body" style="gap:8px;">
+            <select class="widget__select" data-act="cr-pick" data-owner-only>
+              ${chats.map(ch => `<option value="${escapeHtml(ch.slug)}" ${ch.slug === chosen ? 'selected' : ''}>${escapeHtml(ch.name || ch.slug)}</option>`).join('')}
+            </select>
+            <button class="widget__btn widget__btn--primary" data-act="cr-fire" data-owner-only>Trigger re-read</button>
+            <small style="font-size:11px;color:var(--ink-3);" data-status></small>
+          </div>`;
+      },
+      bind(el, props, ctx) {
+        const sel = el.querySelector('[data-act="cr-pick"]');
+        const status = el.querySelector('[data-status]');
+        sel?.addEventListener('change', () => ctx.setProps({ chatSlug: sel.value }));
+        el.querySelector('[data-act="cr-fire"]')?.addEventListener('click', async () => {
+          const slug = sel?.value;
+          if (!slug) { if (status) status.textContent = "pick a chat"; return; }
+          try {
+            await apiPost("/chat-reread", { slug });
+            if (status) status.textContent = "✓ flagged · chat will re-read on next turn";
+            setTimeout(() => { if (status) status.textContent = ""; }, 5000);
+          } catch (e) { if (status) status.textContent = "✗ " + e.message; }
+        });
+      },
+    },
+    "theme-switcher": {
+      visibility: "public",
+      title: "Theme",
+      description: "Pick from 18 color themes (warm to cool). Choice persists per-device.",
+      defaultSize: "2x1", sizes: ["2x2", "2x1"],
+      render() {
+        const themes = ["crimson","rose","sunset","amber","warm","sand","sage","lime","forest","teal","ocean","slate","cobalt","midnight","aurora","plum","ash","mono"];
+        return `<div class="widget__header"><span class="widget__title">Theme · warm → cool</span></div>
+          <div class="widget__body widget__body--center">
+            <div class="theme-picker" data-theme-picker>
+              ${themes.map(t => `<div class="theme-swatch ${t}" data-theme="${t}" title="${t}" aria-label="${t} theme"></div>`).join('')}
+            </div>
+          </div>`;
+      },
+      bind(el) {
+        const list = ["crimson","rose","sunset","amber","warm","sand","sage","lime","forest","teal","ocean","slate","cobalt","midnight","aurora","plum","ash","mono"];
+        const apply = (name) => {
+          list.forEach(t => document.body.classList.remove("theme-" + t));
+          document.documentElement.classList.remove(...list.map(t => "theme-" + t));
+          if (name && name !== "warm") {
+            document.body.classList.add("theme-" + name);
+            document.documentElement.classList.add("theme-" + name);
+          }
+          document.querySelectorAll(".theme-swatch").forEach(sw => sw.classList.toggle("active", sw.dataset.theme === (name || "warm")));
+        };
+        const cur = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+        apply(cur);
+        el.querySelectorAll(".theme-swatch").forEach(sw => {
+          sw.addEventListener("click", () => {
+            localStorage.setItem("ENSEMBLE_THEME", sw.dataset.theme);
+            apply(sw.dataset.theme);
+          });
+        });
+      },
+    },
+    "background-picker": {
+      visibility: "public",
+      title: "Background",
+      description: "Pick a funky background pattern. Solid, dots, grid, mesh, noise, aurora.",
+      defaultSize: "2x1", sizes: ["2x1", "1x1"],
+      render() {
+        const bgs = [
+          { id: "solid",  label: "solid"  },
+          { id: "dots",   label: "dots"   },
+          { id: "grid",   label: "grid"   },
+          { id: "mesh",   label: "mesh"   },
+          { id: "noise",  label: "noise"  },
+          { id: "aurora", label: "aurora" },
+        ];
+        return `<div class="widget__header"><span class="widget__title">Background</span></div>
+          <div class="widget__body widget__body--center">
+            <div class="bg-picker" data-bg-picker>
+              ${bgs.map(b => `<div class="bg-swatch ${b.id}" data-bg="${b.id}" title="${b.label}" aria-label="${b.label} background"><span class="bg-swatch__label">${b.label}</span></div>`).join('')}
+            </div>
+          </div>`;
+      },
+      bind(el) {
+        const list = ["solid","dots","grid","mesh","noise","aurora"];
+        const apply = (name) => {
+          list.forEach(b => document.body.classList.remove("bg-" + b));
+          document.documentElement.classList.remove(...list.map(b => "bg-" + b));
+          if (name && name !== "solid") {
+            document.body.classList.add("bg-" + name);
+            document.documentElement.classList.add("bg-" + name);
+          }
+          document.querySelectorAll(".bg-swatch").forEach(sw => sw.classList.toggle("active", sw.dataset.bg === (name || "solid")));
+        };
+        const cur = localStorage.getItem("ENSEMBLE_BG") || "solid";
+        apply(cur);
+        el.querySelectorAll(".bg-swatch").forEach(sw => {
+          sw.addEventListener("click", () => {
+            localStorage.setItem("ENSEMBLE_BG", sw.dataset.bg);
+            apply(sw.dataset.bg);
+          });
+        });
+      },
+    },
+    "token-cost-chart": {
+      visibility: "public",
+      title: "Token cost / hour",
+      description: "Hourly cost line chart from chat activity (heartbeats + commits + smoke logs). Proxy until a real per-token feed is wired.",
+      defaultSize: "2x2", sizes: ["2x2", "2x1"],
+      render(s) {
+        const data = s?.hourly_activity?.buckets || [];
+        const total = s?.hourly_activity?.total_cost_usd ?? 0;
+        const w = 360, h = 100, pad = { l: 4, r: 4, t: 8, b: 18 };
+        const inner_w = w - pad.l - pad.r;
+        const inner_h = h - pad.t - pad.b;
+        const max = Math.max(0.01, ...data.map(d => d.est_cost_usd || 0));
+        let path = "";
+        let bars = "";
+        if (data.length) {
+          const step = inner_w / data.length;
+          data.forEach((d, i) => {
+            const x = pad.l + i * step;
+            const v = d.est_cost_usd || 0;
+            const bh = (v / max) * inner_h;
+            const y = pad.t + inner_h - bh;
+            bars += `<rect x="${x + 1}" y="${y}" width="${Math.max(2, step - 2)}" height="${bh}" rx="2" fill="var(--accent)" opacity="${v > 0 ? 0.85 : 0.18}" />`;
+            if (i === 0) path += `M ${x + step / 2} ${y} `;
+            else path += `L ${x + step / 2} ${y} `;
+          });
+        }
+        const labels = (data.length ? [data[0], data[Math.floor(data.length / 2)], data[data.length - 1]] : [])
+          .filter(Boolean)
+          .map((d, i) => {
+            const xs = [pad.l + 8, w / 2, w - pad.r - 22];
+            return `<text x="${xs[i]}" y="${h - 4}" font-size="9" fill="var(--ink-4)" font-family="var(--font-mono, monospace)">${escapeHtml(d.hour_label || "")}</text>`;
+          }).join("");
+        const note = s?.hourly_activity?.note ? `<small style="font-size:10px;color:var(--ink-4);">${escapeHtml(s.hourly_activity.note)}</small>` : "";
+        return `<div class="widget__header"><span class="widget__title">Token cost / hour</span><span class="widget__hint">last 24h</span></div>
+          <div class="widget__body" style="gap:6px;">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;">
+              <span class="widget__numeral" style="font-size:30px;">$${total.toFixed(2)}</span>
+              <small style="font-size:11px;color:var(--ink-3);">${data.reduce((a, b) => a + (b.events || 0), 0)} events</small>
+            </div>
+            <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="width:100%;height:auto;display:block;">
+              ${bars}
+              ${path ? `<path d="${path}" fill="none" stroke="var(--accent-2)" stroke-width="1.4" stroke-linejoin="round" />` : ""}
+              ${labels}
+            </svg>
+            ${note}
+          </div>`;
+      },
+      bind() {},
+    },
+    "sticky-note": {
+      visibility: "public",
+      title: "Sticky note",
+      description: "Editable freeform note. Auto-saves per-device.",
+      defaultSize: "1x1", sizes: ["1x1", "2x1", "1x2", "2x2"],
+      render(s, props) {
+        const id = props?.noteId || "default";
+        const key = "ENSEMBLE_STICKY_" + id;
+        let saved = "";
+        try { saved = localStorage.getItem(key) || ""; } catch (e) {}
+        return `<div class="widget__header"><span class="widget__title">Note</span><span class="widget__hint">auto-saves</span></div>
+          <div class="widget__body">
+            <textarea class="widget__textarea" data-act="sn-text" data-key="${escapeHtml(key)}" placeholder="jot something…" style="flex:1;height:100%;border:none;background:transparent;padding:0;font-family:var(--font-mono,monospace);">${escapeHtml(saved)}</textarea>
+          </div>`;
+      },
+      bind(el) {
+        const t = el.querySelector('[data-act="sn-text"]');
+        if (!t) return;
+        const key = t.dataset.key;
+        let timer = null;
+        t.addEventListener('input', () => {
+          clearTimeout(timer);
+          timer = setTimeout(() => { try { localStorage.setItem(key, t.value); } catch (e) {} }, 400);
+        });
+      },
+    },
+    "cycle-freeze": {
+      visibility: "private",
+      title: "Cycle freeze",
+      description: "Block all autopilot starts for the rest of this token cycle. Brake pedal for when you're getting carried away. Auto-thaws at next weekly token reset.",
+      defaultSize: "2x1", sizes: ["2x1", "1x1", "2x2"],
+      render(s) {
+        const until = s?.autopilot_freeze_until;
+        const reset = s?.weekly_token_reset_at;
+        let active = false;
+        let label = "off";
+        let countdown = "";
+        if (until) {
+          const ms = new Date(until).getTime() - Date.now();
+          if (ms > 0) {
+            active = true;
+            countdown = fmtCountdown(until);
+            label = "frozen · " + countdown;
+          } else {
+            label = "expired";
+          }
+        }
+        const cls = active ? "widget__chip--warn" : "widget__chip--success";
+        return `<div class="widget__header"><span class="widget__title">Cycle freeze</span><span class="widget__hint">brake pedal</span></div>
+          <div class="widget__body" style="gap:8px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+              <span class="widget__chip ${cls}" style="font-size:13px;padding:5px 12px;">${escapeHtml(label)}</span>
+              ${active ? '<small style="font-size:10px;color:var(--ink-3);">no new autopilots until thaw</small>' : ''}
+            </div>
+            <div class="widget__row" style="gap:6px;">
+              ${active
+                ? `<button class="widget__btn" data-act="freeze-clear" data-owner-only>lift now</button>`
+                : `<button class="widget__btn widget__btn--primary" data-act="freeze-reset" data-owner-only>freeze until reset</button>
+                   <button class="widget__btn" data-act="freeze-1d" data-owner-only>24h</button>
+                   <button class="widget__btn" data-act="freeze-7d" data-owner-only>7d</button>`
+              }
+            </div>
+            <small style="font-size:10px;color:var(--ink-4);" data-status></small>
+          </div>`;
+      },
+      bind(el) {
+        const status = el.querySelector('[data-status]');
+        const fire = async (value) => {
+          if (status) status.textContent = "applying…";
+          try {
+            const r = await apiPost("/freeze-until", { value });
+            if (status) status.textContent = r.autopilot_freeze_until ? ("✓ frozen until " + r.autopilot_freeze_until) : "✓ lifted";
+            window.refreshState && window.refreshState();
+          } catch (e) {
+            if (status) status.textContent = "✗ " + e.message;
+          }
+        };
+        el.querySelector('[data-act="freeze-reset"]')?.addEventListener('click', () => fire("reset"));
+        el.querySelector('[data-act="freeze-1d"]')?.addEventListener('click', () => fire("24h"));
+        el.querySelector('[data-act="freeze-7d"]')?.addEventListener('click', () => fire("7d"));
+        el.querySelector('[data-act="freeze-clear"]')?.addEventListener('click', async () => {
+          if (!confirm("Lift cycle freeze now? Autopilot starts will be allowed again.")) return;
+          fire(null);
+        });
+      },
+    },
+    "code-rate": {
+      visibility: "private",
+      title: "Rate code",
+      description: "Fires the Codebase Rating Protocol on a chat. Sends 'rate my code' as a queued message; chat picks it up next turn and writes the report to docs/CODE_RATING_<date>.md.",
+      defaultSize: "2x1", sizes: ["2x1", "1x1"],
+      render(s, props) {
+        const chats = s?.projects || [];
+        const chosen = props?.chatSlug || (chats[0] && chats[0].slug);
+        return `<div class="widget__header"><span class="widget__title">Rate code</span><span class="widget__hint">via Rating Protocol</span></div>
+          <div class="widget__body" style="gap:8px;">
+            <select class="widget__select" data-act="rate-pick" data-owner-only>
+              ${chats.map(ch => `<option value="${escapeHtml(ch.slug)}" ${ch.slug === chosen ? 'selected' : ''}>${escapeHtml(ch.name || ch.slug)}</option>`).join('')}
+            </select>
+            <button class="widget__btn widget__btn--primary" data-act="rate-fire" data-owner-only>Run rating</button>
+            <small style="font-size:11px;color:var(--ink-3);" data-status></small>
+          </div>`;
+      },
+      bind(el, props, ctx) {
+        const sel = el.querySelector('[data-act="rate-pick"]');
+        const status = el.querySelector('[data-status]');
+        sel?.addEventListener('change', () => ctx.setProps({ chatSlug: sel.value }));
+        el.querySelector('[data-act="rate-fire"]')?.addEventListener('click', async () => {
+          const slug = sel?.value;
+          if (!slug) { if (status) status.textContent = "pick a chat"; return; }
+          if (status) status.textContent = "queueing rating trigger…";
+          try {
+            const r = await apiPost("/chat-message", { slug, message: "rate my code" });
+            if (status) status.textContent = "✓ queued · chat will run rating on next turn (queued count: " + r.queued_count + ")";
+            setTimeout(() => { if (status) status.textContent = ""; }, 8000);
+          } catch (e) {
+            if (status) status.textContent = "✗ " + e.message;
+          }
+        });
+      },
+    },
+    "controller-tree": {
+      visibility: "public",
+      title: "Control deck",
+      description: "Maestro + Virtuoso + Agent tree. Tap any node to push remote commands or flip mode toggles.",
+      defaultSize: "2x2",
+      sizes: ["2x2"],
+      render(state) {
+        const offline = !state;
+        const projects = state?.projects || [];
+        const virtuosos = projects.filter(p => p.tier === "virtuoso");
+        const agents = projects.filter(p => p.tier !== "virtuoso");
+        const node = (type, slug, name, badge, alert) => `
+          <button class="ctrl-node ctrl-node--${type}${alert ? ' ctrl-node--alert' : ''}" data-ctrl-type="${type}" data-ctrl-slug="${escapeHtml(slug)}" type="button">
+            <span class="ctrl-node__icon">${type === 'maestro' ? '🎼' : type === 'virtuoso' ? '🎻' : '🎵'}</span>
+            <span class="ctrl-node__name">${escapeHtml(name)}</span>
+            ${badge ? `<span class="ctrl-node__tag">${escapeHtml(badge)}</span>` : ''}
+          </button>`;
+        return `<div class="widget__header">
+            <span class="widget__title">Control deck</span>
+            <span class="widget__hint">${offline ? 'offline · open from your Mac' : 'tap any node'}</span>
+          </div>
+          <div class="widget__body" style="overflow-y:auto;">
+            <div class="ctrl-tree" data-ctrl-tree>
+              <div class="ctrl-tree__root">
+                ${node('maestro', 'maestro', 'Maestro', 'controller', false)}
+              </div>
+              ${virtuosos.length ? `<div class="ctrl-tree__group">
+                <div class="ctrl-tree__label">Virtuosos · phase products</div>
+                ${virtuosos.map(p => node('virtuoso', p.slug, p.name || p.slug, p.state || '', !!p.needs_attention)).join('')}
+              </div>` : ''}
+              ${agents.length ? `<div class="ctrl-tree__group">
+                <div class="ctrl-tree__label">Agents</div>
+                ${agents.map(p => node('agent', p.slug, p.name || p.slug, p.state || '', !!p.needs_attention)).join('')}
+              </div>` : ''}
+              ${(!virtuosos.length && !agents.length) ? '<p class="ctrl-tree__empty">No projects loaded yet — open from your Mac.</p>' : ''}
+            </div>
+          </div>`;
+      },
+      bind(el) {
+        ensureCtrlPopup();
+        el.querySelectorAll('.ctrl-node').forEach(n => {
+          n.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openCtrlPopup(n.dataset.ctrlType, n.dataset.ctrlSlug);
+          });
+        });
+      },
+    },
+  };
+  function ensureCtrlPopup() {
+    if (document.getElementById('ctrl-popup')) return;
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `<div class="ctrl-popup" id="ctrl-popup" role="dialog" aria-modal="true" aria-labelledby="ctrl-popup-title">
+        <div class="ctrl-popup__panel">
+          <div class="ctrl-popup__header">
+            <h3 class="ctrl-popup__title" id="ctrl-popup-title"></h3>
+            <button class="ctrl-popup__close" id="ctrl-popup-close" type="button" aria-label="Close">×</button>
+          </div>
+          <div class="ctrl-popup__body" id="ctrl-popup-body"></div>
+        </div>
+      </div>`;
+    document.body.appendChild(wrap.firstChild);
+    const popup = document.getElementById('ctrl-popup');
+    document.getElementById('ctrl-popup-close').addEventListener('click', () => popup.classList.remove('show'));
+    popup.addEventListener('click', (e) => { if (e.target === popup) popup.classList.remove('show'); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && popup.classList.contains('show')) popup.classList.remove('show'); });
+  }
+  function openCtrlPopup(nodeType, slug) {
+    ensureCtrlPopup();
+    const popup = document.getElementById('ctrl-popup');
+    const title = document.getElementById('ctrl-popup-title');
+    const body = document.getElementById('ctrl-popup-body');
+    if (nodeType === 'maestro') {
+      title.textContent = '🎼 Maestro · system controller';
+      body.innerHTML = renderMaestroActions();
+      bindMaestroActions(body);
+    } else {
+      const proj = (window._ALL_STATE?.projects || []).find(p => p.slug === slug) || { slug };
+      const icon = nodeType === 'virtuoso' ? '🎻' : '🎵';
+      title.textContent = `${icon} ${proj.name || proj.slug} · ${nodeType}` + (proj.state ? ` · ${proj.state}` : '');
+      body.innerHTML = renderChatActions(slug, proj);
+      bindChatActions(body, slug);
+    }
+    popup.classList.add('show');
+  }
+  function renderMaestroActions() {
+    const s = window._ALL_STATE || {};
+    return `
+      <div class="ctrl-action">
+        <h4>Mode</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${escapeHtml(s.mode || '?')}</span>
+          <button class="btn-primary" data-act="mode-flip">Flip to ${s.mode === 'orchestrated' ? 'direct' : 'orchestrated'}</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Pause autopilots (soft)</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${s.autopilots_paused ? 'paused' : 'running'}</span>
+          <button class="btn-primary" data-act="pause-toggle">Toggle</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Cycle freeze</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${s.autopilot_freeze_until ? 'frozen · until ' + String(s.autopilot_freeze_until).slice(0,10) : 'lifted'}</span>
+          <button class="btn-primary" data-act="freeze-toggle">${s.autopilot_freeze_until ? 'Lift' : 'Activate (until reset)'}</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Caffeinate during autopilot</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${s.caffeinate_during_autopilot ? 'on' : 'off'}</span>
+          <button class="btn-primary" data-act="caffeinate-toggle">Toggle</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Workshop lock</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${s.lock_held ? '🔒 held' : '✓ free'}</span>
+          <button class="btn-secondary" data-act="release-lock" ${s.lock_held ? '' : 'disabled'}>Force release</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action ctrl-action--danger">
+        <h4>Kill cascade</h4>
+        <div class="ctrl-action__row">
+          <button class="btn-danger" data-act="kill">Kill all autopilot</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+    `;
+  }
+  function bindMaestroActions(root) {
+    const map = {
+      'mode-flip': { path: '/set-config', body: () => ({ field: 'mode', value: (window._ALL_STATE?.mode === 'orchestrated' ? 'direct' : 'orchestrated') }) },
+      'pause-toggle': { path: '/pause-autopilots', body: () => ({ value: !window._ALL_STATE?.autopilots_paused }) },
+      'freeze-toggle': { path: '/freeze-until', body: () => ({ value: window._ALL_STATE?.autopilot_freeze_until ? null : 'reset' }) },
+      'caffeinate-toggle': { path: '/set-config', body: () => ({ field: 'caffeinate_during_autopilot', value: !window._ALL_STATE?.caffeinate_during_autopilot }) },
+      'release-lock': { path: '/release-lock', body: () => ({}), confirm: 'Force-release the workshop lock? Logged to lock_steals.log.' },
+      'kill': { path: '/kill', body: () => ({}), confirm: 'Run kill cascade? Releases lock, pauses automations, flips mode to direct.' },
+    };
+    root.querySelectorAll('button[data-act]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const act = btn.dataset.act;
+        const cfg = map[act];
+        if (!cfg) return;
+        if (cfg.confirm && !confirm(cfg.confirm)) return;
+        const fb = btn.closest('.ctrl-action').querySelector('[data-feedback]');
+        if (fb) fb.textContent = '…';
+        try {
+          await apiPost(cfg.path, cfg.body());
+          if (fb) fb.textContent = '✓ done';
+          if (typeof refreshState === 'function') setTimeout(refreshState, 400);
+        } catch (e) {
+          if (fb) fb.textContent = '✗ ' + e.message;
+        }
+      });
+    });
+  }
+  function renderChatActions(slug, proj) {
+    const stateOpts = ['Building','Launch Prep','Warmer','R&D','Updates','Hibernating']
+      .map(s => `<option value="${s}" ${proj.state === s ? 'selected' : ''}>${s}</option>`).join('');
+    const visOpts = ['public','private','auto']
+      .map(v => `<option value="${v}" ${(proj.public_visibility || 'public') === v ? 'selected' : ''}>${v}</option>`).join('');
+    return `
+      <div class="ctrl-action">
+        <h4>Fire autopilot</h4>
+        <div class="ctrl-action__row">
+          <input type="number" class="widget__input" data-input="mins" min="1" max="240" value="30" style="max-width:90px;" />
+          <span style="color:var(--ink-3);font-size:12px;">min</span>
+          <button class="btn-primary" data-act="fire">Fire</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Set state</h4>
+        <div class="ctrl-action__row">
+          <select class="widget__select" data-input="state" style="flex:1;">${stateOpts}</select>
+          <button class="btn-primary" data-act="set-state">Set</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Active toggle</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${proj.active === false ? 'inactive' : 'active'}</span>
+          <button class="btn-primary" data-act="toggle-active">Toggle</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Autopilot eligibility</h4>
+        <div class="ctrl-action__row">
+          <span class="ctrl-action__current">${proj.autopilot_eligible ? 'eligible' : 'supervised'}</span>
+          <button class="btn-primary" data-act="toggle-autopilot">Toggle</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Visibility</h4>
+        <div class="ctrl-action__row">
+          <select class="widget__select" data-input="vis" style="flex:1;">${visOpts}</select>
+          <button class="btn-primary" data-act="set-visibility">Set</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Send message</h4>
+        <textarea class="widget__textarea" data-input="msg" rows="3" placeholder="message text…" style="margin-bottom:8px;"></textarea>
+        <div class="ctrl-action__row">
+          <button class="btn-primary" data-act="chat-message">Send</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+      <div class="ctrl-action">
+        <h4>Re-read contract</h4>
+        <div class="ctrl-action__row">
+          <button class="btn-primary" data-act="chat-reread">Trigger</button>
+        </div>
+        <p class="ctrl-action__feedback" data-feedback></p>
+      </div>
+    `;
+  }
+  function bindChatActions(root, slug) {
+    const handlers = {
+      'fire': async (card) => {
+        const mins = parseInt(card.querySelector('[data-input="mins"]').value, 10);
+        return apiPost('/fire', { slug, minutes: mins, prompt: '' }).then(r => '✓ fired ' + slug + ' for ' + mins + 'm');
+      },
+      'set-state': async (card) => {
+        const state = card.querySelector('[data-input="state"]').value;
+        return apiPost('/set-state', { slug, state }).then(() => '✓ ' + slug + ' → ' + state);
+      },
+      'toggle-active': async () => apiPost('/toggle-active', { slug }).then(r => '✓ active=' + r.active),
+      'toggle-autopilot': async () => apiPost('/toggle-autopilot', { slug }).then(r => '✓ eligible=' + r.autopilot_eligible),
+      'set-visibility': async (card) => {
+        const v = card.querySelector('[data-input="vis"]').value;
+        return apiPost('/set-visibility', { slug, visibility: v }).then(() => '✓ visibility=' + v);
+      },
+      'chat-message': async (card) => {
+        const message = card.querySelector('[data-input="msg"]').value.trim();
+        if (!message) throw new Error('write a message first');
+        return apiPost('/chat-message', { slug, message }).then(r => '✓ queued (count=' + r.queued_count + ')');
+      },
+      'chat-reread': async () => apiPost('/chat-reread', { slug }).then(() => '✓ ' + slug + ' will re-read on next turn'),
+    };
+    root.querySelectorAll('button[data-act]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const card = btn.closest('.ctrl-action');
+        const fb = card.querySelector('[data-feedback]');
+        const act = btn.dataset.act;
+        const handler = handlers[act];
+        if (!handler) return;
+        if (fb) fb.textContent = '…';
+        try {
+          const msg = await handler(card);
+          if (fb) fb.textContent = msg;
+          if (typeof refreshState === 'function') setTimeout(refreshState, 400);
+        } catch (e) {
+          if (fb) fb.textContent = '✗ ' + e.message;
+        }
+      });
+    });
+  }
+  const DEFAULT_LAYOUT = {
+    sectionOrder: ["public", "private"],
+    sections: {
+      public: [
+        { id: "project-list", size: "2x2" },
+        { id: "smoke-alerts", size: "1x1" },
+        { id: "active-count", size: "1x1" },
+        { id: "token-cycle", size: "1x1" },
+        { id: "lock-status", size: "1x1" },
+        { id: "recent-commits", size: "2x1" },
+        { id: "token-cost-chart", size: "2x2" },
+        { id: "theme-switcher", size: "2x1" },
+        { id: "background-picker", size: "2x1" },
+        { id: "controller-tree", size: "2x2" },
+      ],
+      private: [
+        { id: "mode-pill", size: "1x1" },
+        { id: "quick-fire", size: "2x1" },
+        { id: "kill-switch", size: "1x1" },
+        { id: "pause-toggle", size: "1x1" },
+        { id: "cycle-freeze", size: "2x1" },
+        { id: "chat-control", size: "2x2" },
+        { id: "code-rate", size: "2x1" },
+      ],
+    },
+  };
+  function migrateOldLayout(oldArr) {
+    const next = { sectionOrder: ["public", "private"], sections: { public: [], private: [] } };
+    for (const item of oldArr) {
+      const def = WIDGETS[item.id];
+      if (!def) continue;
+      const sec = def.visibility === "private" ? "private" : "public";
+      next.sections[sec].push({ id: item.id, size: item.size, props: item.props || {} });
+    }
+    return next;
+  }
+  function loadLayout() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object" && Array.isArray(parsed.sectionOrder) && parsed.sections) {
+          parsed.sections.public = Array.isArray(parsed.sections.public) ? parsed.sections.public : [];
+          parsed.sections.private = Array.isArray(parsed.sections.private) ? parsed.sections.private : [];
+          if (!parsed.sectionOrder.includes("public")) parsed.sectionOrder.push("public");
+          if (!parsed.sectionOrder.includes("private")) parsed.sectionOrder.push("private");
+          return parsed;
+        }
+        if (Array.isArray(parsed) && parsed.length) return migrateOldLayout(parsed);
+      }
+    } catch (e) {}
+    return JSON.parse(JSON.stringify(DEFAULT_LAYOUT));
+  }
+  function saveLayout(l) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(l)); } catch (e) {} }
+  let LAYOUT = loadLayout();
+  let editing = false;
+  function visibleSections() {
+    if (!window._isOwner && typeof window._isOwner !== "undefined") {
+      return ["public"];
+    }
+    if (typeof window._isOwner === "undefined") return ["public"];
+    return LAYOUT.sectionOrder;
+  }
+  function makeWidgetEl(item, sectionType, idx, state) {
+    const def = WIDGETS[item.id];
+    if (!def) return null;
+    const size = item.size || def.defaultSize || "1x1";
+    const el = document.createElement("div");
+    el.className = "widget widget--" + size;
+    el.dataset.widgetId = item.id;
+    el.dataset.section = sectionType;
+    el.dataset.idx = String(idx);
+    el.draggable = false;
+    try { el.innerHTML = def.render(state, item.props || {}); }
+    catch (e) { el.innerHTML = `<div class="widget__header"><span class="widget__title">${escapeHtml(def.title)}</span></div><div class="widget__body widget__body--center"><small style="color:#dc2626;">render error: ${escapeHtml(e.message)}</small></div>`; }
+    const x = document.createElement("button");
+    x.className = "widget__remove"; x.type = "button"; x.innerHTML = "×"; x.title = "Remove";
+    x.addEventListener("click", (ev) => { ev.stopPropagation(); removeWidget(sectionType, idx); });
+    el.appendChild(x);
+    if (def.sizes && def.sizes.length > 1) {
+      const r = document.createElement("button");
+      r.className = "widget__resize"; r.type = "button"; r.innerHTML = "⤢"; r.title = "Resize";
+      r.addEventListener("click", (ev) => { ev.stopPropagation(); cycleSize(sectionType, idx); });
+      el.appendChild(r);
+    }
+    if (def.bind) {
+      try {
+        def.bind(el, item.props || {}, {
+          apiPost,
+          state,
+          setProps: (p) => { LAYOUT.sections[sectionType][idx].props = Object.assign({}, item.props || {}, p); saveLayout(LAYOUT); },
+          rerender: () => renderAll(window._ALL_STATE),
+        });
+      } catch (e) {  }
+    }
+    return el;
+  }
+  function makeSectionHeader(sectionType, position, totalSections) {
+    const wrap = document.createElement("div");
+    wrap.className = "widget-section__header";
+    const title = sectionType === "public"
+      ? "Public — visible to visitors"
+      : "Private — owner only";
+    const subtitle = sectionType === "public"
+      ? "Anyone visiting your dashboard sees these widgets."
+      : "These widgets and their controls are hidden from visitors.";
+    wrap.innerHTML = `
+      <div class="widget-section__heading">
+        <span class="widget-section__chip widget-section__chip--${sectionType}">${sectionType === "public" ? "public" : "private"}</span>
+        <div>
+          <h2 class="widget-section__title">${escapeHtml(title)}</h2>
+          <p class="widget-section__sub">${escapeHtml(subtitle)}</p>
+        </div>
+      </div>
+      <button class="widget-section__move" data-section-move="${sectionType}" type="button" title="Swap section order">${position === 0 ? "↓ move down" : "↑ move up"}</button>
+    `;
+    wrap.querySelector("[data-section-move]")?.addEventListener("click", () => moveSection(sectionType));
+    return wrap;
+  }
+  function renderAll(state) {
+    const root = $("#widgetRoot");
+    if (!root) return;
+    root.innerHTML = "";
+    const order = visibleSections();
+    order.forEach((sectionType, position) => {
+      const items = LAYOUT.sections[sectionType] || [];
+      const sectionEl = document.createElement("section");
+      sectionEl.className = "widget-section widget-section--" + sectionType;
+      sectionEl.dataset.section = sectionType;
+      sectionEl.appendChild(makeSectionHeader(sectionType, position, order.length));
+      const grid = document.createElement("div");
+      grid.className = "widget-grid";
+      grid.dataset.section = sectionType;
+      items.forEach((item, idx) => {
+        const wel = makeWidgetEl(item, sectionType, idx, state);
+        if (wel) grid.appendChild(wel);
+      });
+      sectionEl.appendChild(grid);
+      root.appendChild(sectionEl);
+      if (editing) bindDragHandlers(grid, sectionType);
+    });
+    renderShelf();
+  }
+  function refreshWidgetData(state) {
+    if (editing) return;  // don't disrupt edit mode
+    renderAll(state);
+  }
+  function toggleEditMode() {
+    editing = !editing;
+    document.body.classList.toggle("editing-dashboard", editing);
+    const btn = $("#btn-edit-dash");
+    const reset = $("#btn-reset-dash");
+    const hint = $("#dash-hint");
+    if (btn) btn.textContent = editing ? "Done" : "Edit Dashboard";
+    if (reset) reset.style.display = editing ? "" : "none";
+    if (hint) {
+      hint.innerHTML = editing
+        ? "<strong>Edit mode:</strong> drag within a section · click ⤢ to resize · click × to remove · use the section header button to swap order · scroll for more widgets"
+        : "Welcome — your default layout is shown. Public widgets are visible to anyone visiting; Private widgets only show for you. Click <strong>Edit Dashboard</strong> to customize.";
+    }
+    renderAll(window._ALL_STATE);
+  }
+  function bindDragHandlers(grid, sectionType) {
+    grid.querySelectorAll(".widget").forEach(el => {
+      el.draggable = true;
+      el.addEventListener("dragstart", (ev) => {
+        el.classList.add("is-dragging");
+        ev.dataTransfer.effectAllowed = "move";
+        ev.dataTransfer.setData("text/plain", JSON.stringify({ section: sectionType, idx: parseInt(el.dataset.idx, 10) }));
+      });
+      el.addEventListener("dragend", () => {
+        el.classList.remove("is-dragging");
+        $$(".widget.is-drop-target").forEach(x => x.classList.remove("is-drop-target"));
+      });
+      el.addEventListener("dragover", (ev) => { ev.preventDefault(); el.classList.add("is-drop-target"); });
+      el.addEventListener("dragleave", () => { el.classList.remove("is-drop-target"); });
+      el.addEventListener("drop", (ev) => {
+        ev.preventDefault();
+        let payload;
+        try { payload = JSON.parse(ev.dataTransfer.getData("text/plain")); } catch (e) { return; }
+        if (!payload || payload.section !== sectionType) {
+          alert("Public and private widgets stay in their own sections. Move the section instead, or remove and re-add.");
+          return;
+        }
+        const fromIdx = payload.idx;
+        const toIdx = parseInt(el.dataset.idx, 10);
+        if (Number.isNaN(fromIdx) || Number.isNaN(toIdx) || fromIdx === toIdx) return;
+        const arr = LAYOUT.sections[sectionType];
+        const [moved] = arr.splice(fromIdx, 1);
+        arr.splice(toIdx, 0, moved);
+        saveLayout(LAYOUT);
+        renderAll(window._ALL_STATE);
+      });
+    });
+  }
+  function removeWidget(sectionType, idx) {
+    const arr = LAYOUT.sections[sectionType];
+    if (!arr) return;
+    arr.splice(idx, 1);
+    saveLayout(LAYOUT);
+    renderAll(window._ALL_STATE);
+  }
+  function cycleSize(sectionType, idx) {
+    const item = LAYOUT.sections[sectionType]?.[idx];
+    if (!item) return;
+    const def = WIDGETS[item.id];
+    const sizes = def.sizes || [item.size || def.defaultSize || "1x1"];
+    const cur = item.size || def.defaultSize || sizes[0];
+    const i = sizes.indexOf(cur);
+    item.size = sizes[(i + 1) % sizes.length];
+    saveLayout(LAYOUT);
+    renderAll(window._ALL_STATE);
+  }
+  function addWidget(id) {
+    const def = WIDGETS[id];
+    if (!def) return;
+    const sec = def.visibility === "private" ? "private" : "public";
+    LAYOUT.sections[sec] = LAYOUT.sections[sec] || [];
+    LAYOUT.sections[sec].push({ id, size: def.defaultSize, props: {} });
+    saveLayout(LAYOUT);
+    renderAll(window._ALL_STATE);
+  }
+  function moveSection(sectionType) {
+    const order = LAYOUT.sectionOrder.slice();
+    const i = order.indexOf(sectionType);
+    if (i < 0) return;
+    const j = (i === 0) ? 1 : 0;
+    [order[i], order[j]] = [order[j], order[i]];
+    LAYOUT.sectionOrder = order;
+    saveLayout(LAYOUT);
+    renderAll(window._ALL_STATE);
+  }
+  function resetLayout() {
+    if (!confirm("Reset dashboard to default layout? Your current arrangement will be lost.")) return;
+    LAYOUT = JSON.parse(JSON.stringify(DEFAULT_LAYOUT));
+    saveLayout(LAYOUT);
+    renderAll(window._ALL_STATE);
+  }
+  function renderShelf() {
+    const grid = $("#widgetShelfGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    Object.keys(WIDGETS).forEach(id => {
+      const def = WIDGETS[id];
+      const sec = def.visibility === "private" ? "private" : "public";
+      const onGrid = (LAYOUT.sections[sec] || []).some(item => item.id === id);
+      const item = document.createElement("button");
+      item.className = "widget-shelf__item widget-shelf__item--" + sec + (onGrid ? " is-on-grid" : "");
+      item.type = "button";
+      item.innerHTML = `
+        <div class="widget-shelf__row">
+          <span class="widget-section__chip widget-section__chip--${sec}">${sec}</span>
+          <h3>${escapeHtml(def.title)}</h3>
+        </div>
+        <p>${escapeHtml(def.description)}</p>`;
+      if (!onGrid) item.addEventListener("click", () => addWidget(id));
+      grid.appendChild(item);
+    });
+  }
+  document.addEventListener("DOMContentLoaded", () => {
+    $("#btn-edit-dash")?.addEventListener("click", toggleEditMode);
+    $("#btn-reset-dash")?.addEventListener("click", resetLayout);
+    $("#btn-close-shelf")?.addEventListener("click", () => { if (editing) toggleEditMode(); });
+    renderAll(window._ALL_STATE);
+  });
+  window.refreshPageState = function (state) {
+    window._ALL_STATE = state;
+    const hero = $("#hero-status");
+    if (!state) {
+      if (hero) hero.textContent = "control panel offline · open from your Mac";
+    } else {
+      if (hero) hero.textContent = "mode: " + (state.mode || "?") + " · " + (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " active";
+    }
+    refreshWidgetData(state);
+  };
+  setInterval(() => {
+    if (!editing && LAYOUT.some(i => i.id === "token-cycle")) renderAll(window._ALL_STATE);
+  }, 60000);
+})();

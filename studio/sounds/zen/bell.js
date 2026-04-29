@@ -1,4 +1,3 @@
-// Singing bowl bell: sine fundamental + 2nd harmonic, long decay, 1000 ms
 export async function play(ctx) {
   const fundamental = ctx.createOscillator();
   const harmonic = ctx.createOscillator();

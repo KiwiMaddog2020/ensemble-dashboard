@@ -1,16 +1,10 @@
-/* control.js — interactive layer for the Ensemble dashboard.
-   Probes /health on load. If reachable + auth OK, injects a control toolbar
-   + per-card buttons + Claude chat iframe pane. Otherwise stays read-only.
-*/
 (function () {
   var TOKEN_KEY = 'ensemble_dashboard_token';
   var SERVER_URL = location.origin;  // same origin = the local Mac server
   var token = localStorage.getItem(TOKEN_KEY) || '';
-
   function authHeaders() {
     return token ? { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
   }
-
   async function probe() {
     try {
       var r = await fetch(SERVER_URL + '/health', { cache: 'no-store' });
@@ -18,7 +12,6 @@
       return await r.json();
     } catch (e) { return null; }
   }
-
   async function setMode(slug, mode) {
     var r = await fetch(SERVER_URL + '/set-mode', {
       method: 'POST', headers: authHeaders(),
@@ -26,7 +19,6 @@
     });
     return r.ok ? await r.json() : null;
   }
-
   async function toggleActive(slug) {
     var r = await fetch(SERVER_URL + '/toggle-active', {
       method: 'POST', headers: authHeaders(),
@@ -34,7 +26,6 @@
     });
     return r.ok ? await r.json() : null;
   }
-
   async function fire(slug, minutes, prompt) {
     var r = await fetch(SERVER_URL + '/fire', {
       method: 'POST', headers: authHeaders(),
@@ -42,13 +33,11 @@
     });
     return r.ok ? await r.json() : await r.json();
   }
-
   async function killAll() {
     if (!confirm('Fire kill switch? This releases the autopilot lock and stops in-flight sessions.')) return;
     var r = await fetch(SERVER_URL + '/kill', { method: 'POST', headers: authHeaders() });
     return r.ok ? await r.json() : null;
   }
-
   function ensureToken(authRequired) {
     if (!authRequired) return true;
     if (token) return true;
@@ -56,7 +45,6 @@
     if (entered) { localStorage.setItem(TOKEN_KEY, entered); token = entered; return true; }
     return false;
   }
-
   function injectStyles() {
     var css = `
       .ctl-bar { position:fixed; bottom:0; left:0; right:0; z-index:100;
@@ -108,7 +96,6 @@
     `;
     var s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
   }
-
   function fireMenu(slug) {
     var m = prompt('Fire autopilot for ' + slug + ' — duration in minutes? (1-240)', '30');
     if (!m) return;
@@ -118,7 +105,6 @@
       alert(res && res.exit === 0 ? 'Fired ' + minutes + 'm at ' + slug : 'Fire failed: ' + (res && res.stderr || 'unknown'));
     });
   }
-
   function modeMenu(slug, current) {
     var modes = ['frozen', 'reactive', 'maintenance', 'active'];
     var picked = prompt('Set evolution mode for ' + slug + ' (current: ' + current + ')\nOptions: ' + modes.join(', '), current);
@@ -128,12 +114,10 @@
       else alert('Failed to set mode');
     });
   }
-
   function activeMenu(slug, current) {
     if (!confirm((current ? 'Pause' : 'Resume') + ' ' + slug + '?')) return;
     toggleActive(slug).then(function (res) { if (res) location.reload(); });
   }
-
   function injectControlBar() {
     document.body.classList.add('has-control-bar');
     var bar = document.createElement('div');
@@ -149,7 +133,6 @@
     bar.addEventListener('click', function (e) {
       var act = e.target.dataset.act;
       if (act === 'fire-quick') {
-        // Pick first active + autopilot-eligible project
         var card = document.querySelector('.card[data-pct]');
         if (card) {
           var slug = card.getAttribute('href').replace('./','').replace('.html','');
@@ -164,7 +147,6 @@
       }
     });
   }
-
   function injectCardOverlays() {
     document.querySelectorAll('.card').forEach(function (card) {
       var href = card.getAttribute('href') || '';
@@ -191,7 +173,6 @@
       card.appendChild(overlay);
     });
   }
-
   function injectChatPane() {
     var pane = document.createElement('div');
     pane.className = 'ctl-chat';
@@ -203,17 +184,14 @@
       '<iframe src="https://claude.ai/code" allow="clipboard-read; clipboard-write" referrerpolicy="origin"></iframe>';
     document.body.appendChild(pane);
     pane.querySelector('.ctl-chat-close').addEventListener('click', function () { pane.classList.remove('open'); });
-    // X-Frame-Options fallback: detect failed iframe load
     var iframe = pane.querySelector('iframe');
     setTimeout(function () {
       try {
         if (iframe.contentDocument === null) throw new Error('blocked');
       } catch (e) {
-        // Cross-origin frame access throws — that's actually a SUCCESS sign for iframe loading
       }
     }, 3000);
     iframe.addEventListener('load', function () {
-      // No reliable cross-origin load event detection; trust it loaded
     });
     iframe.addEventListener('error', function () {
       iframe.replaceWith(Object.assign(document.createElement('div'), {
@@ -222,8 +200,6 @@
       }));
     });
   }
-
-  // ── Boot ──
   probe().then(function (h) {
     if (!h) {
       console.log('[ensemble] read-only mode — local server not reachable');

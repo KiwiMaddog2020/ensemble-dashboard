@@ -1,4 +1,3 @@
-// Digital beep: clean sine at 880 Hz with fast attack/release, 200 ms
 export async function play(ctx) {
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();

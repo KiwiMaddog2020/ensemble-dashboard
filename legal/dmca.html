@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Session Handoff</title>
-<meta name="description" content="Resume context for the next chat." />
+<title>Ensemble — DMCA Policy</title>
+<meta name="description" content="How to report copyright infringement and how we respond." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -150,268 +150,129 @@
 <main class="doc-page">
   <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
   <div class="wrap doc-wrap">
-    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <a href="../docs.html" class="doc-back">&larr; Back to documentation</a>
     <header class="doc-hero">
-      <p class="doc-eyebrow">Documentation</p>
-      <h1 class="doc-title">Session Handoff</h1>
-      <p class="doc-lead">Resume context for the next chat.</p>
-      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/SESSION_HANDOFF.md</code></p>
+      <p class="doc-eyebrow">Legal</p>
+      <h1 class="doc-title">DMCA Policy</h1>
+      <p class="doc-lead">Effective date: **[DATE OF FIRST PUBLIC FLIP]**. Last updated: **2026-04-29**.</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/legal/DMCA.md</code></p>
     </header>
     <article class="doc-content">
-<hr />
-<h2 id="wake-up-brief-read-this-first">☕ WAKE-UP BRIEF · read this first</h2>
-<p>While you slept, <strong>6 warp workers landed</strong> (Phase 2.2 build x3 + AFK audit x3). Two of the audits surfaced <strong>shipping-blocking findings</strong> that need to be fixed before the next dashboard-fire. Don&rsquo;t merge Phase 2.2 yet — read the RED list first.</p>
-<h3 id="red-fix-before-next-dashboard-fire">🔴 RED — fix before next dashboard-fire</h3>
-<ol>
-<li>
-<p><strong><code>STATE_PATH</code> NameError in <code>bin/control-panel-server.py</code></strong> — 14 references to <code>STATE_PATH</code> (lines 378, 540, 612, 615, 618, 817, 822, 825, 842, 847, 850, 862, 891, 894) but only <code>STATE_FILE</code> is defined at line 51. <strong>5 endpoints are silently 500ing today</strong> on your local control panel: <code>/set-config</code>, <code>/release-lock</code>, <code>/pause-autopilots</code>, <code>/freeze-until</code>, plus the <code>/fire</code> freeze-precheck. <code>/state</code> GET is silently dehydrating. <strong>Fix: ~10 min.</strong> Add <code>STATE_PATH = ORCH_DATA / "state.json"</code> at line 51 and keep <code>STATE_FILE = STATE_PATH</code> as alias. (Audit B #1.)</p>
-</li>
-<li>
-<p><strong>iframe sandbox uses <code>allow-scripts allow-same-origin</code> together</strong> in <code>your_studio.py:38</code> and <code>studio_engine_js.py:399, 545</code>. This combination is documented to defeat sandboxing — combined with Claude-generated HTML+JS, it&rsquo;s a prompt-injection-to-XSS path that yields the host origin&rsquo;s <code>localStorage.DASHBOARD_TOKEN</code>. <strong>Currently shipping on the live PWA.</strong> Fix: drop <code>allow-same-origin</code> OR move iframes to a <code>studio-frame.ensemble.tld</code> subdomain. <strong>Effort: S</strong> (1 line removal). (Audit C #4.)</p>
-</li>
-</ol>
-<h3 id="yellow-pre-public-flip-blockers-chunk-3-territory">🟡 YELLOW — pre public-flip blockers (Chunk 3 territory)</h3>
-<p>Audit C surfaced a complete public-flip blocker list (9 items) — read <code>runs/warp-20260429T071032Z/c/report.md</code> §&rdquo;Public-flip blocker list&rdquo; for the full set. Headlines:</p>
-<ul>
-<li>Cloudflare Access not yet wired (already known; Chunk 3)</li>
-<li><code>/state</code> and <code>/studio/generate-from-answers</code> exposed without auth or rate-limit</li>
-<li>No Privacy Policy / ToS / cookie banner (PIPEDA + GDPR requirement)</li>
-<li>HTTP body size unbounded → trivial memory DoS against the Mac</li>
-<li>pair.html token-verification flow is broken (verifies via unauth <code>/state</code>)</li>
-</ul>
-<h3 id="green-confirmed-good">🟢 GREEN — confirmed good</h3>
-<ul>
-<li><strong>No leaked secrets</strong> in the committed repo. <code>.env.local</code> is gitignored; <code>.env.local.example</code> only has placeholders. (Audit C.)</li>
-<li><strong>Phase 2.1 Chunk 2 foundations + OPT-1 code is &ldquo;Apple-tier&rdquo;</strong> per Audit B — module shape, dependency discipline, atomic-write pattern. The bar is set; older code needs to catch up.</li>
-<li><strong>Test suite 120/120 OK</strong> at handoff snapshot.</li>
-<li><strong>Dashboard a11y is &ldquo;unusually good&rdquo;</strong> per Audit C — ARIA + reduced-motion + escapeHtml well-implemented.</li>
-<li><strong>All 3 Phase 2.2 build slots landed cleanly</strong> with their commits in their worktrees, ready to merge after RED fixes.</li>
-</ul>
-<h3 id="suggested-morning-order">Suggested morning order</h3>
-<ol>
-<li><strong>Read this WAKE-UP BRIEF</strong> (you&rsquo;re doing it).</li>
-<li><strong>Fix RED #1</strong> (STATE_PATH alias) — ~10 min.</li>
-<li><strong>Fix RED #2</strong> (iframe <code>allow-same-origin</code> removal) — ~5 min + verify Studio still renders.</li>
-<li><strong>Run tests</strong> to confirm RED fixes don&rsquo;t regress: <code>python3 -m unittest tests.test_studio_genesis tests.test_repo_ingest tests.test_github_oauth tests.test_repoless_genesis tests.test_first_run_endpoints tests.test_presets tests.test_asset_packs tests.test_phase3_pages tests.test_canvas_chunk2_foundations</code>.</li>
-<li><strong>Read the 3 audit reports in order</strong> (consistency / codebase / launch-readiness):
-   <code>bash
-   cat runs/warp-20260429T071032Z/a/report.md   # 222 lines — grand-plan consistency
-   cat runs/warp-20260429T071032Z/b/report.md   # 623 lines — codebase quality
-   cat runs/warp-20260429T071032Z/c/report.md   # 636 lines — launch-readiness</code></li>
-<li><strong>Decide on Phase 2.2 merge.</strong> Slot A modified <code>control-panel-server.py</code> to add canvas routes — verify Slot A didn&rsquo;t worsen the STATE_PATH bug, then run the merge sequence:
-   <code>bash
-   git merge --no-ff claude/warp-20260429T070045Z-a -m "Merge warp:a — Canvas API real impls (Phase 2.2)"
-   git merge --no-ff claude/warp-20260429T070045Z-b -m "Merge warp:b — Studio publish UI (Phase 2.2)"
-   git merge --no-ff claude/warp-20260429T070045Z-c -m "Merge warp:c — Ensemble showcase grid (Phase 2.2)"</code></li>
-<li><strong>Re-run tests post-merge</strong> (Slot A wrote ~100 new tests in <code>test_canvas_schema.py / test_canvas_store.py / test_canvas_api.py</code>).</li>
-<li><strong>Decide on dashboard-fire.</strong> Live PWA still has the iframe-sandbox bug. Either fire RED-fix-only first (safer), or fire RED-fix + Phase 2.2 together.</li>
-</ol>
-<h3 id="phase-22-commits-ready-to-merge">Phase 2.2 commits ready to merge</h3>
-<pre><code>Slot A: f265177 [warp:a] test(canvas): comprehensive schema + store + api coverage
-        aa17d84 [warp:a] feat(canvas): wire canvas routes into control-panel-server.py
-        d2ba64e [warp:a] feat(canvas): real handler impls for 8 endpoints
-
-Slot B: 26feeb6 [warp:b] feat(studio): wire publish panel + theme picker into studio.html
-        1b805db [warp:b] feat(studio): theme picker grid (21 themes, v10w icons)
-        ae9a2ab [warp:b] feat(studio): publish panel - slot manager + per-slot actions
-
-Slot C: e638994 [warp:c] feat(dashgen): per-canvas page generation in __main__.py
-        5055b7d [warp:c] feat(ensemble): /canvas/&lt;id&gt;.html detail view rendering room_state
-        575ee10 [warp:c] feat(ensemble): collective-showcase grid replacing manifesto landing
-        4d0d35b [warp:c] feat(ensemble): canvas card component with theme-colored thumbnails
-</code></pre>
-<p>13 commits across 3 branches. Conflict surface: zero (verified at directive design time).</p>
-<hr />
+<p><strong>Ensemble</strong> (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) respects the intellectual-property rights of
+others and expects users of our service (the &ldquo;<strong>Service</strong>&rdquo;) to do the same.
+This policy describes how to report alleged copyright infringement on the
+Service and the process we follow in response. We have designed it to be
+consistent with <strong>17 U.S.C. § 512</strong> (the <strong>Digital Millennium Copyright Act</strong>,
+or &ldquo;<strong>DMCA</strong>&rdquo;) so that we can rely on the safe-harbor provisions where they
+apply.</p>
 <blockquote>
-<p>Compaction-driven handoff originally written 2026-04-28 evening. Kevin asked for handoff before the OPT-1 workers completed; they all landed during the write. Then Kevin chose to keep going for one more session, shipping Chunk 1 dashboard-fire + Phase 2.1 Chunk 2 foundations + spawning Phase 2.2 build x3 + AFK audit x3. He went to sleep ~07:10 UTC; all 6 workers landed within ~30 min of spawn (faster than the 90-120 min estimate). Updated wake-up brief above written in real-time as the workers completed.</p>
+<p>When user-generated Studios become publicly shareable (planned for v1.x),
+this policy is the primary tool for addressing copyright disputes about
+that content. Pre-shareable, the policy is published in advance so the
+process is in place when needed.</p>
 </blockquote>
 <hr />
-<h2 id="you-are-the-next-maestro">You are the next Maestro</h2>
-<p><strong>First action — read in this order, no questions yet:</strong></p>
-<ol>
-<li><code>~/.claude/orchestrator/plugins/ensemble/templates/MAESTRO.md</code> — your standing directives + behavioral rules</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/MEMORY.md</code> — pointer manifest</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/precedence.md</code> — six-tier rule precedence</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/self_audit.md</code> — silent self-check checklist</li>
-<li><code>~/.claude/projects/-Users-kevin/memory/warp_speed.md</code> + <code>warp_split.md</code> — both active</li>
-<li><code>~/.claude/orchestrator/state.json</code> — runtime state</li>
-<li><strong>This file.</strong></li>
-</ol>
-<p>After reading: do NOT ask &ldquo;what&rsquo;s going on&rdquo; — Kevin lived through this session. The first thing you should do is <strong>check OPT-1 worker status</strong> (commands in §&rdquo;OPT-1 in flight&rdquo; below), then either merge their work or surface blockers.</p>
-<hr />
-<h2 id="current-runtime-state-snapshot-at-handoff">Current runtime state (snapshot at handoff)</h2>
+<h2 id="1-designated-copyright-agent">1. Designated Copyright Agent</h2>
+<p>Send DMCA notices and counter-notices to our designated agent:</p>
 <ul>
-<li><strong>Branch:</strong> <code>main</code></li>
-<li><strong>Last commit:</strong> <code>98f31d2</code> — <code>Merge warp:c — friction-pattern docs (OPT-1)</code></li>
-<li><strong>Live PWA commit:</strong> <code>0ed483c</code> (last <code>dashboard-fire</code>, behind main by ~12 commits — Chunk 1 + OPT-1 NOT YET dashboard-fired)</li>
-<li><strong>Working tree:</strong> Clean except this handoff doc + a stray <code>virtuosos/tool-builder/website/</code> (untracked, not for this Maestro)</li>
-<li><strong>state.json highlights:</strong></li>
-<li><code>mode = orchestrated</code></li>
-<li><code>warp_speed_active = true</code> (since 2026-04-27)</li>
-<li><code>autopilot_freeze_until = null</code> (lifted earlier this session for warp work)</li>
-<li><code>autopilots_paused = false</code> (lifted)</li>
-<li><code>rapid_fire_enabled = true</code></li>
-<li><code>max_concurrent_autopilots = 3</code></li>
-<li><strong>Scheduled tasks:</strong> 8 tasks DISABLED per Kevin&rsquo;s &ldquo;extra tokens, turn off all scheduled runs&rdquo; directive. He said &ldquo;I will turn back on automatically.&rdquo; Do NOT re-enable on your own.</li>
-<li><strong>Dashboard token:</strong> <code>QEyfZNDjoKHiq0m3AUteTzMptHv-tYzdtkZzwIE0we8</code></li>
-<li><strong>Token quota:</strong> Kevin is on Anthropic Max $250 (&ldquo;extra tokens&rdquo; = bonus quota window before weekly reset 2026-05-01 11:00 PT). Burn liberally on warp + Maestro until reset.</li>
+<li><strong>Name:</strong> Designated Copyright Agent, Ensemble</li>
+<li><strong>Email:</strong> <code>copyright@ensemble.tld</code></li>
+<li><strong>Mailing address:</strong> [PHYSICAL MAILING ADDRESS PENDING DOMAIN REGISTRATION]</li>
+</ul>
+<p>We will register this designated agent with the U.S. Copyright Office as
+required by §512(c)(2) once the Service hosts user-generated content that
+is publicly distributed.</p>
+<h2 id="2-how-to-file-a-dmca-notice">2. How to file a DMCA notice</h2>
+<p>If you believe content on the Service infringes a copyright you own or are
+authorized to act on behalf of, send our designated agent a written notice
+that includes <strong>all</strong> of the following (these are §512(c)(3) requirements):</p>
+<ol>
+<li>A physical or electronic <strong>signature</strong> of a person authorized to act on
+   behalf of the copyright owner.</li>
+<li><strong>Identification of the copyrighted work</strong> that you claim has been
+   infringed (or, if multiple works are covered, a representative list).</li>
+<li><strong>Identification of the allegedly infringing material</strong> and information
+   reasonably sufficient for us to locate it (URL or canvas/Studio ID
+   preferred).</li>
+<li>Your <strong>contact information</strong> (full name, mailing address, telephone
+   number, and email address).</li>
+<li>A statement that <strong>you have a good-faith belief</strong> that the use of the
+   material is not authorized by the copyright owner, its agent, or the
+   law.</li>
+<li>A statement, <strong>under penalty of perjury</strong>, that the information in your
+   notice is accurate and that you are the copyright owner or are
+   authorized to act on the owner&rsquo;s behalf.</li>
+</ol>
+<p>Incomplete notices may delay processing or may not be processed at all.</p>
+<h2 id="3-what-we-do-when-we-receive-a-valid-notice">3. What we do when we receive a valid notice</h2>
+<p>When we receive a notice that substantially complies with §512(c)(3):</p>
+<ol>
+<li>We <strong>remove or disable access</strong> to the allegedly infringing material
+   expeditiously.</li>
+<li>We <strong>notify the user</strong> who submitted the material, including (where
+   permitted) a copy of your notice with personal contact details
+   redacted.</li>
+<li>We <strong>log</strong> the action against the user&rsquo;s account for repeat-infringer
+   tracking (see §6).</li>
+</ol>
+<h2 id="4-counter-notice">4. Counter-notice</h2>
+<p>If your content was removed and you believe the removal was a mistake or
+that you have the right to use the content, you may file a counter-notice
+under §512(g)(3). Send it to our designated agent with <strong>all</strong> of the
+following:</p>
+<ol>
+<li>Your physical or electronic <strong>signature</strong>.</li>
+<li><strong>Identification</strong> of the material that was removed and the location at
+   which it appeared before removal.</li>
+<li>A statement, <strong>under penalty of perjury</strong>, that you have a good-faith
+   belief the material was removed as a result of mistake or
+   misidentification.</li>
+<li>Your <strong>name, mailing address, and telephone number</strong>, and a statement
+   consenting to the jurisdiction of the federal district court for the
+   judicial district in which your address is located (or, if your
+   address is outside the United States, any judicial district in which
+   we may be found), and that you will accept service of process from
+   the person who provided the original notice (or their agent).</li>
+</ol>
+<h2 id="5-what-we-do-when-we-receive-a-valid-counter-notice">5. What we do when we receive a valid counter-notice</h2>
+<p>When we receive a counter-notice that substantially complies with
+§512(g)(3):</p>
+<ol>
+<li>We <strong>forward</strong> the counter-notice to the original complainant.</li>
+<li>If the complainant does not file a court action seeking a restraining
+   order against the user within <strong>10 to 14 business days</strong>, we may
+   <strong>restore</strong> the material.</li>
+</ol>
+<h2 id="6-repeat-infringer-policy">6. Repeat-infringer policy</h2>
+<p>In appropriate circumstances, we will <strong>terminate</strong> the accounts of users
+who are determined to be repeat infringers. We track strikes against
+accounts; the threshold and weighting depend on context (severity,
+willfulness, response to warnings) and is at our reasonable discretion.</p>
+<h2 id="7-misuse-of-the-dmca-process">7. Misuse of the DMCA process</h2>
+<p>Knowingly submitting a materially false notice or counter-notice may
+subject you to liability under §512(f), including damages and attorney&rsquo;s
+fees. Use this process in good faith.</p>
+<h2 id="8-non-dmca-copyright-concerns">8. Non-DMCA copyright concerns</h2>
+<p>If your concern arises under a copyright regime other than U.S. copyright
+law (e.g. Canadian Copyright Act, EU Copyright Directive), email our
+designated agent with a similarly detailed description of the issue. We
+will handle the request under the applicable law and our internal
+processes.</p>
+<h2 id="9-contact">9. Contact</h2>
+<ul>
+<li><strong>Designated agent:</strong> <code>copyright@ensemble.tld</code></li>
+<li><strong>General contact:</strong> <code>hello@ensemble.tld</code></li>
 </ul>
 <hr />
-<h2 id="what-just-shipped-chunk-1-brand-system-completion">What just shipped (Chunk 1 — Brand System completion)</h2>
-<p>Three warp workers ran in parallel (stamp <code>20260429T053606Z</code>) and all merged into <code>main</code>:</p>
-<ol>
-<li><strong>Slot A (commit <code>a8aa924</code> → merged <code>0ec7653</code>)</strong> — <code>bin/dashgen/server/theme_icons.py</code> refactored to v10w design language across all 21 themes (warm/amber/sand/sunset/crimson/rose/forest/sage/lime/teal/ocean/slate/cobalt/midnight/aurora/plum/ash/mono/ruby/lemon/paper). Algorithmic palette derivation. Public API (<code>THEME_PALETTES</code>, <code>build_icon</code>, <code>ALL_THEME_ICONS</code>, <code>THEME_NAMES</code>) preserved.</li>
-<li><strong>Slot B (commit <code>c6d8bde</code> → merged <code>c9b6b1b</code>)</strong> — <code>bin/dashgen/brand_variants.py</code> (NEW) exporting <code>HERO_SVG</code>, <code>FAVICON_SVG</code>, <code>MERCH_SVG</code>, <code>PRINT_SVG</code>, <code>MONO_SVG</code>. Wired into <code>dashgen/__main__.py</code> to write to <code>{out_dir}/brand/icon-{variant}.svg</code>.</li>
-<li><strong>Slot C (commits <code>72d40e1</code>, <code>7049e36</code> → merged <code>84e0b52</code>)</strong> — <code>bin/regen-app-icons.sh</code> (NEW, executable) generates 10 PNG sizes via <code>qlmanage</code> + compiles <code>bin/ensemble-app-icons/Ensemble.icns</code> (~1.9 MB) via <code>iconutil</code>. Also <code>docs/BRAND_SYSTEM.md</code> (276 lines, 9 sections).</li>
-</ol>
-<p>All 91/91 unit tests still passing as of merge. Chunk 1 is <strong>done</strong> and ready for <code>dashboard-fire</code> when next appropriate.</p>
-<hr />
-<h2 id="opt-1-shipped-to-main">OPT-1 — ✅ SHIPPED to main</h2>
-<p><strong>Stamp:</strong> <code>20260429T055907Z</code>
-<strong>Merged:</strong> all 3 slots into main this session.</p>
-<h3 id="what-landed">What landed</h3>
-<table>
-<thead>
-<tr>
-<th>Slot</th>
-<th>Worker commits</th>
-<th>Merge commit</th>
-<th>What</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A</td>
-<td><code>eb29845</code> + <code>dadae96</code></td>
-<td><code>b9a7e52</code></td>
-<td><code>_build_prompt()</code> 4-branch refactor in <code>bin/autopilot_session.sh</code>; project-aware override branch (NEW) honors both <code>PROMPT_OVERRIDE</code> and <code>AUTOPILOT_PROJECT</code>. Regression test <code>tests/test_autopilot_prompt.sh</code> (14/14 assertions).</td>
-</tr>
-<tr>
-<td>B</td>
-<td><code>f1b5602</code> + <code>7793f5f</code></td>
-<td><code>c67d6c1</code></td>
-<td><code>_manifest_update</code> helper in <code>bin/warp_split_spawn.sh</code> using <code>flock(1)</code> (Linux/CI) or atomic <code>mkdir</code>-as-lock (macOS). Trap-on-EXIT releases lock on kill. Race test <code>tests/test_warp_manifest_race.sh</code> passes 5/5 concurrent writers, 10/10 iterations.</td>
-</tr>
-<tr>
-<td>C</td>
-<td><code>972a51e</code></td>
-<td><code>98f31d2</code></td>
-<td><code>plugins/ensemble/templates/WORKER.md</code> §9 &ldquo;Known friction patterns + workarounds&rdquo; (113→165 lines). <code>~/.claude/projects/-Users-kevin/memory/warp_split.md</code> &ldquo;Recurring friction patterns&rdquo; subsection (151→178 lines).</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Verification at merge time:</strong> <code>bash -n</code> clean on all 4 modified shell scripts. New tests pass. Full Python unittest suite: 91/91 OK.</p>
-<p><strong>Slot A follow-up (non-blocking):</strong> &ldquo;Prompt source&rdquo; log line at <code>bin/autopilot_session.sh:~341</code> still uses old precedence and will mislabel <code>project-override</code> as <code>project-targeted</code>. Cosmetic; out of scope for the directive. Easy 1-line fix when you next touch that section.</p>
-<p><strong>Slot C finding worth knowing:</strong> the &ldquo;sensitive file&rdquo; permission gate is <strong>hard-coded in Claude Code&rsquo;s tool layer</strong>, not configurable via <code>~/.claude/settings*.json</code>. Slot C audited and confirmed. Workaround pattern (Bash + python3 heredoc with absolute paths, OR write a <code>/tmp/*.py</code> generator and run it) is now canonical, documented in WORKER.md §9.</p>
-<h3 id="worktree-cleanup-deferred">Worktree cleanup (deferred)</h3>
-<p>The 3 warp worktrees are still on disk at <code>/Users/kevin/.claude/orchestrator/.claude/warp-worktrees/20260429T055907Z/{a,b,c}/</code>. <code>warp_split_spawn.sh</code> doesn&rsquo;t auto-clean. Convention from prior runs: leave them, they&rsquo;re cheap. Cleanup is an OPT-2/OPT-3 candidate.</p>
-<hr />
-<h2 id="the-6-chunk-master-plan-to-public-flip-locked-earlier-this-session">The 6-chunk master plan to public flip (locked earlier this session)</h2>
-<p>After OPT-1 lands, work proceeds chunk-by-chunk:</p>
-<ol>
-<li><strong>Chunk 1 — Brand system completion</strong> ✅ SHIPPED (above)</li>
-<li><strong>Chunk 2 — Studio core</strong> (30-50h) — the actual generation path: prompt builder, theme picker, preset routing, sprite/audio generation flow, click-to-launch on Arcade preset</li>
-<li><strong>Chunk 3 — Auth gate</strong> — Cloudflare Access in front of every public-facing Ensemble asset (memory rule: non-negotiable before public-flip)</li>
-<li><strong>Chunk 4 — Background workstreams</strong> — feedback pipeline live channels, phase smoke tests at G1/G2, marketplace de-personalization</li>
-<li><strong>Chunk 5 — Public flip</strong> — DNS swap, marketing page, beta-tester invites</li>
-<li><strong>Chunk 6 — v1.1 marketplace</strong> — third-party Studios + revshare</li>
-</ol>
-<p>Plus the OPT track (orchestrator improvements) interleaved between chunks:</p>
-<ul>
-<li><strong>OPT-1</strong> ⏳ in flight (this handoff) — atomic manifest + PROMPT_OVERRIDE fix + friction-pattern docs</li>
-<li><strong>OPT-2</strong> — 5-way warp splits + AI decomposer (auto-slice a unit of work into N directive.md files)</li>
-<li><strong>OPT-3</strong> — token efficiency at scale: TINY worker mode (~500 tokens), per-slot model overrides</li>
-<li><strong>OPT-4</strong> — live progress dashboard for warp runs + standardized worker recovery</li>
-<li><strong>OPT-5</strong> — onboarding + productization (warp split as a product, not just internal tool)</li>
-<li><strong>OPT-6</strong> — multi-machine / multi-user (deferred to v1.1+)</li>
-</ul>
-<p>Strategic context: Kevin&rsquo;s stated goals for the orchestrator are (1) personal optimal coding setup, (2) productize for Ensemble users, (3) Apple-quality abstraction (one button &ldquo;warp speed&rdquo;), (4) token-efficient at scale, (5) sustainable (no growing tooling debt). The OPT track exists because (5) is otherwise quietly violated.</p>
-<hr />
-<h2 id="other-queued-blocked-items">Other queued / blocked items</h2>
-<ul>
-<li><strong>BOO arcade integration</strong> — autopilot fired earlier this session with explicit brief; bug in <code>autopilot_session.sh</code> (the very bug OPT-1 Slot A is fixing) caused it to do unrelated charter-doc sync instead. Once Slot A merges, re-fire BOO arcade autopilot with the original brief. Brief was about integrating Pinball + space-invaders + similar arcade games into the Ensemble Studio Arcade preset.</li>
-<li><strong>Chunk 1 dashboard-fire</strong> — main is ~6 commits ahead of live PWA. Trigger when ready: <code>bash bin/dashboard-fire.sh</code> (or whatever the current invocation is — check <code>package.json</code> / <code>Makefile</code>).</li>
-<li><strong>Re-freeze + re-pause autopilots</strong> — Kevin lifted both for the warp work. After OPT-1 merges, ask if he wants them restored. Don&rsquo;t re-enable scheduled tasks without his explicit ask.</li>
-</ul>
-<hr />
-<h2 id="open-decisions-for-the-next-maestro">Open decisions for the next Maestro</h2>
-<ol>
-<li><strong>Re-freeze after OPT-1?</strong> State has <code>autopilot_freeze_until = null</code>, set by Maestro for &ldquo;extra tokens&rdquo; warp work. After OPT-1 merges, surface this as an option (re-freeze 30d / re-freeze until weekly reset / leave lifted).</li>
-<li><strong>Re-enable scheduled tasks?</strong> 8 tasks disabled. Kevin said &ldquo;I will turn back on automatically.&rdquo; Don&rsquo;t touch unless asked.</li>
-<li><strong>Chunk 1 dashboard-fire timing?</strong> Could go now (brand system fully ready) or wait until OPT-1 lands too (one fire for both).</li>
-<li><strong>Chunk 2 strategy?</strong> 30-50h of work. Plausibly another warp x3 — Maestro should propose a 3-way split (e.g., prompt builder / theme picker / preset routing) when ready.</li>
-</ol>
-<hr />
-<h2 id="files-touched-this-session-quick-map">Files touched this session — quick map</h2>
-<p><strong>Brand system (Chunk 1):</strong>
-- <code>bin/dashgen/server/pwa.py</code> (master ICON_SVG → v10w; SW cache version <code>'ensemble-v10w-frameless'</code>)
-- <code>bin/dashgen/server/theme_icons.py</code> (21-theme refactor, Slot A)
-- <code>bin/dashgen/brand_variants.py</code> (NEW, Slot B)
-- <code>bin/dashgen/__main__.py</code> (brand-variants pipeline wiring, Slot B)
-- <code>bin/regen-app-icons.sh</code> (NEW, Slot C)
-- <code>bin/ensemble-app-icons/Ensemble.icns</code> (NEW, ~1.9 MB, Slot C)
-- <code>bin/ensemble-app-icons/icon.iconset/*.png</code> (10 NEW, Slot C)
-- <code>docs/BRAND_SYSTEM.md</code> (NEW, 276 lines, Slot C)</p>
-<p><strong>Earlier this session (already in main):</strong>
-- <code>bin/ensemble-menubar.py</code> (NEW, rumps menubar app)
-- <code>docs/MENUBAR_APP.md</code> (NEW)
-- <code>bin/autopilot_session.sh</code> (caffeinate prefix removed; PROMPT_OVERRIDE bug being fixed by OPT-1 Slot A)
-- <code>bin/dashgen/pages/first_run_modal.py</code> (CTA spacing: <code>margin: 32px 0 26px</code>)
-- <code>bin/dashgen/pages/ensemble_body.py</code> (<code>ENSEMBLE™</code> eyebrow)
-- <code>docs/TRADEMARK_CLEARANCE.md</code> (NEW, 340 lines)
-- <code>state.json</code> (multiple state changes documented above)</p>
-<p><strong>OPT-1 worker output (will land when they exit):</strong>
-- <code>bin/autopilot_session.sh</code> (Slot A patch)
-- <code>tests/test_autopilot_prompt.sh</code> (NEW, Slot A)
-- <code>bin/warp_split_spawn.sh</code> (Slot B patch)
-- <code>tests/test_warp_manifest_race.sh</code> (NEW, Slot B)
-- <code>plugins/ensemble/templates/WORKER.md</code> (Slot C — adds §9)
-- <code>~/.claude/projects/-Users-kevin/memory/warp_split.md</code> (Slot C — appends friction-patterns subsection; NOT git-tracked)
-- Optionally <code>docs/WARP_TROUBLESHOOTING.md</code> (Slot C if root cause found)</p>
-<p><strong>Files NOT touched (deliberate):</strong>
-- <code>bin/dashgen/server/pwa.py</code> ICON_SVG — frozen at v10w; do not iterate further unless Kevin asks
-- Anything under <code>mobile/ios/</code> (BOO arcade is a separate project)
-- Any cron / scheduled-tasks files (Kevin said don&rsquo;t)</p>
-<hr />
-<h2 id="three-known-friction-patterns-in-case-they-bite-during-your-tenure">Three known friction patterns (in case they bite during your tenure)</h2>
-<p>These are the patterns OPT-1 Slot C is documenting. Until that lands, here&rsquo;s the cliff-notes:</p>
-<ol>
-<li><strong>Permission gate on authorized files.</strong> <code>Write</code> / <code>Edit</code> sometimes errors with a &ldquo;sensitive file&rdquo; rule on a file the directive explicitly authorizes. Workaround: Bash + <code>python3 - &lt;&lt;'PY' ... PY</code> heredoc with absolute paths.</li>
-<li><strong>Heredoc cwd loss.</strong> After a Python or shell heredoc, the next Bash command in the same invocation may not have the cwd you expect. Discipline: absolute paths everywhere, never rely on cwd preservation across heredoc boundaries.</li>
-<li><strong>Manifest race.</strong> Already documented — Slot B is fixing it. Until merged, the manifest is unreliable when 3+ workers spawn at once.</li>
-</ol>
-<hr />
-<h2 id="voice-posture-re-up">Voice + posture (re-up)</h2>
-<ul>
-<li><strong>Rapid fire is ON</strong> — every decision uses <code>AskUserQuestion</code> with 4 numbered options. &ldquo;(Recommended)&rdquo; goes on option 1. Slot 4 = &ldquo;Disable Rapid Fire Mode&rdquo; or &ldquo;Other&rdquo; depending on context.</li>
-<li><strong>Warp Speed is ON</strong> — proactively offer warp x2/x3 splits at unit boundaries. Respect freeze, cap, work-hours, safety gates.</li>
-<li><strong>Plan first, then ship</strong> — non-trivial work gets a plan with trains before code.</li>
-<li><strong>Apple-quality bar</strong> — every artifact passes &ldquo;would I be proud to ship this to a harsh critic?&rdquo;</li>
-<li><strong>Don&rsquo;t disrupt the Mac</strong> — see global CLAUDE.md.</li>
-<li><strong>No proactive PRs</strong> — pre-launch / vibe-code mode; auto-merge after self-audit fine while no users.</li>
-</ul>
-<hr />
-<h2 id="first-message-you-should-send-to-kevin">First message you should send to Kevin</h2>
-<p>Open with a clean state snapshot + rapid-fire on the next chunk. Suggested template:</p>
-<pre><code>Maestro back. State snapshot:
-- main @ 98f31d2 — Chunk 1 brand system + OPT-1 tooling debt both shipped
-- 91/91 unittests + 14/14 autopilot prompt + 5/5 manifest race: all green
-- Live PWA: ~12 commits behind main, NOT yet dashboard-fired
-- Freeze lifted, autopilots un-paused, 8 scheduled tasks disabled (per &quot;extra tokens&quot; directive)
-- Worktrees from OPT-1 still on disk (cheap; OPT-2/3 cleanup candidate)
-
-Next decision (rapid-fire):
-1. Dashboard-fire Chunk 1 + OPT-1 to live PWA (Recommended)
-2. Plan + start Chunk 2 (Studio core, 30-50h — propose 3-way warp split)
-3. Re-fire BOO arcade autopilot now that PROMPT_OVERRIDE bug is fixed
-4. Other
-</code></pre>
-<p>Don&rsquo;t recap the entire session — Kevin lived through it. Just the snapshot + decision.</p>
-<hr />
-<p><em>End of handoff. OPT-1 fully landed before sign-off. Main is clean. Next Maestro starts with new development, not merge work.</em></p>
+<blockquote>
+<p><strong>Subject to attorney review before billing.</strong> This policy is a templated
+baseline drafted without formal legal counsel. We will register a
+designated agent with the U.S. Copyright Office and have qualified
+counsel review this policy before charging users for any paid feature.</p>
+</blockquote>
     </article>
     <footer class="doc-foot">
-      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+      <a href="../docs.html" class="doc-back">&larr; Back to documentation</a>
     </footer>
   </div>
   <script>

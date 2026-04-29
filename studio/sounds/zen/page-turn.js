@@ -1,4 +1,3 @@
-// Page turn: short noise sweep with a slight pitch envelope, 400 ms
 export async function play(ctx) {
   const buf = ctx.createBuffer(1, ctx.sampleRate * 0.4, ctx.sampleRate);
   const data = buf.getChannelData(0);

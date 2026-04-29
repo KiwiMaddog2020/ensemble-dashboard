@@ -1,8 +1,13 @@
-/* Ensemble dashboard — service worker. Caches static assets so the
+/* Ensemble dashboard - service worker. Caches static assets so the
    read-only view works offline (Mac asleep / off Tailscale). Network-first
-   for HTML so updates are picked up; cache-first for CSS/JS/icon. */
-const CACHE = 'ensemble-v10w-frameless';
-const STATIC = ['./', './index.html', './studio.html', './dashboard.html', './projects.html', './commands.html', './settings.html', './docs.html', './style.css', './icon.svg', './manifest.json'];
+   for HTML so updates are picked up; cache-first for CSS/JS/icon.
+
+   Cache name is derived from a SHA-256 hash of the sorted static manifest
+   plus the build's generation timestamp (see build_service_worker below)
+   so each `dashboard-generate.sh` run produces a deterministic-per-build
+   cache name without requiring a hand-bumped version string. */
+const CACHE = 'ensemble-54b850f593bf';
+const STATIC = ["./", "./index.html", "./studio.html", "./dashboard.html", "./projects.html", "./commands.html", "./settings.html", "./docs.html", "./style.css", "./studio.js", "./dashboard.js", "./icon.svg", "./manifest.json"];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(STATIC)).catch(() => {}));

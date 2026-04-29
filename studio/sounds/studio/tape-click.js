@@ -1,4 +1,3 @@
-// Tape mechanism click: transient noise burst + low thump, 100 ms
 export async function play(ctx) {
   const buf = ctx.createBuffer(1, ctx.sampleRate * 0.1, ctx.sampleRate);
   const data = buf.getChannelData(0);

@@ -1,4 +1,3 @@
-// Crisp mechanical click: square burst at 1 kHz, 30 ms, ~-16 dBFS
 export async function play(ctx) {
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();

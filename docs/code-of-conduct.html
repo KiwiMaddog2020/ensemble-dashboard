@@ -18,6 +18,52 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="./style.css" />
+<style id="cookie-banner-css">
+.cookie-banner {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 240;
+  background: var(--bg-raised, #faf7f2);
+  color: var(--ink, #1a1814);
+  border-top: 1px solid var(--rule, rgba(0,0,0,0.12));
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.08);
+  font-family: var(--sans, system-ui, -apple-system, sans-serif);
+  font-size: 14px; line-height: 1.5;
+}
+.cookie-banner[hidden] { display: none; }
+.cookie-banner__inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 14px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap;
+}
+.cookie-banner__msg { margin: 0; flex: 1 1 320px; min-width: 240px; color: var(--ink-2, #3a342c); }
+.cookie-banner__msg strong { color: var(--ink, #1a1814); }
+.cookie-banner__actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.cookie-banner__link {
+  color: var(--accent, #b8753c);
+  text-decoration: underline;
+  font-weight: 500;
+}
+.cookie-banner__link:hover { color: var(--accent-2, #8c5828); }
+.cookie-banner__dismiss {
+  appearance: none; cursor: pointer;
+  background: var(--accent, #b8753c); color: white; border: 0;
+  padding: 8px 16px; border-radius: 8px;
+  font: inherit; font-weight: 600;
+  transition: background 180ms ease;
+}
+.cookie-banner__dismiss:hover { background: var(--accent-2, #8c5828); }
+.cookie-banner__dismiss:focus-visible {
+  outline: 2px solid var(--accent-2, #8c5828);
+  outline-offset: 2px;
+}
+@media (max-width: 540px) {
+  .cookie-banner__inner { padding: 12px 16px; gap: 10px; }
+  .cookie-banner__actions { width: 100%; justify-content: flex-end; }
+}
+</style>
 <script>
   (function () {
     try {
@@ -43,6 +89,37 @@
 </script>
 </head>
 <body class="hub doc-page">
+<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
+  <div class="cookie-banner__inner">
+    <p class="cookie-banner__msg">
+      <strong>Ensemble</strong> uses cookies and localStorage for authentication and theme
+      preferences. We don&rsquo;t use third-party advertising cookies.
+    </p>
+    <div class="cookie-banner__actions">
+      <a class="cookie-banner__link" href="/legal/cookies.html">Read policy</a>
+      <button type="button" class="cookie-banner__dismiss" id="cookie-banner-dismiss">Got it, dismiss</button>
+    </div>
+  </div>
+</div>
+<script id="cookie-banner-js">
+(function () {
+  var KEY = "cookie-consent";
+  var banner = document.getElementById("cookie-banner");
+  if (!banner) return;
+  var dismissed = "0";
+  try { dismissed = localStorage.getItem(KEY) || "0"; } catch (e) {}
+  if (dismissed === "1") return;
+  banner.hidden = false;
+  var btn = document.getElementById("cookie-banner-dismiss");
+  if (btn) {
+    setTimeout(function () { try { btn.focus(); } catch (e) {} }, 80);
+    btn.addEventListener("click", function () {
+      try { localStorage.setItem(KEY, "1"); } catch (e) {}
+      banner.hidden = true;
+    });
+  }
+})();
+</script>
 <nav class="topnav">
   <div class="wrap">
     <a class="brand brand--icon-only" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="Ensemble" width="28" height="28" /></a>
@@ -147,9 +224,45 @@
   </script>
 </main>
 <footer class="site-footer">
-  <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
-  <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>
+  <div class="site-footer__cols">
+    <div class="site-footer__col site-footer__col--brand">
+      <p><span class="brand">Ensemble</span> &middot; <em>One conductor. Many performers.</em></p>
+      <p><a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
+    </div>
+    <div class="site-footer__col">
+      <p class="site-footer__heading">Legal</p>
+      <ul class="site-footer__links">
+        <li><a href="/legal/privacy.html">Privacy Policy</a></li>
+        <li><a href="/legal/terms.html">Terms of Service</a></li>
+        <li><a href="/legal/acceptable-use.html">Acceptable Use</a></li>
+        <li><a href="/legal/dmca.html">DMCA</a></li>
+        <li><a href="/legal/cookies.html">Cookie Policy</a></li>
+        <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="site-footer__meta">Auto-refreshes 3&times; daily. v2.0.</p>
 </footer>
+<style id="site-footer-css">
+.site-footer__cols {
+  display: flex; gap: 32px; flex-wrap: wrap;
+  align-items: flex-start; justify-content: space-between;
+}
+.site-footer__col { min-width: 180px; }
+.site-footer__col--brand { flex: 1 1 280px; }
+.site-footer__col p { margin: 0 0 4px; }
+.site-footer__heading {
+  font-family: var(--sans, system-ui, sans-serif);
+  font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--ink-3, #6a625a); margin: 0 0 8px;
+}
+.site-footer__links { list-style: none; padding: 0; margin: 0; }
+.site-footer__links li { margin: 0 0 4px; }
+.site-footer__links a { color: var(--ink-2, #3a342c); text-decoration: none; }
+.site-footer__links a:hover { color: var(--accent, #b8753c); text-decoration: underline; }
+.site-footer__meta { opacity: 0.6; margin-top: 12px; font-size: 13px; }
+</style>
 <script>
 const SERVER_URL = (function() {
   const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
@@ -495,6 +608,11 @@ async function submitFirstRunModal(ev) {
     if (err) err.textContent = "Please answer all three questions.";
     return;
   }
+  var tosCheck = document.getElementById("first-run-tos-check");
+  if (tosCheck && !tosCheck.checked) {
+    if (err) err.textContent = "Please agree to the Terms of Service before generating.";
+    return;
+  }
   if (err) err.innerHTML = "";
   if (submitBtn) { submitBtn.disabled = true; submitBtn.classList.add("is-loading"); }
   try {
@@ -559,6 +677,23 @@ function wireFirstRunModal() {
   if (cancelBtn) cancelBtn.addEventListener("click", closeFirstRunModal);
   if (form) form.addEventListener("submit", submitFirstRunModal);
   if (cta) cta.addEventListener("click", ctaGenerateClicked);
+  // Stamp 2 / warp:c (2026-04-29): ToS gate. Generate button stays
+  // disabled until the user ticks the agreement checkbox.
+  var tosCheck = document.getElementById("first-run-tos-check");
+  var submitBtn = document.getElementById("first-run-submit");
+  if (tosCheck && submitBtn) {
+    var syncTos = function () {
+      if (tosCheck.checked) {
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute("aria-disabled");
+      } else {
+        submitBtn.disabled = true;
+        submitBtn.setAttribute("aria-disabled", "true");
+      }
+    };
+    tosCheck.addEventListener("change", syncTos);
+    syncTos();
+  }
   overlay.addEventListener("click", function (e) {
     if (e.target === overlay) closeFirstRunModal();
   });

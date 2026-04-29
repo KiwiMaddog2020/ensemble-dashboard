@@ -1,4 +1,3 @@
-// Gentle wind: pink-ish noise through narrow bandpass, slow fade, 1200 ms
 export async function play(ctx) {
   const buf = ctx.createBuffer(1, ctx.sampleRate * 1.2, ctx.sampleRate);
   const data = buf.getChannelData(0);

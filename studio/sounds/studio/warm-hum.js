@@ -1,4 +1,3 @@
-// Warm amp hum: 60 Hz sine + 2nd + 3rd harmonics, soft onset/offset, 1000 ms
 export async function play(ctx) {
   const freqs = [60, 120, 180];
   const amps  = [0.12, 0.05, 0.02];

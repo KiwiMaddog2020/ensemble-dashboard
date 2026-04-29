@@ -1,4 +1,3 @@
-// Keyboard key: band-limited click with noise transient, 80 ms
 export async function play(ctx) {
   const buf = ctx.createBuffer(1, ctx.sampleRate * 0.08, ctx.sampleRate);
   const data = buf.getChannelData(0);
