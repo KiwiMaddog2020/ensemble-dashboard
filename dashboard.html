@@ -178,6 +178,204 @@
         <button class="btn-edit-dashboard" id="btn-edit-dash" data-owner-only>Edit Dashboard</button>
       </div>
     </div>
+    <div id="warp-progress-widget" data-active="1">
+<section class="warp-progress" data-stamp="20260428T162156Z">
+  <header class="warp-progress__head">
+    <h3>Warp <span class="warp-progress__stamp">20260428T162156Z</span></h3>
+    <span class="warp-progress__meta">1 slots · 27h 34m</span>
+  </header>
+  <ul class="warp-progress__slots">
+<li class="warp-slot warp-slot--running" data-slot="b" data-pct="0" aria-label="slot b in progress">
+  <span class="warp-slot__id">b</span>
+  <span class="warp-slot__stats">0 files · 0 commits · ~0%</span>
+  <span class="warp-slot__bar"><span class="warp-slot__fill" style="width:0%"></span></span>
+  <span class="warp-slot__event">queued</span>
+  
+</li>
+  </ul>
+  <footer class="warp-progress__foot">
+    <span class="warp-progress__last">Last event: <em>—</em></span>
+  </footer>
+</section>
+</div>
+<style>
+#warp-progress-widget[hidden] { display: none !important; }
+.warp-progress {
+  margin: 0 0 1em 0; padding: 12px 16px;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  background: var(--surface, #161616);
+  font-size: 14px;
+}
+.warp-progress__head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 8px;
+}
+.warp-progress__head h3 { margin: 0; font-size: 15px; font-weight: 600; }
+.warp-progress__stamp { font-family: ui-monospace, monospace; opacity: 0.7; }
+.warp-progress__meta { font-size: 12px; opacity: 0.7; }
+.warp-progress__slots {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 6px;
+}
+.warp-slot {
+  display: grid;
+  grid-template-columns: 22px 1fr 120px;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+}
+.warp-slot__id {
+  font-weight: 700;
+  background: var(--accent, #4080ff);
+  color: #fff;
+  text-align: center;
+  border-radius: 3px;
+  padding: 1px 0;
+}
+.warp-slot--checkmark .warp-slot__id { background: #2a8c2a; }
+.warp-slot--error .warp-slot__id { background: #b03030; }
+.warp-slot__stats { opacity: 0.85; }
+.warp-slot__bar {
+  position: relative;
+  display: block;
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  grid-column: 1 / -1;
+  overflow: hidden;
+}
+.warp-slot__fill {
+  display: block; height: 100%;
+  background: var(--accent, #4080ff);
+  transition: width 0.4s ease;
+}
+.warp-slot--checkmark .warp-slot__fill { background: #2a8c2a; }
+.warp-slot--error .warp-slot__fill { background: #b03030; }
+.warp-slot__event {
+  font-size: 12px; opacity: 0.7;
+  grid-column: 1 / -1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.warp-slot__model {
+  font-size: 11px; opacity: 0.5;
+  grid-column: 1 / -1;
+}
+.warp-progress__foot {
+  margin-top: 8px;
+  font-size: 12px; opacity: 0.7;
+}
+</style>
+<script>
+(function () {
+  var root = document.getElementById("warp-progress-widget");
+  if (!root) return;
+  var streams = {};
+  var poll;
+  function escape(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({"&":"&amp;","<":"&lt;",">":"&gt;",""":"&quot;","'":"&#39;"})[c];
+    });
+  }
+  function ensureStampBlock(stamp) {
+    var block = root.querySelector('.warp-progress[data-stamp="' + stamp + '"]');
+    if (!block) {
+      block = document.createElement("section");
+      block.className = "warp-progress";
+      block.setAttribute("data-stamp", stamp);
+      block.innerHTML = (
+        '<header class="warp-progress__head"><h3>Warp <span class="warp-progress__stamp">'
+        + escape(stamp)
+        + '</span></h3><span class="warp-progress__meta">live</span></header>'
+        + '<ul class="warp-progress__slots"></ul>'
+        + '<footer class="warp-progress__foot"><span class="warp-progress__last">Last event: <em>—</em></span></footer>'
+      );
+      root.appendChild(block);
+      root.setAttribute("data-active", "1");
+      root.removeAttribute("hidden");
+    }
+    return block;
+  }
+  function ensureSlotRow(block, slot) {
+    var ul = block.querySelector(".warp-progress__slots");
+    var row = ul.querySelector('.warp-slot[data-slot="' + slot + '"]');
+    if (!row) {
+      row = document.createElement("li");
+      row.className = "warp-slot warp-slot--running";
+      row.setAttribute("data-slot", slot);
+      row.innerHTML = (
+        '<span class="warp-slot__id">' + escape(slot) + '</span>'
+        + '<span class="warp-slot__stats">0 files · 0 commits · ~0%</span>'
+        + '<span class="warp-slot__bar"><span class="warp-slot__fill" style="width:0%"></span></span>'
+        + '<span class="warp-slot__event"></span>'
+      );
+      ul.appendChild(row);
+    }
+    return row;
+  }
+  function applyEvent(ev) {
+    if (!ev || !ev.stamp || !ev.slot) return;
+    var block = ensureStampBlock(ev.stamp);
+    var row = ensureSlotRow(block, ev.slot);
+    var meta = ev.metadata || {};
+    var pct = Math.max(0, Math.min(100, parseInt(meta.estimated_completion_pct || 0, 10) || 0));
+    if (ev.event === "completed") pct = 100;
+    var files = parseInt(meta.files_modified || 0, 10) || 0;
+    var commits = parseInt(meta.commits_so_far || 0, 10) || 0;
+    row.querySelector(".warp-slot__stats").textContent = files + " files · " + commits + " commits · ~" + pct + "%";
+    row.querySelector(".warp-slot__fill").style.width = pct + "%";
+    var msg = (ev.event || "") + (ev.message ? ": " + ev.message : "");
+    row.querySelector(".warp-slot__event").textContent = msg;
+    row.classList.remove("warp-slot--running", "warp-slot--checkmark", "warp-slot--error");
+    if (ev.event === "completed") row.classList.add("warp-slot--checkmark");
+    else if (ev.event === "errored") row.classList.add("warp-slot--error");
+    else row.classList.add("warp-slot--running");
+    var foot = block.querySelector(".warp-progress__last em");
+    if (foot) foot.textContent = ev.slot + " " + msg;
+  }
+  function openStream(stamp) {
+    if (streams[stamp]) return;
+    var es = new EventSource("/warp/" + encodeURIComponent(stamp) + "/progress");
+    streams[stamp] = es;
+    es.onmessage = function (m) {
+      try {
+        var ev = JSON.parse(m.data);
+        applyEvent(ev);
+      } catch (_) {}
+    };
+    es.addEventListener("close", function () {
+      es.close();
+      delete streams[stamp];
+    });
+    es.onerror = function () {
+      es.close();
+      delete streams[stamp];
+    };
+  }
+  function refreshActive() {
+    fetch("/warp/active").then(function (r) { return r.ok ? r.json() : { active_stamps: [] }; })
+      .then(function (data) {
+        var active = (data && data.active_stamps) || [];
+        if (!active.length) {
+          if (Object.keys(streams).length === 0) {
+            root.setAttribute("data-active", "0");
+            root.setAttribute("hidden", "");
+          }
+          return;
+        }
+        active.forEach(function (entry) { openStream(entry.stamp); });
+        root.setAttribute("data-active", "1");
+        root.removeAttribute("hidden");
+      })
+      .catch(function () {});
+  }
+  refreshActive();
+  poll = setInterval(refreshActive, 30000);
+})();
+</script>
+
     <div id="widgetRoot"></div>
     <aside class="widget-shelf" id="widgetShelf" aria-label="Widget shelf">
       <div class="widget-shelf__header">

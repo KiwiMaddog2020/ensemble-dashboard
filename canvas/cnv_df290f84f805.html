@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Bunch of Others (BOO) Website · Ensemble</title>
-<meta name="description" content="Single-page psychedelic band website + 7-game HTML5 arcade with Firebase leaderboards. Vanilla HTML/CSS/JS, GitHub Pages, live at bunchofothers.com." />
+<title>Ensemble — xss-script</title>
+<meta name="description" content="A canvas in the Ensemble showcase." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -88,7 +88,7 @@
   }
 </script>
 </head>
-<body class="proj-page">
+<body class="hub">
 <a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
@@ -125,9 +125,9 @@
   <div class="wrap">
     <a class="brand brand--icon-only" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="Ensemble" width="28" height="28" /></a>
     <ul>
-      <li><a href="./">Ensemble</a></li>
+      <li><a class="active" aria-current="page" href="./">Ensemble</a></li>
       <li><a href="./studio.html">Studio</a></li>
-      <li><a class="active" aria-current="page" href="./dashboard.html">Dashboard</a></li>
+      <li><a href="./dashboard.html">Dashboard</a></li>
       <li><a href="./docs.html">Docs</a></li>
       <li><a href="./settings.html">Settings</a></li>
     </ul>
@@ -148,130 +148,183 @@
     </div>
   </div>
 </div>
-<header class="hero">
-  <div class="wrap hero-inner">
-    <p class="eyebrow"><a href="./projects.html">← Back to roster</a></p>
-    <div class="proj-hero-inner">
-      <div class="pie-big"><svg class="pie-big" viewBox="0 0 100 100" aria-label="92% complete">
-      <circle cx="50" cy="50" r="42" fill="none" stroke="var(--rule)" stroke-width="6"/>
-      <circle cx="50" cy="50" r="42" fill="none"
-              stroke="var(--accent)" stroke-width="6" stroke-linecap="round"
-              stroke-dasharray="242.78 21.11" transform="rotate(-90 50 50)"/>
-      <text x="50" y="58" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="28" fill="currentColor">92</text>
-    </svg></div>
-      <div class="proj-hero-text">
-        <p class="proj-phase">Live + maintained</p>
-        <h1>Bunch of Others (BOO) Website</h1>
-        <p class="proj-desc">Single-page psychedelic band website + 7-game HTML5 arcade with Firebase leaderboards. Vanilla HTML/CSS/JS, GitHub Pages, live at bunchofothers.com.</p>
-        <div class="proj-pills"><span class="pill pill-tier-agent">Project</span> <span class="pill pill-state-warmer">Warmer</span> <span class="pill pill-auto">auto-tests</span> <span class="pill pill-attn">needs your eyes</span></div>
+<main id="main"><section class="canvas-view" data-canvas-state="ready">
+  <div class="wrap">
+    <a class="canvas-view__back" href="./index.html">&larr; Back to Ensemble</a>
+
+    <div class="canvas-view__loading" id="canvas-view-loading" hidden aria-hidden="true">
+      <div class="canvas-view__skeleton canvas-view__skeleton-title"></div>
+      <div class="canvas-view__skeleton canvas-view__skeleton-byline"></div>
+      <div class="canvas-view__skeleton canvas-view__skeleton-stage"></div>
+    </div>
+
+    <header class="canvas-view__header">
+      <h1 class="canvas-view__title">xss-script</h1>
+      <p class="canvas-view__byline">
+        <span class="canvas-view__handle">@usr_32e6d84d18c8</span><span class="canvas-view__sep">·</span><span>published just now</span>
+      </p>
+      
+    </header>
+
+    <div class="canvas-view__stage-frame">
+      <div class="canvas-view__stage" data-canvas-id="cnv_df290f84f805" data-empty="true">
+        <div id="studio-stage"></div>
       </div>
     </div>
-    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 14h ago · boo-website</p>
   </div>
-</header>
-<main id="main" class="proj-main">
-  <div class="wrap">
-
-    <section class="proj-section">
-      <h2>Timeline</h2>
-      <p class="proj-lead">Past milestones (filled), where we are now (pulsing), and what's coming next (outlined).</p>
-      <div class="timeline">
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">199f544</p>
-  <h3 class="tl-title">[V1_83] Fix nav animation not visible + photo gallery not openin…</h3>
-  <p class="tl-summary">Commit 199f544 on boo-website.</p>
-</div>
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">4176596</p>
-  <h3 class="tl-title">[V1_80] Slow ripple to 900ms, kill Android overscroll gray bar, …</h3>
-  <p class="tl-summary">Commit 4176596 on boo-website.</p>
-</div>
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">524fe82</p>
-  <h3 class="tl-title">[V1_82] Mobile atmosphere pass: chromatic-split nav animation, a…</h3>
-  <p class="tl-summary">Commit 524fe82 on boo-website.</p>
-</div>
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">8365c43</p>
-  <h3 class="tl-title">[V1_81] Neon Survivors fullscreen: add data-fullscreen-aspect ov…</h3>
-  <p class="tl-summary">Commit 8365c43 on boo-website.</p>
-</div>
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">ef9c2bc</p>
-  <h3 class="tl-title">[V1_84] Color mist: normalize bottom-left corner offset to match…</h3>
-  <p class="tl-summary">Commit ef9c2bc on boo-website.</p>
-</div>
-<div class="tl-item now">
-  <div class="tl-marker"></div>
-  <p class="tl-date">now</p>
-  <h3 class="tl-title">Agent should refresh top_rec on next session</h3>
-  <p class="tl-summary">Status file refreshed by Maestro 2026-04-25 after pulling 28 commits up from origin. Top_rec field needs the Agent itself to re-evaluate against current charter + latest V1_84 state.</p>
-</div>
-<div class="tl-item next">
-  <div class="tl-marker"></div>
-  <p class="tl-date">next</p>
-  <h3 class="tl-title">Add .gitignore (untrack .DS_Store + .claude/ + macOS metadata)</h3>
-  <p class="tl-summary">5+ .DS_Store files are currently tracked; they re-dirty the working tree on every Finder visit. .claude/ is per-project Agent state, shouldn&#x27;t be in main repo. Quick cleanup commit.</p>
-</div>
-<div class="tl-item next">
-  <div class="tl-marker"></div>
-  <p class="tl-date">next</p>
-  <h3 class="tl-title">Verify the Stripe payment flow on the live site</h3>
-  <p class="tl-summary">cancel.html + success.html shipped in V1_80-V1_84 range. End-to-end Stripe checkout should be smoke-tested with a real card or Stripe test card to confirm redirect pages render correctly post-launch.</p>
-</div>
-      </div>
-    </section>
-
-    <section class="proj-section">
-      <h2>Right <em>now</em></h2>
-      <div class="now-grid">
-        <div class="now-card">
-          <h3>Current task</h3>
-          <p>Mobile polish pass V1_80→V1_84 shipped. Merch payment flow (cancel.html + success.html) landed via lucid-nightingale-0c1878 worktree.</p>
-        </div>
-        <div class="now-card">
-          <h3>Recent commits</h3>
-          <ul><li><code>ef9c2bc</code> [V1_84] Color mist: normalize bottom-left corner offset to match the other three (kill the sharp corner)</li>
-<li><code>199f544</code> [V1_83] Fix nav animation not visible + photo gallery not opening on mobile</li>
-<li><code>524fe82</code> [V1_82] Mobile atmosphere pass: chromatic-split nav animation, ambient revive, poster-scale title</li>
-<li><code>8365c43</code> [V1_81] Neon Survivors fullscreen: add data-fullscreen-aspect override so trackpad stops stretching</li>
-<li><code>4176596</code> [V1_80] Slow ripple to 900ms, kill Android overscroll gray bar, fix fullscreen game aspect per game</li></ul>
-        </div>
-        
-      </div>
-    </section>
-
-    <section class="proj-section">
-      <h2>What's <em>next</em></h2>
-      <div class="next-rec">
-  <h3>Top recommendation</h3>
-  <h4>Agent should refresh top_rec on next session</h4>
-  <p>Status file refreshed by Maestro 2026-04-25 after pulling 28 commits up from origin. Top_rec field needs the Agent itself to re-evaluate against current charter + latest V1_84 state.</p>
-</div>
-      <div class="next-alts"><div class="next-alt">
-  <h4>Add .gitignore (untrack .DS_Store + .claude/ + macOS metadata)</h4>
-  <p>5+ .DS_Store files are currently tracked; they re-dirty the working tree on every Finder visit. .claude/ is per-project Agent state, shouldn&#x27;t be in main repo. Quick cleanup commit.</p>
-</div>
-<div class="next-alt">
-  <h4>Verify the Stripe payment flow on the live site</h4>
-  <p>cancel.html + success.html shipped in V1_80-V1_84 range. End-to-end Stripe checkout should be smoke-tested with a real card or Stripe test card to confirm redirect pages render correctly post-launch.</p>
-</div>
-<div class="next-alt">
-  <h4>Audit + remove dead code from index.html</h4>
-  <p>V1_49 removed ~147 lines. File is 451 KB. Periodic audits pay off.</p>
-</div></div>
-    </section>
-
-    <p style="margin-top:48px;"><a class="foot-back" href="./projects.html">← All projects</a></p>
-
-  </div>
+</section>
+<section class="canvas-view__error" id="canvas-view-error" hidden role="alert">
+  <span class="canvas-view__error-icon" aria-hidden="true">&#10086;</span>
+  <h1 class="canvas-view__error-title" id="canvas-view-error-title">This canvas doesn&rsquo;t exist (or was unpublished).</h1>
+  <p class="canvas-view__error-sub" id="canvas-view-error-sub">It may have been removed by its maker, set private, or never published. Head back to the Ensemble to see what&rsquo;s up now.</p>
+  <a class="canvas-view__error-cta" href="./index.html">Back to Ensemble</a>
+  <code class="canvas-view__error-id">cnv_df290f84f805</code>
+</section>
 </main>
+<style>/* Canvas detail — fly-into view */
+.canvas-view {
+  padding: 32px 0 48px;
+}
+.canvas-view__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+.canvas-view__back:hover {
+  color: var(--accent);
+  background: var(--bg-raised);
+  border-color: var(--rule);
+}
+.canvas-view__back:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.canvas-view__header {
+  margin: 24px 0 28px;
+  padding: 24px 28px;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.canvas-view__title {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.15;
+}
+.canvas-view__byline {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-2);
+  margin: 8px 0 0;
+  letter-spacing: 0.01em;
+}
+.canvas-view__handle {
+  font-family: var(--mono, "JetBrains Mono", monospace);
+  color: var(--accent);
+  font-weight: 500;
+}
+.canvas-view__sep { opacity: 0.5; padding: 0 6px; }
+.canvas-view__desc {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin: 14px 0 0;
+  max-width: 720px;
+}
+.canvas-view__desc:empty { display: none; }
+
+.canvas-view__stage-frame {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04), 0 16px 40px rgba(0,0,0,0.06);
+}
+.canvas-view__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--bg);
+}
+.canvas-view__stage[data-empty="true"]::after {
+  content: "Loading canvas...";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-2);
+  letter-spacing: 0.02em;
+  opacity: 0.7;
+}
+
+/* Engine's renderer targets #studio-stage; this scopes canvas-view's stage
+   so we don't collide with the Studio surface's fixed layout. */
+#studio-stage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+@media (max-width: 720px) {
+  .canvas-view__header { padding: 20px; }
+}
+</style>
+<script>window.__CANVAS_BOOT__ = {"id": "cnv_df290f84f805", "room_state": {"components": [{"props": {"text": "<script>alert(1)<\/script>"}, "type": "text"}]}};</script>
+<script src="./studio.js" defer></script>
+<script>
+(function () {
+  var maxTries = 50; // ~5s at 100ms cadence
+  function tryRender() {
+    if (!window.__studio || typeof window.__studio.renderRoom !== 'function') {
+      if (--maxTries > 0) return setTimeout(tryRender, 100);
+      console.warn('canvas-view: Studio engine not exposed; falling back to default render.');
+      return;
+    }
+    var boot = window.__CANVAS_BOOT__;
+    if (!boot || !boot.room_state) return;
+    try {
+      // Mute the SHARED_SCRIPTS state-refresh re-render so the canvas room
+      // doesn't get yanked back to the engine's default preset.
+      var existing = window.refreshPageState;
+      window.refreshPageState = function (state) {
+        if (existing) try { existing(state); } catch (e) {}
+        // Skip the engine's auto-render hook — canvas detail is read-only.
+      };
+      window.__studio.renderRoom(boot.room_state).catch(function (e) {
+        console.error('canvas-view: renderRoom failed', e);
+      });
+      var stage = document.getElementById('studio-stage');
+      if (stage) stage.dataset.empty = 'false';
+    } catch (e) {
+      console.error('canvas-view: render hook failed', e);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryRender);
+  } else {
+    tryRender();
+  }
+})();
+</script>
 <footer class="site-footer">
   <div class="site-footer__cols">
     <div class="site-footer__col site-footer__col--brand">
