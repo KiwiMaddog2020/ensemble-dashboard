@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
   <!--
-    Ensemble brand mark — "Threaded Trinity in the Garden" (v10e, locked 2026-04-28).
+    Ensemble brand mark — "Threaded Trinity" (v10i, locked 2026-04-28).
 
     Meaning: "Linked by each other.  Each carries the others.  Inseparable."
 
@@ -38,8 +38,27 @@
                   the "orange-yellow that looked very golden."
            v10e — same Heraldic Trinity, gold reverted to the v10c
                   amber-orange (#b8821c mid).  More candle-glow than
-                  pure-gold-leaf — sits warmer next to burgundy,
-                  brighter against navy.  Locked.
+                  pure-gold-leaf.  Still read as too yellow.
+           v10f — gold-position swapped to v9's signature warm orange
+                  ochre (#e8a050 → #c2711f → #7a3d0c).  Renamed
+                  inkGold → inkOchre for accuracy.
+           v10g — frame + rosette switched from ochre to white.  White
+                  pen-stroke on dark vellum reads as illuminated-
+                  manuscript ground.  Rosette stroke bumped 2.6 → 3.4
+                  for more presence.
+           v10h — rosette stays white; FRAME reverts to ochre + becomes
+                  unbroken (gap closed).  Self-rated 7-8.5/10 depending
+                  on weighting.  Real weaknesses: rosette muddy at
+                  small sizes, dark-bg-only design, busy at favicon.
+           v10i — DROP THE ROSETTE.  Replace with subtle warm radial
+                  glow at center — atmospheric "field" rather than
+                  countable element.  Three layers now: trinity (rings)
+                  + frame (containing circle) + warm glow (the field
+                  they live in).  Sleeker, scales cleanly, brief is
+                  "collectiveness of individuals" at the silhouette
+                  level — Borromean structure carries it without
+                  ornament.  Threading blades unchanged (they work).
+                  Locked.
 
       2. A faint flower-of-life rosette behind the rings (~12% opacity,
          single pen-stroke).  Not ornament-for-ornament's-sake — it's
@@ -77,42 +96,45 @@
       <stop offset="50%"  stop-color="#6b1f2c"/>
       <stop offset="100%" stop-color="#2c0a14"/>
     </radialGradient>
-    <radialGradient id="inkGold" cx="35%" cy="25%" r="85%">
-      <stop offset="0%"   stop-color="#f0c66c"/>
-      <stop offset="50%"  stop-color="#b8821c"/>
-      <stop offset="100%" stop-color="#5a3a08"/>
+    <radialGradient id="inkOchre" cx="35%" cy="25%" r="85%">
+      <stop offset="0%"   stop-color="#e8a050"/>
+      <stop offset="50%"  stop-color="#c2711f"/>
+      <stop offset="100%" stop-color="#7a3d0c"/>
     </radialGradient>
     <radialGradient id="inkNavy" cx="35%" cy="25%" r="85%">
       <stop offset="0%"   stop-color="#5066b8"/>
       <stop offset="50%"  stop-color="#1c2a72"/>
       <stop offset="100%" stop-color="#08123a"/>
     </radialGradient>
+    <!-- Warm centerfield glow.  Ambient ground for the trinity, NOT a
+         countable element.  Wraps the Borromean centroid (~512, 510)
+         in a soft amber halo that fades to fully transparent before
+         reaching the frame — "the field they live in." -->
+    <radialGradient id="centerField" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#c2711f" stop-opacity="0.22"/>
+      <stop offset="40%"  stop-color="#c2711f" stop-opacity="0.10"/>
+      <stop offset="75%"  stop-color="#c2711f" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#c2711f" stop-opacity="0"/>
+    </radialGradient>
   </defs>
   <rect x="0" y="0" width="1024" height="1024" fill="#0e0a06"/>
   <rect x="0" y="0" width="1024" height="1024" fill="url(#craftBg)" opacity="0.85"/>
-  <!-- Flower-of-life rosette, drawn in faint ochre behind everything else.
-       Standard 7-circle composition: 1 center + 6 hex-arrayed at 60° intervals.
-       Radius 220 for each, distance 220 from origin → classic overlapping
-       petal pattern.  Opacity 0.12 reads as atmospheric ground without
-       competing with the threaded silhouette.  Ochre matches the frame. -->
-  <g opacity="0.20" stroke="#c2711f" stroke-width="2.6" fill="none">
-    <circle cx="512" cy="512" r="220"/>
-    <circle cx="732" cy="512" r="220"/>
-    <circle cx="622" cy="322" r="220"/>
-    <circle cx="402" cy="322" r="220"/>
-    <circle cx="292" cy="512" r="220"/>
-    <circle cx="402" cy="702" r="220"/>
-    <circle cx="622" cy="702" r="220"/>
-  </g>
-  <!-- Frame with 4° gap at upper-right (signature imperfection) -->
-  <path d="M 990 512 A 478 478 0 0 1 940 740 M 902 802 A 478 478 0 1 1 990 506"
-        fill="none" stroke="#c2711f" stroke-width="2.2" stroke-opacity="0.78"/>
+  <!-- Warm centerfield glow.  v10i replaced the v10h rosette with
+       this radial gradient — atmospheric, not ornamental.  The trinity
+       reads as living in a warm amber field, dimming gracefully toward
+       the frame.  Pure luminance, no countable strokes. -->
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#centerField)"/>
+  <!-- Containing frame circle, ochre, complete (no gap).
+       v10h: removed the 4° upper-right gap — Kevin's read was that it
+       looked broken rather than intentional. -->
+  <circle cx="512" cy="512" r="478"
+          fill="none" stroke="#c2711f" stroke-width="2.4" stroke-opacity="0.82"/>
   <!-- Three rings, threaded Borromean knot, each in its own royal ink.
-       Top ring   = burgundy (Gules — wine, flame, the bloodline, voice)
-       Lower-left = gold     (Or — sun, illumination, the patron's gift)
+       Top ring   = burgundy (wine, flame, the bloodline, the voice)
+       Lower-left = ochre    (copper-terracotta — sun, illumination, warmth)
        Lower-right= navy     (Azure — night sky, the deep, contemplation)
        Stroke 34px reads at favicon / nav scales. -->
-  <circle cx="358" cy="601" r="220" fill="none" stroke="url(#inkGold)"     stroke-width="34"/>
+  <circle cx="358" cy="601" r="220" fill="none" stroke="url(#inkOchre)"    stroke-width="34"/>
   <circle cx="666" cy="601" r="220" fill="none" stroke="url(#inkNavy)"     stroke-width="34"/>
   <circle cx="512" cy="328" r="220" fill="none" stroke="url(#inkBurgundy)" stroke-width="34"/>
   <!-- THREADING BLADES (cyclic: top-over-left, left-over-right,
