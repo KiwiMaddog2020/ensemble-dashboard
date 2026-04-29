@@ -70,18 +70,37 @@
     </div>
   </div>
 </div>
-<header class="hero ensemble-hero">
+<section class="ensemble-showcase" id="ensemble-showcase" aria-label="Collective showcase">
   <div class="wrap">
-    <p class="eyebrow">ENSEMBLE<sup class="tm-mark">&trade;</sup></p>
-    <h1>Your stage. <em>Alive.</em></h1>
-    <button type="button" class="cta-generate" id="cta-generate-studio">Generate your Studio</button>
-    <p class="lead">A vibe coder's playground where every creator gets a navigable space, the agent-management depth is the moat, and Claude is your design partner. Walk through your friends' Studios. Share the Claude setups that make your work fly. Build a world that looks like you.</p>
-    <div class="meta">
-      <span><span class="dot"></span> v1.0 building · cadence: a launch-worthy hook every 8&ndash;12 weeks</span>
-      <span id="hero-status">loading…</span>
+    <div class="ensemble-showcase__head">
+      <p class="eyebrow">ENSEMBLE<sup class="tm-mark">&trade;</sup></p>
+      <h1>The work <em>everyone</em> created together.</h1>
+      <p class="ensemble-showcase__sub">Welcome to the Ensemble. Browse what makers are sharing — click a canvas to fly in.</p>
+    </div>
+
+    <div class="ensemble-showcase__filters" role="tablist" aria-label="Sort canvases">
+      <button type="button" class="ensemble-showcase__filter" data-filter="featured" aria-pressed="true" role="tab">Featured</button>
+      <button type="button" class="ensemble-showcase__filter" data-filter="newest" aria-pressed="false" role="tab">Newest</button>
+      <button type="button" class="ensemble-showcase__filter" data-filter="random" aria-pressed="false" role="tab">Random</button>
+    </div>
+
+    <div class="ensemble-showcase__grid" id="ensemble-canvas-grid" data-next-cursor=""></div>
+
+    <div class="ensemble-showcase__loadmore-row">
+      <button type="button" class="ensemble-showcase__loadmore" id="ensemble-loadmore" hidden>Load more</button>
+    </div>
+    <p class="ensemble-showcase__status" id="ensemble-grid-status" role="status" aria-live="polite"></p>
+
+    <div class="ensemble-showcase__empty" id="ensemble-empty" >
+      <span class="ensemble-showcase__empty-icon" aria-hidden="true">&#10086;</span>
+      <h2>The Ensemble is just getting started.</h2>
+      <p>Be one of the first to share your work. Build a Studio, publish a canvas, and it lands here for everyone to wander into.</p>
+      <a class="btn-primary" href="./studio.html">Get started &rarr;</a>
     </div>
   </div>
-</header>
+</section>
+
+<hr class="ensemble-divider" aria-hidden="true" />
 
 <section class="ensemble-pitch">
   <div class="wrap">
@@ -313,7 +332,7 @@
     </form>
     <p class="ensemble-cta__error" id="ensemble-cta-error" role="alert" aria-live="polite"></p>
     <div class="ensemble-cta__success" id="ensemble-cta-success" hidden>
-      <p class="ensemble-cta__success-msg">🎉 You&rsquo;re on the list. Check your email for confirmation.</p>
+      <p class="ensemble-cta__success-msg">&#127881; You&rsquo;re on the list. Check your email for confirmation.</p>
     </div>
     <p class="ensemble-cta__note">No spam. No third-party tracking. We&rsquo;ll write you when there&rsquo;s something worth seeing.</p>
     <p class="ensemble-cta__note ensemble-cta__note--cadence">We send the build log every 2 weeks. Unsubscribe anytime.</p>
@@ -352,8 +371,7 @@
     </div>
   </div>
 </div>
-<style>
-/* First-run onboarding modal (Phase A.4-3) */
+<style>/* First-run onboarding modal (Phase A.4-3) */
 .first-run-overlay {
   position: fixed; inset: 0; z-index: 220;
   background: rgba(0,0,0,0.55);
@@ -479,9 +497,7 @@
 }
 .cta-generate:hover { background: var(--accent-2); transform: translateY(-1px); }
 .cta-generate:active { transform: translateY(0); }
-</style>
-<style>
-.ensemble-featured-carousel {
+</style><style>.ensemble-featured-carousel {
   padding: 60px 0;
   overflow: hidden;
 }
@@ -674,9 +690,7 @@
   .featured-card__thumb { width: 72px; height: 72px; }
   .featured-card__thumb img { width: 48px; height: 48px; }
 }
-</style>
-<style>
-/* Community wall (Phase 3) */
+</style><style>/* Community wall (Phase 3) */
 .ensemble-wall {
   padding: 60px 0;
   background: var(--bg);
@@ -820,9 +834,7 @@
   .ensemble-wall__byline { gap: 6px; }
   .ensemble-wall__preset-tag { order: 3; flex-basis: 100%; align-self: flex-start; }
 }
-</style>
-<style>
-/* Waitlist polish (Phase 3) */
+</style><style>/* Waitlist polish (Phase 3) */
 .ensemble-cta__form { position: relative; }
 .ensemble-cta__error {
   color: var(--accent-danger, #b3261e);
@@ -875,9 +887,422 @@
   font-size: 12px;
   margin-top: 6px;
 }
-</style>
-<script>
-(function() {
+</style><style>/* Canvas card — theme-colored thumbnail tile in the collective grid */
+.canvas-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 220ms var(--ease, cubic-bezier(.32,.72,.36,1)),
+              box-shadow 220ms var(--ease, cubic-bezier(.32,.72,.36,1)),
+              border-color 220ms var(--ease, cubic-bezier(.32,.72,.36,1));
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+}
+.canvas-card:hover,
+.canvas-card:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.10), 0 12px 32px rgba(0,0,0,0.08);
+  border-color: var(--accent, currentColor);
+  outline: none;
+}
+.canvas-card:focus-visible {
+  outline: 2px solid var(--accent, currentColor);
+  outline-offset: 2px;
+}
+
+.canvas-card__thumb {
+  aspect-ratio: 4 / 3;
+  background:
+    radial-gradient(ellipse at 30% 25%,
+      var(--card-grad-top, #e8a050) 0%,
+      var(--card-grad-mid, #c2711f) 55%,
+      var(--card-grad-bot, #7a3d0c) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.canvas-card__thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 75% 80%, rgba(255,255,255,0.10), transparent 60%),
+    radial-gradient(circle at 20% 90%, rgba(0,0,0,0.18), transparent 55%);
+  pointer-events: none;
+}
+.canvas-card__thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.canvas-card__body {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.canvas-card__title {
+  font-family: var(--serif, 'EB Garamond', serif);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.canvas-card__handle {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12px;
+  color: var(--accent, var(--ink-2));
+  letter-spacing: 0.01em;
+}
+.canvas-card__desc {
+  font-family: var(--serif, 'EB Garamond', serif);
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  margin: 4px 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.canvas-card__visit {
+  font-family: var(--sans, Inter, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent, var(--ink-2));
+  letter-spacing: 0.02em;
+  margin-top: auto;
+  padding-top: 10px;
+  opacity: 0.75;
+  transition: opacity 200ms var(--ease, ease);
+}
+.canvas-card:hover .canvas-card__visit,
+.canvas-card:focus-visible .canvas-card__visit { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .canvas-card,
+  .canvas-card:hover,
+  .canvas-card:focus-visible { transform: none; transition: none; }
+}
+</style><style> /* Collective showcase — the gallery wall */
+.ensemble-showcase {
+  padding: 64px 0 48px;
+}
+.ensemble-showcase__head {
+  margin: 0 auto 28px;
+  text-align: center;
+  max-width: 720px;
+}
+.ensemble-showcase__head .eyebrow { color: var(--accent); }
+.ensemble-showcase__head h1 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 6vw, 60px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--ink);
+  margin: 8px 0 0;
+}
+.ensemble-showcase__head h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+.ensemble-showcase__sub {
+  font-family: var(--serif);
+  font-size: clamp(16px, 2vw, 19px);
+  color: var(--ink-2);
+  margin: 12px 0 0;
+}
+
+.ensemble-showcase__filters {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 28px 0 32px;
+}
+.ensemble-showcase__filter {
+  appearance: none;
+  border: 1px solid var(--rule);
+  background: var(--bg-raised);
+  color: var(--ink-2);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 9px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+}
+.ensemble-showcase__filter:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.ensemble-showcase__filter[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--bg, #fff);
+  border-color: var(--accent);
+}
+.ensemble-showcase__filter:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.ensemble-showcase__grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 900px) {
+  .ensemble-showcase__grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+}
+@media (max-width: 580px) {
+  .ensemble-showcase__grid { grid-template-columns: 1fr; gap: 16px; }
+}
+
+.ensemble-showcase__loadmore-row {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0 8px;
+}
+.ensemble-showcase__loadmore {
+  appearance: none;
+  border: 1px solid var(--rule);
+  background: var(--bg-raised);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 28px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+}
+.ensemble-showcase__loadmore:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.ensemble-showcase__loadmore[disabled],
+.ensemble-showcase__loadmore[hidden] { display: none; }
+
+.ensemble-showcase__status {
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-top: 12px;
+  min-height: 1.4em;
+}
+
+.ensemble-showcase__empty {
+  max-width: 640px;
+  margin: 16px auto 8px;
+  padding: 56px 24px;
+  text-align: center;
+  background: var(--bg-raised);
+  border: 1px dashed var(--rule);
+  border-radius: var(--radius);
+}
+.ensemble-showcase__empty[hidden] { display: none; }
+.ensemble-showcase__empty-icon {
+  font-family: var(--serif);
+  font-size: 56px;
+  line-height: 1;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 12px;
+  opacity: 0.55;
+}
+.ensemble-showcase__empty h2 {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--ink);
+}
+.ensemble-showcase__empty p {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin: 10px auto 24px;
+  max-width: 460px;
+}
+.ensemble-showcase__empty .btn-primary {
+  display: inline-block;
+  padding: 12px 24px;
+  text-decoration: none;
+}
+
+.ensemble-divider {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  max-width: 1100px;
+  margin: 56px auto 0;
+}
+</style><script>/* Canvas card client-side renderer — mirrors render_canvas_card(). */
+window.EnsembleCanvasCard = (function () {
+  var THEMES = {"warm":{t:"#e8a050",m:"#c2711f",b:"#7a3d0c"},"amber":{t:"#fbbf24",m:"#d97706",b:"#7a3d0c"},"sand":{t:"#eab308",m:"#a16207",b:"#3a2606"},"sunset":{t:"#fb923c",m:"#ea580c",b:"#3d1908"},"crimson":{t:"#f87171",m:"#dc2626",b:"#3a1010"},"rose":{t:"#fb7185",m:"#e11d48",b:"#400e1c"},"forest":{t:"#4ade80",m:"#16a34a",b:"#082616"},"sage":{t:"#a3e635",m:"#65a30d",b:"#1a2c06"},"lime":{t:"#bef264",m:"#84cc16",b:"#162a06"},"teal":{t:"#2dd4bf",m:"#0d9488",b:"#062826"},"ocean":{t:"#22d3ee",m:"#0891b2",b:"#063540"},"slate":{t:"#60a5fa",m:"#2563eb",b:"#172554"},"cobalt":{t:"#3b82f6",m:"#1e40af",b:"#0a1428"},"midnight":{t:"#818cf8",m:"#4f46e5",b:"#1e1b4b"},"aurora":{t:"#c4b5fd",m:"#8b5cf6",b:"#2a0f5c"},"plum":{t:"#e879f9",m:"#a21caf",b:"#2c0a3a"},"ash":{t:"#a3a3a3",m:"#525252",b:"#171717"},"mono":{t:"#ffffff",m:"#a3a3a3",b:"#525252"},"ruby":{t:"#fca5a5",m:"#ee2e3a",b:"#7f1010"},"lemon":{t:"#fef08a",m:"#facc15",b:"#854d0e"},"paper":{t:"#525252",m:"#262626",b:"#0a0a0a"}};
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+  function trunc(s, n) {
+    s = String(s == null ? '' : s).trim();
+    if (s.length <= n) return s;
+    return s.slice(0, n - 1).replace(/\s+$/,'') + '…';
+  }
+  function gradient(theme) {
+    var p = THEMES[theme] || THEMES['warm'] || {t:'#e8a050',m:'#c2711f',b:'#7a3d0c'};
+    return p;
+  }
+  function render(canvas) {
+    var cid = esc(canvas.id || '');
+    var title = esc(trunc(canvas.title || 'Untitled canvas', 80));
+    var handle = esc(canvas.owner_handle || '');
+    var desc = esc(trunc(canvas.description || '', 240));
+    var theme = esc(canvas.theme || 'warm');
+    var thumb = canvas.thumbnail_url ? esc(canvas.thumbnail_url) : '';
+    var g = gradient(canvas.theme || 'warm');
+    var style = '--card-grad-top:'+g.t+';--card-grad-mid:'+g.m+';--card-grad-bot:'+g.b+';';
+    var img = thumb ? '<img src="'+thumb+'" alt="" loading="lazy" decoding="async" />' : '';
+    var handleHtml = handle ? '<span class="canvas-card__handle">@'+handle+'</span>' : '';
+    var descHtml = desc ? '<p class="canvas-card__desc">'+desc+'</p>' : '';
+    return (
+      '<a class="canvas-card" href="./canvas/'+cid+'.html" data-canvas-id="'+cid+'" '
+      + 'data-theme="'+theme+'" style="'+style+'" '
+      + 'aria-label="Visit canvas: '+title+'">'
+      + '<div class="canvas-card__thumb">'+img+'</div>'
+      + '<div class="canvas-card__body">'
+      +   '<h3 class="canvas-card__title">'+title+'</h3>'
+      +   handleHtml
+      +   descHtml
+      +   '<span class="canvas-card__visit" aria-hidden="true">Visit →</span>'
+      + '</div>'
+      + '</a>'
+    );
+  }
+  return { render: render };
+})();
+</script><script>(function () {
+  var API = '/ensemble/canvases';
+  var DEFAULT_LIMIT = 20;
+  var grid = document.getElementById('ensemble-canvas-grid');
+  var empty = document.getElementById('ensemble-empty');
+  var loadMore = document.getElementById('ensemble-loadmore');
+  var status = document.getElementById('ensemble-grid-status');
+  var filterButtons = Array.prototype.slice.call(
+    document.querySelectorAll('.ensemble-showcase__filter')
+  );
+  if (!grid) return;
+
+  var currentFilter = 'featured';
+  var nextCursor = grid.getAttribute('data-next-cursor') || '';
+  var inFlight = null;
+
+  function setStatus(msg) { if (status) status.textContent = msg || ''; }
+
+  function setActiveFilter(name) {
+    filterButtons.forEach(function (b) {
+      var on = b.getAttribute('data-filter') === name;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  function showEmpty(show) {
+    if (!empty) return;
+    if (show) empty.removeAttribute('hidden');
+    else empty.setAttribute('hidden', '');
+  }
+
+  function renderInto(container, items, append) {
+    if (!window.EnsembleCanvasCard) return;
+    var html = items.map(window.EnsembleCanvasCard.render).join('');
+    if (append) container.insertAdjacentHTML('beforeend', html);
+    else container.innerHTML = html;
+  }
+
+  function fetchPage(filter, cursor, append) {
+    if (inFlight) return;
+    var url = API + '?filter=' + encodeURIComponent(filter) + '&limit=' + DEFAULT_LIMIT;
+    if (cursor) url += '&cursor=' + encodeURIComponent(cursor);
+    setStatus(append ? 'Loading more...' : 'Loading canvases...');
+    inFlight = fetch(url, { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        inFlight = null;
+        if (!data) {
+          setStatus('Couldn\'t reach the server. Try again in a moment.');
+          return;
+        }
+        var canvases = data.canvases || [];
+        nextCursor = data.next_cursor || '';
+        if (!append) {
+          if (canvases.length === 0) {
+            grid.innerHTML = '';
+            showEmpty(true);
+          } else {
+            showEmpty(false);
+            renderInto(grid, canvases, false);
+          }
+        } else {
+          renderInto(grid, canvases, true);
+        }
+        if (loadMore) {
+          if (nextCursor) loadMore.removeAttribute('hidden');
+          else loadMore.setAttribute('hidden', '');
+        }
+        setStatus('');
+      })
+      .catch(function () {
+        inFlight = null;
+        setStatus('Network error. Showing cached results.');
+      });
+  }
+
+  filterButtons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-filter');
+      if (!f || f === currentFilter) return;
+      currentFilter = f;
+      setActiveFilter(f);
+      fetchPage(f, null, false);
+    });
+  });
+
+  if (loadMore) {
+    loadMore.addEventListener('click', function () {
+      if (!nextCursor) return;
+      fetchPage(currentFilter, nextCursor, true);
+    });
+  }
+
+  // Progressive enhancement: refresh from API on first paint so SSR + live
+  // stay aligned. Skips on file:// origin (preview) — leaves SSR as-is.
+  if (location.protocol !== 'file:') {
+    fetchPage(currentFilter, null, false);
+  }
+})();
+</script><script>(function() {
   var CARD_COUNT = 6;
   var ROTATE_MS = 6000;
   var RESUME_AFTER_MANUAL_MS = 20000;
@@ -977,9 +1402,7 @@
     startAuto();
   });
 })();
-
-</script>
-<footer class="site-footer">
+</script><footer class="site-footer">
   <p><span class="brand">Ensemble</span> · <em>One conductor. Many performers.</em> · <a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
   <p style="opacity: 0.6; margin-top: 8px;">Auto-refreshes 3× daily. v2.0.</p>
 </footer>

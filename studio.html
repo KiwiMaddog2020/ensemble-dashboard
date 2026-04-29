@@ -104,6 +104,7 @@
 
   <div class="studio-tabs" role="tablist">
     <button class="studio-tab is-active" data-tab="room" role="tab" type="button">Room</button>
+    <button class="studio-tab" data-tab="publish" role="tab" type="button">Publish</button>
     <button class="studio-tab" data-tab="map" role="tab" type="button">
       Map <span class="studio-tab__pill">soon</span>
     </button>
@@ -284,6 +285,496 @@
       <span class="studio-info__item" id="studio-info-mode">view mode</span>
       <span class="studio-info__spacer"></span>
       <a class="studio-info__action" href="#" data-act="reset-to-default">Reset to default</a>
+    </div>
+  </section>
+
+  <section class="studio-pane studio-pane--publish" data-pane="publish" role="tabpanel" aria-label="Publish + theme">
+    <div class="studio-publish-wrap">
+      <aside class="studio-theme-picker" id="studio-theme-picker" aria-labelledby="studio-theme-picker-title">
+  <header class="studio-theme-picker__header">
+    <h2 class="studio-theme-picker__title" id="studio-theme-picker-title">Theme</h2>
+    <p class="studio-theme-picker__sub">Click to preview. Save or publish to keep.</p>
+  </header>
+  <div class="studio-theme-grid" id="studio-theme-grid" role="radiogroup" aria-label="Theme palette">
+      <button type="button" class="studio-theme-cell is-active" data-theme="warm" data-active="true" aria-label="Theme: warm" aria-pressed="true"><img src="/icons/icon-warm.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">warm</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="amber" aria-label="Theme: amber" aria-pressed="false"><img src="/icons/icon-amber.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">amber</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="sand" aria-label="Theme: sand" aria-pressed="false"><img src="/icons/icon-sand.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">sand</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="sunset" aria-label="Theme: sunset" aria-pressed="false"><img src="/icons/icon-sunset.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">sunset</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="crimson" aria-label="Theme: crimson" aria-pressed="false"><img src="/icons/icon-crimson.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">crimson</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="rose" aria-label="Theme: rose" aria-pressed="false"><img src="/icons/icon-rose.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">rose</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="forest" aria-label="Theme: forest" aria-pressed="false"><img src="/icons/icon-forest.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">forest</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="sage" aria-label="Theme: sage" aria-pressed="false"><img src="/icons/icon-sage.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">sage</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="lime" aria-label="Theme: lime" aria-pressed="false"><img src="/icons/icon-lime.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">lime</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="teal" aria-label="Theme: teal" aria-pressed="false"><img src="/icons/icon-teal.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">teal</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="ocean" aria-label="Theme: ocean" aria-pressed="false"><img src="/icons/icon-ocean.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">ocean</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="slate" aria-label="Theme: slate" aria-pressed="false"><img src="/icons/icon-slate.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">slate</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="cobalt" aria-label="Theme: cobalt" aria-pressed="false"><img src="/icons/icon-cobalt.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">cobalt</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="midnight" aria-label="Theme: midnight" aria-pressed="false"><img src="/icons/icon-midnight.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">midnight</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="aurora" aria-label="Theme: aurora" aria-pressed="false"><img src="/icons/icon-aurora.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">aurora</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="plum" aria-label="Theme: plum" aria-pressed="false"><img src="/icons/icon-plum.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">plum</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="ash" aria-label="Theme: ash" aria-pressed="false"><img src="/icons/icon-ash.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">ash</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="mono" aria-label="Theme: mono" aria-pressed="false"><img src="/icons/icon-mono.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">mono</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="ruby" aria-label="Theme: ruby" aria-pressed="false"><img src="/icons/icon-ruby.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">ruby</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="lemon" aria-label="Theme: lemon" aria-pressed="false"><img src="/icons/icon-lemon.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">lemon</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="paper" aria-label="Theme: paper" aria-pressed="false"><img src="/icons/icon-paper.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">paper</span></button>
+  </div>
+  <p class="studio-theme-picker__current">Current: <strong id="studio-theme-picker-current">warm</strong></p>
+</aside>
+
+<script>
+(function(){
+  "use strict";
+  function init(){
+    var grid = document.getElementById("studio-theme-grid");
+    var caption = document.getElementById("studio-theme-picker-current");
+    if (!grid) return;
+
+    function setActive(theme){
+      var cells = grid.querySelectorAll("[data-theme]");
+      for (var i = 0; i < cells.length; i++) {
+        var on = cells[i].getAttribute("data-theme") === theme;
+        cells[i].classList.toggle("is-active", on);
+        cells[i].setAttribute("aria-pressed", on ? "true" : "false");
+        if (on) {
+          cells[i].setAttribute("data-active", "true");
+        } else {
+          cells[i].removeAttribute("data-active");
+        }
+      }
+      if (caption) caption.textContent = theme;
+      var meta = document.getElementById("studio-meta-theme");
+      if (meta) meta.textContent = theme;
+    }
+
+    grid.addEventListener("click", function(e){
+      var btn = e.target.closest("[data-theme]");
+      if (!btn) return;
+      var theme = btn.getAttribute("data-theme");
+      if (!theme) return;
+      e.preventDefault();
+      setActive(theme);
+      // Use the existing applyTheme() helper from shared_scripts.py for the
+      // preview swap. It updates CSS vars + favicon. Persistence happens via
+      // the publish panel's POST/PUT (theme field).
+      if (typeof window.applyTheme === "function") {
+        try { window.applyTheme(theme, { persist: false }); } catch (_e) {
+          try { window.applyTheme(theme); } catch (_e2) { /* engine not ready */ }
+        }
+      }
+    });
+
+    // If the engine has already chosen a theme (e.g. from saved state), sync.
+    var initialMeta = document.getElementById("studio-meta-theme");
+    if (initialMeta && initialMeta.textContent) {
+      var t = initialMeta.textContent.trim();
+      if (t) setActive(t);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+})();
+</script>
+
+      <aside class="studio-publish" id="studio-publish" aria-labelledby="studio-publish-title">
+  <header class="studio-publish__header">
+    <h2 class="studio-publish__title" id="studio-publish-title">Your canvases</h2>
+    <p class="studio-publish__sub">Publish the current Room to a slot. <span id="studio-publish-count">0/3</span> slots used.</p>
+  </header>
+
+  <button class="studio-publish__primary" type="button" id="studio-publish-current" data-act="publish-current">
+    <span class="studio-publish__primary-icon" aria-hidden="true">+</span>
+    <span>Save current Room as new Canvas</span>
+  </button>
+
+  <div class="studio-publish__status" id="studio-publish-status" aria-live="polite"></div>
+
+  <section class="studio-publish__section" data-section="free">
+    <h3 class="studio-publish__sec-title">Free slots</h3>
+    <ol class="studio-publish__slots" id="studio-publish-free-slots"></ol>
+  </section>
+
+  <section class="studio-publish__section" data-section="pro">
+    <h3 class="studio-publish__sec-title">Pro slots</h3>
+    <ol class="studio-publish__slots studio-publish__slots--pro" id="studio-publish-pro-slots"></ol>
+  </section>
+
+  <section class="studio-publish__section" data-section="drafts">
+    <h3 class="studio-publish__sec-title">Drafts</h3>
+    <ol class="studio-publish__drafts" id="studio-publish-drafts">
+      <li class="studio-publish__empty" data-state="empty">No drafts yet.</li>
+    </ol>
+  </section>
+
+  <!-- Publish-target modal (hidden until trigger). -->
+  <div class="studio-publish-modal" id="studio-publish-modal" hidden role="dialog" aria-modal="true" aria-labelledby="studio-publish-modal-title">
+    <div class="studio-publish-modal__panel">
+      <h3 class="studio-publish-modal__title" id="studio-publish-modal-title">Publish to slot?</h3>
+      <p class="studio-publish-modal__sub" id="studio-publish-modal-sub">Pick a free slot. Replacing one swaps the existing canvas back to drafts.</p>
+      <ol class="studio-publish-modal__choices" id="studio-publish-modal-choices"></ol>
+      <div class="studio-publish-modal__row">
+        <button class="studio-publish-modal__cancel" type="button" data-act="modal-close">Cancel</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<script>
+(function(){
+  "use strict";
+
+  var FREE_SLOTS = 3;
+  var PRO_SLOTS_PREVIEW = 2;
+  var API = "/studio/canvas";
+
+  var stateRef = { canvases: [], tier: "free", current_published: 0, free_limit: FREE_SLOTS };
+
+  function $(id){ return document.getElementById(id); }
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
+    });
+  }
+  function toast(msg, kind){
+    var el = $("studio-publish-status");
+    if (!el) return;
+    el.textContent = msg || "";
+    el.setAttribute("data-kind", kind || "info");
+    if (msg) {
+      clearTimeout(toast._t);
+      toast._t = setTimeout(function(){
+        if (el.textContent === msg) { el.textContent = ""; el.removeAttribute("data-kind"); }
+      }, 4200);
+    }
+  }
+  function api(method, path, body){
+    var opts = { method: method, headers: { "Accept": "application/json" }, credentials: "same-origin" };
+    if (body !== undefined) {
+      opts.headers["Content-Type"] = "application/json";
+      opts.body = JSON.stringify(body);
+    }
+    return fetch(API + path, opts).then(function(r){
+      if (r.status === 204) return null;
+      return r.json().then(function(j){
+        if (!r.ok) {
+          var err = new Error(j && j.error ? j.error : ("HTTP " + r.status));
+          err.payload = j; err.status = r.status;
+          throw err;
+        }
+        return j;
+      });
+    });
+  }
+
+  function readRoomState(){
+    var engine = window.STUDIO_ENGINE;
+    if (engine && typeof engine.exportRoomState === "function") {
+      try { return engine.exportRoomState() || {}; } catch (_e) { /* fall through */ }
+    }
+    return {};
+  }
+  function readActiveTheme(){
+    var meta = $("studio-meta-theme");
+    if (meta && meta.textContent) return meta.textContent.trim() || "warm";
+    var hint = document.querySelector(".studio-theme-picker [data-theme][data-active='true']");
+    return hint ? hint.getAttribute("data-theme") : "warm";
+  }
+  function ownerId(){
+    var m = document.querySelector('meta[name="ensemble-owner-id"]');
+    if (m && m.content) return m.content;
+    return (window.ENSEMBLE_OWNER_ID || "");
+  }
+
+  function refresh(){
+    return api("GET", "/mine").then(function(payload){
+      stateRef = Object.assign({ canvases: [], tier: "free", current_published: 0, free_limit: FREE_SLOTS }, payload || {});
+      stateRef.canvases = Array.isArray(stateRef.canvases) ? stateRef.canvases : [];
+      render();
+      return stateRef;
+    }).catch(function(err){
+      // Fixture-mode may 404 / 501 / 503 until Slot A merges; render empty state.
+      stateRef = { canvases: [], tier: "free", current_published: 0, free_limit: FREE_SLOTS };
+      render();
+      if (err && err.status && err.status !== 404 && err.status !== 501 && err.status !== 503) {
+        toast("Couldn't load canvases: " + (err.message || err), "error");
+      }
+    });
+  }
+
+  function bySlot(idx){
+    for (var i = 0; i < stateRef.canvases.length; i++) {
+      var c = stateRef.canvases[i];
+      if (c && c.slot_index === idx) return c;
+    }
+    return null;
+  }
+  function drafts(){
+    return stateRef.canvases.filter(function(c){ return c && (c.slot_index === null || c.slot_index === undefined); });
+  }
+
+  function renderSlotRow(idx, isPro){
+    var canvas = bySlot(idx);
+    var li = document.createElement("li");
+    li.className = "studio-publish__slot" + (isPro ? " is-pro" : "") + (canvas ? " is-occupied" : " is-empty");
+    li.setAttribute("data-slot", String(idx));
+
+    if (isPro) {
+      li.innerHTML =
+        '<div class="studio-publish__slot-head">' +
+          '<span class="studio-publish__slot-num">[Locked] Slot ' + idx + '</span>' +
+          '<span class="studio-publish__slot-status">Locked - Pro</span>' +
+        '</div>' +
+        '<p class="studio-publish__upsell">Unlock unlimited canvas slots. <a href="/settings.html#billing">Pro - $12 / mo</a></p>';
+      return li;
+    }
+    if (canvas) {
+      li.innerHTML =
+        '<div class="studio-publish__slot-head">' +
+          '<span class="studio-publish__slot-num">Slot ' + idx + '</span>' +
+          '<span class="studio-publish__slot-status studio-publish__slot-status--live">[*] ' + esc(canvas.visibility || "public") + '</span>' +
+        '</div>' +
+        '<div class="studio-publish__card">' +
+          '<div class="studio-publish__card-title">' + esc(canvas.title || "(untitled)") + '</div>' +
+          '<p class="studio-publish__card-desc">' + esc(canvas.description || "") + '</p>' +
+          '<div class="studio-publish__card-actions">' +
+            '<button type="button" data-act="edit" data-id="' + esc(canvas.id) + '">Edit</button>' +
+            '<button type="button" data-act="unpublish" data-id="' + esc(canvas.id) + '">Unpublish</button>' +
+            '<button type="button" data-act="delete" data-id="' + esc(canvas.id) + '" class="is-danger">Delete</button>' +
+          '</div>' +
+        '</div>';
+    } else {
+      li.innerHTML =
+        '<div class="studio-publish__slot-head">' +
+          '<span class="studio-publish__slot-num">Slot ' + idx + '</span>' +
+          '<span class="studio-publish__slot-status">[ ] empty</span>' +
+        '</div>' +
+        '<button type="button" class="studio-publish__save-here" data-act="save-here" data-slot="' + idx + '">+ Save current Room here</button>';
+    }
+    return li;
+  }
+
+  function render(){
+    var freeRoot = $("studio-publish-free-slots");
+    var proRoot = $("studio-publish-pro-slots");
+    var draftRoot = $("studio-publish-drafts");
+    var counter = $("studio-publish-count");
+    if (!freeRoot || !proRoot || !draftRoot) return;
+
+    freeRoot.innerHTML = "";
+    for (var i = 0; i < FREE_SLOTS; i++) freeRoot.appendChild(renderSlotRow(i, false));
+
+    proRoot.innerHTML = "";
+    if (stateRef.tier === "pro") {
+      var maxPro = FREE_SLOTS;
+      for (var k = 0; k < stateRef.canvases.length; k++) {
+        var c = stateRef.canvases[k];
+        if (c && c.slot_index != null && c.slot_index >= FREE_SLOTS && c.slot_index >= maxPro) {
+          maxPro = c.slot_index + 1;
+        }
+      }
+      for (var p = FREE_SLOTS; p <= maxPro; p++) {
+        var slot = renderSlotRow(p, false);
+        slot.classList.remove("is-pro");
+        proRoot.appendChild(slot);
+      }
+    } else {
+      for (var q = 0; q < PRO_SLOTS_PREVIEW; q++) {
+        proRoot.appendChild(renderSlotRow(FREE_SLOTS + q, true));
+      }
+    }
+
+    draftRoot.innerHTML = "";
+    var ds = drafts();
+    if (!ds.length) {
+      var empty = document.createElement("li");
+      empty.className = "studio-publish__empty";
+      empty.setAttribute("data-state", "empty");
+      empty.textContent = "No drafts yet.";
+      draftRoot.appendChild(empty);
+    } else {
+      ds.forEach(function(c){
+        var li = document.createElement("li");
+        li.className = "studio-publish__draft";
+        li.innerHTML =
+          '<div class="studio-publish__card">' +
+            '<div class="studio-publish__card-title">' + esc(c.title || "Untitled draft") + '</div>' +
+            '<p class="studio-publish__card-desc">' + esc(c.description || "") + '</p>' +
+            '<div class="studio-publish__card-actions">' +
+              '<button type="button" data-act="edit" data-id="' + esc(c.id) + '">Edit</button>' +
+              '<button type="button" data-act="publish-existing" data-id="' + esc(c.id) + '">Publish to slot...</button>' +
+              '<button type="button" data-act="delete" data-id="' + esc(c.id) + '" class="is-danger">Delete</button>' +
+            '</div>' +
+          '</div>';
+        draftRoot.appendChild(li);
+      });
+    }
+
+    if (counter) {
+      var pub = stateRef.current_published || 0;
+      var lim = stateRef.tier === "pro" ? "inf" : (stateRef.free_limit || FREE_SLOTS);
+      counter.textContent = pub + "/" + lim;
+    }
+  }
+
+  function createDraftFromRoom(){
+    return api("POST", "", {
+      owner_id: ownerId(),
+      room_state: readRoomState(),
+      theme: readActiveTheme(),
+      title: "",
+      description: "",
+      source: "manual"
+    });
+  }
+  function publishToSlot(canvasId, slotIdx){
+    return api("POST", "/" + encodeURIComponent(canvasId) + "/publish", {
+      slot_index: slotIdx,
+      visibility: "public"
+    });
+  }
+  function unpublish(canvasId){
+    return api("POST", "/" + encodeURIComponent(canvasId) + "/unpublish", {});
+  }
+  function deleteCanvas(canvasId){
+    return api("DELETE", "/" + encodeURIComponent(canvasId));
+  }
+
+  function openModal(canvasId){
+    var modal = $("studio-publish-modal");
+    var choices = $("studio-publish-modal-choices");
+    if (!modal || !choices) return;
+    choices.innerHTML = "";
+    for (var i = 0; i < FREE_SLOTS; i++) {
+      var occupant = bySlot(i);
+      var li = document.createElement("li");
+      li.className = "studio-publish-modal__choice" + (occupant ? " is-replacing" : "");
+      li.innerHTML =
+        '<button type="button" data-act="modal-pick" data-slot="' + i + '" data-id="' + esc(canvasId) + '">' +
+          '<strong>Slot ' + i + '</strong>' +
+          '<span>' + (occupant ? ("Replace: " + esc(occupant.title || "(untitled)")) : "Empty") + '</span>' +
+        '</button>';
+      choices.appendChild(li);
+    }
+    var upsell = document.createElement("li");
+    upsell.className = "studio-publish-modal__choice is-locked";
+    upsell.innerHTML = '<a href="/settings.html#billing">Slot 3+ - Unlock with Pro</a>';
+    choices.appendChild(upsell);
+
+    modal.hidden = false;
+    modal.setAttribute("data-open", "true");
+  }
+  function closeModal(){
+    var modal = $("studio-publish-modal");
+    if (!modal) return;
+    modal.hidden = true;
+    modal.removeAttribute("data-open");
+  }
+
+  function onClick(e){
+    var t = e.target.closest("[data-act]");
+    if (!t) return;
+    var act = t.getAttribute("data-act");
+    var id = t.getAttribute("data-id");
+    var slotAttr = t.getAttribute("data-slot");
+    var slotIdx = slotAttr == null ? null : parseInt(slotAttr, 10);
+
+    if (act === "publish-current") {
+      e.preventDefault();
+      toast("Saving draft...", "info");
+      createDraftFromRoom().then(function(draft){
+        if (!draft || !draft.id) throw new Error("Draft creation returned no id");
+        toast("Draft saved. Pick a slot...", "info");
+        openModal(draft.id);
+      }).catch(function(err){ toast("Save failed: " + (err.message || err), "error"); });
+      return;
+    }
+    if (act === "save-here" && slotIdx !== null && !isNaN(slotIdx)) {
+      e.preventDefault();
+      toast("Publishing to slot " + slotIdx + "...", "info");
+      createDraftFromRoom().then(function(draft){
+        return publishToSlot(draft.id, slotIdx);
+      }).then(function(){
+        toast("Canvas published to slot " + slotIdx + " - it's live in the Ensemble at /index.html", "ok");
+        return refresh();
+      }).catch(function(err){ toast("Publish failed: " + (err.message || err), "error"); });
+      return;
+    }
+    if (act === "publish-existing" && id) {
+      e.preventDefault();
+      openModal(id);
+      return;
+    }
+    if (act === "modal-pick" && id && slotIdx !== null && !isNaN(slotIdx)) {
+      e.preventDefault();
+      closeModal();
+      toast("Publishing...", "info");
+      publishToSlot(id, slotIdx).then(function(){
+        toast("Canvas published to slot " + slotIdx + " - it's live in the Ensemble at /index.html", "ok");
+        return refresh();
+      }).catch(function(err){ toast("Publish failed: " + (err.message || err), "error"); });
+      return;
+    }
+    if (act === "modal-close") {
+      e.preventDefault();
+      closeModal();
+      return;
+    }
+    if (act === "unpublish" && id) {
+      e.preventDefault();
+      toast("Unpublishing...", "info");
+      unpublish(id).then(function(){
+        toast("Returned to drafts.", "ok");
+        return refresh();
+      }).catch(function(err){ toast("Unpublish failed: " + (err.message || err), "error"); });
+      return;
+    }
+    if (act === "delete" && id) {
+      e.preventDefault();
+      if (!window.confirm("Delete this canvas? This cannot be undone.")) return;
+      toast("Deleting...", "info");
+      deleteCanvas(id).then(function(){
+        toast("Deleted.", "ok");
+        return refresh();
+      }).catch(function(err){ toast("Delete failed: " + (err.message || err), "error"); });
+      return;
+    }
+    if (act === "edit" && id) {
+      e.preventDefault();
+      var engine = window.STUDIO_ENGINE;
+      if (engine && typeof engine.loadCanvasById === "function") {
+        engine.loadCanvasById(id);
+        toast("Loaded canvas into Room.", "info");
+      } else {
+        toast("Edit flow lands when the Studio engine exposes loadCanvasById.", "info");
+      }
+      return;
+    }
+  }
+
+  function init(){
+    var root = $("studio-publish");
+    if (!root) return;
+    root.addEventListener("click", onClick);
+    var modal = $("studio-publish-modal");
+    if (modal) {
+      modal.addEventListener("click", function(e){
+        if (e.target === modal) closeModal();
+      });
+    }
+    refresh();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+})();
+</script>
+
     </div>
   </section>
 
@@ -684,7 +1175,7 @@
         </header>
         <div class="studio-embed-modal__body">
           <iframe class="studio-embed-modal__frame" id="studio-embed-frame"
-            sandbox="allow-scripts allow-same-origin allow-presentation"
+            sandbox="allow-scripts allow-presentation"
             referrerpolicy="strict-origin-when-cross-origin"
             loading="lazy"
             allow="autoplay; encrypted-media; picture-in-picture"
@@ -830,7 +1321,7 @@
             <span class="studio-launch-modal__placeholder-text">INSERT COIN</span>
           </div>
           <iframe class="studio-launch-modal__frame" id="studio-launch-frame"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock"
+            sandbox="allow-scripts allow-forms allow-pointer-lock"
             referrerpolicy="no-referrer"
             loading="lazy"
             allow="autoplay 'self'"

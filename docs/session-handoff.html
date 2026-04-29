@@ -81,8 +81,72 @@
       <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/SESSION_HANDOFF.md</code></p>
     </header>
     <article class="doc-content">
+<hr />
+<h2 id="wake-up-brief-read-this-first">☕ WAKE-UP BRIEF · read this first</h2>
+<p>While you slept, <strong>6 warp workers landed</strong> (Phase 2.2 build x3 + AFK audit x3). Two of the audits surfaced <strong>shipping-blocking findings</strong> that need to be fixed before the next dashboard-fire. Don&rsquo;t merge Phase 2.2 yet — read the RED list first.</p>
+<h3 id="red-fix-before-next-dashboard-fire">🔴 RED — fix before next dashboard-fire</h3>
+<ol>
+<li>
+<p><strong><code>STATE_PATH</code> NameError in <code>bin/control-panel-server.py</code></strong> — 14 references to <code>STATE_PATH</code> (lines 378, 540, 612, 615, 618, 817, 822, 825, 842, 847, 850, 862, 891, 894) but only <code>STATE_FILE</code> is defined at line 51. <strong>5 endpoints are silently 500ing today</strong> on your local control panel: <code>/set-config</code>, <code>/release-lock</code>, <code>/pause-autopilots</code>, <code>/freeze-until</code>, plus the <code>/fire</code> freeze-precheck. <code>/state</code> GET is silently dehydrating. <strong>Fix: ~10 min.</strong> Add <code>STATE_PATH = ORCH_DATA / "state.json"</code> at line 51 and keep <code>STATE_FILE = STATE_PATH</code> as alias. (Audit B #1.)</p>
+</li>
+<li>
+<p><strong>iframe sandbox uses <code>allow-scripts allow-same-origin</code> together</strong> in <code>your_studio.py:38</code> and <code>studio_engine_js.py:399, 545</code>. This combination is documented to defeat sandboxing — combined with Claude-generated HTML+JS, it&rsquo;s a prompt-injection-to-XSS path that yields the host origin&rsquo;s <code>localStorage.DASHBOARD_TOKEN</code>. <strong>Currently shipping on the live PWA.</strong> Fix: drop <code>allow-same-origin</code> OR move iframes to a <code>studio-frame.ensemble.tld</code> subdomain. <strong>Effort: S</strong> (1 line removal). (Audit C #4.)</p>
+</li>
+</ol>
+<h3 id="yellow-pre-public-flip-blockers-chunk-3-territory">🟡 YELLOW — pre public-flip blockers (Chunk 3 territory)</h3>
+<p>Audit C surfaced a complete public-flip blocker list (9 items) — read <code>runs/warp-20260429T071032Z/c/report.md</code> §&rdquo;Public-flip blocker list&rdquo; for the full set. Headlines:</p>
+<ul>
+<li>Cloudflare Access not yet wired (already known; Chunk 3)</li>
+<li><code>/state</code> and <code>/studio/generate-from-answers</code> exposed without auth or rate-limit</li>
+<li>No Privacy Policy / ToS / cookie banner (PIPEDA + GDPR requirement)</li>
+<li>HTTP body size unbounded → trivial memory DoS against the Mac</li>
+<li>pair.html token-verification flow is broken (verifies via unauth <code>/state</code>)</li>
+</ul>
+<h3 id="green-confirmed-good">🟢 GREEN — confirmed good</h3>
+<ul>
+<li><strong>No leaked secrets</strong> in the committed repo. <code>.env.local</code> is gitignored; <code>.env.local.example</code> only has placeholders. (Audit C.)</li>
+<li><strong>Phase 2.1 Chunk 2 foundations + OPT-1 code is &ldquo;Apple-tier&rdquo;</strong> per Audit B — module shape, dependency discipline, atomic-write pattern. The bar is set; older code needs to catch up.</li>
+<li><strong>Test suite 120/120 OK</strong> at handoff snapshot.</li>
+<li><strong>Dashboard a11y is &ldquo;unusually good&rdquo;</strong> per Audit C — ARIA + reduced-motion + escapeHtml well-implemented.</li>
+<li><strong>All 3 Phase 2.2 build slots landed cleanly</strong> with their commits in their worktrees, ready to merge after RED fixes.</li>
+</ul>
+<h3 id="suggested-morning-order">Suggested morning order</h3>
+<ol>
+<li><strong>Read this WAKE-UP BRIEF</strong> (you&rsquo;re doing it).</li>
+<li><strong>Fix RED #1</strong> (STATE_PATH alias) — ~10 min.</li>
+<li><strong>Fix RED #2</strong> (iframe <code>allow-same-origin</code> removal) — ~5 min + verify Studio still renders.</li>
+<li><strong>Run tests</strong> to confirm RED fixes don&rsquo;t regress: <code>python3 -m unittest tests.test_studio_genesis tests.test_repo_ingest tests.test_github_oauth tests.test_repoless_genesis tests.test_first_run_endpoints tests.test_presets tests.test_asset_packs tests.test_phase3_pages tests.test_canvas_chunk2_foundations</code>.</li>
+<li><strong>Read the 3 audit reports in order</strong> (consistency / codebase / launch-readiness):
+   <code>bash
+   cat runs/warp-20260429T071032Z/a/report.md   # 222 lines — grand-plan consistency
+   cat runs/warp-20260429T071032Z/b/report.md   # 623 lines — codebase quality
+   cat runs/warp-20260429T071032Z/c/report.md   # 636 lines — launch-readiness</code></li>
+<li><strong>Decide on Phase 2.2 merge.</strong> Slot A modified <code>control-panel-server.py</code> to add canvas routes — verify Slot A didn&rsquo;t worsen the STATE_PATH bug, then run the merge sequence:
+   <code>bash
+   git merge --no-ff claude/warp-20260429T070045Z-a -m "Merge warp:a — Canvas API real impls (Phase 2.2)"
+   git merge --no-ff claude/warp-20260429T070045Z-b -m "Merge warp:b — Studio publish UI (Phase 2.2)"
+   git merge --no-ff claude/warp-20260429T070045Z-c -m "Merge warp:c — Ensemble showcase grid (Phase 2.2)"</code></li>
+<li><strong>Re-run tests post-merge</strong> (Slot A wrote ~100 new tests in <code>test_canvas_schema.py / test_canvas_store.py / test_canvas_api.py</code>).</li>
+<li><strong>Decide on dashboard-fire.</strong> Live PWA still has the iframe-sandbox bug. Either fire RED-fix-only first (safer), or fire RED-fix + Phase 2.2 together.</li>
+</ol>
+<h3 id="phase-22-commits-ready-to-merge">Phase 2.2 commits ready to merge</h3>
+<pre><code>Slot A: f265177 [warp:a] test(canvas): comprehensive schema + store + api coverage
+        aa17d84 [warp:a] feat(canvas): wire canvas routes into control-panel-server.py
+        d2ba64e [warp:a] feat(canvas): real handler impls for 8 endpoints
+
+Slot B: 26feeb6 [warp:b] feat(studio): wire publish panel + theme picker into studio.html
+        1b805db [warp:b] feat(studio): theme picker grid (21 themes, v10w icons)
+        ae9a2ab [warp:b] feat(studio): publish panel - slot manager + per-slot actions
+
+Slot C: e638994 [warp:c] feat(dashgen): per-canvas page generation in __main__.py
+        5055b7d [warp:c] feat(ensemble): /canvas/&lt;id&gt;.html detail view rendering room_state
+        575ee10 [warp:c] feat(ensemble): collective-showcase grid replacing manifesto landing
+        4d0d35b [warp:c] feat(ensemble): canvas card component with theme-colored thumbnails
+</code></pre>
+<p>13 commits across 3 branches. Conflict surface: zero (verified at directive design time).</p>
+<hr />
 <blockquote>
-<p>Compaction-driven handoff. Previous Maestro chat covered: Phase A.4-3 magic-moment verification, logo iteration v10a → v10w &ldquo;Threaded Trinity, Painted&rdquo;, trademark clearance, menubar app, CTA spacing fix, BOO arcade brief (deferred — bug), 6-chunk master plan, <strong>Chunk 1 brand system shipped via warp x3</strong>, strategic 25-category audit, and <strong>OPT-1 tooling debt cleanup currently in flight via warp x3</strong>. Kevin asked for handoff <em>before</em> the OPT-1 workers complete — they will land while you read this.</p>
+<p>Compaction-driven handoff originally written 2026-04-28 evening. Kevin asked for handoff before the OPT-1 workers completed; they all landed during the write. Then Kevin chose to keep going for one more session, shipping Chunk 1 dashboard-fire + Phase 2.1 Chunk 2 foundations + spawning Phase 2.2 build x3 + AFK audit x3. He went to sleep ~07:10 UTC; all 6 workers landed within ~30 min of spawn (faster than the 90-120 min estimate). Updated wake-up brief above written in real-time as the workers completed.</p>
 </blockquote>
 <hr />
 <h2 id="you-are-the-next-maestro">You are the next Maestro</h2>
