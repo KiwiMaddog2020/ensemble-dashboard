@@ -1,81 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
   <!--
-    Ensemble brand mark — "Threaded Trinity" (v10i, locked 2026-04-28).
+    Ensemble brand mark — "Threaded Trinity, Painted" (v10v, locked 2026-04-29).
 
-    Meaning: "Linked by each other.  Each carries the others.  Inseparable."
+    Meaning: "Two voices make a new pigment.  Three voices make light."
 
-    v10 builds on v9's threaded Borromean knot but adds two layers of
-    visual richness:
+    Three filled disks (burgundy / ochre / navy) in a true equilateral
+    arrangement, centroid at canvas center.  Where two rings meet, their
+    pigments mix into the natural color-theory primary blend (carmine /
+    plum / verdigris).  Where all three meet at the very center, a
+    luminous white-gold core — the additive answer to the subtractive
+    blends, the "ensemble" born from all three voices together.
 
-      1. Three rings, each in its own ink — the Heraldic Trinity palette
-         (burgundy / gold leaf / deep navy).  This is the classical
-         royal palette: Gules + Or + Azure are three of the five primary
-         heraldic tinctures, the combination found on French royal arms,
-         Burgundian arms, papal regalia, and illuminated manuscripts
-         from Carolingian onward.  Aging-gracefully bar passes by 800+
-         years of precedent.
+    Heraldic palette (Gules / Or / Azure) used since the 12th century.
+    Color theory: subtractive pigment mixing for pairs, additive light
+    for the trinity.  Sacred-geometry: equilateral, centered, with a
+    signature pin-prick at the exact canvas centroid (512, 512) inside
+    the luminous core — the soul-spark, our trademark distinguishing
+    detail.
 
-         Each color carries weight:
-            burgundy (top)       — wine, flame, the bloodline, the voice
-            gold leaf (lower-L)  — sun, illumination, the patron's gift
-            deep navy (lower-R)  — night sky, the deep, the contemplative
+    See docs/TRADEMARK_CLEARANCE.md for the brand color system spec.
 
-         Each ring keeps the v9 metallic-radial-gradient depth (light
-         highlight upper-left, deep shadow lower-right) so the rings
-         read as inked-metal at any scale.
-
-         Iteration history:
-           v10a — Inked Workshop (sanguine/sienna/sepia, all warm earth)
-                  Sepia read as background-near, faded at small sizes.
-           v10b — same palette, thicker rings + bumped rosette opacity.
-           v10c — Three Royal Inks (crimson/gold/lapis): red+yellow+blue
-                  primaries, Renaissance illuminated-manuscript style.
-                  Crimson read too bright; lapis read more medium-blue.
-           v10d — Heraldic Trinity (burgundy/gold/navy): the canonical
-                  royal-formal palette.  Burgundy is wine-darker than
-                  crimson; navy is night-darker than lapis.  Gold was
-                  shifted yellower (#c0881a mid) but Kevin preferred
-                  the "orange-yellow that looked very golden."
-           v10e — same Heraldic Trinity, gold reverted to the v10c
-                  amber-orange (#b8821c mid).  More candle-glow than
-                  pure-gold-leaf.  Still read as too yellow.
-           v10f — gold-position swapped to v9's signature warm orange
-                  ochre (#e8a050 → #c2711f → #7a3d0c).  Renamed
-                  inkGold → inkOchre for accuracy.
-           v10g — frame + rosette switched from ochre to white.  White
-                  pen-stroke on dark vellum reads as illuminated-
-                  manuscript ground.  Rosette stroke bumped 2.6 → 3.4
-                  for more presence.
-           v10h — rosette stays white; FRAME reverts to ochre + becomes
-                  unbroken (gap closed).  Self-rated 7-8.5/10 depending
-                  on weighting.  Real weaknesses: rosette muddy at
-                  small sizes, dark-bg-only design, busy at favicon.
-           v10i — DROP THE ROSETTE.  Replace with subtle warm radial
-                  glow at center — atmospheric "field" rather than
-                  countable element.  Three layers now: trinity (rings)
-                  + frame (containing circle) + warm glow (the field
-                  they live in).  Sleeker, scales cleanly, brief is
-                  "collectiveness of individuals" at the silhouette
-                  level — Borromean structure carries it without
-                  ornament.  Threading blades unchanged (they work).
-                  Locked.
-
-      2. A faint flower-of-life rosette behind the rings (~12% opacity,
-         single pen-stroke).  Not ornament-for-ornament's-sake — it's
-         the sacred-geometry FIELD that the rings live within, the
-         atmospheric background a master draftsman would lay down before
-         inking the figure.  Composed in ochre to harmonize with the
-         frame and cream textured paper.
-
-    Sacred-geometry / mathematical heritage: still the threaded Borromean
-    knot at full opacity (no compromise on the structural identity), but
-    now resting in the flower-of-life field that the threading was always
-    drawn from.  v9 was the figure; v10 is figure + ground.
-
-    Apple-quality discipline: 3 colors, 1 palette family, no random
-    primaries.  Ornament is below the silhouette in the visual hierarchy.
-    Master mark first; themed variants will inherit the same structure
-    via theme_icons.py once this is locked.
+    Iteration: v10a-h refined Borromean threading, v10i-l explored
+    threading polish + math precision, v10m-n tried clean overlap +
+    masked threading, v10o-r locked the filled-Venn artist-palette
+    direction with calibrated rich-dark blends + glowing white core +
+    fractal experiments, v10s-t tuned the bigger center + dual-mode +
+    white-in-both-modes, v10u shifted Carmine more red, v10v added the
+    signature centroid pin-prick + warmer navy for palette cohesion.
   -->
   <defs>
     <pattern id="craftBg" x="0" y="0" width="320" height="320" patternUnits="userSpaceOnUse">
@@ -86,64 +37,52 @@
       </filter>
       <rect width="320" height="320" filter="url(#craft)" opacity="0.30"/>
     </pattern>
-    <!-- Heraldic Trinity ring gradients (highlight → mid → shadow).
-         Gules + Or + Azure: the canonical royal-formal palette.  Each
-         ring keeps the v9 metallic-radial illusion in its own ink.
-         Highlight stops are tuned to similar luminosity (~50-60%) so
-         no single ring visually dominates — three equal voices. -->
-    <radialGradient id="inkBurgundy" cx="35%" cy="25%" r="85%">
-      <stop offset="0%"   stop-color="#b04a55"/>
-      <stop offset="50%"  stop-color="#6b1f2c"/>
-      <stop offset="100%" stop-color="#2c0a14"/>
-    </radialGradient>
-    <radialGradient id="inkOchre" cx="35%" cy="25%" r="85%">
-      <stop offset="0%"   stop-color="#e8a050"/>
-      <stop offset="50%"  stop-color="#c2711f"/>
-      <stop offset="100%" stop-color="#7a3d0c"/>
-    </radialGradient>
-    <radialGradient id="inkNavy" cx="35%" cy="25%" r="85%">
-      <stop offset="0%"   stop-color="#5066b8"/>
-      <stop offset="50%"  stop-color="#1c2a72"/>
-      <stop offset="100%" stop-color="#08123a"/>
-    </radialGradient>
-    <!-- Warm centerfield glow.  Ambient ground for the trinity, NOT a
-         countable element.  Wraps the Borromean centroid (~512, 510)
-         in a soft amber halo that fades to fully transparent before
-         reaching the frame — "the field they live in." -->
-    <radialGradient id="centerField" cx="50%" cy="50%" r="50%">
-      <stop offset="0%"   stop-color="#c2711f" stop-opacity="0.22"/>
-      <stop offset="40%"  stop-color="#c2711f" stop-opacity="0.10"/>
-      <stop offset="75%"  stop-color="#c2711f" stop-opacity="0.02"/>
-      <stop offset="100%" stop-color="#c2711f" stop-opacity="0"/>
-    </radialGradient>
+    <radialGradient id="vBurg" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#b04a55"/><stop offset="50%" stop-color="#6b1f2c"/><stop offset="100%" stop-color="#2c0a14"/></radialGradient>
+    <radialGradient id="vOchre" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#e8a050"/><stop offset="50%" stop-color="#c2711f"/><stop offset="100%" stop-color="#7a3d0c"/></radialGradient>
+    <radialGradient id="vNavy" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#5763a8"/><stop offset="50%" stop-color="#1f2865"/><stop offset="100%" stop-color="#0a0e2c"/></radialGradient>
+    <radialGradient id="vCarmine" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#BE6044"/><stop offset="50%" stop-color="#7F3820"/><stop offset="100%" stop-color="#34170D"/></radialGradient>
+    <radialGradient id="vPlum" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#6b3a8a"/><stop offset="50%" stop-color="#401a5e"/><stop offset="100%" stop-color="#18062a"/></radialGradient>
+    <radialGradient id="vVerd" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#4e7848"/><stop offset="50%" stop-color="#294a26"/><stop offset="100%" stop-color="#0a1a0a"/></radialGradient>
+    <radialGradient id="vLumin" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffffff"/><stop offset="40%" stop-color="#fff5d8"/><stop offset="80%" stop-color="#f5d990"/><stop offset="100%" stop-color="#e8b860"/></radialGradient>
+    <radialGradient id="vHalo" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/><stop offset="20%" stop-color="#fff0b8" stop-opacity="0.30"/><stop offset="50%" stop-color="#f5c878" stop-opacity="0.10"/><stop offset="100%" stop-color="#c2711f" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vCenterField" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#c2711f" stop-opacity="0.18"/><stop offset="40%" stop-color="#c2711f" stop-opacity="0.08"/><stop offset="75%" stop-color="#c2711f" stop-opacity="0.02"/><stop offset="100%" stop-color="#c2711f" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vVignette" cx="50%" cy="50%" r="65%"><stop offset="0%" stop-color="#000" stop-opacity="0"/><stop offset="70%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity="0.35"/></radialGradient>
+    <clipPath id="clipT"><circle cx="512" cy="331" r="226"/></clipPath>
+    <clipPath id="clipL"><circle cx="355" cy="602" r="226"/></clipPath>
+    <clipPath id="clipR"><circle cx="669" cy="602" r="226"/></clipPath>
   </defs>
+
   <rect x="0" y="0" width="1024" height="1024" fill="#0e0a06"/>
   <rect x="0" y="0" width="1024" height="1024" fill="url(#craftBg)" opacity="0.85"/>
-  <!-- Warm centerfield glow.  v10i replaced the v10h rosette with
-       this radial gradient — atmospheric, not ornamental.  The trinity
-       reads as living in a warm amber field, dimming gracefully toward
-       the frame.  Pure luminance, no countable strokes. -->
-  <rect x="0" y="0" width="1024" height="1024" fill="url(#centerField)"/>
-  <!-- Containing frame circle, ochre, complete (no gap).
-       v10h: removed the 4° upper-right gap — Kevin's read was that it
-       looked broken rather than intentional. -->
-  <circle cx="512" cy="512" r="478"
-          fill="none" stroke="#c2711f" stroke-width="2.4" stroke-opacity="0.82"/>
-  <!-- Three rings, threaded Borromean knot, each in its own royal ink.
-       Top ring   = burgundy (wine, flame, the bloodline, the voice)
-       Lower-left = ochre    (copper-terracotta — sun, illumination, warmth)
-       Lower-right= navy     (Azure — night sky, the deep, contemplation)
-       Stroke 34px reads at favicon / nav scales. -->
-  <circle cx="358" cy="601" r="220" fill="none" stroke="url(#inkOchre)"    stroke-width="34"/>
-  <circle cx="666" cy="601" r="220" fill="none" stroke="url(#inkNavy)"     stroke-width="34"/>
-  <circle cx="512" cy="328" r="220" fill="none" stroke="url(#inkBurgundy)" stroke-width="34"/>
-  <!-- THREADING BLADES (cyclic: top-over-left, left-over-right,
-       right-over-top).  Width 38 punches through any ring color.
-       Stroke = bg color so the cuts visually disappear into the paper. -->
-  <line x1="291.0" y1="365.0" x2="304.0" y2="412.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
-  <line x1="589.0" y1="540.0" x2="554.0" y2="552.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
-  <line x1="499.0" y1="430.0" x2="525.0" y2="458.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
-  <line x1="525.0" y1="744.0" x2="499.0" y2="772.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
-  <line x1="445.0" y1="526.0" x2="460.0" y2="566.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
-  <line x1="743.0" y1="396.0" x2="707.0" y2="382.0" stroke="#0e0a06" stroke-width="42" stroke-linecap="round"/>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#vCenterField)"/>
+
+  <!-- Containing frame circle, ochre, complete -->
+  <circle cx="512" cy="512" r="478" fill="none" stroke="#c2711f" stroke-width="2.4" stroke-opacity="0.82"/>
+
+  <!-- Three base disks (filled with metallic-radial gradient, equilateral, r=226) -->
+  <circle cx="355" cy="602" r="226" fill="url(#vOchre)"/>
+  <circle cx="669" cy="602" r="226" fill="url(#vNavy)"/>
+  <circle cx="512" cy="331" r="226" fill="url(#vBurg)"/>
+
+  <!-- Pairwise blend lenses (computed-color subtractive mixes) -->
+  <g clip-path="url(#clipT)"><g clip-path="url(#clipL)"><rect width="1024" height="1024" fill="url(#vCarmine)"/></g></g>
+  <g clip-path="url(#clipT)"><g clip-path="url(#clipR)"><rect width="1024" height="1024" fill="url(#vPlum)"/></g></g>
+  <g clip-path="url(#clipL)"><g clip-path="url(#clipR)"><rect width="1024" height="1024" fill="url(#vVerd)"/></g></g>
+
+  <!-- Halo behind triple intersection — bleeds into surrounding lenses -->
+  <circle cx="512" cy="512" r="200" fill="url(#vHalo)"/>
+
+  <!-- Triple intersection: luminous white-gold (additive light at the center) -->
+  <g clip-path="url(#clipT)"><g clip-path="url(#clipL)"><g clip-path="url(#clipR)"><rect width="1024" height="1024" fill="url(#vLumin)"/></g></g></g>
+
+  <!-- SIGNATURE: pure-white pin-prick at exact canvas centroid -->
+  <circle cx="512" cy="512" r="3.5" fill="#ffffff"/>
+
+  <!-- Inked edges per ring (deep-shadow color of each parent) -->
+  <circle cx="355" cy="602" r="226" fill="none" stroke="#7a3d0c" stroke-width="2.5" stroke-opacity="0.45"/>
+  <circle cx="669" cy="602" r="226" fill="none" stroke="#0a0e2c" stroke-width="2.5" stroke-opacity="0.45"/>
+  <circle cx="512" cy="331" r="226" fill="none" stroke="#2c0a14" stroke-width="2.5" stroke-opacity="0.45"/>
+
+  <!-- Outer vignette for focus -->
+  <rect width="1024" height="1024" fill="url(#vVignette)"/>
 </svg>
