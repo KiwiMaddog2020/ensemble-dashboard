@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" class="ensemble-mark ensemble-mark--light">
+  <defs>
+    <radialGradient id="mBg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="var(--mark-bg-center, #faf6ec)"/>
+      <stop offset="100%" stop-color="var(--mark-bg-edge, #ede4cf)"/>
+    </radialGradient>
+    <radialGradient id="mHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f5c878" stop-opacity="0.50"/>
+      <stop offset="35%" stop-color="#c89048" stop-opacity="0.25"/>
+      <stop offset="70%" stop-color="#8a5018" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#3a1f08" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="mLumin" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f8d480"/>
+      <stop offset="40%" stop-color="#d8a050"/>
+      <stop offset="80%" stop-color="#8a5018"/>
+      <stop offset="100%" stop-color="#4a2808"/>
+    </radialGradient>
+    <radialGradient id="mVignette" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="70%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.20"/>
+    </radialGradient>
+    <clipPath id="mClipT"><circle cx="512" cy="298" r="270"/></clipPath>
+    <clipPath id="mClipL"><circle cx="327" cy="619" r="270"/></clipPath>
+    <clipPath id="mClipR"><circle cx="697" cy="619" r="270"/></clipPath>
+  </defs>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#mBg)"/>
+  <circle cx="512" cy="298" r="270" fill="var(--mark-primary-mid, #6b1f2c)"/>
+  <circle cx="327" cy="619" r="270" fill="var(--mark-primary-dark, #c2711f)"/>
+  <circle cx="697" cy="619" r="270" fill="var(--mark-primary-light, #1c2a72)"/>
+  <g clip-path="url(#mClipT)"><g clip-path="url(#mClipL)"><rect width="1024" height="1024" fill="var(--mark-primary-mid, #6b1f2c)" opacity="0.55"/></g></g>
+  <g clip-path="url(#mClipT)"><g clip-path="url(#mClipR)"><rect width="1024" height="1024" fill="var(--mark-primary-light, #1c2a72)" opacity="0.55"/></g></g>
+  <g clip-path="url(#mClipL)"><g clip-path="url(#mClipR)"><rect width="1024" height="1024" fill="var(--mark-primary-dark, #c2711f)" opacity="0.55"/></g></g>
+  <circle cx="512" cy="512" r="238" fill="url(#mHalo)"/>
+  <g clip-path="url(#mClipT)"><g clip-path="url(#mClipL)"><g clip-path="url(#mClipR)"><rect width="1024" height="1024" fill="url(#mLumin)"/></g></g></g>
+  <circle cx="512" cy="512" r="3.5" fill="var(--mark-pin, #3a1f08)"/>
+  <circle cx="512" cy="298" r="270" fill="none" stroke="var(--mark-stroke, #2c0a14)" stroke-width="2.5" stroke-opacity="0.45"/>
+  <circle cx="327" cy="619" r="270" fill="none" stroke="var(--mark-stroke, #2c0a14)" stroke-width="2.5" stroke-opacity="0.45"/>
+  <circle cx="697" cy="619" r="270" fill="none" stroke="var(--mark-stroke, #2c0a14)" stroke-width="2.5" stroke-opacity="0.45"/>
+  <rect width="1024" height="1024" fill="url(#mVignette)"/>
+</svg>

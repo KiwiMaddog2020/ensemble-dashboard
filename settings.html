@@ -396,6 +396,296 @@ document.addEventListener("DOMContentLoaded", function() {
   </div>
 </section>
 
+<section class="settings-section settings-appearance" id="settings-appearance" data-owner-only>
+  <div class="wrap">
+    <h2>Appearance</h2>
+    <p class="settings-section__lead section-sub">Color theme, optional accent, and light/dark mode. Changes preview instantly; Save persists across devices.</p>
+
+    <div class="settings-appearance__notice" id="settings-appearance-notice" hidden></div>
+
+<fieldset class="settings-theme-picker" id="primary-picker-fieldset" data-picker-id="primary-picker">
+  <legend class="settings-theme-picker__legend">Primary color</legend>
+  <div class="settings-theme-grid" id="primary-picker" role="radiogroup" aria-label="Primary color">
+        <button type="button" class="settings-theme-tile is-active" data-theme="warm" data-picker="primary-picker" aria-label="Warm theme" aria-pressed="true" title="Warm"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #e8a050 0%, #c2711f 55%, #7a3d0c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Warm</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="amber" data-picker="primary-picker" aria-label="Amber theme" aria-pressed="false" title="Amber"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fbbf24 0%, #d97706 55%, #7a3d0c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Amber</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="sand" data-picker="primary-picker" aria-label="Sand theme" aria-pressed="false" title="Sand"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #eab308 0%, #a16207 55%, #3a2606 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Sand</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="sunset" data-picker="primary-picker" aria-label="Sunset theme" aria-pressed="false" title="Sunset"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fb923c 0%, #ea580c 55%, #3d1908 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Sunset</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="crimson" data-picker="primary-picker" aria-label="Crimson theme" aria-pressed="false" title="Crimson"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #f87171 0%, #dc2626 55%, #3a1010 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Crimson</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="rose" data-picker="primary-picker" aria-label="Rose theme" aria-pressed="false" title="Rose"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fb7185 0%, #e11d48 55%, #400e1c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Rose</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="forest" data-picker="primary-picker" aria-label="Forest theme" aria-pressed="false" title="Forest"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #4ade80 0%, #16a34a 55%, #082616 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Forest</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="sage" data-picker="primary-picker" aria-label="Sage theme" aria-pressed="false" title="Sage"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #a3e635 0%, #65a30d 55%, #1a2c06 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Sage</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="lime" data-picker="primary-picker" aria-label="Lime theme" aria-pressed="false" title="Lime"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #bef264 0%, #84cc16 55%, #162a06 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Lime</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="teal" data-picker="primary-picker" aria-label="Teal theme" aria-pressed="false" title="Teal"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #2dd4bf 0%, #0d9488 55%, #062826 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Teal</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="ocean" data-picker="primary-picker" aria-label="Ocean theme" aria-pressed="false" title="Ocean"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #22d3ee 0%, #0891b2 55%, #063540 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Ocean</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="slate" data-picker="primary-picker" aria-label="Slate theme" aria-pressed="false" title="Slate"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #60a5fa 0%, #2563eb 55%, #172554 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Slate</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="cobalt" data-picker="primary-picker" aria-label="Cobalt theme" aria-pressed="false" title="Cobalt"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #3b82f6 0%, #1e40af 55%, #0a1428 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Cobalt</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="midnight" data-picker="primary-picker" aria-label="Midnight theme" aria-pressed="false" title="Midnight"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #818cf8 0%, #4f46e5 55%, #1e1b4b 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Midnight</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="aurora" data-picker="primary-picker" aria-label="Aurora theme" aria-pressed="false" title="Aurora"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #c4b5fd 0%, #8b5cf6 55%, #2a0f5c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Aurora</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="plum" data-picker="primary-picker" aria-label="Plum theme" aria-pressed="false" title="Plum"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #e879f9 0%, #a21caf 55%, #2c0a3a 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Plum</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="ash" data-picker="primary-picker" aria-label="Ash theme" aria-pressed="false" title="Ash"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #a3a3a3 0%, #525252 55%, #171717 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Ash</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="mono" data-picker="primary-picker" aria-label="Mono theme" aria-pressed="false" title="Mono"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #ffffff 0%, #a3a3a3 55%, #525252 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Mono</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="ruby" data-picker="primary-picker" aria-label="Ruby theme" aria-pressed="false" title="Ruby"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fca5a5 0%, #ee2e3a 55%, #7f1010 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Ruby</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="lemon" data-picker="primary-picker" aria-label="Lemon theme" aria-pressed="false" title="Lemon"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fef08a 0%, #facc15 55%, #854d0e 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Lemon</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="paper" data-picker="primary-picker" aria-label="Paper theme" aria-pressed="false" title="Paper"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #525252 0%, #262626 55%, #0a0a0a 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Paper</span></button>
+  </div>
+  <p class="settings-theme-picker__current">Current: <strong data-current-for="primary-picker">Warm</strong></p>
+  <p class="settings-theme-picker__help">Click to preview. Save changes to persist.</p>
+</fieldset>
+
+<fieldset class="settings-theme-picker" id="secondary-picker-fieldset" data-picker-id="secondary-picker">
+  <legend class="settings-theme-picker__legend">Secondary color (optional accent for highlights)</legend>
+  <div class="settings-theme-grid" id="secondary-picker" role="radiogroup" aria-label="Secondary color (optional accent for highlights)">
+        <button type="button" class="settings-theme-tile settings-theme-tile--none is-active" data-theme="" data-picker="secondary-picker" aria-label="None (no secondary color)" aria-pressed="true" title="None"><span class="settings-theme-tile__none-glyph" aria-hidden="true">∅</span><span class="settings-theme-tile__name">None</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="warm" data-picker="secondary-picker" aria-label="Warm theme" aria-pressed="false" title="Warm"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #e8a050 0%, #c2711f 55%, #7a3d0c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Warm</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="amber" data-picker="secondary-picker" aria-label="Amber theme" aria-pressed="false" title="Amber"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fbbf24 0%, #d97706 55%, #7a3d0c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Amber</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="sand" data-picker="secondary-picker" aria-label="Sand theme" aria-pressed="false" title="Sand"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #eab308 0%, #a16207 55%, #3a2606 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Sand</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="sunset" data-picker="secondary-picker" aria-label="Sunset theme" aria-pressed="false" title="Sunset"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fb923c 0%, #ea580c 55%, #3d1908 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Sunset</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="crimson" data-picker="secondary-picker" aria-label="Crimson theme" aria-pressed="false" title="Crimson"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #f87171 0%, #dc2626 55%, #3a1010 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Crimson</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="rose" data-picker="secondary-picker" aria-label="Rose theme" aria-pressed="false" title="Rose"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fb7185 0%, #e11d48 55%, #400e1c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Rose</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="forest" data-picker="secondary-picker" aria-label="Forest theme" aria-pressed="false" title="Forest"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #4ade80 0%, #16a34a 55%, #082616 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Forest</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="sage" data-picker="secondary-picker" aria-label="Sage theme" aria-pressed="false" title="Sage"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #a3e635 0%, #65a30d 55%, #1a2c06 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Sage</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="lime" data-picker="secondary-picker" aria-label="Lime theme" aria-pressed="false" title="Lime"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #bef264 0%, #84cc16 55%, #162a06 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Lime</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="teal" data-picker="secondary-picker" aria-label="Teal theme" aria-pressed="false" title="Teal"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #2dd4bf 0%, #0d9488 55%, #062826 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Teal</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="ocean" data-picker="secondary-picker" aria-label="Ocean theme" aria-pressed="false" title="Ocean"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #22d3ee 0%, #0891b2 55%, #063540 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Ocean</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="slate" data-picker="secondary-picker" aria-label="Slate theme" aria-pressed="false" title="Slate"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #60a5fa 0%, #2563eb 55%, #172554 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Slate</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="cobalt" data-picker="secondary-picker" aria-label="Cobalt theme" aria-pressed="false" title="Cobalt"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #3b82f6 0%, #1e40af 55%, #0a1428 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Cobalt</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="midnight" data-picker="secondary-picker" aria-label="Midnight theme" aria-pressed="false" title="Midnight"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #818cf8 0%, #4f46e5 55%, #1e1b4b 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Midnight</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="aurora" data-picker="secondary-picker" aria-label="Aurora theme" aria-pressed="false" title="Aurora"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #c4b5fd 0%, #8b5cf6 55%, #2a0f5c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Aurora</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="plum" data-picker="secondary-picker" aria-label="Plum theme" aria-pressed="false" title="Plum"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #e879f9 0%, #a21caf 55%, #2c0a3a 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Plum</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="ash" data-picker="secondary-picker" aria-label="Ash theme" aria-pressed="false" title="Ash"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #a3a3a3 0%, #525252 55%, #171717 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Ash</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="mono" data-picker="secondary-picker" aria-label="Mono theme" aria-pressed="false" title="Mono"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #ffffff 0%, #a3a3a3 55%, #525252 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Mono</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="ruby" data-picker="secondary-picker" aria-label="Ruby theme" aria-pressed="false" title="Ruby"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fca5a5 0%, #ee2e3a 55%, #7f1010 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Ruby</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="lemon" data-picker="secondary-picker" aria-label="Lemon theme" aria-pressed="false" title="Lemon"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fef08a 0%, #facc15 55%, #854d0e 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Lemon</span></button>
+        <button type="button" class="settings-theme-tile" data-theme="paper" data-picker="secondary-picker" aria-label="Paper theme" aria-pressed="false" title="Paper"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #525252 0%, #262626 55%, #0a0a0a 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Paper</span></button>
+  </div>
+  <p class="settings-theme-picker__current">Current: <strong data-current-for="secondary-picker">None</strong></p>
+  <p class="settings-theme-picker__help">None means highlights inherit from the primary color.</p>
+</fieldset>
+
+<fieldset class="settings-mode-toggle" id="settings-mode-toggle">
+  <legend class="settings-mode-toggle__legend">Mode</legend>
+  <label class="settings-mode-toggle__option"><input type="radio" name="settings-mode" value="light"><span class="settings-mode-toggle__label">Light</span></label>
+  <label class="settings-mode-toggle__option"><input type="radio" name="settings-mode" value="dark"><span class="settings-mode-toggle__label">Dark</span></label>
+  <label class="settings-mode-toggle__option"><input type="radio" name="settings-mode" value="auto" checked><span class="settings-mode-toggle__label">Auto <span class="settings-mode-toggle__hint">(system)</span></span></label>
+</fieldset>
+
+    <div class="settings-appearance__actions">
+      <button type="button" class="btn-primary" id="settings-appearance-save" data-action="save-preferences" disabled>Save changes</button>
+      <button type="button" class="btn-secondary" id="settings-appearance-revert" data-action="revert-preferences" disabled>Revert</button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  "use strict";
+  // Live-preview + persistence for the Settings -> Appearance section.
+  // Slot 1A wires GET/PUT /preferences in parallel; this UI reads/writes
+  // through that contract. Fixture-mode responses are honored too.
+
+  var sessKey = "ensemble:dashboard-token";
+  function bearerToken(){
+    try { return sessionStorage.getItem(sessKey) || ""; } catch (_){ return ""; }
+  }
+  function authHeadersLocal(){
+    var h = {"Content-Type": "application/json"};
+    var t = bearerToken();
+    if (t) h["Authorization"] = "Bearer " + t;
+    return h;
+  }
+  function serverBase(){
+    if (typeof window !== "undefined" && typeof window.SERVER_URL === "string") {
+      return window.SERVER_URL || "";
+    }
+    return "";
+  }
+
+  var saved = null;
+  var pending = null;
+
+  function defaults(){
+    return { primary: "warm", secondary: null, mode: "auto" };
+  }
+
+  function setNotice(kind, text){
+    var el = document.getElementById("settings-appearance-notice");
+    if (!el) return;
+    if (!text){ el.hidden = true; el.textContent = ""; el.className = "settings-appearance__notice"; return; }
+    el.hidden = false;
+    el.textContent = text;
+    el.className = "settings-appearance__notice settings-appearance__notice--" + kind;
+  }
+
+  function applyPreviewToBody(state){
+    if (!state) return;
+    document.body.dataset.theme = state.primary || "warm";
+    document.body.dataset.mode = state.mode || "auto";
+    if (state.secondary){
+      document.body.dataset.secondary = state.secondary;
+    } else {
+      delete document.body.dataset.secondary;
+    }
+  }
+
+  function setActiveTile(pickerId, value){
+    var grid = document.getElementById(pickerId);
+    if (!grid) return;
+    var tiles = grid.querySelectorAll("[data-theme]");
+    for (var i = 0; i < tiles.length; i++){
+      var t = tiles[i];
+      var on = (t.getAttribute("data-theme") || "") === (value || "");
+      t.classList.toggle("is-active", on);
+      t.setAttribute("aria-pressed", on ? "true" : "false");
+    }
+    var caption = document.querySelector('[data-current-for="' + pickerId + '"]');
+    if (caption){
+      if (!value){ caption.textContent = "None"; }
+      else { caption.textContent = value.charAt(0).toUpperCase() + value.slice(1); }
+    }
+  }
+
+  function setActiveMode(value){
+    var radios = document.querySelectorAll('input[name="settings-mode"]');
+    for (var i = 0; i < radios.length; i++){
+      radios[i].checked = (radios[i].value === value);
+    }
+  }
+
+  function isDirty(){
+    if (!saved || !pending) return false;
+    return saved.primary !== pending.primary ||
+           (saved.secondary || "") !== (pending.secondary || "") ||
+           saved.mode !== pending.mode;
+  }
+
+  function refreshButtons(){
+    var dirty = isDirty();
+    var save = document.getElementById("settings-appearance-save");
+    var revert = document.getElementById("settings-appearance-revert");
+    if (save) save.disabled = !dirty;
+    if (revert) revert.disabled = !dirty;
+  }
+
+  function syncUI(state){
+    setActiveTile("primary-picker", state.primary || "warm");
+    setActiveTile("secondary-picker", state.secondary || "");
+    setActiveMode(state.mode || "auto");
+    applyPreviewToBody(state);
+    refreshButtons();
+  }
+
+  function bindPickerClicks(pickerId, field){
+    var grid = document.getElementById(pickerId);
+    if (!grid) return;
+    grid.addEventListener("click", function(ev){
+      var btn = ev.target.closest("[data-theme]");
+      if (!btn) return;
+      ev.preventDefault();
+      var v = btn.getAttribute("data-theme") || "";
+      pending[field] = v ? v : null;
+      setActiveTile(pickerId, v);
+      applyPreviewToBody(pending);
+      refreshButtons();
+    });
+  }
+
+  function bindModeRadios(){
+    var fs = document.getElementById("settings-mode-toggle");
+    if (!fs) return;
+    fs.addEventListener("change", function(ev){
+      var t = ev.target;
+      if (!t || t.name !== "settings-mode") return;
+      pending.mode = t.value;
+      applyPreviewToBody(pending);
+      refreshButtons();
+    });
+  }
+
+  function bindSaveRevert(){
+    var save = document.getElementById("settings-appearance-save");
+    var revert = document.getElementById("settings-appearance-revert");
+    if (save) save.addEventListener("click", saveChanges);
+    if (revert) revert.addEventListener("click", function(){
+      pending = Object.assign({}, saved);
+      syncUI(pending);
+      setNotice("", "");
+    });
+  }
+
+  function loadPreferences(){
+    var base = serverBase();
+    if (!base){
+      saved = defaults();
+      pending = Object.assign({}, saved);
+      syncUI(pending);
+      return;
+    }
+    fetch(base + "/preferences", { headers: authHeadersLocal() })
+      .then(function(r){
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function(data){
+        saved = {
+          primary: (data && data.primary) || "warm",
+          secondary: (data && data.secondary) || null,
+          mode: (data && data.mode) || "auto"
+        };
+        pending = Object.assign({}, saved);
+        syncUI(pending);
+      })
+      .catch(function(e){
+        saved = defaults();
+        pending = Object.assign({}, saved);
+        syncUI(pending);
+        setNotice("warn", "Couldn\u2019t load saved preferences (" + e.message + "); showing defaults.");
+      });
+  }
+
+  function saveChanges(){
+    var base = serverBase();
+    if (!base){
+      setNotice("err", "Pair this browser to save preferences.");
+      return;
+    }
+    var body = JSON.stringify(pending);
+    fetch(base + "/preferences", {
+      method: "PUT",
+      headers: authHeadersLocal(),
+      body: body
+    }).then(function(r){
+      if (!r.ok){
+        return r.json().catch(function(){ return {}; }).then(function(j){
+          setNotice("err", "Save failed: " + (j.error || ("HTTP " + r.status)));
+        });
+      }
+      saved = Object.assign({}, pending);
+      refreshButtons();
+      setNotice("ok", "Appearance saved.");
+    }).catch(function(e){
+      setNotice("err", "Network error: " + e.message);
+    });
+  }
+
+  function init(){
+    pending = defaults();
+    saved = defaults();
+    bindPickerClicks("primary-picker", "primary");
+    bindPickerClicks("secondary-picker", "secondary");
+    bindModeRadios();
+    bindSaveRevert();
+    loadPreferences();
+  }
+
+  if (document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+})();
+</script>
+
+
 <section data-owner-only>
   <div class="wrap">
     <h2>Privacy</h2>
