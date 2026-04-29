@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Mono variant - single warm-dark, press-ready single-impression mark.
+       Three ring outlines + filled triple-intersection centroid. -->
+  <defs>
+    <clipPath id="oClipT"><circle cx="512" cy="298" r="270"/></clipPath>
+    <clipPath id="oClipL"><circle cx="327" cy="619" r="270"/></clipPath>
+    <clipPath id="oClipR"><circle cx="697" cy="619" r="270"/></clipPath>
+  </defs>
+  <rect x="0" y="0" width="1024" height="1024" fill="#f5ede0"/>
+  <circle cx="512" cy="298" r="270" fill="none" stroke="#3a1f08" stroke-width="6"/>
+  <circle cx="327" cy="619" r="270" fill="none" stroke="#3a1f08" stroke-width="6"/>
+  <circle cx="697" cy="619" r="270" fill="none" stroke="#3a1f08" stroke-width="6"/>
+  <g clip-path="url(#oClipT)"><g clip-path="url(#oClipL)"><g clip-path="url(#oClipR)"><rect width="1024" height="1024" fill="#3a1f08"/></g></g></g>
+</svg>

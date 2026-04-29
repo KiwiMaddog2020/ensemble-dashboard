@@ -8,23 +8,34 @@
       </filter>
       <rect width="320" height="320" filter="url(#craft)" opacity="0.30"/>
     </pattern>
-    <radialGradient id="ringMetal" cx="35%" cy="25%" r="85%">
-      <stop offset="0%"   stop-color="#fb923c"/>
-      <stop offset="50%"  stop-color="#ea580c"/>
-      <stop offset="100%" stop-color="#3d1908"/>
-    </radialGradient>
+    <radialGradient id="ringA" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#6e5246"/><stop offset="50%" stop-color="#3d1908"/><stop offset="100%" stop-color="#2b1206"/></radialGradient>
+    <radialGradient id="ringB" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#ef8249"/><stop offset="50%" stop-color="#ea580c"/><stop offset="100%" stop-color="#a43e08"/></radialGradient>
+    <radialGradient id="ringC" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#fcad6d"/><stop offset="50%" stop-color="#fb923c"/><stop offset="100%" stop-color="#b0662a"/></radialGradient>
+    <radialGradient id="blendAB" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#a9603b"/><stop offset="50%" stop-color="#94380a"/><stop offset="100%" stop-color="#592206"/></radialGradient>
+    <radialGradient id="blendAC" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#b0784e"/><stop offset="50%" stop-color="#9c5622"/><stop offset="100%" stop-color="#5e3414"/></radialGradient>
+    <radialGradient id="blendBC" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#f59150"/><stop offset="50%" stop-color="#f27524"/><stop offset="100%" stop-color="#914616"/></radialGradient>
+    <radialGradient id="vLumin" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffffff"/><stop offset="40%" stop-color="#fff5d8"/><stop offset="80%" stop-color="#f5d990"/><stop offset="100%" stop-color="#e8b860"/></radialGradient>
+    <radialGradient id="vHalo" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/><stop offset="20%" stop-color="#fff0b8" stop-opacity="0.30"/><stop offset="50%" stop-color="#f5c878" stop-opacity="0.10"/><stop offset="100%" stop-color="#c2711f" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vCenterField" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ea580c" stop-opacity="0.18"/><stop offset="40%" stop-color="#ea580c" stop-opacity="0.08"/><stop offset="75%" stop-color="#ea580c" stop-opacity="0.02"/><stop offset="100%" stop-color="#ea580c" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vVignette" cx="50%" cy="50%" r="65%"><stop offset="0%" stop-color="#000" stop-opacity="0"/><stop offset="70%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity="0.35"/></radialGradient>
+    <clipPath id="clipT"><circle cx="512" cy="298" r="270"/></clipPath>
+    <clipPath id="clipL"><circle cx="327" cy="619" r="270"/></clipPath>
+    <clipPath id="clipR"><circle cx="697" cy="619" r="270"/></clipPath>
   </defs>
   <rect x="0" y="0" width="1024" height="1024" fill="#0e0501"/>
   <rect x="0" y="0" width="1024" height="1024" fill="url(#craftBg)" opacity="0.85"/>
-  <path d="M 990 512 A 478 478 0 0 1 940 740 M 902 802 A 478 478 0 1 1 990 506"
-        fill="none" stroke="#ea580c" stroke-width="2.2" stroke-opacity="0.78"/>
-  <circle cx="358" cy="601" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="30"/>
-  <circle cx="666" cy="601" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="30"/>
-  <circle cx="512" cy="328" r="220" fill="none" stroke="url(#ringMetal)" stroke-width="30"/>
-  <line x1="291.0" y1="365.0" x2="304.0" y2="412.0" stroke="#0e0501" stroke-width="38" stroke-linecap="round"/>
-  <line x1="589.0" y1="540.0" x2="554.0" y2="552.0" stroke="#0e0501" stroke-width="38" stroke-linecap="round"/>
-  <line x1="499.0" y1="430.0" x2="525.0" y2="458.0" stroke="#0e0501" stroke-width="38" stroke-linecap="round"/>
-  <line x1="525.0" y1="744.0" x2="499.0" y2="772.0" stroke="#0e0501" stroke-width="38" stroke-linecap="round"/>
-  <line x1="445.0" y1="526.0" x2="460.0" y2="566.0" stroke="#0e0501" stroke-width="38" stroke-linecap="round"/>
-  <line x1="743.0" y1="396.0" x2="707.0" y2="382.0" stroke="#0e0501" stroke-width="38" stroke-linecap="round"/>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#vCenterField)"/>
+  <circle cx="512" cy="298" r="270" fill="url(#ringA)"/>
+  <circle cx="327" cy="619" r="270" fill="url(#ringB)"/>
+  <circle cx="697" cy="619" r="270" fill="url(#ringC)"/>
+  <g clip-path="url(#clipT)"><g clip-path="url(#clipL)"><rect width="1024" height="1024" fill="url(#blendAB)"/></g></g>
+  <g clip-path="url(#clipT)"><g clip-path="url(#clipR)"><rect width="1024" height="1024" fill="url(#blendAC)"/></g></g>
+  <g clip-path="url(#clipL)"><g clip-path="url(#clipR)"><rect width="1024" height="1024" fill="url(#blendBC)"/></g></g>
+  <circle cx="512" cy="512" r="238" fill="url(#vHalo)"/>
+  <g clip-path="url(#clipT)"><g clip-path="url(#clipL)"><g clip-path="url(#clipR)"><rect width="1024" height="1024" fill="url(#vLumin)"/></g></g></g>
+  <circle cx="512" cy="512" r="3.5" fill="#ffffff"/>
+  <circle cx="512" cy="298" r="270" fill="none" stroke="#2b1206" stroke-width="2.5" stroke-opacity="0.45"/>
+  <circle cx="327" cy="619" r="270" fill="none" stroke="#a43e08" stroke-width="2.5" stroke-opacity="0.45"/>
+  <circle cx="697" cy="619" r="270" fill="none" stroke="#b0662a" stroke-width="2.5" stroke-opacity="0.45"/>
+  <rect width="1024" height="1024" fill="url(#vVignette)"/>
 </svg>

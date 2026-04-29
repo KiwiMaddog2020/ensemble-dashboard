@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Merch variant - embroidery-ready. 4 flat thread colors:
+       cream paper, burgundy, ochre, navy + white triple intersection.
+       No gradients, no lenses, no halo, no atmosphere. -->
+  <defs>
+    <clipPath id="mClipT"><circle cx="512" cy="298" r="270"/></clipPath>
+    <clipPath id="mClipL"><circle cx="327" cy="619" r="270"/></clipPath>
+    <clipPath id="mClipR"><circle cx="697" cy="619" r="270"/></clipPath>
+  </defs>
+  <rect x="0" y="0" width="1024" height="1024" fill="#f5ede0"/>
+  <circle cx="327" cy="619" r="270" fill="#c2711f"/>
+  <circle cx="697" cy="619" r="270" fill="#1c2a72"/>
+  <circle cx="512" cy="298" r="270" fill="#6b1f2c"/>
+  <g clip-path="url(#mClipT)"><g clip-path="url(#mClipL)"><g clip-path="url(#mClipR)"><rect width="1024" height="1024" fill="#ffffff"/></g></g></g>
+</svg>
