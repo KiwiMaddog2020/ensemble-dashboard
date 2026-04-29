@@ -89,6 +89,7 @@
 </script>
 </head>
 <body class="hub">
+<a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
     <p class="cookie-banner__msg">
@@ -147,7 +148,7 @@
     </div>
   </div>
 </div>
-<header class="hero">
+<main id="main"><header class="hero">
   <div class="wrap">
     <p class="eyebrow">Pair this browser</p>
     <h1>One key. <em>One handshake.</em></h1>
@@ -175,14 +176,19 @@
         </label>
         <div class="pair-input-row">
           <input id="pair-token" type="password" class="pair-input"
-                 placeholder="paste token…" autocomplete="off" spellcheck="false" />
+                 placeholder="paste token…" autocomplete="off" spellcheck="false"
+                 aria-describedby="pair-token-error" />
           <button class="btn-secondary pair-toggle" type="button" data-act="reveal">show</button>
           <button class="btn-secondary" type="button" data-act="paste">Paste</button>
         </div>
+        <p class="pair-field-error" id="pair-token-error" role="alert" aria-live="polite"></p>
       </div>
 
       <div class="pair-actions">
-        <button class="btn-primary pair-go" type="button" data-act="pair">Pair</button>
+        <button class="btn-primary pair-go" type="button" data-act="pair">
+          <span class="pair-go__label">Pair</span>
+          <span class="pair-spinner" aria-hidden="true"></span>
+        </button>
         <button class="btn-secondary" type="button" data-act="clear">Clear pairing</button>
       </div>
 
@@ -201,6 +207,8 @@
     </p>
   </div>
 </section>
+
+</main>
 
 <script>
 (function () {
@@ -245,30 +253,73 @@
     setStatus("Pairing cleared. This browser is read-only until you pair again.", "info");
   });
 
-  document.querySelector('[data-act="pair"]').addEventListener("click", async () => {
+  const pairBtn = document.querySelector('[data-act="pair"]');
+  const tokErrEl = document.getElementById("pair-token-error");
+
+  function clearTokenError() {
+    if (tokErrEl) tokErrEl.textContent = "";
+    tokEl.removeAttribute("aria-invalid");
+  }
+  function showTokenError(msg) {
+    if (tokErrEl) tokErrEl.textContent = msg;
+    tokEl.setAttribute("aria-invalid", "true");
+  }
+  function setLoading(on) {
+    if (!pairBtn) return;
+    if (on) pairBtn.classList.add("is-loading");
+    else pairBtn.classList.remove("is-loading");
+    pairBtn.disabled = !!on;
+  }
+  tokEl.addEventListener("input", clearTokenError);
+
+  pairBtn.addEventListener("click", async () => {
+    clearTokenError();
     const url = urlEl.value.trim().replace(/\/$/, "");
     const tok = tokEl.value.trim();
-    if (!url || !tok) { setStatus("Both URL and token are required.", "warn"); return; }
+    if (!url || !tok) {
+      setStatus("Both URL and token are required.", "warn");
+      if (!tok) showTokenError("Invalid token — copy from your Mac control panel and try again.");
+      return;
+    }
+    setLoading(true);
     setStatus("Testing reachability…", "info");
     // 1. Check reachability via /health (no auth required)
     try {
       const h = await fetch(url + "/health", { method: "GET" });
-      if (!h.ok) { setStatus("Server returned " + h.status + " on /health.", "error"); return; }
+      if (!h.ok) { setStatus("Server returned " + h.status + " on /health.", "error"); setLoading(false); return; }
     } catch (e) {
       setStatus("Could not reach server. Check URL and that control-panel-server.py is running on the Mac.", "error");
+      setLoading(false);
       return;
     }
-    // 2. Check token via /state (auth required)
+    // 2. Verify token via POST /verify-token (audit C #9 — /state's auth
+    //    gate is permissive in visitor mode, so a bad token used to pass).
+    //    Falls back to /state probe if /verify-token isn't deployed yet.
     setStatus("Verifying token…", "info");
     try {
-      const s = await fetch(url + "/state", { headers: { "Authorization": "Bearer " + tok } });
-      if (s.status === 401 || s.status === 403) {
+      let resp = await fetch(url + "/verify-token", {
+        method: "POST",
+        headers: { "Authorization": "Bearer " + tok, "Content-Type": "application/json" },
+        body: JSON.stringify({ token: tok })
+      });
+      if (resp.status === 404) {
+        // Endpoint not deployed yet — fall back to /state probe.
+        resp = await fetch(url + "/state", { headers: { "Authorization": "Bearer " + tok } });
+      }
+      if (resp.status === 401 || resp.status === 403) {
+        showTokenError("Invalid token — copy from your Mac control panel and try again.");
         setStatus("Token rejected. Check it matches DASHBOARD_TOKEN in ~/.claude/orchestrator/.env.local.", "error");
+        setLoading(false);
         return;
       }
-      if (!s.ok) { setStatus("Server returned " + s.status + " on /state.", "error"); return; }
+      if (!resp.ok) {
+        setStatus("Server returned " + resp.status + " on token check.", "error");
+        setLoading(false);
+        return;
+      }
     } catch (e) {
       setStatus("Token test failed: " + e.message, "error");
+      setLoading(false);
       return;
     }
     // 3. Persist
@@ -277,8 +328,10 @@
       localStorage.setItem("DASHBOARD_TOKEN", tok);
     } catch (e) {
       setStatus("Could not write localStorage: " + e.message, "error");
+      setLoading(false);
       return;
     }
+    setLoading(false);
     setStatus("Paired ✓ Owner mode active. Redirecting…", "success");
     setTimeout(() => { window.location.href = "./"; }, 900);
   });

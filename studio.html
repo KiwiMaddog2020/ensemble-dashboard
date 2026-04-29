@@ -89,6 +89,7 @@
 </script>
 </head>
 <body class="hub">
+<a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
     <p class="cookie-banner__msg">
@@ -147,7 +148,7 @@
     </div>
   </div>
 </div>
-<div class="studio-shell">
+<main id="main"><div class="studio-shell">
   <header class="studio-header">
     <div class="studio-header__row">
       <div>
@@ -467,6 +468,11 @@
     <span>Save current Room as new Canvas</span>
   </button>
 
+  <div class="studio-publish__empty-banner" id="studio-publish-empty-banner" hidden>
+    <strong>0 canvases yet.</strong>
+    <span>Save your current Room as your first Canvas to share it with the Ensemble.</span>
+  </div>
+
   <div class="studio-publish__status" id="studio-publish-status" aria-live="polite"></div>
 
   <section class="studio-publish__section" data-section="free">
@@ -638,7 +644,13 @@
     var proRoot = $("studio-publish-pro-slots");
     var draftRoot = $("studio-publish-drafts");
     var counter = $("studio-publish-count");
+    var emptyBanner = $("studio-publish-empty-banner");
     if (!freeRoot || !proRoot || !draftRoot) return;
+
+    if (emptyBanner) {
+      var hasAny = stateRef.canvases && stateRef.canvases.length > 0;
+      emptyBanner.hidden = hasAny;
+    }
 
     freeRoot.innerHTML = "";
     for (var i = 0; i < FREE_SLOTS; i++) freeRoot.appendChild(renderSlotRow(i, false));
@@ -750,6 +762,14 @@
     modal.removeAttribute("data-open");
   }
 
+  function setRowBusy(node, busy){
+    if (!node) return;
+    var row = node.closest(".studio-publish__slot, .studio-publish__draft");
+    if (!row) return;
+    if (busy) row.classList.add("is-busy");
+    else row.classList.remove("is-busy");
+  }
+
   function onClick(e){
     var t = e.target.closest("[data-act]");
     if (!t) return;
@@ -801,21 +821,29 @@
     }
     if (act === "unpublish" && id) {
       e.preventDefault();
+      setRowBusy(t, true);
       toast("Unpublishing...", "info");
       unpublish(id).then(function(){
         toast("Returned to drafts.", "ok");
         return refresh();
-      }).catch(function(err){ toast("Unpublish failed: " + (err.message || err), "error"); });
+      }).catch(function(err){
+        setRowBusy(t, false);
+        toast("Couldn't unpublish — try again? (server: " + (err.message || err) + ")", "error");
+      });
       return;
     }
     if (act === "delete" && id) {
       e.preventDefault();
       if (!window.confirm("Delete this canvas? This cannot be undone.")) return;
+      setRowBusy(t, true);
       toast("Deleting...", "info");
       deleteCanvas(id).then(function(){
         toast("Deleted.", "ok");
         return refresh();
-      }).catch(function(err){ toast("Delete failed: " + (err.message || err), "error"); });
+      }).catch(function(err){
+        setRowBusy(t, false);
+        toast("Couldn't delete — try again? (server: " + (err.message || err) + ")", "error");
+      });
       return;
     }
     if (act === "edit" && id) {
@@ -869,6 +897,85 @@
     </div>
   </section>
 </div>
+</main>
+<script>
+(function () {
+  // Workshop drawer focus-trap (WCAG 2.4.3 — focus order). When the drawer
+  // is .is-open, Tab cycles inside it; Shift+Tab from first → last; Tab
+  // from last → first; Esc closes it and restores focus to #workshop-toggle.
+  // Trap activates only while open AND focus is currently within the
+  // drawer — opening still allows the user to Tab out by pressing Esc.
+  var DRAWER_SEL = ".workshop-drawer";
+  var TOGGLE_SEL = "#workshop-toggle";
+  var FOCUSABLE = [
+    "a[href]", "button:not([disabled])", "input:not([disabled])",
+    "textarea:not([disabled])", "select:not([disabled])",
+    "[tabindex]:not([tabindex='-1'])"
+  ].join(",");
+
+  function focusables(el) {
+    var nodes = el.querySelectorAll(FOCUSABLE);
+    return Array.prototype.filter.call(nodes, function (n) {
+      return !n.hasAttribute("disabled") && n.offsetParent !== null;
+    });
+  }
+
+  function init() {
+    var drawer = document.querySelector(DRAWER_SEL);
+    var toggle = document.querySelector(TOGGLE_SEL);
+    if (!drawer) return;
+
+    document.addEventListener("keydown", function (e) {
+      if (!drawer.classList.contains("is-open")) return;
+
+      if (e.key === "Escape") {
+        // Close the drawer and restore focus to its toggle button.
+        drawer.classList.remove("is-open");
+        drawer.classList.remove("has-focus-trap");
+        if (toggle) {
+          toggle.setAttribute("aria-expanded", "false");
+          toggle.focus();
+        }
+        e.preventDefault();
+        return;
+      }
+
+      if (e.key !== "Tab") return;
+      // Only trap when focus is currently inside the drawer.
+      if (!drawer.contains(document.activeElement)) return;
+
+      var items = focusables(drawer);
+      if (items.length === 0) return;
+      var first = items[0];
+      var last = items[items.length - 1];
+
+      drawer.classList.add("has-focus-trap");
+      if (e.shiftKey && document.activeElement === first) {
+        last.focus();
+        e.preventDefault();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        first.focus();
+        e.preventDefault();
+      }
+    });
+
+    // Drop the visual marker once focus leaves the drawer.
+    drawer.addEventListener("focusout", function (e) {
+      setTimeout(function () {
+        if (!drawer.contains(document.activeElement)) {
+          drawer.classList.remove("has-focus-trap");
+        }
+      }, 0);
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+})();
+</script>
 <script src="./studio.js" defer></script><footer class="site-footer">
   <div class="site-footer__cols">
     <div class="site-footer__col site-footer__col--brand">

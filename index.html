@@ -89,6 +89,7 @@
 </script>
 </head>
 <body class="hub">
+<a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
     <p class="cookie-banner__msg">
@@ -147,6 +148,7 @@
     </div>
   </div>
 </div>
+<main id="main">
 <section class="ensemble-showcase" id="ensemble-showcase" aria-label="Collective showcase">
   <div class="wrap">
     <div class="ensemble-showcase__head">
@@ -161,6 +163,15 @@
       <button type="button" class="ensemble-showcase__filter" data-filter="random" aria-pressed="false" role="tab">Random</button>
     </div>
 
+    <div class="ensemble-showcase__skeleton-grid" id="ensemble-skeleton-grid" hidden aria-hidden="true">
+      <div class="ensemble-skeleton-card"><div class="ensemble-skeleton"></div><div class="ensemble-skeleton ensemble-skeleton--line"></div><div class="ensemble-skeleton ensemble-skeleton--short"></div></div>
+      <div class="ensemble-skeleton-card"><div class="ensemble-skeleton"></div><div class="ensemble-skeleton ensemble-skeleton--line"></div><div class="ensemble-skeleton ensemble-skeleton--short"></div></div>
+      <div class="ensemble-skeleton-card"><div class="ensemble-skeleton"></div><div class="ensemble-skeleton ensemble-skeleton--line"></div><div class="ensemble-skeleton ensemble-skeleton--short"></div></div>
+      <div class="ensemble-skeleton-card"><div class="ensemble-skeleton"></div><div class="ensemble-skeleton ensemble-skeleton--line"></div><div class="ensemble-skeleton ensemble-skeleton--short"></div></div>
+      <div class="ensemble-skeleton-card"><div class="ensemble-skeleton"></div><div class="ensemble-skeleton ensemble-skeleton--line"></div><div class="ensemble-skeleton ensemble-skeleton--short"></div></div>
+      <div class="ensemble-skeleton-card"><div class="ensemble-skeleton"></div><div class="ensemble-skeleton ensemble-skeleton--line"></div><div class="ensemble-skeleton ensemble-skeleton--short"></div></div>
+    </div>
+
     <div class="ensemble-showcase__grid" id="ensemble-canvas-grid" data-next-cursor=""></div>
 
     <div class="ensemble-showcase__loadmore-row">
@@ -173,6 +184,13 @@
       <h2>The Ensemble is just getting started.</h2>
       <p>Be one of the first to share your work. Build a Studio, publish a canvas, and it lands here for everyone to wander into.</p>
       <a class="btn-primary" href="./studio.html">Get started &rarr;</a>
+    </div>
+
+    <div class="ensemble-showcase__error" id="ensemble-error" hidden role="alert">
+      <h3>Couldn&rsquo;t load the showcase right now.</h3>
+      <p>Network or server hiccup. Try again — or browse a maker directly.</p>
+      <button type="button" class="btn-secondary" id="ensemble-error-retry">Retry</button>
+      <p class="ensemble-showcase__error-hint">or browse by handle: <code>/@handle</code></p>
     </div>
   </div>
 </section>
@@ -415,6 +433,7 @@
     <p class="ensemble-cta__note ensemble-cta__note--cadence">We send the build log every 2 weeks. Unsubscribe anytime.</p>
   </div>
 </section>
+</main>
 <div class="first-run-overlay" id="first-run-overlay" role="dialog" aria-modal="true" aria-labelledby="first-run-title" hidden>
   <div class="first-run-panel">
     <div class="first-run-header">
@@ -449,6 +468,22 @@
           </button>
         </div>
       </form>
+
+      <div class="first-run-loading" id="first-run-loading" hidden role="status" aria-live="polite">
+        <p class="first-run-loading__title">Composing your first canvas&hellip;</p>
+        <p class="first-run-loading__sub">This usually takes about 60 seconds. Claude is reading your answers and laying out your starting Studio.</p>
+        <span class="loading-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+        <p class="first-run-loading__eta" id="first-run-loading-eta">~60s remaining</p>
+      </div>
+
+      <div class="first-run-fail" id="first-run-fail" hidden role="alert">
+        <p class="first-run-fail__title">Something went wrong reaching Claude.</p>
+        <p class="first-run-fail__sub">We&rsquo;ve started a fallback canvas you can edit to fit your answers. You can also retry &mdash; the network may have just blinked.</p>
+        <div class="first-run-fail__actions">
+          <button type="button" class="first-run-fail__retry" id="first-run-fail-retry">Retry generation</button>
+          <button type="button" class="first-run-fail__skip" id="first-run-fail-skip">Use the fallback</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

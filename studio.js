@@ -397,7 +397,11 @@
     s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
     s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
-    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function (_m, label, url) {
+      var SAFE = /^(https?:|mailto:)/i;
+      var safe = SAFE.test(String(url || '').trim()) ? url : '#';
+      return '<a href="' + safe + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
+    });
     s = s.split(/\n\n+/).map(block => {
       const trimmed = block.trim();
       if (!trimmed) return '';
@@ -521,7 +525,10 @@
     const variant = props.variant || 'body';
     const color = props.color_token ? `color: var(--${props.color_token});` : '';
     el.classList.add(`studio-text--${variant}`);
-    const text = props.text.replace(/<em>(.*?)<\/em>/g, '<em>$1</em>');
+    const escaped = String(props.text == null ? '' : props.text)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    const text = escaped.replace(/&lt;em&gt;(.*?)&lt;\/em&gt;/g, '<em>$1</em>');
     el.innerHTML = `<span style="${color}">${text}</span>`;
     const interaction = comp.interaction || comp.props?.interaction;
     if (interaction) bindComponentInteraction(el, comp, interaction);
