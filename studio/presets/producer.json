@@ -2,8 +2,8 @@
   "schema_version": 1,
   "preset_metadata": {
     "id": "producer",
-    "display_name": "Producer's room",
-    "description": "Audio production room. Vintage gear, warm hum, cable runs, mixing console. For musicians, podcasters, sound designers.",
+    "display_name": "Producer's canvas",
+    "description": "Audio production canvas. Vintage gear, warm hum, cable runs, mixing console. For musicians, podcasters, sound designers.",
     "thumbnail": null,
     "natural_themes": [
       "warm",
@@ -17,7 +17,7 @@
     "version": 1,
     "is_default": false
   },
-  "name": "Producer's room",
+  "name": "Producer's canvas",
   "preset_origin": "producer",
   "theme": null,
   "background": null,
@@ -40,7 +40,10 @@
         "shape": "stage_floor",
         "fill_token": "bg-sunken"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "studio_rim",
@@ -54,7 +57,10 @@
         "shape": "rect",
         "fill_token": "accent"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_eyebrow",
@@ -68,7 +74,10 @@
         "text": "PRODUCER'S ROOM",
         "variant": "eyebrow",
         "color_token": "accent"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_main",
@@ -81,7 +90,10 @@
       "props": {
         "text": "Everything through <em>the board.</em>",
         "variant": "hero"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_lead",
@@ -95,7 +107,10 @@
         "text": "Route your agents like tracks. Bounce when it sounds right.",
         "variant": "body",
         "color_token": "ink-2"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "mixer_prop",
@@ -109,7 +124,10 @@
         "sprite_id": "fader",
         "sprite_pack": "studio",
         "label": "Mixing console"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "vinyl_shelf_prop",
@@ -123,7 +141,10 @@
         "sprite_id": "vinyl",
         "sprite_pack": "studio",
         "label": "Vinyl shelf"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "vu_meter_left",
@@ -137,7 +158,10 @@
         "sprite_id": "vu-meter",
         "sprite_pack": "studio",
         "label": "VU left"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "vu_meter_right",
@@ -151,7 +175,10 @@
         "sprite_id": "vu-meter",
         "sprite_pack": "studio",
         "label": "VU right"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_engineer",
@@ -167,7 +194,10 @@
         "sprite_pack": "studio",
         "idle_animation": "mixing",
         "auto_bind_index": 0
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_artist",
@@ -183,7 +213,10 @@
         "sprite_pack": "studio",
         "idle_animation": "idle",
         "auto_bind_index": 1
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "footer_hint",
@@ -197,7 +230,10 @@
         "text": "Red light on. Session is live.",
         "variant": "body",
         "color_token": "ink-3"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     }
   ],
   "custom_css": "",

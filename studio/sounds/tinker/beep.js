@@ -1,14 +1,1 @@
-export async function play(ctx) {
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'sine';
-  osc.frequency.value = 880;
-  gain.gain.setValueAtTime(0, ctx.currentTime);
-  gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 0.01);
-  gain.gain.setValueAtTime(0.18, ctx.currentTime + 0.16);
-  gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.2);
-  osc.connect(gain).connect(ctx.destination);
-  osc.start();
-  osc.stop(ctx.currentTime + 0.21);
-  await new Promise(r => setTimeout(r, 210));
-}
+export async function play(e){const t=e.createOscillator(),n=e.createGain();t.type="sine",t.frequency.value=880,n.gain.setValueAtTime(0,e.currentTime),n.gain.linearRampToValueAtTime(.18,e.currentTime+.01),n.gain.setValueAtTime(.18,e.currentTime+.16),n.gain.linearRampToValueAtTime(0,e.currentTime+.2),t.connect(n).connect(e.destination),t.start(),t.stop(e.currentTime+.21),await new Promise(e=>setTimeout(e,210))}

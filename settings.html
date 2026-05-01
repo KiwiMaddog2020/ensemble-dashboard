@@ -10,7 +10,9 @@
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" id="favicon" type="image/svg+xml" href="./icon.svg" />
-<link rel="apple-touch-icon" id="apple-touch-icon" href="./icon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png" />
+<link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="Ensemble" />
@@ -32,7 +34,7 @@
 }
 .cookie-banner[hidden] { display: none; }
 .cookie-banner__inner {
-  max-width: 1080px;
+  max-width: var(--w-app);
   margin: 0 auto;
   padding: 14px 22px;
   display: flex; align-items: center; justify-content: space-between;
@@ -162,13 +164,13 @@
       <span>🔒</span>
       <div>
         <strong>Read-only mode.</strong>
-        Settings are visible but disabled. <a href="./pair.html" style="color:var(--accent);font-weight:500;">Pair this browser →</a> to enable owner controls (one key, every command).
+        Settings are visible but disabled. <a href="./pair.html" class="settings-inline-link">Pair this browser →</a> to enable owner controls (one key, every command).
       </div>
     </div>
 
     <h2>Browser pairing</h2>
     <p class="section-sub">Link this browser to your Mac control panel so every command works without dev-tools console.</p>
-    <p style="margin: 0 0 24px;"><a href="./pair.html" class="btn-primary" style="display:inline-block; text-decoration:none; padding: 10px 22px;">Pair this browser →</a></p>
+    <p class="settings-pair-cta"><a href="./pair.html" class="btn btn--primary btn-primary settings-pair-cta__link">Pair this browser →</a></p>
 
     <h2>Account links</h2>
     <p class="section-sub">Connect GitHub so Claude can build a starting Studio from your actual work — README, recent commits, language palette.</p>
@@ -208,11 +210,11 @@
         <div class="byok-form__row">
           <input type="password" id="byok-input" class="byok-form__input"
                  placeholder="sk-ant-..." autocomplete="off" spellcheck="false" />
-          <button class="btn-secondary" id="byok-reveal" type="button" aria-label="Show or hide key">show</button>
+          <button class="btn btn--secondary btn-secondary" id="byok-reveal" type="button" aria-label="Show or hide key">show</button>
         </div>
         <div class="byok-form__actions">
-          <button class="btn-primary" id="byok-save" type="button">Save key</button>
-          <button class="btn-secondary" id="byok-cancel" type="button">Cancel</button>
+          <button class="btn btn--primary btn-primary" id="byok-save" type="button">Save key</button>
+          <button class="btn btn--secondary btn-secondary" id="byok-cancel" type="button">Cancel</button>
         </div>
         <p class="settings-help byok-form__help">Stored locally in <code>~/.claude/orchestrator/.env.local</code> at chmod 600. Used for Studio generation in preference to the platform default. Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> — $5 covers ~250 generations.</p>
       </div>
@@ -231,7 +233,7 @@
       <input type="password" id="byok-key" autocomplete="off" spellcheck="false" required>
       <label for="byok-label">Label (optional)</label>
       <input type="text" id="byok-label" placeholder="MacBook Air, iPhone 15…">
-      <button type="submit" class="btn-primary">Link key</button>
+      <button type="submit" class="btn btn--primary btn-primary">Link key</button>
       <p class="settings-byok__error" id="settings-byok-error" hidden></p>
     </form>
 
@@ -246,8 +248,8 @@
 </div></div>
 
     <div class="settings-byok__actions" id="settings-byok-actions" hidden>
-      <button class="btn-secondary" id="byok-rotate" type="button">Rotate key</button>
-      <button class="btn-destructive" id="byok-revoke" type="button">Revoke key</button>
+      <button class="btn btn--secondary btn-secondary" id="byok-rotate" type="button">Rotate key</button>
+      <button class="btn btn--destructive btn-destructive" id="byok-revoke" type="button">Revoke key</button>
     </div>
   </div>
 </section>
@@ -349,302 +351,184 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-    <!--
-      Legacy .theme-picker block deleted 2026-04-29 evening per visual audit
-      RED bug 2 (duplicate <h2>Appearance</h2> stacked with the new
-      _SETTINGS_APPEARANCE_SECTION rendered earlier in the page). Theme
-      selection now lives in the accessibility-graded .settings-theme-grid
-      inside _SETTINGS_APPEARANCE_SECTION (fieldset/legend/role=radiogroup/
-      focus-visible/named tiles). Background pattern picker below stays.
-    -->
-
-    <h2>Background pattern</h2>
-    <p class="section-sub" style="margin-bottom: 12px;">Subtle texture for the page background. Default is solid.</p>
-    <div class="bg-picker" data-bg-picker>
-      <div class="bg-swatch solid"     data-bg="solid"     title="Solid (default)" aria-label="Solid background"><span class="bg-swatch__label">solid</span></div>
-      <div class="bg-swatch dots"      data-bg="dots"      title="Dots"            aria-label="Dots background"><span class="bg-swatch__label">dots</span></div>
-      <div class="bg-swatch grid"      data-bg="grid"      title="Grid"            aria-label="Grid background"><span class="bg-swatch__label">grid</span></div>
-      <div class="bg-swatch mesh"      data-bg="mesh"      title="Mesh"            aria-label="Mesh gradient background"><span class="bg-swatch__label">mesh</span></div>
-      <div class="bg-swatch noise"     data-bg="noise"     title="Noise"           aria-label="Noise background"><span class="bg-swatch__label">noise</span></div>
-      <div class="bg-swatch aurora"    data-bg="aurora"    title="Aurora"          aria-label="Aurora background"><span class="bg-swatch__label">aurora</span></div>
-      <div class="bg-swatch scanlines" data-bg="scanlines" title="Scanlines"       aria-label="Scanlines background"><span class="bg-swatch__label">scanlines</span></div>
-      <div class="bg-swatch topo"      data-bg="topo"      title="Topographic"     aria-label="Topographic background"><span class="bg-swatch__label">topo</span></div>
-      <div class="bg-swatch vignette"  data-bg="vignette"  title="Vignette"        aria-label="Vignette background"><span class="bg-swatch__label">vignette</span></div>
-      <div class="bg-swatch paper"     data-bg="paper"     title="Paper"           aria-label="Paper texture background"><span class="bg-swatch__label">paper</span></div>
-      <div class="bg-swatch custom"    data-bg="custom"    title="Upload your own" aria-label="Upload your own wallpaper" tabindex="0" role="button"><span class="bg-swatch__label">upload</span></div>
-    </div>
-    <input type="file" id="bg-upload-input" accept="image/*" style="display:none" />
-    <p class="settings-help" style="margin-top:12px;">Animated patterns honor your reduced-motion preference. Custom wallpapers persist locally in your browser (~5MB max).</p>
-  </div>
-</section>
-
-<section class="settings-section settings-appearance" id="settings-appearance" data-owner-only>
-  <div class="wrap">
     <h2>Appearance</h2>
-    <p class="settings-section__lead section-sub">Color theme, optional accent, and light/dark mode. Changes preview instantly; Save persists across devices.</p>
-
-    <div class="settings-appearance__notice" id="settings-appearance-notice" hidden></div>
-
-<fieldset class="settings-theme-picker" id="primary-picker-fieldset" data-picker-id="primary-picker">
-  <legend class="settings-theme-picker__legend">Primary color</legend>
-  <div class="settings-theme-grid" id="primary-picker" role="radiogroup" aria-label="Primary color">
-        <button type="button" class="settings-theme-tile is-active" data-theme="warm" data-picker="primary-picker" aria-label="Warm theme" aria-pressed="true" title="Warm"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #e8a050 0%, #c2711f 55%, #7a3d0c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Warm</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="amber" data-picker="primary-picker" aria-label="Amber theme" aria-pressed="false" title="Amber"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fbbf24 0%, #d97706 55%, #7a3d0c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Amber</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="sand" data-picker="primary-picker" aria-label="Sand theme" aria-pressed="false" title="Sand"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #eab308 0%, #a16207 55%, #3a2606 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Sand</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="sunset" data-picker="primary-picker" aria-label="Sunset theme" aria-pressed="false" title="Sunset"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fb923c 0%, #ea580c 55%, #3d1908 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Sunset</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="crimson" data-picker="primary-picker" aria-label="Crimson theme" aria-pressed="false" title="Crimson"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #f87171 0%, #dc2626 55%, #3a1010 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Crimson</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="rose" data-picker="primary-picker" aria-label="Rose theme" aria-pressed="false" title="Rose"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fb7185 0%, #e11d48 55%, #400e1c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Rose</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="forest" data-picker="primary-picker" aria-label="Forest theme" aria-pressed="false" title="Forest"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #4ade80 0%, #16a34a 55%, #082616 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Forest</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="sage" data-picker="primary-picker" aria-label="Sage theme" aria-pressed="false" title="Sage"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #a3e635 0%, #65a30d 55%, #1a2c06 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Sage</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="lime" data-picker="primary-picker" aria-label="Lime theme" aria-pressed="false" title="Lime"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #bef264 0%, #84cc16 55%, #162a06 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Lime</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="teal" data-picker="primary-picker" aria-label="Teal theme" aria-pressed="false" title="Teal"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #2dd4bf 0%, #0d9488 55%, #062826 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Teal</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="ocean" data-picker="primary-picker" aria-label="Ocean theme" aria-pressed="false" title="Ocean"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #22d3ee 0%, #0891b2 55%, #063540 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Ocean</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="slate" data-picker="primary-picker" aria-label="Slate theme" aria-pressed="false" title="Slate"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #60a5fa 0%, #2563eb 55%, #172554 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Slate</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="cobalt" data-picker="primary-picker" aria-label="Cobalt theme" aria-pressed="false" title="Cobalt"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #3b82f6 0%, #1e40af 55%, #0a1428 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Cobalt</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="midnight" data-picker="primary-picker" aria-label="Midnight theme" aria-pressed="false" title="Midnight"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #818cf8 0%, #4f46e5 55%, #1e1b4b 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Midnight</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="aurora" data-picker="primary-picker" aria-label="Aurora theme" aria-pressed="false" title="Aurora"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #c4b5fd 0%, #8b5cf6 55%, #2a0f5c 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Aurora</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="plum" data-picker="primary-picker" aria-label="Plum theme" aria-pressed="false" title="Plum"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #e879f9 0%, #a21caf 55%, #2c0a3a 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Plum</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="ash" data-picker="primary-picker" aria-label="Ash theme" aria-pressed="false" title="Ash"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #a3a3a3 0%, #525252 55%, #171717 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Ash</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="mono" data-picker="primary-picker" aria-label="Mono theme" aria-pressed="false" title="Mono"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #ffffff 0%, #a3a3a3 55%, #525252 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Mono</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="ruby" data-picker="primary-picker" aria-label="Ruby theme" aria-pressed="false" title="Ruby"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fca5a5 0%, #ee2e3a 55%, #7f1010 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Ruby</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="lemon" data-picker="primary-picker" aria-label="Lemon theme" aria-pressed="false" title="Lemon"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #fef08a 0%, #facc15 55%, #854d0e 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Lemon</span></button>
-        <button type="button" class="settings-theme-tile" data-theme="paper" data-picker="primary-picker" aria-label="Paper theme" aria-pressed="false" title="Paper"><span class="settings-theme-tile__swatch" style="background:linear-gradient(135deg, #525252 0%, #262626 55%, #0a0a0a 100%);" aria-hidden="true"></span><span class="settings-theme-tile__name">Paper</span></button>
-  </div>
-  <p class="settings-theme-picker__current">Current: <strong data-current-for="primary-picker">Warm</strong></p>
-  <p class="settings-theme-picker__help">Click to preview. Save changes to persist.</p>
-</fieldset>
-
-    <div class="settings-appearance__actions">
-      <button type="button" class="btn-primary" id="settings-appearance-save" data-action="save-preferences" disabled>Save changes</button>
-      <button type="button" class="btn-secondary" id="settings-appearance-revert" data-action="revert-preferences" disabled>Revert</button>
+    <p class="section-sub">Color theme — warm to cool. 18 options. Saved locally in your browser.</p>
+    <div class="theme-picker" data-theme-picker>
+      <div class="theme-swatch crimson"  data-theme="crimson"  title="Crimson"  aria-label="Crimson theme"></div>
+      <div class="theme-swatch ruby"     data-theme="ruby"     title="Ruby"     aria-label="Ruby theme"></div>
+      <div class="theme-swatch rose"     data-theme="rose"     title="Rose"     aria-label="Rose theme"></div>
+      <div class="theme-swatch sunset"   data-theme="sunset"   title="Sunset"   aria-label="Sunset theme"></div>
+      <div class="theme-swatch amber"    data-theme="amber"    title="Amber"    aria-label="Amber theme"></div>
+      <div class="theme-swatch lemon"    data-theme="lemon"    title="Lemon"    aria-label="Lemon theme"></div>
+      <div class="theme-swatch warm"     data-theme="warm"     title="Warm (default)" aria-label="Warm theme"></div>
+      <div class="theme-swatch sand"     data-theme="sand"     title="Sand"     aria-label="Sand theme"></div>
+      <div class="theme-swatch sage"     data-theme="sage"     title="Sage"     aria-label="Sage theme"></div>
+      <div class="theme-swatch lime"     data-theme="lime"     title="Lime"     aria-label="Lime theme"></div>
+      <div class="theme-swatch forest"   data-theme="forest"   title="Forest"   aria-label="Forest theme"></div>
+      <div class="theme-swatch teal"     data-theme="teal"     title="Teal"     aria-label="Teal theme"></div>
+      <div class="theme-swatch ocean"    data-theme="ocean"    title="Ocean"    aria-label="Ocean theme"></div>
+      <div class="theme-swatch slate"    data-theme="slate"    title="Slate"    aria-label="Slate theme"></div>
+      <div class="theme-swatch cobalt"   data-theme="cobalt"   title="Cobalt"   aria-label="Cobalt theme"></div>
+      <div class="theme-swatch midnight" data-theme="midnight" title="Midnight" aria-label="Midnight theme"></div>
+      <div class="theme-swatch aurora"   data-theme="aurora"   title="Aurora"   aria-label="Aurora theme"></div>
+      <div class="theme-swatch plum"     data-theme="plum"     title="Plum"     aria-label="Plum theme"></div>
+      <div class="theme-swatch ash"      data-theme="ash"      title="Ash"      aria-label="Ash theme"></div>
+      <div class="theme-swatch mono"     data-theme="mono"     title="Mono"     aria-label="Mono theme"></div>
+      <div class="theme-swatch paper"    data-theme="paper"    title="Paper (light)" aria-label="Paper light theme"></div>
     </div>
+    <p class="settings-help settings-help--tight">Theme persists across visits and per-device. Default is <strong>Warm</strong>.</p>
+
+    <h3 class="settings-h3">Background pattern</h3>
+    <p class="section-sub settings-section-sub--tight">Subtle texture for the page background. Default is solid.</p>
+    <div class="bg-picker" data-bg-picker>
+      <div class="bg-swatch solid"     data-bg="solid"     title="Solid (default)" aria-label="Solid background"          tabindex="0" role="button"><span class="bg-swatch__label">solid</span></div>
+      <div class="bg-swatch dots"      data-bg="dots"      title="Dots"            aria-label="Dots background"           tabindex="0" role="button"><span class="bg-swatch__label">dots</span></div>
+      <div class="bg-swatch grid"      data-bg="grid"      title="Grid"            aria-label="Grid background"           tabindex="0" role="button"><span class="bg-swatch__label">grid</span></div>
+      <div class="bg-swatch mesh"      data-bg="mesh"      title="Mesh"            aria-label="Mesh gradient background"  tabindex="0" role="button"><span class="bg-swatch__label">mesh</span></div>
+      <div class="bg-swatch noise"     data-bg="noise"     title="Noise"           aria-label="Noise background"          tabindex="0" role="button"><span class="bg-swatch__label">noise</span></div>
+      <div class="bg-swatch aurora"    data-bg="aurora"    title="Aurora"          aria-label="Aurora background"         tabindex="0" role="button"><span class="bg-swatch__label">aurora</span></div>
+      <div class="bg-swatch scanlines" data-bg="scanlines" title="Scanlines"       aria-label="Scanlines background"      tabindex="0" role="button"><span class="bg-swatch__label">scanlines</span></div>
+      <div class="bg-swatch topo"      data-bg="topo"      title="Topographic"     aria-label="Topographic background"    tabindex="0" role="button"><span class="bg-swatch__label">topo</span></div>
+      <div class="bg-swatch vignette"  data-bg="vignette"  title="Vignette"        aria-label="Vignette background"       tabindex="0" role="button"><span class="bg-swatch__label">vignette</span></div>
+      <div class="bg-swatch paper"     data-bg="paper"     title="Paper"           aria-label="Paper texture background"  tabindex="0" role="button"><span class="bg-swatch__label">paper</span></div>
+      <div class="bg-swatch custom"    data-bg="custom"    title="Upload your own" aria-label="Upload your own wallpaper"  tabindex="0" role="button"><span class="bg-swatch__label">upload</span></div>
+    </div>
+    <input type="file" id="bg-upload-input" accept="image/*" hidden />
+    <p class="settings-help settings-help--tight">Animated patterns honor your reduced-motion preference. Custom wallpapers persist locally in your browser (~5MB max).</p>
   </div>
 </section>
 
-<script>
-(function(){
-  "use strict";
-  // Live-preview + persistence for the Settings -> Appearance section.
-  // Slot 1A wires GET/PUT /preferences in parallel; this UI reads/writes
-  // through that contract. Fixture-mode responses are honored too.
 
-  var sessKey = "ensemble:dashboard-token";
-  function bearerToken(){
-    try { return sessionStorage.getItem(sessKey) || ""; } catch (_){ return ""; }
-  }
-  function authHeadersLocal(){
-    var h = {"Content-Type": "application/json"};
-    var t = bearerToken();
-    if (t) h["Authorization"] = "Bearer " + t;
-    return h;
-  }
-  function serverBase(){
-    if (typeof window !== "undefined" && typeof window.SERVER_URL === "string") {
-      return window.SERVER_URL || "";
-    }
-    return "";
-  }
 
-  var saved = null;
-  var pending = null;
 
-  function defaults(){
-    return { primary: "warm", secondary: null, mode: "auto" };
-  }
+<section class="settings-section" id="settings-asset-packs" data-owner-only>
+  <div class="wrap">
+    <h2>Asset packs</h2>
+    <p class="settings-section__lead section-sub">Import pixel-art packs &mdash; Mana Seed outfits, LimeZu collections, or your own Aseprite exports. Each Canvas can use a different pack.</p>
 
-  function setNotice(kind, text){
-    var el = document.getElementById("settings-appearance-notice");
-    if (!el) return;
-    if (!text){ el.hidden = true; el.textContent = ""; el.className = "settings-appearance__notice"; return; }
-    el.hidden = false;
-    el.textContent = text;
-    el.className = "settings-appearance__notice settings-appearance__notice--" + kind;
-  }
+    <div class="packs-subsection">
+      <h3 class="packs-subsection__title settings-h3">Built-in</h3>
+      <ul class="pack-list" id="pack-list-builtin" aria-label="Built-in packs">
+        <li class="pack-item" data-pack-id="ensemble-default-character" data-builtin="true">
+          <span class="pack-item__thumb" aria-hidden="true">&#x1F464;</span>
+          <span class="pack-item__body">
+            <span class="pack-item__name">Ensemble Default Character</span>
+            <span class="pack-item__meta">Ensemble<span class="pack-item__license pack-item__license--free">free</span></span>
+          </span>
+        </li>
+        <li class="pack-item" data-pack-id="limezu-modern-interiors" data-builtin="true">
+          <span class="pack-item__thumb" aria-hidden="true">&#x1F3E2;</span>
+          <span class="pack-item__body">
+            <span class="pack-item__name">LimeZu Modern Interiors</span>
+            <span class="pack-item__meta">LimeZu<span class="pack-item__license pack-item__license--commercial">commercial</span></span>
+          </span>
+        </li>
+      </ul>
+    </div>
 
-  function applyPreviewToBody(state){
-    if (!state) return;
-    document.body.dataset.theme = state.primary || "warm";
-    document.body.dataset.mode = state.mode || "auto";
-    if (state.secondary){
-      document.body.dataset.secondary = state.secondary;
-    } else {
-      delete document.body.dataset.secondary;
-    }
-  }
+    <div class="packs-subsection">
+      <h3 class="packs-subsection__title settings-h3">Your packs</h3>
+      <ul class="pack-list" id="pack-list-user" aria-label="Your uploaded packs">
+        <li class="pack-list__empty">No packs uploaded yet.</li>
+      </ul>
+    </div>
 
-  function setActiveTile(pickerId, value){
-    var grid = document.getElementById(pickerId);
-    if (!grid) return;
-    var tiles = grid.querySelectorAll("[data-theme]");
-    for (var i = 0; i < tiles.length; i++){
-      var t = tiles[i];
-      var on = (t.getAttribute("data-theme") || "") === (value || "");
-      t.classList.toggle("is-active", on);
-      t.setAttribute("aria-pressed", on ? "true" : "false");
-    }
-    var caption = document.querySelector('[data-current-for="' + pickerId + '"]');
-    if (caption){
-      if (!value){ caption.textContent = "None"; }
-      else { caption.textContent = value.charAt(0).toUpperCase() + value.slice(1); }
-    }
-  }
+    <div class="packs-subsection">
+      <h3 class="packs-subsection__title settings-h3">Upload a pack</h3>
+      <div class="pack-upload-zone"
+           data-pack-upload-zone
+           tabindex="0"
+           role="button"
+           aria-label="Upload a pack ZIP file">
+        <span class="pack-upload-zone__icon" aria-hidden="true">&#x2B06;</span>
+        <span class="pack-upload-zone__label">Drop a pack ZIP here</span>
+        <span class="pack-upload-zone__hint">Drop a Mana Seed outfit zip / a LimeZu pack / a custom Aseprite export here. Max 100&#x202f;MB.</span>
+        <input class="pack-upload-zone__input" type="file" accept=".zip"
+               data-upload-input tabindex="-1" aria-hidden="true" />
+        <span class="pack-upload-zone__error" role="alert" aria-live="polite"></span>
+        <span class="pack-upload-zone__progress" aria-live="polite"></span>
+      </div>
+    </div>
 
-  function setActiveMode(value){
-    var radios = document.querySelectorAll('input[name="settings-mode"]');
-    for (var i = 0; i < radios.length; i++){
-      radios[i].checked = (radios[i].value === value);
-    }
-  }
+    <p class="packs-subsection__creator-link section-sub"><span class="packs-subsection__creator-badge">New</span> <a href="./docs/creator-recolor.html" class="settings-inline-link">Walk through the full creator workflow &rarr;</a> &mdash; a 10-step Aseprite recolor guide for making your own Mana Seed-compatible outfit variants.</p>
+  </div>
+</section>
 
-  function isDirty(){
-    if (!saved || !pending) return false;
-    return saved.primary !== pending.primary ||
-           (saved.secondary || "") !== (pending.secondary || "") ||
-           saved.mode !== pending.mode;
-  }
+<!-- Preview-before-commit modal -->
+<div class="pack-preview-modal" id="pack-preview-modal" role="dialog"
+     aria-modal="true" aria-labelledby="pack-preview-modal-title">
+  <div class="pack-preview-modal__scrim"></div>
+  <div class="pack-preview-modal__panel">
+    <div class="pack-preview-modal__header">
+      <span class="pack-preview-modal__title" id="pack-preview-modal-title">Review pack</span>
+      <button class="pack-preview-modal__close" type="button" aria-label="Close preview">&#x2715;</button>
+    </div>
+    <div class="pack-preview-modal__body">
+      <div class="pack-preview-modal__walk-preview" aria-label="4-frame walk preview">
+        <span class="pack-preview-modal__walk-frame">&#x1F464;</span>
+        <span class="pack-preview-modal__walk-frame">&#x1F464;</span>
+        <span class="pack-preview-modal__walk-frame">&#x1F464;</span>
+        <span class="pack-preview-modal__walk-frame">&#x1F464;</span>
+      </div>
+      <dl class="pack-preview-modal__meta">
+        <dt class="pack-preview-modal__meta-key">Pack</dt>
+        <dd class="pack-preview-modal__meta-val" data-modal-pack-name>&#x2014;</dd>
+        <dt class="pack-preview-modal__meta-key">Artist</dt>
+        <dd class="pack-preview-modal__meta-val" data-modal-pack-artist>&#x2014;</dd>
+        <dt class="pack-preview-modal__meta-key">License</dt>
+        <dd class="pack-preview-modal__meta-val" data-modal-pack-license>&#x2014;</dd>
+      </dl>
+    </div>
+    <div class="pack-preview-modal__footer">
+      <button class="btn btn--secondary btn-secondary" type="button"
+              data-action="cancel-pack">Cancel</button>
+      <button class="btn btn--primary btn-primary" type="button"
+              data-action="commit-pack">Use this pack</button>
+    </div>
+  </div>
+</div>
+<script src="./pack-uploader.js" defer></script>
+<script src="./pack-picker.js" defer></script>
 
-  function refreshButtons(){
-    var dirty = isDirty();
-    var save = document.getElementById("settings-appearance-save");
-    var revert = document.getElementById("settings-appearance-revert");
-    if (save) save.disabled = !dirty;
-    if (revert) revert.disabled = !dirty;
-  }
 
-  function syncUI(state){
-    setActiveTile("primary-picker", state.primary || "warm");
-    setActiveTile("secondary-picker", state.secondary || "");
-    setActiveMode(state.mode || "auto");
-    applyPreviewToBody(state);
-    refreshButtons();
-  }
-
-  function bindPickerClicks(pickerId, field){
-    var grid = document.getElementById(pickerId);
-    if (!grid) return;
-    grid.addEventListener("click", function(ev){
-      var btn = ev.target.closest("[data-theme]");
-      if (!btn) return;
-      ev.preventDefault();
-      var v = btn.getAttribute("data-theme") || "";
-      pending[field] = v ? v : null;
-      setActiveTile(pickerId, v);
-      applyPreviewToBody(pending);
-      refreshButtons();
-    });
-  }
-
-  function bindModeRadios(){
-    var fs = document.getElementById("settings-mode-toggle");
-    if (!fs) return;
-    fs.addEventListener("change", function(ev){
-      var t = ev.target;
-      if (!t || t.name !== "settings-mode") return;
-      pending.mode = t.value;
-      applyPreviewToBody(pending);
-      refreshButtons();
-    });
-  }
-
-  function bindSaveRevert(){
-    var save = document.getElementById("settings-appearance-save");
-    var revert = document.getElementById("settings-appearance-revert");
-    if (save) save.addEventListener("click", saveChanges);
-    if (revert) revert.addEventListener("click", function(){
-      pending = Object.assign({}, saved);
-      syncUI(pending);
-      setNotice("", "");
-    });
-  }
-
-  function loadPreferences(){
-    var base = serverBase();
-    if (!base){
-      saved = defaults();
-      pending = Object.assign({}, saved);
-      syncUI(pending);
-      return;
-    }
-    fetch(base + "/preferences", { headers: authHeadersLocal() })
-      .then(function(r){
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.json();
-      })
-      .then(function(data){
-        saved = {
-          primary: (data && data.primary) || "warm",
-          secondary: (data && data.secondary) || null,
-          mode: (data && data.mode) || "auto"
-        };
-        pending = Object.assign({}, saved);
-        syncUI(pending);
-      })
-      .catch(function(e){
-        saved = defaults();
-        pending = Object.assign({}, saved);
-        syncUI(pending);
-        setNotice("warn", "Couldn\u2019t load saved preferences (" + e.message + "); showing defaults.");
-      });
-  }
-
-  function saveChanges(){
-    var base = serverBase();
-    if (!base){
-      setNotice("err", "Pair this browser to save preferences.");
-      return;
-    }
-    var body = JSON.stringify(pending);
-    fetch(base + "/preferences", {
-      method: "PUT",
-      headers: authHeadersLocal(),
-      body: body
-    }).then(function(r){
-      if (!r.ok){
-        return r.json().catch(function(){ return {}; }).then(function(j){
-          setNotice("err", "Save failed: " + (j.error || ("HTTP " + r.status)));
-        });
-      }
-      saved = Object.assign({}, pending);
-      refreshButtons();
-      setNotice("ok", "Appearance saved.");
-    }).catch(function(e){
-      setNotice("err", "Network error: " + e.message);
-    });
-  }
-
-  function init(){
-    pending = defaults();
-    saved = defaults();
-    bindPickerClicks("primary-picker", "primary");
-    bindPickerClicks("secondary-picker", "secondary");
-    bindModeRadios();
-    bindSaveRevert();
-    loadPreferences();
-  }
-
-  if (document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", init, { once: true });
-  } else {
-    init();
-  }
-})();
-</script>
-
+<section class="settings-section settings-character" id="settings-character" data-owner-only>
+  <div class="wrap">
+    <h2>Character</h2>
+    <p class="section-sub">The sprite that walks your Studio and every canvas you visit. Tweak the look any time.</p>
+    <a class="settings-character__card" href="./character-creator.html?from=settings">
+      <span class="settings-character__preview" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="56" height="56" focusable="false">
+          <rect x="11" y="14" width="10" height="12" rx="2" fill="var(--accent)"></rect>
+          <circle cx="16" cy="9" r="4" fill="#dba87a"></circle>
+          <path d="M11.5 8.6 Q16 6 20.5 8.6 L19.6 9.5 Q16 7.6 12.4 9.5 Z" fill="#5a3a22"></path>
+          <circle cx="14.6" cy="9.2" r="0.35" fill="#1b1b1b"></circle>
+          <circle cx="17.4" cy="9.2" r="0.35" fill="#1b1b1b"></circle>
+        </svg>
+      </span>
+      <span class="settings-character__copy">
+        <span class="settings-character__title">Edit your character</span>
+        <span class="settings-character__sub">Body, skin, hair, outfit, accessory. Saved per creator.</span>
+      </span>
+      <span class="settings-character__cta" aria-hidden="true">Open &rarr;</span>
+    </a>
+    <p class="settings-help settings-help--tight">Your character is per-creator-account, not per-canvas — change it once, it follows you.</p>
+  </div>
+</section>
 
 <section data-owner-only>
   <div class="wrap">
     <h2>Privacy</h2>
     <p class="section-sub">Control what's visible on the public dashboard. Private projects are completely hidden from static output — direct URL access returns 404.</p>
 
-    <div class="setting" style="margin-bottom: 18px; max-width: 540px;">
-      <span class="setting-name">Follow GitHub repo visibility (auto)</span>
-      <input type="checkbox" id="cfg-followgh" data-field="follow_github_visibility" />
+    <div class="setting settings-privacy-toggle">
+      <span class="setting-name" id="cfg-followgh-label">Follow GitHub repo visibility (auto)</span>
+      <input type="checkbox" id="cfg-followgh" data-field="follow_github_visibility" aria-labelledby="cfg-followgh-label" />
     </div>
-    <p class="settings-help" style="margin: -10px 0 24px;">When ON, projects with <code>public_visibility=auto</code> follow the underlying GitHub repo's public/private status. When OFF, <code>auto</code> is treated as public until manually changed.</p>
+    <p class="settings-help settings-privacy-help">When ON, projects with <code>public_visibility=auto</code> follow the underlying GitHub repo's public/private status. When OFF, <code>auto</code> is treated as public until manually changed.</p>
 
-    <h3 style="font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--ink); margin: 0 0 12px;">Per-project visibility</h3>
+    <h3 class="settings-h3 settings-h3--tight">Per-project visibility</h3>
     <div id="privacy-list">
-      <p style="color: var(--ink-3); font-size: 13px;">Connecting to control panel to load project list…</p>
+      <p class="settings-privacy-empty">Connecting to control panel to load project list…</p>
     </div>
   </div>
 </section>
@@ -688,6 +572,44 @@ document.addEventListener("DOMContentLoaded", function() {
     <p class="settings-help" id="settings-help">Connecting to control panel…</p>
   </div>
 </section>
+
+<style>
+.settings-character__card {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px; margin-top: 12px;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 180ms var(--ease), transform 180ms var(--ease);
+}
+.settings-character__card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.settings-character__card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.settings-character__preview {
+  flex: 0 0 56px;
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-sunken);
+  border-radius: 10px;
+}
+.settings-character__copy { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.settings-character__title {
+  font-family: var(--serif); font-size: 17px; font-weight: 500; color: var(--ink);
+}
+.settings-character__sub {
+  font-family: var(--sans); font-size: 13px; color: var(--ink-3);
+}
+.settings-character__cta {
+  font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--accent);
+}
+</style>
 </main>
 
 <script>
@@ -754,7 +676,7 @@ function renderGithubLink(state) {
   if (!state.oauth_configured) {
     root.dataset.state = "unconfigured";
     statusEl.textContent = "GitHub OAuth not configured.";
-    detailEl.innerHTML = 'Add <code>GITHUB_OAUTH_CLIENT_ID</code> and <code>GITHUB_OAUTH_CLIENT_SECRET</code> to <code>~/.claude/orchestrator/.env.local</code> and restart the control panel. <a href="./docs/how-to-link-github.html" style="color:var(--accent);">How-to →</a>';
+    detailEl.innerHTML = 'Add <code>GITHUB_OAUTH_CLIENT_ID</code> and <code>GITHUB_OAUTH_CLIENT_SECRET</code> to <code>~/.claude/orchestrator/.env.local</code> and restart the control panel. <a href="./docs/how-to-link-github.html" class="settings-inline-link">How-to →</a>';
     actionsEl.innerHTML = "";
     toggleRow.hidden = true;
     return;
@@ -764,7 +686,7 @@ function renderGithubLink(state) {
     root.dataset.state = "unlinked";
     statusEl.textContent = "GitHub not linked.";
     detailEl.textContent = "Link GitHub so Claude can build your Studio from your real work — README, recent commits, language palette.";
-    actionsEl.innerHTML = `<a class="btn-primary github-link__btn" href="${SERVER_URL || ""}/auth/github/start">Link GitHub</a>`;
+    actionsEl.innerHTML = `<a class="btn btn--primary btn-primary github-link__btn" href="${SERVER_URL || ""}/auth/github/start">Link GitHub</a>`;
     toggleRow.hidden = true;
     return;
   }
@@ -774,7 +696,7 @@ function renderGithubLink(state) {
   statusEl.innerHTML = `Linked as <strong>${escapeHtml(state.github_handle)}</strong>`;
   const dt = state.linked_at ? new Date(state.linked_at).toLocaleString() : "";
   detailEl.textContent = dt ? `Linked at ${dt} · scopes: ${(state.scopes || []).join(", ") || "default"}` : "";
-  actionsEl.innerHTML = `<button class="btn-secondary github-link__btn" id="github-link-unlink-btn" type="button">Unlink</button>`;
+  actionsEl.innerHTML = `<button class="btn btn--secondary btn-secondary github-link__btn" id="github-link-unlink-btn" type="button">Unlink</button>`;
   document.getElementById("github-link-unlink-btn").addEventListener("click", unlinkGithub);
   toggleRow.hidden = false;
   toggleInput.checked = !!state.include_private;
@@ -782,7 +704,7 @@ function renderGithubLink(state) {
   // re-link CTA inline so the user knows they need to re-consent.
   const hasPrivate = (state.scopes || []).some(s => s === "repo" || s === "repo:status" || s === "private_repos");
   if (toggleInput.checked && !hasPrivate) {
-    toggleHelp.innerHTML = 'On, but scopes need to expand. <a href="' + (SERVER_URL || "") + '/auth/github/start?include_private=1" style="color:var(--accent);">Re-link with private-repo access →</a>';
+    toggleHelp.innerHTML = 'On, but scopes need to expand. <a href="' + (SERVER_URL || "") + '/auth/github/start?include_private=1" class="settings-inline-link">Re-link with private-repo access →</a>';
   } else {
     toggleHelp.textContent = "When on, your starting Studio can pull from private repos. Off by default; revoke any time.";
   }
@@ -811,21 +733,21 @@ function renderByokState(state) {
     status.innerHTML = "Using <strong>your own</strong> Anthropic key";
     detail.textContent = "Studio generation is billed to your Anthropic account. Stored locally at chmod 600.";
     actions.innerHTML = `
-      <button class="btn-secondary github-link__btn" id="byok-replace-btn" type="button">Replace</button>
-      <button class="btn-secondary github-link__btn" id="byok-clear-btn" type="button">Clear</button>`;
+      <button class="btn btn--secondary btn-secondary github-link__btn" id="byok-replace-btn" type="button">Replace</button>
+      <button class="btn btn--secondary btn-secondary github-link__btn" id="byok-clear-btn" type="button">Clear</button>`;
     document.getElementById("byok-replace-btn").addEventListener("click", showByokForm);
     document.getElementById("byok-clear-btn").addEventListener("click", clearByok);
   } else if (state.platform_anthropic_set) {
     root.dataset.state = "platform";
     status.textContent = "Using the platform Anthropic key";
     detail.textContent = "Studio generation works out of the box. Add your own key to use your Anthropic budget instead.";
-    actions.innerHTML = `<button class="btn-secondary github-link__btn" id="byok-add-btn" type="button">Add my key</button>`;
+    actions.innerHTML = `<button class="btn btn--secondary btn-secondary github-link__btn" id="byok-add-btn" type="button">Add my key</button>`;
     document.getElementById("byok-add-btn").addEventListener("click", showByokForm);
   } else {
     root.dataset.state = "missing";
     status.textContent = "Anthropic API key not configured";
     detail.textContent = "Studio generation needs a key — yours, or the platform default in .env.local.";
-    actions.innerHTML = `<button class="btn-primary github-link__btn" id="byok-add-btn" type="button">Add my key</button>`;
+    actions.innerHTML = `<button class="btn btn--primary btn-primary github-link__btn" id="byok-add-btn" type="button">Add my key</button>`;
     document.getElementById("byok-add-btn").addEventListener("click", showByokForm);
   }
 }
@@ -987,11 +909,11 @@ function renderPrivacyList(state) {
   const container = document.getElementById("privacy-list");
   if (!container) return;
   if (!state || !state.projects) {
-    container.innerHTML = '<p style="color: var(--ink-3); font-size: 13px;">Control panel offline. Privacy controls require owner access.</p>';
+    container.innerHTML = '<p class="settings-privacy-empty">Control panel offline. Privacy controls require owner access.</p>';
     return;
   }
   if (!state.projects.length) {
-    container.innerHTML = '<p style="color: var(--ink-3); font-size: 13px;">No projects onboarded.</p>';
+    container.innerHTML = '<p class="settings-privacy-empty">No projects onboarded.</p>';
     return;
   }
   const rows = state.projects.map(p => {
@@ -999,13 +921,13 @@ function renderPrivacyList(state) {
     const opts = ["public", "private", "auto"].map(o =>
       `<option value="${o}"${o === v ? " selected" : ""}>${o[0].toUpperCase()+o.slice(1)}</option>`
     ).join("");
-    return `<div data-privacy-slug="${p.slug}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:var(--bg-raised);border:1px solid var(--rule);border-radius:var(--radius-sm);margin-bottom:8px;">
-  <div style="flex:1;">
-    <span style="font-size:13px;font-weight:500;color:var(--ink);">${p.slug}</span>
-    <span style="margin-left:10px;font-family:var(--mono);font-size:11px;color:var(--ink-4);">${p.state || "?"} · ${p.completion_percent ?? "?"}%</span>
+    return `<div class="settings-privacy-row" data-privacy-slug="${p.slug}">
+  <div class="settings-privacy-row__label">
+    <span class="settings-privacy-row__slug">${p.slug}</span>
+    <span class="settings-privacy-row__meta">${p.state || "?"} · ${p.completion_percent ?? "?"}%</span>
   </div>
-  <select onchange="setVisibility('${p.slug}', this.value)" style="font-family:var(--mono);font-size:12px;padding:5px 8px;border:1px solid var(--rule);border-radius:6px;background:var(--bg);color:var(--ink);">${opts}</select>
-  <span class="privacy-status" style="font-family:var(--mono);font-size:11px;color:var(--ink-4);min-width:60px;text-align:right;">${v}</span>
+  <select class="settings-privacy-row__select" aria-label="Visibility for ${p.slug}" onchange="setVisibility('${p.slug}', this.value)">${opts}</select>
+  <span class="privacy-status">${v}</span>
 </div>`;
   }).join("");
   container.innerHTML = rows;
@@ -1045,44 +967,195 @@ if (document.readyState === "loading") {
 }
 </script>
 <footer class="site-footer">
-  <div class="site-footer__cols">
-    <div class="site-footer__col site-footer__col--brand">
-      <p><span class="brand">Ensemble</span> &middot; <em>One conductor. Many performers.</em></p>
-      <p><a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
+  <div class="site-footer__inner">
+    <div class="site-footer__cols">
+      <div class="site-footer__col site-footer__col--brand">
+        <a href="./" class="site-footer__brand-link" aria-label="Ensemble home">
+          <img class="brand-mark site-footer__mark" src="./icon.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <span class="brand site-footer__brand-name">Ensemble</span>
+        </a>
+        <p class="site-footer__tagline"><em>One conductor. Many performers.</em></p>
+        <p class="site-footer__blurb">A creator-platform PWA where every page is a place &mdash; not a list of links.</p>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Product</p>
+        <ul class="site-footer__links">
+          <li><a href="./studio.html">Studio</a></li>
+          <li><a href="./dashboard.html">Dashboard</a></li>
+          <li><a href="./settings.html">Settings</a></li>
+          <li><a href="./docs.html">Docs</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Resources</p>
+        <ul class="site-footer__links">
+          <li><a href="https://github.com/KiwiMaddog2020/claude-ensemble" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="./docs.html">Documentation</a></li>
+          <li><a href="./credits.html">Credits</a></li>
+          <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Legal</p>
+        <ul class="site-footer__links">
+          <li><a href="/legal/privacy.html">Privacy Policy</a></li>
+          <li><a href="/legal/terms.html">Terms of Service</a></li>
+          <li><a href="/legal/acceptable-use.html">Acceptable Use</a></li>
+          <li><a href="/legal/dmca.html">DMCA</a></li>
+          <li><a href="/legal/cookies.html">Cookie Policy</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="site-footer__col">
-      <p class="site-footer__heading">Legal</p>
-      <ul class="site-footer__links">
-        <li><a href="/legal/privacy.html">Privacy Policy</a></li>
-        <li><a href="/legal/terms.html">Terms of Service</a></li>
-        <li><a href="/legal/acceptable-use.html">Acceptable Use</a></li>
-        <li><a href="/legal/dmca.html">DMCA</a></li>
-        <li><a href="/legal/cookies.html">Cookie Policy</a></li>
-        <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
-      </ul>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copyright">&copy; 2026 Ensemble &middot; <span class="site-footer__version">v2.0</span></p>
+      <p class="site-footer__meta">Auto-refreshes 3&times; daily.</p>
     </div>
   </div>
-  <p class="site-footer__meta">Auto-refreshes 3&times; daily. v2.0.</p>
 </footer>
 <style id="site-footer-css">
+.site-footer__inner {
+  max-width: var(--w-app, 1180px);
+  margin: 0 auto;
+  padding: var(--space-7, 48px) clamp(var(--space-4, 16px), 4vw, var(--space-6, 32px)) var(--space-5, 24px);
+}
 .site-footer__cols {
-  display: flex; gap: 32px; flex-wrap: wrap;
-  align-items: flex-start; justify-content: space-between;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-6, 32px);
+  align-items: flex-start;
+  margin-bottom: var(--space-6, 32px);
 }
-.site-footer__col { min-width: 180px; }
-.site-footer__col--brand { flex: 1 1 280px; }
-.site-footer__col p { margin: 0 0 4px; }
+@media (max-width: 960px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5, 24px) var(--space-6, 32px);
+  }
+  .site-footer__col--brand {
+    grid-column: 1 / -1;
+    margin-bottom: var(--space-3, 12px);
+  }
+}
+@media (max-width: 540px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr;
+    gap: var(--space-5, 24px);
+  }
+}
+
+.site-footer__col {
+  min-width: 0;
+}
+
+.site-footer__col--brand {
+  max-width: 32ch;
+}
+.site-footer__brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  text-decoration: none;
+  margin-bottom: var(--space-3, 12px);
+}
+.site-footer__brand-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--r-sm, 4px);
+}
+.site-footer__mark {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+.site-footer__brand-name {
+  font-family: var(--serif);
+  font-size: var(--fs-18, 18px);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.site-footer__tagline {
+  font-family: var(--serif);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  margin: 0 0 var(--space-3, 12px);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__blurb {
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-3);
+  line-height: var(--lh-relaxed, 1.55);
+  margin: 0;
+  max-width: 36ch;
+}
+
 .site-footer__heading {
-  font-family: var(--sans, system-ui, sans-serif);
-  font-size: 12px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--ink-3, #6a625a); margin: 0 0 8px;
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin: 0 0 var(--space-3, 12px);
 }
-.site-footer__links { list-style: none; padding: 0; margin: 0; }
-.site-footer__links li { margin: 0 0 4px; }
-.site-footer__links a { color: var(--ink-2, #3a342c); text-decoration: none; }
-.site-footer__links a:hover { color: var(--accent, #b8753c); text-decoration: underline; }
-.site-footer__meta { opacity: 0.6; margin-top: 12px; font-size: 13px; }
+
+.site-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.site-footer__links li {
+  margin: 0 0 var(--space-2, 8px);
+}
+.site-footer__links a {
+  font-family: var(--sans);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color var(--dur-base, 180ms) var(--ease, ease);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__links a:hover {
+  color: var(--accent);
+}
+.site-footer__links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm, 4px);
+  color: var(--accent);
+}
+
+.site-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+  padding-top: var(--space-5, 24px);
+  border-top: 1px solid var(--rule-2, var(--rule));
+}
+.site-footer__copyright,
+.site-footer__meta {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-4, var(--ink-3));
+}
+.site-footer__version {
+  font-family: var(--mono);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 540px) {
+  .site-footer__bottom {
+    justify-content: center;
+    text-align: center;
+  }
+}
 </style>
 <script>
 const SERVER_URL = (function() {
@@ -1161,8 +1234,8 @@ async function refreshState() {
   _ALL_STATE = state;
   // Owner mode = state fetch successful (server reachable + token valid)
   const newOwner = !!state;
-  if (newOwner !== _isOwner) {
-    _isOwner = newOwner;
+  if (newOwner !== window._isOwner) {
+    window._isOwner = newOwner;
     applyOwnerMode();
   }
   updateNavStatus(state);
@@ -1171,10 +1244,19 @@ async function refreshState() {
 }
 
 // ─── Owner detection (read-only mode for visitors) ───
-let _isOwner = false;
+// IMPORTANT: window._isOwner (NOT a script-scoped `let _isOwner`).  The
+// widget runtime in widgets/state.py:visibleSections() reads
+// `window._isOwner` from a separate IIFE closure, so the value MUST be
+// on the global object — a `let` at script scope is invisible across
+// closures and the private widget section never renders.
+//
+// Was: `let _isOwner = false;` — caused all private widgets (claude-
+// station, refine, code-rate, mode-pill, kill-switch, etc.) to be
+// invisible regardless of token state. Fixed 2026-05-02.
+window._isOwner = false;
 function applyOwnerMode() {
   const banner = document.getElementById("owner-banner");
-  if (_isOwner) {
+  if (window._isOwner) {
     document.body.classList.remove("read-only");
     if (banner) banner.classList.replace("show", "hide");
   } else {
@@ -1235,19 +1317,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
   const savedTheme = localStorage.getItem("ENSEMBLE_THEME") || "warm";
   applyTheme(savedTheme);
+  // Click + keyboard binding (Enter / Space). The swatches carry
+  // role="button" + tabindex="0" so keyboard users can activate them.
+  const activateOnKey = (handler) => (ev) => {
+    if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") {
+      ev.preventDefault();
+      handler.call(ev.currentTarget, ev);
+    }
+  };
   document.querySelectorAll(".theme-swatch").forEach(el => {
-    el.addEventListener("click", () => {
+    const fire = () => {
       const t = el.dataset.theme;
       localStorage.setItem("ENSEMBLE_THEME", t);
       applyTheme(t);
-    });
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
   });
 
   // Background load + bind
   const savedBg = localStorage.getItem("ENSEMBLE_BG") || "solid";
   applyBackground(savedBg);
   document.querySelectorAll(".bg-swatch").forEach(el => {
-    el.addEventListener("click", () => {
+    const fire = () => {
       const b = el.dataset.bg;
       // Custom-upload tile: open the file picker on every click.  If the
       // user already has a saved upload, clicking re-applies it without
@@ -1264,7 +1356,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       localStorage.setItem("ENSEMBLE_BG", b);
       applyBackground(b);
-    });
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
   });
 
   // Custom wallpaper upload flow.
@@ -1297,14 +1391,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Owner mode initial state — pessimistic until state fetch confirms
-  _isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
+  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
   applyOwnerMode();
 
   refreshState();
   setInterval(refreshState, 60000);
   document.querySelectorAll("[data-field]").forEach(el => {
     el.addEventListener("change", () => {
-      if (!_isOwner) return;  // belt + suspenders; backend also enforces
+      if (!window._isOwner) return;  // belt + suspenders; backend also enforces
       const field = el.dataset.field;
       let value;
       if (el.type === "checkbox") value = el.checked;
@@ -1396,6 +1490,26 @@ async function setTokenReset() {
 // First-run onboarding modal (Phase A.4-3)
 const FIRST_RUN_SEEN_KEY = "ensemble:first-run-seen";
 
+// Slot warp:flowA - advance the server-side first-run state machine.
+// Best-effort: a 401 (unpaired) or 409 (regression/skip) should not block
+// the UI flow, since the modal works even when paired-user auth is absent
+// in dev mode. Logged via console.warn so we can spot real regressions.
+async function advanceFirstRunState(step) {
+  try {
+    const r = await fetch("/first-run/advance", {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ step: step })
+    });
+    if (!r.ok && r.status !== 409 && r.status !== 401) {
+      try { console.warn("first-run advance failed", step, r.status); } catch (e) {}
+    }
+    return r.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
 function isEnsembleHomepage() {
   const p = location.pathname;
   return p.endsWith("/index.html") || p === "/" || p.endsWith("/ensemble.html");
@@ -1454,7 +1568,18 @@ async function submitFirstRunModal(ev) {
           localStorage.setItem("ensemble:generated-studio", JSON.stringify(body.studio));
         }
       } catch (e) {}
-      window.location.href = "/your-studio.html";
+      // Slot warp:flowA - record progress through the state machine.
+      // QUESTIONS marks the modal submit; CANVAS marks the genesis 200.
+      // Both happen now because /studio/generate-from-answers returned ok
+      // synchronously above; the state machine still rejects skips so we
+      // advance one step at a time.
+      await advanceFirstRunState("questions-answered");
+      await advanceFirstRunState("canvas-generated");
+      // Post-studio: route through character creator before showing the
+      // generated studio, so the visitor designs their sprite once. The
+      // creator's Save handler honors ?from=first-run and forwards on to
+      // /your-studio.html.
+      window.location.href = "/character-creator.html?from=first-run";
       return;
     }
     if (r.status === 400) {
@@ -1522,11 +1647,34 @@ function wireFirstRunModal() {
     if (e.key === "Escape" && !overlay.hidden) closeFirstRunModal();
   });
   if (isEnsembleHomepage()) {
-    let seen = "0";
-    try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
-    if (seen !== "1") {
-      setTimeout(openFirstRunModal, 200);
-    }
+    // Slot warp:flowA - returning-user fast-path. If the server says this
+    // user has already completed the first-run flow, route them directly
+    // to /studio.html without flickering through the modal.
+    fetch("/first-run/state", { headers: authHeaders() })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (state) {
+        if (state && state.is_complete) {
+          try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+          window.location.replace(state.resume_url || "/studio.html");
+          return;
+        }
+        // Not complete - either unpaired (state==null) or mid-flow.
+        // Resume URL hints at the right page; if it points to a different
+        // step, route there. Otherwise show the modal as before.
+        if (state && state.resume_url && state.resume_url !== "/index.html") {
+          window.location.replace(state.resume_url);
+          return;
+        }
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      })
+      .catch(function () {
+        // Network / unreachable - fall back to legacy localStorage gate.
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      });
   }
 }
 

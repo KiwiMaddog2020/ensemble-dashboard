@@ -2,7 +2,7 @@
   "schema_version": 1,
   "preset_metadata": {
     "id": "director",
-    "display_name": "Director's room",
+    "display_name": "Director's canvas",
     "description": "Cinematic widescreen. Reels, frames, deep contrast. For film and video creators cutting in their head.",
     "thumbnail": null,
     "natural_themes": [
@@ -17,7 +17,7 @@
     "version": 1,
     "is_default": false
   },
-  "name": "Director's room",
+  "name": "Director's canvas",
   "preset_origin": "director",
   "theme": null,
   "background": null,
@@ -40,7 +40,10 @@
         "shape": "stage_floor",
         "fill_token": "bg-sunken"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "letterbox_top",
@@ -54,7 +57,10 @@
         "shape": "rect",
         "fill_token": "bg"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "letterbox_bottom",
@@ -68,7 +74,10 @@
         "shape": "rect",
         "fill_token": "bg"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_eyebrow",
@@ -82,7 +91,10 @@
         "text": "DIRECTOR'S ROOM",
         "variant": "eyebrow",
         "color_token": "accent"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_main",
@@ -95,7 +107,10 @@
       "props": {
         "text": "Scene one. <em>Take one.</em>",
         "variant": "hero"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_lead",
@@ -109,7 +124,10 @@
         "text": "Agents as crew. Wire each seat to a script, a cut, a revision. Roll when ready.",
         "variant": "body",
         "color_token": "ink-2"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "clapboard_prop",
@@ -121,7 +139,10 @@
       "z": 5,
       "props": {
         "label": "Scene slate"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "film_reel_left",
@@ -133,7 +154,10 @@
       "z": 4,
       "props": {
         "label": "Reel A"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "film_reel_right",
@@ -145,7 +169,10 @@
       "z": 4,
       "props": {
         "label": "Reel B"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_director",
@@ -159,7 +186,10 @@
         "slot_role": "Director",
         "idle_animation": "directing",
         "auto_bind_index": 0
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_dp",
@@ -173,7 +203,10 @@
         "slot_role": "Director of photography",
         "idle_animation": "idle",
         "auto_bind_index": 1
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_editor",
@@ -187,7 +220,10 @@
         "slot_role": "Editor",
         "idle_animation": "idle",
         "auto_bind_index": 2
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     }
   ],
   "custom_css": "",

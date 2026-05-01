@@ -3,7 +3,7 @@
   "preset_metadata": {
     "id": "wordsmith",
     "display_name": "Wordsmith's nook",
-    "description": "A writer's nook. Paper textures, serif type, deep margins. Room for thought; no UI clutter.",
+    "description": "A writer's nook. Paper textures, serif type, deep margins. Space for thought; no UI clutter.",
     "thumbnail": null,
     "natural_themes": [
       "paper",
@@ -40,7 +40,10 @@
         "text": "THE NOOK",
         "variant": "eyebrow",
         "color_token": "accent"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_main",
@@ -53,7 +56,10 @@
       "props": {
         "text": "Words. <em>Just words.</em>",
         "variant": "hero"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "manuscript_block",
@@ -67,7 +73,10 @@
         "text": "Your draft lives here. Ask an agent to outline, continue, or cut. The margin is yours.",
         "variant": "body",
         "color_token": "ink-2"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "margin_notes",
@@ -78,10 +87,13 @@
       "h": 420,
       "z": 5,
       "props": {
-        "text": "\u2190 margin",
+        "text": "← margin",
         "variant": "body",
         "color_token": "ink-3"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "bookshelf_prop",
@@ -95,7 +107,10 @@
         "sprite_id": "bookshelf",
         "sprite_pack": "zen",
         "label": "Reference shelf"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "pen_ornament",
@@ -109,7 +124,10 @@
         "sprite_id": "fountain-pen",
         "sprite_pack": "zen",
         "label": "Fountain pen"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_writer",
@@ -125,7 +143,10 @@
         "sprite_pack": "zen",
         "idle_animation": "writing",
         "auto_bind_index": 0
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "footer_hint",
@@ -136,10 +157,13 @@
       "h": 24,
       "z": 6,
       "props": {
-        "text": "Quiet room. Long thoughts.",
+        "text": "Quiet canvas. Long thoughts.",
         "variant": "body",
         "color_token": "ink-3"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     }
   ],
   "custom_css": "",

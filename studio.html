@@ -10,7 +10,9 @@
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" id="favicon" type="image/svg+xml" href="./icon.svg" />
-<link rel="apple-touch-icon" id="apple-touch-icon" href="./icon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png" />
+<link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="Ensemble" />
@@ -32,7 +34,7 @@
 }
 .cookie-banner[hidden] { display: none; }
 .cookie-banner__inner {
-  max-width: 1080px;
+  max-width: var(--w-app);
   margin: 0 auto;
   padding: 14px 22px;
   display: flex; align-items: center; justify-content: space-between;
@@ -157,12 +159,9 @@
       </div>
       <div class="studio-header__actions">
         <span class="studio-save-indicator" id="studio-save-indicator" aria-live="polite"></span>
-        <button class="studio-edit-toggle" id="studio-edit-toggle" type="button" aria-pressed="false" data-owner-only>
-          Edit
-        </button>
       </div>
     </div>
-    <p class="lead">The creative workshop where every asset can be alive. Default is a blank canvas — open the Workshop drawer for inspiration, asset packs, and starter examples like the Orchestra ensemble or the Game arcade.</p>
+    <p class="lead">Your Studio is where every asset can be alive. Open the Workshop drawer for asset packs and starter examples — Orchestra, Game arcade, Wordsmith&rsquo;s desk.</p>
   </header>
 
   <div class="studio-meta" id="studio-meta" aria-live="polite">
@@ -181,7 +180,7 @@
   </div>
 
   <div class="studio-tabs" role="tablist">
-    <button class="studio-tab is-active" data-tab="room" role="tab" type="button">Room</button>
+    <button class="studio-tab is-active" data-tab="room" role="tab" type="button">Canvas</button>
     <button class="studio-tab" data-tab="publish" role="tab" type="button">Publish</button>
     <button class="studio-tab" data-tab="map" role="tab" type="button">
       Map <span class="studio-tab__pill">soon</span>
@@ -206,7 +205,7 @@
     </header>
     <div class="studio-claude-drawer__body" id="studio-claude-drawer-body">
       <div class="studio-claude-msg studio-claude-msg--system">
-        <p>Ask me to add a sprite, write a markdown essay for a click-to-read, suggest a layout, or anything else. I have your room's current contents in mind.</p>
+        <p>Ask me to add a sprite, write a markdown essay for a click-to-read, suggest a layout, or anything else. I have your canvas's current contents in mind.</p>
         <p class="studio-claude-drawer__hint">Apply/Discard cards appear under Claude's component suggestions.</p>
       </div>
       <div class="studio-claude-byok-onboarding" id="studio-claude-byok-onboarding" data-state="hidden" role="region" aria-label="BYOK onboarding">
@@ -254,15 +253,15 @@
         <section class="workshop-section">
           <h3 class="workshop-section__title">Get started</h3>
           <ul class="workshop-checklist">
-            <li class="workshop-check"><span class="workshop-check__num">1</span><span>Pick an Example below to see what's possible</span></li>
-            <li class="workshop-check"><span class="workshop-check__num">2</span><span>Press Edit (Phase A.3) to start composing your own</span></li>
+            <li class="workshop-check"><span class="workshop-check__num">1</span><span>Pick an Example to see what&rsquo;s possible</span></li>
+            <li class="workshop-check"><span class="workshop-check__num">2</span><span>Press Edit to start composing your own</span></li>
             <li class="workshop-check"><span class="workshop-check__num">3</span><span>Drop a sprite, click it to wire an interaction</span></li>
           </ul>
         </section>
 
         <section class="workshop-section workshop-genesis" data-state="loading">
           <h3 class="workshop-section__title">Generate from your work</h3>
-          <p class="workshop-section__sub">Studio composes a starting Room from your GitHub — README, recent commits, language palette. Edit freely from second one.</p>
+          <p class="workshop-section__sub">Studio composes a starting canvas from your GitHub — README, recent commits, language palette. Edit freely from second one.</p>
           <button class="workshop-genesis__btn" id="workshop-genesis-btn" type="button">
             <span class="workshop-genesis__icon" aria-hidden="true">⌨︎</span>
             <span class="workshop-genesis__body">
@@ -284,11 +283,18 @@
                 <div class="workshop-example__desc">Start from nothing. Compose freely.</div>
               </div>
             </li>
+            <li class="workshop-example" data-preset="music_ensemble">
+              <div class="workshop-example__icon">🎹</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Music ensemble</div>
+                <div class="workshop-example__desc">A practice space for your sound. Piano, chairs, mic stand — light the recording sign when you're working.</div>
+              </div>
+            </li>
             <li class="workshop-example" data-preset="orchestra">
               <div class="workshop-example__icon">🎼</div>
               <div class="workshop-example__body">
-                <div class="workshop-example__name">Music ensemble</div>
-                <div class="workshop-example__desc">Conductor + 7 musicians. Sprite slots auto-bind to your active chats.</div>
+                <div class="workshop-example__name">Orchestra</div>
+                <div class="workshop-example__desc">Concert hall. Conductor + 7 musicians. Sprite slots auto-bind to your active chats.</div>
               </div>
             </li>
             <li class="workshop-example" data-preset="game_arcade">
@@ -326,28 +332,25 @@
                 <div class="workshop-example__desc">Mixing board, mic stand, reel-to-reel. Slot in your music chats.</div>
               </div>
             </li>
-            <li class="workshop-example workshop-example--coming-soon">
+            <li class="workshop-example" data-preset="personal_library">
               <div class="workshop-example__icon">📚</div>
               <div class="workshop-example__body">
                 <div class="workshop-example__name">Personal library</div>
-                <div class="workshop-example__desc">Bookshelves + typewriter. Click a spine to read essays.</div>
-                <span class="workshop-example__pill">soon</span>
+                <div class="workshop-example__desc">Your reading nook. Bookshelves, a chair, a window. Pin the books that shape you.</div>
               </div>
             </li>
-            <li class="workshop-example workshop-example--coming-soon">
+            <li class="workshop-example" data-preset="gallery">
               <div class="workshop-example__icon">🖼</div>
               <div class="workshop-example__body">
                 <div class="workshop-example__name">Gallery</div>
-                <div class="workshop-example__desc">Long wall, framed images, click for full view.</div>
-                <span class="workshop-example__pill">soon</span>
+                <div class="workshop-example__desc">Curate your work like an exhibition. Four frames, one plinth — each points wherever you want.</div>
               </div>
             </li>
-            <li class="workshop-example workshop-example--coming-soon">
+            <li class="workshop-example" data-preset="workshop_literal">
               <div class="workshop-example__icon">🛠</div>
               <div class="workshop-example__body">
-                <div class="workshop-example__name">Workshop (literal)</div>
-                <div class="workshop-example__desc">Maker's bench, tools, chalkboard, project sketches.</div>
-                <span class="workshop-example__pill">soon</span>
+                <div class="workshop-example__name">Workshop</div>
+                <div class="workshop-example__desc">Where you make things. Workbench, toolwall, half-finished project — pin your works-in-progress.</div>
               </div>
             </li>
           </ul>
@@ -355,7 +358,7 @@
 
         <section class="workshop-section">
           <h3 class="workshop-section__title">Asset packs</h3>
-          <p class="workshop-section__sub">Drag sprites onto your stage in Edit mode (Phase A.3).</p>
+          <p class="workshop-section__sub">Drag sprites onto your stage in Edit mode.</p>
           <ul class="workshop-packs">
             <li class="workshop-pack"><span class="workshop-pack__icon">🎻</span><span>Music instruments</span><span class="workshop-pack__count">9</span></li>
             <li class="workshop-pack"><span class="workshop-pack__icon">🕹</span><span>Arcade machines</span><span class="workshop-pack__count">5</span></li>
@@ -370,10 +373,22 @@
       </aside>
 
       <div class="studio-stage-wrap">
-        <div class="studio-stage" id="studio-stage" aria-label="Studio room scene">
+        <div class="studio-stage-controls" aria-label="Canvas mode controls">
+          <button class="studio-walk-toggle" id="studio-walk-toggle" type="button" aria-pressed="false" aria-label="Toggle walk mode preview">
+            Walk mode
+          </button>
+          <button class="studio-edit-toggle" id="studio-edit-toggle" type="button" aria-pressed="false" data-owner-only>
+            Edit
+          </button>
+        </div>
+        <div class="studio-stage" id="studio-stage" aria-label="Studio canvas scene">
           <div class="studio-empty">
             <p>Setting up your blank canvas…</p>
           </div>
+        </div>
+        <div class="studio-walk-preview" id="studio-walk-preview" hidden aria-hidden="true">
+          <div class="sprite-engine" data-walk-mode="false" data-engine-state="dormant" aria-label="Walkable canvas"><div class="sprite-engine__stage"><div class="sprite-engine__parallax-far" aria-hidden="true"></div><div class="sprite-engine__parallax-mid" aria-hidden="true"></div><div class="sprite-engine__parallax-near" aria-hidden="true"></div><canvas class="sprite-engine__canvas" tabindex="0" aria-label="Walkable canvas (use arrow keys or WASD to move)"></canvas></div><div class="sprite-engine__prompt" data-state="hidden" role="status" aria-live="polite"><span class="sprite-engine__prompt-key">X</span><span class="sprite-engine__prompt-text">Press X to interact</span></div><p class="sprite-engine__hint" aria-hidden="true">WASD or arrow keys to walk &middot; X or Enter to interact</p><div class="canvas-empty-state" data-canvas-empty hidden aria-live="polite"><div class="canvas-empty-state__illus" aria-hidden="true"><div class="canvas-empty-state__grid"></div><div class="canvas-empty-state__mark">?</div></div><h2 class="canvas-empty-state__title">Quiet here.</h2><p class="canvas-empty-state__sub">Drop a sprite from the Workshop drawer to begin composing.</p></div></div>
+          <div class="walk-tutorial" data-tutorial-state="hidden" data-step="1" role="dialog" aria-modal="false" aria-labelledby="walk-tutorial-title" aria-describedby="walk-tutorial-body" hidden><div class="walk-tutorial__overlay" aria-hidden="true"></div><div class="walk-tutorial__card"><button type="button" class="walk-tutorial__close" data-action="dismiss" aria-label="Dismiss tutorial">&times;</button><p class="walk-tutorial__step-count" aria-hidden="true"><span data-current-step>1</span> of 3</p><h2 class="walk-tutorial__title" id="walk-tutorial-title"><span data-tutorial-step="1">Walk with arrow keys or WASD.</span><span data-tutorial-step="2" hidden>Press X near a component to interact.</span><span data-tutorial-step="3" hidden>Toggle to Edit to compose your canvas.</span></h2><p class="walk-tutorial__body" id="walk-tutorial-body"><span data-tutorial-step="1">Arrow keys, WASD, or swipe on touch &mdash; the sprite walks where you point.</span><span data-tutorial-step="2" hidden>A &ldquo;Press X&rdquo; bubble appears when you walk close to anything interactable.</span><span data-tutorial-step="3" hidden>The Edit toggle in the canvas controls drops sprites from the Workshop drawer.</span></p><div class="walk-tutorial__actions"><button type="button" class="walk-tutorial__next" data-action="next">Got it</button></div></div></div>
         </div>
       </div>
     </div>
@@ -421,78 +436,21 @@
   <p class="studio-theme-picker__current">Current: <strong id="studio-theme-picker-current">warm</strong></p>
 </aside>
 
-<script>
-(function(){
-  "use strict";
-  function init(){
-    var grid = document.getElementById("studio-theme-grid");
-    var caption = document.getElementById("studio-theme-picker-current");
-    if (!grid) return;
-
-    function setActive(theme){
-      var cells = grid.querySelectorAll("[data-theme]");
-      for (var i = 0; i < cells.length; i++) {
-        var on = cells[i].getAttribute("data-theme") === theme;
-        cells[i].classList.toggle("is-active", on);
-        cells[i].setAttribute("aria-pressed", on ? "true" : "false");
-        if (on) {
-          cells[i].setAttribute("data-active", "true");
-        } else {
-          cells[i].removeAttribute("data-active");
-        }
-      }
-      if (caption) caption.textContent = theme;
-      var meta = document.getElementById("studio-meta-theme");
-      if (meta) meta.textContent = theme;
-    }
-
-    grid.addEventListener("click", function(e){
-      var btn = e.target.closest("[data-theme]");
-      if (!btn) return;
-      var theme = btn.getAttribute("data-theme");
-      if (!theme) return;
-      e.preventDefault();
-      setActive(theme);
-      // Use the existing applyTheme() helper from shared_scripts.py for the
-      // preview swap. It updates CSS vars + favicon. Persistence happens via
-      // the publish panel's POST/PUT (theme field).
-      if (typeof window.applyTheme === "function") {
-        try { window.applyTheme(theme, { persist: false }); } catch (_e) {
-          try { window.applyTheme(theme); } catch (_e2) { /* engine not ready */ }
-        }
-      }
-    });
-
-    // If the engine has already chosen a theme (e.g. from saved state), sync.
-    var initialMeta = document.getElementById("studio-meta-theme");
-    if (initialMeta && initialMeta.textContent) {
-      var t = initialMeta.textContent.trim();
-      if (t) setActive(t);
-    }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
-  } else {
-    init();
-  }
-})();
-</script>
 
       <aside class="studio-publish" id="studio-publish" aria-labelledby="studio-publish-title">
   <header class="studio-publish__header">
     <h2 class="studio-publish__title" id="studio-publish-title">Your canvases</h2>
-    <p class="studio-publish__sub">Publish the current Room to a slot. <span id="studio-publish-count">0/3</span> slots used.</p>
+    <p class="studio-publish__sub">Publish the current canvas to a slot. <span id="studio-publish-count">0/3</span> slots used.</p>
   </header>
 
-  <button class="studio-publish__primary" type="button" id="studio-publish-current" data-act="publish-current">
+  <button class="studio-publish__primary" type="button" id="studio-publish-current" data-act="publish-current" data-tier-state="ok">
     <span class="studio-publish__primary-icon" aria-hidden="true">+</span>
-    <span>Save current Room as new Canvas</span>
+    <span class="studio-publish__primary-label">+ New canvas</span>
   </button>
 
   <div class="studio-publish__empty-banner" id="studio-publish-empty-banner" hidden>
-    <strong>0 canvases yet.</strong>
-    <span>Save your current Room as your first Canvas to share it with the Ensemble.</span>
+    <strong>No canvases yet.</strong>
+    <span>Publish your current canvas to share it with the Ensemble.</span>
   </div>
 
   <div class="studio-publish__status" id="studio-publish-status" aria-live="polite"></div>
@@ -516,9 +474,9 @@
 
   <!-- Publish-target modal (hidden until trigger). -->
   <div class="studio-publish-modal" id="studio-publish-modal" hidden role="dialog" aria-modal="true" aria-labelledby="studio-publish-modal-title">
-    <div class="studio-publish-modal__panel">
+    <div class="studio-publish-modal__panel modal__panel modal__panel--narrow">
       <h3 class="studio-publish-modal__title" id="studio-publish-modal-title">Publish to slot?</h3>
-      <p class="studio-publish-modal__sub" id="studio-publish-modal-sub">Pick a free slot. Replacing one swaps the existing canvas back to drafts.</p>
+      <p class="studio-publish-modal__sub" id="studio-publish-modal-sub">Pick a free slot. The existing canvas there moves back to drafts.</p>
       <ol class="studio-publish-modal__choices" id="studio-publish-modal-choices"></ol>
       <div class="studio-publish-modal__row">
         <button class="studio-publish-modal__cancel" type="button" data-act="modal-close">Cancel</button>
@@ -527,388 +485,14 @@
   </div>
 </aside>
 
-<script>
-(function(){
-  "use strict";
-
-  var FREE_SLOTS = 3;
-  var PRO_SLOTS_PREVIEW = 2;
-  var API = "/studio/canvas";
-
-  var stateRef = { canvases: [], tier: "free", current_published: 0, free_limit: FREE_SLOTS };
-
-  function $(id){ return document.getElementById(id); }
-  function esc(s){
-    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
-      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
-    });
-  }
-  function toast(msg, kind){
-    var el = $("studio-publish-status");
-    if (!el) return;
-    el.textContent = msg || "";
-    el.setAttribute("data-kind", kind || "info");
-    if (msg) {
-      clearTimeout(toast._t);
-      toast._t = setTimeout(function(){
-        if (el.textContent === msg) { el.textContent = ""; el.removeAttribute("data-kind"); }
-      }, 4200);
-    }
-  }
-  function api(method, path, body){
-    var opts = { method: method, headers: { "Accept": "application/json" }, credentials: "same-origin" };
-    if (body !== undefined) {
-      opts.headers["Content-Type"] = "application/json";
-      opts.body = JSON.stringify(body);
-    }
-    return fetch(API + path, opts).then(function(r){
-      if (r.status === 204) return null;
-      return r.json().then(function(j){
-        if (!r.ok) {
-          var err = new Error(j && j.error ? j.error : ("HTTP " + r.status));
-          err.payload = j; err.status = r.status;
-          throw err;
-        }
-        return j;
-      });
-    });
-  }
-
-  function readRoomState(){
-    var engine = window.STUDIO_ENGINE;
-    if (engine && typeof engine.exportRoomState === "function") {
-      try { return engine.exportRoomState() || {}; } catch (_e) { /* fall through */ }
-    }
-    return {};
-  }
-  function readActiveTheme(){
-    var meta = $("studio-meta-theme");
-    if (meta && meta.textContent) return meta.textContent.trim() || "warm";
-    var hint = document.querySelector(".studio-theme-picker [data-theme][data-active='true']");
-    return hint ? hint.getAttribute("data-theme") : "warm";
-  }
-  function ownerId(){
-    var m = document.querySelector('meta[name="ensemble-owner-id"]');
-    if (m && m.content) return m.content;
-    return (window.ENSEMBLE_OWNER_ID || "");
-  }
-
-  function refresh(){
-    return api("GET", "/mine").then(function(payload){
-      stateRef = Object.assign({ canvases: [], tier: "free", current_published: 0, free_limit: FREE_SLOTS }, payload || {});
-      stateRef.canvases = Array.isArray(stateRef.canvases) ? stateRef.canvases : [];
-      render();
-      return stateRef;
-    }).catch(function(err){
-      // Fixture-mode may 404 / 501 / 503 until Slot A merges; render empty state.
-      stateRef = { canvases: [], tier: "free", current_published: 0, free_limit: FREE_SLOTS };
-      render();
-      if (err && err.status && err.status !== 404 && err.status !== 501 && err.status !== 503) {
-        toast("Couldn't load canvases: " + (err.message || err), "error");
-      }
-    });
-  }
-
-  function bySlot(idx){
-    for (var i = 0; i < stateRef.canvases.length; i++) {
-      var c = stateRef.canvases[i];
-      if (c && c.slot_index === idx) return c;
-    }
-    return null;
-  }
-  function drafts(){
-    return stateRef.canvases.filter(function(c){ return c && (c.slot_index === null || c.slot_index === undefined); });
-  }
-
-  function renderSlotRow(idx, isPro){
-    var canvas = bySlot(idx);
-    var li = document.createElement("li");
-    li.className = "studio-publish__slot" + (isPro ? " is-pro" : "") + (canvas ? " is-occupied" : " is-empty");
-    li.setAttribute("data-slot", String(idx));
-
-    if (isPro) {
-      li.innerHTML =
-        '<div class="studio-publish__slot-head">' +
-          '<span class="studio-publish__slot-num">[Locked] Slot ' + idx + '</span>' +
-          '<span class="studio-publish__slot-status">Locked - Pro</span>' +
-        '</div>' +
-        '<p class="studio-publish__upsell">Unlock unlimited canvas slots. <a href="/settings.html#billing">Pro - $12 / mo</a></p>';
-      return li;
-    }
-    if (canvas) {
-      li.innerHTML =
-        '<div class="studio-publish__slot-head">' +
-          '<span class="studio-publish__slot-num">Slot ' + idx + '</span>' +
-          '<span class="studio-publish__slot-status studio-publish__slot-status--live">[*] ' + esc(canvas.visibility || "public") + '</span>' +
-        '</div>' +
-        '<div class="studio-publish__card">' +
-          '<div class="studio-publish__card-title">' + esc(canvas.title || "(untitled)") + '</div>' +
-          '<p class="studio-publish__card-desc">' + esc(canvas.description || "") + '</p>' +
-          '<div class="studio-publish__card-actions">' +
-            '<button type="button" data-act="edit" data-id="' + esc(canvas.id) + '">Edit</button>' +
-            '<button type="button" data-act="unpublish" data-id="' + esc(canvas.id) + '">Unpublish</button>' +
-            '<button type="button" data-act="delete" data-id="' + esc(canvas.id) + '" class="is-danger">Delete</button>' +
-          '</div>' +
-        '</div>';
-    } else {
-      li.innerHTML =
-        '<div class="studio-publish__slot-head">' +
-          '<span class="studio-publish__slot-num">Slot ' + idx + '</span>' +
-          '<span class="studio-publish__slot-status">[ ] empty</span>' +
-        '</div>' +
-        '<button type="button" class="studio-publish__save-here" data-act="save-here" data-slot="' + idx + '">+ Save current Room here</button>';
-    }
-    return li;
-  }
-
-  function render(){
-    var freeRoot = $("studio-publish-free-slots");
-    var proRoot = $("studio-publish-pro-slots");
-    var draftRoot = $("studio-publish-drafts");
-    var counter = $("studio-publish-count");
-    var emptyBanner = $("studio-publish-empty-banner");
-    if (!freeRoot || !proRoot || !draftRoot) return;
-
-    if (emptyBanner) {
-      var hasAny = stateRef.canvases && stateRef.canvases.length > 0;
-      emptyBanner.hidden = hasAny;
-    }
-
-    freeRoot.innerHTML = "";
-    for (var i = 0; i < FREE_SLOTS; i++) freeRoot.appendChild(renderSlotRow(i, false));
-
-    proRoot.innerHTML = "";
-    if (stateRef.tier === "pro") {
-      var maxPro = FREE_SLOTS;
-      for (var k = 0; k < stateRef.canvases.length; k++) {
-        var c = stateRef.canvases[k];
-        if (c && c.slot_index != null && c.slot_index >= FREE_SLOTS && c.slot_index >= maxPro) {
-          maxPro = c.slot_index + 1;
-        }
-      }
-      for (var p = FREE_SLOTS; p <= maxPro; p++) {
-        var slot = renderSlotRow(p, false);
-        slot.classList.remove("is-pro");
-        proRoot.appendChild(slot);
-      }
-    } else {
-      for (var q = 0; q < PRO_SLOTS_PREVIEW; q++) {
-        proRoot.appendChild(renderSlotRow(FREE_SLOTS + q, true));
-      }
-    }
-
-    draftRoot.innerHTML = "";
-    var ds = drafts();
-    if (!ds.length) {
-      var empty = document.createElement("li");
-      empty.className = "studio-publish__empty";
-      empty.setAttribute("data-state", "empty");
-      empty.textContent = "No drafts yet.";
-      draftRoot.appendChild(empty);
-    } else {
-      ds.forEach(function(c){
-        var li = document.createElement("li");
-        li.className = "studio-publish__draft";
-        li.innerHTML =
-          '<div class="studio-publish__card">' +
-            '<div class="studio-publish__card-title">' + esc(c.title || "Untitled draft") + '</div>' +
-            '<p class="studio-publish__card-desc">' + esc(c.description || "") + '</p>' +
-            '<div class="studio-publish__card-actions">' +
-              '<button type="button" data-act="edit" data-id="' + esc(c.id) + '">Edit</button>' +
-              '<button type="button" data-act="publish-existing" data-id="' + esc(c.id) + '">Publish to slot...</button>' +
-              '<button type="button" data-act="delete" data-id="' + esc(c.id) + '" class="is-danger">Delete</button>' +
-            '</div>' +
-          '</div>';
-        draftRoot.appendChild(li);
-      });
-    }
-
-    if (counter) {
-      var pub = stateRef.current_published || 0;
-      var lim = stateRef.tier === "pro" ? "inf" : (stateRef.free_limit || FREE_SLOTS);
-      counter.textContent = pub + "/" + lim;
-    }
-  }
-
-  function createDraftFromRoom(){
-    return api("POST", "", {
-      owner_id: ownerId(),
-      room_state: readRoomState(),
-      theme: readActiveTheme(),
-      title: "",
-      description: "",
-      source: "manual"
-    });
-  }
-  function publishToSlot(canvasId, slotIdx){
-    return api("POST", "/" + encodeURIComponent(canvasId) + "/publish", {
-      slot_index: slotIdx,
-      visibility: "public"
-    });
-  }
-  function unpublish(canvasId){
-    return api("POST", "/" + encodeURIComponent(canvasId) + "/unpublish", {});
-  }
-  function deleteCanvas(canvasId){
-    return api("DELETE", "/" + encodeURIComponent(canvasId));
-  }
-
-  function openModal(canvasId){
-    var modal = $("studio-publish-modal");
-    var choices = $("studio-publish-modal-choices");
-    if (!modal || !choices) return;
-    choices.innerHTML = "";
-    for (var i = 0; i < FREE_SLOTS; i++) {
-      var occupant = bySlot(i);
-      var li = document.createElement("li");
-      li.className = "studio-publish-modal__choice" + (occupant ? " is-replacing" : "");
-      li.innerHTML =
-        '<button type="button" data-act="modal-pick" data-slot="' + i + '" data-id="' + esc(canvasId) + '">' +
-          '<strong>Slot ' + i + '</strong>' +
-          '<span>' + (occupant ? ("Replace: " + esc(occupant.title || "(untitled)")) : "Empty") + '</span>' +
-        '</button>';
-      choices.appendChild(li);
-    }
-    var upsell = document.createElement("li");
-    upsell.className = "studio-publish-modal__choice is-locked";
-    upsell.innerHTML = '<a href="/settings.html#billing">Slot 3+ - Unlock with Pro</a>';
-    choices.appendChild(upsell);
-
-    modal.hidden = false;
-    modal.setAttribute("data-open", "true");
-  }
-  function closeModal(){
-    var modal = $("studio-publish-modal");
-    if (!modal) return;
-    modal.hidden = true;
-    modal.removeAttribute("data-open");
-  }
-
-  function setRowBusy(node, busy){
-    if (!node) return;
-    var row = node.closest(".studio-publish__slot, .studio-publish__draft");
-    if (!row) return;
-    if (busy) row.classList.add("is-busy");
-    else row.classList.remove("is-busy");
-  }
-
-  function onClick(e){
-    var t = e.target.closest("[data-act]");
-    if (!t) return;
-    var act = t.getAttribute("data-act");
-    var id = t.getAttribute("data-id");
-    var slotAttr = t.getAttribute("data-slot");
-    var slotIdx = slotAttr == null ? null : parseInt(slotAttr, 10);
-
-    if (act === "publish-current") {
-      e.preventDefault();
-      toast("Saving draft...", "info");
-      createDraftFromRoom().then(function(draft){
-        if (!draft || !draft.id) throw new Error("Draft creation returned no id");
-        toast("Draft saved. Pick a slot...", "info");
-        openModal(draft.id);
-      }).catch(function(err){ toast("Save failed: " + (err.message || err), "error"); });
-      return;
-    }
-    if (act === "save-here" && slotIdx !== null && !isNaN(slotIdx)) {
-      e.preventDefault();
-      toast("Publishing to slot " + slotIdx + "...", "info");
-      createDraftFromRoom().then(function(draft){
-        return publishToSlot(draft.id, slotIdx);
-      }).then(function(){
-        toast("Canvas published to slot " + slotIdx + " - it's live in the Ensemble at /index.html", "ok");
-        return refresh();
-      }).catch(function(err){ toast("Publish failed: " + (err.message || err), "error"); });
-      return;
-    }
-    if (act === "publish-existing" && id) {
-      e.preventDefault();
-      openModal(id);
-      return;
-    }
-    if (act === "modal-pick" && id && slotIdx !== null && !isNaN(slotIdx)) {
-      e.preventDefault();
-      closeModal();
-      toast("Publishing...", "info");
-      publishToSlot(id, slotIdx).then(function(){
-        toast("Canvas published to slot " + slotIdx + " - it's live in the Ensemble at /index.html", "ok");
-        return refresh();
-      }).catch(function(err){ toast("Publish failed: " + (err.message || err), "error"); });
-      return;
-    }
-    if (act === "modal-close") {
-      e.preventDefault();
-      closeModal();
-      return;
-    }
-    if (act === "unpublish" && id) {
-      e.preventDefault();
-      setRowBusy(t, true);
-      toast("Unpublishing...", "info");
-      unpublish(id).then(function(){
-        toast("Returned to drafts.", "ok");
-        return refresh();
-      }).catch(function(err){
-        setRowBusy(t, false);
-        toast("Couldn't unpublish — try again? (server: " + (err.message || err) + ")", "error");
-      });
-      return;
-    }
-    if (act === "delete" && id) {
-      e.preventDefault();
-      if (!window.confirm("Delete this canvas? This cannot be undone.")) return;
-      setRowBusy(t, true);
-      toast("Deleting...", "info");
-      deleteCanvas(id).then(function(){
-        toast("Deleted.", "ok");
-        return refresh();
-      }).catch(function(err){
-        setRowBusy(t, false);
-        toast("Couldn't delete — try again? (server: " + (err.message || err) + ")", "error");
-      });
-      return;
-    }
-    if (act === "edit" && id) {
-      e.preventDefault();
-      var engine = window.STUDIO_ENGINE;
-      if (engine && typeof engine.loadCanvasById === "function") {
-        engine.loadCanvasById(id);
-        toast("Loaded canvas into Room.", "info");
-      } else {
-        toast("Edit flow lands when the Studio engine exposes loadCanvasById.", "info");
-      }
-      return;
-    }
-  }
-
-  function init(){
-    var root = $("studio-publish");
-    if (!root) return;
-    root.addEventListener("click", onClick);
-    var modal = $("studio-publish-modal");
-    if (modal) {
-      modal.addEventListener("click", function(e){
-        if (e.target === modal) closeModal();
-      });
-    }
-    refresh();
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
-  } else {
-    init();
-  }
-})();
-</script>
 
     </div>
   </section>
 
   <section class="studio-pane" data-pane="map" role="tabpanel">
     <div class="studio-empty">
-      <p>The fractal navigator will land here.</p>
-      <p class="studio-empty__hint">Phase B · force-directed graph showing your projects + connected creator-rooms</p>
+      <p>The Canvas map will land here.</p>
+      <p class="studio-empty__hint">Phase B · force-directed graph showing your projects + connected canvases</p>
     </div>
   </section>
 
@@ -998,7 +582,7 @@
   }
 })();
 </script>
-<script src="./studio.js" defer></script><style id="byok-onboarding-css">
+<script src="./studio.js" defer></script><script src="./studio-publish-panel.js" defer></script><script src="./studio-chrome.js" defer></script><style id="byok-onboarding-css">
 .byok-onboarding-overlay {
   position: fixed; inset: 0; z-index: 230;
   background: rgba(0,0,0,0.55);
@@ -1016,7 +600,7 @@
   color: var(--ink, #1a1814);
   border: 1px solid var(--rule, rgba(0,0,0,0.12));
   border-radius: var(--radius, 12px);
-  max-width: 640px; width: 100%;
+  max-width: 60ch; width: 100%;
   padding: 28px 28px 22px;
   box-shadow: 0 24px 64px rgba(0,0,0,0.32), 0 4px 12px rgba(0,0,0,0.18);
   animation: byok-onboarding-rise 240ms var(--ease, ease);
@@ -1120,8 +704,8 @@
 }
 .byok-onboarding__link-btn:hover { color: var(--ink-2, #3a342c); }
 </style>
-<div class="byok-onboarding-overlay" id="byok-onboarding" role="dialog" aria-modal="true" aria-labelledby="byok-onboarding-title" hidden>
-  <div class="byok-onboarding__card">
+<div class="byok-onboarding-overlay modal__scrim" id="byok-onboarding" role="dialog" aria-modal="true" aria-labelledby="byok-onboarding-title" hidden>
+  <div class="byok-onboarding__card modal__panel modal__panel--narrow">
     <h2 class="byok-onboarding__title" id="byok-onboarding-title">Build with Claude inside your Studio</h2>
     <p class="byok-onboarding__lead">Free users get 5 Claude calls a day from the platform&rsquo;s key. Want unlimited? Link your own Anthropic API key and use Claude on your terms.</p>
 
@@ -1129,12 +713,12 @@
       <div class="byok-onboarding__option">
         <h3 class="byok-onboarding__option-title">Use the free allotment</h3>
         <p class="byok-onboarding__option-sub">5 calls/day &middot; 30/month &middot; platform pays</p>
-        <button type="button" class="byok-onboarding__btn byok-onboarding__btn--secondary" data-action="use-platform">Got it, let me try</button>
+        <button type="button" class="btn btn--secondary byok-onboarding__btn byok-onboarding__btn--secondary" data-action="use-platform">Got it, let me try</button>
       </div>
       <div class="byok-onboarding__option byok-onboarding__option--featured">
         <h3 class="byok-onboarding__option-title">Link your Anthropic key</h3>
         <p class="byok-onboarding__option-sub">Unlimited &middot; your key, your usage</p>
-        <a class="byok-onboarding__btn byok-onboarding__btn--primary" href="/settings.html#settings-byok">Link key &rarr;</a>
+        <a class="btn btn--primary byok-onboarding__btn byok-onboarding__btn--primary" href="/settings.html#settings-byok">Link key &rarr;</a>
       </div>
     </div>
 
@@ -1205,45 +789,262 @@
   }
 })();
 </script>
-<footer class="site-footer">
-  <div class="site-footer__cols">
-    <div class="site-footer__col site-footer__col--brand">
-      <p><span class="brand">Ensemble</span> &middot; <em>One conductor. Many performers.</em></p>
-      <p><a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
+<div class="studio-welcome" id="studio-welcome" hidden role="dialog" aria-modal="false" aria-labelledby="studio-welcome-title">
+  <div class="studio-welcome__panel">
+    <div class="studio-welcome__progress">
+      <div class="first-run-progress" role="status" aria-label="First-run progress">
+        <span class="first-run-progress__label">Step 4 of 4</span>
+        <div class="first-run-progress__pips">
+          <span class="first-run-progress__pip is-done" aria-hidden="true"></span>
+          <span class="first-run-progress__pip is-done" aria-hidden="true"></span>
+          <span class="first-run-progress__pip is-done" aria-hidden="true"></span>
+          <span class="first-run-progress__pip is-active" aria-hidden="true"></span>
+        </div>
+      </div>
     </div>
-    <div class="site-footer__col">
-      <p class="site-footer__heading">Legal</p>
-      <ul class="site-footer__links">
-        <li><a href="/legal/privacy.html">Privacy Policy</a></li>
-        <li><a href="/legal/terms.html">Terms of Service</a></li>
-        <li><a href="/legal/acceptable-use.html">Acceptable Use</a></li>
-        <li><a href="/legal/dmca.html">DMCA</a></li>
-        <li><a href="/legal/cookies.html">Cookie Policy</a></li>
-        <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
-      </ul>
+    <h3 class="studio-welcome__title" id="studio-welcome-title">Welcome to your <em>Studio.</em></h3>
+    <p class="studio-welcome__body">Arrow keys or <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> walk you around. <kbd>Esc</kbd> returns to edit mode.</p>
+    <button type="button" class="studio-welcome__dismiss" id="studio-welcome-dismiss">Got it</button>
+  </div>
+</div><style>
+.studio-welcome[hidden] { display: none; }
+.studio-welcome {
+  position: fixed; inset: auto 24px 24px auto; z-index: 240;
+  max-width: 360px;
+  animation: studio-welcome-rise 280ms var(--ease, ease) both;
+}
+@keyframes studio-welcome-rise {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.studio-welcome__panel {
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 18px 48px rgba(0,0,0,0.24), 0 4px 10px rgba(0,0,0,0.12);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.studio-welcome__progress { margin-bottom: 2px; }
+.studio-welcome__title {
+  font-family: var(--serif); font-size: 18px; font-weight: 500;
+  margin: 0; letter-spacing: -0.01em; color: var(--ink);
+}
+.studio-welcome__title em { font-style: italic; color: var(--accent); }
+.studio-welcome__body {
+  font-family: var(--sans); font-size: 13px; line-height: 1.5;
+  margin: 0; color: var(--ink-2);
+}
+.studio-welcome__body kbd {
+  display: inline-block;
+  padding: 1px 6px; margin: 0 1px;
+  font-family: var(--mono, ui-monospace, SFMono-Regular, monospace);
+  font-size: 11px;
+  background: var(--bg-sunken, var(--bg));
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  color: var(--ink);
+}
+.studio-welcome__dismiss {
+  align-self: flex-end;
+  appearance: none; cursor: pointer;
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  padding: 7px 14px; border-radius: 8px;
+  background: var(--accent); color: #fff;
+  border: 1px solid var(--accent);
+  transition: background 180ms var(--ease, ease);
+}
+.studio-welcome__dismiss:hover { background: var(--accent-2, var(--accent)); }
+</style><script src="./sprite-engine.js" defer></script><script src="./walk-tutorial.js" defer></script><aside class="sound-chip" data-canvas-id="" aria-label="Sound controls"><button type="button" class="sound-chip__toggle" data-action="toggle" aria-pressed="false" aria-label="Toggle sound"><span class="sound-chip__icon" aria-hidden="true">🔇</span><span class="sound-chip__label">Sound off</span></button><input type="range" class="sound-chip__slider" min="0" max="1" step="0.01" value="0.5" aria-label="Volume" hidden /></aside><script src="./sound.js" defer></script><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__cols">
+      <div class="site-footer__col site-footer__col--brand">
+        <a href="./" class="site-footer__brand-link" aria-label="Ensemble home">
+          <img class="brand-mark site-footer__mark" src="./icon.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <span class="brand site-footer__brand-name">Ensemble</span>
+        </a>
+        <p class="site-footer__tagline"><em>One conductor. Many performers.</em></p>
+        <p class="site-footer__blurb">A creator-platform PWA where every page is a place &mdash; not a list of links.</p>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Product</p>
+        <ul class="site-footer__links">
+          <li><a href="./studio.html">Studio</a></li>
+          <li><a href="./dashboard.html">Dashboard</a></li>
+          <li><a href="./settings.html">Settings</a></li>
+          <li><a href="./docs.html">Docs</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Resources</p>
+        <ul class="site-footer__links">
+          <li><a href="https://github.com/KiwiMaddog2020/claude-ensemble" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="./docs.html">Documentation</a></li>
+          <li><a href="./credits.html">Credits</a></li>
+          <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Legal</p>
+        <ul class="site-footer__links">
+          <li><a href="/legal/privacy.html">Privacy Policy</a></li>
+          <li><a href="/legal/terms.html">Terms of Service</a></li>
+          <li><a href="/legal/acceptable-use.html">Acceptable Use</a></li>
+          <li><a href="/legal/dmca.html">DMCA</a></li>
+          <li><a href="/legal/cookies.html">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copyright">&copy; 2026 Ensemble &middot; <span class="site-footer__version">v2.0</span></p>
+      <p class="site-footer__meta">Auto-refreshes 3&times; daily.</p>
     </div>
   </div>
-  <p class="site-footer__meta">Auto-refreshes 3&times; daily. v2.0.</p>
 </footer>
 <style id="site-footer-css">
+.site-footer__inner {
+  max-width: var(--w-app, 1180px);
+  margin: 0 auto;
+  padding: var(--space-7, 48px) clamp(var(--space-4, 16px), 4vw, var(--space-6, 32px)) var(--space-5, 24px);
+}
 .site-footer__cols {
-  display: flex; gap: 32px; flex-wrap: wrap;
-  align-items: flex-start; justify-content: space-between;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-6, 32px);
+  align-items: flex-start;
+  margin-bottom: var(--space-6, 32px);
 }
-.site-footer__col { min-width: 180px; }
-.site-footer__col--brand { flex: 1 1 280px; }
-.site-footer__col p { margin: 0 0 4px; }
+@media (max-width: 960px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5, 24px) var(--space-6, 32px);
+  }
+  .site-footer__col--brand {
+    grid-column: 1 / -1;
+    margin-bottom: var(--space-3, 12px);
+  }
+}
+@media (max-width: 540px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr;
+    gap: var(--space-5, 24px);
+  }
+}
+
+.site-footer__col {
+  min-width: 0;
+}
+
+.site-footer__col--brand {
+  max-width: 32ch;
+}
+.site-footer__brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  text-decoration: none;
+  margin-bottom: var(--space-3, 12px);
+}
+.site-footer__brand-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--r-sm, 4px);
+}
+.site-footer__mark {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+.site-footer__brand-name {
+  font-family: var(--serif);
+  font-size: var(--fs-18, 18px);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.site-footer__tagline {
+  font-family: var(--serif);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  margin: 0 0 var(--space-3, 12px);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__blurb {
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-3);
+  line-height: var(--lh-relaxed, 1.55);
+  margin: 0;
+  max-width: 36ch;
+}
+
 .site-footer__heading {
-  font-family: var(--sans, system-ui, sans-serif);
-  font-size: 12px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--ink-3, #6a625a); margin: 0 0 8px;
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin: 0 0 var(--space-3, 12px);
 }
-.site-footer__links { list-style: none; padding: 0; margin: 0; }
-.site-footer__links li { margin: 0 0 4px; }
-.site-footer__links a { color: var(--ink-2, #3a342c); text-decoration: none; }
-.site-footer__links a:hover { color: var(--accent, #b8753c); text-decoration: underline; }
-.site-footer__meta { opacity: 0.6; margin-top: 12px; font-size: 13px; }
+
+.site-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.site-footer__links li {
+  margin: 0 0 var(--space-2, 8px);
+}
+.site-footer__links a {
+  font-family: var(--sans);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color var(--dur-base, 180ms) var(--ease, ease);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__links a:hover {
+  color: var(--accent);
+}
+.site-footer__links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm, 4px);
+  color: var(--accent);
+}
+
+.site-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+  padding-top: var(--space-5, 24px);
+  border-top: 1px solid var(--rule-2, var(--rule));
+}
+.site-footer__copyright,
+.site-footer__meta {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-4, var(--ink-3));
+}
+.site-footer__version {
+  font-family: var(--mono);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 540px) {
+  .site-footer__bottom {
+    justify-content: center;
+    text-align: center;
+  }
+}
 </style>
 <script>
 const SERVER_URL = (function() {
@@ -1322,8 +1123,8 @@ async function refreshState() {
   _ALL_STATE = state;
   // Owner mode = state fetch successful (server reachable + token valid)
   const newOwner = !!state;
-  if (newOwner !== _isOwner) {
-    _isOwner = newOwner;
+  if (newOwner !== window._isOwner) {
+    window._isOwner = newOwner;
     applyOwnerMode();
   }
   updateNavStatus(state);
@@ -1332,10 +1133,19 @@ async function refreshState() {
 }
 
 // ─── Owner detection (read-only mode for visitors) ───
-let _isOwner = false;
+// IMPORTANT: window._isOwner (NOT a script-scoped `let _isOwner`).  The
+// widget runtime in widgets/state.py:visibleSections() reads
+// `window._isOwner` from a separate IIFE closure, so the value MUST be
+// on the global object — a `let` at script scope is invisible across
+// closures and the private widget section never renders.
+//
+// Was: `let _isOwner = false;` — caused all private widgets (claude-
+// station, refine, code-rate, mode-pill, kill-switch, etc.) to be
+// invisible regardless of token state. Fixed 2026-05-02.
+window._isOwner = false;
 function applyOwnerMode() {
   const banner = document.getElementById("owner-banner");
-  if (_isOwner) {
+  if (window._isOwner) {
     document.body.classList.remove("read-only");
     if (banner) banner.classList.replace("show", "hide");
   } else {
@@ -1396,19 +1206,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
   const savedTheme = localStorage.getItem("ENSEMBLE_THEME") || "warm";
   applyTheme(savedTheme);
+  // Click + keyboard binding (Enter / Space). The swatches carry
+  // role="button" + tabindex="0" so keyboard users can activate them.
+  const activateOnKey = (handler) => (ev) => {
+    if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") {
+      ev.preventDefault();
+      handler.call(ev.currentTarget, ev);
+    }
+  };
   document.querySelectorAll(".theme-swatch").forEach(el => {
-    el.addEventListener("click", () => {
+    const fire = () => {
       const t = el.dataset.theme;
       localStorage.setItem("ENSEMBLE_THEME", t);
       applyTheme(t);
-    });
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
   });
 
   // Background load + bind
   const savedBg = localStorage.getItem("ENSEMBLE_BG") || "solid";
   applyBackground(savedBg);
   document.querySelectorAll(".bg-swatch").forEach(el => {
-    el.addEventListener("click", () => {
+    const fire = () => {
       const b = el.dataset.bg;
       // Custom-upload tile: open the file picker on every click.  If the
       // user already has a saved upload, clicking re-applies it without
@@ -1425,7 +1245,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       localStorage.setItem("ENSEMBLE_BG", b);
       applyBackground(b);
-    });
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
   });
 
   // Custom wallpaper upload flow.
@@ -1458,14 +1280,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Owner mode initial state — pessimistic until state fetch confirms
-  _isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
+  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
   applyOwnerMode();
 
   refreshState();
   setInterval(refreshState, 60000);
   document.querySelectorAll("[data-field]").forEach(el => {
     el.addEventListener("change", () => {
-      if (!_isOwner) return;  // belt + suspenders; backend also enforces
+      if (!window._isOwner) return;  // belt + suspenders; backend also enforces
       const field = el.dataset.field;
       let value;
       if (el.type === "checkbox") value = el.checked;
@@ -1557,6 +1379,26 @@ async function setTokenReset() {
 // First-run onboarding modal (Phase A.4-3)
 const FIRST_RUN_SEEN_KEY = "ensemble:first-run-seen";
 
+// Slot warp:flowA - advance the server-side first-run state machine.
+// Best-effort: a 401 (unpaired) or 409 (regression/skip) should not block
+// the UI flow, since the modal works even when paired-user auth is absent
+// in dev mode. Logged via console.warn so we can spot real regressions.
+async function advanceFirstRunState(step) {
+  try {
+    const r = await fetch("/first-run/advance", {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ step: step })
+    });
+    if (!r.ok && r.status !== 409 && r.status !== 401) {
+      try { console.warn("first-run advance failed", step, r.status); } catch (e) {}
+    }
+    return r.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
 function isEnsembleHomepage() {
   const p = location.pathname;
   return p.endsWith("/index.html") || p === "/" || p.endsWith("/ensemble.html");
@@ -1615,7 +1457,18 @@ async function submitFirstRunModal(ev) {
           localStorage.setItem("ensemble:generated-studio", JSON.stringify(body.studio));
         }
       } catch (e) {}
-      window.location.href = "/your-studio.html";
+      // Slot warp:flowA - record progress through the state machine.
+      // QUESTIONS marks the modal submit; CANVAS marks the genesis 200.
+      // Both happen now because /studio/generate-from-answers returned ok
+      // synchronously above; the state machine still rejects skips so we
+      // advance one step at a time.
+      await advanceFirstRunState("questions-answered");
+      await advanceFirstRunState("canvas-generated");
+      // Post-studio: route through character creator before showing the
+      // generated studio, so the visitor designs their sprite once. The
+      // creator's Save handler honors ?from=first-run and forwards on to
+      // /your-studio.html.
+      window.location.href = "/character-creator.html?from=first-run";
       return;
     }
     if (r.status === 400) {
@@ -1683,11 +1536,34 @@ function wireFirstRunModal() {
     if (e.key === "Escape" && !overlay.hidden) closeFirstRunModal();
   });
   if (isEnsembleHomepage()) {
-    let seen = "0";
-    try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
-    if (seen !== "1") {
-      setTimeout(openFirstRunModal, 200);
-    }
+    // Slot warp:flowA - returning-user fast-path. If the server says this
+    // user has already completed the first-run flow, route them directly
+    // to /studio.html without flickering through the modal.
+    fetch("/first-run/state", { headers: authHeaders() })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (state) {
+        if (state && state.is_complete) {
+          try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+          window.location.replace(state.resume_url || "/studio.html");
+          return;
+        }
+        // Not complete - either unpaired (state==null) or mid-flow.
+        // Resume URL hints at the right page; if it points to a different
+        // step, route there. Otherwise show the modal as before.
+        if (state && state.resume_url && state.resume_url !== "/index.html") {
+          window.location.replace(state.resume_url);
+          return;
+        }
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      })
+      .catch(function () {
+        // Network / unreachable - fall back to legacy localStorage gate.
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      });
   }
 }
 

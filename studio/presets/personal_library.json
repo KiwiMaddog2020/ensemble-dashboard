@@ -1,0 +1,296 @@
+{
+  "schema_version": 1,
+  "preset_metadata": {
+    "id": "personal_library",
+    "display_name": "Personal library",
+    "description": "Your reading nook. Pin the books that shape you, write the marginalia in the side panel.",
+    "thumbnail": null,
+    "natural_themes": [
+      "paper",
+      "sand",
+      "warm"
+    ],
+    "min_chats": 0,
+    "recommended_chats": 0,
+    "max_chats": 99,
+    "author": "Ensemble built-in",
+    "version": 1,
+    "is_default": false
+  },
+  "name": "Personal library",
+  "preset_origin": "personal_library",
+  "theme": null,
+  "background": null,
+  "stage": {
+    "width": 1920,
+    "height": 1080,
+    "background_layer": "stage_default",
+    "ambient_sound": null
+  },
+  "components": [
+    {
+      "id": "stage_floor",
+      "type": "svg",
+      "x": 0,
+      "y": 540,
+      "w": 1920,
+      "h": 540,
+      "z": 0,
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "rug_under_chair",
+      "type": "svg",
+      "x": 1080,
+      "y": 760,
+      "w": 600,
+      "h": 200,
+      "z": 1,
+      "props": {
+        "shape": "rect",
+        "fill_token": "accent",
+        "opacity": 0.1
+      },
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "title_eyebrow",
+      "type": "text",
+      "x": 96,
+      "y": 64,
+      "w": 600,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "PERSONAL LIBRARY",
+        "variant": "eyebrow",
+        "color_token": "accent"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "title_main",
+      "type": "text",
+      "x": 96,
+      "y": 96,
+      "w": 1000,
+      "h": 64,
+      "z": 6,
+      "props": {
+        "text": "What you're <em>reading.</em>",
+        "variant": "hero"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "title_lead",
+      "type": "text",
+      "x": 96,
+      "y": 200,
+      "w": 720,
+      "h": 56,
+      "z": 6,
+      "props": {
+        "text": "Three shelves, one chair, one window. Pin the books that built you \u2014 let visitors flip through.",
+        "variant": "body",
+        "color_token": "ink-2"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "bookshelf_left",
+      "type": "prop",
+      "x": 200,
+      "y": 440,
+      "w": 220,
+      "h": 360,
+      "z": 4,
+      "props": {
+        "sprite_id": "bookshelf",
+        "sprite_pack": "zen",
+        "label": "Shelf \u2014 fiction"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "bookshelf_center",
+      "type": "prop",
+      "x": 460,
+      "y": 440,
+      "w": 220,
+      "h": 360,
+      "z": 4,
+      "props": {
+        "sprite_id": "bookshelf",
+        "sprite_pack": "zen",
+        "label": "Shelf \u2014 essays"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "bookshelf_right",
+      "type": "prop",
+      "x": 720,
+      "y": 440,
+      "w": 220,
+      "h": 360,
+      "z": 4,
+      "props": {
+        "sprite_id": "bookshelf",
+        "sprite_pack": "zen",
+        "label": "Shelf \u2014 currently reading"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "window_high",
+      "type": "prop",
+      "x": 1380,
+      "y": 200,
+      "w": 280,
+      "h": 240,
+      "z": 3,
+      "props": {
+        "sprite_id": "window_panes",
+        "label": "Window"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "floor_lamp",
+      "type": "prop",
+      "x": 1080,
+      "y": 480,
+      "w": 96,
+      "h": 320,
+      "z": 4,
+      "props": {
+        "sprite_id": "floor_lamp",
+        "label": "Floor lamp"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "reading_chair",
+      "type": "prop",
+      "x": 1220,
+      "y": 600,
+      "w": 240,
+      "h": 240,
+      "z": 5,
+      "props": {
+        "sprite_id": "reading_chair",
+        "label": "Reading chair"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "side_table",
+      "type": "prop",
+      "x": 1500,
+      "y": 660,
+      "w": 160,
+      "h": 160,
+      "z": 4,
+      "props": {
+        "sprite_id": "side_table",
+        "label": "Side table"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "book_on_table",
+      "type": "prop",
+      "x": 1540,
+      "y": 600,
+      "w": 80,
+      "h": 80,
+      "z": 6,
+      "props": {
+        "sprite_id": "book_open",
+        "label": "What I'm reading"
+      },
+      "interaction": {
+        "type": "link",
+        "url": "",
+        "label": "Link to your reading list, Goodreads, Substack"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
+    },
+    {
+      "id": "door_back",
+      "type": "prop",
+      "x": 1740,
+      "y": 540,
+      "w": 128,
+      "h": 256,
+      "z": 3,
+      "props": {
+        "sprite_id": "door_wooden",
+        "label": "Door"
+      },
+      "interaction": {
+        "type": "link",
+        "url": "",
+        "label": "Wire this door wherever you like"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
+    },
+    {
+      "id": "footer_credit",
+      "type": "text",
+      "x": 96,
+      "y": 1020,
+      "w": 800,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "Quiet shelves, long thoughts. Made with Ensemble.",
+        "variant": "body",
+        "color_token": "ink-3"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    }
+  ],
+  "custom_css": "",
+  "custom_js": "",
+  "history_seq": 0,
+  "last_saved_at": null,
+  "visibility": "private"
+}

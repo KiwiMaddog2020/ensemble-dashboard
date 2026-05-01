@@ -5,7 +5,12 @@
     "display_name": "Game arcade",
     "description": "Five arcade cabinets ready to wire to your real games. Click-to-launch lands in Phase A.2 — for now, this is the visual scaffold.",
     "thumbnail": null,
-    "natural_themes": ["midnight", "cobalt", "aurora", "warm"],
+    "natural_themes": [
+      "midnight",
+      "cobalt",
+      "aurora",
+      "warm"
+    ],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,
@@ -26,67 +31,94 @@
     {
       "id": "stage_floor",
       "type": "svg",
-      "x": 0, "y": 540,
-      "w": 1920, "h": 540,
+      "x": 0,
+      "y": 540,
+      "w": 1920,
+      "h": 540,
       "z": 0,
       "props": {
         "shape": "stage_floor",
         "fill_token": "bg-sunken"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "carpet_strip",
       "type": "svg",
-      "x": 0, "y": 720,
-      "w": 1920, "h": 4,
+      "x": 0,
+      "y": 720,
+      "w": 1920,
+      "h": 4,
       "z": 1,
       "props": {
         "shape": "rect",
         "fill_token": "accent"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_eyebrow",
       "type": "text",
-      "x": 96, "y": 64,
-      "w": 600, "h": 24,
+      "x": 96,
+      "y": 64,
+      "w": 600,
+      "h": 24,
       "z": 6,
       "props": {
         "text": "GAME ROOM",
         "variant": "eyebrow",
         "color_token": "accent"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_main",
       "type": "text",
-      "x": 96, "y": 96,
-      "w": 1000, "h": 64,
+      "x": 96,
+      "y": 96,
+      "w": 1000,
+      "h": 64,
       "z": 6,
       "props": {
         "text": "Pick your <em>poison.</em>",
         "variant": "hero"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_lead",
       "type": "text",
-      "x": 96, "y": 200,
-      "w": 800, "h": 56,
+      "x": 96,
+      "y": 200,
+      "w": 800,
+      "h": 56,
       "z": 6,
       "props": {
-        "text": "Five cabinets. Each wired to a real game in Phase A.2 — paste any itch.io / GitHub-Pages / Vercel URL and visitors play it inside the room.",
+        "text": "Five cabinets. Each wired to a real game in Phase A.2 — paste any itch.io / GitHub-Pages / Vercel URL and visitors play it inside the canvas.",
         "variant": "body",
         "color_token": "ink-2"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "cabinet_1",
       "type": "prop",
-      "x": 240, "y": 540,
-      "w": 128, "h": 192,
+      "x": 240,
+      "y": 540,
+      "w": 128,
+      "h": 192,
       "z": 5,
       "props": {
         "sprite_id": "arcade_classic",
@@ -96,25 +128,35 @@
         "type": "launch",
         "url": "https://adarkroom.doublespeakgames.com/",
         "label": "Play A Dark Room"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
     },
     {
       "id": "cabinet_label_1",
       "type": "text",
-      "x": 220, "y": 740,
-      "w": 168, "h": 24,
+      "x": 220,
+      "y": 740,
+      "w": 168,
+      "h": 24,
       "z": 6,
       "props": {
         "text": "A Dark Room",
         "variant": "body",
         "color_token": "ink-2"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "cabinet_2",
       "type": "prop",
-      "x": 540, "y": 504,
-      "w": 160, "h": 192,
+      "x": 540,
+      "y": 504,
+      "w": 160,
+      "h": 192,
       "z": 5,
       "props": {
         "sprite_id": "arcade_pinball",
@@ -124,25 +166,35 @@
         "type": "launch",
         "url": "https://play2048.co/",
         "label": "Play 2048"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
     },
     {
       "id": "cabinet_label_2",
       "type": "text",
-      "x": 530, "y": 704,
-      "w": 184, "h": 24,
+      "x": 530,
+      "y": 704,
+      "w": 184,
+      "h": 24,
       "z": 6,
       "props": {
         "text": "2048",
         "variant": "body",
         "color_token": "ink-2"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "cabinet_3",
       "type": "prop",
-      "x": 880, "y": 540,
-      "w": 160, "h": 192,
+      "x": 880,
+      "y": 540,
+      "w": 160,
+      "h": 192,
       "z": 5,
       "props": {
         "sprite_id": "arcade_racing",
@@ -152,25 +204,35 @@
         "type": "launch",
         "url": "https://chvin.github.io/react-tetris/",
         "label": "Play Tetris"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
     },
     {
       "id": "cabinet_label_3",
       "type": "text",
-      "x": 870, "y": 740,
-      "w": 184, "h": 24,
+      "x": 870,
+      "y": 740,
+      "w": 184,
+      "h": 24,
       "z": 6,
       "props": {
         "text": "Tetris",
         "variant": "body",
         "color_token": "ink-2"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "cabinet_4",
       "type": "prop",
-      "x": 1200, "y": 540,
-      "w": 160, "h": 192,
+      "x": 1200,
+      "y": 540,
+      "w": 160,
+      "h": 192,
       "z": 5,
       "props": {
         "sprite_id": "arcade_cocktail",
@@ -180,25 +242,35 @@
         "type": "launch",
         "url": "https://bunchofothers.com/",
         "label": "Play BOO Arcade · 7 HTML5 games"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
     },
     {
       "id": "cabinet_label_4",
       "type": "text",
-      "x": 1190, "y": 740,
-      "w": 184, "h": 24,
+      "x": 1190,
+      "y": 740,
+      "w": 184,
+      "h": 24,
       "z": 6,
       "props": {
         "text": "BOO Arcade",
         "variant": "body",
         "color_token": "ink-2"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "cabinet_5",
       "type": "prop",
-      "x": 1540, "y": 540,
-      "w": 128, "h": 192,
+      "x": 1540,
+      "y": 540,
+      "w": 128,
+      "h": 192,
       "z": 5,
       "props": {
         "sprite_id": "arcade_claw",
@@ -208,25 +280,35 @@
         "type": "launch",
         "url": "https://kiwimaddog2020.github.io/ensemble-dashboard/",
         "label": "Open the live PWA"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
     },
     {
       "id": "cabinet_label_5",
       "type": "text",
-      "x": 1520, "y": 740,
-      "w": 168, "h": 24,
+      "x": 1520,
+      "y": 740,
+      "w": 168,
+      "h": 24,
       "z": 6,
       "props": {
         "text": "Ensemble (meta)",
         "variant": "body",
         "color_token": "ink-2"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "info_sign",
       "type": "prop",
-      "x": 96, "y": 540,
-      "w": 96, "h": 144,
+      "x": 96,
+      "y": 540,
+      "w": 96,
+      "h": 144,
       "z": 5,
       "props": {
         "sprite_id": "info_sign",
@@ -235,14 +317,19 @@
       "interaction": {
         "type": "read",
         "label": "About this arcade",
-        "markdown": "## Welcome to the *arcade*.\n\nFive cabinets. Each wired to a real running thing.\n\nClick a cabinet to play the game inline. Click the speaker to hear what's playing. Click this sign — you already did.\n\n### How it works\n\nEvery sprite in your Studio Room can be wired to one of four interactions:\n\n- **Click-to-launch** — load a sandboxed iframe with a real app inside.\n- **Click-to-link** — open a URL in a new tab.\n- **Click-to-embed** — show an inline media player (YouTube, Vimeo, SoundCloud, Bandcamp).\n- **Click-to-read** — slide in a long-form panel like this one.\n\n### Customize this\n\nIn Phase A.3 (edit mode coming soon), you'll be able to drag sprites onto your stage, wire them to your own URLs, and ask Claude to author new components. Until then, this preset is your demo.\n\n*Linktree is a list of links — Ensemble is a place.*"
-      }
+        "markdown": "## Welcome to the *arcade*.\n\nFive cabinets. Each wired to a real running thing.\n\nClick a cabinet to play the game inline. Click the speaker to hear what's playing. Click this sign — you already did.\n\n### How it works\n\nEvery sprite in your canvas can be wired to one of four interactions:\n\n- **Click-to-launch** — load a sandboxed iframe with a real app inside.\n- **Click-to-link** — open a URL in a new tab.\n- **Click-to-embed** — show an inline media player (YouTube, Vimeo, SoundCloud, Bandcamp).\n- **Click-to-read** — slide in a long-form panel like this one.\n\n### Customize this\n\nIn Phase A.3 (edit mode coming soon), you'll be able to drag sprites onto your stage, wire them to your own URLs, and ask Claude to author new components. Until then, this preset is your demo.\n\n*Linktree is a list of links — Ensemble is a place.*"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
     },
     {
       "id": "speaker_prop",
       "type": "prop",
-      "x": 1750, "y": 540,
-      "w": 96, "h": 144,
+      "x": 1750,
+      "y": 540,
+      "w": 96,
+      "h": 144,
       "z": 5,
       "props": {
         "sprite_id": "speaker",
@@ -252,25 +339,35 @@
         "type": "embed",
         "url": "https://www.youtube.com/watch?v=jfKfPfyJRdk",
         "label": "lofi hip hop radio (24/7)"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
     },
     {
       "id": "speaker_label",
       "type": "text",
-      "x": 1730, "y": 700,
-      "w": 144, "h": 24,
+      "x": 1730,
+      "y": 700,
+      "w": 144,
+      "h": 24,
       "z": 6,
       "props": {
         "text": "Now playing",
         "variant": "body",
         "color_token": "ink-2"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "footer_credit",
       "type": "text",
-      "x": 96, "y": 1000,
-      "w": 800, "h": 24,
+      "x": 96,
+      "y": 1000,
+      "w": 800,
+      "h": 24,
       "z": 6,
       "props": {
         "text": "Made with Ensemble — the studio for vibe coders.",
@@ -281,7 +378,10 @@
         "type": "link",
         "url": "https://kiwimaddog2020.github.io/ensemble-dashboard/",
         "label": "Open Ensemble"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": true
     }
   ],
   "custom_css": "",

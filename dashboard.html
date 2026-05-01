@@ -10,7 +10,9 @@
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" id="favicon" type="image/svg+xml" href="./icon.svg" />
-<link rel="apple-touch-icon" id="apple-touch-icon" href="./icon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png" />
+<link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="Ensemble" />
@@ -32,7 +34,7 @@
 }
 .cookie-banner[hidden] { display: none; }
 .cookie-banner__inner {
-  max-width: 1080px;
+  max-width: var(--w-app);
   margin: 0 auto;
   padding: 14px 22px;
   display: flex; align-items: center; justify-content: space-between;
@@ -174,162 +176,304 @@
     <div class="dash-toolbar">
       <span class="dash-toolbar__hint" id="dash-hint">Welcome — your default layout is below. Click <strong>Edit Dashboard</strong> to customize.</span>
       <div class="widget__row">
-        <button class="btn-reset-layout" id="btn-reset-dash" data-owner-only style="display:none;">Reset Layout</button>
-        <button class="btn-edit-dashboard" id="btn-edit-dash" data-owner-only>Edit Dashboard</button>
+        <button class="btn btn--secondary btn-reset-layout" id="btn-reset-dash" data-owner-only style="display:none;">Reset Layout</button>
+        <button class="btn btn--secondary btn-edit-dashboard" id="btn-edit-dash" data-owner-only>Edit Dashboard</button>
       </div>
     </div>
     <div id="warp-progress-widget" data-active="1">
-<section class="warp-progress" data-stamp="20260429T203424Z">
-  <header class="warp-progress__head">
-    <h3>Warp <span class="warp-progress__stamp">20260429T203424Z</span></h3>
-    <span class="warp-progress__meta">3 slots · 3h 18m</span>
+<article class="warp-card is-active" data-stamp="20260501T191634Z" aria-labelledby="warp-20260501T191634Z-title">
+  <header class="warp-card__head">
+    <div class="warp-card__brand">
+      <span class="warp-card__icon" aria-hidden="true">✦</span>
+      <span class="warp-card__mode-label">WARP MODE</span>
+      <span class="warp-card__sep" aria-hidden="true">·</span>
+      <span class="warp-card__project">Ensemble</span>
+    </div>
+    <span class="warp-card__elapsed">3h 38m</span>
   </header>
-  <ul class="warp-progress__slots">
-<li class="warp-slot warp-slot--running" data-slot="a" data-pct="10" aria-label="slot a in progress">
-  <span class="warp-slot__id">a</span>
-  <span class="warp-slot__stats">2 files · 0 commits · ~10%</span>
-  <span class="warp-slot__bar"><span class="warp-slot__fill" style="width:10%"></span></span>
-  <span class="warp-slot__event">progress: heartbeat</span>
-  <span class="warp-slot__model">claude-opus-4-7</span>
+  <div class="warp-card__hyperdrive" aria-hidden="true"></div>
+  <div class="warp-card__status">
+    <h3 class="warp-card__title" id="warp-20260501T191634Z-title">3/3 slots</h3>
+    <p class="warp-card__sub">Working · 3 of 3 active</p>
+  </div>
+  <ul class="warp-card__tasks">
+<li class="warp-task warp-task--running" data-slot="a" data-pct="0" aria-label="Slot a running">
+  <span class="warp-task__dot" aria-hidden="true"></span>
+  <span class="warp-task__slot-id" aria-hidden="true">A</span>
+  <span class="warp-task__label">Working</span>
+  <span class="warp-task__bar" aria-hidden="true"><span class="warp-task__fill" style="width:0%"></span></span>
+  <span class="warp-task__tech">~0% · claude-opus-4-7</span>
 </li>
-<li class="warp-slot warp-slot--running" data-slot="b" data-pct="15" aria-label="slot b in progress">
-  <span class="warp-slot__id">b</span>
-  <span class="warp-slot__stats">3 files · 0 commits · ~15%</span>
-  <span class="warp-slot__bar"><span class="warp-slot__fill" style="width:15%"></span></span>
-  <span class="warp-slot__event">progress: heartbeat</span>
-  <span class="warp-slot__model">claude-opus-4-7</span>
+<li class="warp-task warp-task--running" data-slot="b" data-pct="20" aria-label="Slot b running">
+  <span class="warp-task__dot" aria-hidden="true"></span>
+  <span class="warp-task__slot-id" aria-hidden="true">B</span>
+  <span class="warp-task__label">Working</span>
+  <span class="warp-task__bar" aria-hidden="true"><span class="warp-task__fill" style="width:20%"></span></span>
+  <span class="warp-task__tech">4 files · 0 commits · ~20% · claude-opus-4-7</span>
 </li>
-<li class="warp-slot warp-slot--running" data-slot="c" data-pct="25" aria-label="slot c in progress">
-  <span class="warp-slot__id">c</span>
-  <span class="warp-slot__stats">2 files · 2 commits · ~25%</span>
-  <span class="warp-slot__bar"><span class="warp-slot__fill" style="width:25%"></span></span>
-  <span class="warp-slot__event">progress: heartbeat</span>
-  <span class="warp-slot__model">claude-opus-4-7</span>
+<li class="warp-task warp-task--running" data-slot="c" data-pct="0" aria-label="Slot c running">
+  <span class="warp-task__dot" aria-hidden="true"></span>
+  <span class="warp-task__slot-id" aria-hidden="true">C</span>
+  <span class="warp-task__label">Working</span>
+  <span class="warp-task__bar" aria-hidden="true"><span class="warp-task__fill" style="width:0%"></span></span>
+  <span class="warp-task__tech">~0% · claude-opus-4-7</span>
 </li>
   </ul>
-  <footer class="warp-progress__foot">
-    <span class="warp-progress__last">Last event: <em>progress: heartbeat</em></span>
-  </footer>
-</section>
-<section class="warp-progress" data-stamp="20260429T203423Z">
-  <header class="warp-progress__head">
-    <h3>Warp <span class="warp-progress__stamp">20260429T203423Z</span></h3>
-    <span class="warp-progress__meta">3 slots · 3h 18m</span>
-  </header>
-  <ul class="warp-progress__slots">
-<li class="warp-slot warp-slot--running" data-slot="a" data-pct="20" aria-label="slot a in progress">
-  <span class="warp-slot__id">a</span>
-  <span class="warp-slot__stats">4 files · 0 commits · ~20%</span>
-  <span class="warp-slot__bar"><span class="warp-slot__fill" style="width:20%"></span></span>
-  <span class="warp-slot__event">progress: heartbeat</span>
-  <span class="warp-slot__model">claude-opus-4-7</span>
-</li>
-<li class="warp-slot warp-slot--running" data-slot="b" data-pct="0" aria-label="slot b in progress">
-  <span class="warp-slot__id">b</span>
-  <span class="warp-slot__stats">0 files · 0 commits · ~0%</span>
-  <span class="warp-slot__bar"><span class="warp-slot__fill" style="width:0%"></span></span>
-  <span class="warp-slot__event">progress: heartbeat</span>
-  <span class="warp-slot__model">claude-opus-4-7</span>
-</li>
-<li class="warp-slot warp-slot--running" data-slot="c" data-pct="10" aria-label="slot c in progress">
-  <span class="warp-slot__id">c</span>
-  <span class="warp-slot__stats">2 files · 0 commits · ~10%</span>
-  <span class="warp-slot__bar"><span class="warp-slot__fill" style="width:10%"></span></span>
-  <span class="warp-slot__event">progress: heartbeat</span>
-  <span class="warp-slot__model">claude-opus-4-7</span>
-</li>
-  </ul>
-  <footer class="warp-progress__foot">
-    <span class="warp-progress__last">Last event: <em>progress: heartbeat</em></span>
-  </footer>
-</section>
-<section class="warp-progress" data-stamp="20260428T162156Z">
-  <header class="warp-progress__head">
-    <h3>Warp <span class="warp-progress__stamp">20260428T162156Z</span></h3>
-    <span class="warp-progress__meta">1 slots · 31h 28m</span>
-  </header>
-  <ul class="warp-progress__slots">
-<li class="warp-slot warp-slot--running" data-slot="b" data-pct="0" aria-label="slot b in progress">
-  <span class="warp-slot__id">b</span>
-  <span class="warp-slot__stats">0 files · 0 commits · ~0%</span>
-  <span class="warp-slot__bar"><span class="warp-slot__fill" style="width:0%"></span></span>
-  <span class="warp-slot__event">queued</span>
-  
-</li>
-  </ul>
-  <footer class="warp-progress__foot">
-    <span class="warp-progress__last">Last event: <em>—</em></span>
-  </footer>
-</section>
+  <details class="warp-card__details">
+    <summary class="warp-card__details-summary">Technical details</summary>
+    <dl class="warp-card__details-list">
+      <dt>Run ID</dt><dd><code>20260501T191634Z</code></dd>
+      <dt>Started</dt><dd>2026-05-01T19:18:30Z</dd>
+      <dt>Tasks</dt><dd>3</dd>
+    </dl>
+  </details>
+</article>
 </div>
 <style>
 #warp-progress-widget[hidden] { display: none !important; }
-.warp-progress {
-  margin: 0 0 1em 0; padding: 12px 16px;
-  border: 1px solid var(--border, #2a2a2a);
-  border-radius: 8px;
-  background: var(--surface, #161616);
-  font-size: 14px;
+#warp-progress-widget {
+  display: flex; flex-direction: column; gap: var(--space-3, 12px);
+  margin: 0 0 var(--space-5, 24px);
 }
-.warp-progress__head {
-  display: flex; justify-content: space-between; align-items: baseline;
-  margin-bottom: 8px;
-}
-.warp-progress__head h3 { margin: 0; font-size: 15px; font-weight: 600; }
-.warp-progress__stamp { font-family: ui-monospace, monospace; opacity: 0.7; }
-.warp-progress__meta { font-size: 12px; opacity: 0.7; }
-.warp-progress__slots {
-  list-style: none; margin: 0; padding: 0;
-  display: grid; gap: 6px;
-}
-.warp-slot {
-  display: grid;
-  grid-template-columns: 22px 1fr 120px;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 0;
-  font-family: ui-monospace, monospace;
-  font-size: 13px;
-}
-.warp-slot__id {
-  font-weight: 700;
-  background: var(--accent, #4080ff);
-  color: #fff;
-  text-align: center;
-  border-radius: 3px;
-  padding: 1px 0;
-}
-.warp-slot--checkmark .warp-slot__id { background: #2a8c2a; }
-.warp-slot--error .warp-slot__id { background: #b03030; }
-.warp-slot__stats { opacity: 0.85; }
-.warp-slot__bar {
+.warp-card {
   position: relative;
-  display: block;
-  height: 6px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 3px;
-  grid-column: 1 / -1;
+  background: var(--bg-raised, #161616);
+  border: 1px solid var(--rule, #2a2a2a);
+  border-radius: var(--r-md, 12px);
+  padding: var(--space-4, 16px) var(--space-5, 24px);
+  font-family: var(--sans, -apple-system, BlinkMacSystemFont, sans-serif);
+  color: var(--ink, inherit);
+  overflow: hidden;
+  transition: border-color 240ms var(--ease, ease), box-shadow 240ms var(--ease, ease);
+}
+.warp-card.is-active {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--rule));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent),
+              0 12px 32px color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+/* Header: WARP MODE · ENSEMBLE  /  elapsed  ─ feature-branded, monospace label */
+.warp-card__head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-3, 12px);
+  margin-bottom: var(--space-3, 12px);
+}
+.warp-card__brand {
+  display: inline-flex; align-items: baseline; gap: var(--space-2, 8px);
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: var(--fs-12, 12px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.warp-card__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: var(--fs-16, 16px);
+  color: var(--accent);
+  font-family: var(--serif, "EB Garamond", Georgia, serif);
+  font-style: normal;
+  line-height: 1;
+}
+.warp-card.is-active .warp-card__icon {
+  animation: warp-icon-pulse 2.4s ease-in-out infinite;
+}
+.warp-card__mode-label {
+  color: var(--accent);
+  font-weight: 600;
+}
+.warp-card__sep {
+  color: var(--ink-4, #a8a193);
+  font-weight: 400;
+}
+.warp-card__project {
+  color: var(--ink, currentColor);
+  font-weight: 500;
+}
+.warp-card__elapsed {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-3, #6e6657);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+/* Hyperdrive line ─ animated gradient bar conveying "warp speed" energy.
+   Only animates while active; idle shows a static accent rule. */
+.warp-card__hyperdrive {
+  position: relative;
+  height: 2px;
+  margin: 0 0 var(--space-3, 12px);
+  background: var(--rule-2, var(--rule));
+  border-radius: 2px;
   overflow: hidden;
 }
-.warp-slot__fill {
+.warp-card.is-active .warp-card__hyperdrive {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 30%,
+    color-mix(in srgb, var(--accent) 70%, white) 50%,
+    var(--accent) 70%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: warp-hyperdrive 1.6s linear infinite;
+}
+@keyframes warp-hyperdrive {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes warp-icon-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.7; transform: scale(1.12); }
+}
+
+/* Status block under the hyperdrive: large slot-count + plain-English status */
+.warp-card__status {
+  margin-bottom: var(--space-4, 16px);
+}
+.warp-card__title {
+  margin: 0;
+  font-family: var(--serif, "EB Garamond", Georgia, serif);
+  font-size: var(--fs-22, 22px);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+.warp-card__sub {
+  margin: 4px 0 0;
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-3, #6e6657);
+  font-weight: 400;
+}
+.warp-card__tasks {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid; gap: var(--space-2, 8px);
+}
+.warp-task {
+  display: grid;
+  grid-template-columns: 14px 28px 1fr auto;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-2, 8px) 0;
+  font-size: var(--fs-14, 14px);
+  border-top: 1px solid var(--rule-2, var(--rule));
+}
+.warp-task:first-child { border-top: 0; }
+.warp-task__slot-id {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: var(--fs-12, 11px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink-3, #6e6657);
+  text-align: center;
+  padding: 2px 0;
+  background: var(--bg-sunken, var(--bg));
+  border-radius: var(--r-sm, 4px);
+  line-height: 1;
+}
+.warp-task--running .warp-task__slot-id {
+  background: var(--accent-soft, rgba(192,113,31,0.10));
+  color: var(--accent);
+}
+.warp-task--done .warp-task__slot-id {
+  background: color-mix(in srgb, var(--success, #16a34a) 12%, transparent);
+  color: var(--success, #16a34a);
+}
+.warp-task--stopped .warp-task__slot-id {
+  background: color-mix(in srgb, var(--danger, #dc2626) 12%, transparent);
+  color: var(--danger, #dc2626);
+}
+.warp-task__dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--ink-4, #a8a193);
+  flex-shrink: 0;
+}
+.warp-task--running .warp-task__dot {
+  background: var(--accent, #c2711f);
+  animation: warp-task-pulse 1.6s ease-in-out infinite;
+}
+.warp-task--queued .warp-task__dot {
+  background: var(--ink-4, #a8a193);
+}
+.warp-task--done .warp-task__dot {
+  background: var(--success, #16a34a);
+}
+.warp-task--stopped .warp-task__dot {
+  background: var(--danger, #dc2626);
+}
+@keyframes warp-task-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(0.85); }
+}
+.warp-task__label {
+  color: var(--ink, currentColor);
+  font-weight: 500;
+}
+.warp-task--queued .warp-task__label { color: var(--ink-3, #6e6657); }
+.warp-task__bar {
+  position: relative;
+  width: 80px; height: 4px;
+  background: var(--bg-sunken, rgba(0,0,0,0.06));
+  border-radius: 2px;
+  overflow: hidden;
+  grid-column: 2 / 3;
+  justify-self: end;
+}
+.warp-task__fill {
   display: block; height: 100%;
-  background: var(--accent, #4080ff);
+  background: var(--accent, #c2711f);
   transition: width 0.4s ease;
 }
-.warp-slot--checkmark .warp-slot__fill { background: #2a8c2a; }
-.warp-slot--error .warp-slot__fill { background: #b03030; }
-.warp-slot__event {
-  font-size: 12px; opacity: 0.7;
-  grid-column: 1 / -1;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+.warp-task__tech {
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-4, #a8a193);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
-.warp-slot__model {
-  font-size: 11px; opacity: 0.5;
-  grid-column: 1 / -1;
+.warp-card__details {
+  margin-top: var(--space-3, 12px);
+  border-top: 1px solid var(--rule-2, #f0ead9);
+  padding-top: var(--space-3, 12px);
 }
-.warp-progress__foot {
-  margin-top: 8px;
-  font-size: 12px; opacity: 0.7;
+.warp-card__details-summary {
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-3, #6e6657);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.warp-card__details-summary::-webkit-details-marker { display: none; }
+.warp-card__details-summary::after {
+  content: "▾";
+  display: inline-block;
+  font-size: 10px;
+  transition: transform 0.2s ease;
+  color: var(--ink-4);
+}
+.warp-card__details[open] .warp-card__details-summary::after { transform: rotate(180deg); }
+.warp-card__details-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px var(--space-3, 12px);
+  margin: var(--space-2, 8px) 0 0;
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-3);
+}
+.warp-card__details-list dt { color: var(--ink-4); font-weight: 500; }
+.warp-card__details-list dd { margin: 0; color: var(--ink-2); }
+.warp-card__details-list code {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 11px;
+  color: var(--ink-3);
+}
+@media (prefers-reduced-motion: reduce) {
+  .warp-task--running .warp-task__dot { animation: none; }
+  .warp-task__fill { transition: none; }
 }
 </style>
 <script>
@@ -340,21 +484,52 @@
   var poll;
   function escape(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
-      return ({"&":"&amp;","<":"&lt;",">":"&gt;",""":"&quot;","'":"&#39;"})[c];
+      return ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c];
     });
   }
+  var FRIENDLY = {
+    queued: "Queued", spawned: "Starting up", heartbeat: "Working",
+    progress: "Working", files_modified: "Editing files",
+    commit: "Committing", test_run: "Running tests",
+    report_written: "Wrapping up", completed: "Done",
+    errored: "Stopped", timeout: "Timed out"
+  };
+  function friendly(raw) {
+    if (!raw) return "Working";
+    var head = String(raw).toLowerCase().split(":")[0].trim();
+    if (FRIENDLY[head]) return FRIENDLY[head];
+    return head.replace(/_/g, " ").replace(/\b\w/, function(c){return c.toUpperCase();}) || "Working";
+  }
+  function statusFor(rollup) {
+    if (rollup.completed) return "done";
+    if (rollup.errored || rollup.terminal) return "stopped";
+    var ev = (rollup.last_event || "").toLowerCase();
+    if (!ev || ev.indexOf("queued") >= 0) return "queued";
+    return "running";
+  }
   function ensureStampBlock(stamp) {
-    var block = root.querySelector('.warp-progress[data-stamp="' + stamp + '"]');
+    var block = root.querySelector('.warp-card[data-stamp="' + stamp + '"]');
     if (!block) {
-      block = document.createElement("section");
-      block.className = "warp-progress";
+      block = document.createElement("article");
+      block.className = "warp-card is-active";
       block.setAttribute("data-stamp", stamp);
       block.innerHTML = (
-        '<header class="warp-progress__head"><h3>Warp <span class="warp-progress__stamp">'
-        + escape(stamp)
-        + '</span></h3><span class="warp-progress__meta">live</span></header>'
-        + '<ul class="warp-progress__slots"></ul>'
-        + '<footer class="warp-progress__foot"><span class="warp-progress__last">Last event: <em>—</em></span></footer>'
+        '<header class="warp-card__head">'
+        + '<div class="warp-card__brand">'
+        + '<span class="warp-card__icon" aria-hidden="true">✦</span>'
+        + '<span class="warp-card__mode-label">WARP MODE</span>'
+        + '<span class="warp-card__sep" aria-hidden="true">·</span>'
+        + '<span class="warp-card__project">Ensemble</span>'
+        + '</div>'
+        + '<span class="warp-card__elapsed">just started</span>'
+        + '</header>'
+        + '<div class="warp-card__hyperdrive" aria-hidden="true"></div>'
+        + '<div class="warp-card__status">'
+        + '<h3 class="warp-card__title">— slots</h3>'
+        + '<p class="warp-card__sub">Starting up</p>'
+        + '</div>'
+        + '<ul class="warp-card__tasks"></ul>'
+        + '<details class="warp-card__details"><summary class="warp-card__details-summary">Technical details</summary><dl class="warp-card__details-list"><dt>Run ID</dt><dd><code>' + escape(stamp) + '</code></dd></dl></details>'
       );
       root.appendChild(block);
       root.setAttribute("data-active", "1");
@@ -362,86 +537,142 @@
     }
     return block;
   }
-  function ensureSlotRow(block, slot) {
-    var ul = block.querySelector(".warp-progress__slots");
-    var row = ul.querySelector('.warp-slot[data-slot="' + slot + '"]');
+  function ensureTaskRow(block, slot) {
+    var ul = block.querySelector(".warp-card__tasks");
+    var row = ul.querySelector('.warp-task[data-slot="' + slot + '"]');
     if (!row) {
       row = document.createElement("li");
-      row.className = "warp-slot warp-slot--running";
+      row.className = "warp-task warp-task--queued";
       row.setAttribute("data-slot", slot);
       row.innerHTML = (
-        '<span class="warp-slot__id">' + escape(slot) + '</span>'
-        + '<span class="warp-slot__stats">0 files · 0 commits · ~0%</span>'
-        + '<span class="warp-slot__bar"><span class="warp-slot__fill" style="width:0%"></span></span>'
-        + '<span class="warp-slot__event"></span>'
+        '<span class="warp-task__dot" aria-hidden="true"></span>'
+        + '<span class="warp-task__slot-id" aria-hidden="true">' + escape(String(slot).toUpperCase()) + '</span>'
+        + '<span class="warp-task__label">Queued</span>'
+        + '<span class="warp-task__tech">~0%</span>'
       );
       ul.appendChild(row);
     }
     return row;
   }
-  function applyEvent(ev) {
-    if (!ev || !ev.stamp || !ev.slot) return;
-    var block = ensureStampBlock(ev.stamp);
-    var row = ensureSlotRow(block, ev.slot);
-    var meta = ev.metadata || {};
-    var pct = Math.max(0, Math.min(100, parseInt(meta.estimated_completion_pct || 0, 10) || 0));
-    if (ev.event === "completed") pct = 100;
-    var files = parseInt(meta.files_modified || 0, 10) || 0;
-    var commits = parseInt(meta.commits_so_far || 0, 10) || 0;
-    row.querySelector(".warp-slot__stats").textContent = files + " files · " + commits + " commits · ~" + pct + "%";
-    row.querySelector(".warp-slot__fill").style.width = pct + "%";
-    var msg = (ev.event || "") + (ev.message ? ": " + ev.message : "");
-    row.querySelector(".warp-slot__event").textContent = msg;
-    row.classList.remove("warp-slot--running", "warp-slot--checkmark", "warp-slot--error");
-    if (ev.event === "completed") row.classList.add("warp-slot--checkmark");
-    else if (ev.event === "errored") row.classList.add("warp-slot--error");
-    else row.classList.add("warp-slot--running");
-    var foot = block.querySelector(".warp-progress__last em");
-    if (foot) foot.textContent = ev.slot + " " + msg;
+  function applyRollup(stamp, slot, r) {
+    var block = ensureStampBlock(stamp);
+    var row = ensureTaskRow(block, slot);
+    var status = statusFor(r);
+    row.className = "warp-task warp-task--" + status;
+    var label = friendly(r.last_event || "");
+    if (status === "done") label = "Done ✓";
+    else if (status === "stopped") label = "Stopped";
+    else if (status === "queued") label = "Queued";
+    var pct = Math.max(0, Math.min(100, Math.round(Number(r.estimated_completion_pct || 0))));
+    var files = Number(r.files_modified || 0);
+    var commits = Number(r.commits_so_far || 0);
+    var techParts = [];
+    if (files || commits) {
+      techParts.push(files + " file" + (files !== 1 ? "s" : ""));
+      techParts.push(commits + " commit" + (commits !== 1 ? "s" : ""));
+    }
+    techParts.push("~" + pct + "%");
+    if (r.model) techParts.push(r.model);
+    var bar = (status === "running")
+      ? '<span class="warp-task__bar" aria-hidden="true"><span class="warp-task__fill" style="width:' + pct + '%"></span></span>'
+      : '';
+    row.innerHTML = (
+      '<span class="warp-task__dot" aria-hidden="true"></span>'
+      + '<span class="warp-task__slot-id" aria-hidden="true">' + escape(String(slot).toUpperCase()) + '</span>'
+      + '<span class="warp-task__label">' + escape(label) + '</span>'
+      + bar
+      + '<span class="warp-task__tech">' + escape(techParts.join(" · ")) + '</span>'
+    );
+  }
+  function refreshStampSummary(stamp) {
+    var block = root.querySelector('.warp-card[data-stamp="' + stamp + '"]');
+    if (!block) return;
+    var rows = block.querySelectorAll(".warp-task");
+    var counts = { running: 0, queued: 0, done: 0, stopped: 0 };
+    rows.forEach(function (r) {
+      var cls = r.className;
+      if (cls.indexOf("warp-task--running") >= 0) counts.running++;
+      else if (cls.indexOf("warp-task--queued") >= 0) counts.queued++;
+      else if (cls.indexOf("warp-task--done") >= 0) counts.done++;
+      else if (cls.indexOf("warp-task--stopped") >= 0) counts.stopped++;
+    });
+    var total = counts.running + counts.queued + counts.done + counts.stopped;
+    var status = "Idle";
+    if (counts.running > 0) {
+      status = total === 1 ? "Working" : ("Working · " + counts.running + " of " + total + " active");
+    } else if (counts.queued > 0 && counts.done + counts.stopped === 0) {
+      status = "Queued · " + total + " task" + (total !== 1 ? "s" : "");
+    } else if (counts.stopped > 0 && counts.done === 0) {
+      status = "Stopped · " + counts.stopped + " of " + total + " didn't finish";
+    } else if (counts.stopped > 0) {
+      status = "Finished · " + counts.done + " done, " + counts.stopped + " stopped";
+    } else if (counts.done > 0) {
+      status = "Finished · " + counts.done + " of " + total + " done";
+    }
+    var sub = block.querySelector(".warp-card__sub");
+    if (sub) sub.textContent = status;
+    // Toggle is-active for the hyperdrive animation + accent glow
+    if (counts.running > 0) {
+      block.classList.add("is-active");
+    } else {
+      block.classList.remove("is-active");
+    }
+    // Update the slot-count title (e.g. "2/3 slots")
+    var title = block.querySelector(".warp-card__title");
+    if (title) {
+      title.textContent = (counts.running + counts.queued) + "/" + total + " slot" + (total !== 1 ? "s" : "");
+    }
   }
   function openStream(stamp) {
     if (streams[stamp]) return;
-    var es = new EventSource("/warp/" + encodeURIComponent(stamp) + "/progress");
-    streams[stamp] = es;
-    es.onmessage = function (m) {
+    var src;
+    try {
+      src = new EventSource("/warp/" + encodeURIComponent(stamp) + "/progress");
+    } catch (e) { return; }
+    streams[stamp] = src;
+    src.addEventListener("rollup", function (ev) {
       try {
-        var ev = JSON.parse(m.data);
-        applyEvent(ev);
-      } catch (_) {}
-    };
-    es.addEventListener("close", function () {
-      es.close();
-      delete streams[stamp];
-    });
-    es.onerror = function () {
-      es.close();
-      delete streams[stamp];
-    };
-  }
-  function refreshActive() {
-    fetch("/warp/active").then(function (r) { return r.ok ? r.json() : { active_stamps: [] }; })
-      .then(function (data) {
-        var active = (data && data.active_stamps) || [];
-        if (!active.length) {
-          if (Object.keys(streams).length === 0) {
-            root.setAttribute("data-active", "0");
-            root.setAttribute("hidden", "");
-          }
-          return;
+        var r = JSON.parse(ev.data);
+        if (r && r.stamp && r.slot) {
+          applyRollup(r.stamp, r.slot, r);
+          refreshStampSummary(r.stamp);
         }
-        active.forEach(function (entry) { openStream(entry.stamp); });
-        root.setAttribute("data-active", "1");
-        root.removeAttribute("hidden");
+      } catch (e) {}
+    });
+    src.addEventListener("close", function () { src.close(); delete streams[stamp]; });
+    src.onerror = function () { src.close(); delete streams[stamp]; };
+  }
+  function discoverActive() {
+    fetch("/warp/active", { headers: { "Accept": "application/json" } })
+      .then(function (r) { return r.ok ? r.json() : { stamps: [] }; })
+      .then(function (data) {
+        var stamps = (data && data.stamps) || [];
+        if (!stamps.length) return;
+        stamps.forEach(function (entry) {
+          if (entry && entry.stamp) openStream(entry.stamp);
+        });
       })
       .catch(function () {});
   }
-  refreshActive();
-  poll = setInterval(refreshActive, 30000);
+  // Initial: open streams for any stamps already in DOM (server-side)
+  root.querySelectorAll(".warp-card[data-stamp]").forEach(function (block) {
+    openStream(block.getAttribute("data-stamp"));
+  });
+  // Discover any stamps that started after page load every 30s
+  discoverActive();
+  poll = setInterval(discoverActive, 30000);
+  window.addEventListener("beforeunload", function () {
+    clearInterval(poll);
+    Object.keys(streams).forEach(function (k) { try { streams[k].close(); } catch (e) {} });
+  });
 })();
 </script>
 
     <div id="widgetRoot"></div>
     <aside class="widget-shelf" id="widgetShelf" aria-label="Widget shelf">
+      <div class="widget-shelf__resize-handle" id="widgetShelfResize" role="separator" aria-orientation="horizontal" aria-label="Resize widget shelf — drag up or down" tabindex="0">
+        <span class="widget-shelf__resize-grip" aria-hidden="true"></span>
+      </div>
       <div class="widget-shelf__header">
         <h2 class="widget-shelf__title">Add Widget</h2>
         <button class="widget-shelf__close" id="btn-close-shelf" type="button">Done</button>
@@ -452,44 +683,195 @@
 </section>
 </main>
 <script src="./dashboard.js" defer></script><footer class="site-footer">
-  <div class="site-footer__cols">
-    <div class="site-footer__col site-footer__col--brand">
-      <p><span class="brand">Ensemble</span> &middot; <em>One conductor. Many performers.</em></p>
-      <p><a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
+  <div class="site-footer__inner">
+    <div class="site-footer__cols">
+      <div class="site-footer__col site-footer__col--brand">
+        <a href="./" class="site-footer__brand-link" aria-label="Ensemble home">
+          <img class="brand-mark site-footer__mark" src="./icon.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <span class="brand site-footer__brand-name">Ensemble</span>
+        </a>
+        <p class="site-footer__tagline"><em>One conductor. Many performers.</em></p>
+        <p class="site-footer__blurb">A creator-platform PWA where every page is a place &mdash; not a list of links.</p>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Product</p>
+        <ul class="site-footer__links">
+          <li><a href="./studio.html">Studio</a></li>
+          <li><a href="./dashboard.html">Dashboard</a></li>
+          <li><a href="./settings.html">Settings</a></li>
+          <li><a href="./docs.html">Docs</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Resources</p>
+        <ul class="site-footer__links">
+          <li><a href="https://github.com/KiwiMaddog2020/claude-ensemble" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="./docs.html">Documentation</a></li>
+          <li><a href="./credits.html">Credits</a></li>
+          <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Legal</p>
+        <ul class="site-footer__links">
+          <li><a href="/legal/privacy.html">Privacy Policy</a></li>
+          <li><a href="/legal/terms.html">Terms of Service</a></li>
+          <li><a href="/legal/acceptable-use.html">Acceptable Use</a></li>
+          <li><a href="/legal/dmca.html">DMCA</a></li>
+          <li><a href="/legal/cookies.html">Cookie Policy</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="site-footer__col">
-      <p class="site-footer__heading">Legal</p>
-      <ul class="site-footer__links">
-        <li><a href="/legal/privacy.html">Privacy Policy</a></li>
-        <li><a href="/legal/terms.html">Terms of Service</a></li>
-        <li><a href="/legal/acceptable-use.html">Acceptable Use</a></li>
-        <li><a href="/legal/dmca.html">DMCA</a></li>
-        <li><a href="/legal/cookies.html">Cookie Policy</a></li>
-        <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
-      </ul>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copyright">&copy; 2026 Ensemble &middot; <span class="site-footer__version">v2.0</span></p>
+      <p class="site-footer__meta">Auto-refreshes 3&times; daily.</p>
     </div>
   </div>
-  <p class="site-footer__meta">Auto-refreshes 3&times; daily. v2.0.</p>
 </footer>
 <style id="site-footer-css">
+.site-footer__inner {
+  max-width: var(--w-app, 1180px);
+  margin: 0 auto;
+  padding: var(--space-7, 48px) clamp(var(--space-4, 16px), 4vw, var(--space-6, 32px)) var(--space-5, 24px);
+}
 .site-footer__cols {
-  display: flex; gap: 32px; flex-wrap: wrap;
-  align-items: flex-start; justify-content: space-between;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-6, 32px);
+  align-items: flex-start;
+  margin-bottom: var(--space-6, 32px);
 }
-.site-footer__col { min-width: 180px; }
-.site-footer__col--brand { flex: 1 1 280px; }
-.site-footer__col p { margin: 0 0 4px; }
+@media (max-width: 960px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5, 24px) var(--space-6, 32px);
+  }
+  .site-footer__col--brand {
+    grid-column: 1 / -1;
+    margin-bottom: var(--space-3, 12px);
+  }
+}
+@media (max-width: 540px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr;
+    gap: var(--space-5, 24px);
+  }
+}
+
+.site-footer__col {
+  min-width: 0;
+}
+
+.site-footer__col--brand {
+  max-width: 32ch;
+}
+.site-footer__brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  text-decoration: none;
+  margin-bottom: var(--space-3, 12px);
+}
+.site-footer__brand-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--r-sm, 4px);
+}
+.site-footer__mark {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+.site-footer__brand-name {
+  font-family: var(--serif);
+  font-size: var(--fs-18, 18px);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.site-footer__tagline {
+  font-family: var(--serif);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  margin: 0 0 var(--space-3, 12px);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__blurb {
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-3);
+  line-height: var(--lh-relaxed, 1.55);
+  margin: 0;
+  max-width: 36ch;
+}
+
 .site-footer__heading {
-  font-family: var(--sans, system-ui, sans-serif);
-  font-size: 12px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--ink-3, #6a625a); margin: 0 0 8px;
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin: 0 0 var(--space-3, 12px);
 }
-.site-footer__links { list-style: none; padding: 0; margin: 0; }
-.site-footer__links li { margin: 0 0 4px; }
-.site-footer__links a { color: var(--ink-2, #3a342c); text-decoration: none; }
-.site-footer__links a:hover { color: var(--accent, #b8753c); text-decoration: underline; }
-.site-footer__meta { opacity: 0.6; margin-top: 12px; font-size: 13px; }
+
+.site-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.site-footer__links li {
+  margin: 0 0 var(--space-2, 8px);
+}
+.site-footer__links a {
+  font-family: var(--sans);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color var(--dur-base, 180ms) var(--ease, ease);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__links a:hover {
+  color: var(--accent);
+}
+.site-footer__links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm, 4px);
+  color: var(--accent);
+}
+
+.site-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+  padding-top: var(--space-5, 24px);
+  border-top: 1px solid var(--rule-2, var(--rule));
+}
+.site-footer__copyright,
+.site-footer__meta {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-4, var(--ink-3));
+}
+.site-footer__version {
+  font-family: var(--mono);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 540px) {
+  .site-footer__bottom {
+    justify-content: center;
+    text-align: center;
+  }
+}
 </style>
 <script>
 const SERVER_URL = (function() {
@@ -568,8 +950,8 @@ async function refreshState() {
   _ALL_STATE = state;
   // Owner mode = state fetch successful (server reachable + token valid)
   const newOwner = !!state;
-  if (newOwner !== _isOwner) {
-    _isOwner = newOwner;
+  if (newOwner !== window._isOwner) {
+    window._isOwner = newOwner;
     applyOwnerMode();
   }
   updateNavStatus(state);
@@ -578,10 +960,19 @@ async function refreshState() {
 }
 
 // ─── Owner detection (read-only mode for visitors) ───
-let _isOwner = false;
+// IMPORTANT: window._isOwner (NOT a script-scoped `let _isOwner`).  The
+// widget runtime in widgets/state.py:visibleSections() reads
+// `window._isOwner` from a separate IIFE closure, so the value MUST be
+// on the global object — a `let` at script scope is invisible across
+// closures and the private widget section never renders.
+//
+// Was: `let _isOwner = false;` — caused all private widgets (claude-
+// station, refine, code-rate, mode-pill, kill-switch, etc.) to be
+// invisible regardless of token state. Fixed 2026-05-02.
+window._isOwner = false;
 function applyOwnerMode() {
   const banner = document.getElementById("owner-banner");
-  if (_isOwner) {
+  if (window._isOwner) {
     document.body.classList.remove("read-only");
     if (banner) banner.classList.replace("show", "hide");
   } else {
@@ -642,19 +1033,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
   const savedTheme = localStorage.getItem("ENSEMBLE_THEME") || "warm";
   applyTheme(savedTheme);
+  // Click + keyboard binding (Enter / Space). The swatches carry
+  // role="button" + tabindex="0" so keyboard users can activate them.
+  const activateOnKey = (handler) => (ev) => {
+    if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") {
+      ev.preventDefault();
+      handler.call(ev.currentTarget, ev);
+    }
+  };
   document.querySelectorAll(".theme-swatch").forEach(el => {
-    el.addEventListener("click", () => {
+    const fire = () => {
       const t = el.dataset.theme;
       localStorage.setItem("ENSEMBLE_THEME", t);
       applyTheme(t);
-    });
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
   });
 
   // Background load + bind
   const savedBg = localStorage.getItem("ENSEMBLE_BG") || "solid";
   applyBackground(savedBg);
   document.querySelectorAll(".bg-swatch").forEach(el => {
-    el.addEventListener("click", () => {
+    const fire = () => {
       const b = el.dataset.bg;
       // Custom-upload tile: open the file picker on every click.  If the
       // user already has a saved upload, clicking re-applies it without
@@ -671,7 +1072,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       localStorage.setItem("ENSEMBLE_BG", b);
       applyBackground(b);
-    });
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
   });
 
   // Custom wallpaper upload flow.
@@ -704,14 +1107,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Owner mode initial state — pessimistic until state fetch confirms
-  _isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
+  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
   applyOwnerMode();
 
   refreshState();
   setInterval(refreshState, 60000);
   document.querySelectorAll("[data-field]").forEach(el => {
     el.addEventListener("change", () => {
-      if (!_isOwner) return;  // belt + suspenders; backend also enforces
+      if (!window._isOwner) return;  // belt + suspenders; backend also enforces
       const field = el.dataset.field;
       let value;
       if (el.type === "checkbox") value = el.checked;
@@ -803,6 +1206,26 @@ async function setTokenReset() {
 // First-run onboarding modal (Phase A.4-3)
 const FIRST_RUN_SEEN_KEY = "ensemble:first-run-seen";
 
+// Slot warp:flowA - advance the server-side first-run state machine.
+// Best-effort: a 401 (unpaired) or 409 (regression/skip) should not block
+// the UI flow, since the modal works even when paired-user auth is absent
+// in dev mode. Logged via console.warn so we can spot real regressions.
+async function advanceFirstRunState(step) {
+  try {
+    const r = await fetch("/first-run/advance", {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ step: step })
+    });
+    if (!r.ok && r.status !== 409 && r.status !== 401) {
+      try { console.warn("first-run advance failed", step, r.status); } catch (e) {}
+    }
+    return r.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
 function isEnsembleHomepage() {
   const p = location.pathname;
   return p.endsWith("/index.html") || p === "/" || p.endsWith("/ensemble.html");
@@ -861,7 +1284,18 @@ async function submitFirstRunModal(ev) {
           localStorage.setItem("ensemble:generated-studio", JSON.stringify(body.studio));
         }
       } catch (e) {}
-      window.location.href = "/your-studio.html";
+      // Slot warp:flowA - record progress through the state machine.
+      // QUESTIONS marks the modal submit; CANVAS marks the genesis 200.
+      // Both happen now because /studio/generate-from-answers returned ok
+      // synchronously above; the state machine still rejects skips so we
+      // advance one step at a time.
+      await advanceFirstRunState("questions-answered");
+      await advanceFirstRunState("canvas-generated");
+      // Post-studio: route through character creator before showing the
+      // generated studio, so the visitor designs their sprite once. The
+      // creator's Save handler honors ?from=first-run and forwards on to
+      // /your-studio.html.
+      window.location.href = "/character-creator.html?from=first-run";
       return;
     }
     if (r.status === 400) {
@@ -929,11 +1363,34 @@ function wireFirstRunModal() {
     if (e.key === "Escape" && !overlay.hidden) closeFirstRunModal();
   });
   if (isEnsembleHomepage()) {
-    let seen = "0";
-    try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
-    if (seen !== "1") {
-      setTimeout(openFirstRunModal, 200);
-    }
+    // Slot warp:flowA - returning-user fast-path. If the server says this
+    // user has already completed the first-run flow, route them directly
+    // to /studio.html without flickering through the modal.
+    fetch("/first-run/state", { headers: authHeaders() })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (state) {
+        if (state && state.is_complete) {
+          try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+          window.location.replace(state.resume_url || "/studio.html");
+          return;
+        }
+        // Not complete - either unpaired (state==null) or mid-flow.
+        // Resume URL hints at the right page; if it points to a different
+        // step, route there. Otherwise show the modal as before.
+        if (state && state.resume_url && state.resume_url !== "/index.html") {
+          window.location.replace(state.resume_url);
+          return;
+        }
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      })
+      .catch(function () {
+        // Network / unreachable - fall back to legacy localStorage gate.
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      });
   }
 }
 

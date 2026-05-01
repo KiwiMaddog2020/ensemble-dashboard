@@ -5,7 +5,12 @@
     "display_name": "Orchestra",
     "description": "Concert hall. Maestro at the podium, Agents arranged as musicians in a semicircle. The default state for every new Ensemble.",
     "thumbnail": "studio/presets/orchestra.png",
-    "natural_themes": ["warm", "amber", "sand", "sunset"],
+    "natural_themes": [
+      "warm",
+      "amber",
+      "sand",
+      "sunset"
+    ],
     "min_chats": 1,
     "recommended_chats": 7,
     "max_chats": 12,
@@ -26,56 +31,78 @@
     {
       "id": "stage_floor",
       "type": "svg",
-      "x": 0, "y": 540,
-      "w": 1920, "h": 540,
+      "x": 0,
+      "y": 540,
+      "w": 1920,
+      "h": 540,
       "z": 0,
       "props": {
         "shape": "stage_floor",
         "fill_token": "bg-sunken"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "stage_rim",
       "type": "svg",
-      "x": 0, "y": 540,
-      "w": 1920, "h": 6,
+      "x": 0,
+      "y": 540,
+      "w": 1920,
+      "h": 6,
       "z": 1,
       "props": {
         "shape": "rect",
         "fill_token": "accent"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "music_staff_bg",
       "type": "staff",
-      "x": 96, "y": 96,
-      "w": 1728, "h": 280,
+      "x": 96,
+      "y": 96,
+      "w": 1728,
+      "h": 280,
       "z": 1,
       "props": {
         "lines": 5,
         "opacity": 0.18,
         "color_token": "ink-3"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "podium",
       "type": "prop",
-      "x": 880, "y": 460,
-      "w": 160, "h": 96,
+      "x": 880,
+      "y": 460,
+      "w": 160,
+      "h": 96,
       "z": 4,
       "props": {
         "sprite_id": "podium_default"
       },
-      "locked": false
+      "locked": false,
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_maestro",
       "type": "slot",
-      "x": 928, "y": 360,
-      "w": 96, "h": 128,
+      "x": 928,
+      "y": 360,
+      "w": 96,
+      "h": 128,
       "z": 5,
       "props": {
         "slot_role": "maestro",
@@ -83,121 +110,169 @@
         "idle_animation": "baton_sweep",
         "data_binding": "maestro"
       },
-      "locked": false
+      "locked": false,
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_violin_1",
       "type": "slot",
-      "x": 432, "y": 640,
-      "w": 96, "h": 128,
+      "x": 432,
+      "y": 640,
+      "w": 96,
+      "h": 128,
       "z": 5,
       "props": {
         "slot_role": "1st violin",
         "sprite_id": "musician_violin",
         "idle_animation": "bowing",
         "auto_bind_index": 0
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_violin_2",
       "type": "slot",
-      "x": 624, "y": 720,
-      "w": 96, "h": 128,
+      "x": 624,
+      "y": 720,
+      "w": 96,
+      "h": 128,
       "z": 5,
       "props": {
         "slot_role": "2nd violin",
         "sprite_id": "musician_violin",
         "idle_animation": "bowing",
         "auto_bind_index": 1
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_viola",
       "type": "slot",
-      "x": 816, "y": 760,
-      "w": 96, "h": 128,
+      "x": 816,
+      "y": 760,
+      "w": 96,
+      "h": 128,
       "z": 5,
       "props": {
         "slot_role": "Viola",
         "sprite_id": "musician_viola",
         "idle_animation": "bowing",
         "auto_bind_index": 2
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_cello",
       "type": "slot",
-      "x": 1008, "y": 760,
-      "w": 96, "h": 128,
+      "x": 1008,
+      "y": 760,
+      "w": 96,
+      "h": 128,
       "z": 5,
       "props": {
         "slot_role": "Cello",
         "sprite_id": "musician_cello",
         "idle_animation": "bowing_slow",
         "auto_bind_index": 3
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_drums",
       "type": "slot",
-      "x": 1200, "y": 720,
-      "w": 96, "h": 128,
+      "x": 1200,
+      "y": 720,
+      "w": 96,
+      "h": 128,
       "z": 5,
       "props": {
         "slot_role": "Percussion",
         "sprite_id": "musician_drums",
         "idle_animation": "drumming",
         "auto_bind_index": 4
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_flute",
       "type": "slot",
-      "x": 1392, "y": 640,
-      "w": 96, "h": 128,
+      "x": 1392,
+      "y": 640,
+      "w": 96,
+      "h": 128,
       "z": 5,
       "props": {
         "slot_role": "Flute",
         "sprite_id": "musician_flute",
         "idle_animation": "playing_woodwind",
         "auto_bind_index": 5
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_trumpet",
       "type": "slot",
-      "x": 1556, "y": 540,
-      "w": 96, "h": 128,
+      "x": 1556,
+      "y": 540,
+      "w": 96,
+      "h": 128,
       "z": 5,
       "props": {
         "slot_role": "Trumpet",
         "sprite_id": "musician_trumpet",
         "idle_animation": "brass_play",
         "auto_bind_index": 6
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "title_eyebrow",
       "type": "text",
-      "x": 96, "y": 64,
-      "w": 600, "h": 24,
+      "x": 96,
+      "y": 64,
+      "w": 600,
+      "h": 24,
       "z": 6,
       "props": {
         "text": "TONIGHT'S PROGRAM",
         "variant": "eyebrow",
         "color_token": "accent"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_main",
       "type": "text",
-      "x": 96, "y": 96,
-      "w": 800, "h": 64,
+      "x": 96,
+      "y": 96,
+      "w": 800,
+      "h": 64,
       "z": 6,
       "props": {
         "text": "The Ensemble in <em>concert.</em>",
         "variant": "hero"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     }
   ],
   "custom_css": "",

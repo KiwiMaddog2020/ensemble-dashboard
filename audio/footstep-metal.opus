@@ -1,0 +1,6 @@
+ENSEMBLE_AUDIO_PLACEHOLDER_v1
+Replace with real Opus-encoded audio per audio_credits.json source URL.
+Runtime tolerates decode failure on this stub.
+# Metal grate footstep — for cyberpunk industrial canvases
+# license: CC0
+# source:  https://freesound.org/search/?q=footstep+metal+grate&f=license:%22Creative+Commons+0%22

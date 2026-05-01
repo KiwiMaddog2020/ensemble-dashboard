@@ -1,0 +1,146 @@
+[
+  {
+    "file": "ambient-vibecoding-warm.opus",
+    "category": "ambient",
+    "theme_group": "warm/amber/sand",
+    "url": "https://freesound.org/search/?q=lo-fi+cafe+ambient+loop+seamless&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Vibecoding lo-fi cafe \u2014 vinyl crackle + distant typing + page rustles"
+  },
+  {
+    "file": "ambient-forest-day.opus",
+    "category": "ambient",
+    "theme_group": "forest/sage/lime",
+    "url": "https://freesound.org/search/?q=forest+ambient+loop+seamless&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Stardew-style outdoor \u2014 birds + wind + distant water"
+  },
+  {
+    "file": "ambient-cyberpunk-neon.opus",
+    "category": "ambient",
+    "theme_group": "cobalt/midnight/aurora/plum",
+    "url": "https://freesound.org/search/?q=cyberpunk+ambient+drone+loop&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Cyberpunk lo-fi \u2014 synth drone + distant rain + soft data-readout beeps"
+  },
+  {
+    "file": "ambient-evening-city.opus",
+    "category": "ambient",
+    "theme_group": "crimson/rose/sunset/ruby",
+    "url": "https://freesound.org/search/?q=warm+orchestral+pad+ambient+evening&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Dramatic lifestyle \u2014 orchestral pad + distant city"
+  },
+  {
+    "file": "ambient-focus-minimal.opus",
+    "category": "ambient",
+    "theme_group": "mono/slate/ash/teal/ocean/lemon/paper",
+    "url": "https://freesound.org/search/?q=minimal+focus+loop+white+noise+productivity&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Clean focus \u2014 soft white-noise with subtle melody"
+  },
+  {
+    "file": "footstep-tile.opus",
+    "category": "footstep",
+    "footstep_type": "tile",
+    "url": "https://freesound.org/search/?q=footstep+tile+floor&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Hard floor / tile footstep \u2014 for office + cyberpunk indoor canvases"
+  },
+  {
+    "file": "footstep-grass.opus",
+    "category": "footstep",
+    "footstep_type": "grass",
+    "url": "https://freesound.org/search/?q=footstep+grass&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Grass footstep \u2014 for forest + farm canvases"
+  },
+  {
+    "file": "footstep-wood.opus",
+    "category": "footstep",
+    "footstep_type": "wood",
+    "url": "https://freesound.org/search/?q=footstep+wood+plank&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Wood plank footstep \u2014 for warm/lifestyle canvases"
+  },
+  {
+    "file": "footstep-metal.opus",
+    "category": "footstep",
+    "footstep_type": "metal",
+    "url": "https://freesound.org/search/?q=footstep+metal+grate&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Metal grate footstep \u2014 for cyberpunk industrial canvases"
+  },
+  {
+    "file": "interact-launch.opus",
+    "category": "interaction",
+    "interaction_kind": "launch",
+    "url": "https://freesound.org/search/?q=synth+chime+soft+positive&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Gentle synth chime \u2014 for click-to-launch components"
+  },
+  {
+    "file": "interact-link.opus",
+    "category": "interaction",
+    "interaction_kind": "link",
+    "url": "https://freesound.org/search/?q=door+creak+short&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Soft door-creak \u2014 for click-to-link components"
+  },
+  {
+    "file": "interact-embed.opus",
+    "category": "interaction",
+    "interaction_kind": "embed",
+    "url": "https://freesound.org/search/?q=page+turn+book&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Page-flip \u2014 for click-to-embed components"
+  },
+  {
+    "file": "interact-read.opus",
+    "category": "interaction",
+    "interaction_kind": "read",
+    "url": "https://freesound.org/search/?q=book+page+rustle&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Book-page rustle \u2014 for click-to-read components"
+  },
+  {
+    "file": "interact-door.opus",
+    "category": "interaction",
+    "interaction_kind": "door",
+    "url": "https://freesound.org/search/?q=door+open+wood&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Wooden door open \u2014 for click-to-door components"
+  },
+  {
+    "file": "interact-slot.opus",
+    "category": "interaction",
+    "interaction_kind": "slot",
+    "url": "https://freesound.org/search/?q=mechanical+thunk+soft&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Soft mechanical thunk \u2014 for click-to-slot components"
+  },
+  {
+    "file": "interact-bot.opus",
+    "category": "interaction",
+    "interaction_kind": "bot",
+    "url": "https://freesound.org/search/?q=synth+blip+robot+acknowledge&f=license:%22Creative+Commons+0%22",
+    "license": "CC0",
+    "artist": "TBD (Kevin reviews on merge)",
+    "description": "Synth blip / robot acknowledgement \u2014 for click-to-bot components"
+  }
+]

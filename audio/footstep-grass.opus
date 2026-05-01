@@ -1,0 +1,6 @@
+ENSEMBLE_AUDIO_PLACEHOLDER_v1
+Replace with real Opus-encoded audio per audio_credits.json source URL.
+Runtime tolerates decode failure on this stub.
+# Grass footstep — for forest + farm canvases
+# license: CC0
+# source:  https://freesound.org/search/?q=footstep+grass&f=license:%22Creative+Commons+0%22

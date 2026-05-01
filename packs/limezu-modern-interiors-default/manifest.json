@@ -1,0 +1,34 @@
+{
+  "manifest_version": 1,
+  "format": "limezu-static",
+  "name": "LimeZu Modern Interiors (Paid)",
+  "version": "1.0",
+  "pack_id": "limezu-modern-interiors-default",
+  "artist": {
+    "name": "LimeZu",
+    "itch_url": "https://limezu.itch.io/moderninteriors"
+  },
+  "license": {
+    "type": "commercial-with-restrictions",
+    "commercial_ok": true,
+    "redistribute_ok": false,
+    "modify_ok": true,
+    "attribution_required": true,
+    "restrictions": [
+      "Cannot redistribute or resell as standalone assets",
+      "Credits required in all projects"
+    ],
+    "license_url": "https://limezu.itch.io/moderninteriors"
+  },
+  "collection": "modern-interiors",
+  "source": "RPG_MAKER_MV",
+  "description": "Curated interior sprites \u2014 living room props, kitchen items, and doors. Paid license \u2014 credits required.",
+  "tags": [
+    "interior",
+    "living-room",
+    "kitchen",
+    "doors",
+    "modern"
+  ],
+  "credits_blurb": "Modern Interiors (Paid) by LimeZu \u2014 https://limezu.itch.io/moderninteriors \u2014 Credits required"
+}

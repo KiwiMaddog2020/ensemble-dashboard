@@ -3,9 +3,13 @@
   "preset_metadata": {
     "id": "blank",
     "display_name": "Blank canvas",
-    "description": "An empty Room ready for you to compose. Open the Workshop drawer (left side) for inspiration, asset packs, and starter examples.",
+    "description": "An empty Canvas ready for you to compose. Open the Workshop drawer (left side) for inspiration, asset packs, and starter examples.",
     "thumbnail": null,
-    "natural_themes": ["warm", "ash", "mono"],
+    "natural_themes": [
+      "warm",
+      "ash",
+      "mono"
+    ],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,
@@ -27,57 +31,90 @@
     {
       "id": "welcome_eyebrow",
       "type": "text",
-      "x": 96, "y": 96,
-      "w": 600, "h": 24,
+      "x": 96,
+      "y": 96,
+      "w": 600,
+      "h": 24,
       "z": 6,
       "props": {
         "text": "WELCOME TO YOUR STUDIO",
         "variant": "eyebrow",
         "color_token": "accent"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "welcome_title",
       "type": "text",
-      "x": 96, "y": 132,
-      "w": 1000, "h": 88,
+      "x": 96,
+      "y": 132,
+      "w": 1000,
+      "h": 168,
       "z": 6,
       "props": {
         "text": "A blank canvas. <em>Yours.</em>",
         "variant": "hero"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "welcome_lead",
       "type": "text",
-      "x": 96, "y": 240,
-      "w": 720, "h": 80,
+      "x": 96,
+      "y": 320,
+      "w": 720,
+      "h": 120,
       "z": 6,
       "props": {
-        "text": "Open the Workshop drawer for examples, asset packs, and starter wirings. Or press <em>Edit</em> and drop sprites onto your stage. Anything you place can be wired to launch real things — a game, an essay, a podcast, a friend's room.",
+        "text": "Open the Workshop drawer for examples, asset packs, and starter wirings. Or press <em>Edit</em> and drop sprites onto your stage. Anything you place can be wired to launch real things \u2014 a game, an essay, a podcast, a friend's canvas.",
         "variant": "body",
         "color_token": "ink-2"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "label": "About this canvas",
+        "markdown": "## A canvas, yours.\n\nThis is what an empty Ensemble canvas looks like. The creator hasn't dressed it yet.\n\nPress **Edit** above to drop sprites, wire links, and make it your own."
       }
     },
     {
       "id": "hint_dot_1",
       "type": "svg",
-      "x": 96, "y": 920,
-      "w": 8, "h": 8,
+      "x": 96,
+      "y": 920,
+      "w": 8,
+      "h": 8,
       "z": 5,
-      "props": { "shape": "rect", "fill_token": "accent" }
+      "props": {
+        "shape": "rect",
+        "fill_token": "accent"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "hint_text",
       "type": "text",
-      "x": 116, "y": 912,
-      "w": 700, "h": 24,
+      "x": 116,
+      "y": 912,
+      "w": 700,
+      "h": 24,
       "z": 6,
       "props": {
         "text": "Press <em>Edit</em> to start. Drag sprites from the Workshop, or ask Claude in the chat drawer.",
         "variant": "body",
         "color_token": "ink-3"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     }
   ],
   "custom_css": "",

@@ -1,0 +1,6 @@
+ENSEMBLE_AUDIO_PLACEHOLDER_v1
+Replace with real Opus-encoded audio per audio_credits.json source URL.
+Runtime tolerates decode failure on this stub.
+# Wood plank footstep — for warm/lifestyle canvases
+# license: CC0
+# source:  https://freesound.org/search/?q=footstep+wood+plank&f=license:%22Creative+Commons+0%22

@@ -1,0 +1,36 @@
+{
+  "manifest_version": 1,
+  "format": "limezu-static",
+  "name": "LimeZu Modern Office Revamped",
+  "version": "1.2",
+  "pack_id": "limezu-modern-office-default",
+  "artist": {
+    "name": "LimeZu",
+    "itch_url": "https://limezu.itch.io/modernoffice"
+  },
+  "license": {
+    "type": "commercial-with-restrictions",
+    "commercial_ok": true,
+    "redistribute_ok": false,
+    "modify_ok": true,
+    "attribution_required": false,
+    "attribution_appreciated": true,
+    "restrictions": [
+      "Cannot redistribute or resell as standalone assets"
+    ],
+    "license_url": "https://limezu.itch.io/modernoffice"
+  },
+  "collection": "modern-office",
+  "sprite_size": "32x32",
+  "components_dir": "components",
+  "master_tileset": "Modern_Office_32x32.png",
+  "description": "Curated 32x32 office sprites \u2014 desk, chair, monitor, plant, lamp, bookshelf, file cabinet, coffee maker, printer, whiteboard and more.",
+  "tags": [
+    "office",
+    "modern",
+    "interior",
+    "workspace",
+    "32x32"
+  ],
+  "credits_blurb": "Modern Office Revamped by LimeZu \u2014 https://limezu.itch.io/modernoffice"
+}

@@ -1,18 +1,1 @@
-export async function play(ctx) {
-  const buf = ctx.createBuffer(1, ctx.sampleRate * 0.08, ctx.sampleRate);
-  const data = buf.getChannelData(0);
-  for (let i = 0; i < data.length; i++) {
-    data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.006));
-  }
-  const src = ctx.createBufferSource();
-  src.buffer = buf;
-  const filter = ctx.createBiquadFilter();
-  filter.type = 'bandpass';
-  filter.frequency.value = 3200;
-  filter.Q.value = 0.8;
-  const gain = ctx.createGain();
-  gain.gain.setValueAtTime(0.2, ctx.currentTime);
-  src.connect(filter).connect(gain).connect(ctx.destination);
-  src.start();
-  await new Promise(r => setTimeout(r, 80));
-}
+export async function play(e){const t=e.createBuffer(1,.08*e.sampleRate,e.sampleRate),a=t.getChannelData(0);for(let t=0;t<a.length;t++)a[t]=(2*Math.random()-1)*Math.exp(-t/(.006*e.sampleRate));const n=e.createBufferSource();n.buffer=t;const c=e.createBiquadFilter();c.type="bandpass",c.frequency.value=3200,c.Q.value=.8;const r=e.createGain();r.gain.setValueAtTime(.2,e.currentTime),n.connect(c).connect(r).connect(e.destination),n.start(),await new Promise(e=>setTimeout(e,80))}

@@ -1,0 +1,43 @@
+{
+  "manifest_version": 1,
+  "format": "mana-seed-compat",
+  "name": "Mana Seed Character Base (Page 4 Walk)",
+  "version": "2.5c",
+  "pack_id": "mana-seed-character-base-default",
+  "artist": {
+    "name": "Seliel the Shaper",
+    "itch_url": "https://seliel-the-shaper.itch.io/character-base",
+    "patreon_url": "https://www.patreon.com/selieltheshaper"
+  },
+  "license": {
+    "type": "commercial-with-restrictions",
+    "commercial_ok": true,
+    "redistribute_ok": false,
+    "modify_ok": true,
+    "attribution_required": true,
+    "restrictions": [
+      "No Web3/blockchain games",
+      "Cannot redistribute as standalone base without purchase"
+    ],
+    "license_url": "https://seliel-the-shaper.itch.io/character-base"
+  },
+  "character_id": "char_a",
+  "pages_included": [
+    "p4"
+  ],
+  "page_p4_notes": "4-direction walk cycle (16 frames, 512x512 sheet). Primary page for Ensemble top-down walk mode.",
+  "layers_included": {
+    "1out": "Outfits \u2014 boxr (boxer, fully clothed). v01 only.",
+    "4har": "Hairstyles \u2014 bob1 (v01/v02/v03), dap1 (v01/v02)."
+  },
+  "color_variants": 3,
+  "description": "Curated Mana Seed Character Base p4 (4-direction walk) subset \u2014 2 outfit styles, 2 hairstyle types, 3 color variants. Clothed examples only.",
+  "tags": [
+    "character",
+    "walk",
+    "top-down",
+    "4-direction",
+    "mana-seed"
+  ],
+  "credits_blurb": "Mana Seed Character Base by Seliel the Shaper \u2014 https://seliel-the-shaper.itch.io/character-base"
+}

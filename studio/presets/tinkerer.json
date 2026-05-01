@@ -40,7 +40,10 @@
         "shape": "stage_floor",
         "fill_token": "bg-sunken"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "bench_rim",
@@ -54,7 +57,10 @@
         "shape": "rect",
         "fill_token": "accent"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "blueprint_grid",
@@ -69,7 +75,10 @@
         "opacity": 0.09,
         "color_token": "accent"
       },
-      "locked": true
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_eyebrow",
@@ -83,7 +92,10 @@
         "text": "THE TINKERER'S BENCH",
         "variant": "eyebrow",
         "color_token": "accent"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_main",
@@ -96,7 +108,10 @@
       "props": {
         "text": "Build. Break. <em>Repeat.</em>",
         "variant": "hero"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "title_lead",
@@ -110,7 +125,10 @@
         "text": "Drop agents on the bench. Wire them to repos, terminals, and tests. Ship from here.",
         "variant": "body",
         "color_token": "ink-2"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "terminal_prop",
@@ -124,7 +142,10 @@
         "sprite_id": "terminal",
         "sprite_pack": "tinker",
         "label": "Terminal"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "oscilloscope_prop",
@@ -138,7 +159,10 @@
         "sprite_id": "oscilloscope",
         "sprite_pack": "tinker",
         "label": "Oscilloscope"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "bench_prop",
@@ -152,7 +176,10 @@
         "sprite_id": "solder-iron",
         "sprite_pack": "tinker",
         "label": "Workbench"
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_lead",
@@ -168,7 +195,10 @@
         "sprite_pack": "tinker",
         "idle_animation": "typing",
         "auto_bind_index": 0
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "slot_pair",
@@ -184,7 +214,10 @@
         "sprite_pack": "tinker",
         "idle_animation": "typing",
         "auto_bind_index": 1
-      }
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "footer_hint",
@@ -198,7 +231,10 @@
         "text": "Bench is hot. Agents are live.",
         "variant": "body",
         "color_token": "ink-3"
-      }
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     }
   ],
   "custom_css": "",

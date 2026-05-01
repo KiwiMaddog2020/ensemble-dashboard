@@ -1,0 +1,266 @@
+{
+  "schema_version": 1,
+  "preset_metadata": {
+    "id": "music_ensemble",
+    "display_name": "Music ensemble",
+    "description": "A practice space for your sound. Drop in instruments, hang your favorite poster, light the recording sign when you're working.",
+    "thumbnail": null,
+    "natural_themes": [
+      "warm",
+      "amber",
+      "forest"
+    ],
+    "min_chats": 0,
+    "recommended_chats": 0,
+    "max_chats": 99,
+    "author": "Ensemble built-in",
+    "version": 1,
+    "is_default": false
+  },
+  "name": "Music ensemble",
+  "preset_origin": "music_ensemble",
+  "theme": null,
+  "background": null,
+  "stage": {
+    "width": 1920,
+    "height": 1080,
+    "background_layer": "stage_default",
+    "ambient_sound": null
+  },
+  "components": [
+    {
+      "id": "stage_floor",
+      "type": "svg",
+      "x": 0,
+      "y": 540,
+      "w": 1920,
+      "h": 540,
+      "z": 0,
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "rug_warm",
+      "type": "svg",
+      "x": 280,
+      "y": 760,
+      "w": 1360,
+      "h": 200,
+      "z": 1,
+      "props": {
+        "shape": "rect",
+        "fill_token": "accent",
+        "opacity": 0.08
+      },
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "title_eyebrow",
+      "type": "text",
+      "x": 96,
+      "y": 64,
+      "w": 600,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "MUSIC ENSEMBLE",
+        "variant": "eyebrow",
+        "color_token": "accent"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "title_main",
+      "type": "text",
+      "x": 96,
+      "y": 96,
+      "w": 1000,
+      "h": 64,
+      "z": 6,
+      "props": {
+        "text": "Make a <em>sound.</em>",
+        "variant": "hero"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "title_lead",
+      "type": "text",
+      "x": 96,
+      "y": 200,
+      "w": 800,
+      "h": 56,
+      "z": 6,
+      "props": {
+        "text": "Practice space, recording booth, jam space \u2014 yours. Hang the poster, light the sign, leave the door open.",
+        "variant": "body",
+        "color_token": "ink-2"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "wall_poster",
+      "type": "prop",
+      "x": 880,
+      "y": 280,
+      "w": 192,
+      "h": 256,
+      "z": 3,
+      "props": {
+        "sprite_id": "wall_poster",
+        "label": "Wall poster"
+      },
+      "interaction": {
+        "type": "link",
+        "url": "",
+        "label": "Pin a poster \u2014 link to a tour, an album, a show"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
+    },
+    {
+      "id": "piano_center",
+      "type": "prop",
+      "x": 800,
+      "y": 580,
+      "w": 320,
+      "h": 200,
+      "z": 5,
+      "props": {
+        "sprite_id": "piano_upright",
+        "label": "Piano"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "chair_left",
+      "type": "prop",
+      "x": 600,
+      "y": 640,
+      "w": 128,
+      "h": 160,
+      "z": 4,
+      "props": {
+        "sprite_id": "chair_wooden",
+        "label": "Chair"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "chair_right",
+      "type": "prop",
+      "x": 1192,
+      "y": 640,
+      "w": 128,
+      "h": 160,
+      "z": 4,
+      "props": {
+        "sprite_id": "chair_wooden",
+        "label": "Chair"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "microphone_stand",
+      "type": "prop",
+      "x": 928,
+      "y": 800,
+      "w": 64,
+      "h": 192,
+      "z": 6,
+      "props": {
+        "sprite_id": "microphone_stand",
+        "label": "Microphone"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "recording_light",
+      "type": "prop",
+      "x": 1720,
+      "y": 200,
+      "w": 96,
+      "h": 96,
+      "z": 5,
+      "props": {
+        "sprite_id": "recording_light",
+        "label": "ON AIR"
+      },
+      "interaction": {
+        "type": "read",
+        "label": "ON AIR",
+        "markdown": "## On air.\n\nClick this sign when you're recording. Visitors see the canvas glow red.\n\nWire it to a real status feed in Phase B (live presence) \u2014 for now it's atmospheric."
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
+    },
+    {
+      "id": "door_left",
+      "type": "prop",
+      "x": 96,
+      "y": 540,
+      "w": 128,
+      "h": 256,
+      "z": 4,
+      "props": {
+        "sprite_id": "door_wooden",
+        "label": "Door"
+      },
+      "interaction": {
+        "type": "link",
+        "url": "",
+        "label": "Wire this door to your other canvas"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
+    },
+    {
+      "id": "footer_credit",
+      "type": "text",
+      "x": 96,
+      "y": 1020,
+      "w": 800,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "A canvas for your sound. Made with Ensemble.",
+        "variant": "body",
+        "color_token": "ink-3"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    }
+  ],
+  "custom_css": "",
+  "custom_js": "",
+  "history_seq": 0,
+  "last_saved_at": null,
+  "visibility": "private"
+}

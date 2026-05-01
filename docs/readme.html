@@ -10,7 +10,9 @@
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" id="favicon" type="image/svg+xml" href="./icon.svg" />
-<link rel="apple-touch-icon" id="apple-touch-icon" href="./icon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png" />
+<link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="Ensemble" />
@@ -32,7 +34,7 @@
 }
 .cookie-banner[hidden] { display: none; }
 .cookie-banner__inner {
-  max-width: 1080px;
+  max-width: var(--w-app);
   margin: 0 auto;
   padding: 14px 22px;
   display: flex; align-items: center; justify-content: space-between;
@@ -394,44 +396,195 @@
   </script>
 </main>
 <footer class="site-footer">
-  <div class="site-footer__cols">
-    <div class="site-footer__col site-footer__col--brand">
-      <p><span class="brand">Ensemble</span> &middot; <em>One conductor. Many performers.</em></p>
-      <p><a href="https://github.com/KiwiMaddog2020/claude-ensemble">github</a></p>
+  <div class="site-footer__inner">
+    <div class="site-footer__cols">
+      <div class="site-footer__col site-footer__col--brand">
+        <a href="./" class="site-footer__brand-link" aria-label="Ensemble home">
+          <img class="brand-mark site-footer__mark" src="./icon.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <span class="brand site-footer__brand-name">Ensemble</span>
+        </a>
+        <p class="site-footer__tagline"><em>One conductor. Many performers.</em></p>
+        <p class="site-footer__blurb">A creator-platform PWA where every page is a place &mdash; not a list of links.</p>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Product</p>
+        <ul class="site-footer__links">
+          <li><a href="./studio.html">Studio</a></li>
+          <li><a href="./dashboard.html">Dashboard</a></li>
+          <li><a href="./settings.html">Settings</a></li>
+          <li><a href="./docs.html">Docs</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Resources</p>
+        <ul class="site-footer__links">
+          <li><a href="https://github.com/KiwiMaddog2020/claude-ensemble" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="./docs.html">Documentation</a></li>
+          <li><a href="./credits.html">Credits</a></li>
+          <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Legal</p>
+        <ul class="site-footer__links">
+          <li><a href="/legal/privacy.html">Privacy Policy</a></li>
+          <li><a href="/legal/terms.html">Terms of Service</a></li>
+          <li><a href="/legal/acceptable-use.html">Acceptable Use</a></li>
+          <li><a href="/legal/dmca.html">DMCA</a></li>
+          <li><a href="/legal/cookies.html">Cookie Policy</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="site-footer__col">
-      <p class="site-footer__heading">Legal</p>
-      <ul class="site-footer__links">
-        <li><a href="/legal/privacy.html">Privacy Policy</a></li>
-        <li><a href="/legal/terms.html">Terms of Service</a></li>
-        <li><a href="/legal/acceptable-use.html">Acceptable Use</a></li>
-        <li><a href="/legal/dmca.html">DMCA</a></li>
-        <li><a href="/legal/cookies.html">Cookie Policy</a></li>
-        <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
-      </ul>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copyright">&copy; 2026 Ensemble &middot; <span class="site-footer__version">v2.0</span></p>
+      <p class="site-footer__meta">Auto-refreshes 3&times; daily.</p>
     </div>
   </div>
-  <p class="site-footer__meta">Auto-refreshes 3&times; daily. v2.0.</p>
 </footer>
 <style id="site-footer-css">
+.site-footer__inner {
+  max-width: var(--w-app, 1180px);
+  margin: 0 auto;
+  padding: var(--space-7, 48px) clamp(var(--space-4, 16px), 4vw, var(--space-6, 32px)) var(--space-5, 24px);
+}
 .site-footer__cols {
-  display: flex; gap: 32px; flex-wrap: wrap;
-  align-items: flex-start; justify-content: space-between;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-6, 32px);
+  align-items: flex-start;
+  margin-bottom: var(--space-6, 32px);
 }
-.site-footer__col { min-width: 180px; }
-.site-footer__col--brand { flex: 1 1 280px; }
-.site-footer__col p { margin: 0 0 4px; }
+@media (max-width: 960px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5, 24px) var(--space-6, 32px);
+  }
+  .site-footer__col--brand {
+    grid-column: 1 / -1;
+    margin-bottom: var(--space-3, 12px);
+  }
+}
+@media (max-width: 540px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr;
+    gap: var(--space-5, 24px);
+  }
+}
+
+.site-footer__col {
+  min-width: 0;
+}
+
+.site-footer__col--brand {
+  max-width: 32ch;
+}
+.site-footer__brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  text-decoration: none;
+  margin-bottom: var(--space-3, 12px);
+}
+.site-footer__brand-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--r-sm, 4px);
+}
+.site-footer__mark {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+.site-footer__brand-name {
+  font-family: var(--serif);
+  font-size: var(--fs-18, 18px);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.site-footer__tagline {
+  font-family: var(--serif);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  margin: 0 0 var(--space-3, 12px);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__blurb {
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-3);
+  line-height: var(--lh-relaxed, 1.55);
+  margin: 0;
+  max-width: 36ch;
+}
+
 .site-footer__heading {
-  font-family: var(--sans, system-ui, sans-serif);
-  font-size: 12px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--ink-3, #6a625a); margin: 0 0 8px;
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin: 0 0 var(--space-3, 12px);
 }
-.site-footer__links { list-style: none; padding: 0; margin: 0; }
-.site-footer__links li { margin: 0 0 4px; }
-.site-footer__links a { color: var(--ink-2, #3a342c); text-decoration: none; }
-.site-footer__links a:hover { color: var(--accent, #b8753c); text-decoration: underline; }
-.site-footer__meta { opacity: 0.6; margin-top: 12px; font-size: 13px; }
+
+.site-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.site-footer__links li {
+  margin: 0 0 var(--space-2, 8px);
+}
+.site-footer__links a {
+  font-family: var(--sans);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color var(--dur-base, 180ms) var(--ease, ease);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__links a:hover {
+  color: var(--accent);
+}
+.site-footer__links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm, 4px);
+  color: var(--accent);
+}
+
+.site-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+  padding-top: var(--space-5, 24px);
+  border-top: 1px solid var(--rule-2, var(--rule));
+}
+.site-footer__copyright,
+.site-footer__meta {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-4, var(--ink-3));
+}
+.site-footer__version {
+  font-family: var(--mono);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 540px) {
+  .site-footer__bottom {
+    justify-content: center;
+    text-align: center;
+  }
+}
 </style>
 <script>
 const SERVER_URL = (function() {
@@ -510,8 +663,8 @@ async function refreshState() {
   _ALL_STATE = state;
   // Owner mode = state fetch successful (server reachable + token valid)
   const newOwner = !!state;
-  if (newOwner !== _isOwner) {
-    _isOwner = newOwner;
+  if (newOwner !== window._isOwner) {
+    window._isOwner = newOwner;
     applyOwnerMode();
   }
   updateNavStatus(state);
@@ -520,10 +673,19 @@ async function refreshState() {
 }
 
 // ─── Owner detection (read-only mode for visitors) ───
-let _isOwner = false;
+// IMPORTANT: window._isOwner (NOT a script-scoped `let _isOwner`).  The
+// widget runtime in widgets/state.py:visibleSections() reads
+// `window._isOwner` from a separate IIFE closure, so the value MUST be
+// on the global object — a `let` at script scope is invisible across
+// closures and the private widget section never renders.
+//
+// Was: `let _isOwner = false;` — caused all private widgets (claude-
+// station, refine, code-rate, mode-pill, kill-switch, etc.) to be
+// invisible regardless of token state. Fixed 2026-05-02.
+window._isOwner = false;
 function applyOwnerMode() {
   const banner = document.getElementById("owner-banner");
-  if (_isOwner) {
+  if (window._isOwner) {
     document.body.classList.remove("read-only");
     if (banner) banner.classList.replace("show", "hide");
   } else {
@@ -584,19 +746,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
   const savedTheme = localStorage.getItem("ENSEMBLE_THEME") || "warm";
   applyTheme(savedTheme);
+  // Click + keyboard binding (Enter / Space). The swatches carry
+  // role="button" + tabindex="0" so keyboard users can activate them.
+  const activateOnKey = (handler) => (ev) => {
+    if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") {
+      ev.preventDefault();
+      handler.call(ev.currentTarget, ev);
+    }
+  };
   document.querySelectorAll(".theme-swatch").forEach(el => {
-    el.addEventListener("click", () => {
+    const fire = () => {
       const t = el.dataset.theme;
       localStorage.setItem("ENSEMBLE_THEME", t);
       applyTheme(t);
-    });
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
   });
 
   // Background load + bind
   const savedBg = localStorage.getItem("ENSEMBLE_BG") || "solid";
   applyBackground(savedBg);
   document.querySelectorAll(".bg-swatch").forEach(el => {
-    el.addEventListener("click", () => {
+    const fire = () => {
       const b = el.dataset.bg;
       // Custom-upload tile: open the file picker on every click.  If the
       // user already has a saved upload, clicking re-applies it without
@@ -613,7 +785,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       localStorage.setItem("ENSEMBLE_BG", b);
       applyBackground(b);
-    });
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
   });
 
   // Custom wallpaper upload flow.
@@ -646,14 +820,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Owner mode initial state — pessimistic until state fetch confirms
-  _isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
+  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
   applyOwnerMode();
 
   refreshState();
   setInterval(refreshState, 60000);
   document.querySelectorAll("[data-field]").forEach(el => {
     el.addEventListener("change", () => {
-      if (!_isOwner) return;  // belt + suspenders; backend also enforces
+      if (!window._isOwner) return;  // belt + suspenders; backend also enforces
       const field = el.dataset.field;
       let value;
       if (el.type === "checkbox") value = el.checked;
@@ -745,6 +919,26 @@ async function setTokenReset() {
 // First-run onboarding modal (Phase A.4-3)
 const FIRST_RUN_SEEN_KEY = "ensemble:first-run-seen";
 
+// Slot warp:flowA - advance the server-side first-run state machine.
+// Best-effort: a 401 (unpaired) or 409 (regression/skip) should not block
+// the UI flow, since the modal works even when paired-user auth is absent
+// in dev mode. Logged via console.warn so we can spot real regressions.
+async function advanceFirstRunState(step) {
+  try {
+    const r = await fetch("/first-run/advance", {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ step: step })
+    });
+    if (!r.ok && r.status !== 409 && r.status !== 401) {
+      try { console.warn("first-run advance failed", step, r.status); } catch (e) {}
+    }
+    return r.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
 function isEnsembleHomepage() {
   const p = location.pathname;
   return p.endsWith("/index.html") || p === "/" || p.endsWith("/ensemble.html");
@@ -803,7 +997,18 @@ async function submitFirstRunModal(ev) {
           localStorage.setItem("ensemble:generated-studio", JSON.stringify(body.studio));
         }
       } catch (e) {}
-      window.location.href = "/your-studio.html";
+      // Slot warp:flowA - record progress through the state machine.
+      // QUESTIONS marks the modal submit; CANVAS marks the genesis 200.
+      // Both happen now because /studio/generate-from-answers returned ok
+      // synchronously above; the state machine still rejects skips so we
+      // advance one step at a time.
+      await advanceFirstRunState("questions-answered");
+      await advanceFirstRunState("canvas-generated");
+      // Post-studio: route through character creator before showing the
+      // generated studio, so the visitor designs their sprite once. The
+      // creator's Save handler honors ?from=first-run and forwards on to
+      // /your-studio.html.
+      window.location.href = "/character-creator.html?from=first-run";
       return;
     }
     if (r.status === 400) {
@@ -871,11 +1076,34 @@ function wireFirstRunModal() {
     if (e.key === "Escape" && !overlay.hidden) closeFirstRunModal();
   });
   if (isEnsembleHomepage()) {
-    let seen = "0";
-    try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
-    if (seen !== "1") {
-      setTimeout(openFirstRunModal, 200);
-    }
+    // Slot warp:flowA - returning-user fast-path. If the server says this
+    // user has already completed the first-run flow, route them directly
+    // to /studio.html without flickering through the modal.
+    fetch("/first-run/state", { headers: authHeaders() })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (state) {
+        if (state && state.is_complete) {
+          try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+          window.location.replace(state.resume_url || "/studio.html");
+          return;
+        }
+        // Not complete - either unpaired (state==null) or mid-flow.
+        // Resume URL hints at the right page; if it points to a different
+        // step, route there. Otherwise show the modal as before.
+        if (state && state.resume_url && state.resume_url !== "/index.html") {
+          window.location.replace(state.resume_url);
+          return;
+        }
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      })
+      .catch(function () {
+        // Network / unreachable - fall back to legacy localStorage gate.
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      });
   }
 }
 

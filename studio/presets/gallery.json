@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "preset_metadata": {
+    "id": "gallery",
+    "display_name": "Gallery",
+    "description": "Curate your work like an exhibition. Each frame points wherever you want \u2014 a portfolio, a writeup, a film.",
+    "thumbnail": null,
+    "natural_themes": [
+      "mono",
+      "slate",
+      "ash"
+    ],
+    "min_chats": 0,
+    "recommended_chats": 0,
+    "max_chats": 99,
+    "author": "Ensemble built-in",
+    "version": 1,
+    "is_default": false
+  },
+  "name": "Gallery",
+  "preset_origin": "gallery",
+  "theme": null,
+  "background": null,
+  "stage": {
+    "width": 1920,
+    "height": 1080,
+    "background_layer": "stage_default",
+    "ambient_sound": null
+  },
+  "components": [
+    {
+      "id": "stage_floor",
+      "type": "svg",
+      "x": 0,
+      "y": 540,
+      "w": 1920,
+      "h": 540,
+      "z": 0,
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "wall_band",
+      "type": "svg",
+      "x": 0,
+      "y": 200,
+      "w": 1920,
+      "h": 4,
+      "z": 1,
+      "props": {
+        "shape": "rect",
+        "fill_token": "ink-3",
+        "opacity": 0.3
+      },
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "title_eyebrow",
+      "type": "text",
+      "x": 96,
+      "y": 64,
+      "w": 600,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "GALLERY",
+        "variant": "eyebrow",
+        "color_token": "accent"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "title_main",
+      "type": "text",
+      "x": 96,
+      "y": 96,
+      "w": 1100,
+      "h": 64,
+      "z": 6,
+      "props": {
+        "text": "Curated. <em>By you.</em>",
+        "variant": "hero"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "wall_text_label",
+      "type": "text",
+      "x": 96,
+      "y": 200,
+      "w": 600,
+      "h": 96,
+      "z": 6,
+      "props": {
+        "text": "Name your gallery here. One sentence on the canvas \u2014 the work, the season, the why.",
+        "variant": "body",
+        "color_token": "ink-2"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "frame_1",
+      "type": "prop",
+      "x": 200,
+      "y": 320,
+      "w": 200,
+      "h": 240,
+      "z": 4,
+      "props": {
+        "sprite_id": "wall_frame",
+        "label": "Frame 1"
+      },
+      "interaction": {
+        "type": "link",
+        "url": "",
+        "label": "Link to a project, an essay, a film"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
+    },
+    {
+      "id": "frame_2",
+      "type": "prop",
+      "x": 560,
+      "y": 320,
+      "w": 200,
+      "h": 240,
+      "z": 4,
+      "props": {
+        "sprite_id": "wall_frame",
+        "label": "Frame 2"
+      },
+      "interaction": {
+        "type": "link",
+        "url": "",
+        "label": "Link wherever you like"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
+    },
+    {
+      "id": "frame_3",
+      "type": "prop",
+      "x": 920,
+      "y": 320,
+      "w": 200,
+      "h": 240,
+      "z": 4,
+      "props": {
+        "sprite_id": "wall_frame",
+        "label": "Frame 3"
+      },
+      "interaction": {
+        "type": "link",
+        "url": "",
+        "label": "Link wherever you like"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
+    },
+    {
+      "id": "frame_4",
+      "type": "prop",
+      "x": 1280,
+      "y": 320,
+      "w": 200,
+      "h": 240,
+      "z": 4,
+      "props": {
+        "sprite_id": "wall_frame",
+        "label": "Frame 4"
+      },
+      "interaction": {
+        "type": "link",
+        "url": "",
+        "label": "Link wherever you like"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
+    },
+    {
+      "id": "plinth_sculpture",
+      "type": "prop",
+      "x": 1620,
+      "y": 480,
+      "w": 180,
+      "h": 320,
+      "z": 5,
+      "props": {
+        "sprite_id": "plinth_sculpture",
+        "label": "Featured work"
+      },
+      "interaction": {
+        "type": "link",
+        "url": "",
+        "label": "Link to a featured piece \u2014 a film, a model, a centerpiece"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
+    },
+    {
+      "id": "bench_center",
+      "type": "prop",
+      "x": 800,
+      "y": 760,
+      "w": 320,
+      "h": 80,
+      "z": 4,
+      "props": {
+        "sprite_id": "gallery_bench",
+        "label": "Bench"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "door_side",
+      "type": "prop",
+      "x": 96,
+      "y": 540,
+      "w": 128,
+      "h": 256,
+      "z": 3,
+      "props": {
+        "sprite_id": "door_wooden",
+        "label": "Door"
+      },
+      "interaction": {
+        "type": "link",
+        "url": "",
+        "label": "Wire this door wherever you like"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true
+    },
+    {
+      "id": "footer_credit",
+      "type": "text",
+      "x": 96,
+      "y": 1020,
+      "w": 800,
+      "h": 24,
+      "z": 6,
+      "props": {
+        "text": "Hung with care. Made with Ensemble.",
+        "variant": "body",
+        "color_token": "ink-3"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    }
+  ],
+  "custom_css": "",
+  "custom_js": "",
+  "history_seq": 0,
+  "last_saved_at": null,
+  "visibility": "private"
+}
