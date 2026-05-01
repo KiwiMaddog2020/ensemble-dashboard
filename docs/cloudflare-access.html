@@ -260,7 +260,7 @@ Proxy:   ON (orange cloud — REQUIRED for Access to work)
 <li><code>bin/dashboard-generate.sh</code> — <code>DASHBOARD_URL</code> env var defaults</li>
 <li><code>plugins/ensemble/integrations/swiftbar/ensemble-autopilot.10s.sh</code> — dashboard link</li>
 <li><code>public/index.html</code> (marketing) — same domain, same auth (separate Access app or include path)</li>
-<li>README badges, MOBILE_DISPATCH.md walkthroughs</li>
+<li>README badges, install / quickstart docs</li>
 </ul>
 <h2 id="multiple-sub-paths-under-one-access-policy">Multiple sub-paths under one Access policy</h2>
 <p>If you want phone + desktop cheat sheets behind the same auth:</p>
@@ -284,7 +284,7 @@ Proxy:   ON (orange cloud — REQUIRED for Access to work)
 <h2 id="alternatives-considered">Alternatives considered</h2>
 <ul>
 <li><strong>Client-side password gate</strong> — basic JS check, breakable via DevTools. Good MVP only.</li>
-<li><strong>Tailscale-only</strong> — fully private but loses any public access for demos.</li>
+<li><strong>Private LAN / VPN only</strong> — fully private but loses any public access for demos.</li>
 <li><strong>Vercel/Netlify migration</strong> — real auth via their platforms but moves hosting off GitHub Pages.</li>
 </ul>
 <p>Cloudflare Access wins on: real security + free + keeps GitHub Pages + supports PWA + audit log.</p>

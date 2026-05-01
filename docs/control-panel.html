@@ -177,20 +177,20 @@
 </ul>
 <h3 id="private-write-layer-local-mac-http-server">Private write layer — local Mac HTTP server</h3>
 <ul>
-<li><strong>Python stdlib <code>http.server</code></strong> subclass listening on <code>127.0.0.1:8080</code> + Tailscale IP</li>
+<li><strong>Python stdlib <code>http.server</code></strong> subclass listening on <code>127.0.0.1:8080</code> (with optional Cloudflare Tunnel for remote access)</li>
 <li>Serves the <strong>same</strong> HTML as the public layer (so the URL works whether you&rsquo;re on the public site or hitting your Mac directly), plus extra interactive button affordances</li>
 <li>POST endpoints:</li>
 <li><code>POST /toggle-active</code> — flip <code>active</code> for a slug</li>
 <li><code>POST /set-mode</code> — change <code>evolution_mode</code></li>
 <li><code>POST /toggle-autopilot</code> — flip <code>autopilot_eligible</code></li>
-<li><code>POST /fire</code> — trigger <code>mobile_dispatch.sh fire &lt;minutes&gt; &lt;prompt&gt; &lt;slug&gt;</code></li>
+<li><code>POST /fire</code> — trigger <code>ensemble_actions.sh fire &lt;minutes&gt; &lt;prompt&gt; &lt;slug&gt;</code></li>
 <li><code>POST /kill</code> — fire the kill switch</li>
 <li><code>GET /state</code> — current runtime state JSON</li>
-<li><strong>Auth:</strong> Bearer token from <code>~/.claude/orchestrator/.env.local</code> (<code>DASHBOARD_TOKEN=...</code>) sent in every write request. Tailscale provides network-layer security; Bearer adds a second factor.</li>
+<li><strong>Auth:</strong> Bearer token from <code>~/.claude/orchestrator/.env.local</code> (<code>DASHBOARD_TOKEN=...</code>) sent in every write request. Cloudflare Access provides network-layer security; Bearer adds a second factor.</li>
 </ul>
 <h3 id="adaptive-ui-single-page-detects-which-layer-its-on">Adaptive UI — single page detects which layer it&rsquo;s on</h3>
 <p>The dashboard JS does a startup probe:
-1. Try <code>GET http://&lt;tailscale-ip&gt;:8080/state</code> (or <code>localhost:8080/state</code> if running locally)
+1. Try <code>GET http://&lt;server-host&gt;:8080/state</code> (or <code>localhost:8080/state</code> if running locally)
 2. <strong>If reachable + auth OK:</strong> show interactive buttons next to every flag/pill, plus the &ldquo;Fire autopilot&rdquo; + &ldquo;Kill switch&rdquo; controls
 3. <strong>If not reachable:</strong> stay read-only (graceful fallback)</p>
 <p>Same HTML works for both modes; JS hides/shows the controls based on probe result.</p>
@@ -218,7 +218,7 @@
 <h2 id="tonights-v1-executable-scope">Tonight&rsquo;s v1 (executable scope)</h2>
 <p>For Kevin&rsquo;s own Ensemble (productization extends to all users in a follow-up session):</p>
 <ul>
-<li><strong><code>bin/control-panel-server.sh</code></strong> — wrapper that launches the Python HTTP server on <code>0.0.0.0:8080</code> (Tailscale-reachable). Registers a launchd agent so it stays running across logouts.</li>
+<li><strong><code>bin/control-panel-server.sh</code></strong> — wrapper that launches the Python HTTP server on <code>0.0.0.0:8080</code> (LAN / Cloudflare Tunnel reachable). Registers a launchd agent so it stays running across logouts.</li>
 <li><strong><code>bin/control-panel-server.py</code></strong> — the actual server. Stdlib http.server, ~150 lines. Endpoints listed above.</li>
 <li><strong><code>bin/dashboard-generate.sh</code> extension</strong> — adds interactive controls to the rendered HTML (data-attributes that the JS can find + wire up).</li>
 <li><strong>JS in dashboard pages</strong> — startup probe + button wiring (~100 lines, embedded in HTML at gen time).</li>
@@ -229,7 +229,7 @@
 <ul>
 <li><strong>Auto-setup script</strong> at <code>plugins/ensemble/bin/setup-dashboard.sh</code> — implements the 8-step flow above</li>
 <li><strong>Plugin install hook</strong> wires it to fire on first run</li>
-<li><strong>Per-user templating</strong> — the dashboard URL, GitHub username, Tailscale IP all become variables instead of hard-coded</li>
+<li><strong>Per-user templating</strong> — the dashboard URL and GitHub username become variables instead of hard-coded</li>
 <li><strong>Documentation</strong> — README explains the dashboard for end users; INSTALL.md updated</li>
 </ul>
 <p>Estimated follow-up: ~3 hours.</p>
@@ -237,7 +237,7 @@
 <ul>
 <li>Multi-user-per-instance (each user has their own instance; not multi-tenant in one)</li>
 <li>Cloud-hosted server (Vercel/Cloudflare/etc.) — Mac-local is simpler + private</li>
-<li>Public write API — write actions are always Tailscale-only</li>
+<li>Public write API — write actions are always private-network only (LAN or Cloudflare Tunnel + Access)</li>
 <li>Real-time push (websockets) — auto-refresh + 30s JS polling is sufficient</li>
 <li>Mobile push notifications from button actions — Pushover already wired; can add later</li>
 </ul>
@@ -249,7 +249,7 @@
 <li>[ ] Dashboard at <code>localhost:8080/</code> shows interactive buttons (toggles, mode picker, fire button)</li>
 <li>[ ] Same dashboard at <code>https://kiwimaddog2020.github.io/ensemble-dashboard/</code> shows read-only (no buttons because the probe fails over the public network)</li>
 <li>[ ] iframe to claude.ai loads (or graceful fallback if blocked)</li>
-<li>[ ] Tailscale-reachable from phone: <code>http://100.107.120.85:8080/</code> works on phone Safari with Bearer token in localStorage</li>
+<li>[ ] Cloudflare-Tunnel-reachable from phone: tunnel hostname works on phone Safari with Bearer token in localStorage</li>
 </ul>
 <h2 id="sequencing">Sequencing</h2>
 <p><strong>Tonight:</strong>

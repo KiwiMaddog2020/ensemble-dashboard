@@ -220,7 +220,7 @@
 </tr>
 <tr>
 <td>9</td>
-<td>Optional: mobile dispatch (Tailscale + SSH key + Termius + iOS Shortcut)</td>
+<td>Optional: open the PWA Terminal page on phone for the mobile-control surface</td>
 </tr>
 <tr>
 <td>10</td>
@@ -315,13 +315,9 @@ bash plugins/ensemble/bin/self_test.sh        # all green
 claude
 </code></pre>
 <p>In the chat, paste the contents of <code>plugins/ensemble/templates/onboarding_prompt.md</code>. The chat walks through repo discovery → interview → charter → status file → identity → reports back to the Maestro.</p>
-<h3 id="8-optional-wire-mobile-dispatch">8. Optional — wire mobile dispatch</h3>
-<p>If you want phone-triggered autopilot via Tailscale + Termius, run:</p>
-<p><strong>macOS:</strong></p>
-<pre><code class="language-bash">bash bin/setup-mobile-dispatch.sh
-</code></pre>
-<p>This installs Tailscale (if not present), generates an SSH key, configures the launchd trigger consumer, and prints the snippets to paste into Termius.</p>
-<p><strong>Windows:</strong> see <code>docs/MOBILE_DISPATCH.md</code> for the manual steps (no setup wizard yet — coming in a future release).</p>
+<h3 id="8-optional-wire-phone-access">8. Optional — wire phone access</h3>
+<p>The PWA Terminal page (<code>/terminal.html</code>) is the supported way to drive autopilot from a phone. Set up Cloudflare Tunnel (see <code>docs/CLOUDFLARE_ACCESS_SETUP.md</code>) so the PWA + control-panel server are reachable from a public URL, then paste your <code>DASHBOARD_TOKEN</code> into the Terminal page on your phone. From there you can fire / kill / chat without SSH or extra apps.</p>
+<p>Termius / Tailscale / <code>mobile_dispatch.sh</code> were the v0 mobile-control path; they were removed in v1.0.</p>
 <h3 id="9-optional-install-the-dashboard">9. Optional — install the dashboard</h3>
 <pre><code class="language-bash">bash plugins/ensemble/bin/setup-dashboard.sh
 </code></pre>
@@ -333,7 +329,7 @@ bash bin/control-panel-server.sh &amp;
 # Or via launchd (auto-restart, runs across reboots):
 launchctl bootstrap gui/$UID launchd/com.kevin.ensemble.control-panel.plist
 </code></pre>
-<p>The dashboard auto-detects the local server and shows interactive buttons when you visit it on the same machine or via Tailscale.</p>
+<p>The dashboard auto-detects the local server and shows interactive buttons when you visit it on the same machine or via your Cloudflare Tunnel URL.</p>
 <hr />
 <h2 id="companion-repos-synced-from-canonical">Companion repos (synced from canonical)</h2>
 <table>
@@ -404,7 +400,7 @@ rm -rf ~/.claude/orchestrator
 <tr>
 <td>Lock held forever after a crashed session</td>
 <td>stale lock</td>
-<td>run <code>bash bin/mobile_dispatch.sh kill</code> (or <code>.\bin-win\stale_lock_sweeper.ps1</code>)</td>
+<td>run <code>bash bin/ensemble_actions.sh kill</code> (or <code>.\bin-win\stale_lock_sweeper.ps1</code>)</td>
 </tr>
 <tr>
 <td>All scheduled tasks fail to run</td>

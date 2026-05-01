@@ -157,10 +157,14 @@
     <header class="doc-hero">
       <p class="doc-eyebrow">Documentation</p>
       <h1 class="doc-title">Session Handoff</h1>
-      <p class="doc-lead">**Supersedes** the 2026-04-29 wake-up brief (committed at `6f7c646` &quot;chore(handoff): SESSION_HANDOFF.md updated for OPT-1 closeout&quot;). That session&#x27;s work is all shipped; reference its content in git history if you need it. This handoff is what&#x27;s true RIGHT NOW.</p>
+      <p class="doc-lead">Resume context for the next chat.</p>
       <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/SESSION_HANDOFF.md</code></p>
     </header>
     <article class="doc-content">
+<blockquote>
+<p><strong>2026-05-02 R-simplify-α</strong> removed Termius / <code>mobile_dispatch.sh</code> / <code>setup-mobile-dispatch.sh</code> / Tailscale support out-of-box. The PWA Terminal page (<code>/terminal.html</code>) is the new mobile-control surface; Cloudflare Tunnel + Cloudflare Access are the supported remote-access path. The local-actions helper that the macapp + SwiftBar + control-panel server call is now <code>bin/ensemble_actions.sh</code> (kill / fire / status / brief / *-toggle). PHONE_QUICKSTART.md and MOBILE_DISPATCH.md were deleted; the install skill&rsquo;s Phase 9 demotion is slot β.</p>
+<p><strong>Supersedes</strong> the 2026-04-29 wake-up brief (committed at <code>6f7c646</code> &ldquo;chore(handoff): SESSION_HANDOFF.md updated for OPT-1 closeout&rdquo;). That session&rsquo;s work is all shipped; reference its content in git history if you need it. This handoff is what&rsquo;s true RIGHT NOW.</p>
+</blockquote>
 <hr />
 <h2 id="wake-up-brief-read-this-first">☕ WAKE-UP BRIEF · read this first</h2>
 <p>While you slept, the <strong>2026-05-01 evening session was a planning + warp-x6 marathon</strong>. Six warp slots fired across two parallel tracks (R12 Stardew substrate + R12.5 Claude Coding Station). <strong>Four of six landed and merged</strong>; two heavy slots (R12-b camera+parallax, R12.5-a 3-endpoints+JSONL+SSE) were still running at handoff time. Three major plan docs got drafted + committed. The walk-mode rendering bug Kevin saw earlier today was rooted-caused + fixed. The Polish protocol got shipped end-to-end (skill + slash + widget + self-test doc).</p>

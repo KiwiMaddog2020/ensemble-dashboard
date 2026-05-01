@@ -162,6 +162,9 @@
     </header>
     <article class="doc-content">
 <p>Fifteen sections, ordered by how often you&rsquo;re likely to hit each. Every section follows the same shape: <strong>Symptom → Diagnostic → Recovery</strong>. If a recovery step involves a command, it&rsquo;s a play-button you can click.</p>
+<blockquote>
+<p><strong>Mobile access:</strong> see the PWA Terminal page (<code>/terminal.html</code>) — that is the supported mobile-control surface. Termius / Tailscale / <code>mobile_dispatch.sh</code> were removed in v1.0.</p>
+</blockquote>
 <hr />
 <h2 id="1-git-clone-fails-during-install-with-auth-error">1. <code>git clone</code> fails during install with auth error</h2>
 <p><strong>Symptom:</strong> installer step 3 halts with <code>remote: Repository not found</code> or <code>Authentication failed for 'https://github.com/...'</code>.</p>
@@ -369,7 +372,7 @@ git config --global credential.helper
 <hr />
 <h2 id="15-channels-session-dropped">15. Channels session dropped</h2>
 <blockquote>
-<p><strong>Note:</strong> The exact Claude Code invocation for an iMessage Channels listener is plugin-documented, not a core <code>claude</code> CLI flag. The <code>--channels</code> references in earlier drafts were speculative. Before relying on this recovery path, verify the current command via <code>/plugin marketplace</code> and the installed iMessage plugin&rsquo;s own documentation. Path B (Cloud Routine + iMessage Channels) is still v2-scope per <code>plugins/ensemble/MOBILE_DISPATCH.md §3</code>.</p>
+<p><strong>Note:</strong> The exact Claude Code invocation for an iMessage Channels listener is plugin-documented, not a core <code>claude</code> CLI flag. The <code>--channels</code> references in earlier drafts were speculative. Before relying on this recovery path, verify the current command via <code>/plugin marketplace</code> and the installed iMessage plugin&rsquo;s own documentation. Path B (Cloud Routine + iMessage Channels) is still v2-scope.</p>
 </blockquote>
 <p><strong>Symptom:</strong> iMessage commands to kill the Ensemble or trigger a routine don&rsquo;t produce replies. The persistent tmux session that should be listening isn&rsquo;t.</p>
 <p><strong>Diagnostic:</strong></p>
@@ -405,8 +408,9 @@ bash plugins/ensemble/bin/orchestrator_spawn_lock.sh release &lt;slug&gt;
 <p><strong>Cause</strong>: <code>state.json.max_concurrent_autopilots</code> is at capacity, no slot opened within the 5-minute queue timeout.</p>
 <p><strong>Fix</strong>: Raise cap or kill an existing autopilot:</p>
 <pre><code class="language-bash">jq '.max_concurrent_autopilots = 3' state.json &gt; s.tmp &amp;&amp; mv s.tmp state.json
-# or
-bash bin/mobile_dispatch.sh kill
+# or kill all running autopilots from the PWA Terminal page (kill switch)
+# or manually:
+pkill -f autopilot_session.sh
 </code></pre>
 <h3 id="18-resource-floor-refused-refusal-code-4">18. Resource floor refused (refusal code 4)</h3>
 <p><strong>Symptom</strong>: <code>SPAWN-LOCK: resource floor — RAM N% &gt; threshold M%. Refused.</code> (or CPU variant)</p>
