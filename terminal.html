@@ -183,7 +183,10 @@
       <header class="terminal-panel__header">
         <span data-slot="active-chat-title">Active chat</span>
       </header>
-      <div id="terminal-center-body" class="terminal-panel__body" data-slot="scrollback-and-compose"></div>
+      <!-- Center body uses the no-padding modifier so the inner
+           .terminal-center widget owns its own padding + scrollback,
+           with the compose tray pinned at the bottom. -->
+      <div id="terminal-center-body" class="terminal-panel__body terminal-panel__body--flush" data-slot="scrollback-and-compose"></div>
     </section>
 
     <div
