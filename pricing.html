@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Bunch of Others (BOO) Website · Ensemble</title>
-<meta name="description" content="Single-page psychedelic band website + 7-game HTML5 arcade with Firebase leaderboards. Vanilla HTML/CSS/JS, GitHub Pages, live at bunchofothers.com." />
+<title>Ensemble — Pricing</title>
+<meta name="description" content="Free, Pro, Team. Bring your own Claude key. Pick the plan that fits how you build." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -90,7 +90,7 @@
   }
 </script>
 </head>
-<body class="proj-page">
+<body class="hub">
 <a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
@@ -134,9 +134,9 @@
     <ul id="topnav-list">
       <li><a href="./">Ensemble</a></li>
       <li><a href="./studio.html">Studio</a></li>
-      <li><a class="active" aria-current="page" href="./dashboard.html">Dashboard</a></li>
+      <li><a href="./dashboard.html">Dashboard</a></li>
       <li><a href="./terminal.html">Terminal</a></li>
-      <li><a href="./pricing.html">Pricing</a></li>
+      <li><a class="active" aria-current="page" href="./pricing.html">Pricing</a></li>
       <li><a href="./docs.html">Docs</a></li>
       <li><a href="./settings.html">Settings</a></li>
     </ul>
@@ -200,135 +200,101 @@
     </div>
   </div>
 </div>
-<header class="hero">
-  <div class="wrap hero-inner">
-    <p class="eyebrow"><a href="./projects.html">← Back to roster</a></p>
-    <div class="proj-hero-inner">
-      <div class="pie-big"><svg class="pie-big" viewBox="0 0 100 100" aria-label="92% complete">
-      <circle cx="50" cy="50" r="42" fill="none" stroke="var(--rule)" stroke-width="6"/>
-      <circle cx="50" cy="50" r="42" fill="none"
-              stroke="var(--accent)" stroke-width="6" stroke-linecap="round"
-              stroke-dasharray="242.78 21.11" transform="rotate(-90 50 50)"/>
-      <text x="50" y="58" text-anchor="middle" font-family="EB Garamond, serif"
-            font-style="italic" font-weight="500" font-size="28" fill="currentColor">92</text>
-    </svg></div>
-      <div class="proj-hero-text">
-        <p class="proj-phase">Live + maintained</p>
-        <h1>Bunch of Others (BOO) Website</h1>
-        <p class="proj-desc">Single-page psychedelic band website + 7-game HTML5 arcade with Firebase leaderboards. Vanilla HTML/CSS/JS, GitHub Pages, live at bunchofothers.com.</p>
-        <div class="proj-pills"><span class="pill pill-tier-agent">Project</span> <span class="pill pill-state-warmer">Warmer</span> <span class="pill pill-auto">auto-tests</span> <span class="pill pill-attn">needs your eyes</span></div>
-      </div>
-    </div>
-    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 2h ago · boo-website</p>
+<main id="main"><header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Pricing</p>
+    <h1>Pick the plan that fits how you <em>build.</em></h1>
+    <p class="lead">Bring your own Claude key. We charge for the room you build it in &mdash; not the tokens you spend.</p>
   </div>
 </header>
-<main id="main" class="proj-main">
+
+<section class="pricing">
   <div class="wrap">
-
-    <section class="proj-section">
-      <h2>Timeline</h2>
-      <p class="proj-lead">Past milestones (filled), where we are now (pulsing), and what's coming next (outlined).</p>
-      <div class="timeline">
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">2026-05-02</p>
-  <h3 class="tl-title">Advanced to Warmer</h3>
-  <p class="tl-summary">Checkpoint smoke test passed; state moved to Warmer.</p>
-</div>
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">199f544</p>
-  <h3 class="tl-title">[V1_83] Fix nav animation not visible + photo gallery not openin…</h3>
-  <p class="tl-summary">Commit 199f544 on boo-website.</p>
-</div>
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">4176596</p>
-  <h3 class="tl-title">[V1_80] Slow ripple to 900ms, kill Android overscroll gray bar, …</h3>
-  <p class="tl-summary">Commit 4176596 on boo-website.</p>
-</div>
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">524fe82</p>
-  <h3 class="tl-title">[V1_82] Mobile atmosphere pass: chromatic-split nav animation, a…</h3>
-  <p class="tl-summary">Commit 524fe82 on boo-website.</p>
-</div>
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">8365c43</p>
-  <h3 class="tl-title">[V1_81] Neon Survivors fullscreen: add data-fullscreen-aspect ov…</h3>
-  <p class="tl-summary">Commit 8365c43 on boo-website.</p>
-</div>
-<div class="tl-item done">
-  <div class="tl-marker"></div>
-  <p class="tl-date">ef9c2bc</p>
-  <h3 class="tl-title">[V1_84] Color mist: normalize bottom-left corner offset to match…</h3>
-  <p class="tl-summary">Commit ef9c2bc on boo-website.</p>
-</div>
-<div class="tl-item now">
-  <div class="tl-marker"></div>
-  <p class="tl-date">now</p>
-  <h3 class="tl-title">Agent should refresh top_rec on next session</h3>
-  <p class="tl-summary">Status file refreshed by Maestro 2026-04-25 after pulling 28 commits up from origin. Top_rec field needs the Agent itself to re-evaluate against current charter + latest V1_84 state.</p>
-</div>
-<div class="tl-item next">
-  <div class="tl-marker"></div>
-  <p class="tl-date">next</p>
-  <h3 class="tl-title">Add .gitignore (untrack .DS_Store + .claude/ + macOS metadata)</h3>
-  <p class="tl-summary">5+ .DS_Store files are currently tracked; they re-dirty the working tree on every Finder visit. .claude/ is per-project Agent state, shouldn&#x27;t be in main repo. Quick cleanup commit.</p>
-</div>
-<div class="tl-item next">
-  <div class="tl-marker"></div>
-  <p class="tl-date">next</p>
-  <h3 class="tl-title">Verify the Stripe payment flow on the live site</h3>
-  <p class="tl-summary">cancel.html + success.html shipped in V1_80-V1_84 range. End-to-end Stripe checkout should be smoke-tested with a real card or Stripe test card to confirm redirect pages render correctly post-launch.</p>
-</div>
-      </div>
-    </section>
-
-    <section class="proj-section">
-      <h2>Right <em>now</em></h2>
-      <div class="now-grid">
-        <div class="now-card">
-          <h3>Current task</h3>
-          <p>Mobile polish pass V1_80→V1_84 shipped. Merch payment flow (cancel.html + success.html) landed via lucid-nightingale-0c1878 worktree.</p>
-        </div>
-        <div class="now-card">
-          <h3>Recent commits</h3>
-          <ul><li><code>ef9c2bc</code> [V1_84] Color mist: normalize bottom-left corner offset to match the other three (kill the sharp corner)</li>
-<li><code>199f544</code> [V1_83] Fix nav animation not visible + photo gallery not opening on mobile</li>
-<li><code>524fe82</code> [V1_82] Mobile atmosphere pass: chromatic-split nav animation, ambient revive, poster-scale title</li>
-<li><code>8365c43</code> [V1_81] Neon Survivors fullscreen: add data-fullscreen-aspect override so trackpad stops stretching</li>
-<li><code>4176596</code> [V1_80] Slow ripple to 900ms, kill Android overscroll gray bar, fix fullscreen game aspect per game</li></ul>
-        </div>
-        
-      </div>
-    </section>
-
-    <section class="proj-section">
-      <h2>What's <em>next</em></h2>
-      <div class="next-rec">
-  <h3>Top recommendation</h3>
-  <h4>Agent should refresh top_rec on next session</h4>
-  <p>Status file refreshed by Maestro 2026-04-25 after pulling 28 commits up from origin. Top_rec field needs the Agent itself to re-evaluate against current charter + latest V1_84 state.</p>
-</div>
-      <div class="next-alts"><div class="next-alt">
-  <h4>Add .gitignore (untrack .DS_Store + .claude/ + macOS metadata)</h4>
-  <p>5+ .DS_Store files are currently tracked; they re-dirty the working tree on every Finder visit. .claude/ is per-project Agent state, shouldn&#x27;t be in main repo. Quick cleanup commit.</p>
-</div>
-<div class="next-alt">
-  <h4>Verify the Stripe payment flow on the live site</h4>
-  <p>cancel.html + success.html shipped in V1_80-V1_84 range. End-to-end Stripe checkout should be smoke-tested with a real card or Stripe test card to confirm redirect pages render correctly post-launch.</p>
-</div>
-<div class="next-alt">
-  <h4>Audit + remove dead code from index.html</h4>
-  <p>V1_49 removed ~147 lines. File is 451 KB. Periodic audits pay off.</p>
-</div></div>
-    </section>
-
-    <p style="margin-top:48px;"><a class="foot-back" href="./projects.html">← All projects</a></p>
-
+    <table class="pricing-table" aria-label="Plan comparison">
+      <caption class="pricing-table__caption">Compare what each tier unlocks. Limits live in <code>tier_limits.py</code>.</caption>
+      <thead>
+        <tr>
+          <th scope="col"><span class="visually-hidden">Feature</span></th>
+          <th scope="col" class="pricing-tier" data-tier="free">
+            <span class="pricing-tier__name">Free</span>
+            <span class="pricing-tier__price">$0</span>
+            <span class="pricing-tier__sub">Try the Studio. Ship one canvas.</span>
+          </th>
+          <th scope="col" class="pricing-tier pricing-tier--featured" data-tier="pro">
+            <span class="pricing-tier__badge">Recommended</span>
+            <span class="pricing-tier__name">Pro</span>
+            <span class="pricing-tier__price">$&mdash;<span class="pricing-tier__per">/mo</span></span>
+            <span class="pricing-tier__sub">For solo creators iterating across drafts.</span>
+          </th>
+          <th scope="col" class="pricing-tier" data-tier="team">
+            <span class="pricing-tier__name">Team</span>
+            <span class="pricing-tier__price">$&mdash;<span class="pricing-tier__per">/seat</span></span>
+            <span class="pricing-tier__sub">For studios that share canvases.</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <th scope="row">Total canvases</th>
+            <td>2</td>
+            <td>10</td>
+            <td>Unlimited</td>
+          </tr>
+          <tr>
+            <th scope="row">Public showcase slots</th>
+            <td>1</td>
+            <td>1</td>
+            <td>Unlimited</td>
+          </tr>
+          <tr>
+            <th scope="row">Bring-your-own Claude key</th>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th scope="row">Studio editor</th>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th scope="row">Pack uploads</th>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th scope="row">Priority support</th>
+            <td>&mdash;</td>
+            <td>Email</td>
+            <td>Shared channel</td>
+          </tr>
+          <tr>
+            <th scope="row">Team workspace</th>
+            <td>&mdash;</td>
+            <td>&mdash;</td>
+            <td>Yes</td>
+          </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td><a class="btn-secondary pricing-cta" href="./">Start free</a></td>
+          <td><a class="btn-primary pricing-cta" href="/settings.html#settings-byok">Upgrade to Pro</a></td>
+          <td><a class="btn-secondary pricing-cta" href="/settings.html#settings-byok">Talk to us</a></td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
+</section>
+
+<section class="pricing-faq">
+  <div class="wrap">
+    <h2>Questions?</h2>
+    <p class="section-sub">Pricing is the short version. The <a href="./docs.html">docs</a> answer the rest &mdash; how the tiers map to canvases, what BYOK actually means, and how upgrades roll out.</p>
+  </div>
+</section>
 </main>
 <footer class="site-footer">
   <div class="site-footer__inner">

@@ -123,26 +123,75 @@
   }
 })();
 </script>
-<nav class="topnav">
+<nav class="topnav" id="topnav" data-drawer-state="closed">
   <div class="wrap">
     <a class="brand brand--icon-only" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="Ensemble" width="28" height="28" /></a>
-    <ul>
+    <button class="nav__toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="topnav-list" aria-label="Open navigation menu">
+      <span class="nav__toggle-bar" aria-hidden="true"></span>
+      <span class="nav__toggle-bar" aria-hidden="true"></span>
+      <span class="nav__toggle-bar" aria-hidden="true"></span>
+    </button>
+    <ul id="topnav-list">
       <li><a href="./">Ensemble</a></li>
       <li><a href="./studio.html">Studio</a></li>
       <li><a href="./dashboard.html">Dashboard</a></li>
       <li><a href="./terminal.html">Terminal</a></li>
+      <li><a href="./pricing.html">Pricing</a></li>
       <li><a class="active" aria-current="page" href="./docs.html">Docs</a></li>
       <li><a href="./settings.html">Settings</a></li>
     </ul>
-    <span class="nav-status" id="nav-status">…</span>
+    <span class="nav-status" id="nav-status">...</span>
   </div>
 </nav>
+
+<script>
+(function () {
+  function wireNavDrawer() {
+    var nav = document.getElementById("topnav");
+    var btn = document.getElementById("nav-toggle");
+    if (!nav || !btn) return;
+    function setState(open) {
+      nav.setAttribute("data-drawer-state", open ? "open" : "closed");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+    }
+    btn.addEventListener("click", function () {
+      var isOpen = nav.getAttribute("data-drawer-state") === "open";
+      setState(!isOpen);
+    });
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        var isOpen = nav.getAttribute("data-drawer-state") === "open";
+        setState(!isOpen);
+      } else if (e.key === "Escape") {
+        setState(false);
+        btn.focus();
+      }
+    });
+    var mq = window.matchMedia("(max-width: 720px)");
+    function syncBreakpoint() {
+      if (!mq.matches) setState(false);
+    }
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", syncBreakpoint);
+    } else if (typeof mq.addListener === "function") {
+      mq.addListener(syncBreakpoint);
+    }
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", wireNavDrawer);
+  } else {
+    wireNavDrawer();
+  }
+})();
+</script>
 
 <div id="smoke-banner">
   <div class="wrap">
     <div>
       <strong>Smoke test required</strong>
-      <p id="smoke-banner-text">…</p>
+      <p id="smoke-banner-text">...</p>
     </div>
     <div class="cmd-row">
       <button class="btn-primary" onclick="smokeResult('pass')">Pass</button>
@@ -719,7 +768,7 @@ function applyOwnerMode() {
 
 // ─── Theme picker (persisted, per-device) ───
 const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper"];
-const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora", "scanlines", "topo", "vignette", "paper", "custom"];
+const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora", "scanlines", "topo", "vignette", "paper", "linen", "blueprint", "constellation", "marble", "custom"];
 
 function applyTheme(name) {
   THEMES.forEach(t => document.body.classList.remove("theme-" + t));
