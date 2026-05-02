@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Terms of Service</title>
-<meta name="description" content="The agreement between you and Ensemble for using the service." />
+<title>Ensemble — Terminal</title>
+<meta name="description" content="Claude Code in your dashboard. Three-panel command bridge: chat list, terminal-style scrollback + compose, control deck." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -90,7 +90,7 @@
   }
 </script>
 </head>
-<body class="hub doc-page">
+<body class="hub">
 <a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
@@ -130,8 +130,8 @@
       <li><a href="./">Ensemble</a></li>
       <li><a href="./studio.html">Studio</a></li>
       <li><a href="./dashboard.html">Dashboard</a></li>
-      <li><a href="./terminal.html">Terminal</a></li>
-      <li><a class="active" aria-current="page" href="./docs.html">Docs</a></li>
+      <li><a class="active" aria-current="page" href="./terminal.html">Terminal</a></li>
+      <li><a href="./docs.html">Docs</a></li>
       <li><a href="./settings.html">Settings</a></li>
     </ul>
     <span class="nav-status" id="nav-status">…</span>
@@ -151,210 +151,59 @@
     </div>
   </div>
 </div>
-<main id="main" class="doc-page">
-  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
-  <div class="wrap doc-wrap">
-    <a href="../docs.html" class="doc-back">&larr; Back to documentation</a>
-    <header class="doc-hero">
-      <p class="doc-eyebrow">Legal</p>
-      <h1 class="doc-title">Terms of Service</h1>
-      <p class="doc-lead">Effective date: **[DATE OF FIRST PUBLIC FLIP]**. Last updated: **2026-04-29**.</p>
-      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/legal/TERMS_OF_SERVICE.md</code></p>
-    </header>
-    <article class="doc-content">
-<p>These Terms of Service (&ldquo;<strong>Terms</strong>&rdquo;) form a binding agreement between you
-(&ldquo;<strong>you</strong>&rdquo;, &ldquo;<strong>your</strong>&rdquo;) and <strong>Ensemble</strong> (&ldquo;<strong>we</strong>&rdquo;, &ldquo;<strong>us</strong>&rdquo;, &ldquo;<strong>our</strong>&rdquo;). By
-accessing or using our website, dashboard, Studio generator, and related
-services (the &ldquo;<strong>Service</strong>&rdquo;), you agree to these Terms.</p>
-<p>If you do not agree to these Terms, do not use the Service.</p>
-<hr />
-<h2 id="1-acceptance">1. Acceptance</h2>
-<p>You accept these Terms by checking the &ldquo;I agree&rdquo; box at first run, by
-creating an account, or by otherwise using the Service. If you are using
-the Service on behalf of an organization, you represent that you are
-authorized to bind that organization to these Terms.</p>
-<h2 id="2-eligibility">2. Eligibility</h2>
-<ul>
-<li>You must be at least <strong>13 years old</strong> to use the free tier of the Service.</li>
-<li>You must have reached the <strong>age of majority in your jurisdiction</strong> to
-  purchase a paid plan, provide payment information, or accept a billing
-  contract.</li>
-<li>The Service is not directed to anyone under 13. If we learn that we have
-  collected personal information from a child under 13, we will delete it.</li>
-</ul>
-<h2 id="3-your-account">3. Your account</h2>
-<ul>
-<li>You are responsible for maintaining the confidentiality of your
-  credentials, including your <code>DASHBOARD_TOKEN</code>, GitHub OAuth tokens, and
-  any Anthropic API keys you provide.</li>
-<li>You are responsible for all activity that occurs under your account.</li>
-<li>You agree to provide accurate information when you create an account
-  and to keep that information current.</li>
-<li>Notify us promptly at <code>security@ensemble.tld</code> if you suspect unauthorized
-  access to your account.</li>
-</ul>
-<h2 id="4-acceptable-use">4. Acceptable use</h2>
-<p>Your use of the Service is subject to our <strong><a href="./acceptable-use.html">Acceptable Use Policy</a></strong>,
-which is incorporated into these Terms by reference. The AUP describes the
-behavior we don&rsquo;t tolerate (harassment, illegal content, malware, abuse, etc.)
-and the consequences of violating it.</p>
-<h2 id="5-your-content">5. Your content</h2>
-<h3 id="51-ownership">5.1 Ownership</h3>
-<p>You retain all rights you have in the content you submit, generate, or
-publish through the Service (&ldquo;<strong>Your Content</strong>&rdquo;). This includes Studio
-prompts, generated Studio output, profile information, and anything you
-upload.</p>
-<h3 id="52-license-you-grant-to-us">5.2 License you grant to us</h3>
-<p>To operate the Service, you grant Ensemble a <strong>non-exclusive, worldwide,
-royalty-free license</strong> to host, store, reproduce, transmit, and display
-Your Content as needed to:</p>
-<ul>
-<li>Run the Service (e.g. generate, save, and re-display your Studio).</li>
-<li>Show your published content to other users where you have chosen to
-  publish it.</li>
-<li>Distribute Your Content over our content-delivery and edge networks.</li>
-</ul>
-<p>This license ends when you delete Your Content from the Service, except
-that we may retain copies in backups for a reasonable period and as
-required by law.</p>
-<h3 id="53-no-training">5.3 No training</h3>
-<p>We do not use Your Content to train machine-learning models. Your Content
-is sent to third-party model providers (currently Anthropic — see §6) only
-for the duration of fulfilling your request.</p>
-<h3 id="54-responsibility">5.4 Responsibility</h3>
-<p>You are solely responsible for Your Content and for ensuring that you have
-all rights necessary to submit it to the Service. Do not upload material
-you do not have the right to use.</p>
-<h2 id="6-third-party-services-and-byok-api-keys">6. Third-party services and BYOK API keys</h2>
-<p>The Service integrates with third-party services including Anthropic
-(Claude API), GitHub (OAuth), and Cloudflare (CDN). Your use of those
-services is governed by their respective terms.</p>
-<p>If you provide your own Anthropic API key (&ldquo;<strong>BYOK</strong>&rdquo;), you remain bound by
-<strong>Anthropic&rsquo;s Usage Policies</strong> and Acceptable Use Policy. Ensemble is not
-responsible for usage charges, throttling, or termination decisions made
-by Anthropic against your account.</p>
-<h2 id="7-subscriptions-and-billing">7. Subscriptions and billing</h2>
-<blockquote>
-<p><em>Pricing, payment, and refund terms below apply once paid plans launch.
-Until launch, the Service is free of charge.</em></p>
-</blockquote>
-<ul>
-<li><strong>Pricing:</strong> as published on our pricing page at the time you subscribe.</li>
-<li><strong>Billing cycle:</strong> monthly or annual, as you select. Paid plans renew
-  automatically until canceled.</li>
-<li><strong>Refunds:</strong> <strong>30-day no-questions-asked refund</strong> on your first paid
-  invoice. After 30 days, refunds are at our discretion except where
-  required by law.</li>
-<li><strong>Taxes:</strong> prices exclude applicable sales tax, GST/PST, VAT, and similar
-  taxes, which we add at checkout where required.</li>
-<li><strong>Cancellation:</strong> you can cancel any time from your account settings.
-  Cancellation takes effect at the end of the current billing cycle.</li>
-</ul>
-<h2 id="8-intellectual-property">8. Intellectual property</h2>
-<p>The Service itself — including the Ensemble name, logo, source code (where
-not open-sourced), site design, copy, and all other materials we publish —
-is owned by Ensemble or our licensors and is protected by copyright,
-trademark, and other laws. You receive no license to those materials
-except the limited right to use the Service per these Terms.</p>
-<h2 id="9-disclaimers">9. Disclaimers</h2>
-<p>THE SERVICE IS PROVIDED <strong>&ldquo;AS IS&rdquo;</strong> AND <strong>&ldquo;AS AVAILABLE&rdquo;</strong> WITHOUT
-WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-PURPOSE, AND NON-INFRINGEMENT. We do not warrant that the Service will be
-uninterrupted, error-free, secure, or that any specific results will be
-obtained from using it.</p>
-<p>Generated Studio output is produced by a third-party language model. We
-do not guarantee its accuracy, suitability, or freedom from infringement,
-and you are responsible for reviewing it before relying on it.</p>
-<h2 id="10-limitation-of-liability">10. Limitation of liability</h2>
-<p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL ENSEMBLE BE
-LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY,
-OR PUNITIVE DAMAGES, OR FOR LOST PROFITS, REVENUE, GOODWILL, OR DATA,
-ARISING OUT OF OR RELATING TO YOUR USE OF THE SERVICE.</p>
-<p>OUR AGGREGATE LIABILITY FOR ANY CLAIM ARISING OUT OF OR RELATING TO THESE
-TERMS OR THE SERVICE WILL NOT EXCEED THE GREATER OF (a) <strong>USD $100</strong> OR
-(b) THE TOTAL FEES YOU PAID TO ENSEMBLE IN THE <strong>12 MONTHS</strong> BEFORE THE
-EVENT GIVING RISE TO LIABILITY.</p>
-<p>These limits apply to the fullest extent allowed by law. Some
-jurisdictions do not allow exclusions or limitations of certain damages,
-so some of the above may not apply to you.</p>
-<h2 id="11-indemnification">11. Indemnification</h2>
-<p>You agree to defend, indemnify, and hold harmless Ensemble from any
-claim, demand, loss, or damage (including reasonable legal fees) arising
-out of (a) Your Content, (b) your violation of these Terms or the AUP,
-or (c) your violation of any law or third-party right.</p>
-<h2 id="12-termination">12. Termination</h2>
-<ul>
-<li><strong>By you:</strong> you may stop using the Service at any time and delete your
-  account from settings. Some obligations survive termination (Sections
-  5.2 backup retention, 8, 9, 10, 11, 13, and 14).</li>
-<li><strong>By us:</strong> we may suspend or terminate your access if you violate these
-  Terms or the AUP, if required by law, or to protect the safety or
-  security of the Service or other users. Where reasonable, we will
-  give you notice and an opportunity to remedy the issue.</li>
-</ul>
-<h2 id="13-governing-law-and-disputes">13. Governing law and disputes</h2>
-<p>These Terms are governed by the laws of the <strong>Province of British
-Columbia, Canada</strong>, and the laws of Canada applicable in BC, without
-regard to conflict-of-laws rules. The exclusive forum for any dispute
-arising out of or relating to these Terms is the courts located in the
-<strong>Vancouver registry of British Columbia</strong>, and you consent to personal
-jurisdiction there. Nothing in this section limits your statutory
-consumer rights in your home jurisdiction.</p>
-<h2 id="14-changes-to-the-terms">14. Changes to the Terms</h2>
-<p>We may update these Terms from time to time. If we make material changes
-we will notify you via email (where we have one) and post a banner on
-the dashboard for at least 30 days before the change takes effect. Your
-continued use of the Service after the effective date of an update
-constitutes acceptance of the updated Terms.</p>
-<h2 id="15-miscellaneous">15. Miscellaneous</h2>
-<ul>
-<li><strong>Entire agreement:</strong> these Terms, the AUP, and the Privacy Policy
-  constitute the entire agreement between you and Ensemble regarding the
-  Service.</li>
-<li><strong>Severability:</strong> if any provision is held unenforceable, the rest
-  remains in effect.</li>
-<li><strong>No waiver:</strong> failure to enforce a provision is not a waiver.</li>
-<li><strong>Assignment:</strong> you may not assign these Terms without our written
-  consent. We may assign them in connection with a merger, acquisition,
-  or sale of assets.</li>
-</ul>
-<h2 id="16-contact">16. Contact</h2>
-<ul>
-<li><strong>Legal questions:</strong> <code>legal@ensemble.tld</code></li>
-<li><strong>General contact:</strong> <code>hello@ensemble.tld</code></li>
-<li><strong>Mailing address:</strong> [PHYSICAL MAILING ADDRESS PENDING DOMAIN REGISTRATION]</li>
-</ul>
-<hr />
-<blockquote>
-<p><strong>Subject to attorney review before billing.</strong> These Terms of Service are
-templated boilerplate drafted by the Ensemble team without formal legal
-counsel. We will engage qualified Canadian counsel to review and refine
-them before charging users for any paid feature. Until that review, no
-clause here should be treated as final attorney-drafted language.</p>
-</blockquote>
-    </article>
-    <footer class="doc-foot">
-      <a href="../docs.html" class="doc-back">&larr; Back to documentation</a>
-    </footer>
+<main id="main" class="terminal-page" data-page="terminal">
+  <section id="terminal-tree" class="terminal-tree" aria-label="Ensemble status">
+    <div class="terminal-tree__header">
+      <span>Ensemble status</span>
+      <span class="terminal-tree__live" data-live="pending">live · 5s</span>
+    </div>
+    <div class="terminal-tree__placeholder" data-placeholder="controller-tree">
+      Controller-tree loads here once the live stream connects.
+    </div>
+  </section>
+
+  <div class="terminal-grid" id="terminal-grid">
+    <aside id="terminal-left" class="terminal-panel terminal-panel--left" aria-label="Chats">
+      <header class="terminal-panel__header">
+        <span>Chats</span>
+      </header>
+      <div id="terminal-left-body" class="terminal-panel__body" data-slot="chat-list"></div>
+    </aside>
+
+    <div
+      id="terminal-handle-left"
+      class="terminal-handle terminal-handle--left"
+      role="separator"
+      aria-orientation="vertical"
+      aria-label="Resize chat list — drag left or right"
+      tabindex="0"
+    ></div>
+
+    <section id="terminal-center" class="terminal-panel terminal-panel--center" aria-label="Active chat">
+      <header class="terminal-panel__header">
+        <span data-slot="active-chat-title">Active chat</span>
+      </header>
+      <div id="terminal-center-body" class="terminal-panel__body" data-slot="scrollback-and-compose"></div>
+    </section>
+
+    <div
+      id="terminal-handle-right"
+      class="terminal-handle terminal-handle--right"
+      role="separator"
+      aria-orientation="vertical"
+      aria-label="Resize control deck — drag left or right"
+      tabindex="0"
+    ></div>
+
+    <aside id="terminal-right" class="terminal-panel terminal-panel--right" aria-label="Control deck">
+      <header class="terminal-panel__header">
+        <span>Control deck</span>
+      </header>
+      <div id="terminal-right-body" class="terminal-panel__body" data-slot="control-deck"></div>
+    </aside>
   </div>
-  <script>
-    (function () {
-      var bar = document.getElementById('docProgressBar');
-      if (!bar) return;
-      function update() {
-        var h = document.documentElement;
-        var scrolled = (h.scrollTop || document.body.scrollTop);
-        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
-        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
-        bar.style.width = pct + '%';
-      }
-      document.addEventListener('scroll', update, { passive: true });
-      window.addEventListener('resize', update);
-      update();
-    })();
-  </script>
 </main>
+<script src="./terminal-resize.js" defer></script>
 <footer class="site-footer">
   <div class="site-footer__inner">
     <div class="site-footer__cols">
