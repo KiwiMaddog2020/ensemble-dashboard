@@ -200,6 +200,24 @@
   </div>
 </div>
 <main id="main" class="terminal-page" data-page="terminal">
+  <div class="terminal-drawer-toggles" aria-hidden="false">
+    <button
+      type="button"
+      class="terminal-drawer-toggle terminal-drawer-toggle--left"
+      data-target="left"
+      aria-expanded="false"
+      aria-controls="terminal-left"
+    >☰ Chats</button>
+    <button
+      type="button"
+      class="terminal-drawer-toggle terminal-drawer-toggle--right"
+      data-target="right"
+      aria-expanded="false"
+      aria-controls="terminal-right"
+    >⚙ Controls</button>
+  </div>
+  <div class="terminal-drawer-backdrop" data-drawer-backdrop hidden></div>
+
   <section id="terminal-tree" class="terminal-tree" aria-label="Ensemble status">
     <div class="terminal-tree__header">
       <span>Ensemble status</span>
@@ -261,6 +279,7 @@
 <script src="./terminal-controller.js" defer></script>
 <script src="./terminal-left-panel.js" defer></script>
 <script src="./terminal-center.js" defer></script>
+<script src="./terminal-drawer.js" defer></script>
 <script src="./terminal-left-panel.js" defer></script><footer class="site-footer">
   <div class="site-footer__inner">
     <div class="site-footer__cols">

@@ -6,8 +6,8 @@
    plus the build's generation timestamp (see build_service_worker below)
    so each `dashboard-generate.sh` run produces a deterministic-per-build
    cache name without requiring a hand-bumped version string. */
-const CACHE = 'ensemble-599836459b43';
-const STATIC = ["./", "./index.html", "./studio.html", "./dashboard.html", "./projects.html", "./commands.html", "./settings.html", "./docs.html", "./terminal.html", "./style.css", "./studio.js", "./dashboard.js", "./icon.svg", "./manifest.json", "./sprite-engine.js", "./studio-publish-panel.js", "./studio-chrome.js", "./walk-tutorial.js", "./terminal-resize.js", "./terminal-left-panel.js", "./pack-uploader.js", "./pack-picker.js", "./icons/pwa-192.png", "./icons/pwa-512.png", "./icons/pwa-192-maskable.png", "./icons/pwa-512-maskable.png", "./icons/apple-touch-icon-180.png", "./icons/favicon-32.png", "./icons/favicon-16.png"];
+const CACHE = 'ensemble-c53c8cf3a82d';
+const STATIC = ["./", "./index.html", "./studio.html", "./dashboard.html", "./projects.html", "./commands.html", "./settings.html", "./docs.html", "./terminal.html", "./style.css", "./studio.js", "./dashboard.js", "./icon.svg", "./manifest.json", "./sprite-engine.js", "./studio-publish-panel.js", "./studio-chrome.js", "./walk-tutorial.js", "./terminal-resize.js", "./terminal-left-panel.js", "./terminal-drawer.js", "./pack-uploader.js", "./pack-picker.js", "./icons/pwa-192.png", "./icons/pwa-512.png", "./icons/pwa-192-maskable.png", "./icons/pwa-512-maskable.png", "./icons/apple-touch-icon-180.png", "./icons/favicon-32.png", "./icons/favicon-16.png"];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(STATIC)).catch(() => {}));
