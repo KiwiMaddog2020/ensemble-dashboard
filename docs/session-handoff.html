@@ -163,174 +163,138 @@
     </header>
     <article class="doc-content">
 <blockquote>
-<p><strong>2026-05-02 R-simplify-α</strong> removed Termius / <code>mobile_dispatch.sh</code> / <code>setup-mobile-dispatch.sh</code> / Tailscale support out-of-box. The PWA Terminal page (<code>/terminal.html</code>) is the new mobile-control surface; Cloudflare Tunnel + Cloudflare Access are the supported remote-access path. The local-actions helper that the macapp + SwiftBar + control-panel server call is now <code>bin/ensemble_actions.sh</code> (kill / fire / status / brief / *-toggle). PHONE_QUICKSTART.md and MOBILE_DISPATCH.md were deleted; the install skill&rsquo;s Phase 9 demotion is slot β.</p>
-<p><strong>Supersedes</strong> the 2026-04-29 wake-up brief (committed at <code>6f7c646</code> &ldquo;chore(handoff): SESSION_HANDOFF.md updated for OPT-1 closeout&rdquo;). That session&rsquo;s work is all shipped; reference its content in git history if you need it. This handoff is what&rsquo;s true RIGHT NOW.</p>
+<p><strong>Supersedes</strong> the 2026-05-01 evening handoff. Today was a marathon: R13.5 + R13.75 wired the asset-pack architecture end-to-end, R14 shipped the brand-completion round (audio + cyberpunk visuals + creator docs + a11y), R-simplify-α killed Termius/mobile_dispatch out-of-box, and R-terminal MVP is <strong>3 of 5 slots merged</strong> at handoff time.</p>
 </blockquote>
 <hr />
 <h2 id="wake-up-brief-read-this-first">☕ WAKE-UP BRIEF · read this first</h2>
-<p>While you slept, the <strong>2026-05-01 evening session was a planning + warp-x6 marathon</strong>. Six warp slots fired across two parallel tracks (R12 Stardew substrate + R12.5 Claude Coding Station). <strong>Four of six landed and merged</strong>; two heavy slots (R12-b camera+parallax, R12.5-a 3-endpoints+JSONL+SSE) were still running at handoff time. Three major plan docs got drafted + committed. The walk-mode rendering bug Kevin saw earlier today was rooted-caused + fixed. The Polish protocol got shipped end-to-end (skill + slash + widget + self-test doc).</p>
-<h3 id="green-whats-locked-ready">🟢 GREEN — what&rsquo;s locked + ready</h3>
+<p>The public PWA at <strong>https://kiwimaddog2020.github.io/ensemble-dashboard/</strong> is current as of <code>ee6598b</code>. <strong>3 dashboard-fires today</strong> (<code>7ad1f1e</code> → <code>36e7640</code> → <code>ee6598b</code>). Every commit on main is pushed.</p>
+<h3 id="green-what-shipped-today-massive">🟢 GREEN — what shipped today (massive)</h3>
 <ol>
 <li>
-<p><strong>Walk-mode rendering bug FIXED</strong> (<code>7192a0f</code>) — <code>fitCanvas()</code> now re-runs when the <code>studio-walk-preview</code> parent un-hides (ResizeObserver + belt <code>fitCanvas()</code> call inside <code>enable()</code>). Verified visually in Kevin&rsquo;s Safari.</p>
+<p><strong>R13.75 wiring round (5/5 merged)</strong> — canvas schema v5 + per-theme default_pack_id + per-component sprites + character creator pack-aware (Mana Seed paper-doll). Dashboard regen confirmed.</p>
 </li>
 <li>
-<p><strong>Polish protocol shipped</strong> end-to-end:
-   - Skill: <code>plugins/ensemble/skills/polish/SKILL.md</code> (<code>6d21f60</code>)
-   - Slash command: <code>~/.claude/commands/polish.md</code> (file lives outside repo)
-   - Memory: <code>~/.claude/projects/-Users-kevin/memory/polish_protocol.md</code> + <code>signal_phrase_detection.md</code> updated (file lives outside repo)
-   - Refine widget: <code>bin/dashgen/widgets/rendering.py</code> + <code>state.py</code> (<code>e80397a</code>)
-   - Self-test doc: <code>docs/POLISH_2026-05-01_walk-mode-engine.md</code> (<code>4156521</code>)</p>
+<p><strong>R14 brand-completion (4/4 merged)</strong>:
+   - <strong>R14-a:</strong> sound_runtime integration + per-atmosphere <code>footstep_type</code> + 250ms canvas-switch crossfade + Audio credits section. <strong>Audio files are PLACEHOLDERS (~300 bytes each); real Freesound URLs in <code>bin/dashgen/static/audio/audio_credits.json</code> need manual download.</strong>
+   - <strong>R14-b:</strong> cyberpunk visual signature on cool themes (scan-line glitch every 2-4s + neon_motes particles + chromatic-edge UI pill + camera-punch RGB flash on interact). Honors <code>prefers-reduced-motion</code> throughout.
+   - <strong>R14-c:</strong> <code>/docs/creator-recolor.html</code> (10-step Aseprite workflow) + <code>docs/grand-plan/CREATOR_ECONOMY.md</code> (v1.1 marketplace flywheel narrative).
+   - <strong>R14-d:</strong> <code>docs/A11Y_DEEP_AUDIT_2026-05-02.md</code> + 44 source-guard tests. Found ZERO motion-effect gaps (all R12-R14 effects already had reduced-motion guards).</p>
 </li>
 <li>
-<p><strong>Three plan docs drafted + committed:</strong>
-   - <code>docs/STARDEW_TIER_PLAN_2026-05-01.md</code> (<code>f650020</code>, updated at <code>47dc23e</code>) — aesthetic bar lock, 6-round eng plan, art workstream, audio workstream
-   - <code>docs/CLAUDE_STATION_PLAN_2026-05-01.md</code> (<code>acb8744</code>) — dashboard widget for remote Claude Code over PWA
-   - <code>docs/ASSET_PACK_IMPORT_PLAN_2026-05-01.md</code> (<code>a3653df</code>, updated at <code>c203702</code>) — Mana Seed-compatible asset-pack architecture; the platform-defining feature for v1.0</p>
+<p><strong>R-simplify-α (2/2 merged)</strong> — Termius / mobile_dispatch / Tailscale support REMOVED out-of-box. <code>bin/mobile_dispatch.sh</code> → <code>bin/ensemble_actions.sh</code> (slim local-only helper, SSH framing stripped). 4 files deleted, 25+ updated, install skill Phase 9 demoted to deprecation notice + Phase 10 added (PWA-open + DASHBOARD_TOKEN paste). <strong>Net: +96/-846 lines.</strong></p>
 </li>
 <li>
-<p><strong>All 3 §8 decisions in the asset-pack plan are LOCKED:</strong>
-   - §8.1 Skip R13 → fire R13.5 (asset-pack architecture IS how LimeZu lands)
-   - §8.2 Mana Seed first, LimeZu second, custom third
-   - §8.3 Per-user pack uploads + repo-shipped defaults Kevin owns rights to</p>
+<p><strong>R-terminal MVP (3/5 merged)</strong> — <code>/terminal.html</code> page now exists with:
+   - <strong>α merged:</strong> page scaffold + nav integration (Terminal alongside Ensemble/Studio/Dashboard/Docs/Settings) + 3-panel grid CSS + resize handles + mobile breakpoints
+   - <strong>δ merged:</strong> right panel control deck (9 cards in 4 sections: Mode/Action/Status/Danger) + per-panel edit mode + localStorage persistence
+   - <strong>ε merged:</strong> mini controller-tree band (220px) + 2 NEW server endpoints (<code>/controller-tree-stream</code> SSE, <code>/warp-runs/active</code> JSON aggregator)</p>
 </li>
 <li>
-<p><strong>Art lane spend LOCKED</strong> (<code>47dc23e</code>):
-   - Modern Interiors paid version: PURCHASED via PayPal mid-session
-   - Mana Seed Character Base + ~9 outfit packs + 4 combat packs + Hairstyle Pack: PURCHASED
-   - Total spent: ~$25-50 (way under the original $85-150 estimate)
-   - All licenses verified commercial-OK; <code>/credits.html</code> page is REQUIRED by Modern Interiors paid license</p>
+<p><strong>Bug fixes shipped:</strong>
+   - <code>_isOwner</code> on window so private widgets actually render (was script-scoped <code>let</code>; private section never appeared)
+   - Draggable shelf-resize handle on edit-mode dashboard</p>
 </li>
 <li>
-<p><strong>4 of 6 warp slots merged</strong> (R12-a directional lighting, R12-c preload+CRT, R12.5-b widget shell, R12.5-c renderers+a11y). 2 heavy slots may still be running OR may have completed during the night — check status (commands below).</p>
+<p><strong>Memory + template enforcement updated:</strong>
+   - MAESTRO.md + AGENT.md got the strict rapid-fire clauses (no batch exceptions, no prose-table preloading, no prose-numbered-list substitutes)
+   - <code>~/.claude/projects/-Users-kevin/memory/orchestrator_rapid_fire_format.md</code> matches
+   - <code>~/.claude/projects/-Users-kevin/memory/opus_max_effort_mode.md</code> locked <code>--tier heavy</code> as warp default
+   - <strong>NEW: <code>~/.claude/projects/-Users-kevin/memory/warp_banner_format.md</code></strong> — banners use markdown bullets, not <code>╔═╗ ║ ╚═╝</code> (those misalign with emoji)</p>
+</li>
+<li>
+<p><strong>8 plan docs locked + committed:</strong>
+   - <code>docs/POLISH_2026-05-02_skill-catalog.md</code> (6-skill rating, craft 7.97/9.17)
+   - <code>docs/POLISH_2026-05-02_onboarding-experience.md</code> (5.7/7.8 baseline + 3-round plan)
+   - <code>docs/TERMINAL_PAGE_PLAN_2026-05-02.md</code> (4 §9 decisions LOCKED)
+   - <code>docs/NAVIGATION_IA_PLAN_2026-05-02.md</code> (4 §5 decisions; recommended structure spec&rsquo;d)
+   - <code>docs/SIMPLIFICATION_PLAN_2026-05-02.md</code> (Termius cull + docs cull plan; §5.4 ordering LOCKED)
+   - <code>docs/R14_PLAN_2026-05-02.md</code> (3 §7 decisions LOCKED, all 4 slots shipped)
+   - <code>docs/STARDEW_TIER_PLAN_2026-05-01.md</code> (4 §5 decisions LOCKED — see prior handoff)
+   - <code>docs/ASSET_PACK_IMPORT_PLAN_2026-05-01.md</code> (3 §8 decisions LOCKED — see prior handoff)</p>
 </li>
 </ol>
 <h3 id="yellow-outstanding-when-handoff-was-written">🟡 YELLOW — outstanding when handoff was written</h3>
 <ol>
 <li>
-<p><strong>R12-b (camera + parallax) status: was running.</strong> Check <code>runs/warp-20260501T160344Z/manifest.json</code> <code>workers.b.status</code>. If completed, read its report at <code>runs/warp-20260501T160344Z/b/report.md</code> and merge with <code>git merge --no-ff claude/warp-20260501T160344Z-b -m "Merge warp:R12-b — cinematic camera-pullback + 3-layer parallax substrate"</code>.</p>
+<p><strong>R-terminal MVP has 2 slots remaining: β (left panel chat list) + γ (center column scrollback + compose).</strong> These are wave 2; they depend on α&rsquo;s grid + the existing claude_station_renderers.py from R13.5-c (already shipped). <strong>Fire as warp x2 Opus heavy first thing next session.</strong> Directives are pre-written in <code>runs/warp-20260501T233739Z/{b,c}/directive.md</code>.</p>
 </li>
 <li>
-<p><strong>R12.5-a (3 endpoints + JSONL parser + SSE stream) status: was running.</strong> Same drill, <code>runs/warp-20260501T160345Z/manifest.json</code> <code>workers.a.status</code>. Merge with <code>git merge --no-ff claude/warp-20260501T160345Z-a -m "Merge warp:R12.5-a — chat sessions + history + SSE stream endpoints"</code>.</p>
+<p><strong>R-docs-cull pending — Kevin&rsquo;s specific ask 2026-05-02 evening:</strong></p>
+<blockquote>
+<p><em>&ldquo;can we do the docs cull now without affecting anything else? I want brand new documents and let&rsquo;s keep it minimal with things that will actually be handy for users as well as a quick start guide and a one pager that is super fancy and presented as an html file that is interactive similar to our spectra nova pitch (https://kiwimaddog2020.github.io/spectra-nova-pitch/)&rdquo;</em></p>
+</blockquote>
+</li>
+</ol>
+<p><strong>Scope:</strong> 2 Opus heavy slots. Slot α: minimal new user-facing docs (QUICKSTART.md + about_manifesto + about_faq + about_contact body files) + cull old docs from PWA pipeline (deregister most of <code>docs/</code> from <code>docs_to_render.py</code>). Slot β: <strong>fancy interactive one-pager HTML</strong> (Spectra-Nova-pitch style — smooth scroll + animations + branded). Kevin said serial vs R-terminal wave 1; can fire alongside R-terminal wave 2 OR after wave 2 lands (≤4 Opus parallel cap per R14 SIGTERM lesson).</p>
+<ol start="3">
+<li>
+<p><strong>R-onboarding-α pending</strong> — welcome hero + express install + demo path. Per <code>POLISH_2026-05-02_onboarding-experience.md</code> §7. Fire after R-terminal MVP fully merged.</p>
 </li>
 <li>
-<p><strong>Full test suite re-run + dashboard regen</strong> is pending until both remaining slots merge. Commands:
-   <code>bash
-   python3 -m unittest discover tests &gt; /tmp/test_full.log 2&gt;&amp;1
-   bash bin/dashboard-generate.sh /tmp/ensemble-dashboard</code></p>
+<p><strong>R-simplify-β pending</strong> — full docs cull + About hub + nav restructure (per NAVIGATION_IA_PLAN). The smaller R-docs-cull above is a tighter version; R-simplify-β is the full restructure (avatar dropdown for Settings, 7-item About sub-menu). Decide whether R-docs-cull replaces R-simplify-β or precedes it.</p>
 </li>
 <li>
-<p><strong>The remaining Stardew §5 decisions</strong> (trait dimensions, chromatic-aberration default, day/night, audio lane) were NOT locked tonight — Kevin chose to do them next session. Listed in <code>docs/STARDEW_TIER_PLAN_2026-05-01.md</code> §5.</p>
-</li>
-<li>
-<p><strong>The remaining Claude Station §7 decisions</strong> (default collapse state, tab limit, schedule) likewise not locked. Listed in <code>docs/CLAUDE_STATION_PLAN_2026-05-01.md</code> §7.</p>
+<p><strong>Manual follow-ups (NOT warp work):</strong>
+   - <strong>Audio download</strong>: 16 real Freesound files per <code>bin/dashgen/static/audio/audio_credits.json</code> URLs. Drop into <code>bin/dashgen/static/audio/</code> to replace placeholders.
+   - <strong>Aseprite recolor session</strong>: Cyberpunk Forester variant per <code>docs/CREATOR_RECOLOR_GUIDE.md</code> (~3-6 hr Kevin DIY).
+   - <strong>Existing agents re-read contract</strong>: BOO / Pinball / Tool Builder / Vera Nota / etc. Each chat needs <code>re-read your contract</code> to pick up the new MAESTRO.md / AGENT.md rapid-fire clauses.</p>
 </li>
 </ol>
 <h3 id="red-none">🔴 RED — none</h3>
-<p>No shipping blockers right now. The 2026-04-29 wake-up brief&rsquo;s RED items (<code>STATE_PATH</code> NameError, iframe <code>allow-same-origin</code>) appear to have been resolved between then and now (those are pre-this-session issues). If they&rsquo;re still relevant, see git log around <code>acb8744</code> and earlier for context.</p>
+<p>No shipping blockers. The 1 known-flaky <code>test_perf_budget</code> ERROR (passes alone, fails in full suite due to inter-test interaction) is pre-existing all session.</p>
 <hr />
 <h2 id="current-runtime-state-snapshot-at-handoff">Current runtime state (snapshot at handoff)</h2>
 <ul>
 <li><strong>Branch:</strong> <code>main</code></li>
-<li><strong>Last commit at handoff:</strong> <code>c203702</code> — <code>docs(asset-pack): lock 3 §8 decisions + verify Modern Interiors paid usage rights</code> (may have advanced further if R12-b / R12.5-a merged after this writing)</li>
-<li><strong>Working tree:</strong> mostly clean. Untracked: <code>anthropic_spend.jsonl</code>, <code>anthropic_spend_per_user.jsonl</code>, <code>docs/CODE_RATING_2026-04-29.md</code>, <code>docs/HANDOFF_GAME_BUILDER_v1.md</code>, <code>docs/ROADMAP_10_10.md</code>, <code>virtuosos/tool-builder/website/</code>. None are this session&rsquo;s work.</li>
-<li><strong>state.json highlights:</strong></li>
-<li><code>mode = orchestrated</code></li>
-<li><code>warp_speed_active = true</code> (since 2026-04-27)</li>
-<li><code>autopilot_freeze_until = null</code> (lifted)</li>
-<li><code>autopilots_paused = false</code></li>
-<li><code>rapid_fire_enabled = true</code></li>
-<li><code>max_concurrent_autopilots = 3</code></li>
-<li><strong>Live PWA:</strong> running on Kevin&rsquo;s Mac (<code>bin/control-panel-server.py</code> PID 32103, started Wed03PM). Built dashboard at <code>/tmp/ensemble-dashboard</code> is current (regenerated 2x this session for fix verification).</li>
-<li><strong>Token budget:</strong> Kevin used PayPal for the LimeZu/Mana Seed purchases (card was on cooldown from rapid successive attempts). All packs downloaded + verified commercial-OK.</li>
+<li><strong>Last commit:</strong> <code>e12d9cf</code> — <code>Merge warp:R-terminal-ε — mini controller-tree + /controller-tree-stream SSE + /warp-runs/active (Opus tier)</code></li>
+<li><strong>Public PWA last push:</strong> <code>ee6598b</code> — live at https://kiwimaddog2020.github.io/ensemble-dashboard/</li>
+<li><strong>Working tree:</strong> clean except the pre-existing untracked items (anthropic_spend.jsonl, etc.)</li>
+<li><strong>state.json:</strong> mode=orchestrated, lock free, no freeze, rapid_fire_enabled=true, max_concurrent_autopilots=3, warp_speed_active=true</li>
+<li><strong>R-terminal stamp:</strong> <code>20260501T233739Z</code> — α/δ/ε merged; β/γ pending in runs/&hellip;/{b,c}/</li>
+<li><strong>Live PWA running:</strong> <code>bin/control-panel-server.py</code> PID 32103 (since Wed03PM)</li>
+<li><strong>Test suite:</strong> 2345 tests, 1 pre-existing flaky error, 0 new failures</li>
 </ul>
 <hr />
-<h2 id="next-session-what-to-do">Next session — what to do</h2>
-<h3 id="first-action-check-merge-the-remaining-2-slots">First action — check + merge the remaining 2 slots</h3>
-<pre><code class="language-bash"># Check status
-python3 -c &quot;import json; m=json.load(open('runs/warp-20260501T160344Z/manifest.json')); print('R12-b:', m['workers']['b'].get('status'))&quot;
-python3 -c &quot;import json; m=json.load(open('runs/warp-20260501T160345Z/manifest.json')); print('R12.5-a:', m['workers']['a'].get('status'))&quot;
+<h2 id="next-session-first-action">Next session — first action</h2>
+<pre><code class="language-bash"># Confirm state
+git log --oneline -5
+python3 -c &quot;import json; m=json.load(open('runs/warp-20260501T233739Z/manifest.json')); print('\n'.join(f'{k}: {v.get(\&quot;status\&quot;,\&quot;?\&quot;)}' for k,v in sorted(m['workers'].items())))&quot;
 
-# If completed: read reports + merge
-cat runs/warp-20260501T160344Z/b/report.md
-cat runs/warp-20260501T160345Z/a/report.md
+# Fire R-terminal wave 2 (β + γ — directives pre-written)
+bash bin/warp_split_spawn.sh /Users/kevin/.claude/orchestrator 20260501T233739Z b runs/warp-20260501T233739Z/b/directive.md 90 --tier heavy &amp;
+bash bin/warp_split_spawn.sh /Users/kevin/.claude/orchestrator 20260501T233739Z c runs/warp-20260501T233739Z/c/directive.md 90 --tier heavy &amp;
 
-git merge --no-ff claude/warp-20260501T160344Z-b -m &quot;Merge warp:R12-b — cinematic camera-pullback + 3-layer parallax substrate&quot;
-git merge --no-ff claude/warp-20260501T160345Z-a -m &quot;Merge warp:R12.5-a — chat sessions + history + SSE stream endpoints&quot;
-
-# Post-merge verification
-python3 -m unittest discover tests &gt; /tmp/test_full.log 2&gt;&amp;1
-tail -10 /tmp/test_full.log
-bash bin/dashboard-generate.sh /tmp/ensemble-dashboard
+# Or fire R-docs-cull alongside (2 + 2 = 4 Opus parallel, at SIGTERM ceiling — confirm with Kevin first)
 </code></pre>
-<h3 id="then-fire-r135-asset-pack-import-architecture">Then — fire R13.5 (asset-pack import architecture)</h3>
-<p>Per the LOCKED Asset-Pack Import plan (<code>docs/ASSET_PACK_IMPORT_PLAN_2026-05-01.md</code>):</p>
-<ul>
-<li><strong>5 slots, ~4-6h wall</strong> — fits cleanly into one warp x3 + one warp x2</li>
-<li>Slot directives (sketch in §7 of the plan doc):</li>
-<li>α: <code>manifest.json</code> parser + format detection + <code>PackStore</code> abstraction</li>
-<li>β: <code>POST /packs/upload</code> + extract + validate + register endpoints</li>
-<li>γ: Settings → Asset Packs UI (upload widget + pack list + per-Canvas pack picker)</li>
-<li>δ: Sprite engine + component renderer integration (read from pack via descriptor; fallback to procedural)</li>
-<li>
-<p>ε: Wire in built-in packs (ensemble-default-character + limezu-default + a few sample Mana Seed outfits) — proves end-to-end</p>
-</li>
-<li>
-<p>Pre-flight: confirm Kevin&rsquo;s purchased Modern Interiors RPG_Maker_Version + Mana Seed Character Base + outfit packs are accessible at <code>~/Downloads/</code>. Extract the relevant subdirectories into <code>bin/dashgen/static/packs/</code> for the built-in defaults (per §3.1 of the plan).</p>
-</li>
-</ul>
-<h3 id="open-decisions-that-need-locking-before-r135-fires">Open decisions that need locking before R13.5 fires</h3>
-<ul>
-<li><strong>Stardew §5.2</strong> trait dimensions (8 dims = 552K combos vs 12+ dims = 23M combos)</li>
-<li><strong>Stardew §5.3</strong> chromatic-aberration default (ON for cool themes / opt-in / OFF)</li>
-<li><strong>Stardew §5.5</strong> per-Showcase backdrop customization (creator agency)</li>
-<li><strong>Stardew §5.6</strong> audio production lane (commission $2-5K vs DIY in Logic vs royalty-free)</li>
-</ul>
-<p>The asset-pack §8 decisions are all LOCKED already — those don&rsquo;t need re-asking.</p>
-<hr />
-<h2 id="what-just-shipped-this-session-quick-map">What just shipped this session — quick map</h2>
-<pre><code>c203702  docs(asset-pack): lock 3 §8 decisions + verify Modern Interiors paid usage rights
-a3653df  docs: asset-pack import architecture — Mana Seed-compatible spec
-47dc23e  docs: lock LimeZu spend ($21.18) with verified-from-LICENSE.txt picture
-acb8744  docs: lock art lane (Option E licensed bundle) + draft Claude Station plan
-f650020  docs: Stardew-tier plan for the walk-mode aesthetic
-4156521  docs: Polish self-test on the walk-mode engine
-e80397a  feat(dashboard): refine widget — one-click Polish protocol
-6d21f60  feat(polish): ship the Polish skill — locked two-axis prompt + 4 phases
-c176b31  fix(tests): align Round 11 walk-cycle + token sweep expectations
-7192a0f  fix(sprite-engine): re-fit canvas when walk-mode parent un-hides
-+ 4 warp merges: R12-a (directional lighting), R12-c (preload+CRT), R12.5-b (widget shell), R12.5-c (renderers+a11y)
-+ 2 warp merges PENDING: R12-b (camera+parallax), R12.5-a (endpoints+JSONL+SSE)
-</code></pre>
+<p>After all 5 R-terminal slots merge → <code>dashboard-generate.sh</code> + <code>dashboard-fire.sh</code> → fire R-docs-cull or R-onboarding-α next per Kevin&rsquo;s direction.</p>
 <hr />
 <h2 id="voice-posture-re-up">Voice + posture (re-up)</h2>
 <ul>
-<li><strong>Rapid fire is ON</strong> — every decision uses <code>AskUserQuestion</code> with 4 numbered options. &ldquo;(Recommended)&rdquo; goes on option 1. Slot 4 = &ldquo;Disable Rapid Fire Mode&rdquo; or &ldquo;Other&rdquo;.</li>
-<li><strong>Warp Speed is ON</strong> — proactively offer warp x2/x3 splits at unit boundaries. Respect freeze, cap, work-hours, safety gates.</li>
-<li><strong>Plan first, then ship</strong> — non-trivial work gets a plan with trains before code. This session was VERY plan-heavy — three major architecture docs locked.</li>
-<li><strong>Apple-quality bar</strong> — Stardew + cryptopunks + cyberpunk + vibecoding fusion locked as the v1.0 walk-mode aesthetic.</li>
-<li><strong>Don&rsquo;t disrupt the Mac</strong> — global CLAUDE.md applies. Kevin runs the live PWA on his Mac; treat it gently.</li>
-<li><strong>No proactive PRs</strong> — pre-launch / vibe-code mode; auto-merge after self-audit fine while no users.</li>
+<li><strong>Rapid fire is ON</strong> — strict enforcement now: 3 real options + slot 4 = &ldquo;Disable Rapid Fire Mode&rdquo; per call; NO batch exceptions; NO prose-table preloading; NO prose-numbered-list substitutes for the tool. Per the new clauses in MAESTRO.md / AGENT.md / orchestrator_rapid_fire_format.md.</li>
+<li><strong>Warp default is <code>--tier heavy</code> (Opus 4.7 1M)</strong> — locked in <code>opus_max_effort_mode.md</code>.</li>
+<li><strong>Warp parallel ceiling: 3-4 Opus simultaneous</strong> — R14 SIGTERMed 3 of 4 workers when the Mac hit memory pressure. Stagger / serial firing for safety.</li>
+<li><strong>Warp banner format: markdown bullets, no box-drawing chars</strong> — locked in <code>warp_banner_format.md</code>.</li>
+<li><strong>Pre-flight banner before EVERY warp spawn</strong> — uses the new format.</li>
+<li><strong>Don&rsquo;t disrupt the Mac</strong> per global CLAUDE.md.</li>
+<li><strong>No proactive PRs in pre-launch / vibe-code mode.</strong></li>
 </ul>
 <hr />
-<h2 id="first-message-you-should-send-to-kevin">First message you should send to Kevin</h2>
-<p>Suggested template (matches the 2026-04-29 handoff&rsquo;s first-message format):</p>
+<h2 id="suggested-first-message-to-kevin">Suggested first message to Kevin</h2>
 <pre><code>Maestro back. State snapshot:
-- main @ &lt;last-commit-sha&gt;
-- Last session shipped walk-mode bug fix + Polish protocol + 3 major plan docs (Stardew/Claude Station/Asset-Pack)
-- 4 of 6 warp slots merged; 2 heavy slots (R12-b, R12.5-a) need merging if they completed
-- Art lane locked: Modern Interiors paid + Mana Seed full ecosystem (purchased via PayPal)
-- Asset-pack architecture all 3 §8 decisions locked → R13.5 ready to fire
+- main @ e12d9cf — R-terminal α/δ/ε merged; β/γ pre-written
+- Public PWA live at ee6598b on GitHub Pages
+- 8 plan docs locked, 2 rounds pending (R-terminal wave 2 + R-docs-cull)
+- Manual TODOs: audio download, Aseprite recolor, agent contract reload
 
 Next decision (rapid-fire):
-1. Merge the remaining 2 slots + run tests + dashboard regen (Recommended)
-2. Lock the open Stardew §5 decisions before R13.5 fires
-3. Fire R13.5 directly (5-slot asset-pack import build)
-4. Other
+1. Fire R-terminal wave 2 (β + γ) alone — finish R-terminal MVP first (Recommended)
+2. Fire R-terminal wave 2 + R-docs-cull as parallel tracks (4 Opus, at ceiling)
+3. Fire R-docs-cull first — minimal new docs + interactive Spectra-Nova-style one-pager
+4. Disable Rapid Fire Mode
 </code></pre>
-<p>Don&rsquo;t recap the entire session — Kevin lived through it. Just the snapshot + decision.</p>
+<p>Don&rsquo;t recap the marathon — Kevin lived through it. Just the snapshot + decision.</p>
 <hr />
-<p><em>End of handoff. Session was planning-heavy + warp-heavy. Next session starts with merge work + R13.5 fire.</em></p>
+<p><em>End of handoff. Public PWA is fully current. Next session starts with R-terminal wave 2 + R-docs-cull pivot.</em></p>
     </article>
     <footer class="doc-foot">
       <a href="../docs.html" class="doc-back">← Back to all documentation</a>
