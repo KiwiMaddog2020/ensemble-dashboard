@@ -95,8 +95,7 @@
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
     <p class="cookie-banner__msg">
-      <strong>Ensemble</strong> uses cookies and localStorage for authentication and theme
-      preferences. We don&rsquo;t use third-party advertising cookies.
+      <strong>Ensemble</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
     </p>
     <div class="cookie-banner__actions">
       <a class="cookie-banner__link" href="/legal/cookies.html">Read policy</a>
@@ -203,8 +202,8 @@
 <main id="main"><header class="hero">
   <div class="wrap">
     <p class="eyebrow">Controls</p>
-    <h1>Fire from <em>anywhere.</em></h1>
-    <p class="lead">Every action wired to a control-panel endpoint. Three-layer mutex enforces every autopilot fire. Safety gates always fire.</p>
+    <h1>Run from <em>anywhere.</em></h1>
+    <p class="lead">Every action runs on your Mac. Safety checks run before every autopilot.</p>
   </div>
 </header>
 <nav class="dash-subnav" aria-label="Dashboard sections">
@@ -231,17 +230,17 @@
     <div class="commands-grid">
 
       <div class="command-card">
-        <h3>Fire autopilot</h3>
+        <h3>Run autopilot</h3>
         <div class="cmd-row">
           <select id="fire-slug" aria-label="Project to autopilot"><option value="">Project…</option></select>
           <input type="number" id="fire-mins" min="1" max="240" value="30" aria-label="Autopilot duration in minutes" />
-          <button class="btn-primary" onclick="fireAutopilot()">Fire</button>
+          <button class="btn-primary" onclick="fireAutopilot()">Run for <span id="fire-mins-display">30</span> min</button>
         </div>
         <p class="cmd-help" id="fire-help">Per-project lock + cap + opt-in resource floor enforced.</p>
       </div>
 
       <div class="command-card">
-        <h3>Quick-fire scheduled tasks</h3>
+        <h3>Scheduled tasks — run now</h3>
         <div class="cmd-row" style="flex-wrap:wrap;gap:6px;">
           <button class="btn-secondary" onclick="quickFireTask('morning-briefing')">Morning</button>
           <button class="btn-secondary" onclick="quickFireTask('evening-planning')">Evening</button>
@@ -259,7 +258,7 @@
           <span id="mode-display" class="mode-pill">…</span>
           <button class="btn-primary" onclick="flipSystemMode()">Flip</button>
         </div>
-        <p class="cmd-help" id="mode-help">Orchestrated: full protocol. Direct: conversational only.</p>
+        <p class="cmd-help" id="mode-help">Full mode runs every Ensemble protocol. Plain mode is just a chat.</p>
       </div>
 
       <div class="command-card">
@@ -272,12 +271,12 @@
       </div>
 
       <div class="command-card">
-        <h3>Workshop lock</h3>
+        <h3>Autopilot lock</h3>
         <div class="cmd-row">
           <span id="lock-display" class="mode-pill">…</span>
           <button class="btn-danger" onclick="releaseLock()">Force-release</button>
         </div>
-        <p class="cmd-help" id="lock-help">Logged to lock_steals.log. Use only when stuck.</p>
+        <p class="cmd-help" id="lock-help">Use only when an autopilot is stuck and won't release on its own.</p>
       </div>
 
       <div class="command-card danger">
@@ -393,7 +392,7 @@
           <textarea id="msg-text" rows="3" placeholder="message text…" style="width:100%;padding:8px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--bg);color:var(--ink);font-family:inherit;font-size:13px;resize:vertical;"></textarea>
           <button class="btn-primary" onclick="sendChatMessage()" style="align-self:flex-end;">Send</button>
         </div>
-        <p class="cmd-help" id="msg-help">Lands in chats/&lt;slug&gt;.queued_messages on next turn.</p>
+        <p class="cmd-help" id="msg-help">The chat picks it up on its next turn.</p>
       </div>
 
       <div class="command-card">
@@ -537,7 +536,7 @@ async function togglePause() {
 }
 
 async function releaseLock() {
-  if (!confirm("Force-release the workshop lock? Logged to lock_steals.log.")) return;
+  if (!confirm("Force-release the autopilot lock?")) return;
   try {
     const r = await fetch(SERVER_URL + "/release-lock", { method: "POST", headers: authHeaders(), body: JSON.stringify({}) });
     const j = await r.json();

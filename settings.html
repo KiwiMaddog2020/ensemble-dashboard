@@ -95,8 +95,7 @@
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
     <p class="cookie-banner__msg">
-      <strong>Ensemble</strong> uses cookies and localStorage for authentication and theme
-      preferences. We don&rsquo;t use third-party advertising cookies.
+      <strong>Ensemble</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
     </p>
     <div class="cookie-banner__actions">
       <a class="cookie-banner__link" href="/legal/cookies.html">Read policy</a>
@@ -594,8 +593,8 @@ document.addEventListener("DOMContentLoaded", function() {
     <div class="settings-grid">
       <label class="setting"><span class="setting-name">Mode</span>
         <select id="cfg-mode" data-field="mode">
-          <option value="orchestrated">Orchestrated</option>
-          <option value="direct">Direct</option>
+          <option value="orchestrated">Full</option>
+          <option value="direct">Plain</option>
         </select>
       </label>
       <label class="setting"><span class="setting-name">Max concurrent autopilots</span>
@@ -967,7 +966,7 @@ function renderPrivacyList(state) {
     return;
   }
   if (!state.projects.length) {
-    container.innerHTML = '<p class="settings-privacy-empty">No projects onboarded.</p>';
+    container.innerHTML = '<p class="settings-privacy-empty">No projects connected yet.</p>';
     return;
   }
   const rows = state.projects.map(p => {
