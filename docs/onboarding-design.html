@@ -949,6 +949,48 @@ function wireFirstRunModal() {
 
 document.addEventListener("DOMContentLoaded", wireFirstRunModal);
 
+// ─── "Pair this device" banner (warp:b 2026-05-02) ───
+// On GH Pages (no Mac control panel reachable), nudge visitors to pair
+// their device so owner-mode features light up. Skipped on localhost
+// (the Mac is local) and when ENSEMBLE_SERVER_URL is already set.
+const SERVER_URL_BANNER_DISMISSED_KEY = "ensemble:server-url-banner-dismissed";
+
+function wireServerUrlBanner() {
+  try {
+    const host = location.hostname;
+    if (host === "localhost" || host === "127.0.0.1") return;
+    if (localStorage.getItem("ENSEMBLE_SERVER_URL")) return;
+    if (localStorage.getItem(SERVER_URL_BANNER_DISMISSED_KEY) === "1") return;
+    // /pair.html already shows the form — banner would be redundant.
+    if (location.pathname.endsWith("/pair.html")) return;
+  } catch (e) { return; }
+  if (document.getElementById("server-url-banner")) return;
+
+  const banner = document.createElement("div");
+  banner.id = "server-url-banner";
+  banner.className = "server-url-banner";
+  banner.setAttribute("role", "status");
+  banner.innerHTML =
+    '<span>Connect your Mac to use this from any device.</span>' +
+    ' <a href="./pair.html">Pair this device</a>' +
+    ' <button type="button" class="server-url-banner__dismiss" aria-label="Dismiss">&times;</button>';
+
+  // Insert above the topnav so it never steals space from the sticky header.
+  const topnav = document.querySelector(".topnav");
+  if (topnav && topnav.parentNode) topnav.parentNode.insertBefore(banner, topnav);
+  else document.body.insertBefore(banner, document.body.firstChild);
+
+  const dismiss = banner.querySelector(".server-url-banner__dismiss");
+  if (dismiss) {
+    dismiss.addEventListener("click", () => {
+      try { localStorage.setItem(SERVER_URL_BANNER_DISMISSED_KEY, "1"); } catch (e) {}
+      banner.remove();
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", wireServerUrlBanner);
+
 // Waitlist polish (Phase 3)
 function wireWaitlistPolish() {
   const form = document.querySelector('.ensemble-cta__form');

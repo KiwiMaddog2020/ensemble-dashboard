@@ -223,14 +223,14 @@
       <div class="ensemble-skeleton-card"><div class="ensemble-skeleton"></div><div class="ensemble-skeleton ensemble-skeleton--line"></div><div class="ensemble-skeleton ensemble-skeleton--short"></div></div>
     </div>
 
-    <div class="ensemble-showcase__grid" id="ensemble-canvas-grid" data-next-cursor=""><a class="canvas-card" href="./canvas/cnv_808c9d1a0ac3.html" data-canvas-id="cnv_808c9d1a0ac3" data-theme="warm" style="--card-grad-top:#e8a050;--card-grad-mid:#c2711f;--card-grad-bot:#7a3d0c;" aria-label="Visit canvas: e2e-smoke&#x27;s library"><div class="canvas-card__thumb"></div><div class="canvas-card__body"><h3 class="canvas-card__title">e2e-smoke&#x27;s library</h3><p class="canvas-card__desc">A library canvas for writer. Edit me to make it yours.</p><span class="canvas-card__visit" aria-hidden="true">Visit &rarr;</span></div></a></div>
+    <div class="ensemble-showcase__grid" id="ensemble-canvas-grid" data-next-cursor=""></div>
 
     <div class="ensemble-showcase__loadmore-row">
       <button type="button" class="ensemble-showcase__loadmore" id="ensemble-loadmore" hidden>Load more</button>
     </div>
     <p class="ensemble-showcase__status" id="ensemble-grid-status" role="status" aria-live="polite"></p>
 
-    <div class="ensemble-showcase__empty" id="ensemble-empty" hidden>
+    <div class="ensemble-showcase__empty" id="ensemble-empty" >
       <span class="ensemble-showcase__empty-icon" aria-hidden="true">&#10086;</span>
       <h2>The Ensemble is just getting started.</h2>
       <p>Be one of the first to share your work. Build a Studio, publish a canvas, and it lands here for everyone to wander into.</p>
@@ -2480,6 +2480,48 @@ function wireFirstRunModal() {
 }
 
 document.addEventListener("DOMContentLoaded", wireFirstRunModal);
+
+// ─── "Pair this device" banner (warp:b 2026-05-02) ───
+// On GH Pages (no Mac control panel reachable), nudge visitors to pair
+// their device so owner-mode features light up. Skipped on localhost
+// (the Mac is local) and when ENSEMBLE_SERVER_URL is already set.
+const SERVER_URL_BANNER_DISMISSED_KEY = "ensemble:server-url-banner-dismissed";
+
+function wireServerUrlBanner() {
+  try {
+    const host = location.hostname;
+    if (host === "localhost" || host === "127.0.0.1") return;
+    if (localStorage.getItem("ENSEMBLE_SERVER_URL")) return;
+    if (localStorage.getItem(SERVER_URL_BANNER_DISMISSED_KEY) === "1") return;
+    // /pair.html already shows the form — banner would be redundant.
+    if (location.pathname.endsWith("/pair.html")) return;
+  } catch (e) { return; }
+  if (document.getElementById("server-url-banner")) return;
+
+  const banner = document.createElement("div");
+  banner.id = "server-url-banner";
+  banner.className = "server-url-banner";
+  banner.setAttribute("role", "status");
+  banner.innerHTML =
+    '<span>Connect your Mac to use this from any device.</span>' +
+    ' <a href="./pair.html">Pair this device</a>' +
+    ' <button type="button" class="server-url-banner__dismiss" aria-label="Dismiss">&times;</button>';
+
+  // Insert above the topnav so it never steals space from the sticky header.
+  const topnav = document.querySelector(".topnav");
+  if (topnav && topnav.parentNode) topnav.parentNode.insertBefore(banner, topnav);
+  else document.body.insertBefore(banner, document.body.firstChild);
+
+  const dismiss = banner.querySelector(".server-url-banner__dismiss");
+  if (dismiss) {
+    dismiss.addEventListener("click", () => {
+      try { localStorage.setItem(SERVER_URL_BANNER_DISMISSED_KEY, "1"); } catch (e) {}
+      banner.remove();
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", wireServerUrlBanner);
 
 // Waitlist polish (Phase 3)
 function wireWaitlistPolish() {

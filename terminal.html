@@ -220,10 +220,39 @@
   <section id="terminal-tree" class="terminal-tree" aria-label="Ensemble status">
     <div class="terminal-tree__header">
       <span>Ensemble status</span>
-      <span class="terminal-tree__live" data-live="pending">live · 5s</span>
+      <span
+        class="terminal-tree__live terminal-status-pill terminal-status-pill--offline"
+        data-live="pending"
+        data-terminal-status-pill
+        role="status"
+        aria-live="polite"
+      >○ offline</span>
     </div>
     <div class="terminal-tree__placeholder" data-placeholder="controller-tree">
       Live tree loads as soon as the stream connects.
+    </div>
+  </section>
+
+  <section
+    id="terminal-header-context"
+    class="terminal-header-context"
+    data-terminal-header-context
+    aria-label="Active chat context"
+  >
+    <div class="terminal-header-context__cell terminal-header-context__cell--model">
+      <span class="terminal-header-context__label">Model</span>
+      <span class="terminal-header-context__value" data-thc-model>—</span>
+    </div>
+    <div class="terminal-header-context__cell terminal-header-context__cell--activity">
+      <span class="terminal-header-context__label">Messages</span>
+      <span class="terminal-header-context__value" data-thc-msg-count>—</span>
+      <span class="terminal-header-context__sep" aria-hidden="true">·</span>
+      <span class="terminal-header-context__label">Last</span>
+      <span class="terminal-header-context__value" data-thc-last-activity>—</span>
+    </div>
+    <div class="terminal-header-context__cell terminal-header-context__cell--tokens">
+      <span class="terminal-header-context__label">Tokens</span>
+      <span class="terminal-header-context__value" data-thc-tokens>—</span>
     </div>
   </section>
 
@@ -279,6 +308,129 @@
 <script src="./terminal-left-panel.js" defer></script>
 <script src="./terminal-center.js" defer></script>
 <script src="./terminal-drawer.js" defer></script>
+<script>
+/* terminal-header-context — hydrate the header context strip + mirror
+ * controller-band live state into the smart status pill. Self-contained
+ * IIFE; no dependencies on dashboard.js. Listens for terminal:tab-switch
+ * (slot β / slot ε) and a synthetic terminal:active-chat-meta event that
+ * slot α (terminal_center.py) MAY dispatch with { model, messageCount,
+ * lastEpochMs, tokens }. Falls back to "—" when nothing has hydrated yet.
+ *
+ * Smart status pill: starts "offline" and flips to "syncing" when we see
+ * a tab-switch (handshake in flight), then to "live" / "paired" once the
+ * sibling controller-band's [data-tcb-live] confirms the SSE is up. The
+ * paired modifier is reserved for "SSE up + at least one chat selected"
+ * — so the user has a clean visual that the page is wired AND focused.
+ */
+(function () {
+  'use strict';
+  var pill = document.querySelector('[data-terminal-status-pill]');
+  var modelEl = document.querySelector('[data-thc-model]');
+  var msgCountEl = document.querySelector('[data-thc-msg-count]');
+  var lastEl = document.querySelector('[data-thc-last-activity]');
+  var tokensEl = document.querySelector('[data-thc-tokens]');
+  if (!pill && !modelEl) return;
+
+  var ACTIVE_SLUG = null;
+  var SSE_OK = false;
+
+  function setPillState(state) {
+    if (!pill) return;
+    var labels = {
+      offline: '○ offline',
+      syncing: '◐ syncing',
+      live:    '● live',
+      paired:  '● paired',
+    };
+    ['offline', 'syncing', 'live', 'paired'].forEach(function (s) {
+      pill.classList.toggle('terminal-status-pill--' + s, s === state);
+    });
+    pill.textContent = labels[state] || labels.offline;
+    pill.setAttribute('data-pill-state', state);
+  }
+
+  function recomputePill() {
+    if (!SSE_OK) { setPillState('offline'); return; }
+    if (ACTIVE_SLUG) { setPillState('paired'); return; }
+    setPillState('live');
+  }
+
+  function fmtRelative(epochMs) {
+    if (!epochMs) return '—';
+    var now = Date.now();
+    var dt = Math.max(0, now - Number(epochMs));
+    var s = Math.round(dt / 1000);
+    if (s < 60) return s + 's';
+    var m = Math.round(s / 60);
+    if (m < 60) return m + 'm';
+    var h = Math.round(m / 60);
+    if (h < 24) return h + 'h';
+    var d = Math.round(h / 24);
+    if (d === 1) return 'yesterday';
+    if (d < 7) return d + 'd';
+    return new Date(Number(epochMs)).toLocaleDateString();
+  }
+
+  function fmtTokens(n) {
+    if (n == null || isNaN(Number(n))) return '—';
+    var v = Number(n);
+    if (v < 1000) return String(v);
+    if (v < 1e6) return (v / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+    return (v / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
+  }
+
+  function setText(el, txt) {
+    if (!el) return;
+    el.textContent = (txt == null || txt === '') ? '—' : String(txt);
+  }
+
+  function applyMeta(meta) {
+    meta = meta || {};
+    if ('model' in meta) setText(modelEl, meta.model || '—');
+    if ('messageCount' in meta) setText(msgCountEl, meta.messageCount == null ? '—' : String(meta.messageCount));
+    if ('lastEpochMs' in meta) setText(lastEl, fmtRelative(meta.lastEpochMs));
+    if ('tokens' in meta) setText(tokensEl, fmtTokens(meta.tokens));
+  }
+
+  document.addEventListener('terminal:tab-switch', function (ev) {
+    var slug = ev && ev.detail && ev.detail.slug;
+    if (!slug) return;
+    ACTIVE_SLUG = slug;
+    /* Optimistic "syncing" while sibling slots fetch the new transcript. */
+    if (SSE_OK) setPillState('syncing'); else recomputePill();
+    /* Reset the strip until slot α dispatches fresh metadata. */
+    applyMeta({ model: '—', messageCount: '—', lastEpochMs: null, tokens: null });
+  });
+
+  document.addEventListener('terminal:active-chat-meta', function (ev) {
+    applyMeta(ev && ev.detail);
+    recomputePill();
+  });
+
+  /* Mirror sibling controller-band's [data-tcb-live] state into the
+   * smart pill. The controller-band writes "● live" / "○ offline" + a
+   * --offline modifier; we observe textContent and re-render the pill. */
+  function attachLiveMirror() {
+    var src = document.querySelector('[data-tcb-live]');
+    if (!src) {
+      setTimeout(attachLiveMirror, 500);
+      return;
+    }
+    var sync = function () {
+      var txt = (src.textContent || '').toLowerCase();
+      var offline = src.classList.contains('terminal-controller-band__live--offline')
+        || txt.indexOf('offline') !== -1
+        || txt.indexOf('connecting') !== -1;
+      SSE_OK = !offline;
+      recomputePill();
+    };
+    sync();
+    var mo = new MutationObserver(sync);
+    mo.observe(src, { childList: true, characterData: true, subtree: true, attributes: true });
+  }
+  attachLiveMirror();
+})();
+</script>
 <script src="./terminal-left-panel.js" defer></script><footer class="site-footer">
   <div class="site-footer__inner">
     <div class="site-footer__cols">
@@ -992,6 +1144,48 @@ function wireFirstRunModal() {
 }
 
 document.addEventListener("DOMContentLoaded", wireFirstRunModal);
+
+// ─── "Pair this device" banner (warp:b 2026-05-02) ───
+// On GH Pages (no Mac control panel reachable), nudge visitors to pair
+// their device so owner-mode features light up. Skipped on localhost
+// (the Mac is local) and when ENSEMBLE_SERVER_URL is already set.
+const SERVER_URL_BANNER_DISMISSED_KEY = "ensemble:server-url-banner-dismissed";
+
+function wireServerUrlBanner() {
+  try {
+    const host = location.hostname;
+    if (host === "localhost" || host === "127.0.0.1") return;
+    if (localStorage.getItem("ENSEMBLE_SERVER_URL")) return;
+    if (localStorage.getItem(SERVER_URL_BANNER_DISMISSED_KEY) === "1") return;
+    // /pair.html already shows the form — banner would be redundant.
+    if (location.pathname.endsWith("/pair.html")) return;
+  } catch (e) { return; }
+  if (document.getElementById("server-url-banner")) return;
+
+  const banner = document.createElement("div");
+  banner.id = "server-url-banner";
+  banner.className = "server-url-banner";
+  banner.setAttribute("role", "status");
+  banner.innerHTML =
+    '<span>Connect your Mac to use this from any device.</span>' +
+    ' <a href="./pair.html">Pair this device</a>' +
+    ' <button type="button" class="server-url-banner__dismiss" aria-label="Dismiss">&times;</button>';
+
+  // Insert above the topnav so it never steals space from the sticky header.
+  const topnav = document.querySelector(".topnav");
+  if (topnav && topnav.parentNode) topnav.parentNode.insertBefore(banner, topnav);
+  else document.body.insertBefore(banner, document.body.firstChild);
+
+  const dismiss = banner.querySelector(".server-url-banner__dismiss");
+  if (dismiss) {
+    dismiss.addEventListener("click", () => {
+      try { localStorage.setItem(SERVER_URL_BANNER_DISMISSED_KEY, "1"); } catch (e) {}
+      banner.remove();
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", wireServerUrlBanner);
 
 // Waitlist polish (Phase 3)
 function wireWaitlistPolish() {

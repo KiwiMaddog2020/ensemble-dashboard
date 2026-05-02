@@ -216,7 +216,7 @@
         </label>
         <input id="pair-url" type="url" class="pair-input"
                placeholder="http://localhost:8080"
-               value="http://localhost:8080" autocomplete="url" />
+               autocomplete="url" />
       </div>
 
       <div class="pair-field">
@@ -234,12 +234,14 @@
         <p class="pair-field-error" id="pair-token-error" role="alert" aria-live="polite"></p>
       </div>
 
+      <p id="pair-prefill-status" class="pair-prefill-status" hidden role="status" aria-live="polite"></p>
+
       <div class="pair-actions">
         <button class="btn-primary pair-go" type="button" data-act="pair">
           <span class="pair-go__label">Pair</span>
           <span class="pair-spinner" aria-hidden="true"></span>
         </button>
-        <button class="btn-secondary" type="button" data-act="clear">Clear pairing</button>
+        <button class="btn-secondary" type="button" data-act="reset">Reset stored values</button>
       </div>
 
       <div id="pair-status" class="pair-status"></div>
@@ -267,13 +269,28 @@
   const status = document.getElementById("pair-status");
   const revealBtn = document.querySelector('[data-act="reveal"]');
 
+  const prefillStatus = document.getElementById("pair-prefill-status");
+  function reflectPrefill(u, t) {
+    if (!prefillStatus) return;
+    if (u || t) {
+      const tail = u ? (" with " + u) : "";
+      prefillStatus.textContent = "Currently paired" + tail + ". Edit and re-pair, or reset below.";
+      prefillStatus.hidden = false;
+    } else {
+      prefillStatus.textContent = "";
+      prefillStatus.hidden = true;
+    }
+  }
   // Prefill from existing localStorage so re-pairing is idempotent
+  let _storedUrl = "";
+  let _storedTok = "";
   try {
-    const u = localStorage.getItem("ENSEMBLE_SERVER_URL");
-    if (u) urlEl.value = u;
-    const t = localStorage.getItem("DASHBOARD_TOKEN");
-    if (t) tokEl.value = t;
+    _storedUrl = localStorage.getItem("ENSEMBLE_SERVER_URL") || "";
+    _storedTok = localStorage.getItem("DASHBOARD_TOKEN") || "";
   } catch (e) {}
+  urlEl.value = _storedUrl || "http://localhost:8080";
+  if (_storedTok) tokEl.value = _storedTok;
+  reflectPrefill(_storedUrl, _storedTok);
 
   function setStatus(text, kind) {
     status.textContent = text;
@@ -295,12 +312,13 @@
     }
   });
 
-  document.querySelector('[data-act="clear"]').addEventListener("click", () => {
+  document.querySelector('[data-act="reset"]').addEventListener("click", () => {
     localStorage.removeItem("DASHBOARD_TOKEN");
     localStorage.removeItem("ENSEMBLE_SERVER_URL");
     tokEl.value = "";
     urlEl.value = "http://localhost:8080";
-    setStatus("Pairing cleared. This browser is read-only until you pair again.", "info");
+    reflectPrefill("", "");
+    setStatus("Stored values reset. This browser is read-only until you pair again.", "info");
   });
 
   const pairBtn = document.querySelector('[data-act="pair"]');
@@ -1109,6 +1127,48 @@ function wireFirstRunModal() {
 }
 
 document.addEventListener("DOMContentLoaded", wireFirstRunModal);
+
+// ─── "Pair this device" banner (warp:b 2026-05-02) ───
+// On GH Pages (no Mac control panel reachable), nudge visitors to pair
+// their device so owner-mode features light up. Skipped on localhost
+// (the Mac is local) and when ENSEMBLE_SERVER_URL is already set.
+const SERVER_URL_BANNER_DISMISSED_KEY = "ensemble:server-url-banner-dismissed";
+
+function wireServerUrlBanner() {
+  try {
+    const host = location.hostname;
+    if (host === "localhost" || host === "127.0.0.1") return;
+    if (localStorage.getItem("ENSEMBLE_SERVER_URL")) return;
+    if (localStorage.getItem(SERVER_URL_BANNER_DISMISSED_KEY) === "1") return;
+    // /pair.html already shows the form — banner would be redundant.
+    if (location.pathname.endsWith("/pair.html")) return;
+  } catch (e) { return; }
+  if (document.getElementById("server-url-banner")) return;
+
+  const banner = document.createElement("div");
+  banner.id = "server-url-banner";
+  banner.className = "server-url-banner";
+  banner.setAttribute("role", "status");
+  banner.innerHTML =
+    '<span>Connect your Mac to use this from any device.</span>' +
+    ' <a href="./pair.html">Pair this device</a>' +
+    ' <button type="button" class="server-url-banner__dismiss" aria-label="Dismiss">&times;</button>';
+
+  // Insert above the topnav so it never steals space from the sticky header.
+  const topnav = document.querySelector(".topnav");
+  if (topnav && topnav.parentNode) topnav.parentNode.insertBefore(banner, topnav);
+  else document.body.insertBefore(banner, document.body.firstChild);
+
+  const dismiss = banner.querySelector(".server-url-banner__dismiss");
+  if (dismiss) {
+    dismiss.addEventListener("click", () => {
+      try { localStorage.setItem(SERVER_URL_BANNER_DISMISSED_KEY, "1"); } catch (e) {}
+      banner.remove();
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", wireServerUrlBanner);
 
 // Waitlist polish (Phase 3)
 function wireWaitlistPolish() {
