@@ -203,7 +203,7 @@
   <div class="wrap">
     <p class="eyebrow">Settings</p>
     <h1>Tune the <em>orchestra.</em></h1>
-    <p class="lead">Global preferences. Changes flow to the local control panel and persist in state.json.</p>
+    <p class="lead">Global preferences. Changes flow to the local control panel and persist on this device.</p>
   </div>
 </header>
 
@@ -581,7 +581,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     <h3 class="settings-h3 settings-h3--tight">Per-project visibility</h3>
     <div id="privacy-list">
-      <p class="settings-privacy-empty">Connecting to control panel to load project list…</p>
+      <p class="settings-privacy-empty">Loading your projects…</p>
     </div>
   </div>
 </section>
@@ -962,7 +962,7 @@ function renderPrivacyList(state) {
   const container = document.getElementById("privacy-list");
   if (!container) return;
   if (!state || !state.projects) {
-    container.innerHTML = '<p class="settings-privacy-empty">Control panel offline. Privacy controls require owner access.</p>';
+    container.innerHTML = '<p class="settings-privacy-empty"><span class="settings-privacy-empty__icon" aria-hidden="true">🔒</span>Open Settings on your paired Mac to manage privacy.</p>';
     return;
   }
   if (!state.projects.length) {
