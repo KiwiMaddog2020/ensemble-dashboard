@@ -383,7 +383,16 @@
     }
     setLoading(false);
     setStatus("Paired ✓ Owner mode active. Redirecting…", "success");
-    setTimeout(() => { window.location.href = "./"; }, 900);
+    setTimeout(() => {
+      var next = "";
+      try { next = new URL(location.href).searchParams.get("next") || ""; } catch (e) {}
+      // open-redirect protection: only same-origin paths starting with /
+      if (next && next.charAt(0) === "/" && next.indexOf("//") !== 0) {
+        window.location.href = next;
+      } else {
+        window.location.href = "./";
+      }
+    }, 900);
   });
 })();
 </script>
