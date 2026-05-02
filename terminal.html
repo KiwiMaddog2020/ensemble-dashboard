@@ -204,7 +204,13 @@
   </div>
 </main>
 <script src="./terminal-resize.js" defer></script>
-<footer class="site-footer">
+<!-- TERMINAL_RIGHT_PANEL_JS rides inside dashboard.js (closure-shared
+     widget catalog + escapeHtml/apiPost helpers, see __main__.py:413). -->
+<script src="./dashboard.js" defer></script>
+<script src="./terminal-controller.js" defer></script>
+<script src="./terminal-left-panel.js" defer></script>
+<script src="./terminal-center.js" defer></script>
+<script src="./terminal-left-panel.js" defer></script><footer class="site-footer">
   <div class="site-footer__inner">
     <div class="site-footer__cols">
       <div class="site-footer__col site-footer__col--brand">
