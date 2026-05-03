@@ -210,116 +210,102 @@
     </header>
     <article class="doc-content">
 <blockquote>
-<p><strong>Supersedes</strong> the 2026-05-01 evening handoff. Today was a marathon: R13.5 + R13.75 wired the asset-pack architecture end-to-end, R14 shipped the brand-completion round (audio + cyberpunk visuals + creator docs + a11y), R-simplify-α killed Termius/mobile_dispatch out-of-box, and R-terminal MVP is <strong>3 of 5 slots merged</strong> at handoff time.</p>
+<p><strong>Supersedes</strong> the 2026-05-02 evening handoff. Today was an absolute marathon: 7 warp batches fired (A through G), Cloudflare Quick Tunnel went up, 4 Polish audit docs landed (site-wide + terminal + character creator + studio + terminology), and the terminal grew from a 3-panel shell into a Claude-Code-grade chat surface with rich rendering, smart chrome, warm empty states, and a cyberpunk visual signature.</p>
 </blockquote>
 <hr />
 <h2 id="wake-up-brief-read-this-first">☕ WAKE-UP BRIEF · read this first</h2>
-<p>The public PWA at <strong>https://kiwimaddog2020.github.io/ensemble-dashboard/</strong> is current as of <code>ee6598b</code>. <strong>3 dashboard-fires today</strong> (<code>7ad1f1e</code> → <code>36e7640</code> → <code>ee6598b</code>). Every commit on main is pushed.</p>
-<h3 id="green-what-shipped-today-massive">🟢 GREEN — what shipped today (massive)</h3>
+<p>The public PWA at <strong>https://kiwimaddog2020.github.io/ensemble-dashboard/</strong> is current as of <code>ac67537</code>. <strong>Multiple dashboard-fires today</strong> — most recent at <code>2026-05-02T15:00Z</code>. Every commit on main is pushed.</p>
+<h3 id="green-what-shipped-this-session-massive">🟢 GREEN — what shipped this session (massive)</h3>
+<p><strong>Cloudflare Tunnel LIVE (free, ephemeral):</strong>
+- <code>cloudflared</code> PID 39909 alive, registered at yvr02 (Vancouver edge)
+- URL: <code>https://talking-pills-compound-strings.trycloudflare.com</code>
+- Token: <code>QEyfZNDjoKHiq0m3AUteTzMptHv-tYzdtkZzwIE0we8</code>
+- Server: PID 20975 with <code>/Users/kevin/.claude/orchestrator/bin/control-panel-server.py</code>
+- ⚠️ URL changes if cloudflared restarts (Mac reboot, etc.). Named tunnel + custom domain is a future upgrade.</p>
+<p><strong>7 warp batches fired today (A through G + retries):</strong></p>
 <ol>
-<li>
-<p><strong>R13.75 wiring round (5/5 merged)</strong> — canvas schema v5 + per-theme default_pack_id + per-component sprites + character creator pack-aware (Mana Seed paper-doll). Dashboard regen confirmed.</p>
-</li>
-<li>
-<p><strong>R14 brand-completion (4/4 merged)</strong>:
-   - <strong>R14-a:</strong> sound_runtime integration + per-atmosphere <code>footstep_type</code> + 250ms canvas-switch crossfade + Audio credits section. <strong>Audio files are PLACEHOLDERS (~300 bytes each); real Freesound URLs in <code>bin/dashgen/static/audio/audio_credits.json</code> need manual download.</strong>
-   - <strong>R14-b:</strong> cyberpunk visual signature on cool themes (scan-line glitch every 2-4s + neon_motes particles + chromatic-edge UI pill + camera-punch RGB flash on interact). Honors <code>prefers-reduced-motion</code> throughout.
-   - <strong>R14-c:</strong> <code>/docs/creator-recolor.html</code> (10-step Aseprite workflow) + <code>docs/grand-plan/CREATOR_ECONOMY.md</code> (v1.1 marketplace flywheel narrative).
-   - <strong>R14-d:</strong> <code>docs/A11Y_DEEP_AUDIT_2026-05-02.md</code> + 44 source-guard tests. Found ZERO motion-effect gaps (all R12-R14 effects already had reduced-motion guards).</p>
-</li>
-<li>
-<p><strong>R-simplify-α (2/2 merged)</strong> — Termius / mobile_dispatch / Tailscale support REMOVED out-of-box. <code>bin/mobile_dispatch.sh</code> → <code>bin/ensemble_actions.sh</code> (slim local-only helper, SSH framing stripped). 4 files deleted, 25+ updated, install skill Phase 9 demoted to deprecation notice + Phase 10 added (PWA-open + DASHBOARD_TOKEN paste). <strong>Net: +96/-846 lines.</strong></p>
-</li>
-<li>
-<p><strong>R-terminal MVP (3/5 merged)</strong> — <code>/terminal.html</code> page now exists with:
-   - <strong>α merged:</strong> page scaffold + nav integration (Terminal alongside Ensemble/Studio/Dashboard/Docs/Settings) + 3-panel grid CSS + resize handles + mobile breakpoints
-   - <strong>δ merged:</strong> right panel control deck (9 cards in 4 sections: Mode/Action/Status/Danger) + per-panel edit mode + localStorage persistence
-   - <strong>ε merged:</strong> mini controller-tree band (220px) + 2 NEW server endpoints (<code>/controller-tree-stream</code> SSE, <code>/warp-runs/active</code> JSON aggregator)</p>
-</li>
-<li>
-<p><strong>Bug fixes shipped:</strong>
-   - <code>_isOwner</code> on window so private widgets actually render (was script-scoped <code>let</code>; private section never appeared)
-   - Draggable shelf-resize handle on edit-mode dashboard</p>
-</li>
-<li>
-<p><strong>Memory + template enforcement updated:</strong>
-   - MAESTRO.md + AGENT.md got the strict rapid-fire clauses (no batch exceptions, no prose-table preloading, no prose-numbered-list substitutes)
-   - <code>~/.claude/projects/-Users-kevin/memory/orchestrator_rapid_fire_format.md</code> matches
-   - <code>~/.claude/projects/-Users-kevin/memory/opus_max_effort_mode.md</code> locked <code>--tier heavy</code> as warp default
-   - <strong>NEW: <code>~/.claude/projects/-Users-kevin/memory/warp_banner_format.md</code></strong> — banners use markdown bullets, not <code>╔═╗ ║ ╚═╝</code> (those misalign with emoji)</p>
-</li>
-<li>
-<p><strong>8 plan docs locked + committed:</strong>
-   - <code>docs/POLISH_2026-05-02_skill-catalog.md</code> (6-skill rating, craft 7.97/9.17)
-   - <code>docs/POLISH_2026-05-02_onboarding-experience.md</code> (5.7/7.8 baseline + 3-round plan)
-   - <code>docs/TERMINAL_PAGE_PLAN_2026-05-02.md</code> (4 §9 decisions LOCKED)
-   - <code>docs/NAVIGATION_IA_PLAN_2026-05-02.md</code> (4 §5 decisions; recommended structure spec&rsquo;d)
-   - <code>docs/SIMPLIFICATION_PLAN_2026-05-02.md</code> (Termius cull + docs cull plan; §5.4 ordering LOCKED)
-   - <code>docs/R14_PLAN_2026-05-02.md</code> (3 §7 decisions LOCKED, all 4 slots shipped)
-   - <code>docs/STARDEW_TIER_PLAN_2026-05-01.md</code> (4 §5 decisions LOCKED — see prior handoff)
-   - <code>docs/ASSET_PACK_IMPORT_PLAN_2026-05-01.md</code> (3 §8 decisions LOCKED — see prior handoff)</p>
-</li>
+<li><strong>Batch A merged + live</strong> (d7f6cac) — wallpaper polish (refined topo + 4 new presets: linen / blueprint / constellation / marble) + terminology audit doc (355 lines, 40 categories, 35 catalogued replacements + 5 redundant-widget clusters) + /pricing.html with 7-item nav + mobile drawer</li>
+<li><strong>Brand polish + cleanup</strong> (939345d, 4417e8c, 585372c, 521ac8e, 0d12d89, 2eb110e) — unified transparent-bg logo + visual default-marker on swatches + favicon magic-wand-trim + warp-runs/active auth fix + 7 stale manifests swept + Pricing moved out of nav into Docs hub + opaque mobile drawer + character creator SERVER_URL fix (cross-origin GH Pages → tunnel)</li>
+<li><strong>Batch B merged + live</strong> (c30efae) — terminal chat parity (Enter-to-send default + pin messages + chat settings menu + ↑/↓ history + font-size) + light-mode mono master (Apple-grade grayscale) + 35 jargon strips (control deck → control panel, fire → run, Workshop lock → Autopilot lock, orchestrated/direct → Full/Plain)</li>
+<li><strong>Batch C merged + live</strong> (db809f1) — character creator deep audit (275 lines, sequenced plan) + studio setup deep audit (271 lines) + terminology Round 1.5 sweep (10 leftover hits) + 12 empty-state rewrites with icons + CTAs</li>
+<li><strong>Batch D landed</strong> (eca3323) — terminal mobile drawer toggle + auto-scroll pause + jump-to-latest button + illustrated empty states. Slot γ (CSP nonce) SIGTERMed.</li>
+<li><strong>Batch E partial salvage</strong> (aa736d0) — α CC auth-fix (DASHBOARD_TOKEN unification + /pair.html ?next=) merged + γ Studio tier-unify merged. β (CC pack-persist schema v2) lost to SIGTERM, deferred.</li>
+<li><strong>Batch F partial salvage</strong> (9daf371) — γ warm empty states + cyberpunk visual signature merged. α + β lost to SIGTERM, retried as Batch G v2.</li>
+<li><strong>Batch G v2 FULLY MERGED + live</strong> (ac67537) — α terminal rich event renderer (tool_use cards + tool_result cards + markdown + code fence highlighting + diff cards) + β iPhone polish (kill horizontal scroll + 44px tap targets + safe-area-inset + Pair-this-device banner + pair-form pre-fill + reset) + γ smart status pill + header context strip + enriched left/right panels.</li>
 </ol>
+<p><strong>Audits landed (5 Polish docs):</strong>
+- <code>docs/POLISH_2026-05-02_site-wide.md</code> (306 lines, CRAFT 6.78 / FIT 7.50 / 61 cats / 3-round 9-slot plan)
+- <code>docs/POLISH_2026-05-02_terminal.md</code> (262 lines, CRAFT 5.43 / FIT 6.41)
+- <code>docs/POLISH_2026-05-02_character-creator.md</code> (275 lines, CRAFT 5.55 / FIT 6.55 — flagged 2 critical bugs)
+- <code>docs/POLISH_2026-05-02_studio-setup.md</code> (271 lines, CRAFT 6.71 / FIT 7.36)
+- <code>docs/POLISH_2026-05-02_terminology.md</code> (355 lines, 40 cats, 35+12 catalogued rephrase + empty-state rewrites)</p>
 <h3 id="yellow-outstanding-when-handoff-was-written">🟡 YELLOW — outstanding when handoff was written</h3>
 <ol>
-<li>
-<p><strong>R-terminal MVP has 2 slots remaining: β (left panel chat list) + γ (center column scrollback + compose).</strong> These are wave 2; they depend on α&rsquo;s grid + the existing claude_station_renderers.py from R13.5-c (already shipped). <strong>Fire as warp x2 Opus heavy first thing next session.</strong> Directives are pre-written in <code>runs/warp-20260501T233739Z/{b,c}/directive.md</code>.</p>
-</li>
-<li>
-<p><strong>R-docs-cull pending — Kevin&rsquo;s specific ask 2026-05-02 evening:</strong></p>
-<blockquote>
-<p><em>&ldquo;can we do the docs cull now without affecting anything else? I want brand new documents and let&rsquo;s keep it minimal with things that will actually be handy for users as well as a quick start guide and a one pager that is super fancy and presented as an html file that is interactive similar to our spectra nova pitch (https://kiwimaddog2020.github.io/spectra-nova-pitch/)&rdquo;</em></p>
-</blockquote>
-</li>
+<li><strong>Live-tree + character-preview bugs Kevin saw at end-of-session:</strong> Even after pairing with the new tunnel URL, Kevin reported <code>/terminal.html</code> showing &ldquo;Live tree loads as soon as the stream connects&rdquo; indefinitely + character creator not displaying the character. <strong>Server-side everything is GREEN</strong> (verified via curl: /state /sprite /controller-tree-stream all return 200 with auth + CORS preflight returns 204 with <code>Access-Control-Allow-Origin: *</code>). Issue is browser-side. Most likely: stale localStorage <code>ENSEMBLE_SERVER_URL</code> from a previous pair attempt, OR cached old JS from before the SERVER_URL fix at 521ac8e. <strong>Kevin will get DevTools Network tab logs tomorrow</strong> so a precise diagnosis is possible.</li>
 </ol>
-<p><strong>Scope:</strong> 2 Opus heavy slots. Slot α: minimal new user-facing docs (QUICKSTART.md + about_manifesto + about_faq + about_contact body files) + cull old docs from PWA pipeline (deregister most of <code>docs/</code> from <code>docs_to_render.py</code>). Slot β: <strong>fancy interactive one-pager HTML</strong> (Spectra-Nova-pitch style — smooth scroll + animations + branded). Kevin said serial vs R-terminal wave 1; can fire alongside R-terminal wave 2 OR after wave 2 lands (≤4 Opus parallel cap per R14 SIGTERM lesson).</p>
-<ol start="3">
+<ul>
+<li>First step on his return: have him open Safari DevTools → Storage → Local Storage → <code>kiwimaddog2020.github.io</code> → delete <code>ENSEMBLE_SERVER_URL</code> + <code>DASHBOARD_TOKEN</code> → hard-refresh (Cmd+Option+E to empty cache, then Cmd+R) → re-pair via /pair.html with the tunnel URL + token.</li>
+<li>Second step: if still broken, he&rsquo;ll send the DevTools Network tab screenshot filtered to &ldquo;trycloudflare&rdquo; so we can see what status the browser actually gets vs what the server sent.</li>
+</ul>
+<ol start="2">
 <li>
-<p><strong>R-onboarding-α pending</strong> — welcome hero + express install + demo path. Per <code>POLISH_2026-05-02_onboarding-experience.md</code> §7. Fire after R-terminal MVP fully merged.</p>
+<p><strong>CC pack-persist (Batch E β) lost to SIGTERM:</strong> The pack-aware descriptor schema v2 migration (<code>SpriteDescriptor</code> v1 → v2 with optional <code>pack_id</code> / <code>base</code> / <code>page</code> / <code>layers</code> fields). Risky migration; want Kevin&rsquo;s eyes on the design before retrying.</p>
 </li>
 <li>
-<p><strong>R-simplify-β pending</strong> — full docs cull + About hub + nav restructure (per NAVIGATION_IA_PLAN). The smaller R-docs-cull above is a tighter version; R-simplify-β is the full restructure (avatar dropdown for Settings, 7-item About sub-menu). Decide whether R-docs-cull replaces R-simplify-β or precedes it.</p>
+<p><strong>CSP nonce 3rd retry (Batch H drafted, NOT FIRED):</strong> SIGTERMed twice (Batch C + Batch D γ slots both at exit 143). Drafted as a 1-slot solo run at <code>runs/warp-20260502T091935Z/a/directive.md</code> to give it full memory headroom (3-slot batches kept dying mid-CSP work). Kevin should sign off + fire.</p>
+</li>
+<li>
+<p><strong>Site Round 2 still pending:</strong> server split (<code>control-panel-server.py</code> 2321 LOC → handler modules) + BaseJsonStore + SSE backpressure + max-clients cap + heartbeats. Production hardening before scaling Cloudflare Tunnel beyond Kevin himself.</p>
+</li>
+<li>
+<p><strong>Site Round 3 pending (user-gated):</strong> welcome flow (first-run experience polish) + 10 ADRs + interactive one-pager v2 (Spectra-Nova-pitch style). One-pager v2 needs Kevin&rsquo;s visual direction; defer until he sketches.</p>
 </li>
 <li>
 <p><strong>Manual follow-ups (NOT warp work):</strong>
-   - <strong>Audio download</strong>: 16 real Freesound files per <code>bin/dashgen/static/audio/audio_credits.json</code> URLs. Drop into <code>bin/dashgen/static/audio/</code> to replace placeholders.
-   - <strong>Aseprite recolor session</strong>: Cyberpunk Forester variant per <code>docs/CREATOR_RECOLOR_GUIDE.md</code> (~3-6 hr Kevin DIY).
-   - <strong>Existing agents re-read contract</strong>: BOO / Pinball / Tool Builder / Vera Nota / etc. Each chat needs <code>re-read your contract</code> to pick up the new MAESTRO.md / AGENT.md rapid-fire clauses.</p>
+   - Audio download: 16 real Freesound files per <code>bin/dashgen/static/audio/audio_credits.json</code> URLs (still placeholders)
+   - Aseprite recolor session: Cyberpunk Forester variant per <code>docs/CREATOR_RECOLOR_GUIDE.md</code> (~3-6 hr Kevin DIY)
+   - Existing agents re-read contract: BOO / Pinball / Tool Builder / Vera Nota / etc.
+   - Persistent Cloudflare Tunnel (named tunnel + custom domain + Cloudflare Access auth gate) — Kevin needs to pick a domain (~$10/yr) when ready</p>
 </li>
 </ol>
 <h3 id="red-none">🔴 RED — none</h3>
-<p>No shipping blockers. The 1 known-flaky <code>test_perf_budget</code> ERROR (passes alone, fails in full suite due to inter-test interaction) is pre-existing all session.</p>
+<p>No shipping blockers. Pre-existing flaky <code>test_perf_budget</code> ERROR (passes alone, fails in full suite) is unchanged from the start of session. The browser-side bugs Kevin saw are likely localStorage / cache state, not server bugs (server-side end-to-end probe via tunnel is all green).</p>
 <hr />
 <h2 id="current-runtime-state-snapshot-at-handoff">Current runtime state (snapshot at handoff)</h2>
 <ul>
 <li><strong>Branch:</strong> <code>main</code></li>
-<li><strong>Last commit:</strong> <code>e12d9cf</code> — <code>Merge warp:R-terminal-ε — mini controller-tree + /controller-tree-stream SSE + /warp-runs/active (Opus tier)</code></li>
-<li><strong>Public PWA last push:</strong> <code>ee6598b</code> — live at https://kiwimaddog2020.github.io/ensemble-dashboard/</li>
-<li><strong>Working tree:</strong> clean except the pre-existing untracked items (anthropic_spend.jsonl, etc.)</li>
+<li><strong>Last commit:</strong> <code>ac67537</code> — Auto-refresh: 2026-05-02T15:00Z (Batch G v2 fully merged + pushed)</li>
+<li><strong>Public PWA last push:</strong> <code>ac67537</code> — live at https://kiwimaddog2020.github.io/ensemble-dashboard/</li>
+<li><strong>Working tree:</strong> clean except pre-existing untracked items (<code>anthropic_spend.jsonl</code>, <code>anthropic_spend_per_user.jsonl</code>, 3 stale doc files, <code>virtuosos/tool-builder/website/</code>)</li>
 <li><strong>state.json:</strong> mode=orchestrated, lock free, no freeze, rapid_fire_enabled=true, max_concurrent_autopilots=3, warp_speed_active=true</li>
-<li><strong>R-terminal stamp:</strong> <code>20260501T233739Z</code> — α/δ/ε merged; β/γ pending in runs/&hellip;/{b,c}/</li>
-<li><strong>Live PWA running:</strong> <code>bin/control-panel-server.py</code> PID 32103 (since Wed03PM)</li>
-<li><strong>Test suite:</strong> 2345 tests, 1 pre-existing flaky error, 0 new failures</li>
+<li><strong>Live PWA running:</strong> <code>bin/control-panel-server.py</code> PID 20975</li>
+<li><strong>Cloudflare Tunnel running:</strong> PID 39909, URL <code>https://talking-pills-compound-strings.trycloudflare.com</code></li>
+<li><strong>Test suite:</strong> 245+ tests across all touched files green; full discover total green except pre-existing perf_budget flaky</li>
 </ul>
 <hr />
 <h2 id="next-session-first-action">Next session — first action</h2>
 <pre><code class="language-bash"># Confirm state
 git log --oneline -5
-python3 -c &quot;import json; m=json.load(open('runs/warp-20260501T233739Z/manifest.json')); print('\n'.join(f'{k}: {v.get(\&quot;status\&quot;,\&quot;?\&quot;)}' for k,v in sorted(m['workers'].items())))&quot;
+ls runs/warp-* | head -5
 
-# Fire R-terminal wave 2 (β + γ — directives pre-written)
-bash bin/warp_split_spawn.sh /Users/kevin/.claude/orchestrator 20260501T233739Z b runs/warp-20260501T233739Z/b/directive.md 90 --tier heavy &amp;
-bash bin/warp_split_spawn.sh /Users/kevin/.claude/orchestrator 20260501T233739Z c runs/warp-20260501T233739Z/c/directive.md 90 --tier heavy &amp;
+# Verify tunnel still alive (URL changes on cloudflared restart!)
+ps aux | grep cloudflared | grep -v grep
+TOKEN=&quot;QEyfZNDjoKHiq0m3AUteTzMptHv-tYzdtkZzwIE0we8&quot;
+curl -s -o /dev/null -w &quot;tunnel %{http_code}\n&quot; --max-time 5 \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  https://talking-pills-compound-strings.trycloudflare.com/state
 
-# Or fire R-docs-cull alongside (2 + 2 = 4 Opus parallel, at SIGTERM ceiling — confirm with Kevin first)
+# If Kevin sends DevTools logs for the live-tree + character preview bugs, dig in.
+# Otherwise, fire Batch H (CSP nonce solo) — directives at runs/warp-20260502T091935Z/a/directive.md
+bash bin/warp_split_spawn.sh /Users/kevin/.claude/orchestrator 20260502T091935Z a runs/warp-20260502T091935Z/a/directive.md 90 --tier heavy &amp;
 </code></pre>
-<p>After all 5 R-terminal slots merge → <code>dashboard-generate.sh</code> + <code>dashboard-fire.sh</code> → fire R-docs-cull or R-onboarding-α next per Kevin&rsquo;s direction.</p>
+<p>After Batch H lands → consider Site Round 2 (server split + BaseJsonStore + SSE backpressure) as next batch. After that → welcome flow + ADRs.</p>
 <hr />
 <h2 id="voice-posture-re-up">Voice + posture (re-up)</h2>
 <ul>
-<li><strong>Rapid fire is ON</strong> — strict enforcement now: 3 real options + slot 4 = &ldquo;Disable Rapid Fire Mode&rdquo; per call; NO batch exceptions; NO prose-table preloading; NO prose-numbered-list substitutes for the tool. Per the new clauses in MAESTRO.md / AGENT.md / orchestrator_rapid_fire_format.md.</li>
+<li><strong>Rapid fire is ON</strong> — strict enforcement: AskUserQuestion for every decision, 3 real options + slot 4 = &ldquo;Disable Rapid Fire Mode&rdquo;, <code>(Recommended)</code> on slot 1.</li>
 <li><strong>Warp default is <code>--tier heavy</code> (Opus 4.7 1M)</strong> — locked in <code>opus_max_effort_mode.md</code>.</li>
-<li><strong>Warp parallel ceiling: 3-4 Opus simultaneous</strong> — R14 SIGTERMed 3 of 4 workers when the Mac hit memory pressure. Stagger / serial firing for safety.</li>
+<li><strong>Warp parallel ceiling: 3 Opus simultaneous</strong> — TODAY HAD 4 SIGTERMs at 5-Opus-parallel (lost CC pack-persist + 2 Batch F slots + CSP nonce). 3 is the safe ceiling. CSP nonce specifically wants SOLO (1-slot) to give it full memory.</li>
 <li><strong>Warp banner format: markdown bullets, no box-drawing chars</strong> — locked in <code>warp_banner_format.md</code>.</li>
 <li><strong>Pre-flight banner before EVERY warp spawn</strong> — uses the new format.</li>
 <li><strong>Don&rsquo;t disrupt the Mac</strong> per global CLAUDE.md.</li>
@@ -328,20 +314,22 @@ bash bin/warp_split_spawn.sh /Users/kevin/.claude/orchestrator 20260501T233739Z 
 <hr />
 <h2 id="suggested-first-message-to-kevin">Suggested first message to Kevin</h2>
 <pre><code>Maestro back. State snapshot:
-- main @ e12d9cf — R-terminal α/δ/ε merged; β/γ pre-written
-- Public PWA live at ee6598b on GitHub Pages
-- 8 plan docs locked, 2 rounds pending (R-terminal wave 2 + R-docs-cull)
-- Manual TODOs: audio download, Aseprite recolor, agent contract reload
+- main @ ac67537 — 7 batches landed today (A through G + retries)
+- Public PWA live at ac67537 on GitHub Pages
+- Cloudflare Quick Tunnel live (talking-pills-compound-strings.trycloudflare.com)
+- 5 Polish audit docs landed (site-wide + terminal + CC + studio + terminology)
+- 245 tests green; full suite total unchanged except pre-existing perf_budget
 
-Next decision (rapid-fire):
-1. Fire R-terminal wave 2 (β + γ) alone — finish R-terminal MVP first (Recommended)
-2. Fire R-terminal wave 2 + R-docs-cull as parallel tracks (4 Opus, at ceiling)
-3. Fire R-docs-cull first — minimal new docs + interactive Spectra-Nova-style one-pager
-4. Disable Rapid Fire Mode
+Need from you:
+1. DevTools Network tab screenshot for the live-tree + character preview bugs
+   (cleared localStorage + hard-refreshed first per the steps in the handoff)
+2. Sign-off on Batch H (CSP nonce solo retry — drafted, not fired)
+3. Sign-off on Batch I scope: Site Round 2 (server split + BaseJsonStore + SSE
+   backpressure) vs welcome flow vs something else
 </code></pre>
 <p>Don&rsquo;t recap the marathon — Kevin lived through it. Just the snapshot + decision.</p>
 <hr />
-<p><em>End of handoff. Public PWA is fully current. Next session starts with R-terminal wave 2 + R-docs-cull pivot.</em></p>
+<p><em>End of handoff. Public PWA is fully current. Cloudflare Tunnel is up. Next session starts with browser-bug debug + Batch H + Batch I scoping.</em></p>
     </article>
     <footer class="doc-foot">
       <a href="../docs.html" class="doc-back">← Back to all documentation</a>
