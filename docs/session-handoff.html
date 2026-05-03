@@ -210,126 +210,126 @@
     </header>
     <article class="doc-content">
 <blockquote>
-<p><strong>Supersedes</strong> the 2026-05-02 evening handoff. Today was an absolute marathon: 7 warp batches fired (A through G), Cloudflare Quick Tunnel went up, 4 Polish audit docs landed (site-wide + terminal + character creator + studio + terminology), and the terminal grew from a 3-panel shell into a Claude-Code-grade chat surface with rich rendering, smart chrome, warm empty states, and a cyberpunk visual signature.</p>
+<p><strong>Supersedes</strong> the 2026-05-02 early-morning handoff. Today shipped 9 warp batches (A through Tv3 + CSP solo), Cloudflare Quick Tunnel went live (rotated 3x), 5 Polish audit docs landed, terminal grew from 3-panel shell into Claude-Code-grade chat surface, and a final ~7-commit in-chat polish wave (no warp) closed the most-visible visual gaps after Kevin reported tokens-burned-on-SIGTERMs concern.</p>
+<p><strong>Critical context:</strong> Kevin is bringing an UPDATED VISION DOC from another chat. Next-Maestro should ALIGN the project&rsquo;s UI/UX with that vision before continuing the existing batch queue. Read the new vision FIRST.</p>
 </blockquote>
 <hr />
 <h2 id="wake-up-brief-read-this-first">☕ WAKE-UP BRIEF · read this first</h2>
-<p>The public PWA at <strong>https://kiwimaddog2020.github.io/ensemble-dashboard/</strong> is current as of <code>ac67537</code>. <strong>Multiple dashboard-fires today</strong> — most recent at <code>2026-05-02T15:00Z</code>. Every commit on main is pushed.</p>
-<h3 id="green-what-shipped-this-session-massive">🟢 GREEN — what shipped this session (massive)</h3>
-<p><strong>Cloudflare Tunnel LIVE (free, ephemeral):</strong>
-- <code>cloudflared</code> PID 39909 alive, registered at yvr02 (Vancouver edge)
-- URL: <code>https://talking-pills-compound-strings.trycloudflare.com</code>
-- Token: <code>QEyfZNDjoKHiq0m3AUteTzMptHv-tYzdtkZzwIE0we8</code>
-- Server: PID 20975 with <code>/Users/kevin/.claude/orchestrator/bin/control-panel-server.py</code>
-- ⚠️ URL changes if cloudflared restarts (Mac reboot, etc.). Named tunnel + custom domain is a future upgrade.</p>
-<p><strong>7 warp batches fired today (A through G + retries):</strong></p>
+<p>The public PWA at <strong>https://kiwimaddog2020.github.io/ensemble-dashboard/</strong> is current as of <code>e4b1ba0</code> (2026-05-03T05:20Z). Every commit on main is pushed.</p>
+<h3 id="first-thing-next-maestro-should-do">🎯 First thing next-Maestro should do</h3>
+<p><strong>Read the updated vision doc Kevin&rsquo;s bringing in.</strong> Then audit how today&rsquo;s terminal + character creator + studio work aligns. Don&rsquo;t fire batches against the old vision.</p>
+<p>After that, the standing queue (below) is ready to scope.</p>
+<h3 id="green-what-shipped-today">🟢 GREEN — what shipped today</h3>
+<p><strong>Cloudflare Tunnel LIVE (free, ephemeral, rotates):</strong>
+- <code>cloudflared</code> PID rotates ~every few hours. Restart with: <code>nohup cloudflared tunnel --url http://localhost:8080 --no-autoupdate &gt; /tmp/cloudflared-quick.log 2&gt;&amp;1 &amp;</code>
+- Latest URL: <strong><code>https://invest-hardly-address-patricia.trycloudflare.com</code></strong> (verify alive: <code>curl -H "Authorization: Bearer $TOKEN" $URL/state</code>)
+- Token (unchanged from .env.local): <code>QEyfZNDjoKHiq0m3AUteTzMptHv-tYzdtkZzwIE0we8</code>
+- Server: PID running per <code>lsof -iTCP:8080 -sTCP:LISTEN</code>
+- New playbook: <strong><code>docs/CLOUDFLARE_SETUP.md</code></strong> (Quick + Named tunnel paths, troubleshooting, where secrets live)</p>
+<p><strong>9 warp batches today:</strong></p>
 <ol>
-<li><strong>Batch A merged + live</strong> (d7f6cac) — wallpaper polish (refined topo + 4 new presets: linen / blueprint / constellation / marble) + terminology audit doc (355 lines, 40 categories, 35 catalogued replacements + 5 redundant-widget clusters) + /pricing.html with 7-item nav + mobile drawer</li>
-<li><strong>Brand polish + cleanup</strong> (939345d, 4417e8c, 585372c, 521ac8e, 0d12d89, 2eb110e) — unified transparent-bg logo + visual default-marker on swatches + favicon magic-wand-trim + warp-runs/active auth fix + 7 stale manifests swept + Pricing moved out of nav into Docs hub + opaque mobile drawer + character creator SERVER_URL fix (cross-origin GH Pages → tunnel)</li>
-<li><strong>Batch B merged + live</strong> (c30efae) — terminal chat parity (Enter-to-send default + pin messages + chat settings menu + ↑/↓ history + font-size) + light-mode mono master (Apple-grade grayscale) + 35 jargon strips (control deck → control panel, fire → run, Workshop lock → Autopilot lock, orchestrated/direct → Full/Plain)</li>
-<li><strong>Batch C merged + live</strong> (db809f1) — character creator deep audit (275 lines, sequenced plan) + studio setup deep audit (271 lines) + terminology Round 1.5 sweep (10 leftover hits) + 12 empty-state rewrites with icons + CTAs</li>
-<li><strong>Batch D landed</strong> (eca3323) — terminal mobile drawer toggle + auto-scroll pause + jump-to-latest button + illustrated empty states. Slot γ (CSP nonce) SIGTERMed.</li>
-<li><strong>Batch E partial salvage</strong> (aa736d0) — α CC auth-fix (DASHBOARD_TOKEN unification + /pair.html ?next=) merged + γ Studio tier-unify merged. β (CC pack-persist schema v2) lost to SIGTERM, deferred.</li>
-<li><strong>Batch F partial salvage</strong> (9daf371) — γ warm empty states + cyberpunk visual signature merged. α + β lost to SIGTERM, retried as Batch G v2.</li>
-<li><strong>Batch G v2 FULLY MERGED + live</strong> (ac67537) — α terminal rich event renderer (tool_use cards + tool_result cards + markdown + code fence highlighting + diff cards) + β iPhone polish (kill horizontal scroll + 44px tap targets + safe-area-inset + Pair-this-device banner + pair-form pre-fill + reset) + γ smart status pill + header context strip + enriched left/right panels.</li>
+<li><strong>Batch A</strong> (d7f6cac) — wallpaper polish + terminology audit + pricing+nav</li>
+<li><strong>Brand polish + cleanup</strong> (939345d → 0d12d89) — unified transparent-bg logo + favicons + warp-runs/active auth fix + 7 stale manifests swept + Pricing → Docs hub + opaque mobile drawer + character creator SERVER_URL fix</li>
+<li><strong>Batch B</strong> (c30efae) — terminal chat parity + light-mode mono + 35 jargon strips</li>
+<li><strong>Batch C</strong> (db809f1) — character creator + studio audits + terminology Round 1.5 + 12 empty-state rewrites</li>
+<li><strong>Batch D</strong> (eca3323) — terminal mobile drawer + auto-scroll pause + jump-to-latest. CSP γ SIGTERMed.</li>
+<li><strong>Batch E</strong> (aa736d0 partial salvage) — α CC auth-fix + γ Studio tier-unify merged. β CC pack-persist LOST.</li>
+<li><strong>Batch F</strong> (9daf371 partial salvage) — γ warm empty states + cyberpunk signature merged. α + β LOST → retried as Batch G v2.</li>
+<li><strong>Batch G v2</strong> (ac67537) — α terminal rich event renderer + β iPhone polish + γ smart status pill + chrome.</li>
+<li><strong>Batch H solo</strong> (679443d) — CSP nonce + lift unsafe-inline (3rd retry, solo, success).</li>
+<li><strong>Tv3 solo</strong> — SIGTERMed at exit 143, no commits, no salvage.</li>
 </ol>
-<p><strong>Audits landed (5 Polish docs):</strong>
-- <code>docs/POLISH_2026-05-02_site-wide.md</code> (306 lines, CRAFT 6.78 / FIT 7.50 / 61 cats / 3-round 9-slot plan)
-- <code>docs/POLISH_2026-05-02_terminal.md</code> (262 lines, CRAFT 5.43 / FIT 6.41)
-- <code>docs/POLISH_2026-05-02_character-creator.md</code> (275 lines, CRAFT 5.55 / FIT 6.55 — flagged 2 critical bugs)
-- <code>docs/POLISH_2026-05-02_studio-setup.md</code> (271 lines, CRAFT 6.71 / FIT 7.36)
-- <code>docs/POLISH_2026-05-02_terminology.md</code> (355 lines, 40 cats, 35+12 catalogued rephrase + empty-state rewrites)</p>
+<p><strong>5 Polish audit docs:</strong>
+- <code>docs/POLISH_2026-05-02_site-wide.md</code> (CRAFT 6.78 / FIT 7.50 / 61 cats / 3-round 9-slot plan)
+- <code>docs/POLISH_2026-05-02_terminal.md</code> (CRAFT 5.43 / FIT 6.41)
+- <code>docs/POLISH_2026-05-02_character-creator.md</code> (CRAFT 5.55 / FIT 6.55 — flagged 2 critical bugs)
+- <code>docs/POLISH_2026-05-02_studio-setup.md</code> (CRAFT 6.71 / FIT 7.36)
+- <code>docs/POLISH_2026-05-02_terminology.md</code> (40 cats, 35+12 catalogued rephrase + empty-state rewrites)</p>
+<p><strong>Final in-chat polish wave (no warp, ~7 commits):</strong>
+- Sledgehammer (3e17487): compose pinned + tree shrunk + empty header hidden
+- Cost guards (fce7e24): WORKER.md incremental-commit policy + spawn-script preflight (refuses 4th Opus heavy + low-mem spawns)
+- Right panel demote (28bce54): &ldquo;Edit Right Panel&rdquo; → &ldquo;Edit layout&rdquo; + footer toolbar
+- Warm Pair-CTA on any failure (616e034): replaces bare-arrow bootstrap + skeleton placeholder + demoted OFFLINE pill
+- Diagnostic console.warns (73ca589): SSE / fetch / save errors now log SERVER_URL + endpoint + status to DevTools
+- Cloudflare playbook (56aa28b): docs/CLOUDFLARE_SETUP.md
+- Cleanup (2edd05f): gitignore spend logs + archive 3 stale docs + worktree prune 107→105</p>
 <h3 id="yellow-outstanding-when-handoff-was-written">🟡 YELLOW — outstanding when handoff was written</h3>
 <ol>
-<li><strong>Live-tree + character-preview bugs Kevin saw at end-of-session:</strong> Even after pairing with the new tunnel URL, Kevin reported <code>/terminal.html</code> showing &ldquo;Live tree loads as soon as the stream connects&rdquo; indefinitely + character creator not displaying the character. <strong>Server-side everything is GREEN</strong> (verified via curl: /state /sprite /controller-tree-stream all return 200 with auth + CORS preflight returns 204 with <code>Access-Control-Allow-Origin: *</code>). Issue is browser-side. Most likely: stale localStorage <code>ENSEMBLE_SERVER_URL</code> from a previous pair attempt, OR cached old JS from before the SERVER_URL fix at 521ac8e. <strong>Kevin will get DevTools Network tab logs tomorrow</strong> so a precise diagnosis is possible.</li>
-</ol>
-<ul>
-<li>First step on his return: have him open Safari DevTools → Storage → Local Storage → <code>kiwimaddog2020.github.io</code> → delete <code>ENSEMBLE_SERVER_URL</code> + <code>DASHBOARD_TOKEN</code> → hard-refresh (Cmd+Option+E to empty cache, then Cmd+R) → re-pair via /pair.html with the tunnel URL + token.</li>
-<li>Second step: if still broken, he&rsquo;ll send the DevTools Network tab screenshot filtered to &ldquo;trycloudflare&rdquo; so we can see what status the browser actually gets vs what the server sent.</li>
-</ul>
-<ol start="2">
 <li>
-<p><strong>CC pack-persist (Batch E β) lost to SIGTERM:</strong> The pack-aware descriptor schema v2 migration (<code>SpriteDescriptor</code> v1 → v2 with optional <code>pack_id</code> / <code>base</code> / <code>page</code> / <code>layers</code> fields). Risky migration; want Kevin&rsquo;s eyes on the design before retrying.</p>
+<p><strong>Browser-side bugs Kevin reported — need DevTools logs to diagnose:</strong>
+   - Live-tree on /terminal.html stays &ldquo;Loading&hellip;&rdquo; even when paired
+   - Character creator preview canvas stays empty even when paired
+   - Server-side everything is GREEN (verified end-to-end via curl through tunnel: /state /sprite /controller-tree-stream all 200 with auth + CORS preflight 204)
+   - Most likely cause: stale localStorage from previous pair attempts. The 73ca589 commit added diagnostic <code>[ensemble:terminal-controller]</code> and <code>[ensemble:character-creator]</code> console.warns so failures now show what failed — when Kevin sends DevTools Network/Console screenshots, root cause is one read away.</p>
 </li>
 <li>
-<p><strong>CSP nonce 3rd retry (Batch H drafted, NOT FIRED):</strong> SIGTERMed twice (Batch C + Batch D γ slots both at exit 143). Drafted as a 1-slot solo run at <code>runs/warp-20260502T091935Z/a/directive.md</code> to give it full memory headroom (3-slot batches kept dying mid-CSP work). Kevin should sign off + fire.</p>
+<p><strong>Tokens-burned concern (40% used, 5 days to reset):</strong>
+   - Today torched ~1M tokens on SIGTERMed warp workers (5 fully-lost slots).
+   - Cost guards fce7e24 should prevent: pre-flight refuses 4th Opus heavy + WORKER.md mandates incremental commits.
+   - Kevin asked to <strong>stop using warp agents</strong> and work in-chat only for now.
+   - Next-Maestro should respect this UNTIL token usage drops back / Kevin re-authorizes.</p>
 </li>
 <li>
-<p><strong>Site Round 2 still pending:</strong> server split (<code>control-panel-server.py</code> 2321 LOC → handler modules) + BaseJsonStore + SSE backpressure + max-clients cap + heartbeats. Production hardening before scaling Cloudflare Tunnel beyond Kevin himself.</p>
+<p><strong>CC pack-persist (Batch E β) lost to SIGTERM:</strong> Schema v1 → v2 migration with optional pack-aware fields. Risky; needs Kevin&rsquo;s eyes on the design before retry.</p>
 </li>
 <li>
-<p><strong>Site Round 3 pending (user-gated):</strong> welcome flow (first-run experience polish) + 10 ADRs + interactive one-pager v2 (Spectra-Nova-pitch style). One-pager v2 needs Kevin&rsquo;s visual direction; defer until he sketches.</p>
+<p><strong>Site Round 2 still pending:</strong> server split (<code>control-panel-server.py</code> 2321 LOC → handler modules) + BaseJsonStore + SSE backpressure + max-clients cap.</p>
 </li>
 <li>
-<p><strong>Manual follow-ups (NOT warp work):</strong>
-   - Audio download: 16 real Freesound files per <code>bin/dashgen/static/audio/audio_credits.json</code> URLs (still placeholders)
-   - Aseprite recolor session: Cyberpunk Forester variant per <code>docs/CREATOR_RECOLOR_GUIDE.md</code> (~3-6 hr Kevin DIY)
-   - Existing agents re-read contract: BOO / Pinball / Tool Builder / Vera Nota / etc.
-   - Persistent Cloudflare Tunnel (named tunnel + custom domain + Cloudflare Access auth gate) — Kevin needs to pick a domain (~$10/yr) when ready</p>
+<p><strong>Site Round 3 (user-gated):</strong> welcome flow + 10 ADRs + interactive one-pager v2 (needs Kevin&rsquo;s visual direction; defer until he sketches OR new-vision-doc covers it).</p>
+</li>
+<li>
+<p><strong>Manual follow-ups (NOT warp):</strong>
+   - Audio download: 16 real Freesound files (still placeholders)
+   - Aseprite recolor session (Cyberpunk Forester, ~3-6 hr Kevin DIY)
+   - Re-read contract on BOO / Pinball / Tool Builder / Vera Nota chats
+   - Persistent Cloudflare Tunnel (named tunnel + custom domain ~$10/yr) — playbook in <code>docs/CLOUDFLARE_SETUP.md</code> Path B</p>
 </li>
 </ol>
 <h3 id="red-none">🔴 RED — none</h3>
-<p>No shipping blockers. Pre-existing flaky <code>test_perf_budget</code> ERROR (passes alone, fails in full suite) is unchanged from the start of session. The browser-side bugs Kevin saw are likely localStorage / cache state, not server bugs (server-side end-to-end probe via tunnel is all green).</p>
+<p>No shipping blockers. Pre-existing flaky <code>test_perf_budget</code> ERROR unchanged.</p>
 <hr />
 <h2 id="current-runtime-state-snapshot-at-handoff">Current runtime state (snapshot at handoff)</h2>
 <ul>
 <li><strong>Branch:</strong> <code>main</code></li>
-<li><strong>Last commit:</strong> <code>ac67537</code> — Auto-refresh: 2026-05-02T15:00Z (Batch G v2 fully merged + pushed)</li>
-<li><strong>Public PWA last push:</strong> <code>ac67537</code> — live at https://kiwimaddog2020.github.io/ensemble-dashboard/</li>
-<li><strong>Working tree:</strong> clean except pre-existing untracked items (<code>anthropic_spend.jsonl</code>, <code>anthropic_spend_per_user.jsonl</code>, 3 stale doc files, <code>virtuosos/tool-builder/website/</code>)</li>
+<li><strong>Last commit:</strong> <code>e4b1ba0</code> — Auto-refresh: 2026-05-03T05:20Z</li>
+<li><strong>Public PWA last push:</strong> <code>e4b1ba0</code> — live at https://kiwimaddog2020.github.io/ensemble-dashboard/</li>
+<li><strong>Working tree:</strong> clean (only <code>virtuosos/tool-builder/website/</code> untracked, that&rsquo;s a nested separate project)</li>
 <li><strong>state.json:</strong> mode=orchestrated, lock free, no freeze, rapid_fire_enabled=true, max_concurrent_autopilots=3, warp_speed_active=true</li>
-<li><strong>Live PWA running:</strong> <code>bin/control-panel-server.py</code> PID 20975</li>
-<li><strong>Cloudflare Tunnel running:</strong> PID 39909, URL <code>https://talking-pills-compound-strings.trycloudflare.com</code></li>
-<li><strong>Test suite:</strong> 245+ tests across all touched files green; full discover total green except pre-existing perf_budget flaky</li>
+<li><strong>Cloudflare Tunnel:</strong> alive at <code>https://invest-hardly-address-patricia.trycloudflare.com</code></li>
+<li><strong>control-panel-server:</strong> alive on port 8080</li>
+<li><strong>Test suite:</strong> ≥240 tests across all touched files green; full discover total green except pre-existing perf_budget flaky</li>
 </ul>
-<hr />
-<h2 id="next-session-first-action">Next session — first action</h2>
-<pre><code class="language-bash"># Confirm state
-git log --oneline -5
-ls runs/warp-* | head -5
-
-# Verify tunnel still alive (URL changes on cloudflared restart!)
-ps aux | grep cloudflared | grep -v grep
-TOKEN=&quot;QEyfZNDjoKHiq0m3AUteTzMptHv-tYzdtkZzwIE0we8&quot;
-curl -s -o /dev/null -w &quot;tunnel %{http_code}\n&quot; --max-time 5 \
-  -H &quot;Authorization: Bearer $TOKEN&quot; \
-  https://talking-pills-compound-strings.trycloudflare.com/state
-
-# If Kevin sends DevTools logs for the live-tree + character preview bugs, dig in.
-# Otherwise, fire Batch H (CSP nonce solo) — directives at runs/warp-20260502T091935Z/a/directive.md
-bash bin/warp_split_spawn.sh /Users/kevin/.claude/orchestrator 20260502T091935Z a runs/warp-20260502T091935Z/a/directive.md 90 --tier heavy &amp;
-</code></pre>
-<p>After Batch H lands → consider Site Round 2 (server split + BaseJsonStore + SSE backpressure) as next batch. After that → welcome flow + ADRs.</p>
 <hr />
 <h2 id="voice-posture-re-up">Voice + posture (re-up)</h2>
 <ul>
 <li><strong>Rapid fire is ON</strong> — strict enforcement: AskUserQuestion for every decision, 3 real options + slot 4 = &ldquo;Disable Rapid Fire Mode&rdquo;, <code>(Recommended)</code> on slot 1.</li>
-<li><strong>Warp default is <code>--tier heavy</code> (Opus 4.7 1M)</strong> — locked in <code>opus_max_effort_mode.md</code>.</li>
-<li><strong>Warp parallel ceiling: 3 Opus simultaneous</strong> — TODAY HAD 4 SIGTERMs at 5-Opus-parallel (lost CC pack-persist + 2 Batch F slots + CSP nonce). 3 is the safe ceiling. CSP nonce specifically wants SOLO (1-slot) to give it full memory.</li>
-<li><strong>Warp banner format: markdown bullets, no box-drawing chars</strong> — locked in <code>warp_banner_format.md</code>.</li>
-<li><strong>Pre-flight banner before EVERY warp spawn</strong> — uses the new format.</li>
+<li><strong>Warp is PAUSED per Kevin&rsquo;s ask</strong> — 40% token use, 5 days to reset. Work in-chat only until he re-authorizes.</li>
+<li><strong>Warp default tier (when re-enabled): <code>--tier heavy</code> (Opus 4.7 1M)</strong> — locked in <code>opus_max_effort_mode.md</code>.</li>
+<li><strong>Warp parallel ceiling: 3 Opus heavy MAX</strong> — pre-flight in <code>bin/warp_split_spawn.sh</code> enforces this now (refuses 4th + low-mem spawns).</li>
+<li><strong>WORKER.md (<code>plugins/ensemble/templates/WORKER.md</code>) mandates incremental commits per acceptance criterion</strong> so SIGTERM doesn&rsquo;t lose entire slots.</li>
 <li><strong>Don&rsquo;t disrupt the Mac</strong> per global CLAUDE.md.</li>
 <li><strong>No proactive PRs in pre-launch / vibe-code mode.</strong></li>
 </ul>
 <hr />
 <h2 id="suggested-first-message-to-kevin">Suggested first message to Kevin</h2>
-<pre><code>Maestro back. State snapshot:
-- main @ ac67537 — 7 batches landed today (A through G + retries)
-- Public PWA live at ac67537 on GitHub Pages
-- Cloudflare Quick Tunnel live (talking-pills-compound-strings.trycloudflare.com)
+<pre><code>Maestro back, with the new vision context loaded. State snapshot:
+- main @ e4b1ba0 — 9 batches + ~7 in-chat polish commits today
+- Cloudflare Quick Tunnel live (rotates; current URL in handoff doc)
 - 5 Polish audit docs landed (site-wide + terminal + CC + studio + terminology)
-- 245 tests green; full suite total unchanged except pre-existing perf_budget
+- Cost guards live: warp paused per your ask; pre-flight refuses 4th Opus
+- Browser-side bugs (live-tree + CC preview) instrumented with diagnostic
+  console.warns; need your DevTools logs to root-cause
 
-Need from you:
-1. DevTools Network tab screenshot for the live-tree + character preview bugs
-   (cleared localStorage + hard-refreshed first per the steps in the handoff)
-2. Sign-off on Batch H (CSP nonce solo retry — drafted, not fired)
-3. Sign-off on Batch I scope: Site Round 2 (server split + BaseJsonStore + SSE
-   backpressure) vs welcome flow vs something else
+First action: aligning today's terminal + character creator + studio work
+with the updated vision doc you brought from the other chat. Walk me
+through the deltas vs what's currently shipped.
+
+After that: scope the Site Round 2 / welcome flow / one-pager work
+through the new vision lens.
 </code></pre>
-<p>Don&rsquo;t recap the marathon — Kevin lived through it. Just the snapshot + decision.</p>
 <hr />
-<p><em>End of handoff. Public PWA is fully current. Cloudflare Tunnel is up. Next session starts with browser-bug debug + Batch H + Batch I scoping.</em></p>
+<p><em>End of handoff. Public PWA is fully current. Cloudflare Tunnel is up. Warp paused. Next session starts with vision-alignment audit + browser bug debug if Kevin sends DevTools logs.</em></p>
     </article>
     <footer class="doc-foot">
       <a href="../docs.html" class="doc-back">← Back to all documentation</a>
