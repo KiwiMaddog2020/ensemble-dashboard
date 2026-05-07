@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Studio</title>
+<title>Endenza — Studio</title>
 <meta name="description" content="Your stage. The expressive surface — Maestro at the podium, Agents as musicians." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
@@ -15,7 +15,7 @@
 <link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<meta name="apple-mobile-web-app-title" content="Ensemble" />
+<meta name="apple-mobile-web-app-title" content="Endenza" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -69,8 +69,8 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENSEMBLE_THEME") || "warm";
-      var b = localStorage.getItem("ENSEMBLE_BG") || "solid";
+      var t = localStorage.getItem("ENDENZA_THEME") || "warm";
+      var b = localStorage.getItem("ENDENZA_BG") || "solid";
       if (t && t !== "warm") {
         document.documentElement.classList.add("theme-" + t);
       }
@@ -90,12 +90,12 @@
   }
 </script>
 </head>
-<body class="hub">
+<body class="hub studio">
 <a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
     <p class="cookie-banner__msg">
-      <strong>Ensemble</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
+      <strong>Endenza</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
     </p>
     <div class="cookie-banner__actions">
       <a class="cookie-banner__link" href="/legal/cookies.html">Read policy</a>
@@ -124,21 +124,20 @@
 </script>
 <nav class="topnav" id="topnav" data-drawer-state="closed">
   <div class="wrap">
-    <a class="brand brand--icon-only" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="Ensemble" width="28" height="28" /></a>
     <button class="nav__toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="topnav-list" aria-label="Open navigation menu">
       <span class="nav__toggle-bar" aria-hidden="true"></span>
       <span class="nav__toggle-bar" aria-hidden="true"></span>
       <span class="nav__toggle-bar" aria-hidden="true"></span>
     </button>
     <ul id="topnav-list">
-      <li><a href="./">Ensemble</a></li>
+      <li><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
+      <li><a href="./">Endenza</a></li>
       <li><a class="active" aria-current="page" href="./studio.html">Studio</a></li>
       <li><a href="./dashboard.html">Dashboard</a></li>
       <li><a href="./terminal.html">Terminal</a></li>
-      <li><a href="./docs.html">Docs</a></li>
+      <li><a href="./docs.html">About</a></li>
       <li><a href="./settings.html">Settings</a></li>
     </ul>
-    <span class="nav-status" id="nav-status">...</span>
   </div>
 </nav>
 
@@ -199,44 +198,13 @@
   </div>
 </div>
 <main id="main"><div class="studio-shell">
-  <header class="studio-header">
-    <div class="studio-header__row">
-      <div>
-        <p class="eyebrow">Studio</p>
-        <h1>Your <em>stage.</em></h1>
-      </div>
-      <div class="studio-header__actions">
-        <span class="studio-save-indicator" id="studio-save-indicator" aria-live="polite"></span>
-      </div>
-    </div>
-    <p class="lead">Your Studio is where every asset can be alive. Open the Workshop drawer for asset packs and starter examples — Orchestra, Game arcade, Wordsmith&rsquo;s desk.</p>
-  </header>
-
-  <div class="studio-meta" id="studio-meta" aria-live="polite">
-    <span class="studio-meta__item">
-      <span class="studio-meta__dot" aria-hidden="true"></span>
-      <span id="studio-meta-preset">blank canvas</span>
-    </span>
-    <span class="studio-meta__sep">·</span>
-    <span class="studio-meta__item"><span id="studio-meta-component-count">0</span> components</span>
-    <span class="studio-meta__sep">·</span>
-    <span class="studio-meta__item"><span id="studio-meta-custom-count">0</span> custom</span>
-    <span class="studio-meta__sep">·</span>
-    <span class="studio-meta__item">last edited <span id="studio-meta-last-edited">never</span></span>
-    <span class="studio-meta__sep">·</span>
-    <span class="studio-meta__item">theme: <span id="studio-meta-theme">warm</span></span>
-  </div>
-
-  <div class="studio-tabs" role="tablist">
-    <button class="studio-tab is-active" data-tab="room" role="tab" type="button">Canvas</button>
-    <button class="studio-tab" data-tab="publish" role="tab" type="button">Publish</button>
-    <button class="studio-tab" data-tab="map" role="tab" type="button">
-      Map <span class="studio-tab__pill">soon</span>
-    </button>
-    <button class="studio-tab" data-tab="showcase" role="tab" type="button">
-      Showcase <span class="studio-tab__pill">soon</span>
-    </button>
-  </div>
+  <nav class="studio-sidebar" role="tablist" aria-label="Studio sections">
+    <button class="studio-tab is-active" data-tab="room" role="tab" type="button"><span class="studio-tab__label">Canvas</span></button>
+    <button class="studio-tab" data-tab="cadenza" role="tab" type="button"><span class="studio-tab__label">Cadenza</span></button>
+    <button class="studio-tab" data-tab="ensemble" role="tab" type="button" data-href="./map.html"><span class="studio-tab__label">Ensemble</span></button>
+    <span class="studio-save-indicator" id="studio-save-indicator" aria-live="polite"></span>
+  </nav>
+  <div class="studio-content">
 
   <!-- Claude chat drawer (visible only in edit mode via CSS) -->
   <aside class="studio-claude-drawer" id="studio-claude-drawer" aria-label="Claude chat">
@@ -244,7 +212,7 @@
       <div class="studio-claude-drawer__brand">
         <span class="studio-claude-drawer__icon" aria-hidden="true">✦</span>
         <span class="studio-claude-drawer__title">Claude</span>
-        <span class="studio-claude-drawer__sub">your edit-mode partner</span>
+        <span class="studio-claude-drawer__sub">help &amp; chat</span>
       </div>
       <div class="studio-claude-drawer__toolbar">
         <button class="studio-claude-drawer__new-conversation" type="button" data-act="claude-new" aria-label="Start a new conversation">New</button>
@@ -331,6 +299,48 @@
                 <div class="workshop-example__desc">Start from nothing. Compose freely.</div>
               </div>
             </li>
+            <li class="workshop-example" data-preset="home_studio">
+              <div class="workshop-example__icon">⌂</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Home studio</div>
+                <div class="workshop-example__desc">Desk, bookshelf, plants, and a door. The default creator room.</div>
+              </div>
+            </li>
+            <li class="workshop-example" data-preset="art_gallery">
+              <div class="workshop-example__icon">🖼</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Art gallery</div>
+                <div class="workshop-example__desc">Frames, plinth, benches, and spotlights for visual work.</div>
+              </div>
+            </li>
+            <li class="workshop-example" data-preset="game_room">
+              <div class="workshop-example__icon">🕹</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Game room</div>
+                <div class="workshop-example__desc">Arcade cabinets, couch, speakers, and a stream screen.</div>
+              </div>
+            </li>
+            <li class="workshop-example" data-preset="library_den">
+              <div class="workshop-example__icon">📚</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Library den</div>
+                <div class="workshop-example__desc">Bookshelves, typewriter, reading chair, and writing desk.</div>
+              </div>
+            </li>
+            <li class="workshop-example" data-preset="music_lab">
+              <div class="workshop-example__icon">🎚</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Music lab</div>
+                <div class="workshop-example__desc">Piano, mic, vinyl wall, speakers, and a mixing desk.</div>
+              </div>
+            </li>
+            <li class="workshop-example" data-preset="workshop">
+              <div class="workshop-example__icon">🛠</div>
+              <div class="workshop-example__body">
+                <div class="workshop-example__name">Maker workshop</div>
+                <div class="workshop-example__desc">Workbench, project board, reference shelf, and computer desk.</div>
+              </div>
+            </li>
             <li class="workshop-example" data-preset="music_ensemble">
               <div class="workshop-example__icon">🎹</div>
               <div class="workshop-example__body">
@@ -342,21 +352,21 @@
               <div class="workshop-example__icon">🎼</div>
               <div class="workshop-example__body">
                 <div class="workshop-example__name">Orchestra</div>
-                <div class="workshop-example__desc">Concert hall. Conductor + 7 musicians. Sprite slots auto-bind to your active chats.</div>
+                <div class="workshop-example__desc">Concert hall. Conductor podium, music stands, eight chairs.</div>
               </div>
             </li>
             <li class="workshop-example" data-preset="game_arcade">
               <div class="workshop-example__icon">🕹</div>
               <div class="workshop-example__body">
                 <div class="workshop-example__name">Game arcade</div>
-                <div class="workshop-example__desc">Five arcade cabinets ready to wire to your real games (click-to-launch in Phase A.2).</div>
+                <div class="workshop-example__desc">Five arcade cabinets ready to wire to your real games. Click-to-launch any URL.</div>
               </div>
             </li>
             <li class="workshop-example" data-preset="tinkerer">
               <div class="workshop-example__icon">🔧</div>
               <div class="workshop-example__body">
                 <div class="workshop-example__name">Tinkerer&#39;s workbench</div>
-                <div class="workshop-example__desc">Gear sprites + maker&#39;s desk. Wire slots to your build chats.</div>
+                <div class="workshop-example__desc">Gear sprites + maker&#39;s desk. A workspace for the things you make.</div>
               </div>
             </li>
             <li class="workshop-example" data-preset="wordsmith">
@@ -370,14 +380,14 @@
               <div class="workshop-example__icon">🎬</div>
               <div class="workshop-example__body">
                 <div class="workshop-example__name">Director&#39;s cut</div>
-                <div class="workshop-example__desc">Wide stage, seat slots for your whole crew. Engine chrome only.</div>
+                <div class="workshop-example__desc">Wide stage with director&#39;s chair, lights, clapperboard.</div>
               </div>
             </li>
             <li class="workshop-example" data-preset="producer">
               <div class="workshop-example__icon">🎚</div>
               <div class="workshop-example__body">
                 <div class="workshop-example__name">Producer&#39;s studio</div>
-                <div class="workshop-example__desc">Mixing board, mic stand, reel-to-reel. Slot in your music chats.</div>
+                <div class="workshop-example__desc">Mixing board, mic stand, reel-to-reel. Drop in your tracks.</div>
               </div>
             </li>
             <li class="workshop-example" data-preset="personal_library">
@@ -422,21 +432,33 @@
 
       <div class="studio-stage-wrap">
         <div class="studio-stage-controls" aria-label="Canvas mode controls">
-          <button class="studio-walk-toggle" id="studio-walk-toggle" type="button" aria-pressed="false" aria-label="Toggle walk mode preview">
-            Walk mode
+          <button class="studio-walk-toggle" id="studio-walk-toggle" type="button"
+                  role="switch" aria-checked="false" aria-pressed="false"
+                  aria-label="Walk mode">
+            <span class="studio-walk-toggle__label">Walk mode</span>
+            <span class="studio-walk-toggle__state" aria-hidden="true"></span>
           </button>
           <button class="studio-edit-toggle" id="studio-edit-toggle" type="button" aria-pressed="false" data-owner-only>
             Edit
           </button>
         </div>
-        <div class="studio-stage" id="studio-stage" aria-label="Studio canvas scene">
+        <!-- Single DOM surface for edit + walk (Polish 2026-05-05, Walk
+             Mode Track 1 Option A). Was two siblings (#studio-stage +
+             #studio-walk-preview); the cross-fade between them left edit-
+             mode HTML at opacity-0-but-still-painted, and `.studio-stage::after`
+             CRT pseudo at z-index 100 covered the sprite. Now: HTML
+             components live as `.studio-comp-html` children (hidden in
+             walk via CSS); the sprite engine canvas is also a child
+             (hidden in edit via CSS); data-mode on the stage flips one
+             of them on. "Edit ≡ walk minus sprite" is now structural. -->
+        <div class="studio-stage" id="studio-stage" data-mode="edit" aria-label="Studio canvas scene">
           <div class="studio-empty">
             <p>Setting up your blank canvas…</p>
           </div>
-        </div>
-        <div class="studio-walk-preview" id="studio-walk-preview" hidden aria-hidden="true">
-          <div class="sprite-engine" data-walk-mode="false" data-engine-state="dormant" aria-label="Walkable canvas"><div class="sprite-engine__stage"><div class="sprite-engine__parallax-far" aria-hidden="true"></div><div class="sprite-engine__parallax-mid" aria-hidden="true"></div><div class="sprite-engine__parallax-near" aria-hidden="true"></div><canvas class="sprite-engine__canvas" tabindex="0" aria-label="Walkable canvas (use arrow keys or WASD to move)"></canvas></div><div class="sprite-engine__prompt" data-state="hidden" role="status" aria-live="polite"><span class="sprite-engine__prompt-key">X</span><span class="sprite-engine__prompt-text">Press X to interact</span></div><p class="sprite-engine__hint" aria-hidden="true">WASD or arrow keys to walk &middot; X or Enter to interact</p><div class="canvas-empty-state" data-canvas-empty hidden aria-live="polite"><div class="canvas-empty-state__illus" aria-hidden="true"><div class="canvas-empty-state__grid"></div><div class="canvas-empty-state__mark">?</div></div><h2 class="canvas-empty-state__title">Quiet here.</h2><p class="canvas-empty-state__sub">Drop a sprite from the Workshop drawer to begin composing.</p></div></div>
-          <div class="walk-tutorial" data-tutorial-state="hidden" data-step="1" role="dialog" aria-modal="false" aria-labelledby="walk-tutorial-title" aria-describedby="walk-tutorial-body" hidden><div class="walk-tutorial__overlay" aria-hidden="true"></div><div class="walk-tutorial__card"><button type="button" class="walk-tutorial__close" data-action="dismiss" aria-label="Dismiss tutorial">&times;</button><p class="walk-tutorial__step-count" aria-hidden="true"><span data-current-step>1</span> of 3</p><h2 class="walk-tutorial__title" id="walk-tutorial-title"><span data-tutorial-step="1">Walk with arrow keys or WASD.</span><span data-tutorial-step="2" hidden>Press X near a component to interact.</span><span data-tutorial-step="3" hidden>Toggle to Edit to compose your canvas.</span></h2><p class="walk-tutorial__body" id="walk-tutorial-body"><span data-tutorial-step="1">Arrow keys, WASD, or swipe on touch &mdash; the sprite walks where you point.</span><span data-tutorial-step="2" hidden>A &ldquo;Press X&rdquo; bubble appears when you walk close to anything interactable.</span><span data-tutorial-step="3" hidden>The Edit toggle in the canvas controls drops sprites from the Workshop drawer.</span></p><div class="walk-tutorial__actions"><button type="button" class="walk-tutorial__next" data-action="next">Got it</button></div></div></div>
+          <div class="studio-stage__walk-layer">
+            <div class="sprite-engine" data-walk-mode="false" data-engine-state="dormant" aria-label="Walkable canvas"><div class="sprite-engine__stage"><div class="sprite-engine__parallax-far" aria-hidden="true"></div><div class="sprite-engine__parallax-mid" aria-hidden="true"></div><div class="sprite-engine__parallax-near" aria-hidden="true"></div><canvas class="sprite-engine__canvas" tabindex="0" aria-label="Walkable canvas (use arrow keys or WASD to move, or swipe on touch)"></canvas></div><div class="sprite-engine__prompt" data-state="hidden" role="status" aria-live="polite"><span class="sprite-engine__prompt-key">X</span><span class="sprite-engine__prompt-text">Press X to interact</span></div><p class="sprite-engine__hint" aria-hidden="true">WASD or arrow keys to walk &middot; X or Enter to interact</p><div class="canvas-empty-state" data-canvas-empty hidden aria-live="polite"><div class="canvas-empty-state__illus" aria-hidden="true"><div class="canvas-empty-state__grid"></div><div class="canvas-empty-state__mark">?</div></div><h2 class="canvas-empty-state__title">Quiet here.</h2><p class="canvas-empty-state__sub">Drop a sprite from the Workshop drawer to begin composing.</p></div></div>
+            <div class="walk-tutorial" data-tutorial-state="hidden" data-step="1" role="dialog" aria-modal="false" aria-labelledby="walk-tutorial-title" aria-describedby="walk-tutorial-body" hidden><div class="walk-tutorial__overlay" aria-hidden="true"></div><div class="walk-tutorial__card"><button type="button" class="walk-tutorial__close" data-action="dismiss" aria-label="Dismiss tutorial">&times;</button><p class="walk-tutorial__step-count" aria-hidden="true"><span data-current-step>1</span> of 3</p><h2 class="walk-tutorial__title" id="walk-tutorial-title"><span data-tutorial-step="1">Walk with arrow keys or WASD.</span><span data-tutorial-step="2" hidden>Press X near a component to interact.</span><span data-tutorial-step="3" hidden>Toggle to Edit to compose your canvas.</span></h2><p class="walk-tutorial__body" id="walk-tutorial-body"><span data-tutorial-step="1">Arrow keys, WASD, or swipe on touch &mdash; the sprite walks where you point.</span><span data-tutorial-step="2" hidden>A &ldquo;Press X&rdquo; bubble appears when you walk close to anything interactable.</span><span data-tutorial-step="3" hidden>The Edit toggle in the canvas controls drops sprites from the Workshop drawer.</span></p><div class="walk-tutorial__actions"><button type="button" class="walk-tutorial__next" data-action="next">Got it</button></div></div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -447,7 +469,6 @@
       </span>
       <span class="studio-info__item" id="studio-info-mode">view mode</span>
       <span class="studio-info__spacer"></span>
-      <a class="studio-info__action" href="#" data-act="reset-to-default">Reset to default</a>
     </div>
   </section>
 
@@ -480,78 +501,26 @@
       <button type="button" class="studio-theme-cell" data-theme="ruby" aria-label="Theme: ruby" aria-pressed="false"><img src="/icons/icon-ruby.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">ruby</span></button>
       <button type="button" class="studio-theme-cell" data-theme="lemon" aria-label="Theme: lemon" aria-pressed="false"><img src="/icons/icon-lemon.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">lemon</span></button>
       <button type="button" class="studio-theme-cell" data-theme="paper" aria-label="Theme: paper" aria-pressed="false"><img src="/icons/icon-paper.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">paper</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="sunset_drive" aria-label="Theme: sunset_drive" aria-pressed="false"><img src="/icons/icon-sunset_drive.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">sunset_drive</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="mall_plaza" aria-label="Theme: mall_plaza" aria-pressed="false"><img src="/icons/icon-mall_plaza.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">mall_plaza</span></button>
+      <button type="button" class="studio-theme-cell" data-theme="neo_city" aria-label="Theme: neo_city" aria-pressed="false"><img src="/icons/icon-neo_city.svg" alt="" width="48" height="48" loading="lazy" /><span class="studio-theme-cell__name">neo_city</span></button>
   </div>
   <p class="studio-theme-picker__current">Current: <strong id="studio-theme-picker-current">warm</strong></p>
 </aside>
 
 
-      <aside class="studio-publish" id="studio-publish" aria-labelledby="studio-publish-title">
-  <header class="studio-publish__header">
-    <h2 class="studio-publish__title" id="studio-publish-title">Your canvases</h2>
-    <p class="studio-publish__sub">Publish the current canvas to a slot. <span id="studio-publish-count">0/3</span> slots used.</p>
-  </header>
-
-  <button class="studio-publish__primary" type="button" id="studio-publish-current" data-act="publish-current" data-tier-state="ok">
-    <span class="studio-publish__primary-icon" aria-hidden="true">+</span>
-    <span class="studio-publish__primary-label">+ New canvas</span>
-  </button>
-
-  <div class="studio-publish__empty-banner" id="studio-publish-empty-banner" hidden>
-    <strong>No canvases yet.</strong>
-    <span>Publish your current canvas to share it with the Ensemble.</span>
-  </div>
-
-  <div class="studio-publish__status" id="studio-publish-status" aria-live="polite"></div>
-
-  <section class="studio-publish__section" data-section="free">
-    <h3 class="studio-publish__sec-title">Free slots</h3>
-    <ol class="studio-publish__slots" id="studio-publish-free-slots"></ol>
-  </section>
-
-  <section class="studio-publish__section" data-section="pro">
-    <h3 class="studio-publish__sec-title">Pro slots</h3>
-    <ol class="studio-publish__slots studio-publish__slots--pro" id="studio-publish-pro-slots"></ol>
-  </section>
-
-  <section class="studio-publish__section" data-section="drafts">
-    <h3 class="studio-publish__sec-title">Drafts</h3>
-    <ol class="studio-publish__drafts" id="studio-publish-drafts">
-      <li class="studio-publish__empty" data-state="empty"><span aria-hidden="true">🗒</span> Drafts you save here haven't been published yet.</li>
-    </ol>
-  </section>
-
-  <!-- Publish-target modal (hidden until trigger). -->
-  <div class="studio-publish-modal" id="studio-publish-modal" hidden role="dialog" aria-modal="true" aria-labelledby="studio-publish-modal-title">
-    <div class="studio-publish-modal__panel modal__panel modal__panel--narrow">
-      <h3 class="studio-publish-modal__title" id="studio-publish-modal-title">Publish to slot?</h3>
-      <p class="studio-publish-modal__sub" id="studio-publish-modal-sub">Pick a free slot. The existing canvas there moves back to drafts.</p>
-      <ol class="studio-publish-modal__choices" id="studio-publish-modal-choices"></ol>
-      <div class="studio-publish-modal__row">
-        <button class="studio-publish-modal__cancel" type="button" data-act="modal-close">Cancel</button>
-      </div>
-    </div>
-  </div>
-</aside>
-
-
+      
     </div>
   </section>
 
-  <section class="studio-pane" data-pane="map" role="tabpanel">
-    <div class="studio-empty">
-      <p class="studio-empty__icon" aria-hidden="true">🗺</p>
-      <p>A map of your canvases is coming.</p>
-      <p class="studio-empty__hint">It will show how your projects connect.</p>
-    </div>
-  </section>
-
-  <section class="studio-pane" data-pane="showcase" role="tabpanel">
+  <section class="studio-pane" data-pane="cadenza" role="tabpanel">
     <div class="studio-empty">
       <p class="studio-empty__icon" aria-hidden="true">✨</p>
-      <p>Showcase pages are coming.</p>
-      <p class="studio-empty__hint">Each project will get its own public page.</p>
+      <p>Cadenza pages are coming.</p>
+      <p class="studio-empty__hint">Each canvas can become its own public Cadenza page.</p>
     </div>
   </section>
+  </div><!-- /.studio-content -->
 </div>
 </main>
 <script>
@@ -632,7 +601,7 @@
   }
 })();
 </script>
-<script src="./studio.js" defer></script><script src="./studio-publish-panel.js" defer></script><script src="./studio-chrome.js" defer></script><style id="byok-onboarding-css">
+<script src="./studio.js" defer></script><script src="./studio-chrome.js" defer></script><style id="byok-onboarding-css">
 .byok-onboarding-overlay {
   position: fixed; inset: 0; z-index: 230;
   background: rgba(0,0,0,0.55);
@@ -905,13 +874,238 @@
   transition: background 180ms var(--ease, ease);
 }
 .studio-welcome__dismiss:hover { background: var(--accent-2, var(--accent)); }
+</style><div class="studio-coachmark" id="studio-coachmark" hidden role="status" aria-live="polite">
+  <div class="studio-coachmark__body">
+    <p class="studio-coachmark__text">Drag your first piece here &rarr;</p>
+    <button type="button" class="studio-coachmark__dismiss" id="studio-coachmark-dismiss" aria-label="Dismiss hint">&times;</button>
+  </div>
+  <span class="studio-coachmark__arrow" aria-hidden="true"></span>
+</div><style>
+.studio-coachmark[hidden] { display: none; }
+.studio-coachmark {
+  position: fixed;
+  z-index: 260;
+  /* Positioned by JS near #workshop-toggle after DOM load */
+  pointer-events: auto;
+  animation: studio-coachmark-appear 260ms var(--ease, ease) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-coachmark { animation: none; }
+}
+@keyframes studio-coachmark-appear {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.studio-coachmark__body {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+  white-space: nowrap;
+}
+.studio-coachmark__text {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1;
+}
+.studio-coachmark__dismiss {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.75);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+.studio-coachmark__dismiss:hover { color: #fff; }
+.studio-coachmark__arrow {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 8px solid var(--accent);
+  margin: 0 auto;
+}
+/* First-component sparkle — applied to the comp element on first add */
+@keyframes studio-first-comp-sparkle {
+  0%   { box-shadow: 0 0 0 0 rgba(var(--accent-rgb, 99,102,241), 0.7); }
+  60%  { box-shadow: 0 0 0 12px rgba(var(--accent-rgb, 99,102,241), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb, 99,102,241), 0); }
+}
+.studio-comp--first-sparkle {
+  animation: studio-first-comp-sparkle 700ms ease-out forwards;
+  border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-comp--first-sparkle { animation: none; }
+}
+</style><div class="studio-pub-celebration" id="studio-pub-celebration" hidden
+     role="dialog" aria-modal="true" aria-labelledby="pub-cel-title"
+     tabindex="-1">
+  <div class="studio-pub-celebration__backdrop"></div>
+  <div class="studio-pub-celebration__panel">
+    <div class="studio-pub-celebration__confetti" aria-hidden="true">
+      <span>&#10024;</span><span>&#127881;</span><span>&#10024;</span>
+    </div>
+    <h2 class="studio-pub-celebration__headline" id="pub-cel-title">Your canvas is live.</h2>
+    <p class="studio-pub-celebration__sub">Visitors can now walk into your room.</p>
+    <div class="studio-pub-celebration__actions">
+      <button type="button" class="studio-pub-celebration__cta" id="pub-cel-copy-link"
+              data-act="pub-cel-copy">Copy share link</button>
+      <a class="studio-pub-celebration__secondary" id="pub-cel-view-link"
+         href="#" target="_blank" rel="noopener noreferrer"
+         data-act="pub-cel-view">View it as a visitor</a>
+      <button type="button" class="studio-pub-celebration__tertiary" id="pub-cel-keep-editing"
+              data-act="pub-cel-close">Keep editing</button>
+    </div>
+  </div>
+</div><style>
+.studio-pub-celebration[hidden] { display: none; }
+.studio-pub-celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.studio-pub-celebration__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  animation: pub-cel-fade-in 220ms ease both;
+}
+@keyframes pub-cel-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.studio-pub-celebration__panel {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  padding: 40px 36px 32px;
+  max-width: 440px;
+  width: calc(100% - 40px);
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.32), 0 4px 16px rgba(0,0,0,0.12);
+  animation: pub-cel-rise 260ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+@keyframes pub-cel-rise {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-pub-celebration__backdrop { animation: none; }
+  .studio-pub-celebration__panel { animation: none; }
+  .studio-pub-celebration__confetti span { animation: none; }
+}
+.studio-pub-celebration__confetti {
+  font-size: 28px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.studio-pub-celebration__confetti span {
+  display: inline-block;
+  animation: pub-cel-pop 400ms ease both;
+}
+.studio-pub-celebration__confetti span:nth-child(1) { animation-delay: 0ms; }
+.studio-pub-celebration__confetti span:nth-child(2) { animation-delay: 80ms; }
+.studio-pub-celebration__confetti span:nth-child(3) { animation-delay: 160ms; }
+@keyframes pub-cel-pop {
+  from { transform: scale(0.4); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+.studio-pub-celebration__headline {
+  font-family: var(--serif);
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+.studio-pub-celebration__sub {
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--ink-2);
+  margin: 0 0 28px;
+  line-height: 1.45;
+}
+.studio-pub-celebration__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.studio-pub-celebration__cta {
+  appearance: none;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px 20px;
+  cursor: pointer;
+  transition: opacity 160ms ease;
+}
+.studio-pub-celebration__cta:hover { opacity: 0.88; }
+.studio-pub-celebration__cta:focus-visible,
+.studio-pub-celebration__secondary:focus-visible,
+.studio-pub-celebration__tertiary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.studio-pub-celebration__secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  padding: 11px 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 160ms ease;
+}
+.studio-pub-celebration__secondary:hover { border-color: var(--accent); color: var(--accent); }
+.studio-pub-celebration__tertiary {
+  appearance: none;
+  background: transparent;
+  border: none;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-2);
+  cursor: pointer;
+  padding: 4px;
+  text-decoration: underline;
+}
+.studio-pub-celebration__tertiary:hover { color: var(--ink); }
 </style><script src="./sprite-engine.js" defer></script><script src="./walk-tutorial.js" defer></script><aside class="sound-chip" data-canvas-id="" aria-label="Sound controls"><button type="button" class="sound-chip__toggle" data-action="toggle" aria-pressed="false" aria-label="Toggle sound"><span class="sound-chip__icon" aria-hidden="true">🔇</span><span class="sound-chip__label">Sound off</span></button><input type="range" class="sound-chip__slider" min="0" max="1" step="0.01" value="0.5" aria-label="Volume" hidden /></aside><script src="./sound.js" defer></script><footer class="site-footer">
   <div class="site-footer__inner">
     <div class="site-footer__cols">
       <div class="site-footer__col site-footer__col--brand">
-        <a href="./" class="site-footer__brand-link" aria-label="Ensemble home">
+        <a href="./" class="site-footer__brand-link" aria-label="Endenza home">
           <img class="brand-mark site-footer__mark" src="./icon.svg" alt="" width="32" height="32" aria-hidden="true" />
-          <span class="brand site-footer__brand-name">Ensemble</span>
+          <span class="brand site-footer__brand-name">Endenza</span>
         </a>
         <p class="site-footer__tagline"><em>One conductor. Many performers.</em></p>
         <p class="site-footer__blurb">A creator-platform PWA where every page is a place &mdash; not a list of links.</p>
@@ -950,7 +1144,7 @@
     </div>
 
     <div class="site-footer__bottom">
-      <p class="site-footer__copyright">&copy; 2026 Ensemble &middot; <span class="site-footer__version">v2.0</span></p>
+      <p class="site-footer__copyright">&copy; 2026 Endenza &middot; <span class="site-footer__version">v2.0</span></p>
       <p class="site-footer__meta">Auto-refreshes 3&times; daily.</p>
     </div>
   </div>
@@ -1097,8 +1291,45 @@
 }
 </style>
 <script nonce="__CSP_NONCE__">
+
+(function migrateEnsembleKeys() {
+  var _LS_KEYS = [
+    "ENSEMBLE_THEME", "ENSEMBLE_BG", "ENSEMBLE_BG_CUSTOM",
+    "ENSEMBLE_SERVER_URL", "ENSEMBLE_DASHBOARD_LAYOUT",
+    "ENSEMBLE_BYOK_LINKED", "ENSEMBLE_SHELF_HEIGHT_VH",
+    "ENSEMBLE_STUDIO_ROOM", "ENSEMBLE_STUDIO_CLAUDE_HISTORY",
+    "ENSEMBLE_STUDIO_CLAUDE_USAGE",
+    "ENSEMBLE_TERMINAL_LEFT_PX", "ENSEMBLE_TERMINAL_RIGHT_PX",
+    "ENSEMBLE_TERMINAL_COMPOSE_H", "ENSEMBLE_TERMINAL_TREE_H",
+    "ENSEMBLE_TERMINAL_LEFT_COLLAPSED", "ENSEMBLE_TERMINAL_RIGHT_COLLAPSED",
+    "ENSEMBLE_TERMINAL_ENTER_TO_SEND", "ENSEMBLE_TERMINAL_HISTORY_NAV",
+    "ENSEMBLE_TERMINAL_FONT_SIZE", "ENSEMBLE_TERMINAL_RIGHT_LAYOUT"
+  ];
+  try {
+    _LS_KEYS.forEach(function (oldKey) {
+      var newKey = oldKey.replace(/^ENSEMBLE_/, "ENDENZA_");
+      if (localStorage.getItem(newKey) === null) {
+        var v = localStorage.getItem(oldKey);
+        if (v !== null) localStorage.setItem(newKey, v);
+      }
+    });
+    // Dynamic prefix keys: ENSEMBLE_STICKY_*, ENSEMBLE_TERMINAL_PINNED_*
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k) continue;
+      if (k.indexOf("ENSEMBLE_STICKY_") === 0 || k.indexOf("ENSEMBLE_TERMINAL_PINNED_") === 0) {
+        var newDynKey = k.replace(/^ENSEMBLE_/, "ENDENZA_");
+        if (localStorage.getItem(newDynKey) === null) {
+          var dv = localStorage.getItem(k);
+          if (dv !== null) localStorage.setItem(newDynKey, dv);
+        }
+      }
+    }
+  } catch (e) {}
+})();
+
 const SERVER_URL = (function() {
-  const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
+  const stored = localStorage.getItem("ENDENZA_SERVER_URL");
   if (stored) return stored;
   return location.hostname === "localhost" || location.hostname === "127.0.0.1"
     ? "http://localhost:8080"
@@ -1133,13 +1364,6 @@ async function setConfig(field, value) {
 }
 
 function showHelp(id, msg) { const el = document.getElementById(id); if (el) el.textContent = msg; }
-
-function updateNavStatus(state) {
-  const el = document.getElementById("nav-status");
-  if (!el) return;
-  if (!state) { el.textContent = "offline"; return; }
-  el.textContent = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " · " + (state.mode || "?");
-}
 
 function updateSmokeBanner(state) {
   const banner = document.getElementById("smoke-banner");
@@ -1177,7 +1401,6 @@ async function refreshState() {
     window._isOwner = newOwner;
     applyOwnerMode();
   }
-  updateNavStatus(state);
   updateSmokeBanner(state);
   if (typeof refreshPageState === "function") refreshPageState(state);
 }
@@ -1209,8 +1432,63 @@ function applyOwnerMode() {
 }
 
 // ─── Theme picker (persisted, per-device) ───
-const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper"];
+// Trailing 3 entries (sunset_drive / mall_plaza / neo_city) are the
+// 2026-05-04 limited-edition vibe-coder color schemes. They MUST be
+// in this list — applyTheme below uses it to strip stale `theme-*`
+// classes on switch, and missing entries leave the previous theme's
+// CSS overlapping with the new one. (Kevin caught the live-preview
+// bug 2026-05-04: 'doesn't update right away.')
+const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper", "sunset_drive", "mall_plaza", "neo_city"];
 const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora", "scanlines", "topo", "vignette", "paper", "linen", "blueprint", "constellation", "marble", "custom"];
+
+const TERMINAL_FONTS = {
+  "system":          "",
+  "jetbrains-mono":  '"JetBrains Mono", monospace',
+  "fira-code":       '"Fira Code", monospace',
+  "source-code-pro": '"Source Code Pro", monospace',
+  "ibm-plex-mono":   '"IBM Plex Mono", monospace',
+  "inconsolata":     '"Inconsolata", monospace',
+  "space-mono":      '"Space Mono", monospace',
+  "roboto-mono":     '"Roboto Mono", monospace',
+};
+const TERMINAL_FONT_GFONTS = {
+  "fira-code":       "Fira+Code:wght@400;500;600",
+  "source-code-pro": "Source+Code+Pro:wght@400;500;600",
+  "ibm-plex-mono":   "IBM+Plex+Mono:wght@400;500;600",
+  "inconsolata":     "Inconsolata:wght@400;500;600;700",
+  "space-mono":      "Space+Mono:wght@400;700",
+  "roboto-mono":     "Roboto+Mono:wght@400;500;600;700",
+};
+
+function applyTerminalFont(key) {
+  const stack = TERMINAL_FONTS[key];
+  const page = document.querySelector(".terminal-page");
+  if (page) {
+    if (stack) {
+      page.style.setProperty("--terminal-mono", stack);
+    } else {
+      page.style.removeProperty("--terminal-mono");
+    }
+  }
+  const gf = TERMINAL_FONT_GFONTS[key];
+  const linkId = "terminal-font-gf";
+  let existing = document.getElementById(linkId);
+  if (gf) {
+    const href = "https://fonts.googleapis.com/css2?family=" + gf + "&display=swap";
+    if (existing) {
+      existing.href = href;
+    } else {
+      const link = document.createElement("link");
+      link.id = linkId;
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+    }
+  } else if (existing) {
+    existing.remove();
+  }
+}
+window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
   THEMES.forEach(t => document.body.classList.remove("theme-" + t));
@@ -1218,17 +1496,38 @@ function applyTheme(name) {
   document.querySelectorAll(".theme-swatch").forEach(el => {
     el.classList.toggle("active", el.dataset.theme === (name || "warm"));
   });
-  // Swap the brand mark + favicon to the per-theme variant.  Each theme's
-  // icon lives at ./icons/icon-<theme>.svg; the warm default stays at
-  // ./icon.svg for compatibility with the PWA manifest's cached install
-  // image.  See bin/dashgen/server/theme_icons.py for the design rules.
-  const theme = name || "warm";
-  const iconHref = (theme === "warm") ? "./icon.svg" : ("./icons/icon-" + theme + ".svg");
+  // Default logo NEVER changes (Kevin 2026-05-05: 'our default logo
+  // used on the website should also be our favicon set, this should
+  // ALWAYS be the case. Default logo, for favicons never changes').
+  //
+  // The canonical Threaded Trinity at `./icon.svg` is the project's
+  // single brand identity image. It serves as:
+  //   · the favicon (browser tab + bookmarks)
+  //   · the apple-touch-icon (iOS home-screen install)
+  //   · every in-page `.brand-mark` (homepage hero, nav slot, footer)
+  // None of these change with theme. Theme expressiveness lives in
+  // accent/background colors and the swatch picker — not in the
+  // brand-mark. Don't reintroduce a per-theme mark swap.
+  //
+  // The LE recolors in `dashgen/assets/le_brand_marks.py` remain
+  // available as baked data URIs for future collector affordances
+  // (e.g. downloadable variant, swatch-picker preview), but are NOT
+  // wired to replace the on-page mark or favicon.
   const fav = document.getElementById("favicon");
-  if (fav) fav.href = iconHref;
+  if (fav) fav.href = "./icon.svg";
   const apple = document.getElementById("apple-touch-icon");
-  if (apple) apple.href = iconHref;
-  document.querySelectorAll(".brand-mark").forEach(el => { el.src = iconHref; });
+  if (apple) apple.href = "./icon.svg";
+  document.querySelectorAll(".brand-mark").forEach(el => { el.src = "./icon.svg"; });
+  // Reference the LE dict so the module-load substitution doesn't get
+  // dead-code-eliminated by the minifier — keep the baked URIs in the
+  // bundle for future collector use (see comment block above).
+  const LE_BRAND_MARKS = {"sunset_drive": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_sunset_drive_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80b8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff006e%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b001c%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ffc880%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff5a3a%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b1a08%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%239a80ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233010a0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a0220%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_sunset_drive_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23cc2a30%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23aa0080%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%236020a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "mall_plaza": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_mall_plaza_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380e0ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300d4ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23002a40%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%236070ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233050ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23000840%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff00ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23400028%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_mall_plaza_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%230040a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%237010a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%234015a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "neo_city": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_neo_city_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f0%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff10f0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23500050%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23a8ff80%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2339ff14%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a3010%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380fff5%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300fff5%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23003040%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_neo_city_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23a06090%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%238060e0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%2320c0a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"};
+  void LE_BRAND_MARKS;
+  // Invalidate downstream caches that read CSS custom properties
+  // (component_renderers.colorFromToken memoizes per token; without
+  // this dispatch the cache would survive a theme switch with stale
+  // colors). Cheap event; no listeners outside the renderer today.
+  try { document.dispatchEvent(new CustomEvent("theme:applied", { detail: { name: name } })); } catch (e) {}
 }
 
 function applyBackground(name) {
@@ -1241,7 +1540,7 @@ function applyBackground(name) {
   // Falls back to solid if no upload yet (the swatch click handler also
   // intercepts to open the file picker first time the tile is clicked).
   if (name === "custom") {
-    const dataUrl = localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+    const dataUrl = localStorage.getItem("ENDENZA_BG_CUSTOM");
     if (dataUrl) {
       document.body.style.backgroundImage = `url("${dataUrl}")`;
     } else {
@@ -1254,8 +1553,27 @@ function applyBackground(name) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
-  const savedTheme = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
   applyTheme(savedTheme);
+  // Terminal-only appearance (per-page override). Stamped on <body>
+  // ASAP to avoid a FOUC where the warm-bg flashes before the
+  // black-grey terminal styles kick in. Default = "black-grey"; the
+  // user can flip to "follow-site" via the terminal settings popover.
+  // Only stamps when we're actually on /terminal.html.
+  if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
+    let termTheme = "black-grey";
+    try {
+      const v = localStorage.getItem("ENDENZA_TERMINAL_THEME");
+      if (v === "follow-site" || v === "black-grey") termTheme = v;
+    } catch (e) {}
+    document.body.setAttribute("data-terminal-theme", termTheme);
+    let termFont = "system";
+    try {
+      const f = localStorage.getItem("ENDENZA_TERMINAL_FONT");
+      if (f && TERMINAL_FONTS.hasOwnProperty(f)) termFont = f;
+    } catch (e) {}
+    applyTerminalFont(termFont);
+  }
   // Click + keyboard binding (Enter / Space). The swatches carry
   // role="button" + tabindex="0" so keyboard users can activate them.
   const activateOnKey = (handler) => (ev) => {
@@ -1267,7 +1585,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".theme-swatch").forEach(el => {
     const fire = () => {
       const t = el.dataset.theme;
-      localStorage.setItem("ENSEMBLE_THEME", t);
+      localStorage.setItem("ENDENZA_THEME", t);
       applyTheme(t);
     };
     el.addEventListener("click", fire);
@@ -1275,7 +1593,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Background load + bind
-  const savedBg = localStorage.getItem("ENSEMBLE_BG") || "solid";
+  const savedBg = localStorage.getItem("ENDENZA_BG") || "solid";
   applyBackground(savedBg);
   document.querySelectorAll(".bg-swatch").forEach(el => {
     const fire = () => {
@@ -1284,7 +1602,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // user already has a saved upload, clicking re-applies it without
       // prompting (so they can switch back to it from another bg).
       if (b === "custom") {
-        const hasSaved = !!localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+        const hasSaved = !!localStorage.getItem("ENDENZA_BG_CUSTOM");
         if (!hasSaved || el.classList.contains("active")) {
           // Open file picker (no saved upload yet, OR custom is already
           // active and the user is clicking to replace it).
@@ -1293,7 +1611,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
       }
-      localStorage.setItem("ENSEMBLE_BG", b);
+      localStorage.setItem("ENDENZA_BG", b);
       applyBackground(b);
     };
     el.addEventListener("click", fire);
@@ -1316,8 +1634,8 @@ document.addEventListener("DOMContentLoaded", () => {
       reader.onload = (ev) => {
         const dataUrl = ev.target && ev.target.result;
         try {
-          localStorage.setItem("ENSEMBLE_BG_CUSTOM", dataUrl);
-          localStorage.setItem("ENSEMBLE_BG", "custom");
+          localStorage.setItem("ENDENZA_BG_CUSTOM", dataUrl);
+          localStorage.setItem("ENDENZA_BG", "custom");
           applyBackground("custom");
         } catch (err) {
           alert("Couldn't save wallpaper to local storage (it may be too large). Try a smaller image.");
@@ -1329,8 +1647,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Terminal font load + bind
+  const savedFont = localStorage.getItem("ENDENZA_TERMINAL_FONT") || "system";
+  document.querySelectorAll(".font-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.font === savedFont);
+    const fire = () => {
+      const f = el.dataset.font;
+      localStorage.setItem("ENDENZA_TERMINAL_FONT", f);
+      document.querySelectorAll(".font-swatch").forEach(s => s.classList.toggle("active", s.dataset.font === f));
+      applyTerminalFont(f);
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
+  });
+
   // Owner mode initial state — pessimistic until state fetch confirms
-  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
+  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENDENZA_SERVER_URL"));
   applyOwnerMode();
 
   refreshState();
@@ -1477,9 +1809,20 @@ async function submitFirstRunModal(ev) {
   const submitBtn = document.getElementById("first-run-submit");
   const building = (document.getElementById("frq-building").value || "").trim();
   const vibe = (document.getElementById("frq-vibe").value || "").trim();
-  const problem = (document.getElementById("frq-problem").value || "").trim();
-  if (!building || !vibe || !problem) {
-    if (err) err.textContent = "Please answer all three questions.";
+  // Train 2 (2026-05-04): "problem" was replaced by "color_scheme" — a
+  // chip-driven picker. The hidden input's id is frq-color-scheme; the
+  // server still accepts the legacy "problem" key for back-compat.
+  const colorScheme = (document.getElementById("frq-color-scheme").value || "").trim();
+  if (!building) {
+    if (err) err.textContent = "Tell us what you’re building.";
+    return;
+  }
+  if (!vibe) {
+    if (err) err.textContent = "Pick a vibe to set the room’s mood.";
+    return;
+  }
+  if (!colorScheme) {
+    if (err) err.textContent = "Pick a color scheme.";
     return;
   }
   var tosCheck = document.getElementById("first-run-tos-check");
@@ -1493,7 +1836,15 @@ async function submitFirstRunModal(ev) {
     const r = await fetch("/studio/generate-from-answers", {
       method: "POST",
       headers: authHeaders(),
-      body: JSON.stringify({ building: building, vibe: vibe, problem: problem })
+      body: JSON.stringify({
+        building: building,
+        vibe: vibe,
+        color_scheme: colorScheme,
+        // Back-compat: server may still expect `problem`. Send it as
+        // the color_scheme slug so older deploys interpret the answer
+        // sensibly until they pick up the schema update.
+        problem: colorScheme,
+      })
     });
     let body = {};
     try { body = await r.json(); } catch (e) {}
@@ -1551,6 +1902,36 @@ function ctaGenerateClicked() {
   openFirstRunModal();
 }
 
+// Train 2 (2026-05-04): chip-group wiring. Single-select radio
+// behavior driven by aria-checked + a hidden input that mirrors the
+// chosen slug. Reused on the Studio "Generate from GitHub" panel.
+function wireChipGroup(groupEl, hiddenInput) {
+  if (!groupEl || !hiddenInput) return;
+  const chips = groupEl.querySelectorAll("[data-chip-value]");
+  function selectChip(target) {
+    chips.forEach(function (c) {
+      const isSel = c === target;
+      c.setAttribute("aria-checked", isSel ? "true" : "false");
+    });
+    hiddenInput.value = target.getAttribute("data-chip-value") || "";
+    hiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () { selectChip(chip); });
+    chip.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft" &&
+          e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      e.preventDefault();
+      const list = Array.prototype.slice.call(chips);
+      const idx = list.indexOf(chip);
+      const dir = (e.key === "ArrowRight" || e.key === "ArrowDown") ? 1 : -1;
+      const next = list[(idx + dir + list.length) % list.length];
+      next.focus();
+      selectChip(next);
+    });
+  });
+}
+
 function wireFirstRunModal() {
   const overlay = document.getElementById("first-run-overlay");
   if (!overlay) return;
@@ -1562,6 +1943,14 @@ function wireFirstRunModal() {
   if (cancelBtn) cancelBtn.addEventListener("click", closeFirstRunModal);
   if (form) form.addEventListener("submit", submitFirstRunModal);
   if (cta) cta.addEventListener("click", ctaGenerateClicked);
+  // Train 2: wire the two chip groups. Each group's selected slug is
+  // mirrored to a hidden input read by submitFirstRunModal.
+  const vibeGroup = overlay.querySelector('[data-chip-group-name="vibe"]');
+  const vibeInput = document.getElementById("frq-vibe");
+  wireChipGroup(vibeGroup, vibeInput);
+  const colorGroup = overlay.querySelector('[data-chip-group-name="color_scheme"]');
+  const colorInput = document.getElementById("frq-color-scheme");
+  wireChipGroup(colorGroup, colorInput);
   // Stamp 2 / warp:c (2026-04-29): ToS gate. Generate button stays
   // disabled until the user ticks the agreement checkbox.
   var tosCheck = document.getElementById("first-run-tos-check");
@@ -1629,7 +2018,7 @@ function wireServerUrlBanner() {
   try {
     const host = location.hostname;
     if (host === "localhost" || host === "127.0.0.1") return;
-    if (localStorage.getItem("ENSEMBLE_SERVER_URL")) return;
+    if (localStorage.getItem("ENDENZA_SERVER_URL")) return;
     if (localStorage.getItem(SERVER_URL_BANNER_DISMISSED_KEY) === "1") return;
     // /pair.html already shows the form — banner would be redundant.
     if (location.pathname.endsWith("/pair.html")) return;

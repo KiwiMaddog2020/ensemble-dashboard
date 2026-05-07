@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Settings</title>
-<meta name="description" content="Global preferences for the Ensemble." />
+<title>Endenza — Settings</title>
+<meta name="description" content="Global preferences for Endenza." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -15,7 +15,7 @@
 <link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<meta name="apple-mobile-web-app-title" content="Ensemble" />
+<meta name="apple-mobile-web-app-title" content="Endenza" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -69,8 +69,8 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENSEMBLE_THEME") || "warm";
-      var b = localStorage.getItem("ENSEMBLE_BG") || "solid";
+      var t = localStorage.getItem("ENDENZA_THEME") || "warm";
+      var b = localStorage.getItem("ENDENZA_BG") || "solid";
       if (t && t !== "warm") {
         document.documentElement.classList.add("theme-" + t);
       }
@@ -95,7 +95,7 @@
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
     <p class="cookie-banner__msg">
-      <strong>Ensemble</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
+      <strong>Endenza</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
     </p>
     <div class="cookie-banner__actions">
       <a class="cookie-banner__link" href="/legal/cookies.html">Read policy</a>
@@ -124,21 +124,20 @@
 </script>
 <nav class="topnav" id="topnav" data-drawer-state="closed">
   <div class="wrap">
-    <a class="brand brand--icon-only" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="Ensemble" width="28" height="28" /></a>
     <button class="nav__toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="topnav-list" aria-label="Open navigation menu">
       <span class="nav__toggle-bar" aria-hidden="true"></span>
       <span class="nav__toggle-bar" aria-hidden="true"></span>
       <span class="nav__toggle-bar" aria-hidden="true"></span>
     </button>
     <ul id="topnav-list">
-      <li><a href="./">Ensemble</a></li>
+      <li><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
+      <li><a href="./">Endenza</a></li>
       <li><a href="./studio.html">Studio</a></li>
       <li><a href="./dashboard.html">Dashboard</a></li>
       <li><a href="./terminal.html">Terminal</a></li>
-      <li><a href="./docs.html">Docs</a></li>
+      <li><a href="./docs.html">About</a></li>
       <li><a class="active" aria-current="page" href="./settings.html">Settings</a></li>
     </ul>
-    <span class="nav-status" id="nav-status">...</span>
   </div>
 </nav>
 
@@ -198,6 +197,10 @@
     </div>
   </div>
 </div>
+<style>
+html { scroll-padding-top: 88px; }
+.settings-section[id] { scroll-margin-top: 88px; }
+</style>
 <main id="main"><header class="hero">
   <div class="wrap">
     <p class="eyebrow">Settings</p>
@@ -269,11 +272,11 @@
       <p class="github-link__notice" id="byok-notice" hidden></p>
     </div>
 
-    <section class="settings-section" id="settings-byok" data-owner-only>
-  <div class="wrap">
-    <h2>Anthropic API key</h2>
-    <p class="settings-section__lead section-sub">Link your own Anthropic key to use Claude on your own terms. Free users get a starting platform allotment of 5 calls/day; linking your key removes that limit. Pro users get a 500/month platform allotment plus unlimited usage with their own key.</p>
+    <section class="settings-section settings-byok-panel" id="settings-byok" data-owner-only>
+  <h2>Anthropic API key</h2>
+  <p class="settings-section__lead section-sub">Link your own Anthropic key to use Claude on your own terms. Free users get a starting platform allotment of 5 calls/day; linking your key removes that limit. Pro users get a 500/month platform allotment plus unlimited usage with their own key.</p>
 
+  <div class="settings-byok__control">
     <div class="settings-byok__status" id="settings-byok-status">Checking BYOK status…</div>
 
     <form class="settings-byok__form" id="settings-byok-form" hidden>
@@ -287,7 +290,7 @@
 
     <div class="settings-byok__aup"><div class="aup-disclosure">
   <p><strong>Heads up:</strong> When you link your Anthropic key, your Claude
-  conversations go directly from your key to Anthropic's API. The Ensemble
+  conversations go directly from your key to Anthropic's API. Endenza
   doesn't store or proxy your prompts.</p>
   <p>You're bound by <a href="https://www.anthropic.com/aup" target="_blank"
   rel="noopener">Anthropic's Acceptable Use Policy</a> when using your own
@@ -400,7 +403,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
     <h2>Appearance</h2>
-    <p class="section-sub">Color theme — warm to cool. 18 options. Saved locally in your browser.</p>
+    <p class="section-sub">Color theme — 21 standards plus 3 limited-edition vibe-coder palettes. Saved locally in your browser.</p>
     <div class="theme-picker" data-theme-picker>
       <div class="theme-swatch crimson"  data-theme="crimson"  title="Crimson"  aria-label="Crimson theme"></div>
       <div class="theme-swatch ruby"     data-theme="ruby"     title="Ruby"     aria-label="Ruby theme"></div>
@@ -423,8 +426,18 @@ document.addEventListener("DOMContentLoaded", function() {
       <div class="theme-swatch ash"      data-theme="ash"      title="Ash"      aria-label="Ash theme"></div>
       <div class="theme-swatch mono"     data-theme="mono"     title="Mono"     aria-label="Mono theme"></div>
       <div class="theme-swatch paper"    data-theme="paper"    title="Paper (light)" aria-label="Paper light theme"></div>
+      <!-- ── Limited Edition vibe-coder color schemes (2026-05-04 → 2027-05-04) ─
+           Three limited-edition color schemes for vibe coders. The ★
+           badge in each swatch's top-right is the unified LE marker;
+           Kevin's call (2026-05-04): no per-theme names or custom
+           glyphs, the badge alone signals the LE status. Free now,
+           collectible after the cutoff (LIMITED_EDITION_THEMES in
+           canvas_atmospheres). -->
+      <div class="theme-swatch theme-swatch--limited sunset_drive" data-theme="sunset_drive" data-limited-edition="2027-05-04" title="Limited Edition vibe coder color scheme · free until May 2027" aria-label="Limited Edition vibe coder color scheme"></div>
+      <div class="theme-swatch theme-swatch--limited mall_plaza"   data-theme="mall_plaza"   data-limited-edition="2027-05-04" title="Limited Edition vibe coder color scheme · free until May 2027" aria-label="Limited Edition vibe coder color scheme"></div>
+      <div class="theme-swatch theme-swatch--limited neo_city"     data-theme="neo_city"     data-limited-edition="2027-05-04" title="Limited Edition vibe coder color scheme · free until May 2027" aria-label="Limited Edition vibe coder color scheme"></div>
     </div>
-    <p class="settings-help settings-help--tight">Theme persists across visits and per-device. The default is marked with a small dot.</p>
+    <p class="settings-help settings-help--tight">Theme persists across visits and per-device. The default is marked with a small dot. Limited-edition themes (synthwave / vaporwave / cyberpunk) carry a small ★ — free until May 2027, then collectible.</p>
 
     <h3 class="settings-h3">Background pattern</h3>
     <p class="section-sub settings-section-sub--tight">Subtle texture for the page background. The default is marked with a small dot.</p>
@@ -447,6 +460,44 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
     <input type="file" id="bg-upload-input" accept="image/*" hidden />
     <p class="settings-help settings-help--tight">Animated patterns honor your reduced-motion preference. Custom wallpapers persist locally in your browser (~5MB max).</p>
+
+    <h3 class="settings-h3">Terminal font</h3>
+    <p class="section-sub settings-section-sub--tight">Monospace font used in the Terminal page. System Default uses your OS native monospace (SF Mono on Mac).</p>
+    <div class="settings-font-picker" id="settings-font-picker">
+      <div class="font-swatch active" data-font="system" data-default="true" tabindex="0" role="button" aria-label="System Default font — the default">
+        <span class="font-swatch__preview" style="font-family:ui-monospace,'SF Mono',Menlo,monospace">Aa 01</span>
+        <span class="font-swatch__label">System Default</span>
+      </div>
+      <div class="font-swatch" data-font="jetbrains-mono" tabindex="0" role="button" aria-label="JetBrains Mono font">
+        <span class="font-swatch__preview" style="font-family:'JetBrains Mono',monospace">Aa 01</span>
+        <span class="font-swatch__label">JetBrains Mono</span>
+      </div>
+      <div class="font-swatch" data-font="fira-code" tabindex="0" role="button" aria-label="Fira Code font">
+        <span class="font-swatch__preview" style="font-family:'Fira Code',monospace">Aa 01</span>
+        <span class="font-swatch__label">Fira Code</span>
+      </div>
+      <div class="font-swatch" data-font="source-code-pro" tabindex="0" role="button" aria-label="Source Code Pro font">
+        <span class="font-swatch__preview" style="font-family:'Source Code Pro',monospace">Aa 01</span>
+        <span class="font-swatch__label">Source Code Pro</span>
+      </div>
+      <div class="font-swatch" data-font="ibm-plex-mono" tabindex="0" role="button" aria-label="IBM Plex Mono font">
+        <span class="font-swatch__preview" style="font-family:'IBM Plex Mono',monospace">Aa 01</span>
+        <span class="font-swatch__label">IBM Plex Mono</span>
+      </div>
+      <div class="font-swatch" data-font="inconsolata" tabindex="0" role="button" aria-label="Inconsolata font">
+        <span class="font-swatch__preview" style="font-family:'Inconsolata',monospace">Aa 01</span>
+        <span class="font-swatch__label">Inconsolata</span>
+      </div>
+      <div class="font-swatch" data-font="space-mono" tabindex="0" role="button" aria-label="Space Mono font">
+        <span class="font-swatch__preview" style="font-family:'Space Mono',monospace">Aa 01</span>
+        <span class="font-swatch__label">Space Mono</span>
+      </div>
+      <div class="font-swatch" data-font="roboto-mono" tabindex="0" role="button" aria-label="Roboto Mono font">
+        <span class="font-swatch__preview" style="font-family:'Roboto Mono',monospace">Aa 01</span>
+        <span class="font-swatch__label">Roboto Mono</span>
+      </div>
+    </div>
+    <p class="settings-help settings-help--tight">Persists locally per device. Non-system fonts load from Google Fonts on demand. Default is marked with a small dot.</p>
   </div>
 </section>
 
@@ -464,8 +515,8 @@ document.addEventListener("DOMContentLoaded", function() {
         <li class="pack-item" data-pack-id="ensemble-default-character" data-builtin="true">
           <span class="pack-item__thumb" aria-hidden="true">&#x1F464;</span>
           <span class="pack-item__body">
-            <span class="pack-item__name">Ensemble Default Character</span>
-            <span class="pack-item__meta">Ensemble<span class="pack-item__license pack-item__license--free">free</span></span>
+            <span class="pack-item__name">Endenza Default Character</span>
+            <span class="pack-item__meta">Endenza<span class="pack-item__license pack-item__license--free">free</span></span>
           </span>
         </li>
         <li class="pack-item" data-pack-id="limezu-modern-interiors" data-builtin="true">
@@ -541,6 +592,149 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <script src="./pack-uploader.js" defer></script>
 <script src="./pack-picker.js" defer></script>
+
+
+<section class="settings-section settings-card--brand-identity" id="settings-brand-identity" data-owner-only>
+  <div class="wrap">
+    <h2>Brand identity</h2>
+    <p class="settings-section__lead section-sub">Your public display name and bio &mdash; shown on your showcase canvas and shared links.</p>
+
+    <div class="settings-brand__notice" id="settings-brand-notice" hidden></div>
+
+    <div class="settings-brand__fields">
+      <div class="settings-brand__field">
+        <label for="brand-name" class="settings-brand__label">Display name</label>
+        <input type="text" id="brand-name" name="brand-name"
+               class="settings-brand__input" maxlength="60"
+               placeholder="Your name or studio name"
+               autocomplete="name" />
+        <p class="settings-brand__hint">Max 60 characters.</p>
+      </div>
+
+      <div class="settings-brand__field">
+        <label for="brand-bio" class="settings-brand__label">Bio</label>
+        <textarea id="brand-bio" name="brand-bio"
+                  class="settings-brand__textarea" maxlength="280" rows="3"
+                  placeholder="One or two lines about you or your work."></textarea>
+        <p class="settings-brand__hint">
+          <span id="brand-bio-count">0</span>/280 characters.
+        </p>
+      </div>
+
+      <div class="settings-brand__field">
+        <p class="settings-brand__label">Headshot / avatar</p>
+        <p class="settings-brand__hint">Choose an uploaded photo or use your Character Creator sprite.</p>
+        <div class="settings-brand__headshot-row">
+          <label class="settings-brand__headshot-option">
+            <input type="radio" name="brand-headshot-type" value="photo" />
+            <span>Upload photo</span>
+          </label>
+          <label class="settings-brand__headshot-option">
+            <input type="radio" name="brand-headshot-type" value="sprite" checked />
+            <span>Use my sprite</span>
+          </label>
+          <a href="./character-creator.html?from=settings-brand"
+             class="settings-inline-link settings-brand__cc-link">Edit sprite &rarr;</a>
+        </div>
+        <div id="brand-photo-upload-row" hidden>
+          <input type="file" id="brand-photo-input" accept="image/*"
+                 class="settings-brand__photo-input" aria-label="Upload headshot photo" />
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-brand__actions">
+      <button type="button" class="btn-primary" id="settings-brand-save"
+              data-action="save-brand-identity" disabled>Save identity</button>
+      <button type="button" class="btn-secondary" id="settings-brand-revert"
+              data-action="revert-brand-identity" disabled>Revert</button>
+    </div>
+  </div>
+</section>
+
+<section class="settings-section settings-card--link-list" id="settings-link-list" data-owner-only>
+  <div class="wrap">
+    <h2>Bio links</h2>
+    <p class="settings-section__lead section-sub">The links visitors see on your showcase. Drag to reorder. Max 10 links (free).</p>
+
+    <div class="settings-link__notice" id="settings-link-notice" hidden></div>
+
+    <ul class="settings-link__list" id="brand-link-list" aria-label="Bio links" role="list">
+    </ul>
+
+    <div class="settings-link__add-row">
+      <button type="button" class="btn-secondary" id="brand-link-add"
+              aria-label="Add a bio link">+ Add link</button>
+      <span class="settings-link__count" id="brand-link-count" aria-live="polite"></span>
+    </div>
+
+    <div class="settings-link__new-form" id="brand-link-new-form" hidden>
+      <div class="settings-link__new-fields">
+        <label for="brand-link-url" class="settings-brand__label">URL</label>
+        <input type="url" id="brand-link-url" name="brand-link-url"
+               class="settings-brand__input"
+               placeholder="https://example.com"
+               autocomplete="url" />
+        <p class="settings-link__url-error" id="brand-link-url-error" hidden aria-live="polite"></p>
+        <label for="brand-link-label" class="settings-brand__label">Label</label>
+        <input type="text" id="brand-link-label" name="brand-link-label"
+               class="settings-brand__input" maxlength="120"
+               placeholder="My site, Portfolio, etc." />
+      </div>
+      <div class="settings-link__new-actions">
+        <button type="button" class="btn-primary" id="brand-link-add-confirm">Add</button>
+        <button type="button" class="btn-secondary" id="brand-link-add-cancel">Cancel</button>
+      </div>
+    </div>
+
+    <div class="settings-brand__actions">
+      <button type="button" class="btn-primary" id="settings-link-save"
+              data-action="save-link-list" disabled>Save links</button>
+      <button type="button" class="btn-secondary" id="settings-link-revert"
+              data-action="revert-link-list" disabled>Revert</button>
+    </div>
+  </div>
+</section>
+
+<section class="settings-section settings-card--integrations" id="settings-integrations" data-owner-only>
+  <div class="wrap">
+    <h2>Integrations</h2>
+    <p class="settings-section__lead section-sub">Connected accounts and API keys with live status.</p>
+
+    <div class="integration-row" id="integration-github" data-state="loading">
+      <div class="integration-row__icon" aria-hidden="true">&#9000;</div>
+      <div class="integration-row__body">
+        <p class="integration-row__name">GitHub</p>
+        <p class="integration-row__status" id="integ-github-status">Checking&hellip;</p>
+      </div>
+      <span class="integration-row__pill" id="integ-github-pill" aria-label="GitHub status"></span>
+      <div class="integration-row__actions" id="integ-github-actions"></div>
+    </div>
+
+    <div class="integration-row" id="integration-byok" data-state="loading">
+      <div class="integration-row__icon" aria-hidden="true">&#9881;</div>
+      <div class="integration-row__body">
+        <p class="integration-row__name">Anthropic API key</p>
+        <p class="integration-row__status" id="integ-byok-status">Checking&hellip;</p>
+      </div>
+      <span class="integration-row__pill" id="integ-byok-pill" aria-label="BYOK status"></span>
+      <div class="integration-row__actions" id="integ-byok-actions"></div>
+    </div>
+
+    <div class="integration-confirm-modal" id="integration-confirm-modal"
+         role="dialog" aria-modal="true" aria-labelledby="integration-confirm-title" hidden>
+      <div class="integration-confirm-modal__scrim"></div>
+      <div class="integration-confirm-modal__panel">
+        <h3 class="integration-confirm-modal__title settings-h3" id="integration-confirm-title">Confirm</h3>
+        <p class="integration-confirm-modal__body" id="integration-confirm-body"></p>
+        <div class="integration-confirm-modal__actions">
+          <button type="button" class="btn-secondary" id="integration-confirm-cancel">Cancel</button>
+          <button type="button" class="btn-destructive" id="integration-confirm-ok">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 <section class="settings-section settings-character" id="settings-character" data-owner-only>
@@ -626,6 +820,71 @@ document.addEventListener("DOMContentLoaded", function() {
 </section>
 
 <style>
+.settings-byok-panel {
+  margin: 24px 0 30px;
+  padding: 0;
+  max-width: var(--w-prose);
+}
+.settings-byok-panel h2 { margin-top: 0; }
+.settings-byok__control {
+  margin-top: 14px;
+  padding: 16px 18px;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+}
+.settings-byok__status {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.settings-byok__form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+.settings-byok__form[hidden],
+.settings-byok__actions[hidden],
+.settings-byok__error[hidden] { display: none; }
+.settings-byok__form label {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.settings-byok__form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 11px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--bg-sunken);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+.settings-byok__form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.settings-byok__aup {
+  margin-top: 14px;
+}
+.settings-byok__actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.settings-byok__error {
+  margin: 0;
+  font-size: 12px;
+  color: #c53030;
+}
 .settings-character__card {
   display: flex; align-items: center; gap: 16px;
   padding: 16px; margin-top: 12px;
@@ -661,7 +920,138 @@ document.addEventListener("DOMContentLoaded", function() {
 .settings-character__cta {
   font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--accent);
 }
+
+/* Font picker */
+.settings-font-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.font-swatch {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 14px 10px 10px;
+  background: var(--bg-raised);
+  border: 1.5px solid var(--rule);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 150ms var(--ease), transform 150ms var(--ease);
+  position: relative;
+}
+.font-swatch:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--rule)); transform: translateY(-1px); }
+.font-swatch.active { border-color: var(--accent); }
+.font-swatch[data-default]::after {
+  content: ""; position: absolute; top: 6px; right: 6px;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent); opacity: 0.7;
+}
+.font-swatch__preview {
+  font-size: 22px; font-weight: 500; color: var(--ink);
+  line-height: 1.2; letter-spacing: 0.02em;
+}
+.font-swatch__label {
+  font-family: var(--sans); font-size: 10.5px; font-weight: 500;
+  color: var(--ink-3); text-align: center; letter-spacing: 0.02em;
+}
 </style>
+
+<style>
+.settings-brand__fields{display:flex;flex-direction:column;gap:20px;margin-top:16px}
+.settings-brand__field{display:flex;flex-direction:column;gap:6px}
+.settings-brand__label{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink-2)}
+.settings-brand__input,.settings-brand__textarea{font-family:var(--sans);font-size:15px;color:var(--ink);background:var(--bg-sunken);border:1px solid var(--rule);border-radius:8px;padding:10px 12px;transition:border-color 150ms,box-shadow 150ms;width:100%;box-sizing:border-box}
+.settings-brand__input:focus,.settings-brand__textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+.settings-brand__textarea{resize:vertical;min-height:80px}
+.settings-brand__hint{font-family:var(--sans);font-size:12px;color:var(--ink-3);margin:0}
+.settings-brand__actions{display:flex;gap:10px;margin-top:20px}
+.settings-brand__headshot-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:6px}
+.settings-brand__headshot-option{display:flex;align-items:center;gap:6px;font-family:var(--sans);font-size:14px;cursor:pointer}
+.settings-brand__cc-link{font-family:var(--sans);font-size:13px;margin-left:auto}
+.settings-brand__notice{padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:12px}
+.settings-brand__notice--ok{background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--ink)}
+.settings-brand__notice--err{background:color-mix(in srgb,#e53e3e 10%,transparent);color:#c53030}
+.settings-link__list{list-style:none;margin:12px 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.settings-link__empty{color:var(--ink-3);font-size:14px;font-style:italic}
+.settings-link__item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg-sunken);border:1px solid var(--rule);border-radius:8px;cursor:grab}
+.settings-link__drag{color:var(--ink-3);cursor:grab;user-select:none}
+.settings-link__url{font-size:13px;color:var(--ink);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.settings-link__label{font-size:12px;color:var(--ink-3);min-width:60px}
+.settings-link__remove{background:none;border:none;color:var(--ink-3);cursor:pointer;font-size:16px;padding:2px 6px;border-radius:4px}
+.settings-link__remove:hover{color:#c53030}
+.settings-link__add-row{display:flex;align-items:center;gap:12px;margin-top:4px}
+.settings-link__count{font-size:12px;color:var(--ink-3)}
+.settings-link__new-form{margin-top:12px;padding:16px;background:var(--bg-sunken);border:1px solid var(--rule);border-radius:8px;display:flex;flex-direction:column;gap:12px}
+.settings-link__new-fields{display:flex;flex-direction:column;gap:8px}
+.settings-link__new-actions{display:flex;gap:10px}
+.settings-link__url-error{font-size:12px;color:#c53030;margin:0}
+.settings-link__notice{padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:12px}
+.settings-link__notice--ok{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.settings-link__notice--err{background:color-mix(in srgb,#e53e3e 10%,transparent);color:#c53030}
+.integration-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.integration-row:last-of-type{border-bottom:none}
+.integration-row__icon{color:var(--ink-3);flex-shrink:0}
+.integration-row__body{flex:1}
+.integration-row__name{font-family:var(--sans);font-size:15px;font-weight:600;color:var(--ink);margin:0 0 2px}
+.integration-row__status{font-family:var(--sans);font-size:13px;color:var(--ink-3);margin:0}
+.integration-row__pill{font-size:11px;font-weight:600;padding:2px 8px;border-radius:12px;flex-shrink:0;white-space:nowrap}
+.pill--green{background:#d4edda;color:#155724}
+.pill--amber{background:#fff3cd;color:#856404}
+.pill--red{background:#f8d7da;color:#721c24}
+.integration-row__actions{display:flex;gap:8px;flex-shrink:0}
+.integ-btn{font-size:13px;padding:6px 12px}
+.integration-confirm-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center}
+.integration-confirm-modal[hidden]{display:none}
+.integration-confirm-modal__scrim{position:absolute;inset:0;background:rgb(0 0 0/0.45)}
+.integration-confirm-modal__panel{position:relative;background:var(--bg-surface);border:1px solid var(--rule);border-radius:16px;padding:28px 32px;max-width:400px;width:90%;z-index:1}
+.integration-confirm-modal__title{font-family:var(--serif);font-size:20px;margin:0 0 12px}
+.integration-confirm-modal__body{font-size:15px;color:var(--ink-2);margin:0 0 20px}
+.integration-confirm-modal__actions{display:flex;gap:12px;justify-content:flex-end}
+.brand-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg-raised);border:1px solid var(--rule);padding:10px 20px;border-radius:100px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgb(0 0 0/0.15);z-index:2000;animation:toast-in 200ms}
+.brand-toast--err{color:#c53030;border-color:#e53e3e}
+@keyframes toast-in{from{opacity:0;transform:translateX(-50%) translateY(8px)}}
+</style>
+<script>
+(function(){
+"use strict";
+function _sessToken(){try{return sessionStorage.getItem("ensemble:dashboard-token")||"";}catch(_){return "";}}
+function _authHdrs(){var h={"Content-Type":"application/json"};var t=_sessToken();if(t)h["Authorization"]="Bearer "+t;return h;}
+function _base(){return(typeof window!=="undefined"&&typeof window.SERVER_URL==="string")?window.SERVER_URL||""||"";}
+function _esc(s){var m={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"};return String(s==null?"":s).replace(/[&<>"']/g,function(c){return m[c];});}
+function _toast(msg,kind){var id="brand-global-toast";var el=document.getElementById(id);if(!el){el=document.createElement("div");el.id=id;el.setAttribute("role","status");el.setAttribute("aria-live","polite");document.body.appendChild(el);}el.textContent=msg;el.className="brand-toast brand-toast--"+(kind||"ok");el.hidden=false;clearTimeout(el._t);el._t=setTimeout(function(){el.hidden=true;},3000);}
+function _validateUrl(u){return new RegExp("^https?://").test((u||"").trim());}
+
+var savedBrand=null,pendingBrand=null,savedLinks=[],pendingLinks=[];
+
+function _brandDirty(){if(!savedBrand||!pendingBrand)return false;return savedBrand.name!==pendingBrand.name||savedBrand.bio!==pendingBrand.bio;}
+function _refreshBrandBtns(){var d=_brandDirty();var s=document.getElementById("settings-brand-save");var r=document.getElementById("settings-brand-revert");if(s)s.disabled=!d;if(r)r.disabled=!d;}
+function _syncBrandUI(p){var n=document.getElementById("brand-name");var b=document.getElementById("brand-bio");if(n)n.value=p.name||"";if(b){b.value=p.bio||"";_bioCount();}}
+function _bioCount(){var b=document.getElementById("brand-bio");var c=document.getElementById("brand-bio-count");if(b&&c)c.textContent=b.value.length;}
+function _loadBrandProfile(){var base=_base();if(!base){savedBrand={name:"",bio:""};pendingBrand=Object.assign({},savedBrand);_syncBrandUI(savedBrand);return;}fetch(base+"/brand-profile",{headers:_authHdrs()}).then(function(r){return r.json();}).then(function(d){savedBrand={name:d.name||"",bio:d.bio||""};pendingBrand=Object.assign({},savedBrand);_syncBrandUI(savedBrand);_refreshBrandBtns();savedLinks=(d.links||[]).slice();pendingLinks=savedLinks.map(function(l){return Object.assign({},l);});_renderLinks();}).catch(function(){savedBrand={name:"",bio:""};pendingBrand=Object.assign({},savedBrand);});}
+function _saveBrandIdentity(){var base=_base();if(!base){_toast("Pair this browser to save.","err");return;}var payload={name:pendingBrand.name,bio:pendingBrand.bio,links:(savedLinks||[]).map(function(l){return{url:l.url,label:l.label};})};fetch(base+"/brand-profile",{method:"PUT",headers:_authHdrs(),body:JSON.stringify(payload)}).then(function(r){return r.json().then(function(j){return{ok:r.ok,status:r.status,j:j};});}).then(function(res){if(!res.ok){_toast("Save failed: "+(res.j.error||("HTTP "+res.status)),"err");return;}savedBrand=Object.assign({},pendingBrand);_refreshBrandBtns();_toast("✓ Identity saved.");}).catch(function(e){_toast("Network error: "+e.message,"err");});}
+function _initBrandIdentity(){var n=document.getElementById("brand-name");var b=document.getElementById("brand-bio");var sv=document.getElementById("settings-brand-save");var rv=document.getElementById("settings-brand-revert");var pr=document.getElementById("brand-photo-upload-row");if(n)n.addEventListener("input",function(){if(!pendingBrand)pendingBrand={};pendingBrand.name=n.value;_refreshBrandBtns();});if(b)b.addEventListener("input",function(){if(!pendingBrand)pendingBrand={};pendingBrand.bio=b.value;_bioCount();_refreshBrandBtns();});if(sv)sv.addEventListener("click",_saveBrandIdentity);if(rv)rv.addEventListener("click",function(){pendingBrand=Object.assign({},savedBrand);_syncBrandUI(pendingBrand);_refreshBrandBtns();});document.querySelectorAll('[name="brand-headshot-type"]').forEach(function(r){r.addEventListener("change",function(){if(pr)pr.hidden=r.value!=="photo";});});}
+
+function _linksDirty(){return JSON.stringify(savedLinks)!==JSON.stringify(pendingLinks);}
+function _refreshLinkBtns(){var d=_linksDirty();var s=document.getElementById("settings-link-save");var r=document.getElementById("settings-link-revert");if(s)s.disabled=!d;if(r)r.disabled=!d;}
+function _renderLinks(){var ul=document.getElementById("brand-link-list");var cc=document.getElementById("brand-link-count");if(!ul)return;if(!pendingLinks.length){ul.innerHTML='<li class="settings-link__empty">No links yet. Add one below.</li>';}else{ul.innerHTML=pendingLinks.map(function(l,i){return'<li class="settings-link__item" data-idx="'+i+'" draggable="true"><span class="settings-link__drag" aria-hidden="true">=</span><span class="settings-link__url">'+_esc(l.url)+'</span><span class="settings-link__label">'+_esc(l.label||"")+'</span><button type="button" class="settings-link__remove" aria-label="Remove '+_esc(l.label||l.url)+'" data-remove="'+i+'">×</button></li>';}).join("");}if(cc)cc.textContent=pendingLinks.length+"/10";var ab=document.getElementById("brand-link-add");if(ab)ab.disabled=pendingLinks.length>=10;_refreshLinkBtns();}
+function _saveLinkList(){var base=_base();if(!base){_toast("Pair this browser to save.","err");return;}var payload={name:(savedBrand||{}).name||"",bio:(savedBrand||{}).bio||"",links:pendingLinks.map(function(l){return{url:l.url,label:l.label};})};fetch(base+"/brand-profile",{method:"PUT",headers:_authHdrs(),body:JSON.stringify(payload)}).then(function(r){return r.json().then(function(j){return{ok:r.ok,status:r.status,j:j};});}).then(function(res){if(!res.ok){_toast("Save failed: "+(res.j.error||("HTTP "+res.status)),"err");return;}savedLinks=pendingLinks.map(function(l){return Object.assign({},l);});_refreshLinkBtns();_toast("✓ Links saved.");}).catch(function(e){_toast("Network error: "+e.message,"err");});}
+function _showLinkForm(){var f=document.getElementById("brand-link-new-form");var u=document.getElementById("brand-link-url");if(f)f.hidden=false;if(u)u.focus();}
+function _hideLinkForm(){var f=document.getElementById("brand-link-new-form");var u=document.getElementById("brand-link-url");var l=document.getElementById("brand-link-label");var e=document.getElementById("brand-link-url-error");if(f)f.hidden=true;if(u)u.value="";if(l)l.value="";if(e){e.hidden=true;e.textContent="";}}
+function _confirmAddLink(){var ue=document.getElementById("brand-link-url");var le=document.getElementById("brand-link-label");var err=document.getElementById("brand-link-url-error");var url=(ue&&ue.value||"").trim();var label=(le&&le.value||"").trim();if(!_validateUrl(url)){if(err){err.hidden=false;err.textContent="Please enter a valid URL starting with http:// or https://";}if(ue)ue.focus();return;}if(pendingLinks.length>=10){if(err){err.hidden=false;err.textContent="Max 10 links (free tier)";}return;}pendingLinks.push({url:url,label:label});_hideLinkForm();_renderLinks();}
+function _initLinkList(){var ul=document.getElementById("brand-link-list");var ab=document.getElementById("brand-link-add");var cf=document.getElementById("brand-link-add-confirm");var can=document.getElementById("brand-link-add-cancel");var sv=document.getElementById("settings-link-save");var rv=document.getElementById("settings-link-revert");var ue=document.getElementById("brand-link-url");if(ab)ab.addEventListener("click",_showLinkForm);if(cf)cf.addEventListener("click",_confirmAddLink);if(can)can.addEventListener("click",_hideLinkForm);if(sv)sv.addEventListener("click",_saveLinkList);if(rv)rv.addEventListener("click",function(){pendingLinks=savedLinks.map(function(l){return Object.assign({},l);});_renderLinks();});if(ue)ue.addEventListener("blur",function(){var err=document.getElementById("brand-link-url-error");var u=ue.value.trim();if(u&&!_validateUrl(u)){if(err){err.hidden=false;err.textContent="URL must start with http:// or https://";}}else{if(err){err.hidden=true;err.textContent="";}}});if(ul){ul.addEventListener("click",function(ev){var btn=ev.target.closest("[data-remove]");if(!btn)return;var idx=parseInt(btn.getAttribute("data-remove"),10);if(!isNaN(idx)){pendingLinks.splice(idx,1);_renderLinks();}});var dragSrc=null;ul.addEventListener("dragstart",function(ev){var li=ev.target.closest("li[data-idx]");if(!li)return;dragSrc=parseInt(li.getAttribute("data-idx"),10);ev.dataTransfer.effectAllowed="move";});ul.addEventListener("dragover",function(ev){ev.preventDefault();ev.dataTransfer.dropEffect="move";});ul.addEventListener("drop",function(ev){ev.preventDefault();var li=ev.target.closest("li[data-idx]");if(!li||dragSrc===null)return;var dst=parseInt(li.getAttribute("data-idx"),10);if(isNaN(dst)||dst===dragSrc)return;var mv=pendingLinks.splice(dragSrc,1)[0];pendingLinks.splice(dst,0,mv);dragSrc=null;_renderLinks();});}}
+
+function _pillCls(s){if(s==="linked"||s==="set")return"pill--green";if(s==="unconfigured")return"pill--amber";return"pill--red";}
+function _pillLabel(s){if(s==="linked")return"Linked";if(s==="set")return"Set";if(s==="unconfigured")return"Not configured";return"Not linked";}
+function _setPill(id,state){var el=document.getElementById(id);if(!el)return;el.className="integration-row__pill "+_pillCls(state);el.textContent=_pillLabel(state);}
+function _showConfirm(title,body,onOk){var modal=document.getElementById("integration-confirm-modal");var titleEl=document.getElementById("integration-confirm-title");var bodyEl=document.getElementById("integration-confirm-body");var ok=document.getElementById("integration-confirm-ok");var cancel=document.getElementById("integration-confirm-cancel");if(!modal){if(confirm(body))onOk();return;}if(titleEl)titleEl.textContent=title;if(bodyEl)bodyEl.textContent=body;modal.hidden=false;function close(){modal.hidden=true;ok.removeEventListener("click",doOk);cancel.removeEventListener("click",close);document.removeEventListener("keydown",onKey);}function doOk(){close();onOk();}function onKey(ev){if(ev.key==="Escape")close();}ok.addEventListener("click",doOk);cancel.addEventListener("click",close);document.addEventListener("keydown",onKey);var f=modal.querySelectorAll("button");if(f.length)f[0].focus();}
+function _loadIntegrations(){var base=_base();if(!base){_renderGhInteg({_offline:true});_renderByokInteg({_offline:true});return;}fetch(base+"/github/profile").then(function(r){return r.ok?r.json():Promise.reject(r.status);}).then(function(j){_renderGhInteg(j);_renderByokInteg(j);}).catch(function(){_renderGhInteg({_offline:true});_renderByokInteg({_offline:true});});}
+function _renderGhInteg(s){var st=document.getElementById("integ-github-status");var ac=document.getElementById("integ-github-actions");var row=document.getElementById("integration-github");if(!st||!ac)return;if(s._offline||s._network_error){st.textContent="Control panel offline";_setPill("integ-github-pill","offline");if(row)row.dataset.state="offline";ac.innerHTML="";return;}if(!s.oauth_configured){st.textContent="OAuth not configured";_setPill("integ-github-pill","unconfigured");if(row)row.dataset.state="unconfigured";ac.innerHTML="";return;}if(s.is_linked){st.innerHTML="Linked as <strong>"+_esc(s.github_handle)+"</strong>";_setPill("integ-github-pill","linked");if(row)row.dataset.state="linked";ac.innerHTML='<a class="btn btn--secondary btn-secondary integ-btn" href="'+_esc((_base()||"")+"/auth/github/start")+'">Re-link</a><button class="btn btn--destructive btn-destructive integ-btn" id="integ-github-unlink" type="button">Unlink</button>';var ul=document.getElementById("integ-github-unlink");if(ul)ul.addEventListener("click",function(){_showConfirm("Unlink GitHub","Unlink GitHub? Studio generation from repos will stop until you re-link.",function(){fetch(_base()+"/github/unlink",{method:"POST",headers:_authHdrs(),body:"{}"}).then(function(r){if(r.ok){_loadIntegrations();_toast("✓ GitHub unlinked.");}}).catch(function(e){_toast("Error: "+e.message,"err");});});});}else{st.textContent="Not linked";_setPill("integ-github-pill","unlinked");if(row)row.dataset.state="unlinked";ac.innerHTML='<a class="btn btn--primary btn-primary integ-btn" href="'+_esc((_base()||"")+"/auth/github/start")+'">Link GitHub</a>';}}
+function _renderByokInteg(s){var st=document.getElementById("integ-byok-status");var ac=document.getElementById("integ-byok-actions");var row=document.getElementById("integration-byok");if(!st||!ac)return;if(s._offline||s._network_error){st.textContent="Control panel offline";_setPill("integ-byok-pill","offline");if(row)row.dataset.state="offline";ac.innerHTML="";return;}if(s.byok_anthropic_set){st.textContent="Your Anthropic key is set";_setPill("integ-byok-pill","set");if(row)row.dataset.state="byok";ac.innerHTML='<button class="btn btn--secondary btn-secondary integ-btn" id="integ-byok-replace" type="button">Replace</button><button class="btn btn--destructive btn-destructive integ-btn" id="integ-byok-revoke" type="button">Revoke</button>';var rb=document.getElementById("integ-byok-replace");if(rb)rb.addEventListener("click",function(){var c=document.getElementById("byok-card");if(c)c.scrollIntoView({behavior:"smooth"});});var rv=document.getElementById("integ-byok-revoke");if(rv)rv.addEventListener("click",function(){_showConfirm("Revoke Anthropic key","Revoke your key? Studio generation will fall back to the platform allotment.",function(){fetch(_base()+"/settings/anthropic-byok-clear",{method:"POST",headers:_authHdrs(),body:"{}"}).then(function(r){if(r.ok){_loadIntegrations();_toast("✓ Key revoked.");}}).catch(function(e){_toast("Error: "+e.message,"err");});});});}else if(s.platform_anthropic_set){st.textContent="Platform key in use";_setPill("integ-byok-pill","set");if(row)row.dataset.state="platform";ac.innerHTML='<button class="btn btn--secondary btn-secondary integ-btn" id="integ-byok-add2" type="button">Add my key</button>';var a2=document.getElementById("integ-byok-add2");if(a2)a2.addEventListener("click",function(){var c=document.getElementById("byok-card");if(c)c.scrollIntoView({behavior:"smooth"});});}else{st.textContent="No Anthropic key configured";_setPill("integ-byok-pill","unlinked");if(row)row.dataset.state="missing";ac.innerHTML='<button class="btn btn--primary btn-primary integ-btn" id="integ-byok-add3" type="button">Add key</button>';var a3=document.getElementById("integ-byok-add3");if(a3)a3.addEventListener("click",function(){var c=document.getElementById("byok-card");if(c)c.scrollIntoView({behavior:"smooth"});});}}
+
+function _init(){_initBrandIdentity();_initLinkList();_loadBrandProfile();_loadIntegrations();}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",_init,{once:true});}else{_init();}
+})();
+</script>
+
 </main>
 
 <script>
@@ -987,7 +1377,7 @@ function renderPrivacyList(state) {
 
 function refreshPageState(state) {
   if (!state) {
-    showHelp("settings-help", "Control panel offline. Set ENSEMBLE_SERVER_URL + DASHBOARD_TOKEN in localStorage.");
+    showHelp("settings-help", "Control panel offline. Set ENDENZA_SERVER_URL + DASHBOARD_TOKEN in localStorage.");
     renderPrivacyList(null);
     return;
   }
@@ -1022,9 +1412,9 @@ if (document.readyState === "loading") {
   <div class="site-footer__inner">
     <div class="site-footer__cols">
       <div class="site-footer__col site-footer__col--brand">
-        <a href="./" class="site-footer__brand-link" aria-label="Ensemble home">
+        <a href="./" class="site-footer__brand-link" aria-label="Endenza home">
           <img class="brand-mark site-footer__mark" src="./icon.svg" alt="" width="32" height="32" aria-hidden="true" />
-          <span class="brand site-footer__brand-name">Ensemble</span>
+          <span class="brand site-footer__brand-name">Endenza</span>
         </a>
         <p class="site-footer__tagline"><em>One conductor. Many performers.</em></p>
         <p class="site-footer__blurb">A creator-platform PWA where every page is a place &mdash; not a list of links.</p>
@@ -1063,7 +1453,7 @@ if (document.readyState === "loading") {
     </div>
 
     <div class="site-footer__bottom">
-      <p class="site-footer__copyright">&copy; 2026 Ensemble &middot; <span class="site-footer__version">v2.0</span></p>
+      <p class="site-footer__copyright">&copy; 2026 Endenza &middot; <span class="site-footer__version">v2.0</span></p>
       <p class="site-footer__meta">Auto-refreshes 3&times; daily.</p>
     </div>
   </div>
@@ -1210,8 +1600,45 @@ if (document.readyState === "loading") {
 }
 </style>
 <script nonce="__CSP_NONCE__">
+
+(function migrateEnsembleKeys() {
+  var _LS_KEYS = [
+    "ENSEMBLE_THEME", "ENSEMBLE_BG", "ENSEMBLE_BG_CUSTOM",
+    "ENSEMBLE_SERVER_URL", "ENSEMBLE_DASHBOARD_LAYOUT",
+    "ENSEMBLE_BYOK_LINKED", "ENSEMBLE_SHELF_HEIGHT_VH",
+    "ENSEMBLE_STUDIO_ROOM", "ENSEMBLE_STUDIO_CLAUDE_HISTORY",
+    "ENSEMBLE_STUDIO_CLAUDE_USAGE",
+    "ENSEMBLE_TERMINAL_LEFT_PX", "ENSEMBLE_TERMINAL_RIGHT_PX",
+    "ENSEMBLE_TERMINAL_COMPOSE_H", "ENSEMBLE_TERMINAL_TREE_H",
+    "ENSEMBLE_TERMINAL_LEFT_COLLAPSED", "ENSEMBLE_TERMINAL_RIGHT_COLLAPSED",
+    "ENSEMBLE_TERMINAL_ENTER_TO_SEND", "ENSEMBLE_TERMINAL_HISTORY_NAV",
+    "ENSEMBLE_TERMINAL_FONT_SIZE", "ENSEMBLE_TERMINAL_RIGHT_LAYOUT"
+  ];
+  try {
+    _LS_KEYS.forEach(function (oldKey) {
+      var newKey = oldKey.replace(/^ENSEMBLE_/, "ENDENZA_");
+      if (localStorage.getItem(newKey) === null) {
+        var v = localStorage.getItem(oldKey);
+        if (v !== null) localStorage.setItem(newKey, v);
+      }
+    });
+    // Dynamic prefix keys: ENSEMBLE_STICKY_*, ENSEMBLE_TERMINAL_PINNED_*
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k) continue;
+      if (k.indexOf("ENSEMBLE_STICKY_") === 0 || k.indexOf("ENSEMBLE_TERMINAL_PINNED_") === 0) {
+        var newDynKey = k.replace(/^ENSEMBLE_/, "ENDENZA_");
+        if (localStorage.getItem(newDynKey) === null) {
+          var dv = localStorage.getItem(k);
+          if (dv !== null) localStorage.setItem(newDynKey, dv);
+        }
+      }
+    }
+  } catch (e) {}
+})();
+
 const SERVER_URL = (function() {
-  const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
+  const stored = localStorage.getItem("ENDENZA_SERVER_URL");
   if (stored) return stored;
   return location.hostname === "localhost" || location.hostname === "127.0.0.1"
     ? "http://localhost:8080"
@@ -1246,13 +1673,6 @@ async function setConfig(field, value) {
 }
 
 function showHelp(id, msg) { const el = document.getElementById(id); if (el) el.textContent = msg; }
-
-function updateNavStatus(state) {
-  const el = document.getElementById("nav-status");
-  if (!el) return;
-  if (!state) { el.textContent = "offline"; return; }
-  el.textContent = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " · " + (state.mode || "?");
-}
 
 function updateSmokeBanner(state) {
   const banner = document.getElementById("smoke-banner");
@@ -1290,7 +1710,6 @@ async function refreshState() {
     window._isOwner = newOwner;
     applyOwnerMode();
   }
-  updateNavStatus(state);
   updateSmokeBanner(state);
   if (typeof refreshPageState === "function") refreshPageState(state);
 }
@@ -1322,8 +1741,63 @@ function applyOwnerMode() {
 }
 
 // ─── Theme picker (persisted, per-device) ───
-const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper"];
+// Trailing 3 entries (sunset_drive / mall_plaza / neo_city) are the
+// 2026-05-04 limited-edition vibe-coder color schemes. They MUST be
+// in this list — applyTheme below uses it to strip stale `theme-*`
+// classes on switch, and missing entries leave the previous theme's
+// CSS overlapping with the new one. (Kevin caught the live-preview
+// bug 2026-05-04: 'doesn't update right away.')
+const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper", "sunset_drive", "mall_plaza", "neo_city"];
 const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora", "scanlines", "topo", "vignette", "paper", "linen", "blueprint", "constellation", "marble", "custom"];
+
+const TERMINAL_FONTS = {
+  "system":          "",
+  "jetbrains-mono":  '"JetBrains Mono", monospace',
+  "fira-code":       '"Fira Code", monospace',
+  "source-code-pro": '"Source Code Pro", monospace',
+  "ibm-plex-mono":   '"IBM Plex Mono", monospace',
+  "inconsolata":     '"Inconsolata", monospace',
+  "space-mono":      '"Space Mono", monospace',
+  "roboto-mono":     '"Roboto Mono", monospace',
+};
+const TERMINAL_FONT_GFONTS = {
+  "fira-code":       "Fira+Code:wght@400;500;600",
+  "source-code-pro": "Source+Code+Pro:wght@400;500;600",
+  "ibm-plex-mono":   "IBM+Plex+Mono:wght@400;500;600",
+  "inconsolata":     "Inconsolata:wght@400;500;600;700",
+  "space-mono":      "Space+Mono:wght@400;700",
+  "roboto-mono":     "Roboto+Mono:wght@400;500;600;700",
+};
+
+function applyTerminalFont(key) {
+  const stack = TERMINAL_FONTS[key];
+  const page = document.querySelector(".terminal-page");
+  if (page) {
+    if (stack) {
+      page.style.setProperty("--terminal-mono", stack);
+    } else {
+      page.style.removeProperty("--terminal-mono");
+    }
+  }
+  const gf = TERMINAL_FONT_GFONTS[key];
+  const linkId = "terminal-font-gf";
+  let existing = document.getElementById(linkId);
+  if (gf) {
+    const href = "https://fonts.googleapis.com/css2?family=" + gf + "&display=swap";
+    if (existing) {
+      existing.href = href;
+    } else {
+      const link = document.createElement("link");
+      link.id = linkId;
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+    }
+  } else if (existing) {
+    existing.remove();
+  }
+}
+window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
   THEMES.forEach(t => document.body.classList.remove("theme-" + t));
@@ -1331,17 +1805,38 @@ function applyTheme(name) {
   document.querySelectorAll(".theme-swatch").forEach(el => {
     el.classList.toggle("active", el.dataset.theme === (name || "warm"));
   });
-  // Swap the brand mark + favicon to the per-theme variant.  Each theme's
-  // icon lives at ./icons/icon-<theme>.svg; the warm default stays at
-  // ./icon.svg for compatibility with the PWA manifest's cached install
-  // image.  See bin/dashgen/server/theme_icons.py for the design rules.
-  const theme = name || "warm";
-  const iconHref = (theme === "warm") ? "./icon.svg" : ("./icons/icon-" + theme + ".svg");
+  // Default logo NEVER changes (Kevin 2026-05-05: 'our default logo
+  // used on the website should also be our favicon set, this should
+  // ALWAYS be the case. Default logo, for favicons never changes').
+  //
+  // The canonical Threaded Trinity at `./icon.svg` is the project's
+  // single brand identity image. It serves as:
+  //   · the favicon (browser tab + bookmarks)
+  //   · the apple-touch-icon (iOS home-screen install)
+  //   · every in-page `.brand-mark` (homepage hero, nav slot, footer)
+  // None of these change with theme. Theme expressiveness lives in
+  // accent/background colors and the swatch picker — not in the
+  // brand-mark. Don't reintroduce a per-theme mark swap.
+  //
+  // The LE recolors in `dashgen/assets/le_brand_marks.py` remain
+  // available as baked data URIs for future collector affordances
+  // (e.g. downloadable variant, swatch-picker preview), but are NOT
+  // wired to replace the on-page mark or favicon.
   const fav = document.getElementById("favicon");
-  if (fav) fav.href = iconHref;
+  if (fav) fav.href = "./icon.svg";
   const apple = document.getElementById("apple-touch-icon");
-  if (apple) apple.href = iconHref;
-  document.querySelectorAll(".brand-mark").forEach(el => { el.src = iconHref; });
+  if (apple) apple.href = "./icon.svg";
+  document.querySelectorAll(".brand-mark").forEach(el => { el.src = "./icon.svg"; });
+  // Reference the LE dict so the module-load substitution doesn't get
+  // dead-code-eliminated by the minifier — keep the baked URIs in the
+  // bundle for future collector use (see comment block above).
+  const LE_BRAND_MARKS = {"sunset_drive": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_sunset_drive_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80b8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff006e%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b001c%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ffc880%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff5a3a%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b1a08%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%239a80ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233010a0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a0220%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_sunset_drive_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23cc2a30%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23aa0080%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%236020a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "mall_plaza": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_mall_plaza_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380e0ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300d4ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23002a40%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%236070ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233050ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23000840%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff00ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23400028%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_mall_plaza_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%230040a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%237010a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%234015a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "neo_city": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_neo_city_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f0%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff10f0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23500050%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23a8ff80%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2339ff14%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a3010%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380fff5%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300fff5%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23003040%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_neo_city_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23a06090%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%238060e0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%2320c0a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"};
+  void LE_BRAND_MARKS;
+  // Invalidate downstream caches that read CSS custom properties
+  // (component_renderers.colorFromToken memoizes per token; without
+  // this dispatch the cache would survive a theme switch with stale
+  // colors). Cheap event; no listeners outside the renderer today.
+  try { document.dispatchEvent(new CustomEvent("theme:applied", { detail: { name: name } })); } catch (e) {}
 }
 
 function applyBackground(name) {
@@ -1354,7 +1849,7 @@ function applyBackground(name) {
   // Falls back to solid if no upload yet (the swatch click handler also
   // intercepts to open the file picker first time the tile is clicked).
   if (name === "custom") {
-    const dataUrl = localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+    const dataUrl = localStorage.getItem("ENDENZA_BG_CUSTOM");
     if (dataUrl) {
       document.body.style.backgroundImage = `url("${dataUrl}")`;
     } else {
@@ -1367,8 +1862,27 @@ function applyBackground(name) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
-  const savedTheme = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
   applyTheme(savedTheme);
+  // Terminal-only appearance (per-page override). Stamped on <body>
+  // ASAP to avoid a FOUC where the warm-bg flashes before the
+  // black-grey terminal styles kick in. Default = "black-grey"; the
+  // user can flip to "follow-site" via the terminal settings popover.
+  // Only stamps when we're actually on /terminal.html.
+  if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
+    let termTheme = "black-grey";
+    try {
+      const v = localStorage.getItem("ENDENZA_TERMINAL_THEME");
+      if (v === "follow-site" || v === "black-grey") termTheme = v;
+    } catch (e) {}
+    document.body.setAttribute("data-terminal-theme", termTheme);
+    let termFont = "system";
+    try {
+      const f = localStorage.getItem("ENDENZA_TERMINAL_FONT");
+      if (f && TERMINAL_FONTS.hasOwnProperty(f)) termFont = f;
+    } catch (e) {}
+    applyTerminalFont(termFont);
+  }
   // Click + keyboard binding (Enter / Space). The swatches carry
   // role="button" + tabindex="0" so keyboard users can activate them.
   const activateOnKey = (handler) => (ev) => {
@@ -1380,7 +1894,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".theme-swatch").forEach(el => {
     const fire = () => {
       const t = el.dataset.theme;
-      localStorage.setItem("ENSEMBLE_THEME", t);
+      localStorage.setItem("ENDENZA_THEME", t);
       applyTheme(t);
     };
     el.addEventListener("click", fire);
@@ -1388,7 +1902,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Background load + bind
-  const savedBg = localStorage.getItem("ENSEMBLE_BG") || "solid";
+  const savedBg = localStorage.getItem("ENDENZA_BG") || "solid";
   applyBackground(savedBg);
   document.querySelectorAll(".bg-swatch").forEach(el => {
     const fire = () => {
@@ -1397,7 +1911,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // user already has a saved upload, clicking re-applies it without
       // prompting (so they can switch back to it from another bg).
       if (b === "custom") {
-        const hasSaved = !!localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+        const hasSaved = !!localStorage.getItem("ENDENZA_BG_CUSTOM");
         if (!hasSaved || el.classList.contains("active")) {
           // Open file picker (no saved upload yet, OR custom is already
           // active and the user is clicking to replace it).
@@ -1406,7 +1920,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
       }
-      localStorage.setItem("ENSEMBLE_BG", b);
+      localStorage.setItem("ENDENZA_BG", b);
       applyBackground(b);
     };
     el.addEventListener("click", fire);
@@ -1429,8 +1943,8 @@ document.addEventListener("DOMContentLoaded", () => {
       reader.onload = (ev) => {
         const dataUrl = ev.target && ev.target.result;
         try {
-          localStorage.setItem("ENSEMBLE_BG_CUSTOM", dataUrl);
-          localStorage.setItem("ENSEMBLE_BG", "custom");
+          localStorage.setItem("ENDENZA_BG_CUSTOM", dataUrl);
+          localStorage.setItem("ENDENZA_BG", "custom");
           applyBackground("custom");
         } catch (err) {
           alert("Couldn't save wallpaper to local storage (it may be too large). Try a smaller image.");
@@ -1442,8 +1956,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Terminal font load + bind
+  const savedFont = localStorage.getItem("ENDENZA_TERMINAL_FONT") || "system";
+  document.querySelectorAll(".font-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.font === savedFont);
+    const fire = () => {
+      const f = el.dataset.font;
+      localStorage.setItem("ENDENZA_TERMINAL_FONT", f);
+      document.querySelectorAll(".font-swatch").forEach(s => s.classList.toggle("active", s.dataset.font === f));
+      applyTerminalFont(f);
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
+  });
+
   // Owner mode initial state — pessimistic until state fetch confirms
-  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
+  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENDENZA_SERVER_URL"));
   applyOwnerMode();
 
   refreshState();
@@ -1590,9 +2118,20 @@ async function submitFirstRunModal(ev) {
   const submitBtn = document.getElementById("first-run-submit");
   const building = (document.getElementById("frq-building").value || "").trim();
   const vibe = (document.getElementById("frq-vibe").value || "").trim();
-  const problem = (document.getElementById("frq-problem").value || "").trim();
-  if (!building || !vibe || !problem) {
-    if (err) err.textContent = "Please answer all three questions.";
+  // Train 2 (2026-05-04): "problem" was replaced by "color_scheme" — a
+  // chip-driven picker. The hidden input's id is frq-color-scheme; the
+  // server still accepts the legacy "problem" key for back-compat.
+  const colorScheme = (document.getElementById("frq-color-scheme").value || "").trim();
+  if (!building) {
+    if (err) err.textContent = "Tell us what you’re building.";
+    return;
+  }
+  if (!vibe) {
+    if (err) err.textContent = "Pick a vibe to set the room’s mood.";
+    return;
+  }
+  if (!colorScheme) {
+    if (err) err.textContent = "Pick a color scheme.";
     return;
   }
   var tosCheck = document.getElementById("first-run-tos-check");
@@ -1606,7 +2145,15 @@ async function submitFirstRunModal(ev) {
     const r = await fetch("/studio/generate-from-answers", {
       method: "POST",
       headers: authHeaders(),
-      body: JSON.stringify({ building: building, vibe: vibe, problem: problem })
+      body: JSON.stringify({
+        building: building,
+        vibe: vibe,
+        color_scheme: colorScheme,
+        // Back-compat: server may still expect `problem`. Send it as
+        // the color_scheme slug so older deploys interpret the answer
+        // sensibly until they pick up the schema update.
+        problem: colorScheme,
+      })
     });
     let body = {};
     try { body = await r.json(); } catch (e) {}
@@ -1664,6 +2211,36 @@ function ctaGenerateClicked() {
   openFirstRunModal();
 }
 
+// Train 2 (2026-05-04): chip-group wiring. Single-select radio
+// behavior driven by aria-checked + a hidden input that mirrors the
+// chosen slug. Reused on the Studio "Generate from GitHub" panel.
+function wireChipGroup(groupEl, hiddenInput) {
+  if (!groupEl || !hiddenInput) return;
+  const chips = groupEl.querySelectorAll("[data-chip-value]");
+  function selectChip(target) {
+    chips.forEach(function (c) {
+      const isSel = c === target;
+      c.setAttribute("aria-checked", isSel ? "true" : "false");
+    });
+    hiddenInput.value = target.getAttribute("data-chip-value") || "";
+    hiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () { selectChip(chip); });
+    chip.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft" &&
+          e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      e.preventDefault();
+      const list = Array.prototype.slice.call(chips);
+      const idx = list.indexOf(chip);
+      const dir = (e.key === "ArrowRight" || e.key === "ArrowDown") ? 1 : -1;
+      const next = list[(idx + dir + list.length) % list.length];
+      next.focus();
+      selectChip(next);
+    });
+  });
+}
+
 function wireFirstRunModal() {
   const overlay = document.getElementById("first-run-overlay");
   if (!overlay) return;
@@ -1675,6 +2252,14 @@ function wireFirstRunModal() {
   if (cancelBtn) cancelBtn.addEventListener("click", closeFirstRunModal);
   if (form) form.addEventListener("submit", submitFirstRunModal);
   if (cta) cta.addEventListener("click", ctaGenerateClicked);
+  // Train 2: wire the two chip groups. Each group's selected slug is
+  // mirrored to a hidden input read by submitFirstRunModal.
+  const vibeGroup = overlay.querySelector('[data-chip-group-name="vibe"]');
+  const vibeInput = document.getElementById("frq-vibe");
+  wireChipGroup(vibeGroup, vibeInput);
+  const colorGroup = overlay.querySelector('[data-chip-group-name="color_scheme"]');
+  const colorInput = document.getElementById("frq-color-scheme");
+  wireChipGroup(colorGroup, colorInput);
   // Stamp 2 / warp:c (2026-04-29): ToS gate. Generate button stays
   // disabled until the user ticks the agreement checkbox.
   var tosCheck = document.getElementById("first-run-tos-check");
@@ -1742,7 +2327,7 @@ function wireServerUrlBanner() {
   try {
     const host = location.hostname;
     if (host === "localhost" || host === "127.0.0.1") return;
-    if (localStorage.getItem("ENSEMBLE_SERVER_URL")) return;
+    if (localStorage.getItem("ENDENZA_SERVER_URL")) return;
     if (localStorage.getItem(SERVER_URL_BANNER_DISMISSED_KEY) === "1") return;
     // /pair.html already shows the form — banner would be redundant.
     if (location.pathname.endsWith("/pair.html")) return;

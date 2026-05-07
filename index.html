@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — A vibe coder's playground</title>
-<meta name="description" content="Linktree is alone. Ensemble is together. A vibe coder's playground combining a personal Studio, a navigable multiplayer pixel world, setup sharing, theme store, and creator marketplace — powered by Claude." />
+<title>Endenza — A vibe coder's playground</title>
+<meta name="description" content="Linktree is alone. Endenza is together. A vibe coder's playground combining a personal Studio, a navigable multiplayer pixel world, setup sharing, theme store, and creator marketplace — powered by Claude." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -15,7 +15,7 @@
 <link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<meta name="apple-mobile-web-app-title" content="Ensemble" />
+<meta name="apple-mobile-web-app-title" content="Endenza" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -69,8 +69,8 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENSEMBLE_THEME") || "warm";
-      var b = localStorage.getItem("ENSEMBLE_BG") || "solid";
+      var t = localStorage.getItem("ENDENZA_THEME") || "warm";
+      var b = localStorage.getItem("ENDENZA_BG") || "solid";
       if (t && t !== "warm") {
         document.documentElement.classList.add("theme-" + t);
       }
@@ -95,7 +95,7 @@
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
     <p class="cookie-banner__msg">
-      <strong>Ensemble</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
+      <strong>Endenza</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
     </p>
     <div class="cookie-banner__actions">
       <a class="cookie-banner__link" href="/legal/cookies.html">Read policy</a>
@@ -124,21 +124,20 @@
 </script>
 <nav class="topnav" id="topnav" data-drawer-state="closed">
   <div class="wrap">
-    <a class="brand brand--icon-only" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="Ensemble" width="28" height="28" /></a>
     <button class="nav__toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="topnav-list" aria-label="Open navigation menu">
       <span class="nav__toggle-bar" aria-hidden="true"></span>
       <span class="nav__toggle-bar" aria-hidden="true"></span>
       <span class="nav__toggle-bar" aria-hidden="true"></span>
     </button>
     <ul id="topnav-list">
-      <li><a class="active" aria-current="page" href="./">Ensemble</a></li>
+      <li><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
+      <li><a class="active" aria-current="page" href="./">Endenza</a></li>
       <li><a href="./studio.html">Studio</a></li>
       <li><a href="./dashboard.html">Dashboard</a></li>
       <li><a href="./terminal.html">Terminal</a></li>
-      <li><a href="./docs.html">Docs</a></li>
+      <li><a href="./docs.html">About</a></li>
       <li><a href="./settings.html">Settings</a></li>
     </ul>
-    <span class="nav-status" id="nav-status">...</span>
   </div>
 </nav>
 
@@ -203,10 +202,81 @@
   <div class="wrap">
     <div class="ensemble-showcase__head">
       <img class="brand-mark ensemble-showcase__logo" src="./icon.svg" alt="" width="128" height="128" aria-hidden="true" />
-      <p class="eyebrow">ENSEMBLE<sup class="tm-mark">&trade;</sup></p>
+      <p class="eyebrow">ENDENZA<sup class="tm-mark">&trade;</sup></p>
       <h1>The work <em>everyone</em> created together.</h1>
-      <p class="ensemble-showcase__sub">Welcome to the Ensemble. Browse what makers are sharing — click a canvas to jump in.</p>
+      <p class="ensemble-showcase__sub">Welcome to Endenza. Browse what makers are sharing — click a canvas to jump in.</p>
     </div>
+
+    <div class="ensemble-quicklinks" role="navigation" aria-label="Jump in">
+      <a class="ensemble-quicklink ensemble-quicklink--canvas" href="./studio.html">
+        <span class="ensemble-quicklink__eyebrow">Canvas</span>
+        <h3 class="ensemble-quicklink__title">Your workshop.</h3>
+        <p class="ensemble-quicklink__desc">Build the rooms visitors walk through. Drag sprites, wire interactions, compose your space.</p>
+        <span class="ensemble-quicklink__cta">Open Studio &rarr;</span>
+      </a>
+      <a class="ensemble-quicklink ensemble-quicklink--cadenza" href="./studio.html" id="quicklink-cadenza">
+        <span class="ensemble-quicklink__eyebrow">Cadenza</span>
+        <h3 class="ensemble-quicklink__title">Step inside.</h3>
+        <p class="ensemble-quicklink__desc">Each published canvas becomes a walkable home. Visit a creator&rsquo;s space as a sprite.</p>
+        <span class="ensemble-quicklink__cta">Browse Cadenzas &rarr;</span>
+      </a>
+      <a class="ensemble-quicklink ensemble-quicklink--ensemble" href="./map.html">
+        <span class="ensemble-quicklink__eyebrow">Ensemble</span>
+        <h3 class="ensemble-quicklink__title">Walk the city.</h3>
+        <p class="ensemble-quicklink__desc">The City of Endenza &mdash; a walkable neighborhood of every creator. WASD to move, X to enter a home.</p>
+        <span class="ensemble-quicklink__cta">Enter the Ensemble &rarr;</span>
+      </a>
+    </div>
+
+    <div class="ensemble-showcase__stumble-row">
+      <button type="button"
+              class="ensemble-showcase__stumble"
+              id="ensemble-stumble-btn"
+              aria-label="Stumble into a random canvas">
+        <span class="ensemble-showcase__stumble-icon" aria-hidden="true">&#127922;</span>
+        <span class="ensemble-showcase__stumble-label">Stumble</span>
+        <span class="ensemble-showcase__stumble-dots" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <div class="onboarding-strip" id="onboarding-strip" hidden aria-label="Get started with Endenza">
+  <p class="onboarding-strip__eyebrow">What you'll do</p>
+  <ol class="onboarding-strip__steps">
+    <li class="onboarding-strip__step">
+      <a class="onboarding-strip__tile" href="./pair.html">
+        <span class="onboarding-strip__num" aria-hidden="true">1</span>
+        <span class="onboarding-strip__icon" aria-hidden="true">&#128279;</span>
+        <span class="onboarding-strip__body">
+          <strong class="onboarding-strip__title">Pair this device</strong>
+          <span class="onboarding-strip__sub">Connect your Mac so the Studio runs live.</span>
+        </span>
+        <span class="onboarding-strip__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </li>
+    <li class="onboarding-strip__step">
+      <a class="onboarding-strip__tile" href="./character-creator.html">
+        <span class="onboarding-strip__num" aria-hidden="true">2</span>
+        <span class="onboarding-strip__icon" aria-hidden="true">&#127744;</span>
+        <span class="onboarding-strip__body">
+          <strong class="onboarding-strip__title">Make a character</strong>
+          <span class="onboarding-strip__sub">Design the sprite that walks your canvases.</span>
+        </span>
+        <span class="onboarding-strip__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </li>
+    <li class="onboarding-strip__step">
+      <a class="onboarding-strip__tile" href="./studio.html">
+        <span class="onboarding-strip__num" aria-hidden="true">3</span>
+        <span class="onboarding-strip__icon" aria-hidden="true">&#127968;</span>
+        <span class="onboarding-strip__body">
+          <strong class="onboarding-strip__title">Decorate your Studio</strong>
+          <span class="onboarding-strip__sub">Place sprites, wire interactions, publish.</span>
+        </span>
+        <span class="onboarding-strip__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </li>
+  </ol>
+</div>
 
     <div class="ensemble-showcase__filters" role="tablist" aria-label="Sort canvases">
       <button type="button" class="ensemble-showcase__filter" data-filter="featured" aria-pressed="true" role="tab">Featured</button>
@@ -223,18 +293,28 @@
       <div class="ensemble-skeleton-card"><div class="ensemble-skeleton"></div><div class="ensemble-skeleton ensemble-skeleton--line"></div><div class="ensemble-skeleton ensemble-skeleton--short"></div></div>
     </div>
 
-    <div class="ensemble-showcase__grid" id="ensemble-canvas-grid" data-next-cursor=""></div>
+    <div class="ensemble-showcase__grid" id="ensemble-canvas-grid" data-next-cursor=""><a class="canvas-card" href="./canvas/cnv_de000000000e.html" data-canvas-id="cnv_de000000000e" data-theme="warm" style="--card-grad-top:#e8a050;--card-grad-mid:#c2711f;--card-grad-bot:#7a3d0c;" aria-label="Visit canvas: Corner Shop"><div class="canvas-card__thumb"></div><div class="canvas-card__body"><h3 class="canvas-card__title">Corner Shop</h3><span class="canvas-card__handle">@endenza_demo</span><p class="canvas-card__desc">A neighbourhood staple — shelves of curious things, a counter, and a shopkeeper who always has time for a chat.</p><span class="canvas-card__visit" aria-hidden="true">Visit &rarr;</span></div></a>
+<a class="canvas-card" href="./canvas/cnv_de000000000d.html" data-canvas-id="cnv_de000000000d" data-theme="forest" style="--card-grad-top:#4ade80;--card-grad-mid:#16a34a;--card-grad-bot:#082616;" aria-label="Visit canvas: Cottage Garden"><div class="canvas-card__thumb"></div><div class="canvas-card__body"><h3 class="canvas-card__title">Cottage Garden</h3><span class="canvas-card__handle">@endenza_demo</span><p class="canvas-card__desc">A sunlit patch behind the fence — plants everywhere and a bench to rest on between the rows.</p><span class="canvas-card__visit" aria-hidden="true">Visit &rarr;</span></div></a>
+<a class="canvas-card" href="./canvas/cnv_de000000000b.html" data-canvas-id="cnv_de000000000b" data-theme="warm" style="--card-grad-top:#e8a050;--card-grad-mid:#c2711f;--card-grad-bot:#7a3d0c;" aria-label="Visit canvas: Cozy Cabin"><div class="canvas-card__thumb"></div><div class="canvas-card__body"><h3 class="canvas-card__title">Cozy Cabin</h3><span class="canvas-card__handle">@endenza_demo</span><p class="canvas-card__desc">A warm corner where the lamp is always on — a bookshelf holds a few worn favorites and a reading chair waits by the window.</p><span class="canvas-card__visit" aria-hidden="true">Visit &rarr;</span></div></a>
+<a class="canvas-card" href="./canvas/cnv_de000000000a.html" data-canvas-id="cnv_de000000000a" data-theme="warm" style="--card-grad-top:#e8a050;--card-grad-mid:#c2711f;--card-grad-bot:#7a3d0c;" aria-label="Visit canvas: Welcome to Endenza"><div class="canvas-card__thumb"></div><div class="canvas-card__body"><h3 class="canvas-card__title">Welcome to Endenza</h3><span class="canvas-card__handle">@endenza</span><p class="canvas-card__desc">A cozy demo room — walk around, interact with props, and see what a Cadenza feels like.</p><span class="canvas-card__visit" aria-hidden="true">Visit &rarr;</span></div></a>
+<a class="canvas-card" href="./canvas/cnv_de0000000010.html" data-canvas-id="cnv_de0000000010" data-theme="aurora" style="--card-grad-top:#c4b5fd;--card-grad-mid:#8b5cf6;--card-grad-bot:#2a0f5c;" aria-label="Visit canvas: Launch Party"><div class="canvas-card__thumb"></div><div class="canvas-card__body"><h3 class="canvas-card__title">Launch Party</h3><span class="canvas-card__handle">@endenza_demo</span><p class="canvas-card__desc">Endenza ships — arcade cabinets, neon lights, and the whole crew gathered for the first public build.</p><span class="canvas-card__visit" aria-hidden="true">Visit &rarr;</span></div></a>
+<a class="canvas-card" href="./canvas/cnv_de000000000c.html" data-canvas-id="cnv_de000000000c" data-theme="slate" style="--card-grad-top:#60a5fa;--card-grad-mid:#2563eb;--card-grad-bot:#172554;" aria-label="Visit canvas: Modern Studio"><div class="canvas-card__thumb"></div><div class="canvas-card__body"><h3 class="canvas-card__title">Modern Studio</h3><span class="canvas-card__handle">@endenza_demo</span><p class="canvas-card__desc">A sleek workspace built for focus — standing desk, dual monitor, and enough plants to keep the air sharp.</p><span class="canvas-card__visit" aria-hidden="true">Visit &rarr;</span></div></a>
+<a class="canvas-card" href="./canvas/cnv_de000000000f.html" data-canvas-id="cnv_de000000000f" data-theme="midnight" style="--card-grad-top:#818cf8;--card-grad-mid:#4f46e5;--card-grad-bot:#1e1b4b;" aria-label="Visit canvas: Rooftop Tea"><div class="canvas-card__thumb"></div><div class="canvas-card__body"><h3 class="canvas-card__title">Rooftop Tea</h3><span class="canvas-card__handle">@endenza_demo</span><p class="canvas-card__desc">High above the city lights — a low table, two chairs, a lantern, and the kind of quiet that only rooftops have.</p><span class="canvas-card__visit" aria-hidden="true">Visit &rarr;</span></div></a>
+<a class="canvas-card" href="./canvas/cnv_f04c811bd153.html" data-canvas-id="cnv_f04c811bd153" data-theme="warm" style="--card-grad-top:#e8a050;--card-grad-mid:#c2711f;--card-grad-bot:#7a3d0c;" aria-label="Visit canvas: alice&#x27;s Studio"><div class="canvas-card__thumb"></div><div class="canvas-card__body"><h3 class="canvas-card__title">alice&#x27;s Studio</h3><p class="canvas-card__desc">A library room for writer. Edit it to make it yours.</p><span class="canvas-card__visit" aria-hidden="true">Visit &rarr;</span></div></a>
+<a class="canvas-card" href="./canvas/cnv_0d118be2a798.html" data-canvas-id="cnv_0d118be2a798" data-theme="warm" style="--card-grad-top:#e8a050;--card-grad-mid:#c2711f;--card-grad-bot:#7a3d0c;" aria-label="Visit canvas: alice&#x27;s Studio"><div class="canvas-card__thumb"></div><div class="canvas-card__body"><h3 class="canvas-card__title">alice&#x27;s Studio</h3><p class="canvas-card__desc">A library room for writer. Edit it to make it yours.</p><span class="canvas-card__visit" aria-hidden="true">Visit &rarr;</span></div></a>
+<a class="canvas-card" href="./canvas/cnv_09a6541687ec.html" data-canvas-id="cnv_09a6541687ec" data-theme="warm" style="--card-grad-top:#e8a050;--card-grad-mid:#c2711f;--card-grad-bot:#7a3d0c;" aria-label="Visit canvas: alice&#x27;s Studio"><div class="canvas-card__thumb"></div><div class="canvas-card__body"><h3 class="canvas-card__title">alice&#x27;s Studio</h3><p class="canvas-card__desc">A library room for writer. Edit it to make it yours.</p><span class="canvas-card__visit" aria-hidden="true">Visit &rarr;</span></div></a></div>
 
     <div class="ensemble-showcase__loadmore-row">
       <button type="button" class="ensemble-showcase__loadmore" id="ensemble-loadmore" hidden>Load more</button>
     </div>
     <p class="ensemble-showcase__status" id="ensemble-grid-status" role="status" aria-live="polite"></p>
 
-    <div class="ensemble-showcase__empty" id="ensemble-empty" >
-      <span class="ensemble-showcase__empty-icon" aria-hidden="true">&#10086;</span>
-      <h2>The Ensemble is just getting started.</h2>
-      <p>Be one of the first to share your work. Build a Studio, publish a canvas, and it lands here for everyone to wander into.</p>
-      <a class="btn btn--primary btn-primary" href="./studio.html">Get started &rarr;</a>
+    <div class="ensemble-showcase__empty" id="ensemble-empty" hidden>
+      <span class="ensemble-showcase__empty-icon" aria-hidden="true">&#8963;</span>
+      <h2>Stillness, before the rooms.</h2>
+      <p>Every canvas here is a walkable place &mdash; a pixel room you can step inside as a sprite, click the furniture, hear the music, and leave a note on the wall. No canvases have been published yet. Be the first to build one, or stumble into a hand-crafted demo to see what&rsquo;s waiting.</p>
+      <a class="btn btn--primary btn-primary ensemble-showcase__empty-stumble-cta" href="./canvas/demo-endenza-welcome.html">Stumble into a demo canvas &rarr;</a>
+      <a class="ensemble-showcase__empty-make-link" href="./character-creator.html">Make your own canvas &rarr;</a>
     </div>
 
     <div class="ensemble-showcase__error" id="ensemble-error" hidden role="alert">
@@ -259,8 +339,8 @@
       </div>
       <div class="ensemble-pitch__card">
         <p class="eyebrow">A CITY</p>
-        <h2>The Ensemble<br /><em>is everyone.</em></h2>
-        <p>A navigable multiplayer pixel world of creator showcases. Walk into anyone&rsquo;s canvas as a sprite. Leave notes pinned to others' work. Browse the feed. Buy and sell sprites, themes, and setups in the marketplace. <strong>A list of links is alone. Ensemble is a place where every page is alongside every other.</strong></p>
+        <h2>Endenza<br /><em>is everyone.</em></h2>
+        <p>A navigable multiplayer pixel world of creator showcases. Walk into anyone&rsquo;s canvas as a sprite. Leave notes pinned to others' work. Browse the feed. Buy and sell sprites, themes, and setups in the marketplace. <strong>A list of links is alone. Endenza is a place where every page is alongside every other.</strong></p>
         <span class="ensemble-pitch__link ensemble-pitch__link--soon">Multiplayer city: v1.5 (months 13&ndash;15)</span>
       </div>
       <div class="ensemble-pitch__card">
@@ -282,7 +362,7 @@
       <li><strong>v1.0 &middot; months 0&ndash;6</strong><span>Repo-to-Studio onboarding &middot; click-to-launch arcades &middot; Claude in edit mode</span></li>
       <li><strong>v1.1 &middot; months 7&ndash;9</strong><span>Setup sharing via MD/GitHub &mdash; <em>dotfiles for Claude</em></span></li>
       <li><strong>v1.2 &middot; months 10&ndash;12</strong><span>Free theme store with sort + filter</span></li>
-      <li><strong>v1.5 &middot; months 13&ndash;15</strong><span>Composable connected canvases + the zoom toggle &mdash; <em>one canvas, two views: walk your sprite in your canvas, zoom out for the whole Ensemble city</em></span></li>
+      <li><strong>v1.5 &middot; months 13&ndash;15</strong><span>Composable connected canvases + the zoom toggle &mdash; <em>one canvas, two views: walk your sprite in your canvas, zoom out for the whole Endenza city</em></span></li>
       <li><strong>v1.6 &middot; months 16&ndash;18</strong><span>Live presence &middot; ghost cursors &middot; pinned notes</span></li>
       <li><strong>v1.7 &middot; months 19&ndash;21</strong><span>Generative living canvases &mdash; <em>Claude composes a fresh canvas overnight</em></span></li>
       <li><strong>v1.8 &middot; months 22&ndash;24</strong><span>Programmable creator-bots &middot; your Studio&rsquo;s attendant</span></li>
@@ -388,7 +468,7 @@
 <section class="ensemble-wall" id="ensemble-wall">
   <div class="wrap">
     <p class="eyebrow">COMMUNITY WALL</p>
-    <h2>What the <em>ensemble</em> is making</h2>
+    <h2>What the <em>community</em> is making</h2>
     <p class="lead">Read-only preview. v1.0 closed beta unlocks posting + reactions.</p>
 
     <ul class="ensemble-wall__feed">
@@ -492,20 +572,26 @@
       <button type="button" class="first-run-close modal__close" id="first-run-close" aria-label="Close">&times;</button>
     </div>
     <div class="first-run-body modal__body">
-      <p class="first-run-lead">Three questions. Claude builds your starting Studio from your answers.</p>
+      <p class="first-run-lead">Tell us a bit about your room. Claude does the rest.</p>
       <form class="first-run-form" id="first-run-form" novalidate>
         <label class="first-run-field">
           <span class="first-run-q">What are you building?</span>
           <textarea id="frq-building" name="building" rows="2" placeholder="a creator-platform PWA for vibe coders" required></textarea>
         </label>
-        <label class="first-run-field">
-          <span class="first-run-q">What&rsquo;s the vibe / your taste?</span>
-          <textarea id="frq-vibe" name="vibe" rows="2" placeholder="warm, inked, sacred-geometry, Apple-quality" required></textarea>
-        </label>
-        <label class="first-run-field">
-          <span class="first-run-q">What hot-mess problem are you solving?</span>
-          <textarea id="frq-problem" name="problem" rows="2" placeholder="a Linktree page is alone &mdash; community + tools live elsewhere" required></textarea>
-        </label>
+        <fieldset class="first-run-field first-run-field--chips">
+          <legend class="first-run-q">Pick a vibe.</legend>
+          <div class="first-run-chip-group" role="radiogroup" aria-label="Vibe" data-chip-group-name="vibe">
+            <button type="button" class="first-run-chip" data-chip-group="vibe" data-chip-value="cozy" role="radio" aria-checked="false" aria-label="Cozy: warm light, soft furniture, lived-in"><span class="first-run-chip__label">Cozy</span><span class="first-run-chip__helper">warm light, soft furniture, lived-in</span></button><button type="button" class="first-run-chip" data-chip-group="vibe" data-chip-value="studio" role="radio" aria-checked="false" aria-label="Studio: sleek, focused, minimal — for makers"><span class="first-run-chip__label">Studio</span><span class="first-run-chip__helper">sleek, focused, minimal — for makers</span></button><button type="button" class="first-run-chip" data-chip-group="vibe" data-chip-value="shop" role="radio" aria-checked="false" aria-label="Shop: cozy commerce — counter, shelves, plants"><span class="first-run-chip__label">Shop</span><span class="first-run-chip__helper">cozy commerce — counter, shelves, plants</span></button><button type="button" class="first-run-chip" data-chip-group="vibe" data-chip-value="lounge" role="radio" aria-checked="false" aria-label="Lounge: low couches, music, slow evening"><span class="first-run-chip__label">Lounge</span><span class="first-run-chip__helper">low couches, music, slow evening</span></button><button type="button" class="first-run-chip" data-chip-group="vibe" data-chip-value="arcade" role="radio" aria-checked="false" aria-label="Arcade: bright, playful, cabinets and screens"><span class="first-run-chip__label">Arcade</span><span class="first-run-chip__helper">bright, playful, cabinets and screens</span></button>
+          </div>
+          <input type="hidden" id="frq-vibe" name="vibe" value="" />
+        </fieldset>
+        <fieldset class="first-run-field first-run-field--chips">
+          <legend class="first-run-q">Pick a color scheme.</legend>
+          <div class="first-run-chip-group first-run-chip-group--color" role="radiogroup" aria-label="Color scheme" data-chip-group-name="color_scheme">
+            <button type="button" class="first-run-chip first-run-chip--color" data-chip-group="color_scheme" data-chip-value="warm" role="radio" aria-checked="false" aria-label="Warm color scheme"><span class="first-run-chip__swatch" aria-hidden="true" style="background:linear-gradient(135deg,#e8a87c 0%,#c38d9e 100%)"></span><span class="first-run-chip__label">Warm</span></button><button type="button" class="first-run-chip first-run-chip--color" data-chip-group="color_scheme" data-chip-value="cool" role="radio" aria-checked="false" aria-label="Cool color scheme"><span class="first-run-chip__swatch" aria-hidden="true" style="background:linear-gradient(135deg,#7fb7c1 0%,#4f6d8a 100%)"></span><span class="first-run-chip__label">Cool</span></button><button type="button" class="first-run-chip first-run-chip--color" data-chip-group="color_scheme" data-chip-value="forest" role="radio" aria-checked="false" aria-label="Forest color scheme"><span class="first-run-chip__swatch" aria-hidden="true" style="background:linear-gradient(135deg,#6b8e4e 0%,#2f4d2e 100%)"></span><span class="first-run-chip__label">Forest</span></button><button type="button" class="first-run-chip first-run-chip--color" data-chip-group="color_scheme" data-chip-value="midnight" role="radio" aria-checked="false" aria-label="Midnight color scheme"><span class="first-run-chip__swatch" aria-hidden="true" style="background:linear-gradient(135deg,#3a3d5b 0%,#0e1224 100%)"></span><span class="first-run-chip__label">Midnight</span></button><button type="button" class="first-run-chip first-run-chip--color" data-chip-group="color_scheme" data-chip-value="amber" role="radio" aria-checked="false" aria-label="Amber color scheme"><span class="first-run-chip__swatch" aria-hidden="true" style="background:linear-gradient(135deg,#d59b3b 0%,#7a4a1a 100%)"></span><span class="first-run-chip__label">Amber</span></button><button type="button" class="first-run-chip first-run-chip--color" data-chip-group="color_scheme" data-chip-value="aurora" role="radio" aria-checked="false" aria-label="Aurora color scheme"><span class="first-run-chip__swatch" aria-hidden="true" style="background:linear-gradient(135deg,#9b6cd2 0%,#3ec5a8 100%)"></span><span class="first-run-chip__label">Aurora</span></button>
+          </div>
+          <input type="hidden" id="frq-color-scheme" name="color_scheme" value="" />
+        </fieldset>
         <label class="first-run-tos">
           <input type="checkbox" id="first-run-tos-check" required />
           <span>I agree to the <a href="/legal/terms.html" target="_blank" rel="noopener">Terms of Service</a> and have read the <a href="/legal/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
@@ -800,6 +886,77 @@
 }
 .first-run-step--byok.is-linked .first-run-step__input,
 .first-run-step--byok.is-linked .first-run-step__actions { display: none; }
+
+/* Train 2 (2026-05-04): chip pickers replace freeform vibe + problem
+   textareas. Same chip primitive is reused on the Studio "Generate
+   from GitHub" panel. */
+.first-run-field--chips {
+  border: 0; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.first-run-field--chips legend {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--ink); letter-spacing: -0.005em;
+  margin-bottom: 2px; padding: 0;
+}
+.first-run-chip-group {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.first-run-chip {
+  appearance: none; cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--rule); border-radius: 999px;
+  background: var(--bg); color: var(--ink-2);
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  letter-spacing: -0.003em;
+  transition:
+    border-color 180ms var(--ease),
+    background 180ms var(--ease),
+    color 180ms var(--ease),
+    transform 180ms var(--ease),
+    box-shadow 180ms var(--ease);
+}
+.first-run-chip:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+.first-run-chip:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--accent-soft, rgba(184,117,60,0.18));
+  border-color: var(--accent);
+}
+.first-run-chip[aria-checked="true"] {
+  background: var(--accent-soft, rgba(184,117,60,0.12));
+  border-color: var(--accent);
+  color: var(--ink);
+}
+.first-run-chip[aria-checked="true"] .first-run-chip__label {
+  color: var(--accent);
+  font-weight: 600;
+}
+.first-run-chip__label { line-height: 1.2; }
+.first-run-chip__helper {
+  font-size: 12px; font-weight: 400;
+  color: var(--ink-3, var(--ink-2));
+  line-height: 1.2;
+}
+.first-run-chip[aria-checked="true"] .first-run-chip__helper {
+  color: var(--ink-2);
+}
+/* Color-scheme chip: square swatch + label, no helper. */
+.first-run-chip--color { padding: 6px 12px 6px 6px; gap: 8px; }
+.first-run-chip__swatch {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.08);
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+}
+.first-run-chip-group--color .first-run-chip__label {
+  font-size: 13px; font-weight: 500;
+}
 </style><style>.ensemble-featured-carousel {
   padding: 60px 0;
   overflow: hidden;
@@ -1305,11 +1462,7 @@
 }
 </style><style> /* Collective showcase — the gallery wall */
 .ensemble-showcase {
-  /* 2026-04-30: trimmed top padding from clamp(48,8vw,96) to
-     clamp(20,3vw,40) per Kevin — gap between topnav and the venn
-     mark felt too large. Bottom padding stays for breathing room
-     between hero and the canvas grid. */
-  padding: clamp(20px, 3vw, 40px) 0 clamp(40px, 6vw, 64px);
+  padding: clamp(8px, 1.5vw, 16px) 0 clamp(32px, 4vw, 48px);
 }
 
 /* Hero composition — 2026-04-30 night beauty pass per Kevin.
@@ -1318,17 +1471,17 @@
    is HUGE serif italic. Symmetric vertical rhythm; the venn-mark
    and the wordmark form a unit. */
 .ensemble-showcase__head {
-  margin: 0 auto clamp(40px, 5vw, 64px);
+  margin: 0 auto clamp(20px, 3vw, 32px);
   text-align: center;
   max-width: 64rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(20px, 2.5vw, 32px);
+  gap: clamp(12px, 2vw, 20px);
 }
 .ensemble-showcase__logo {
-  width: clamp(140px, 18vw, 200px);
-  height: clamp(140px, 18vw, 200px);
+  width: clamp(100px, 14vw, 140px);
+  height: clamp(100px, 14vw, 140px);
   display: block;
   /* Subtle drift on hover — the venn marks feel alive without being noisy */
   transition: transform 600ms cubic-bezier(0.2, 0.8, 0.3, 1);
@@ -1394,6 +1547,55 @@
     transform: none;
   }
 }
+
+/* Quick links — three action cards: Canvas / Cadenza / Ensemble */
+.ensemble-quicklinks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 2vw, 20px);
+  margin: 0 auto clamp(32px, 4vw, 48px);
+  max-width: 64rem;
+}
+@media (max-width: 720px) {
+  .ensemble-quicklinks { grid-template-columns: 1fr; }
+}
+.ensemble-quicklink {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 12px;
+  border: 1px solid var(--rule);
+  background: var(--bg-raised);
+  text-decoration: none; color: var(--ink);
+  transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease;
+}
+.ensemble-quicklink:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+.ensemble-quicklink__eyebrow {
+  font-family: var(--sans); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--accent); margin: 0;
+}
+.ensemble-quicklink__title {
+  font-family: var(--serif); font-size: clamp(20px, 2.5vw, 26px);
+  font-weight: 600; line-height: 1.15; margin: 0;
+  color: var(--ink);
+}
+.ensemble-quicklink__desc {
+  font-family: var(--serif); font-size: 14px;
+  color: var(--ink-2); line-height: 1.5; margin: 0;
+  flex: 1;
+}
+.ensemble-quicklink__cta {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--accent);
+  margin-top: 4px;
+}
+.ensemble-quicklink--canvas { border-top: 3px solid var(--accent); }
+.ensemble-quicklink--cadenza { border-top: 3px solid var(--ink-3); }
+.ensemble-quicklink--ensemble { border-top: 3px solid var(--accent-2, var(--accent)); }
 
 .ensemble-showcase__filters {
   display: flex;
@@ -1516,6 +1718,18 @@
   padding: 12px 24px;
   text-decoration: none;
 }
+.ensemble-showcase__empty-make-link {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ensemble-showcase__empty-make-link:hover {
+  color: var(--accent);
+}
 
 .ensemble-divider {
   border: 0;
@@ -1523,9 +1737,168 @@
   max-width: var(--w-app);
   margin: 56px auto 0;
 }
+
+/* Stumble button — permanent affordance above the filter row */
+.ensemble-showcase__stumble-row {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 clamp(20px, 2.5vw, 32px);
+}
+.ensemble-showcase__stumble {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--accent);
+  color: var(--bg, #fff);
+  border: none;
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: opacity 200ms ease, transform 120ms ease;
+}
+.ensemble-showcase__stumble:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+.ensemble-showcase__stumble:active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.ensemble-showcase__stumble:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ensemble-showcase__stumble {
+    transition: none;
+  }
+}
+.ensemble-showcase__stumble-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+.ensemble-showcase__stumble-dots {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.5);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: stumble-spin 600ms linear infinite;
+}
+@keyframes stumble-spin { to { transform: rotate(360deg); } }
+.ensemble-showcase__stumble.is-loading .ensemble-showcase__stumble-dots { display: inline-block; }
+.ensemble-showcase__stumble.is-loading .ensemble-showcase__stumble-label { opacity: 0.7; }
+</style><style>/* AC1: 3-step onboarding strip - unpaired visitors only */
+.onboarding-strip[hidden] { display: none; }
+.onboarding-strip {
+  margin: 0 auto clamp(24px, 3vw, 40px);
+  max-width: 64rem;
+}
+.onboarding-strip__eyebrow {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  text-align: center;
+  margin: 0 0 16px;
+}
+.onboarding-strip__steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .onboarding-strip__steps { grid-template-columns: 1fr; }
+}
+.onboarding-strip__tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius, 12px);
+  text-decoration: none;
+  color: var(--ink);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+.onboarding-strip__tile:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.onboarding-strip__tile:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .onboarding-strip__tile { transition: none; }
+  .onboarding-strip__tile:hover .onboarding-strip__arrow { transform: none; }
+}
+.onboarding-strip__num {
+  font-family: var(--serif);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.onboarding-strip__icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.onboarding-strip__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.onboarding-strip__title {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  display: block;
+}
+.onboarding-strip__sub {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink-2);
+  display: block;
+  line-height: 1.4;
+}
+.onboarding-strip__arrow {
+  font-size: 16px;
+  color: var(--accent);
+  opacity: 0.7;
+  flex-shrink: 0;
+  transition: transform 180ms ease;
+}
+.onboarding-strip__tile:hover .onboarding-strip__arrow {
+  transform: translateX(3px);
+  opacity: 1;
+}
 </style><script>/* Canvas card client-side renderer — mirrors render_canvas_card(). */
 window.EnsembleCanvasCard = (function () {
-  var THEMES = {"warm":{t:"#e8a050",m:"#c2711f",b:"#7a3d0c"},"amber":{t:"#fbbf24",m:"#d97706",b:"#7a3d0c"},"sand":{t:"#eab308",m:"#a16207",b:"#3a2606"},"sunset":{t:"#fb923c",m:"#ea580c",b:"#3d1908"},"crimson":{t:"#f87171",m:"#dc2626",b:"#3a1010"},"rose":{t:"#fb7185",m:"#e11d48",b:"#400e1c"},"forest":{t:"#4ade80",m:"#16a34a",b:"#082616"},"sage":{t:"#a3e635",m:"#65a30d",b:"#1a2c06"},"lime":{t:"#bef264",m:"#84cc16",b:"#162a06"},"teal":{t:"#2dd4bf",m:"#0d9488",b:"#062826"},"ocean":{t:"#22d3ee",m:"#0891b2",b:"#063540"},"slate":{t:"#60a5fa",m:"#2563eb",b:"#172554"},"cobalt":{t:"#3b82f6",m:"#1e40af",b:"#0a1428"},"midnight":{t:"#818cf8",m:"#4f46e5",b:"#1e1b4b"},"aurora":{t:"#c4b5fd",m:"#8b5cf6",b:"#2a0f5c"},"plum":{t:"#e879f9",m:"#a21caf",b:"#2c0a3a"},"ash":{t:"#a3a3a3",m:"#525252",b:"#171717"},"mono":{t:"#ffffff",m:"#a3a3a3",b:"#525252"},"ruby":{t:"#fca5a5",m:"#ee2e3a",b:"#7f1010"},"lemon":{t:"#fef08a",m:"#facc15",b:"#854d0e"},"paper":{t:"#525252",m:"#262626",b:"#0a0a0a"}};
+  var THEMES = {"warm":{t:"#e8a050",m:"#c2711f",b:"#7a3d0c"},"amber":{t:"#fbbf24",m:"#d97706",b:"#7a3d0c"},"sand":{t:"#eab308",m:"#a16207",b:"#3a2606"},"sunset":{t:"#fb923c",m:"#ea580c",b:"#3d1908"},"crimson":{t:"#f87171",m:"#dc2626",b:"#3a1010"},"rose":{t:"#fb7185",m:"#e11d48",b:"#400e1c"},"forest":{t:"#4ade80",m:"#16a34a",b:"#082616"},"sage":{t:"#a3e635",m:"#65a30d",b:"#1a2c06"},"lime":{t:"#bef264",m:"#84cc16",b:"#162a06"},"teal":{t:"#2dd4bf",m:"#0d9488",b:"#062826"},"ocean":{t:"#22d3ee",m:"#0891b2",b:"#063540"},"slate":{t:"#60a5fa",m:"#2563eb",b:"#172554"},"cobalt":{t:"#3b82f6",m:"#1e40af",b:"#0a1428"},"midnight":{t:"#818cf8",m:"#4f46e5",b:"#1e1b4b"},"aurora":{t:"#c4b5fd",m:"#8b5cf6",b:"#2a0f5c"},"plum":{t:"#e879f9",m:"#a21caf",b:"#2c0a3a"},"ash":{t:"#a3a3a3",m:"#525252",b:"#171717"},"mono":{t:"#ffffff",m:"#a3a3a3",b:"#525252"},"ruby":{t:"#fca5a5",m:"#ee2e3a",b:"#7f1010"},"lemon":{t:"#fef08a",m:"#facc15",b:"#854d0e"},"paper":{t:"#525252",m:"#262626",b:"#0a0a0a"},"sunset_drive":{t:"#ff006e",m:"#8338ec",b:"#3a86ff"},"mall_plaza":{t:"#00d4ff",m:"#6040ff",b:"#ff00ff"},"neo_city":{t:"#39ff14",m:"#ff10f0",b:"#00fff5"}};
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
       return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
@@ -1667,6 +2040,58 @@ window.EnsembleCanvasCard = (function () {
     fetchPage(currentFilter, null, false);
   }
 })();
+</script><script>(function () {
+  var DEMO_URLS = [
+    './canvas/demo-endenza-welcome.html',
+    './canvas/demo-cozy-cabin.html',
+    './canvas/demo-modern-studio.html',
+    './canvas/demo-cottage-garden.html',
+    './canvas/demo-corner-shop.html',
+    './canvas/demo-rooftop-tea.html',
+    './canvas/demo-launch-party.html'
+  ];
+  var API = '/ensemble/canvases';
+  var btn = document.getElementById('ensemble-stumble-btn');
+  if (!btn) return;
+
+  function navigate(url) {
+    window.location.href = url;
+  }
+
+  function randomDemo() {
+    return DEMO_URLS[Math.floor(Math.random() * DEMO_URLS.length)];
+  }
+
+  function setLoading(on) {
+    if (on) btn.classList.add('is-loading');
+    else btn.classList.remove('is-loading');
+    btn.disabled = on;
+  }
+
+  btn.addEventListener('click', function () {
+    // file:// preview — pick randomly from demo canvases (no API available)
+    if (location.protocol === 'file:') {
+      navigate(randomDemo());
+      return;
+    }
+    setLoading(true);
+    fetch(API + '?filter=featured&limit=50', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        var canvases = (data && data.canvases) ? data.canvases : [];
+        if (canvases.length === 0) {
+          navigate(randomDemo());
+          return;
+        }
+        var pick = canvases[Math.floor(Math.random() * canvases.length)];
+        navigate('./canvas/' + pick.id + '.html');
+      })
+      .catch(function () {
+        setLoading(false);
+        navigate(randomDemo());
+      });
+  });
+})();
 </script><script>(function() {
   var CARD_COUNT = 6;
   var ROTATE_MS = 6000;
@@ -1767,13 +2192,23 @@ window.EnsembleCanvasCard = (function () {
     startAuto();
   });
 })();
+</script><script>
+(function () {
+  var strip = document.getElementById('onboarding-strip');
+  if (!strip) return;
+  try {
+    if (!localStorage.getItem('ENDENZA_SERVER_URL')) {
+      strip.removeAttribute('hidden');
+    }
+  } catch (e) {}
+})();
 </script><footer class="site-footer">
   <div class="site-footer__inner">
     <div class="site-footer__cols">
       <div class="site-footer__col site-footer__col--brand">
-        <a href="./" class="site-footer__brand-link" aria-label="Ensemble home">
+        <a href="./" class="site-footer__brand-link" aria-label="Endenza home">
           <img class="brand-mark site-footer__mark" src="./icon.svg" alt="" width="32" height="32" aria-hidden="true" />
-          <span class="brand site-footer__brand-name">Ensemble</span>
+          <span class="brand site-footer__brand-name">Endenza</span>
         </a>
         <p class="site-footer__tagline"><em>One conductor. Many performers.</em></p>
         <p class="site-footer__blurb">A creator-platform PWA where every page is a place &mdash; not a list of links.</p>
@@ -1812,7 +2247,7 @@ window.EnsembleCanvasCard = (function () {
     </div>
 
     <div class="site-footer__bottom">
-      <p class="site-footer__copyright">&copy; 2026 Ensemble &middot; <span class="site-footer__version">v2.0</span></p>
+      <p class="site-footer__copyright">&copy; 2026 Endenza &middot; <span class="site-footer__version">v2.0</span></p>
       <p class="site-footer__meta">Auto-refreshes 3&times; daily.</p>
     </div>
   </div>
@@ -1959,8 +2394,45 @@ window.EnsembleCanvasCard = (function () {
 }
 </style>
 <script nonce="__CSP_NONCE__">
+
+(function migrateEnsembleKeys() {
+  var _LS_KEYS = [
+    "ENSEMBLE_THEME", "ENSEMBLE_BG", "ENSEMBLE_BG_CUSTOM",
+    "ENSEMBLE_SERVER_URL", "ENSEMBLE_DASHBOARD_LAYOUT",
+    "ENSEMBLE_BYOK_LINKED", "ENSEMBLE_SHELF_HEIGHT_VH",
+    "ENSEMBLE_STUDIO_ROOM", "ENSEMBLE_STUDIO_CLAUDE_HISTORY",
+    "ENSEMBLE_STUDIO_CLAUDE_USAGE",
+    "ENSEMBLE_TERMINAL_LEFT_PX", "ENSEMBLE_TERMINAL_RIGHT_PX",
+    "ENSEMBLE_TERMINAL_COMPOSE_H", "ENSEMBLE_TERMINAL_TREE_H",
+    "ENSEMBLE_TERMINAL_LEFT_COLLAPSED", "ENSEMBLE_TERMINAL_RIGHT_COLLAPSED",
+    "ENSEMBLE_TERMINAL_ENTER_TO_SEND", "ENSEMBLE_TERMINAL_HISTORY_NAV",
+    "ENSEMBLE_TERMINAL_FONT_SIZE", "ENSEMBLE_TERMINAL_RIGHT_LAYOUT"
+  ];
+  try {
+    _LS_KEYS.forEach(function (oldKey) {
+      var newKey = oldKey.replace(/^ENSEMBLE_/, "ENDENZA_");
+      if (localStorage.getItem(newKey) === null) {
+        var v = localStorage.getItem(oldKey);
+        if (v !== null) localStorage.setItem(newKey, v);
+      }
+    });
+    // Dynamic prefix keys: ENSEMBLE_STICKY_*, ENSEMBLE_TERMINAL_PINNED_*
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k) continue;
+      if (k.indexOf("ENSEMBLE_STICKY_") === 0 || k.indexOf("ENSEMBLE_TERMINAL_PINNED_") === 0) {
+        var newDynKey = k.replace(/^ENSEMBLE_/, "ENDENZA_");
+        if (localStorage.getItem(newDynKey) === null) {
+          var dv = localStorage.getItem(k);
+          if (dv !== null) localStorage.setItem(newDynKey, dv);
+        }
+      }
+    }
+  } catch (e) {}
+})();
+
 const SERVER_URL = (function() {
-  const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
+  const stored = localStorage.getItem("ENDENZA_SERVER_URL");
   if (stored) return stored;
   return location.hostname === "localhost" || location.hostname === "127.0.0.1"
     ? "http://localhost:8080"
@@ -1995,13 +2467,6 @@ async function setConfig(field, value) {
 }
 
 function showHelp(id, msg) { const el = document.getElementById(id); if (el) el.textContent = msg; }
-
-function updateNavStatus(state) {
-  const el = document.getElementById("nav-status");
-  if (!el) return;
-  if (!state) { el.textContent = "offline"; return; }
-  el.textContent = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " · " + (state.mode || "?");
-}
 
 function updateSmokeBanner(state) {
   const banner = document.getElementById("smoke-banner");
@@ -2039,7 +2504,6 @@ async function refreshState() {
     window._isOwner = newOwner;
     applyOwnerMode();
   }
-  updateNavStatus(state);
   updateSmokeBanner(state);
   if (typeof refreshPageState === "function") refreshPageState(state);
 }
@@ -2071,8 +2535,63 @@ function applyOwnerMode() {
 }
 
 // ─── Theme picker (persisted, per-device) ───
-const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper"];
+// Trailing 3 entries (sunset_drive / mall_plaza / neo_city) are the
+// 2026-05-04 limited-edition vibe-coder color schemes. They MUST be
+// in this list — applyTheme below uses it to strip stale `theme-*`
+// classes on switch, and missing entries leave the previous theme's
+// CSS overlapping with the new one. (Kevin caught the live-preview
+// bug 2026-05-04: 'doesn't update right away.')
+const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper", "sunset_drive", "mall_plaza", "neo_city"];
 const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora", "scanlines", "topo", "vignette", "paper", "linen", "blueprint", "constellation", "marble", "custom"];
+
+const TERMINAL_FONTS = {
+  "system":          "",
+  "jetbrains-mono":  '"JetBrains Mono", monospace',
+  "fira-code":       '"Fira Code", monospace',
+  "source-code-pro": '"Source Code Pro", monospace',
+  "ibm-plex-mono":   '"IBM Plex Mono", monospace',
+  "inconsolata":     '"Inconsolata", monospace',
+  "space-mono":      '"Space Mono", monospace',
+  "roboto-mono":     '"Roboto Mono", monospace',
+};
+const TERMINAL_FONT_GFONTS = {
+  "fira-code":       "Fira+Code:wght@400;500;600",
+  "source-code-pro": "Source+Code+Pro:wght@400;500;600",
+  "ibm-plex-mono":   "IBM+Plex+Mono:wght@400;500;600",
+  "inconsolata":     "Inconsolata:wght@400;500;600;700",
+  "space-mono":      "Space+Mono:wght@400;700",
+  "roboto-mono":     "Roboto+Mono:wght@400;500;600;700",
+};
+
+function applyTerminalFont(key) {
+  const stack = TERMINAL_FONTS[key];
+  const page = document.querySelector(".terminal-page");
+  if (page) {
+    if (stack) {
+      page.style.setProperty("--terminal-mono", stack);
+    } else {
+      page.style.removeProperty("--terminal-mono");
+    }
+  }
+  const gf = TERMINAL_FONT_GFONTS[key];
+  const linkId = "terminal-font-gf";
+  let existing = document.getElementById(linkId);
+  if (gf) {
+    const href = "https://fonts.googleapis.com/css2?family=" + gf + "&display=swap";
+    if (existing) {
+      existing.href = href;
+    } else {
+      const link = document.createElement("link");
+      link.id = linkId;
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+    }
+  } else if (existing) {
+    existing.remove();
+  }
+}
+window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
   THEMES.forEach(t => document.body.classList.remove("theme-" + t));
@@ -2080,17 +2599,38 @@ function applyTheme(name) {
   document.querySelectorAll(".theme-swatch").forEach(el => {
     el.classList.toggle("active", el.dataset.theme === (name || "warm"));
   });
-  // Swap the brand mark + favicon to the per-theme variant.  Each theme's
-  // icon lives at ./icons/icon-<theme>.svg; the warm default stays at
-  // ./icon.svg for compatibility with the PWA manifest's cached install
-  // image.  See bin/dashgen/server/theme_icons.py for the design rules.
-  const theme = name || "warm";
-  const iconHref = (theme === "warm") ? "./icon.svg" : ("./icons/icon-" + theme + ".svg");
+  // Default logo NEVER changes (Kevin 2026-05-05: 'our default logo
+  // used on the website should also be our favicon set, this should
+  // ALWAYS be the case. Default logo, for favicons never changes').
+  //
+  // The canonical Threaded Trinity at `./icon.svg` is the project's
+  // single brand identity image. It serves as:
+  //   · the favicon (browser tab + bookmarks)
+  //   · the apple-touch-icon (iOS home-screen install)
+  //   · every in-page `.brand-mark` (homepage hero, nav slot, footer)
+  // None of these change with theme. Theme expressiveness lives in
+  // accent/background colors and the swatch picker — not in the
+  // brand-mark. Don't reintroduce a per-theme mark swap.
+  //
+  // The LE recolors in `dashgen/assets/le_brand_marks.py` remain
+  // available as baked data URIs for future collector affordances
+  // (e.g. downloadable variant, swatch-picker preview), but are NOT
+  // wired to replace the on-page mark or favicon.
   const fav = document.getElementById("favicon");
-  if (fav) fav.href = iconHref;
+  if (fav) fav.href = "./icon.svg";
   const apple = document.getElementById("apple-touch-icon");
-  if (apple) apple.href = iconHref;
-  document.querySelectorAll(".brand-mark").forEach(el => { el.src = iconHref; });
+  if (apple) apple.href = "./icon.svg";
+  document.querySelectorAll(".brand-mark").forEach(el => { el.src = "./icon.svg"; });
+  // Reference the LE dict so the module-load substitution doesn't get
+  // dead-code-eliminated by the minifier — keep the baked URIs in the
+  // bundle for future collector use (see comment block above).
+  const LE_BRAND_MARKS = {"sunset_drive": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_sunset_drive_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80b8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff006e%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b001c%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ffc880%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff5a3a%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b1a08%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%239a80ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233010a0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a0220%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_sunset_drive_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23cc2a30%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23aa0080%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%236020a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "mall_plaza": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_mall_plaza_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380e0ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300d4ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23002a40%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%236070ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233050ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23000840%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff00ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23400028%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_mall_plaza_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%230040a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%237010a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%234015a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "neo_city": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_neo_city_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f0%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff10f0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23500050%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23a8ff80%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2339ff14%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a3010%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380fff5%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300fff5%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23003040%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_neo_city_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23a06090%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%238060e0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%2320c0a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"};
+  void LE_BRAND_MARKS;
+  // Invalidate downstream caches that read CSS custom properties
+  // (component_renderers.colorFromToken memoizes per token; without
+  // this dispatch the cache would survive a theme switch with stale
+  // colors). Cheap event; no listeners outside the renderer today.
+  try { document.dispatchEvent(new CustomEvent("theme:applied", { detail: { name: name } })); } catch (e) {}
 }
 
 function applyBackground(name) {
@@ -2103,7 +2643,7 @@ function applyBackground(name) {
   // Falls back to solid if no upload yet (the swatch click handler also
   // intercepts to open the file picker first time the tile is clicked).
   if (name === "custom") {
-    const dataUrl = localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+    const dataUrl = localStorage.getItem("ENDENZA_BG_CUSTOM");
     if (dataUrl) {
       document.body.style.backgroundImage = `url("${dataUrl}")`;
     } else {
@@ -2116,8 +2656,27 @@ function applyBackground(name) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
-  const savedTheme = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
   applyTheme(savedTheme);
+  // Terminal-only appearance (per-page override). Stamped on <body>
+  // ASAP to avoid a FOUC where the warm-bg flashes before the
+  // black-grey terminal styles kick in. Default = "black-grey"; the
+  // user can flip to "follow-site" via the terminal settings popover.
+  // Only stamps when we're actually on /terminal.html.
+  if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
+    let termTheme = "black-grey";
+    try {
+      const v = localStorage.getItem("ENDENZA_TERMINAL_THEME");
+      if (v === "follow-site" || v === "black-grey") termTheme = v;
+    } catch (e) {}
+    document.body.setAttribute("data-terminal-theme", termTheme);
+    let termFont = "system";
+    try {
+      const f = localStorage.getItem("ENDENZA_TERMINAL_FONT");
+      if (f && TERMINAL_FONTS.hasOwnProperty(f)) termFont = f;
+    } catch (e) {}
+    applyTerminalFont(termFont);
+  }
   // Click + keyboard binding (Enter / Space). The swatches carry
   // role="button" + tabindex="0" so keyboard users can activate them.
   const activateOnKey = (handler) => (ev) => {
@@ -2129,7 +2688,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".theme-swatch").forEach(el => {
     const fire = () => {
       const t = el.dataset.theme;
-      localStorage.setItem("ENSEMBLE_THEME", t);
+      localStorage.setItem("ENDENZA_THEME", t);
       applyTheme(t);
     };
     el.addEventListener("click", fire);
@@ -2137,7 +2696,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Background load + bind
-  const savedBg = localStorage.getItem("ENSEMBLE_BG") || "solid";
+  const savedBg = localStorage.getItem("ENDENZA_BG") || "solid";
   applyBackground(savedBg);
   document.querySelectorAll(".bg-swatch").forEach(el => {
     const fire = () => {
@@ -2146,7 +2705,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // user already has a saved upload, clicking re-applies it without
       // prompting (so they can switch back to it from another bg).
       if (b === "custom") {
-        const hasSaved = !!localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+        const hasSaved = !!localStorage.getItem("ENDENZA_BG_CUSTOM");
         if (!hasSaved || el.classList.contains("active")) {
           // Open file picker (no saved upload yet, OR custom is already
           // active and the user is clicking to replace it).
@@ -2155,7 +2714,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
       }
-      localStorage.setItem("ENSEMBLE_BG", b);
+      localStorage.setItem("ENDENZA_BG", b);
       applyBackground(b);
     };
     el.addEventListener("click", fire);
@@ -2178,8 +2737,8 @@ document.addEventListener("DOMContentLoaded", () => {
       reader.onload = (ev) => {
         const dataUrl = ev.target && ev.target.result;
         try {
-          localStorage.setItem("ENSEMBLE_BG_CUSTOM", dataUrl);
-          localStorage.setItem("ENSEMBLE_BG", "custom");
+          localStorage.setItem("ENDENZA_BG_CUSTOM", dataUrl);
+          localStorage.setItem("ENDENZA_BG", "custom");
           applyBackground("custom");
         } catch (err) {
           alert("Couldn't save wallpaper to local storage (it may be too large). Try a smaller image.");
@@ -2191,8 +2750,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Terminal font load + bind
+  const savedFont = localStorage.getItem("ENDENZA_TERMINAL_FONT") || "system";
+  document.querySelectorAll(".font-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.font === savedFont);
+    const fire = () => {
+      const f = el.dataset.font;
+      localStorage.setItem("ENDENZA_TERMINAL_FONT", f);
+      document.querySelectorAll(".font-swatch").forEach(s => s.classList.toggle("active", s.dataset.font === f));
+      applyTerminalFont(f);
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
+  });
+
   // Owner mode initial state — pessimistic until state fetch confirms
-  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
+  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENDENZA_SERVER_URL"));
   applyOwnerMode();
 
   refreshState();
@@ -2339,9 +2912,20 @@ async function submitFirstRunModal(ev) {
   const submitBtn = document.getElementById("first-run-submit");
   const building = (document.getElementById("frq-building").value || "").trim();
   const vibe = (document.getElementById("frq-vibe").value || "").trim();
-  const problem = (document.getElementById("frq-problem").value || "").trim();
-  if (!building || !vibe || !problem) {
-    if (err) err.textContent = "Please answer all three questions.";
+  // Train 2 (2026-05-04): "problem" was replaced by "color_scheme" — a
+  // chip-driven picker. The hidden input's id is frq-color-scheme; the
+  // server still accepts the legacy "problem" key for back-compat.
+  const colorScheme = (document.getElementById("frq-color-scheme").value || "").trim();
+  if (!building) {
+    if (err) err.textContent = "Tell us what you’re building.";
+    return;
+  }
+  if (!vibe) {
+    if (err) err.textContent = "Pick a vibe to set the room’s mood.";
+    return;
+  }
+  if (!colorScheme) {
+    if (err) err.textContent = "Pick a color scheme.";
     return;
   }
   var tosCheck = document.getElementById("first-run-tos-check");
@@ -2355,7 +2939,15 @@ async function submitFirstRunModal(ev) {
     const r = await fetch("/studio/generate-from-answers", {
       method: "POST",
       headers: authHeaders(),
-      body: JSON.stringify({ building: building, vibe: vibe, problem: problem })
+      body: JSON.stringify({
+        building: building,
+        vibe: vibe,
+        color_scheme: colorScheme,
+        // Back-compat: server may still expect `problem`. Send it as
+        // the color_scheme slug so older deploys interpret the answer
+        // sensibly until they pick up the schema update.
+        problem: colorScheme,
+      })
     });
     let body = {};
     try { body = await r.json(); } catch (e) {}
@@ -2413,6 +3005,36 @@ function ctaGenerateClicked() {
   openFirstRunModal();
 }
 
+// Train 2 (2026-05-04): chip-group wiring. Single-select radio
+// behavior driven by aria-checked + a hidden input that mirrors the
+// chosen slug. Reused on the Studio "Generate from GitHub" panel.
+function wireChipGroup(groupEl, hiddenInput) {
+  if (!groupEl || !hiddenInput) return;
+  const chips = groupEl.querySelectorAll("[data-chip-value]");
+  function selectChip(target) {
+    chips.forEach(function (c) {
+      const isSel = c === target;
+      c.setAttribute("aria-checked", isSel ? "true" : "false");
+    });
+    hiddenInput.value = target.getAttribute("data-chip-value") || "";
+    hiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () { selectChip(chip); });
+    chip.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft" &&
+          e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      e.preventDefault();
+      const list = Array.prototype.slice.call(chips);
+      const idx = list.indexOf(chip);
+      const dir = (e.key === "ArrowRight" || e.key === "ArrowDown") ? 1 : -1;
+      const next = list[(idx + dir + list.length) % list.length];
+      next.focus();
+      selectChip(next);
+    });
+  });
+}
+
 function wireFirstRunModal() {
   const overlay = document.getElementById("first-run-overlay");
   if (!overlay) return;
@@ -2424,6 +3046,14 @@ function wireFirstRunModal() {
   if (cancelBtn) cancelBtn.addEventListener("click", closeFirstRunModal);
   if (form) form.addEventListener("submit", submitFirstRunModal);
   if (cta) cta.addEventListener("click", ctaGenerateClicked);
+  // Train 2: wire the two chip groups. Each group's selected slug is
+  // mirrored to a hidden input read by submitFirstRunModal.
+  const vibeGroup = overlay.querySelector('[data-chip-group-name="vibe"]');
+  const vibeInput = document.getElementById("frq-vibe");
+  wireChipGroup(vibeGroup, vibeInput);
+  const colorGroup = overlay.querySelector('[data-chip-group-name="color_scheme"]');
+  const colorInput = document.getElementById("frq-color-scheme");
+  wireChipGroup(colorGroup, colorInput);
   // Stamp 2 / warp:c (2026-04-29): ToS gate. Generate button stays
   // disabled until the user ticks the agreement checkbox.
   var tosCheck = document.getElementById("first-run-tos-check");
@@ -2491,7 +3121,7 @@ function wireServerUrlBanner() {
   try {
     const host = location.hostname;
     if (host === "localhost" || host === "127.0.0.1") return;
-    if (localStorage.getItem("ENSEMBLE_SERVER_URL")) return;
+    if (localStorage.getItem("ENDENZA_SERVER_URL")) return;
     if (localStorage.getItem(SERVER_URL_BANNER_DISMISSED_KEY) === "1") return;
     // /pair.html already shows the form — banner would be redundant.
     if (location.pathname.endsWith("/pair.html")) return;

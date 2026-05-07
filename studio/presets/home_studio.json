@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "preset_metadata": {
+    "id": "home_studio",
+    "display_name": "Home Studio",
+    "description": "A cozy personal studio with a desk, bookshelf, and all the essentials. The default starting room for every new creator.",
+    "thumbnail": null,
+    "natural_themes": ["warm", "ash", "mono", "cobalt"],
+    "min_chats": 0,
+    "recommended_chats": 0,
+    "max_chats": 99,
+    "author": "Ensemble built-in",
+    "version": 1,
+    "is_default": true
+  },
+  "name": "Home Studio",
+  "preset_origin": "home_studio",
+  "theme": null,
+  "background": null,
+  "stage": {
+    "width": 960,
+    "height": 540,
+    "background_layer": null,
+    "ambient_sound": null
+  },
+  "components": [
+    {
+      "id": "floor",
+      "type": "svg",
+      "x": 0, "y": 0, "w": 960, "h": 540, "z": 0,
+      "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+      "locked": true,
+      "walkable_through": true, "solid": false, "interactable": false
+    },
+    {
+      "id": "rug_center",
+      "type": "prop",
+      "x": 340, "y": 240, "w": 220, "h": 150, "z": 1,
+      "props": { "sprite_id": "rug" },
+      "walkable_through": true, "solid": false, "interactable": false
+    },
+    {
+      "id": "bookshelf_1",
+      "type": "prop",
+      "x": 32, "y": 12, "w": 120, "h": 100, "z": 6,
+      "props": { "sprite_id": "bookshelf", "label": "Bookshelf", "book_count": 8 },
+      "walkable_through": false, "solid": true, "interactable": true,
+      "interaction": { "type": "read", "title": "My Library", "body": "A collection of favorite reads and references. Add your own links here." }
+    },
+    {
+      "id": "window_1",
+      "type": "prop",
+      "x": 200, "y": 8, "w": 80, "h": 60, "z": 6,
+      "props": { "sprite_id": "window" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "clock_wall",
+      "type": "prop",
+      "x": 420, "y": 6, "w": 40, "h": 40, "z": 6,
+      "props": { "sprite_id": "clock" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "poster_wall",
+      "type": "prop",
+      "x": 560, "y": 8, "w": 80, "h": 60, "z": 6,
+      "props": { "sprite_id": "poster", "label": "My Work" },
+      "walkable_through": false, "solid": true, "interactable": true,
+      "interaction": { "type": "read", "title": "Featured Work", "body": "Pin your best projects here. Replace this with links to your portfolio." }
+    },
+    {
+      "id": "window_2",
+      "type": "prop",
+      "x": 740, "y": 8, "w": 80, "h": 60, "z": 6,
+      "props": { "sprite_id": "window" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "desk_main",
+      "type": "prop",
+      "x": 100, "y": 160, "w": 150, "h": 100, "z": 5,
+      "props": { "sprite_id": "desk", "label": "Desk" },
+      "walkable_through": false, "solid": true, "interactable": true,
+      "interaction": { "type": "read", "title": "About Me", "body": "This is your creative space. Customize this text to introduce yourself to visitors." }
+    },
+    {
+      "id": "chair_desk",
+      "type": "prop",
+      "x": 150, "y": 275, "w": 56, "h": 56, "z": 4,
+      "props": { "sprite_id": "chair" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "lamp_corner",
+      "type": "prop",
+      "x": 860, "y": 80, "w": 40, "h": 80, "z": 5,
+      "props": { "sprite_id": "lamp" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "plant_left",
+      "type": "prop",
+      "x": 24, "y": 400, "w": 48, "h": 64, "z": 5,
+      "props": { "sprite_id": "plant_pot" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "table_side",
+      "type": "prop",
+      "x": 700, "y": 260, "w": 100, "h": 60, "z": 5,
+      "props": { "sprite_id": "table" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "plant_right",
+      "type": "prop",
+      "x": 880, "y": 380, "w": 48, "h": 64, "z": 5,
+      "props": { "sprite_id": "plant_pot" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "welcome_eyebrow",
+      "type": "prop",
+      "x": 560, "y": 116, "w": 90, "h": 64, "z": 6,
+      "props": { "sprite_id": "poster", "label": "Studio note" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "welcome_title",
+      "type": "prop",
+      "x": 680, "y": 112, "w": 96, "h": 72, "z": 6,
+      "props": { "sprite_id": "frame", "label": "Welcome frame" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "door_exit",
+      "type": "prop",
+      "x": 430, "y": 440, "w": 64, "h": 84, "z": 5,
+      "props": { "sprite_id": "door", "label": "Exit" },
+      "walkable_through": false, "solid": true, "interactable": true,
+      "interaction": { "type": "door", "destination": "./" }
+    }
+  ],
+  "custom_css": "",
+  "custom_js": "",
+  "history_seq": 0,
+  "last_saved_at": null,
+  "visibility": "private"
+}

@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
-<title>Ensemble — Repo README</title>
-<meta name="description" content="Top-level claude-ensemble README — concepts, install, repo layout." />
+<title>Endenza — Repo README</title>
+<meta name="description" content="Endenza front door — two-pillar pitch, install, repo layout." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -15,7 +15,7 @@
 <link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<meta name="apple-mobile-web-app-title" content="Ensemble" />
+<meta name="apple-mobile-web-app-title" content="Endenza" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -69,8 +69,8 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENSEMBLE_THEME") || "warm";
-      var b = localStorage.getItem("ENSEMBLE_BG") || "solid";
+      var t = localStorage.getItem("ENDENZA_THEME") || "warm";
+      var b = localStorage.getItem("ENDENZA_BG") || "solid";
       if (t && t !== "warm") {
         document.documentElement.classList.add("theme-" + t);
       }
@@ -95,7 +95,7 @@
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
     <p class="cookie-banner__msg">
-      <strong>Ensemble</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
+      <strong>Endenza</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
     </p>
     <div class="cookie-banner__actions">
       <a class="cookie-banner__link" href="/legal/cookies.html">Read policy</a>
@@ -124,21 +124,20 @@
 </script>
 <nav class="topnav" id="topnav" data-drawer-state="closed">
   <div class="wrap">
-    <a class="brand brand--icon-only" href="./" aria-label="Ensemble home"><img class="brand-mark" src="./icon.svg" alt="Ensemble" width="28" height="28" /></a>
     <button class="nav__toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="topnav-list" aria-label="Open navigation menu">
       <span class="nav__toggle-bar" aria-hidden="true"></span>
       <span class="nav__toggle-bar" aria-hidden="true"></span>
       <span class="nav__toggle-bar" aria-hidden="true"></span>
     </button>
     <ul id="topnav-list">
-      <li><a href="./">Ensemble</a></li>
+      <li><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
+      <li><a href="./">Endenza</a></li>
       <li><a href="./studio.html">Studio</a></li>
       <li><a href="./dashboard.html">Dashboard</a></li>
       <li><a href="./terminal.html">Terminal</a></li>
-      <li><a class="active" aria-current="page" href="./docs.html">Docs</a></li>
+      <li><a class="active" aria-current="page" href="./docs.html">About</a></li>
       <li><a href="./settings.html">Settings</a></li>
     </ul>
-    <span class="nav-status" id="nav-status">...</span>
   </div>
 </nav>
 
@@ -205,85 +204,129 @@
     <header class="doc-hero">
       <p class="doc-eyebrow">Documentation</p>
       <h1 class="doc-title">Repo README</h1>
-      <p class="doc-lead">Top-level claude-ensemble README — concepts, install, repo layout.</p>
+      <p class="doc-lead">**Status:** active · last reviewed 2026-05-03</p>
       <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>README.md</code></p>
     </header>
     <article class="doc-content">
-<p><strong>Claude Code marketplace hosting the Ensemble plugin.</strong> One chat conducts many — multi-chat orchestration with shared state, rapid-fire decisions, a three-layer autopilot mutex, and a global kill-switch. Built for users running several Claude Code sessions at once on the same machine.</p>
+<p><strong>A page is alone. Endenza is together.</strong></p>
+<p>Endenza is a creator platform where your bio link goes to a <em>room</em>, not a list.
+Build a walkable pixel-art canvas. Drop in your music, writing, games, and portfolio.
+Let visitors walk through it as a sprite. Drive Claude from any device to ship it faster.
+One place that looks like you — alive, interactive, and yours.</p>
 <hr />
-<h2 id="install">Install</h2>
-<pre><code class="language-bash">/plugin marketplace add KiwiMaddog2020/claude-ensemble
-/plugin install ensemble@claude-ensemble
-/exit   # so the SessionStart hook attaches next time you open a chat
+<!-- TODO(kevin): drop a screenshot here when the canvas is live — replace the placeholder path below -->
+<p><img alt="Endenza screenshot" src="docs/assets/screenshot.png" /></p>
+<hr />
+<h2 id="two-pillars">Two pillars</h2>
+<h3 id="walkable-canvas-the-visitor-surface">Walkable canvas — the visitor surface</h3>
+<p>Studios, Canvases, Showcases. Walk your sprite up to a vinyl record and press X — the track plays.
+Walk up to an arcade cabinet and press X — the game launches inline. Walk through a door — travel
+to the next canvas. Publish your Showcase to the Endenza overworld and visitors explore it with
+their own sprites.</p>
+<p>Every Canvas is a runtime for your work, not a static page. When you sign up, Claude seeds your
+first Canvas from your actual projects — Substack drafts as a bookshelf, Steam releases as arcade
+cabinets, Bandcamp albums as a tape deck. Walk through it on day zero and start editing.</p>
+<h3 id="agent-controller-the-maker-surface">Agent-controller — the maker surface</h3>
+<p>The Maestro/Agents <strong>Dashboard</strong>, the <strong>Terminal</strong> (a Claude Code-grade chat surface reachable from
+any device via Cloudflare Tunnel), the <strong>warp button</strong> (one click → parallel Claude Code sessions fan
+out across git worktrees), and the <strong>BYOK keystore</strong> (bring your own Anthropic key). First-class, not
+a plugin.</p>
+<p>The two pillars compose: your Studio is where you author canvases; the agent-controller is what ships
+them faster, with Claude as the partner and an orchestration layer coordinating the work.</p>
+<hr />
+<h2 id="quick-install">Quick install</h2>
+<pre><code class="language-bash">git clone git@github.com:KiwiMaddog2020/claude-ensemble.git ~/.claude/orchestrator
+brew install claude ruff
+bash ~/.claude/orchestrator/bin/dashboard-generate.sh
 </code></pre>
-<p>Open a fresh chat. You should see <code>[ORCHESTRATOR] hard-enforcement active</code> at the top of context. Then:</p>
-<pre><code>/ensemble:maestro           # in any new chat → becomes your orchestrator
-/ensemble:agent-onboard     # in a project repo → onboard the chat as an Agent
-</code></pre>
-<p>Full install walkthrough: <a href="./install.html"><code>docs/INSTALL.md</code></a>.</p>
-<h2 id="core-concepts">Core concepts</h2>
-<ul>
-<li><strong>Maestro</strong> — one chat, one baton. Coordinates, ranks top recs across projects, never holds the autopilot mutex.</li>
-<li><strong>Agents</strong> — scoped to one repo each. Read a per-project charter, report status in rapid-fire format, acquire the autopilot mutex before firing work.</li>
-<li><strong>Three-layer autopilot mutex</strong> — workshop lock (computer-control) + per-project spawn lock (file-stomp prevention) + resource floor (opt-in RAM/CPU pre-check), with a user-controlled <code>max_concurrent_autopilots</code> cap (default 2). Cap-hit = queue with 5-min timeout.</li>
-<li><strong>Six-state lifecycle</strong> — every project moves through Building → Launch Prep → Warmer ⇄ R&amp;D ⇄ Updates → Hibernating. Auto-transitions at G1/G7/G8.</li>
-<li><strong>Kill-switch</strong> — say <code>***ORCHESTRATOR OFF***</code> in any chat. Six-phase cascade releases all locks, pauses automations, flips mode to <code>direct</code>. Any chat can execute; protocol handles races.</li>
-</ul>
-<p>More detail on each piece: <a href="./cloudflare-access.html"><code>plugins/ensemble/README.md</code></a>.</p>
-<h2 id="whats-new-in-v20-2026-04-26">What&rsquo;s new in v2.0 (2026-04-26)</h2>
-<p>Eight new operating directives, baked into MAESTRO.md + AGENT.md:</p>
+<p>Full walkthrough, BYOK keystore, Cloudflare Tunnel, and menubar app:
+<a href="./install.html"><code>docs/getting-started/INSTALL.md</code></a></p>
+<hr />
+<h2 id="the-four-surfaces">The four surfaces</h2>
 <table>
 <thead>
 <tr>
-<th>#</th>
-<th>Directive</th>
-<th>One-line</th>
+<th>Surface</th>
+<th>What it does</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>1</td>
-<td><strong>Smart handoff</strong></td>
-<td>Self-monitor context: 80% warn → 90% stage → 95% hard-stop with paste-ready resume prompt</td>
+<td><strong>Studio</strong> (<code>/studio.html</code>)</td>
+<td>Author and curate your canvases. Place sprites, wire interactions, chat with Claude to generate components.</td>
 </tr>
 <tr>
-<td>2</td>
-<td><strong>Turbo mode</strong></td>
-<td>Liberal <code>turbo</code> signal triggers AFK batch coding; safety gates still fire</td>
+<td><strong>Dashboard</strong> (<code>/dashboard.html</code>)</td>
+<td>Orchestrate your Claude agents. Fire autopilot. Watch live project state across every repo you have onboarded.</td>
 </tr>
 <tr>
-<td>3</td>
-<td><strong>Outside-the-box thinking</strong></td>
-<td>Priority 1 operating posture; build calibration tools when warranted</td>
+<td><strong>Terminal</strong> (<code>/terminal.html</code>)</td>
+<td>Claude Code-grade chat from phone, tablet, or laptop — authenticated via Cloudflare Tunnel with your BYOK key.</td>
 </tr>
 <tr>
-<td>4</td>
-<td><strong>Feedback pipeline</strong></td>
-<td>Sunday 6am aggregator + plan-then-approve gate for live products</td>
-</tr>
-<tr>
-<td>5</td>
-<td><strong>Six-state taxonomy</strong></td>
-<td>Replaces evolution_modes; bidirectional live triangle</td>
-</tr>
-<tr>
-<td>6</td>
-<td><strong>State enable/disable</strong></td>
-<td>Verbal + PWA; <code>set &lt;slug&gt; to &lt;state&gt;</code></td>
-</tr>
-<tr>
-<td>7</td>
-<td><strong>Three-layer mutex</strong></td>
-<td>Workshop + per-project spawn + opt-in resource floor; user-controlled cap</td>
-</tr>
-<tr>
-<td>8</td>
-<td><strong>Rapid-fire toggle</strong></td>
-<td>Per-chat toggle; every AskUserQuestion call reserves slot 4 for &ldquo;Disable Rapid Fire Mode&rdquo; escape hatch</td>
+<td><strong>Character Creator</strong> (<code>/pair.html</code>)</td>
+<td>Build the sprite that walks your canvas. Choose body, outfit, and walk cycle. 64 × 64 Mana Seed base art.</td>
 </tr>
 </tbody>
 </table>
-<p>Plus <strong>Tier 1 hardening</strong>: <code>caffeinate -i</code> wrap (anti-sleep), battery awareness, disk pre-flight, log rotation. <strong>SwiftBar menu bar indicator</strong> with one-shot installer. <strong>Lint discipline</strong> baked into CI (markdownlint / yamllint / ruff / prettier / EditorConfig).</p>
+<hr />
+<h2 id="docs">Docs</h2>
+<p>Full docs index → <a href="./grand-plan.html"><code>docs/README.md</code></a></p>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Install (full walkthrough)</td>
+<td><a href="./install.html"><code>docs/getting-started/INSTALL.md</code></a></td>
+</tr>
+<tr>
+<td>BYOK keystore setup</td>
+<td><a href="./byok-guide.html"><code>docs/getting-started/BYOK_GUIDE.md</code></a></td>
+</tr>
+<tr>
+<td>Cloudflare Tunnel</td>
+<td><a href="./cloudflare-setup.html"><code>docs/getting-started/CLOUDFLARE_SETUP.md</code></a></td>
+</tr>
+<tr>
+<td>Smoke test runbook</td>
+<td><a href="./smoke-runbook.html"><code>docs/getting-started/SMOKE_RUNBOOK.md</code></a></td>
+</tr>
+<tr>
+<td>Brand system</td>
+<td><a href="./brand-system.html"><code>docs/design/BRAND_SYSTEM.md</code></a></td>
+</tr>
+<tr>
+<td>Architecture (BYOK)</td>
+<td><a href="./byok-architecture.html"><code>docs/architecture/BYOK_ARCHITECTURE.md</code></a></td>
+</tr>
+<tr>
+<td>Menubar app</td>
+<td><a href="./menubar-app.html"><code>docs/architecture/MENUBAR_APP.md</code></a></td>
+</tr>
+<tr>
+<td>Autopilot design</td>
+<td><a href="./autopilot-design.html"><code>docs/architecture/AUTOPILOT_DESIGN.md</code></a></td>
+</tr>
+<tr>
+<td>Warp protocol</td>
+<td><a href="./warp-protocol-audit.html"><code>docs/operations/WARP_PROTOCOL_AUDIT_2026-05-03.md</code></a></td>
+</tr>
+<tr>
+<td>Plugin (Endenza Claude Code plugin)</td>
+<td><a href="./grand-plan.html"><code>plugins/endenza/README.md</code></a></td>
+</tr>
+<tr>
+<td>Product vision</td>
+<td><a href="./manifesto.html"><code>docs/grand-plan/MANIFESTO.md</code></a></td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2 id="repo-layout">Repo layout</h2>
 <table>
 <thead>
@@ -294,133 +337,66 @@
 </thead>
 <tbody>
 <tr>
-<td><code>.claude-plugin/marketplace.json</code></td>
-<td>Self-hosted marketplace catalog — registered by <code>/plugin marketplace add KiwiMaddog2020/claude-ensemble</code></td>
+<td><code>bin/dashgen/</code></td>
+<td>The Endenza platform server — pages, stores, handlers, API, studio, sprite engine</td>
 </tr>
 <tr>
-<td><code>plugins/ensemble/</code></td>
-<td>The Ensemble plugin — skills, templates, hooks, scripts, integrations, docs</td>
+<td><code>bin/dashboard-generate.sh</code></td>
+<td>Build + serve the full Endenza platform locally</td>
 </tr>
 <tr>
-<td><code>plugins/ensemble/.claude-plugin/plugin.json</code></td>
-<td>Plugin manifest (hooks, metadata)</td>
+<td><code>plugins/endenza/</code></td>
+<td>Claude Code plugin — Maestro/Agent skills, hooks, warp protocol scripts</td>
 </tr>
 <tr>
-<td><code>plugins/ensemble/skills/</code></td>
-<td>Slash-command definitions (<code>maestro</code>, <code>agent-onboard</code>, <code>autopilot</code>)</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/templates/</code></td>
-<td>MAESTRO (18 directives), AGENT (20 sections), PROJECT_CHARTER, onboarding_prompt</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/bin/</code></td>
-<td>Helper scripts: <code>orchestrator_lock.sh</code> (workshop hook), <code>orchestrator_spawn_lock.sh</code> (three-layer spawn mutex), <code>self_test.sh</code>, <code>test_lock_race.sh</code>, <code>test_spawn_lock_race.sh</code>, plus dashboard regen, prelude, status, upgrade, backup, sync, rollback</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/bootstraps/</code></td>
-<td>Paste-friendly identity prompts</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/integrations/swiftbar/</code></td>
-<td>Mac menu bar indicator + one-shot setup wizard</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/README.md</code></td>
-<td>Plugin-level README (marketplace display)</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/CHANGELOG.md</code></td>
-<td>Version history</td>
-</tr>
-<tr>
-<td><code>plugins/ensemble/LICENSE</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><code>launchd/</code></td>
-<td>Optional <code>launchd</code> plist for the stale-lock sweeper</td>
-</tr>
-<tr>
-<td><code>public/</code></td>
-<td>Marketing onepager (HTML, deployable to Cloudflare Pages)</td>
+<td><code>plugins/endenza/templates/</code></td>
+<td>MAESTRO.md, AGENT.md, PROJECT_CHARTER, warp worker contracts</td>
 </tr>
 <tr>
 <td><code>docs/</code></td>
-<td>Design + install + roadmap docs</td>
+<td>Getting-started, architecture, design, operations, grand-plan</td>
 </tr>
 <tr>
-<td><code>research/</code></td>
-<td>Research tracks (atomic lock, hooks, failure modes, kill-switch, routines, mobile, publication)</td>
+<td><code>public/</code></td>
+<td>Static marketing pages (deployable to Cloudflare Pages)</td>
 </tr>
 <tr>
-<td><code>.github/workflows/</code></td>
-<td>CI: shellcheck + JSON validity + plugin manifest schema + lint job + lock-race + hook-unit</td>
+<td><code>tests/</code></td>
+<td>Python test suite (pytest) — 250+ tests across platform + plugin</td>
 </tr>
 <tr>
-<td><code>uninstall.sh</code></td>
-<td>Legacy self-hosted uninstall (pre-plugin installs)</td>
+<td><code>launchd/</code></td>
+<td>macOS launchd plists for autopilot trigger + stale-lock sweeper</td>
+</tr>
+<tr>
+<td><code>ruff.toml</code></td>
+<td>Python lint configuration (ruff via brew)</td>
 </tr>
 </tbody>
 </table>
-<p>Lint configs at the repo root: <code>.editorconfig</code>, <code>.markdownlint.json</code>, <code>.yamllint</code>, <code>ruff.toml</code>, <code>.prettierrc</code>, <code>.prettierignore</code> — synced to all five companion repos.</p>
-<h2 id="companion-repos">Companion repos</h2>
-<table>
-<thead>
-<tr>
-<th>Repo</th>
-<th>Role</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>ensemble-config</code></td>
-<td>Cross-machine sync layer (<code>bin-mac/</code> ↔ <code>bin-win/</code> PowerShell parity, shared docs/templates/memory)</td>
-</tr>
-<tr>
-<td><code>ensemble-dashboard</code></td>
-<td>Live cross-project completion roster with state pills + PWA install</td>
-</tr>
-<tr>
-<td><code>website-agent-starter</code></td>
-<td>Friend-shareable bootstrap for the website-agent (lifecycle-aware, 9 phase gates)</td>
-</tr>
-<tr>
-<td><code>ensemble-phone</code></td>
-<td>Beautiful phone cheat sheet for Termius+Tailscale dispatch</td>
-</tr>
-<tr>
-<td><code>ensemble-desktop</code></td>
-<td>Desktop-sized phone dispatch reference</td>
-</tr>
-</tbody>
-</table>
-<p>All five sync lint configs from this canonical repo.</p>
-<h2 id="docs">Docs</h2>
-<ul>
-<li><strong>Install</strong> — <a href="./install.html"><code>docs/INSTALL.md</code></a> (marketplace + manual paths, macOS/Linux/Windows)</li>
-<li><strong>Cheat sheet</strong> — <a href="./cheatsheet.html"><code>plugins/ensemble/CHEATSHEET.md</code></a></li>
-<li><strong>Troubleshooting</strong> — <a href="./troubleshooting.html"><code>plugins/ensemble/TROUBLESHOOTING.md</code></a></li>
-<li><strong>SwiftBar setup</strong> — <a href="./cloudflare-access.html"><code>plugins/ensemble/integrations/swiftbar/README.md</code></a></li>
-<li><strong>Mobile dispatch</strong> — <a href="plugins/ensemble/MOBILE_DISPATCH.md"><code>plugins/ensemble/MOBILE_DISPATCH.md</code></a> + <a href="plugins/ensemble/PHONE_QUICKSTART.md"><code>PHONE_QUICKSTART.md</code></a></li>
-<li><strong>Mission roadmap</strong> — <a href="./mission-roadmap.html"><code>docs/MISSION_ROADMAP.md</code></a></li>
-<li><strong>Grand plan</strong> — <a href="./grand-plan.html"><code>docs/GRAND_PLAN.md</code></a> (Phase 0 → 1 → 2 → 3 ladder)</li>
-</ul>
+<p>Lint configs at root: <code>.editorconfig</code>, <code>.markdownlint.json</code>, <code>.yamllint</code>, <code>ruff.toml</code>, <code>.prettierrc</code>.</p>
+<hr />
 <h2 id="status">Status</h2>
 <ul>
-<li><strong>v2.0 contract shipped</strong> 2026-04-26 — eight directives + three-layer mutex + Tier 1 hardening + SwiftBar indicator</li>
-<li><strong>v1.0.0</strong> tagged earlier — first plugin release</li>
-<li><strong>Phase 0</strong> at 90% — remaining: friend hand-off + public-flip</li>
-<li><strong>Cross-platform</strong> — macOS + Linux today (bash); Windows via PowerShell parity in <code>ensemble-config</code></li>
-<li><strong>Marketplace</strong> — public-flip pending; submission timeline 1–4 weeks after</li>
+<li><strong>Rebrand:</strong> Endenza (formerly Ensemble) — complete as of 2026-05-03</li>
+<li><strong>Platform:</strong> active development; living-things runtime next (Tier 1 roadmap)</li>
+<li><strong>Plugin:</strong> v2.0 — eight directives, three-layer mutex, warp protocol, incremental-commit salvage</li>
+<li><strong>Tests:</strong> 250+ passing; 0 failures post stress-β</li>
+<li><strong>Soft launch:</strong> pending living-things Phase 1 + mobile sweep + onboarding polish</li>
 </ul>
+<hr />
+<h2 id="contributing">Contributing</h2>
+<p>See <a href="./contributing.html"><code>CONTRIBUTING.md</code></a> for code style, conventional commits, branch naming
+(<code>claude/&lt;topic&gt;</code>), and the warp protocol overview. Security issues via <a href="./security.html"><code>SECURITY.md</code></a>
+— never public issues. Code of conduct: <a href="./code-of-conduct.html"><code>CODE_OF_CONDUCT.md</code></a>.</p>
+<hr />
+<h2 id="changelog">Changelog</h2>
+<p>See <a href="./changelog.html"><code>CHANGELOG.md</code></a> for release notes.</p>
+<hr />
 <h2 id="license">License</h2>
 <p>MIT. See <a href="LICENSE"><code>LICENSE</code></a>. Copyright © 2026 Kevin Madson.</p>
-<h2 id="contributing">Contributing</h2>
-<p>See <a href="./contributing.html"><code>CONTRIBUTING.md</code></a> for the contract — surgical edits only, commit message conventions, smoke tests, cross-repo sync expectations. Security issues go via <a href="./security.html"><code>SECURITY.md</code></a>, never public issues. Code of conduct: <a href="./code-of-conduct.html"><code>CODE_OF_CONDUCT.md</code></a>.</p>
-<p>The repo is a private preview today; public release lands with the Claude skill marketplace publication.</p>
-<h2 id="changelog">Changelog</h2>
-<p>See <a href="./changelog.html"><code>CHANGELOG.md</code></a> for release notes and <a href="./mission-roadmap.html"><code>docs/MISSION_ROADMAP.md</code></a> for the gap-closure ledger.</p>
+<p><strong>Credits:</strong> Mana Seed Character Base by <a href="https://selieltheshaper.itch.io/">Seliel the Shaper</a> ·
+LimeZu Modern series · Built with <a href="https://claude.ai">Claude</a> by Anthropic.</p>
     </article>
     <footer class="doc-foot">
       <a href="../docs.html" class="doc-back">← Back to all documentation</a>
@@ -447,9 +423,9 @@
   <div class="site-footer__inner">
     <div class="site-footer__cols">
       <div class="site-footer__col site-footer__col--brand">
-        <a href="./" class="site-footer__brand-link" aria-label="Ensemble home">
+        <a href="./" class="site-footer__brand-link" aria-label="Endenza home">
           <img class="brand-mark site-footer__mark" src="./icon.svg" alt="" width="32" height="32" aria-hidden="true" />
-          <span class="brand site-footer__brand-name">Ensemble</span>
+          <span class="brand site-footer__brand-name">Endenza</span>
         </a>
         <p class="site-footer__tagline"><em>One conductor. Many performers.</em></p>
         <p class="site-footer__blurb">A creator-platform PWA where every page is a place &mdash; not a list of links.</p>
@@ -488,7 +464,7 @@
     </div>
 
     <div class="site-footer__bottom">
-      <p class="site-footer__copyright">&copy; 2026 Ensemble &middot; <span class="site-footer__version">v2.0</span></p>
+      <p class="site-footer__copyright">&copy; 2026 Endenza &middot; <span class="site-footer__version">v2.0</span></p>
       <p class="site-footer__meta">Auto-refreshes 3&times; daily.</p>
     </div>
   </div>
@@ -635,8 +611,45 @@
 }
 </style>
 <script nonce="__CSP_NONCE__">
+
+(function migrateEnsembleKeys() {
+  var _LS_KEYS = [
+    "ENSEMBLE_THEME", "ENSEMBLE_BG", "ENSEMBLE_BG_CUSTOM",
+    "ENSEMBLE_SERVER_URL", "ENSEMBLE_DASHBOARD_LAYOUT",
+    "ENSEMBLE_BYOK_LINKED", "ENSEMBLE_SHELF_HEIGHT_VH",
+    "ENSEMBLE_STUDIO_ROOM", "ENSEMBLE_STUDIO_CLAUDE_HISTORY",
+    "ENSEMBLE_STUDIO_CLAUDE_USAGE",
+    "ENSEMBLE_TERMINAL_LEFT_PX", "ENSEMBLE_TERMINAL_RIGHT_PX",
+    "ENSEMBLE_TERMINAL_COMPOSE_H", "ENSEMBLE_TERMINAL_TREE_H",
+    "ENSEMBLE_TERMINAL_LEFT_COLLAPSED", "ENSEMBLE_TERMINAL_RIGHT_COLLAPSED",
+    "ENSEMBLE_TERMINAL_ENTER_TO_SEND", "ENSEMBLE_TERMINAL_HISTORY_NAV",
+    "ENSEMBLE_TERMINAL_FONT_SIZE", "ENSEMBLE_TERMINAL_RIGHT_LAYOUT"
+  ];
+  try {
+    _LS_KEYS.forEach(function (oldKey) {
+      var newKey = oldKey.replace(/^ENSEMBLE_/, "ENDENZA_");
+      if (localStorage.getItem(newKey) === null) {
+        var v = localStorage.getItem(oldKey);
+        if (v !== null) localStorage.setItem(newKey, v);
+      }
+    });
+    // Dynamic prefix keys: ENSEMBLE_STICKY_*, ENSEMBLE_TERMINAL_PINNED_*
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k) continue;
+      if (k.indexOf("ENSEMBLE_STICKY_") === 0 || k.indexOf("ENSEMBLE_TERMINAL_PINNED_") === 0) {
+        var newDynKey = k.replace(/^ENSEMBLE_/, "ENDENZA_");
+        if (localStorage.getItem(newDynKey) === null) {
+          var dv = localStorage.getItem(k);
+          if (dv !== null) localStorage.setItem(newDynKey, dv);
+        }
+      }
+    }
+  } catch (e) {}
+})();
+
 const SERVER_URL = (function() {
-  const stored = localStorage.getItem("ENSEMBLE_SERVER_URL");
+  const stored = localStorage.getItem("ENDENZA_SERVER_URL");
   if (stored) return stored;
   return location.hostname === "localhost" || location.hostname === "127.0.0.1"
     ? "http://localhost:8080"
@@ -671,13 +684,6 @@ async function setConfig(field, value) {
 }
 
 function showHelp(id, msg) { const el = document.getElementById(id); if (el) el.textContent = msg; }
-
-function updateNavStatus(state) {
-  const el = document.getElementById("nav-status");
-  if (!el) return;
-  if (!state) { el.textContent = "offline"; return; }
-  el.textContent = (state.active_count || 0) + "/" + (state.max_concurrent_autopilots || 2) + " · " + (state.mode || "?");
-}
 
 function updateSmokeBanner(state) {
   const banner = document.getElementById("smoke-banner");
@@ -715,7 +721,6 @@ async function refreshState() {
     window._isOwner = newOwner;
     applyOwnerMode();
   }
-  updateNavStatus(state);
   updateSmokeBanner(state);
   if (typeof refreshPageState === "function") refreshPageState(state);
 }
@@ -747,8 +752,63 @@ function applyOwnerMode() {
 }
 
 // ─── Theme picker (persisted, per-device) ───
-const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper"];
+// Trailing 3 entries (sunset_drive / mall_plaza / neo_city) are the
+// 2026-05-04 limited-edition vibe-coder color schemes. They MUST be
+// in this list — applyTheme below uses it to strip stale `theme-*`
+// classes on switch, and missing entries leave the previous theme's
+// CSS overlapping with the new one. (Kevin caught the live-preview
+// bug 2026-05-04: 'doesn't update right away.')
+const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper", "sunset_drive", "mall_plaza", "neo_city"];
 const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora", "scanlines", "topo", "vignette", "paper", "linen", "blueprint", "constellation", "marble", "custom"];
+
+const TERMINAL_FONTS = {
+  "system":          "",
+  "jetbrains-mono":  '"JetBrains Mono", monospace',
+  "fira-code":       '"Fira Code", monospace',
+  "source-code-pro": '"Source Code Pro", monospace',
+  "ibm-plex-mono":   '"IBM Plex Mono", monospace',
+  "inconsolata":     '"Inconsolata", monospace',
+  "space-mono":      '"Space Mono", monospace',
+  "roboto-mono":     '"Roboto Mono", monospace',
+};
+const TERMINAL_FONT_GFONTS = {
+  "fira-code":       "Fira+Code:wght@400;500;600",
+  "source-code-pro": "Source+Code+Pro:wght@400;500;600",
+  "ibm-plex-mono":   "IBM+Plex+Mono:wght@400;500;600",
+  "inconsolata":     "Inconsolata:wght@400;500;600;700",
+  "space-mono":      "Space+Mono:wght@400;700",
+  "roboto-mono":     "Roboto+Mono:wght@400;500;600;700",
+};
+
+function applyTerminalFont(key) {
+  const stack = TERMINAL_FONTS[key];
+  const page = document.querySelector(".terminal-page");
+  if (page) {
+    if (stack) {
+      page.style.setProperty("--terminal-mono", stack);
+    } else {
+      page.style.removeProperty("--terminal-mono");
+    }
+  }
+  const gf = TERMINAL_FONT_GFONTS[key];
+  const linkId = "terminal-font-gf";
+  let existing = document.getElementById(linkId);
+  if (gf) {
+    const href = "https://fonts.googleapis.com/css2?family=" + gf + "&display=swap";
+    if (existing) {
+      existing.href = href;
+    } else {
+      const link = document.createElement("link");
+      link.id = linkId;
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+    }
+  } else if (existing) {
+    existing.remove();
+  }
+}
+window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
   THEMES.forEach(t => document.body.classList.remove("theme-" + t));
@@ -756,17 +816,38 @@ function applyTheme(name) {
   document.querySelectorAll(".theme-swatch").forEach(el => {
     el.classList.toggle("active", el.dataset.theme === (name || "warm"));
   });
-  // Swap the brand mark + favicon to the per-theme variant.  Each theme's
-  // icon lives at ./icons/icon-<theme>.svg; the warm default stays at
-  // ./icon.svg for compatibility with the PWA manifest's cached install
-  // image.  See bin/dashgen/server/theme_icons.py for the design rules.
-  const theme = name || "warm";
-  const iconHref = (theme === "warm") ? "./icon.svg" : ("./icons/icon-" + theme + ".svg");
+  // Default logo NEVER changes (Kevin 2026-05-05: 'our default logo
+  // used on the website should also be our favicon set, this should
+  // ALWAYS be the case. Default logo, for favicons never changes').
+  //
+  // The canonical Threaded Trinity at `./icon.svg` is the project's
+  // single brand identity image. It serves as:
+  //   · the favicon (browser tab + bookmarks)
+  //   · the apple-touch-icon (iOS home-screen install)
+  //   · every in-page `.brand-mark` (homepage hero, nav slot, footer)
+  // None of these change with theme. Theme expressiveness lives in
+  // accent/background colors and the swatch picker — not in the
+  // brand-mark. Don't reintroduce a per-theme mark swap.
+  //
+  // The LE recolors in `dashgen/assets/le_brand_marks.py` remain
+  // available as baked data URIs for future collector affordances
+  // (e.g. downloadable variant, swatch-picker preview), but are NOT
+  // wired to replace the on-page mark or favicon.
   const fav = document.getElementById("favicon");
-  if (fav) fav.href = iconHref;
+  if (fav) fav.href = "./icon.svg";
   const apple = document.getElementById("apple-touch-icon");
-  if (apple) apple.href = iconHref;
-  document.querySelectorAll(".brand-mark").forEach(el => { el.src = iconHref; });
+  if (apple) apple.href = "./icon.svg";
+  document.querySelectorAll(".brand-mark").forEach(el => { el.src = "./icon.svg"; });
+  // Reference the LE dict so the module-load substitution doesn't get
+  // dead-code-eliminated by the minifier — keep the baked URIs in the
+  // bundle for future collector use (see comment block above).
+  const LE_BRAND_MARKS = {"sunset_drive": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_sunset_drive_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80b8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff006e%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b001c%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ffc880%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff5a3a%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b1a08%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%239a80ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233010a0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a0220%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_sunset_drive_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23cc2a30%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23aa0080%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%236020a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "mall_plaza": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_mall_plaza_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380e0ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300d4ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23002a40%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%236070ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233050ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23000840%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff00ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23400028%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_mall_plaza_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%230040a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%237010a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%234015a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "neo_city": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_neo_city_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f0%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff10f0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23500050%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23a8ff80%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2339ff14%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a3010%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380fff5%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300fff5%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23003040%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_neo_city_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23a06090%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%238060e0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%2320c0a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"};
+  void LE_BRAND_MARKS;
+  // Invalidate downstream caches that read CSS custom properties
+  // (component_renderers.colorFromToken memoizes per token; without
+  // this dispatch the cache would survive a theme switch with stale
+  // colors). Cheap event; no listeners outside the renderer today.
+  try { document.dispatchEvent(new CustomEvent("theme:applied", { detail: { name: name } })); } catch (e) {}
 }
 
 function applyBackground(name) {
@@ -779,7 +860,7 @@ function applyBackground(name) {
   // Falls back to solid if no upload yet (the swatch click handler also
   // intercepts to open the file picker first time the tile is clicked).
   if (name === "custom") {
-    const dataUrl = localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+    const dataUrl = localStorage.getItem("ENDENZA_BG_CUSTOM");
     if (dataUrl) {
       document.body.style.backgroundImage = `url("${dataUrl}")`;
     } else {
@@ -792,8 +873,27 @@ function applyBackground(name) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
-  const savedTheme = localStorage.getItem("ENSEMBLE_THEME") || "warm";
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
   applyTheme(savedTheme);
+  // Terminal-only appearance (per-page override). Stamped on <body>
+  // ASAP to avoid a FOUC where the warm-bg flashes before the
+  // black-grey terminal styles kick in. Default = "black-grey"; the
+  // user can flip to "follow-site" via the terminal settings popover.
+  // Only stamps when we're actually on /terminal.html.
+  if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
+    let termTheme = "black-grey";
+    try {
+      const v = localStorage.getItem("ENDENZA_TERMINAL_THEME");
+      if (v === "follow-site" || v === "black-grey") termTheme = v;
+    } catch (e) {}
+    document.body.setAttribute("data-terminal-theme", termTheme);
+    let termFont = "system";
+    try {
+      const f = localStorage.getItem("ENDENZA_TERMINAL_FONT");
+      if (f && TERMINAL_FONTS.hasOwnProperty(f)) termFont = f;
+    } catch (e) {}
+    applyTerminalFont(termFont);
+  }
   // Click + keyboard binding (Enter / Space). The swatches carry
   // role="button" + tabindex="0" so keyboard users can activate them.
   const activateOnKey = (handler) => (ev) => {
@@ -805,7 +905,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".theme-swatch").forEach(el => {
     const fire = () => {
       const t = el.dataset.theme;
-      localStorage.setItem("ENSEMBLE_THEME", t);
+      localStorage.setItem("ENDENZA_THEME", t);
       applyTheme(t);
     };
     el.addEventListener("click", fire);
@@ -813,7 +913,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Background load + bind
-  const savedBg = localStorage.getItem("ENSEMBLE_BG") || "solid";
+  const savedBg = localStorage.getItem("ENDENZA_BG") || "solid";
   applyBackground(savedBg);
   document.querySelectorAll(".bg-swatch").forEach(el => {
     const fire = () => {
@@ -822,7 +922,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // user already has a saved upload, clicking re-applies it without
       // prompting (so they can switch back to it from another bg).
       if (b === "custom") {
-        const hasSaved = !!localStorage.getItem("ENSEMBLE_BG_CUSTOM");
+        const hasSaved = !!localStorage.getItem("ENDENZA_BG_CUSTOM");
         if (!hasSaved || el.classList.contains("active")) {
           // Open file picker (no saved upload yet, OR custom is already
           // active and the user is clicking to replace it).
@@ -831,7 +931,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
       }
-      localStorage.setItem("ENSEMBLE_BG", b);
+      localStorage.setItem("ENDENZA_BG", b);
       applyBackground(b);
     };
     el.addEventListener("click", fire);
@@ -854,8 +954,8 @@ document.addEventListener("DOMContentLoaded", () => {
       reader.onload = (ev) => {
         const dataUrl = ev.target && ev.target.result;
         try {
-          localStorage.setItem("ENSEMBLE_BG_CUSTOM", dataUrl);
-          localStorage.setItem("ENSEMBLE_BG", "custom");
+          localStorage.setItem("ENDENZA_BG_CUSTOM", dataUrl);
+          localStorage.setItem("ENDENZA_BG", "custom");
           applyBackground("custom");
         } catch (err) {
           alert("Couldn't save wallpaper to local storage (it may be too large). Try a smaller image.");
@@ -867,8 +967,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Terminal font load + bind
+  const savedFont = localStorage.getItem("ENDENZA_TERMINAL_FONT") || "system";
+  document.querySelectorAll(".font-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.font === savedFont);
+    const fire = () => {
+      const f = el.dataset.font;
+      localStorage.setItem("ENDENZA_TERMINAL_FONT", f);
+      document.querySelectorAll(".font-swatch").forEach(s => s.classList.toggle("active", s.dataset.font === f));
+      applyTerminalFont(f);
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
+  });
+
   // Owner mode initial state — pessimistic until state fetch confirms
-  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENSEMBLE_SERVER_URL"));
+  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENDENZA_SERVER_URL"));
   applyOwnerMode();
 
   refreshState();
@@ -1015,9 +1129,20 @@ async function submitFirstRunModal(ev) {
   const submitBtn = document.getElementById("first-run-submit");
   const building = (document.getElementById("frq-building").value || "").trim();
   const vibe = (document.getElementById("frq-vibe").value || "").trim();
-  const problem = (document.getElementById("frq-problem").value || "").trim();
-  if (!building || !vibe || !problem) {
-    if (err) err.textContent = "Please answer all three questions.";
+  // Train 2 (2026-05-04): "problem" was replaced by "color_scheme" — a
+  // chip-driven picker. The hidden input's id is frq-color-scheme; the
+  // server still accepts the legacy "problem" key for back-compat.
+  const colorScheme = (document.getElementById("frq-color-scheme").value || "").trim();
+  if (!building) {
+    if (err) err.textContent = "Tell us what you’re building.";
+    return;
+  }
+  if (!vibe) {
+    if (err) err.textContent = "Pick a vibe to set the room’s mood.";
+    return;
+  }
+  if (!colorScheme) {
+    if (err) err.textContent = "Pick a color scheme.";
     return;
   }
   var tosCheck = document.getElementById("first-run-tos-check");
@@ -1031,7 +1156,15 @@ async function submitFirstRunModal(ev) {
     const r = await fetch("/studio/generate-from-answers", {
       method: "POST",
       headers: authHeaders(),
-      body: JSON.stringify({ building: building, vibe: vibe, problem: problem })
+      body: JSON.stringify({
+        building: building,
+        vibe: vibe,
+        color_scheme: colorScheme,
+        // Back-compat: server may still expect `problem`. Send it as
+        // the color_scheme slug so older deploys interpret the answer
+        // sensibly until they pick up the schema update.
+        problem: colorScheme,
+      })
     });
     let body = {};
     try { body = await r.json(); } catch (e) {}
@@ -1089,6 +1222,36 @@ function ctaGenerateClicked() {
   openFirstRunModal();
 }
 
+// Train 2 (2026-05-04): chip-group wiring. Single-select radio
+// behavior driven by aria-checked + a hidden input that mirrors the
+// chosen slug. Reused on the Studio "Generate from GitHub" panel.
+function wireChipGroup(groupEl, hiddenInput) {
+  if (!groupEl || !hiddenInput) return;
+  const chips = groupEl.querySelectorAll("[data-chip-value]");
+  function selectChip(target) {
+    chips.forEach(function (c) {
+      const isSel = c === target;
+      c.setAttribute("aria-checked", isSel ? "true" : "false");
+    });
+    hiddenInput.value = target.getAttribute("data-chip-value") || "";
+    hiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () { selectChip(chip); });
+    chip.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft" &&
+          e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      e.preventDefault();
+      const list = Array.prototype.slice.call(chips);
+      const idx = list.indexOf(chip);
+      const dir = (e.key === "ArrowRight" || e.key === "ArrowDown") ? 1 : -1;
+      const next = list[(idx + dir + list.length) % list.length];
+      next.focus();
+      selectChip(next);
+    });
+  });
+}
+
 function wireFirstRunModal() {
   const overlay = document.getElementById("first-run-overlay");
   if (!overlay) return;
@@ -1100,6 +1263,14 @@ function wireFirstRunModal() {
   if (cancelBtn) cancelBtn.addEventListener("click", closeFirstRunModal);
   if (form) form.addEventListener("submit", submitFirstRunModal);
   if (cta) cta.addEventListener("click", ctaGenerateClicked);
+  // Train 2: wire the two chip groups. Each group's selected slug is
+  // mirrored to a hidden input read by submitFirstRunModal.
+  const vibeGroup = overlay.querySelector('[data-chip-group-name="vibe"]');
+  const vibeInput = document.getElementById("frq-vibe");
+  wireChipGroup(vibeGroup, vibeInput);
+  const colorGroup = overlay.querySelector('[data-chip-group-name="color_scheme"]');
+  const colorInput = document.getElementById("frq-color-scheme");
+  wireChipGroup(colorGroup, colorInput);
   // Stamp 2 / warp:c (2026-04-29): ToS gate. Generate button stays
   // disabled until the user ticks the agreement checkbox.
   var tosCheck = document.getElementById("first-run-tos-check");
@@ -1167,7 +1338,7 @@ function wireServerUrlBanner() {
   try {
     const host = location.hostname;
     if (host === "localhost" || host === "127.0.0.1") return;
-    if (localStorage.getItem("ENSEMBLE_SERVER_URL")) return;
+    if (localStorage.getItem("ENDENZA_SERVER_URL")) return;
     if (localStorage.getItem(SERVER_URL_BANNER_DISMISSED_KEY) === "1") return;
     // /pair.html already shows the form — banner would be redundant.
     if (location.pathname.endsWith("/pair.html")) return;

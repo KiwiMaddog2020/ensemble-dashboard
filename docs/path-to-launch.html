@@ -1,0 +1,1924 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<title>Endenza — Path to Launch</title>
+<meta name="description" content="Phased path to public flip." />
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
+<link rel="manifest" href="./manifest.json" />
+<link rel="icon" id="favicon" type="image/svg+xml" href="./icon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png" />
+<link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Endenza" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
+<style id="cookie-banner-css">
+.cookie-banner {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 240;
+  background: var(--bg-raised, #faf7f2);
+  color: var(--ink, #1a1814);
+  border-top: 1px solid var(--rule, rgba(0,0,0,0.12));
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.08);
+  font-family: var(--sans, system-ui, -apple-system, sans-serif);
+  font-size: 14px; line-height: 1.5;
+}
+.cookie-banner[hidden] { display: none; }
+.cookie-banner__inner {
+  max-width: var(--w-app);
+  margin: 0 auto;
+  padding: 14px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap;
+}
+.cookie-banner__msg { margin: 0; flex: 1 1 320px; min-width: 240px; color: var(--ink-2, #3a342c); }
+.cookie-banner__msg strong { color: var(--ink, #1a1814); }
+.cookie-banner__actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.cookie-banner__link {
+  color: var(--accent, #b8753c);
+  text-decoration: underline;
+  font-weight: 500;
+}
+.cookie-banner__link:hover { color: var(--accent-2, #8c5828); }
+.cookie-banner__dismiss {
+  appearance: none; cursor: pointer;
+  background: var(--accent, #b8753c); color: white; border: 0;
+  padding: 8px 16px; border-radius: 8px;
+  font: inherit; font-weight: 600;
+  transition: background 180ms ease;
+}
+.cookie-banner__dismiss:hover { background: var(--accent-2, #8c5828); }
+.cookie-banner__dismiss:focus-visible {
+  outline: 2px solid var(--accent-2, #8c5828);
+  outline-offset: 2px;
+}
+@media (max-width: 540px) {
+  .cookie-banner__inner { padding: 12px 16px; gap: 10px; }
+  .cookie-banner__actions { width: 100%; justify-content: flex-end; }
+}
+</style>
+<script nonce="__CSP_NONCE__">
+  (function () {
+    try {
+      var t = localStorage.getItem("ENDENZA_THEME") || "warm";
+      var b = localStorage.getItem("ENDENZA_BG") || "solid";
+      if (t && t !== "warm") {
+        document.documentElement.classList.add("theme-" + t);
+      }
+      if (b && b !== "solid") {
+        document.documentElement.classList.add("bg-" + b);
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        if (t && t !== "warm") document.body.classList.add("theme-" + t);
+        if (b && b !== "solid") document.body.classList.add("bg-" + b);
+      });
+    } catch (e) {}
+  })();
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
+    });
+  }
+</script>
+</head>
+<body class="hub doc-page">
+<a class="skip-link" href="#main">Skip to main content</a>
+<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
+  <div class="cookie-banner__inner">
+    <p class="cookie-banner__msg">
+      <strong>Endenza</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
+    </p>
+    <div class="cookie-banner__actions">
+      <a class="cookie-banner__link" href="/legal/cookies.html">Read policy</a>
+      <button type="button" class="cookie-banner__dismiss" id="cookie-banner-dismiss">Got it, dismiss</button>
+    </div>
+  </div>
+</div>
+<script id="cookie-banner-js">
+(function () {
+  var KEY = "cookie-consent";
+  var banner = document.getElementById("cookie-banner");
+  if (!banner) return;
+  var dismissed = "0";
+  try { dismissed = localStorage.getItem(KEY) || "0"; } catch (e) {}
+  if (dismissed === "1") return;
+  banner.hidden = false;
+  var btn = document.getElementById("cookie-banner-dismiss");
+  if (btn) {
+    setTimeout(function () { try { btn.focus(); } catch (e) {} }, 80);
+    btn.addEventListener("click", function () {
+      try { localStorage.setItem(KEY, "1"); } catch (e) {}
+      banner.hidden = true;
+    });
+  }
+})();
+</script>
+<nav class="topnav" id="topnav" data-drawer-state="closed">
+  <div class="wrap">
+    <button class="nav__toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="topnav-list" aria-label="Open navigation menu">
+      <span class="nav__toggle-bar" aria-hidden="true"></span>
+      <span class="nav__toggle-bar" aria-hidden="true"></span>
+      <span class="nav__toggle-bar" aria-hidden="true"></span>
+    </button>
+    <ul id="topnav-list">
+      <li><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
+      <li><a href="./">Endenza</a></li>
+      <li><a href="./studio.html">Studio</a></li>
+      <li><a href="./dashboard.html">Dashboard</a></li>
+      <li><a href="./terminal.html">Terminal</a></li>
+      <li><a class="active" aria-current="page" href="./docs.html">About</a></li>
+      <li><a href="./settings.html">Settings</a></li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+(function () {
+  function wireNavDrawer() {
+    var nav = document.getElementById("topnav");
+    var btn = document.getElementById("nav-toggle");
+    if (!nav || !btn) return;
+    function setState(open) {
+      nav.setAttribute("data-drawer-state", open ? "open" : "closed");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+    }
+    btn.addEventListener("click", function () {
+      var isOpen = nav.getAttribute("data-drawer-state") === "open";
+      setState(!isOpen);
+    });
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        var isOpen = nav.getAttribute("data-drawer-state") === "open";
+        setState(!isOpen);
+      } else if (e.key === "Escape") {
+        setState(false);
+        btn.focus();
+      }
+    });
+    var mq = window.matchMedia("(max-width: 720px)");
+    function syncBreakpoint() {
+      if (!mq.matches) setState(false);
+    }
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", syncBreakpoint);
+    } else if (typeof mq.addListener === "function") {
+      mq.addListener(syncBreakpoint);
+    }
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", wireNavDrawer);
+  } else {
+    wireNavDrawer();
+  }
+})();
+</script>
+
+<div id="smoke-banner">
+  <div class="wrap">
+    <div>
+      <strong>Smoke test required</strong>
+      <p id="smoke-banner-text">...</p>
+    </div>
+    <div class="cmd-row">
+      <button class="btn-primary" onclick="smokeResult('pass')">Pass</button>
+      <button class="btn-secondary" onclick="smokeResult('issues')">Issues</button>
+      <button class="btn-danger" onclick="smokeResult('fail')">Fail</button>
+    </div>
+  </div>
+</div>
+<main id="main" class="doc-page">
+  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
+  <div class="wrap doc-wrap">
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <header class="doc-hero">
+      <p class="doc-eyebrow">Documentation</p>
+      <h1 class="doc-title">Path to Launch</h1>
+      <p class="doc-lead">**Status:** active · last reviewed 2026-05-03</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/grand-plan/PATH_TO_LAUNCH.md</code></p>
+    </header>
+    <article class="doc-content">
+<blockquote>
+<p>The strategic recalibration after the honest 25–35% probability assessment of 2026-04-27. Every category scored, every gap closed, scope sharpened so we ship a focused 10/10 product instead of 80% of an ambitious one. Reads after <a href="./manifesto.html"><code>MANIFESTO.md</code></a>, <a href="./product-spec.html"><code>PRODUCT_SPEC.md</code></a>, <a href="./architecture.html"><code>ARCHITECTURE.md</code></a>, <a href="ART_DIRECTION.md"><code>ART_DIRECTION.md</code></a>, <a href="./gtm-plan.html"><code>GTM_PLAN.md</code></a>, <a href="INTERACTIVE_ASSETS.md"><code>INTERACTIVE_ASSETS.md</code></a>.</p>
+</blockquote>
+<p><strong>Status:</strong> locked 2026-04-27 (recalibration pass). <strong>Re-locked 2026-04-30 evening</strong> per <a href="./vision-2026-04-30.html"><code>VISION_REVISION_2026-04-30.md</code></a>: sprite-walk + character creator + per-component flags + camera + interaction-prompt UX pulled forward from v1.5 to v1.0. Terminology aligned to Ensemble / Studio / Canvas / Showcase. Tier limits set to 1+1 free / 1+9 pro. The multi-tenant overworld (walking BETWEEN Studios) remains v1.5.
+<strong>Bar:</strong> every v1 category at A+ / 10/10. No exception.
+<strong>Honest target:</strong> raise the probability of meaningful success from <strong>25–35% → 50–65%</strong> by sharpening scope and investing fully in the categories that matter.</p>
+<hr />
+<h2 id="1-why-this-doc-exists">1. Why this doc exists</h2>
+<p>The earlier strategic docs locked the <em>vision</em>. That vision is real-game-changer-shaped, but the path described from there to launch was too broad:
+- 6 phases (A → F) totaling ~210 hours of build.
+- Plus ~219 hours of category-by-category quality work to push everything to A+.
+- Total: ~430 hours, or 12–18 months of focused full-time effort.</p>
+<p>That timeline is not the problem. The problem is that 430 hours spread across &ldquo;everything we want to build&rdquo; gives us 80% of an ambitious vision. The product wins by being 100% of a focused vision, not 80% of an ambitious one.</p>
+<p>This doc:
+1. <strong>Names the recalibrated v1.</strong> Smaller, sharper, achievable.
+2. <strong>Plans every category to A+.</strong> No exceptions, no &ldquo;good enough&rdquo; carveouts.
+3. <strong>Writes the auxiliary plans</strong> that were missing (sound, sprite art, content, CI/CD).
+4. <strong>Re-estimates probability of success</strong> with the recalibration.</p>
+<p>If anything in <a href="./manifesto.html"><code>MANIFESTO.md</code></a> conflicts with this recalibration, the manifesto wins. This doc operates inside the manifesto.</p>
+<hr />
+<h2 id="2-the-recalibration-what-changes-vs-the-original-plan">2. The recalibration — what changes vs. the original plan</h2>
+<h3 id="21-the-single-elevator-pitch-sentence-were-committing-to">2.1 The single elevator-pitch sentence we&rsquo;re committing to</h3>
+<blockquote>
+<p><strong>Linktree is a list of links — Ensemble is a place you walk through, in a sprite you made.</strong></p>
+</blockquote>
+<p>Every product decision passes this filter. If a feature doesn&rsquo;t earn its way into &ldquo;Ensemble is <em>a place</em> + <em>you walk through it</em>,&rdquo; it gets cut from v1.</p>
+<h3 id="22-whats-in-v1-mandatory-for-launch">2.2 What&rsquo;s IN v1 (mandatory for launch)</h3>
+<p>Five line items below (★ marked) were pulled forward from v1.5 in the 2026-04-30 vision revision.</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>The Studio</strong></td>
+<td>Procedurally-filled first Canvas (per <code>PRODUCT_SPEC.md</code> §3.2 / §3.6.5; spec drafted Chunk 4, real impl Chunk 5) + Workshop drawer + 5 example presets + 5 asset packs + edit mode + Claude chat in edit mode</td>
+</tr>
+<tr>
+<td>★ <strong>Character creator</strong></td>
+<td>First-run UI; persisted sprite descriptor; ~384-combo palette (8 body × 6 hair × 8 outfit). v1.0 per <code>VISION_REVISION_2026-04-30.md</code> §3 + <code>SPRITE_WORLD.md</code>.</td>
+</tr>
+<tr>
+<td>★ <strong>Sprite-walk engine</strong></td>
+<td>8-direction walk, camera-follow, collision detection, vanilla canvas2D. v1.0.</td>
+</tr>
+<tr>
+<td>★ <strong>Per-component flags</strong></td>
+<td><code>walkable_through</code> / <code>solid</code> / <code>interactable</code> wired into the canvas schema and the props panel. v1.0.</td>
+</tr>
+<tr>
+<td>★ <strong>Camera follow</strong></td>
+<td>Camera tracks the sprite within canvas bounds; smooth lerp; reduced-motion-respect. v1.0.</td>
+</tr>
+<tr>
+<td>★ <strong>Interaction-prompt UX</strong></td>
+<td>&ldquo;Press X to interact&rdquo; overlay when sprite enters an interactable component&rsquo;s radius; works with keyboard, click, and touch. v1.0.</td>
+</tr>
+<tr>
+<td><strong>Click-to-launch</strong></td>
+<td>Full implementation of all 4 in-canvas interactions: launch, link, embed, read. Sprite-proximity fires the same handlers as click.</td>
+</tr>
+<tr>
+<td><strong>Tier gates</strong></td>
+<td><code>POST /canvas</code> enforces 1+1 free / 1+9 pro per <code>PRODUCT_SPEC.md</code> §3.1a; Studio UI disables &ldquo;New canvas&rdquo; at limit; Showcase setter enforces exactly-one.</td>
+</tr>
+<tr>
+<td><strong>Showcase pages</strong></td>
+<td>Per-Showcase public pages with og:image generation, RSS feed</td>
+</tr>
+<tr>
+<td><strong>Iframe embedding</strong></td>
+<td>Canvas embeddable in other surfaces (Substack, Notion, Bluesky bio)</td>
+</tr>
+<tr>
+<td><strong>Multi-tenancy + auth</strong></td>
+<td>Cloud backend, account creation, public profiles</td>
+</tr>
+<tr>
+<td><strong>The Dashboard</strong></td>
+<td>Existing power-user surface (preserved, demoted in nav)</td>
+</tr>
+<tr>
+<td><strong>/pair flow</strong></td>
+<td>Already shipped</td>
+</tr>
+<tr>
+<td><strong>~85–100 quality sprites</strong></td>
+<td>Across 5 asset packs (per <code>PRODUCT_SPEC.md</code> §3.3): instruments (~20), arcade (~15), books + shelves (~15), plants + props (~25), doors + portals (~10). Total ~85–100. <strong>These are component sprites; the user&rsquo;s avatar sprite from the character creator is a separate asset stream.</strong></td>
+</tr>
+<tr>
+<td><strong>Sound layer</strong></td>
+<td>Off by default, opt-in. Per-preset ambient + action library. Footstep SFX hook on sprite-walk (default per Kevin&rsquo;s call, <code>VISION_REVISION_2026-04-30.md</code> §6.6).</td>
+</tr>
+<tr>
+<td><strong>Apple-quality bar</strong></td>
+<td>Every page designed. Every empty state designed. Every error state designed.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-whats-deferred-to-v15-v11-post-launch">2.3 What&rsquo;s DEFERRED to v1.5 / v1.1 (post-launch)</h3>
+<p>The 2026-04-30 vision revision pulled sprite-walk + character creator + per-component flags + camera + interaction-prompt UX into <strong>v1.0</strong>. They are no longer deferred. The remaining v1.5 items (the multi-tenant overworld and presence layers) are kept here.</p>
+<table>
+<thead>
+<tr>
+<th>Deferred to</th>
+<th>Item</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>v1.5</strong></td>
+<td><strong>Composable connected canvases ACROSS Studios</strong></td>
+<td>Door routing across Studios needs the multi-tenant overworld + significant cross-tenant infra. Per <code>V1_5_WALKABLE_WORLD.md</code>. v1.0 doors connect within a creator&rsquo;s own canvases.</td>
+</tr>
+<tr>
+<td><strong>v1.5</strong></td>
+<td><strong>Multi-tenant Ensemble overworld (walking BETWEEN Studios)</strong></td>
+<td>The walkable city of rooftops + plazas + paths per <code>V1_5_WALKABLE_WORLD.md</code>. Rendering scales (LOD, presence DOs, town layout) compound; landed as a single coordinated phase.</td>
+</tr>
+<tr>
+<td><strong>v1.5</strong></td>
+<td><strong>Rooftop primitive</strong></td>
+<td>The 256² art-tile that represents a Showcase on the overworld. Per <code>ROOFTOP_LAYER.md</code>. Schema field shipped now (forward-compat); editor + renderer post-v1.0.</td>
+</tr>
+<tr>
+<td><strong>v1.5</strong></td>
+<td><strong>Procedural town layout</strong></td>
+<td>The algorithm that places Showcases into walkable plazas. Per <code>TOWN_LAYOUT.md</code>.</td>
+</tr>
+<tr>
+<td><strong>v1.5</strong></td>
+<td><strong>Live presence (multi-visitor ghost-sprites)</strong></td>
+<td>Visitors see other-visitor sprites drifting through the canvas. v1.0 ships single-visitor sprite-walk only.</td>
+</tr>
+<tr>
+<td><strong>v1.1</strong></td>
+<td><strong>Generative living canvases</strong></td>
+<td>Claude composes a fresh Canvas from your data. Defining demo for a &ldquo;we&rsquo;re back with the next thing&rdquo; launch hook.</td>
+</tr>
+<tr>
+<td><strong>v1.2</strong></td>
+<td><strong>Programmable creator-bots</strong></td>
+<td>Big build, big moderation surface. Validate that creators want it before investing.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="24-whats-deferred-indefinitely-or-to-v2">2.4 What&rsquo;s DEFERRED indefinitely or to v2</h3>
+<ul>
+<li><strong>Feed (cross-Ensemble timeline)</strong> — Phase E. Networks take years; we ship v1 without and add later if the audience is real.</li>
+<li><strong>Sprite community catalog + remix lineage</strong> — Phase F. Post-launch creator-driven feature.</li>
+<li><strong>Asset marketplace + tipping economy</strong> — Post-launch when there&rsquo;s a real economy.</li>
+<li><strong>Team tier ($40/user)</strong> — Year 2 if the consumer tier validates.</li>
+<li><strong>Mobile native apps</strong> — Year 2.</li>
+</ul>
+<h3 id="25-what-changes-about-the-dashboard">2.5 What changes about the dashboard</h3>
+<p><strong>Stays exactly as it is.</strong> The Maestro/Agents control deck shipped through Phase 1–2.5 is preserved. Demoted in marketing nav (the homepage is the Studio), but power users find it via Settings or the Operator footer link. Functionally unchanged.</p>
+<p>This is critical: we don&rsquo;t break what already works. The dashboard&rsquo;s existing depth is one of the things that makes Ensemble distinctive.</p>
+<hr />
+<h2 id="3-the-new-v1-ship-list">3. The new v1 ship list</h2>
+<p>This is the launch contract. v1 is shipped only when every line below is checked.</p>
+<h3 id="31-studio-core-85h-baseline-24-30h-sprite-walk-pull-in-110-115h">3.1 Studio core (~85h baseline + ~24-30h sprite-walk pull-in = ~110-115h)</h3>
+<ul>
+<li>[ ] Procedurally-filled first Canvas default with Workshop drawer (Phase A.0 lays the surface; procedural-fill stub in Chunk 2, real impl Chunk 5 per <code>PRODUCT_SPEC.md</code> §3.6.5). <strong>Sprite-aware:</strong> layout preserves walk-paths.</li>
+<li>[ ] 5 example presets: blank, music ensemble, game arcade (DONE), personal library, gallery, workshop literal (4 to author)</li>
+<li>[ ] 5 asset packs at ~85–100 sprites total (per <code>PRODUCT_SPEC.md</code> §3.3)</li>
+<li>[ ] <strong>Character creator UI + storage</strong> (~6h): first-run flow; ~384-combo palette (8 body × 6 hair × 8 outfit); persisted sprite descriptor on user record. Per <code>SPRITE_WORLD.md</code>.</li>
+<li>[ ] <strong>Sprite-walk engine</strong> (~10h): vanilla canvas2D, 8-direction, collision against <code>solid</code> components, camera-follow, reduced-motion fallback.</li>
+<li>[ ] <strong>Per-component flags</strong> (<code>walkable_through</code> / <code>solid</code> / <code>interactable</code>) (~4h): canvas schema patch, props-panel UI, default-flag heuristics per component class.</li>
+<li>[ ] <strong>Interaction-radius prompt UX</strong> (~4h): visible &ldquo;Press X&rdquo; overlay when sprite enters an interactable&rsquo;s radius; honors keyboard + click + touch.</li>
+<li>[ ] Edit mode: drag/resize/select/code, undo/redo (50-op history), auto-save (5s), keyboard shortcuts (Cmd-S/Cmd-Z/Cmd-E). <strong>Edit toggle pauses sprite-walk + parks the sprite at the door.</strong></li>
+<li>[ ] <strong>Walk-floor overlay</strong> in edit mode (~2h): 16px grid + collision shading visualizing where the sprite can walk.</li>
+<li>[ ] Claude chat drawer in edit mode: sprite generation, component generation, layout suggestions, free-form chat. <strong>Compositions respect sprite-walk constraints.</strong></li>
+<li>[ ] All 4 click-to-<em> interactions: launch (DONE), link, embed, read. </em><em>Sprite-proximity fires the same handlers as click.</em>*</li>
+<li>[ ] Edit-mode interaction wiring panel (props sidebar) — extended with the 3 sprite-walk flags.</li>
+<li>[ ] First-run tutorial (4-step coachmarks): &ldquo;Make your sprite&rdquo; → &ldquo;Walk around&rdquo; → &ldquo;Press X to interact&rdquo; → &ldquo;Edit when ready&rdquo;.</li>
+<li>[ ] Empty state, first-time edit, error states all designed (sprite stands on entrance for empty canvas).</li>
+<li>[ ] CRT overlay toggle in Settings</li>
+<li>[ ] Sound layer (opt-in) with per-preset ambient + action sounds + footstep SFX (default per <code>VISION_REVISION_2026-04-30.md</code> §6.6).</li>
+<li>[ ] Reduced-motion fully honored across every animation <strong>including sprite-walk</strong> (motion → instant teleport on direction change; no walk-cycle frames)</li>
+<li>[ ] All 21 themes apply correctly to every preset</li>
+<li>[ ] Per-Canvas CSS sandbox + per-Canvas JS sandbox</li>
+<li>[ ] <strong>Tier gates</strong> (~3h): <code>POST /canvas</code> enforces 1+1 free / 1+9 pro; Studio UI disables &ldquo;New canvas&rdquo; at limit; Showcase setter enforces exactly-one in a single transaction.</li>
+</ul>
+<h3 id="32-showcase-pages-16-hours">3.2 Showcase pages (~16 hours)</h3>
+<ul>
+<li>[ ] <code>/showcase/&lt;slug&gt;.html</code> rich layouts per public project</li>
+<li>[ ] Auto-generated 1200×630 og:image PNG</li>
+<li>[ ] Per-Ensemble RSS feed at <code>feed.xml</code></li>
+<li>[ ] Showcase tab inside Studio shows curated list</li>
+<li>[ ] Embed snippet for each showcase</li>
+</ul>
+<h3 id="33-multi-tenancy-auth-40-hours">3.3 Multi-tenancy + auth (~40 hours)</h3>
+<ul>
+<li>[ ] Cloudflare Workers + D1 + R2 + Durable Objects setup</li>
+<li>[ ] GitHub OAuth + Apple sign-in + magic-link email</li>
+<li>[ ] User accounts, workspaces, public profiles at <code>ensemble.tld/&lt;handle&gt;</code></li>
+<li>[ ] Cloud Studio sync (server is source of truth post-D)</li>
+<li>[ ] Migration script from Mac-local to cloud</li>
+<li>[ ] Pricing surface (Stripe Checkout)</li>
+<li>[ ] Free + paid tiers wired</li>
+</ul>
+<h3 id="34-operations-safety-quality-80-hours">3.4 Operations + safety + quality (~80 hours)</h3>
+<ul>
+<li>[ ] CI gating every PR (GH Actions running tests + lint + build)</li>
+<li>[ ] Pytest 70%+ coverage on Python modules</li>
+<li>[ ] Vitest 60%+ coverage on Studio engine JS</li>
+<li>[ ] Playwright e2e for the 5 critical flows (pair, fire autopilot, kill, edit Studio, publish showcase)</li>
+<li>[ ] WCAG 2.1 AA audit + fixes</li>
+<li>[ ] Security threat model + sandbox pen test</li>
+<li>[ ] Status page at <code>status.ensemble.tld</code></li>
+<li>[ ] Incident response runbook</li>
+<li>[ ] Content moderation policy + intake form</li>
+<li>[ ] Cost monitoring + spend alerts</li>
+</ul>
+<p><strong>Total v1 build: ~221 hours baseline + ~24-30h sprite-walk pull-in = ~245–251 hours.</strong> That&rsquo;s ~2.5-3 months full-time, or 6-7 months part-time at 8h/week. Roughly half the original 430h plan, with the sprite-walk addition itself a major brand + first-impression lift (per <code>VISION_REVISION_2026-04-30.md</code> §3).</p>
+<hr />
+<h2 id="4-per-category-plan-to-a-1010">4. Per-category plan to A+ (10/10)</h2>
+<p>For each category in the honest assessment, the concrete plan to push it from current state → A+. Time estimates included. Nothing left as &ldquo;we&rsquo;ll figure it out.&rdquo;</p>
+<h3 id="41-dashboard-architecture-a-a-16h">4.1 Dashboard architecture: A− → A+ (~16h)</h3>
+<p><strong>Gap:</strong> missing automated test coverage; Phase 1 modularization clean, single-source CSS strong, but no regression safety net.</p>
+<p><strong>Plan:</strong>
+1. Pytest harness for <code>bin/dashgen/</code> modules: data, pages, styles, widgets, server. Goal: 70%+ line coverage.
+2. Golden-file diffs: regenerate dashboard, diff against committed baseline. Pass if no diff or diff is timestamp-only.
+3. JSON schema validators for <code>state.json</code>, <code>chats/*.json</code>, <code>studio/room.json</code>, sprite metadata.
+4. Type hints throughout Python (gradual <code>mypy</code> adoption).
+5. CI gates: <code>pytest</code>, <code>mypy</code>, <code>ruff</code>, <code>python3 -m py_compile</code> all green required to merge.</p>
+<p><strong>Hours:</strong> 16</p>
+<h3 id="42-studio-architecture-b-a-12h">4.2 Studio architecture: B+ → A+ (~12h)</h3>
+<p><strong>Gap:</strong> engine just shipped, no schema validation, no scale tests, no JSDoc types.</p>
+<p><strong>Plan:</strong>
+1. JSDoc type definitions for every function in <code>studio_engine_js</code>. Strict types via <code>// @ts-check</code> at file head.
+2. JSON Schema for Room + Preset + Sprite. Validate on load + before save.
+3. Refactor engine into pure-function modules where possible (testable).
+4. Load test: render a Canvas with 100 components. Verify FPS stays &gt;30, memory &lt;150MB.
+5. Engine unit tests via vitest: schema validation, slot resolution, preset loading.</p>
+<p><strong>Hours:</strong> 12</p>
+<h3 id="43-studio-ux-b-a-37h">4.3 Studio UX: B− → A+ (~37h)</h3>
+<p><strong>Gap:</strong> edit mode missing, persistence missing, multi-tenancy missing, no first-run flow.</p>
+<p><strong>Plan:</strong>
+1. <strong>Edit mode</strong> (Phase A.3 from PRODUCT_SPEC) — ~14h
+   - Drag handles + resize handles + delete buttons
+   - Component palette (right-side drawer)
+   - Props panel (replaces palette when component selected)
+   - Code editor (Monaco-style modal for custom CSS/JS)
+   - Outline view (left-side, hierarchical components)
+2. <strong>Auto-save + undo/redo</strong> — ~6h
+   - Auto-save every 5s, persists to <code>studio/room.json</code> (Phase A) / cloud (Phase D)
+   - 50-op undo/redo history per session
+   - Cmd-S / Cmd-Z / Cmd-Shift-Z / Cmd-E shortcuts
+3. <strong>Workshop drag-to-stage</strong> — ~4h
+   - Asset packs: drag a sprite from the pack list onto the stage to add a component
+   - Drop-target visualization (snap-to-grid, 16px increments)
+4. <strong>First-run tutorial</strong> — ~4h
+   - 4-step coachmark sequence on first edit-mode entry
+   - &ldquo;Press Edit&rdquo; → &ldquo;Drag a sprite&rdquo; → &ldquo;Wire an interaction&rdquo; → &ldquo;Save&rdquo;
+   - Dismissible, persisted
+5. <strong>Designed empty + error states</strong> — ~6h
+   - Empty Canvas (after wipe-and-restart) — &ldquo;Press Edit or load an Example&rdquo; (default first-canvas state is procedurally-filled, not empty; this is the post-wipe state per <code>PRODUCT_SPEC.md</code> §3.2)
+   - Empty Workshop search (&ldquo;No matches — try X&rdquo;)
+   - Save failure (designed pill with retry)
+   - Asset load failure (placeholder ? sprite with tooltip)
+6. <strong>Keyboard navigation</strong> — ~3h
+   - Tab cycles components, Enter selects, Space activates
+   - Focus rings on every interactive element</p>
+<p><strong>Hours:</strong> 37</p>
+<h3 id="44-sprite-art-c-a-32h-or-3000-for-a-pixel-artist">4.4 Sprite art: C+ → A+ (~32h, OR ~$3000 for a pixel artist)</h3>
+<p><strong>Gap:</strong> 14 sprites today; need ~85–100 quality sprites at consistent style (per <code>PRODUCT_SPEC.md</code> §3.3). Current sprites are recognizable but not Stardew-tier.</p>
+<p><strong>Plan A — solo execution:</strong> 
+1. Author ~45 anchor sprites (1 per asset-pack-style + main characters). 30 min each = ~22h.
+2. Use Claude to draft ~40–55 supporting sprites (variants, props, secondary characters). Hand-clean each. 15 min each = ~12h.
+3. Style guide doc + theme retinting validation. 2h.</p>
+<p><strong>Plan B — hire a pixel artist (recommended):</strong>
+1. Find a freelancer specializing in 32×32 pixel art. ~$30–50/sprite = $2550–5000 for ~85–100 sprites.
+2. 1-week sprint with daily check-ins. Deliver in batches.
+3. Maestro reviews each batch against the art-bible rules.</p>
+<p><strong>Plan C — hybrid (best for v1):</strong>
+1. Hire a pixel artist for the 5 <em>anchor</em> sprites in each pack (25 total, ~$1000–1250).
+2. Author the remaining ~60–75 in-house (~16–20h) following the artist&rsquo;s anchor style.
+3. Result: pack-coherent style at lower cost than full hire.</p>
+<p><strong>Recommendation:</strong> Plan C ideally. <strong>Locked decision (2026-04-27): Plan A — solo DIY.</strong> $0 cash spend; 32h of authored sprite work in-house. Slower path but Kevin&rsquo;s call. Quality risk: anchor sprites may take longer than estimated to hit A+ without a pixel-art professional to study. Mitigation: hand-author the 5 anchor sprites first, study real pixel-art reference closely (Stardew, Celeste), iterate until each anchor is A+ before scaling to the supporting 35.</p>
+<p><strong>Hours / cost:</strong> 32h + $0 (DIY)</p>
+<h3 id="45-documentation-a-a-12h">4.5 Documentation: A− → A+ (~12h)</h3>
+<p><strong>Gap:</strong> strategic docs locked. Missing: user-facing help, FAQ, video walkthroughs, API reference.</p>
+<p><strong>Plan:</strong>
+1. <code>docs/help/</code> — user-facing help with screenshots. 10 articles covering: pair, edit mode, workshop, click-to-launch, showcase, themes, sound, troubleshooting, billing, account.
+2. FAQ at <code>ensemble.tld/help</code> — 50 questions across categories.
+3. 5-minute walkthrough video — screen recording + voiceover (Kevin records).
+4. API reference for <code>/studio/*</code> endpoints + control panel.
+5. Component schema reference (auto-generated from JSDoc).</p>
+<p><strong>Hours:</strong> 12</p>
+<h3 id="46-testing-d-a-25h">4.6 Testing: D+ → A+ (~25h)</h3>
+<p><strong>Gap:</strong> almost zero test coverage today. Critical risk for the launch.</p>
+<p><strong>Plan:</strong>
+1. <strong>Pytest</strong> for <code>bin/dashgen/</code>: 70% line coverage minimum.
+   - Module unit tests (data, pages, styles, widgets, server).
+   - Render golden-file diffs.
+   - Schema validation tests.
+2. <strong>Vitest</strong> for <code>studio_engine_js</code>: 60% coverage.
+   - Pure-function tests (slot resolution, embed URL transforms, markdown-lite).
+   - Render-engine tests with mock state.
+3. <strong>Playwright</strong> for 5 critical flows:
+   - Pair this browser → owner mode unlocks.
+   - Fire autopilot from dashboard → state.json updates.
+   - Edit a Canvas in the Studio → save → reload → state preserved.
+   - Click-to-launch on Game Arcade → modal opens with correct frame.
+   - Publish showcase → public URL renders.
+4. <strong>Visual regression</strong> via Percy or similar — screenshots of every page across 21 themes.
+5. <strong>CI gating</strong> every PR.
+6. <strong>Smoke tests</strong> post-deploy.</p>
+<p><strong>Hours:</strong> 25</p>
+<h3 id="47-performance-b-a-10h">4.7 Performance: B+ → A+ (~10h)</h3>
+<p><strong>Gap:</strong> dashboard performance solid. Studio not load-tested. No CI-enforced budgets.</p>
+<p><strong>Plan:</strong>
+1. Lighthouse CI on every page: LCP &lt;1.5s, FID &lt;100ms, CLS &lt;0.1.
+2. Bundle size budgets: <code>style.css</code> &lt;50KB compressed, studio engine &lt;500KB compressed.
+3. Lazy-load sprites by category (core 80 in initial bundle, extended fetched on edit-mode).
+4. <code>content-visibility: auto</code> on off-screen components.
+5. Synthetic uptime checks every 5 min from 3 regions (Cloudflare, US, EU).</p>
+<p><strong>Hours:</strong> 10</p>
+<h3 id="48-security-b-a-12h">4.8 Security: B → A+ (~12h)</h3>
+<p><strong>Gap:</strong> sandbox model right; allowlist solid; multi-tenancy security untested.</p>
+<p><strong>Plan:</strong>
+1. Threat model write-up: list every threat × mitigation × test.
+2. Sandbox escape pen test: try to exfiltrate from a custom-code iframe (manual + automated).
+3. Prompt injection test suite: try to break the Claude system prompt.
+4. CSP audit on every page + fix violations.
+5. Auth flow security review (Phase D): token rotation, session expiry, recovery.
+6. Cloudflare Access wired (already on A-tier roadmap).
+7. Quarterly security review process documented.</p>
+<p><strong>Hours:</strong> 12</p>
+<h3 id="49-operations-b-a-12h">4.9 Operations: B → A+ (~12h)</h3>
+<p><strong>Gap:</strong> scheduled tasks + autopilot work, but no real on-call story.</p>
+<p><strong>Plan:</strong>
+1. Zombie sweeper: launchd job every 30 min, kills stale claude processes.
+2. Structured logging: all bash scripts use <code>log_error</code> helper, all Python logs via <code>logging</code> module with rotating file handler.
+3. Status page: <code>status.ensemble.tld</code> powered by Cloudflare Workers + free uptime monitor.
+4. Daily/weekly health check: cron-driven, posts to Slack/Discord.
+5. Incident response runbook.
+6. Backup retention: 30-day daily + quarterly snapshot.
+7. Migration safety: pre-migration backup + post-migration verification.</p>
+<p><strong>Hours:</strong> 12</p>
+<h3 id="410-accessibility-b-a-10h">4.10 Accessibility: B− → A+ (~10h)</h3>
+<p><strong>Gap:</strong> keyboard nav + reduced-motion mostly honored. No formal audit.</p>
+<p><strong>Plan:</strong>
+1. Run aXe + WAVE across every page. Fix all errors.
+2. Manual screen reader pass (NVDA on Win + VoiceOver on Mac).
+3. Keyboard-only navigation pass for every flow.
+4. Color contrast verification across all 21 themes (Stark or similar).
+5. Reduced-motion full audit.
+6. Add <code>aria-live</code> regions for state changes.
+7. Document accessibility statement.</p>
+<p><strong>Hours:</strong> 10</p>
+<h3 id="411-internationalization-f-deferred-to-v11">4.11 Internationalization: F → DEFERRED to v1.1</h3>
+<p><strong>Honest call:</strong> English-only at v1 is acceptable for the vibe-coder audience. The first 1k users are likely English-speaking. Investing 25h here pre-launch yields no validation; investing post-launch yields scaled value.</p>
+<p><strong>v1.1 plan (post-launch):</strong>
+1. xcstrings catalog with all UI strings.
+2. Translate to 5 languages: ES, FR, PT, DE, JP. ~$2000 via professional service.
+3. RTL layout support (CSS logical properties already mostly in use).
+4. Locale-aware date/number formatting.</p>
+<p><strong>Hours:</strong> 0 at v1, 25h post-launch.</p>
+<h3 id="412-brand-identity-a-a-6h">4.12 Brand identity: A− → A+ (~6h)</h3>
+<p><strong>Gap:</strong> manifesto + art bible solid. Missing: brand kit, marketing site, launch assets.</p>
+<p><strong>Plan:</strong>
+1. Brand kit: logo SVG variants, color tokens, typography pairing rules.
+2. Marketing site (separate from app): <code>ensemble.tld</code> homepage with hero, manifesto excerpt, demo video, waitlist form.
+3. Launch assets: og:image template, social card templates, App icon variants.
+4. Press kit: high-res logos, screenshots, founder bio.</p>
+<p><strong>Hours:</strong> 6</p>
+<h3 id="413-builddeploy-b-a-10h">4.13 Build/deploy: B− → A+ (~10h)</h3>
+<p><strong>Plan:</strong>
+1. CI gating every PR via GH Actions.
+2. Tagged releases with auto-changelog (release-it or similar).
+3. Versioned API endpoints (<code>/v1/...</code>) for forward compat.
+4. Cloudflare Workers deployment via Wrangler in CI.
+5. Database migrations versioned + automated.
+6. Rollback procedure documented + tested.</p>
+<p><strong>Hours:</strong> 10</p>
+<h3 id="414-operational-maturity-c-a-12h">4.14 Operational maturity: C+ → A+ (~12h)</h3>
+<p><strong>Gap:</strong> no real users yet, no support story, no moderation.</p>
+<p><strong>Plan:</strong>
+1. Support intake form (in-app + via email).
+2. SLA: 24h paid, 7d free.
+3. Discord server for paid users.
+4. Status page (covered above).
+5. Moderation policy + intake queue (covered in GTM_PLAN.md §7).
+6. Billing self-service via Stripe Customer Portal.
+7. Refund policy: 30-day no-questions.</p>
+<p><strong>Hours:</strong> 12</p>
+<hr />
+<h2 id="5-new-auxiliary-plans-gaps-that-werent-covered">5. New auxiliary plans (gaps that weren&rsquo;t covered)</h2>
+<h3 id="51-sound-design-execution-plan-diy-locked-15h-0">5.1 Sound design execution plan — DIY locked (~15h, $0)</h3>
+<p>The art bible specifies sound design but doesn&rsquo;t plan execution. <strong>Locked decision (2026-04-27): DIY everything. $0 cash spend.</strong> Trade-off: more time, possibly lower quality on ambient loops vs. a professional library.</p>
+<ol>
+<li><strong>Author ambient loops in GarageBand / Logic</strong> (~5h):
+   - Concert hall murmur — record room tone + add light reverb + EQ.
+   - Jazz club — sample + loop bass + brushed-drum patterns.
+   - Spaceship hum — synth pad at 60Hz + filtered noise.
+   - Forest birds — open-source field recordings (Freesound.org, CC0 license).
+   - Office whir — fan + keyboard typing layered.</li>
+<li><strong>Author action sounds in GarageBand / Logic</strong> (~3h):
+   - 20 short SFX (wood block, brushed snare, synth click, stone-on-stone, key press). Use built-in instruments + samples.</li>
+<li><strong>Author UI sounds</strong> (~2h):
+   - Toggle clicks, button presses, save/undo subtle ticks.</li>
+<li><strong>Encode + bundle</strong> (~2h):
+   - 192kbps Opus via ffmpeg.
+   - Lazy-load by preset.</li>
+<li><strong>Test sound layer</strong> (~2h):
+   - Reduced-motion respects audio sensitivity.
+   - Master volume + per-category mute.</li>
+<li><strong>Document soundpacks</strong> (~1h):
+   - Each preset&rsquo;s sonic palette.
+   - Sound credits attribution (CC0 sources).</li>
+</ol>
+<p><strong>Hours:</strong> 15, <strong>Cost:</strong> $0 (DIY)</p>
+<p><strong>Quality risk:</strong> loops may sound less professional than a $30/track Pond5 source. Mitigation: lean on real public-domain field recordings from Freesound.org (CC0) for ambient + use GarageBand&rsquo;s built-in jazz-club and orchestral sample libraries for fills. Iterate until each loop is A+ to the manifesto bar.</p>
+<h3 id="52-sprite-art-execution-plan-covered-above-as-44">5.2 Sprite art execution plan (covered above as 4.4)</h3>
+<p>Recommendation: hybrid — hire an artist for 25 anchor sprites, author 55 supporting in-house.
+<strong>Hours:</strong> 16, <strong>Cost:</strong> ~$1000</p>
+<h3 id="53-content-community-plan-30h-over-6-months">5.3 Content + community plan (~30h over 6 months)</h3>
+<p>The GTM doc specifies a launch sequence; this is the executable plan.</p>
+<p><strong>Pre-launch content (months 1–4):</strong>
+1. Personal Substack at <code>ensemble.substack.com</code> — 2 posts/month covering build progress, design choices, beta-user spotlights.
+2. 5 &ldquo;design diary&rdquo; essays for the blog: why pixel sprites, why CRT overlay, why click-to-launch, why composable rooms, why the dashboard stays.
+3. 3 case study drafts (one per first-batch beta user with their permission).</p>
+<p><strong>Launch content (month 5):</strong>
+4. Manifesto-class launch post: &ldquo;Building Ensemble: a year of solo making with Claude&rdquo; (3000–5000 words).
+5. 30-second demo video: screen recording of a Studio in action, mood music, narration.
+6. Show HN + Product Hunt assets.</p>
+<p><strong>Post-launch (month 6+):</strong>
+7. Weekly featured Ensemble member spotlight (homepage + feed).
+8. Quarterly state-of-Ensemble post.</p>
+<p><strong>Hours:</strong> 30 over 6 months (~5h/month), <strong>Cost:</strong> $0 (organic)</p>
+<h3 id="54-first-100-users-execution-plan-20h">5.4 First-100-users execution plan (~20h)</h3>
+<p>GTM doc specifies the first 10. This expands to 100.</p>
+<p><strong>Wave 1 (days 1–14):</strong> 200-person hand-picked waitlist.
+- Kevin DMs 200 specifically curated people.
+- Each invitation is personal (not broadcast).
+- Tracking spreadsheet: name, why-they-fit, response, next-step.</p>
+<p><strong>Wave 2 (days 15–60):</strong> 25-person closed beta.
+- Top 25 from waitlist invited first.
+- 1-on-1 onboarding call (30 min Zoom each).
+- Weekly group office hours.</p>
+<p><strong>Wave 3 (days 61–120):</strong> 100 active users.
+- Open the remaining 175 waitlisters.
+- Soft public homepage.
+- First 75 conversions tracked individually.
+- Net Promoter Score collected from each.</p>
+<p><strong>Hours:</strong> 20 of dedicated outreach, <strong>Cost:</strong> $0</p>
+<h3 id="55-cicd-devex-plan-20h">5.5 CI/CD + DevEx plan (~20h)</h3>
+<p>Tied to testing + build/deploy categories above. The full picture:</p>
+<ol>
+<li>GH Actions workflow <code>.github/workflows/test.yml</code>:
+   - Triggers: push to main, pull request.
+   - Jobs: pytest, vitest, lint (ruff + eslint), type-check (mypy + tsc), build dashboard, smoke test.
+   - Concurrency: cancel-in-progress on subsequent pushes.</li>
+<li>Pre-commit hooks: black, ruff, prettier, eslint.</li>
+<li>Branch protection: require CI green + 1 review (when team grows).</li>
+<li>Wrangler deploy on tag push to Cloudflare Workers.</li>
+<li>Supabase / D1 migrations via <code>wrangler d1</code> in CI.</li>
+<li>Sentry error tracking (free tier &lt;10k events/month).</li>
+</ol>
+<p><strong>Hours:</strong> 20</p>
+<h3 id="56-pricing-validation-plan-8h">5.6 Pricing validation plan (~8h)</h3>
+<p>Don&rsquo;t lock $12/mo without validation.</p>
+<ol>
+<li><strong>Beta survey:</strong> 25 closed-beta users asked at week 6: &ldquo;What would you pay monthly for this?&rdquo; Open-ended, then multi-choice $5/$10/$15/$20/$25/won&rsquo;t pay.</li>
+<li><strong>Comparable benchmarks:</strong> survey actual prices users currently pay for Linktree ($5), Substack ($0–8/mo), Bandcamp Pro ($10/mo), Carrd Pro ($19/yr), etc.</li>
+<li><strong>Cost ceiling test:</strong> measure actual API spend per Pro user during beta. If $12/mo doesn&rsquo;t cover Claude allotment + storage + bandwidth, raise.</li>
+<li><strong>Lock at week 16, before Wave 4 launch.</strong></li>
+</ol>
+<p><strong>Hours:</strong> 8</p>
+<hr />
+<h2 id="6-total-recalibrated-investment">6. Total recalibrated investment</h2>
+<p>Adding it all up:</p>
+<table>
+<thead>
+<tr>
+<th>Bucket</th>
+<th>Hours</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v1 Studio core</td>
+<td>85</td>
+<td>—</td>
+</tr>
+<tr>
+<td>v1 Showcase pages</td>
+<td>16</td>
+<td>—</td>
+</tr>
+<tr>
+<td>v1 Multi-tenancy + auth</td>
+<td>40</td>
+<td>—</td>
+</tr>
+<tr>
+<td>v1 Operations + safety + quality</td>
+<td>80</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Per-category A+ pushes (dash, studio arch, perf, sec, ops, a11y, brand, build, op-mat)</td>
+<td>78</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Sound design (DIY)</td>
+<td>15</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>Sprite art (DIY all 80)</td>
+<td>32</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>Content + community</td>
+<td>30</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>First-100-users outreach</td>
+<td>20</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>CI/CD + DevEx</td>
+<td>20</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Pricing validation</td>
+<td>8</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Total v1 launch (DIY locked)</strong></td>
+<td><strong>424</strong></td>
+<td><strong>$0</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Time: ~5.3 months full-time, ~13 months part-time at 8h/week.</strong></p>
+<p>DIY locked 2026-04-27: Kevin&rsquo;s call to author every sprite + every sound in-house. Adds ~19h vs. the hybrid-hire path (16h sprite art + 12h sound = 28h hybrid; 32h sprite art + 15h sound = 47h DIY). Saves $1500 cash. Trade-off accepted: slower delivery, slightly higher quality risk on the most &ldquo;professional craft&rdquo; elements (anchor sprites + ambient loops). Mitigation in §4.4 + §5.1.</p>
+<p>The total investment is otherwise the same shape as the original plan (~430h ambitious) — what changed is the <em>focus</em>, not the <em>time</em>. We&rsquo;re investing in <em>quality across the categories that matter for v1 launch</em> instead of building features that ship in v1.1+.</p>
+<hr />
+<h2 id="7-milestones-concrete-dates-from-the-locked-plan">7. Milestones (concrete dates from the locked plan)</h2>
+<p>Based on the GTM plan + this recalibration:</p>
+<table>
+<thead>
+<tr>
+<th>Month</th>
+<th>Milestone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td>Today. Phase A.0–A.2 part 1 shipped. Recalibration locked. Sprite-walk pulled into v1.0 per <code>VISION_REVISION_2026-04-30.md</code>.</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>Phase A.2 part 2 + A.3 (edit mode + Claude chat) shipped. Character creator + sprite-walk engine + component flags + camera + interaction-prompt land in this month per Round 6-7 cadence. Sprite art batch 1 (25 anchors) authored.</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Phase A.1 part 2 (4 more presets + 4 more asset packs) shipped. Sprite art batch 1 delivered + integrated. Tier-gate enforcement live.</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Showcase pages + iframe embedding shipped. Wave 0 dogfooding internal. Sprite art batch 2 (55 supporting) authored.</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>Phase D (multi-tenancy + auth) shipped. Wave 1 stealth waitlist opens. CI/CD + tests + a11y pass complete. Pricing locked.</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>Wave 2 closed beta opens with 25 hand-picked users. Sound layer (incl. footsteps) shipping. Marketing site live.</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td>Wave 3 soft public launch. Blog + Substack live. 250 signups target, 100 active.</td>
+</tr>
+<tr>
+<td><strong>7–8</strong></td>
+<td>Dial in based on beta feedback. NPS ≥50 target.</td>
+</tr>
+<tr>
+<td><strong>9</strong></td>
+<td>Wave 4 — Show HN + Product Hunt launch. 2k signups in launch week target.</td>
+</tr>
+<tr>
+<td><strong>10–12</strong></td>
+<td>Steady-state growth. 1k paid by EOM 12. v1.5 work starts (multi-tenant overworld + rooftops + live presence) per <code>V1_5_WALKABLE_WORLD.md</code>. v1.1 generative + bots start landing as the &ldquo;we&rsquo;re back&rdquo; narrative.</td>
+</tr>
+</tbody>
+</table>
+<p>That&rsquo;s a concrete 12-month plan. Every month has a deliverable.</p>
+<hr />
+<h2 id="8-honest-probability-re-estimate">8. Honest probability re-estimate</h2>
+<p>The original 25–35% probability assumed building 80% of an ambitious vision. With this recalibration:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Probability of meaningful success @ 18 months</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Original plan</strong> (430h, 6 phases, 4 breakthrough features in v1) executed perfectly</td>
+<td>25–35%</td>
+</tr>
+<tr>
+<td><strong>Recalibrated plan</strong> (405h, sharper v1, breakthrough features in v1.1) executed perfectly</td>
+<td><strong>50–65%</strong></td>
+</tr>
+<tr>
+<td>Original plan executed at 80% quality</td>
+<td>10–15%</td>
+</tr>
+<tr>
+<td>Recalibrated plan executed at 80% quality</td>
+<td>25–35%</td>
+</tr>
+</tbody>
+</table>
+<p>The recalibration roughly doubles the probability of success because we ship a focused thing first, validate the audience, then expand. We don&rsquo;t try to ship everything before validating anything.</p>
+<p><strong>The single biggest probability drivers:</strong></p>
+<ol>
+<li>
+<p><strong>Audience validation in months 4–5.</strong> If Wave 1 stealth waitlist + Wave 2 closed beta come back enthusiastic (NPS 50+), we have a real product. If lukewarm, we pivot before sinking another 6 months. <strong>+15% if positive validation, −20% if not.</strong></p>
+</li>
+<li>
+<p><strong>Quality of the 5 example presets at v1.</strong> The first impression of the Studio. If these feel template-y instead of crafted, the whole &ldquo;Apple-quality&rdquo; promise breaks. <strong>+10% if A+ presets, −15% if B− presets.</strong></p>
+</li>
+<li>
+<p><strong>The Claude chat in edit mode actually delivering useful sprites/components on first ask.</strong> The differentiator. If it 70% of the time generates something useful, magic. If 30%, frustrating. <strong>+10% if it lands, −10% if not.</strong></p>
+</li>
+<li>
+<p><strong>Cost structure holding at scale.</strong> If Claude allotment + bandwidth + storage stays under 30% of revenue at 1k users, sustainable. If it&rsquo;s 60%+, we&rsquo;re squeezing. <strong>+5% if margins hold, −10% if not.</strong></p>
+</li>
+</ol>
+<p>These four levers are where execution discipline matters most.</p>
+<hr />
+<h2 id="9-the-single-thing-wed-cut-if-forced">9. The single thing we&rsquo;d cut if forced</h2>
+<p>Per the prior strategic question: &ldquo;name the ONE thing you&rsquo;d cut if forced.&rdquo;</p>
+<p><strong>Answer: the Map tab (Canvas map).</strong></p>
+<p>Reasoning: it&rsquo;s beautiful, but it&rsquo;s also the feature that&rsquo;s most &ldquo;nice to have&rdquo; without being tied to either the click-to-launch wedge OR the linktree-replacement positioning. It&rsquo;s a viewer, not a creator surface. We can ship v1 without it and add it back if the audience asks. Composable connected canvases (Phase D.1+, deferred to v1.5 per <code>V1_5_WALKABLE_WORLD.md</code>) make the Map valuable; without that, the Map is just a project list.</p>
+<p><strong>Second-cut candidate:</strong> Sound layer. It&rsquo;s a polish item; v1 ships fine without sounds (off by default anyway). Cuts 12h + $500.</p>
+<p><strong>Third-cut candidate:</strong> The 4 example presets beyond Music + Game Arcade (the two that already exist). Force users to compose from scratch on day 1. Risky because empty-canvas can intimidate, but also forces the Workshop drawer to do its job hard.</p>
+<p>I&rsquo;d cut the Map tab if forced. Saves ~6h. Doesn&rsquo;t materially weaken the v1 promise.</p>
+<hr />
+<h2 id="10-what-this-recalibration-commits-us-to">10. What this recalibration commits us to</h2>
+<p><strong>One product, sharply focused:</strong> the Ensemble is the front door (the overworld of Showcases), the Studio is the editor app behind it, the Dashboard is for power users, and the multi-tenant overworld + multi-visitor presence + Claude-composed canvases + creator-bots land as v1.5/v1.1/v1.2 once we have proof of audience.</p>
+<p><strong>Sprite-walk is in v1.0</strong> (was v1.5). Visitors steer a customizable sprite through the canvas, walk up to components, press X to interact. The overworld remains v1.5.</p>
+<p><strong>~245-251 hours of focused build over 3 months full-time / 7 months part-time</strong> for v1.0 (sprite-walk pull-in adds ~24-30h to the 221h baseline).</p>
+<p><strong>~$0 cash investment</strong> for v1.0 (DIY locked); ~$1500 historical estimate kept for sprite anchors + sound if hybrid path re-opened.</p>
+<p><strong>A 50–65% probability of meaningful success at the highest quality bar.</strong> Sprite-walk in v1.0 is itself a probability lift — first-impression delta is large.</p>
+<p><strong>Every category at A+ before v1 ships.</strong> No &ldquo;good enough&rdquo; carveouts.</p>
+<p><strong>Validation gates at months 4–5</strong> before we sink another 6 months.</p>
+<p>If anything in this doc conflicts with the manifesto, the manifesto wins. If the manifesto is fundamentally wrong, we kill it and rebuild. But based on everything we&rsquo;ve seen, this is a real swing at a meaningful product.</p>
+<hr />
+<p><em>Locked 2026-04-27 (recalibration pass). Reviewed against MANIFESTO + every sister doc. The single contract for v1 launch.</em></p>
+<hr />
+<h2 id="addendum-staged-platform-companion-locked-2026-04-27-evening">Addendum — Staged platform companion (locked 2026-04-27 evening)</h2>
+<p>This doc remains the contract for v1.0 launch. It is now paired with <a href="STAGED_PLATFORM.md"><code>STAGED_PLATFORM.md</code></a>, which extends the cadence through v1.1 → v2.1 (months 7-30) with a launch-worthy hook in every release. The v1.0 scope here is unchanged in shape, with one addition pulled forward from the v1.1+ horizon:</p>
+<p><strong>Phase A.4 — Repo-to-Studio onboarding (~16-20h added to v1.0).</strong> Sign up → link GitHub → 60 seconds later your Studio is alive with components reflecting your actual work. Solves the empty-state-death risk and becomes the v1.0 Show HN demo. Detailed scope in <a href="STAGED_PLATFORM.md"><code>STAGED_PLATFORM.md</code></a> §3 v1.0 entry.</p>
+<p><strong>Revised v1.0 total:</strong> ~440h DIY (was 424h; +16h for A.4). $0 cash through v1.x; v2.x adds Stripe Connect transaction fees + tax compliance setup.</p>
+<p><strong>Probability ceiling:</strong> the staging-doc analysis (<code>STAGED_PLATFORM.md</code> §10) identifies five levers that compound the 50-65% v1.0 probability up toward a 92-97% structural ceiling through v2.1. Public building (lever 2) and concierge MVP (lever 3) are recommended for the next 30 days; the others stage with the cadence.</p>
+    </article>
+    <footer class="doc-foot">
+      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+    </footer>
+  </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('docProgressBar');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scrolled = (h.scrollTop || document.body.scrollTop);
+        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+        bar.style.width = pct + '%';
+      }
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
+</main>
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__cols">
+      <div class="site-footer__col site-footer__col--brand">
+        <a href="./" class="site-footer__brand-link" aria-label="Endenza home">
+          <img class="brand-mark site-footer__mark" src="./icon.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <span class="brand site-footer__brand-name">Endenza</span>
+        </a>
+        <p class="site-footer__tagline"><em>One conductor. Many performers.</em></p>
+        <p class="site-footer__blurb">A creator-platform PWA where every page is a place &mdash; not a list of links.</p>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Product</p>
+        <ul class="site-footer__links">
+          <li><a href="./studio.html">Studio</a></li>
+          <li><a href="./dashboard.html">Dashboard</a></li>
+          <li><a href="./settings.html">Settings</a></li>
+          <li><a href="./docs.html">Docs</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Resources</p>
+        <ul class="site-footer__links">
+          <li><a href="https://github.com/KiwiMaddog2020/claude-ensemble" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="./docs.html">Documentation</a></li>
+          <li><a href="./credits.html">Credits</a></li>
+          <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Legal</p>
+        <ul class="site-footer__links">
+          <li><a href="/legal/privacy.html">Privacy Policy</a></li>
+          <li><a href="/legal/terms.html">Terms of Service</a></li>
+          <li><a href="/legal/acceptable-use.html">Acceptable Use</a></li>
+          <li><a href="/legal/dmca.html">DMCA</a></li>
+          <li><a href="/legal/cookies.html">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copyright">&copy; 2026 Endenza &middot; <span class="site-footer__version">v2.0</span></p>
+      <p class="site-footer__meta">Auto-refreshes 3&times; daily.</p>
+    </div>
+  </div>
+</footer>
+<style id="site-footer-css">
+.site-footer__inner {
+  max-width: var(--w-app, 1180px);
+  margin: 0 auto;
+  padding: var(--space-7, 48px) clamp(var(--space-4, 16px), 4vw, var(--space-6, 32px)) var(--space-5, 24px);
+}
+.site-footer__cols {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-6, 32px);
+  align-items: flex-start;
+  margin-bottom: var(--space-6, 32px);
+}
+@media (max-width: 960px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5, 24px) var(--space-6, 32px);
+  }
+  .site-footer__col--brand {
+    grid-column: 1 / -1;
+    margin-bottom: var(--space-3, 12px);
+  }
+}
+@media (max-width: 540px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr;
+    gap: var(--space-5, 24px);
+  }
+}
+
+.site-footer__col {
+  min-width: 0;
+}
+
+.site-footer__col--brand {
+  max-width: 32ch;
+}
+.site-footer__brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  text-decoration: none;
+  margin-bottom: var(--space-3, 12px);
+}
+.site-footer__brand-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--r-sm, 4px);
+}
+.site-footer__mark {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+.site-footer__brand-name {
+  font-family: var(--serif);
+  font-size: var(--fs-18, 18px);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.site-footer__tagline {
+  font-family: var(--serif);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  margin: 0 0 var(--space-3, 12px);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__blurb {
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-3);
+  line-height: var(--lh-relaxed, 1.55);
+  margin: 0;
+  max-width: 36ch;
+}
+
+.site-footer__heading {
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin: 0 0 var(--space-3, 12px);
+}
+
+.site-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.site-footer__links li {
+  margin: 0 0 var(--space-2, 8px);
+}
+.site-footer__links a {
+  font-family: var(--sans);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color var(--dur-base, 180ms) var(--ease, ease);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__links a:hover {
+  color: var(--accent);
+}
+.site-footer__links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm, 4px);
+  color: var(--accent);
+}
+
+.site-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+  padding-top: var(--space-5, 24px);
+  border-top: 1px solid var(--rule-2, var(--rule));
+}
+.site-footer__copyright,
+.site-footer__meta {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-4, var(--ink-3));
+}
+.site-footer__version {
+  font-family: var(--mono);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 540px) {
+  .site-footer__bottom {
+    justify-content: center;
+    text-align: center;
+  }
+}
+</style>
+<script nonce="__CSP_NONCE__">
+
+(function migrateEnsembleKeys() {
+  var _LS_KEYS = [
+    "ENSEMBLE_THEME", "ENSEMBLE_BG", "ENSEMBLE_BG_CUSTOM",
+    "ENSEMBLE_SERVER_URL", "ENSEMBLE_DASHBOARD_LAYOUT",
+    "ENSEMBLE_BYOK_LINKED", "ENSEMBLE_SHELF_HEIGHT_VH",
+    "ENSEMBLE_STUDIO_ROOM", "ENSEMBLE_STUDIO_CLAUDE_HISTORY",
+    "ENSEMBLE_STUDIO_CLAUDE_USAGE",
+    "ENSEMBLE_TERMINAL_LEFT_PX", "ENSEMBLE_TERMINAL_RIGHT_PX",
+    "ENSEMBLE_TERMINAL_COMPOSE_H", "ENSEMBLE_TERMINAL_TREE_H",
+    "ENSEMBLE_TERMINAL_LEFT_COLLAPSED", "ENSEMBLE_TERMINAL_RIGHT_COLLAPSED",
+    "ENSEMBLE_TERMINAL_ENTER_TO_SEND", "ENSEMBLE_TERMINAL_HISTORY_NAV",
+    "ENSEMBLE_TERMINAL_FONT_SIZE", "ENSEMBLE_TERMINAL_RIGHT_LAYOUT"
+  ];
+  try {
+    _LS_KEYS.forEach(function (oldKey) {
+      var newKey = oldKey.replace(/^ENSEMBLE_/, "ENDENZA_");
+      if (localStorage.getItem(newKey) === null) {
+        var v = localStorage.getItem(oldKey);
+        if (v !== null) localStorage.setItem(newKey, v);
+      }
+    });
+    // Dynamic prefix keys: ENSEMBLE_STICKY_*, ENSEMBLE_TERMINAL_PINNED_*
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k) continue;
+      if (k.indexOf("ENSEMBLE_STICKY_") === 0 || k.indexOf("ENSEMBLE_TERMINAL_PINNED_") === 0) {
+        var newDynKey = k.replace(/^ENSEMBLE_/, "ENDENZA_");
+        if (localStorage.getItem(newDynKey) === null) {
+          var dv = localStorage.getItem(k);
+          if (dv !== null) localStorage.setItem(newDynKey, dv);
+        }
+      }
+    }
+  } catch (e) {}
+})();
+
+const SERVER_URL = (function() {
+  const stored = localStorage.getItem("ENDENZA_SERVER_URL");
+  if (stored) return stored;
+  return location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    ? "http://localhost:8080"
+    : "";
+})();
+
+function authHeaders() {
+  const t = localStorage.getItem("DASHBOARD_TOKEN") || "";
+  return t ? { "Authorization": "Bearer " + t, "Content-Type": "application/json" }
+           : { "Content-Type": "application/json" };
+}
+
+async function fetchState() {
+  if (!SERVER_URL) return null;
+  try {
+    const r = await fetch(SERVER_URL + "/state", { headers: authHeaders() });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+async function setConfig(field, value) {
+  if (!SERVER_URL) return showHelp("settings-help", "No server URL set.");
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ field, value })
+    });
+    const j = await r.json();
+    showHelp("settings-help", r.ok ? ("✓ " + field + " = " + JSON.stringify(value)) : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("settings-help", "✗ network error: " + e.message); }
+}
+
+function showHelp(id, msg) { const el = document.getElementById(id); if (el) el.textContent = msg; }
+
+function updateSmokeBanner(state) {
+  const banner = document.getElementById("smoke-banner");
+  const text = document.getElementById("smoke-banner-text");
+  if (!banner || !text || !state || !state.projects) { if (banner) banner.style.display = "none"; return; }
+  const pending = state.projects.find(p => p.pending_smoke_test);
+  if (!pending) { banner.style.display = "none"; window._pendingSmokeSlug = null; return; }
+  window._pendingSmokeSlug = pending.slug;
+  text.textContent = pending.slug + " → " + (pending.pending_smoke_test_target || "?") + " — pending verification. Run the smoke test, then click Pass / Issues / Fail.";
+  banner.style.display = "block";
+}
+
+async function smokeResult(result) {
+  if (!window._pendingSmokeSlug) return;
+  const notes = result === "pass" ? "" : prompt("Notes?", "") || "";
+  try {
+    const r = await fetch(SERVER_URL + "/smoke-test-result", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ slug: window._pendingSmokeSlug, result, notes })
+    });
+    const j = await r.json();
+    alert(r.ok ? ("Smoke test " + result + " recorded for " + window._pendingSmokeSlug + (j.state ? ". State now: " + j.state : ".")) : ("Error: " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { alert("Network error: " + e.message); }
+}
+
+let _ALL_STATE = null;
+
+async function refreshState() {
+  const state = await fetchState();
+  _ALL_STATE = state;
+  // Owner mode = state fetch successful (server reachable + token valid)
+  const newOwner = !!state;
+  if (newOwner !== window._isOwner) {
+    window._isOwner = newOwner;
+    applyOwnerMode();
+  }
+  updateSmokeBanner(state);
+  if (typeof refreshPageState === "function") refreshPageState(state);
+}
+
+// ─── Owner detection (read-only mode for visitors) ───
+// IMPORTANT: window._isOwner (NOT a script-scoped `let _isOwner`).  The
+// widget runtime in widgets/state.py:visibleSections() reads
+// `window._isOwner` from a separate IIFE closure, so the value MUST be
+// on the global object — a `let` at script scope is invisible across
+// closures and the private widget section never renders.
+//
+// Was: `let _isOwner = false;` — caused all private widgets (claude-
+// station, refine, code-rate, mode-pill, kill-switch, etc.) to be
+// invisible regardless of token state. Fixed 2026-05-02.
+window._isOwner = false;
+function applyOwnerMode() {
+  const banner = document.getElementById("owner-banner");
+  if (window._isOwner) {
+    document.body.classList.remove("read-only");
+    if (banner) banner.classList.replace("show", "hide");
+  } else {
+    document.body.classList.add("read-only");
+    if (banner) banner.classList.replace("hide", "show");
+    // Disable form inputs in owner-only sections
+    document.querySelectorAll("[data-owner-only] input, [data-owner-only] select, [data-owner-only] button").forEach(el => {
+      el.disabled = true;
+    });
+  }
+}
+
+// ─── Theme picker (persisted, per-device) ───
+// Trailing 3 entries (sunset_drive / mall_plaza / neo_city) are the
+// 2026-05-04 limited-edition vibe-coder color schemes. They MUST be
+// in this list — applyTheme below uses it to strip stale `theme-*`
+// classes on switch, and missing entries leave the previous theme's
+// CSS overlapping with the new one. (Kevin caught the live-preview
+// bug 2026-05-04: 'doesn't update right away.')
+const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper", "sunset_drive", "mall_plaza", "neo_city"];
+const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora", "scanlines", "topo", "vignette", "paper", "linen", "blueprint", "constellation", "marble", "custom"];
+
+const TERMINAL_FONTS = {
+  "system":          "",
+  "jetbrains-mono":  '"JetBrains Mono", monospace',
+  "fira-code":       '"Fira Code", monospace',
+  "source-code-pro": '"Source Code Pro", monospace',
+  "ibm-plex-mono":   '"IBM Plex Mono", monospace',
+  "inconsolata":     '"Inconsolata", monospace',
+  "space-mono":      '"Space Mono", monospace',
+  "roboto-mono":     '"Roboto Mono", monospace',
+};
+const TERMINAL_FONT_GFONTS = {
+  "fira-code":       "Fira+Code:wght@400;500;600",
+  "source-code-pro": "Source+Code+Pro:wght@400;500;600",
+  "ibm-plex-mono":   "IBM+Plex+Mono:wght@400;500;600",
+  "inconsolata":     "Inconsolata:wght@400;500;600;700",
+  "space-mono":      "Space+Mono:wght@400;700",
+  "roboto-mono":     "Roboto+Mono:wght@400;500;600;700",
+};
+
+function applyTerminalFont(key) {
+  const stack = TERMINAL_FONTS[key];
+  const page = document.querySelector(".terminal-page");
+  if (page) {
+    if (stack) {
+      page.style.setProperty("--terminal-mono", stack);
+    } else {
+      page.style.removeProperty("--terminal-mono");
+    }
+  }
+  const gf = TERMINAL_FONT_GFONTS[key];
+  const linkId = "terminal-font-gf";
+  let existing = document.getElementById(linkId);
+  if (gf) {
+    const href = "https://fonts.googleapis.com/css2?family=" + gf + "&display=swap";
+    if (existing) {
+      existing.href = href;
+    } else {
+      const link = document.createElement("link");
+      link.id = linkId;
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+    }
+  } else if (existing) {
+    existing.remove();
+  }
+}
+window.applyTerminalFont = applyTerminalFont;
+
+function applyTheme(name) {
+  THEMES.forEach(t => document.body.classList.remove("theme-" + t));
+  if (name && name !== "warm") document.body.classList.add("theme-" + name);
+  document.querySelectorAll(".theme-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.theme === (name || "warm"));
+  });
+  // Default logo NEVER changes (Kevin 2026-05-05: 'our default logo
+  // used on the website should also be our favicon set, this should
+  // ALWAYS be the case. Default logo, for favicons never changes').
+  //
+  // The canonical Threaded Trinity at `./icon.svg` is the project's
+  // single brand identity image. It serves as:
+  //   · the favicon (browser tab + bookmarks)
+  //   · the apple-touch-icon (iOS home-screen install)
+  //   · every in-page `.brand-mark` (homepage hero, nav slot, footer)
+  // None of these change with theme. Theme expressiveness lives in
+  // accent/background colors and the swatch picker — not in the
+  // brand-mark. Don't reintroduce a per-theme mark swap.
+  //
+  // The LE recolors in `dashgen/assets/le_brand_marks.py` remain
+  // available as baked data URIs for future collector affordances
+  // (e.g. downloadable variant, swatch-picker preview), but are NOT
+  // wired to replace the on-page mark or favicon.
+  const fav = document.getElementById("favicon");
+  if (fav) fav.href = "./icon.svg";
+  const apple = document.getElementById("apple-touch-icon");
+  if (apple) apple.href = "./icon.svg";
+  document.querySelectorAll(".brand-mark").forEach(el => { el.src = "./icon.svg"; });
+  // Reference the LE dict so the module-load substitution doesn't get
+  // dead-code-eliminated by the minifier — keep the baked URIs in the
+  // bundle for future collector use (see comment block above).
+  const LE_BRAND_MARKS = {"sunset_drive": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_sunset_drive_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80b8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff006e%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b001c%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ffc880%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff5a3a%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b1a08%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%239a80ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233010a0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a0220%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_sunset_drive_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23cc2a30%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23aa0080%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%236020a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "mall_plaza": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_mall_plaza_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380e0ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300d4ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23002a40%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%236070ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233050ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23000840%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff00ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23400028%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_mall_plaza_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%230040a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%237010a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%234015a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "neo_city": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_neo_city_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f0%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff10f0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23500050%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23a8ff80%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2339ff14%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a3010%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380fff5%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300fff5%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23003040%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_neo_city_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23a06090%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%238060e0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%2320c0a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"};
+  void LE_BRAND_MARKS;
+  // Invalidate downstream caches that read CSS custom properties
+  // (component_renderers.colorFromToken memoizes per token; without
+  // this dispatch the cache would survive a theme switch with stale
+  // colors). Cheap event; no listeners outside the renderer today.
+  try { document.dispatchEvent(new CustomEvent("theme:applied", { detail: { name: name } })); } catch (e) {}
+}
+
+function applyBackground(name) {
+  BACKGROUNDS.forEach(b => document.body.classList.remove("bg-" + b));
+  if (name && name !== "solid") document.body.classList.add("bg-" + name);
+  document.querySelectorAll(".bg-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.bg === (name || "solid"));
+  });
+  // Custom uploaded wallpaper — apply the persisted data URL inline.
+  // Falls back to solid if no upload yet (the swatch click handler also
+  // intercepts to open the file picker first time the tile is clicked).
+  if (name === "custom") {
+    const dataUrl = localStorage.getItem("ENDENZA_BG_CUSTOM");
+    if (dataUrl) {
+      document.body.style.backgroundImage = `url("${dataUrl}")`;
+    } else {
+      document.body.style.backgroundImage = "";
+    }
+  } else {
+    document.body.style.backgroundImage = "";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Theme load + bind
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
+  applyTheme(savedTheme);
+  // Terminal-only appearance (per-page override). Stamped on <body>
+  // ASAP to avoid a FOUC where the warm-bg flashes before the
+  // black-grey terminal styles kick in. Default = "black-grey"; the
+  // user can flip to "follow-site" via the terminal settings popover.
+  // Only stamps when we're actually on /terminal.html.
+  if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
+    let termTheme = "black-grey";
+    try {
+      const v = localStorage.getItem("ENDENZA_TERMINAL_THEME");
+      if (v === "follow-site" || v === "black-grey") termTheme = v;
+    } catch (e) {}
+    document.body.setAttribute("data-terminal-theme", termTheme);
+    let termFont = "system";
+    try {
+      const f = localStorage.getItem("ENDENZA_TERMINAL_FONT");
+      if (f && TERMINAL_FONTS.hasOwnProperty(f)) termFont = f;
+    } catch (e) {}
+    applyTerminalFont(termFont);
+  }
+  // Click + keyboard binding (Enter / Space). The swatches carry
+  // role="button" + tabindex="0" so keyboard users can activate them.
+  const activateOnKey = (handler) => (ev) => {
+    if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") {
+      ev.preventDefault();
+      handler.call(ev.currentTarget, ev);
+    }
+  };
+  document.querySelectorAll(".theme-swatch").forEach(el => {
+    const fire = () => {
+      const t = el.dataset.theme;
+      localStorage.setItem("ENDENZA_THEME", t);
+      applyTheme(t);
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
+  });
+
+  // Background load + bind
+  const savedBg = localStorage.getItem("ENDENZA_BG") || "solid";
+  applyBackground(savedBg);
+  document.querySelectorAll(".bg-swatch").forEach(el => {
+    const fire = () => {
+      const b = el.dataset.bg;
+      // Custom-upload tile: open the file picker on every click.  If the
+      // user already has a saved upload, clicking re-applies it without
+      // prompting (so they can switch back to it from another bg).
+      if (b === "custom") {
+        const hasSaved = !!localStorage.getItem("ENDENZA_BG_CUSTOM");
+        if (!hasSaved || el.classList.contains("active")) {
+          // Open file picker (no saved upload yet, OR custom is already
+          // active and the user is clicking to replace it).
+          const input = document.getElementById("bg-upload-input");
+          if (input) input.click();
+          return;
+        }
+      }
+      localStorage.setItem("ENDENZA_BG", b);
+      applyBackground(b);
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
+  });
+
+  // Custom wallpaper upload flow.
+  const bgUpload = document.getElementById("bg-upload-input");
+  if (bgUpload) {
+    bgUpload.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      // Reasonable size cap — localStorage has a ~5MB ceiling on most browsers.
+      if (file.size > 4.5 * 1024 * 1024) {
+        alert("Image too large (max ~4.5MB). Pick a smaller one or compress first.");
+        e.target.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const dataUrl = ev.target && ev.target.result;
+        try {
+          localStorage.setItem("ENDENZA_BG_CUSTOM", dataUrl);
+          localStorage.setItem("ENDENZA_BG", "custom");
+          applyBackground("custom");
+        } catch (err) {
+          alert("Couldn't save wallpaper to local storage (it may be too large). Try a smaller image.");
+        }
+      };
+      reader.readAsDataURL(file);
+      // Reset the input so picking the same file again still triggers change.
+      e.target.value = "";
+    });
+  }
+
+  // Terminal font load + bind
+  const savedFont = localStorage.getItem("ENDENZA_TERMINAL_FONT") || "system";
+  document.querySelectorAll(".font-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.font === savedFont);
+    const fire = () => {
+      const f = el.dataset.font;
+      localStorage.setItem("ENDENZA_TERMINAL_FONT", f);
+      document.querySelectorAll(".font-swatch").forEach(s => s.classList.toggle("active", s.dataset.font === f));
+      applyTerminalFont(f);
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
+  });
+
+  // Owner mode initial state — pessimistic until state fetch confirms
+  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENDENZA_SERVER_URL"));
+  applyOwnerMode();
+
+  refreshState();
+  setInterval(refreshState, 60000);
+  document.querySelectorAll("[data-field]").forEach(el => {
+    el.addEventListener("change", () => {
+      if (!window._isOwner) return;  // belt + suspenders; backend also enforces
+      const field = el.dataset.field;
+      let value;
+      if (el.type === "checkbox") value = el.checked;
+      else if (el.type === "number") value = parseInt(el.value, 10);
+      else value = el.value;
+      setConfig(field, value);
+    });
+  });
+});
+
+// Page-specific hooks (defined inline by each page if needed)
+async function fireAutopilot() {
+  const slug = document.getElementById("fire-slug").value;
+  const minutes = parseInt(document.getElementById("fire-mins").value, 10);
+  if (!slug || !minutes) return showHelp("fire-help", "Pick project + minutes");
+  try {
+    const r = await fetch(SERVER_URL + "/fire", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, minutes, prompt: "" }) });
+    const j = await r.json();
+    showHelp("fire-help", r.ok ? ("✓ fired " + slug + " for " + minutes + "m (exit " + j.exit + ")") : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("fire-help", "✗ " + e.message); }
+}
+
+async function setProjectState() {
+  const slug = document.getElementById("state-slug").value;
+  const state = document.getElementById("state-target").value;
+  if (!slug || !state) return showHelp("state-help", "Pick project + state");
+  try {
+    let r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state }) });
+    let j = await r.json();
+    if (r.status === 409 && j.error === "smoke_test_required") {
+      const ok = confirm("Checkpoint " + j.checkpoint + " smoke test required: " + j.current_state + " → " + j.target_state + ".\n\nState held. Run the test, then use the banner above.\n\nForce-skip the smoke test?");
+      if (ok) {
+        r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state, force: true }) });
+        j = await r.json();
+        showHelp("state-help", r.ok ? ("⚠ " + slug + " → " + state + " (forced; logged)") : ("✗ " + (j.error || r.statusText)));
+      } else { showHelp("state-help", "Smoke test held. See banner above."); }
+      setTimeout(refreshState, 500); return;
+    }
+    showHelp("state-help", r.ok ? ("✓ " + slug + " → " + state) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("state-help", "✗ " + e.message); }
+}
+
+async function killAll() {
+  if (!confirm("Kill all autopilot? Six-phase cascade fires.")) return;
+  try {
+    const r = await fetch(SERVER_URL + "/kill", { method: "POST", headers: authHeaders() });
+    const j = await r.json();
+    showHelp("kill-help", r.ok ? ("✓ kill exit=" + j.exit) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 1000);
+  } catch (e) { showHelp("kill-help", "✗ " + e.message); }
+}
+
+async function setTokenReset() {
+  const v = document.getElementById("reset-input")?.value;
+  if (!v) return showHelp("reset-help", "Pick a date/time.");
+  const iso = new Date(v).toISOString();
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", { method: "POST", headers: authHeaders(), body: JSON.stringify({ field: "weekly_token_reset_at", value: iso }) });
+    const j = await r.json();
+    showHelp("reset-help", r.ok ? ("✓ reset set to " + iso) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("reset-help", "✗ " + e.message); }
+}
+
+// ─── Live relative timestamps — every <span class="rel-time" data-iso="..."> ticks ───
+(function () {
+  function rel(iso) {
+    var t = new Date(iso).getTime();
+    if (isNaN(t)) return iso;
+    var s = Math.max(0, Math.floor((Date.now() - t) / 1000));
+    if (s < 30) return 'just now';
+    if (s < 90) return '1 min ago';
+    if (s < 3600) return Math.floor(s / 60) + ' mins ago';
+    if (s < 5400) return '1 hour ago';
+    if (s < 86400) return Math.floor(s / 3600) + ' hours ago';
+    if (s < 172800) return 'yesterday';
+    return Math.floor(s / 86400) + ' days ago';
+  }
+  function update() {
+    document.querySelectorAll('.rel-time').forEach(function (el) {
+      var iso = el.getAttribute('data-iso');
+      if (iso) el.textContent = rel(iso);
+    });
+  }
+  update();
+  setInterval(update, 30000);
+})();
+// First-run onboarding modal (Phase A.4-3)
+const FIRST_RUN_SEEN_KEY = "ensemble:first-run-seen";
+
+// Slot warp:flowA - advance the server-side first-run state machine.
+// Best-effort: a 401 (unpaired) or 409 (regression/skip) should not block
+// the UI flow, since the modal works even when paired-user auth is absent
+// in dev mode. Logged via console.warn so we can spot real regressions.
+async function advanceFirstRunState(step) {
+  try {
+    const r = await fetch("/first-run/advance", {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ step: step })
+    });
+    if (!r.ok && r.status !== 409 && r.status !== 401) {
+      try { console.warn("first-run advance failed", step, r.status); } catch (e) {}
+    }
+    return r.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
+function isEnsembleHomepage() {
+  const p = location.pathname;
+  return p.endsWith("/index.html") || p === "/" || p.endsWith("/ensemble.html");
+}
+
+function openFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  overlay.hidden = false;
+  const err = document.getElementById("first-run-error");
+  if (err) err.innerHTML = "";
+  const firstField = document.getElementById("frq-building");
+  if (firstField) setTimeout(() => firstField.focus(), 50);
+}
+
+function closeFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  overlay.hidden = true;
+  try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+}
+
+async function submitFirstRunModal(ev) {
+  ev.preventDefault();
+  const err = document.getElementById("first-run-error");
+  const submitBtn = document.getElementById("first-run-submit");
+  const building = (document.getElementById("frq-building").value || "").trim();
+  const vibe = (document.getElementById("frq-vibe").value || "").trim();
+  // Train 2 (2026-05-04): "problem" was replaced by "color_scheme" — a
+  // chip-driven picker. The hidden input's id is frq-color-scheme; the
+  // server still accepts the legacy "problem" key for back-compat.
+  const colorScheme = (document.getElementById("frq-color-scheme").value || "").trim();
+  if (!building) {
+    if (err) err.textContent = "Tell us what you’re building.";
+    return;
+  }
+  if (!vibe) {
+    if (err) err.textContent = "Pick a vibe to set the room’s mood.";
+    return;
+  }
+  if (!colorScheme) {
+    if (err) err.textContent = "Pick a color scheme.";
+    return;
+  }
+  var tosCheck = document.getElementById("first-run-tos-check");
+  if (tosCheck && !tosCheck.checked) {
+    if (err) err.textContent = "Please agree to the Terms of Service before generating.";
+    return;
+  }
+  if (err) err.innerHTML = "";
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.classList.add("is-loading"); }
+  try {
+    const r = await fetch("/studio/generate-from-answers", {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({
+        building: building,
+        vibe: vibe,
+        color_scheme: colorScheme,
+        // Back-compat: server may still expect `problem`. Send it as
+        // the color_scheme slug so older deploys interpret the answer
+        // sensibly until they pick up the schema update.
+        problem: colorScheme,
+      })
+    });
+    let body = {};
+    try { body = await r.json(); } catch (e) {}
+    if (r.ok) {
+      try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+      // Stash the generated studio so /your-studio.html can render it.
+      // Phase A.4-3 part 2 fix (2026-04-28): the modal previously
+      // discarded body.studio and redirected to the static engine page.
+      try {
+        if (body && body.studio) {
+          localStorage.setItem("ensemble:generated-studio", JSON.stringify(body.studio));
+        }
+      } catch (e) {}
+      // Slot warp:flowA - record progress through the state machine.
+      // QUESTIONS marks the modal submit; CANVAS marks the genesis 200.
+      // Both happen now because /studio/generate-from-answers returned ok
+      // synchronously above; the state machine still rejects skips so we
+      // advance one step at a time.
+      await advanceFirstRunState("questions-answered");
+      await advanceFirstRunState("canvas-generated");
+      // Post-studio: route through character creator before showing the
+      // generated studio, so the visitor designs their sprite once. The
+      // creator's Save handler honors ?from=first-run and forwards on to
+      // /your-studio.html.
+      window.location.href = "/character-creator.html?from=first-run";
+      return;
+    }
+    if (r.status === 400) {
+      const msg = (body && body.error) ? String(body.error) : "Validation error.";
+      if (msg.toLowerCase().includes("byok")) {
+        if (err) err.innerHTML = "You'll need to add an Anthropic API key first. <a href='/settings.html#anthropic-byok'>Open Settings</a>";
+      } else {
+        if (err) err.textContent = msg;
+      }
+    } else if (r.status === 500) {
+      const stage = (body && body.stage) ? body.stage : "?";
+      if (err) err.textContent = "Something went wrong (stage: " + stage + "). Please try again.";
+    } else {
+      if (err) err.textContent = "Unexpected response (" + r.status + "). Please try again.";
+    }
+  } catch (e) {
+    if (err) err.textContent = "Network error: " + (e && e.message ? e.message : "unknown");
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.classList.remove("is-loading"); }
+  }
+}
+
+function ctaGenerateClicked() {
+  fetch("/ensemble/cta-clicked", {
+    method: "POST",
+    headers: authHeaders(),
+    body: "{}",
+    keepalive: true
+  }).catch(() => {});
+  openFirstRunModal();
+}
+
+// Train 2 (2026-05-04): chip-group wiring. Single-select radio
+// behavior driven by aria-checked + a hidden input that mirrors the
+// chosen slug. Reused on the Studio "Generate from GitHub" panel.
+function wireChipGroup(groupEl, hiddenInput) {
+  if (!groupEl || !hiddenInput) return;
+  const chips = groupEl.querySelectorAll("[data-chip-value]");
+  function selectChip(target) {
+    chips.forEach(function (c) {
+      const isSel = c === target;
+      c.setAttribute("aria-checked", isSel ? "true" : "false");
+    });
+    hiddenInput.value = target.getAttribute("data-chip-value") || "";
+    hiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () { selectChip(chip); });
+    chip.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft" &&
+          e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      e.preventDefault();
+      const list = Array.prototype.slice.call(chips);
+      const idx = list.indexOf(chip);
+      const dir = (e.key === "ArrowRight" || e.key === "ArrowDown") ? 1 : -1;
+      const next = list[(idx + dir + list.length) % list.length];
+      next.focus();
+      selectChip(next);
+    });
+  });
+}
+
+function wireFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  const closeBtn = document.getElementById("first-run-close");
+  const cancelBtn = document.getElementById("first-run-cancel");
+  const form = document.getElementById("first-run-form");
+  const cta = document.getElementById("cta-generate-studio");
+  if (closeBtn) closeBtn.addEventListener("click", closeFirstRunModal);
+  if (cancelBtn) cancelBtn.addEventListener("click", closeFirstRunModal);
+  if (form) form.addEventListener("submit", submitFirstRunModal);
+  if (cta) cta.addEventListener("click", ctaGenerateClicked);
+  // Train 2: wire the two chip groups. Each group's selected slug is
+  // mirrored to a hidden input read by submitFirstRunModal.
+  const vibeGroup = overlay.querySelector('[data-chip-group-name="vibe"]');
+  const vibeInput = document.getElementById("frq-vibe");
+  wireChipGroup(vibeGroup, vibeInput);
+  const colorGroup = overlay.querySelector('[data-chip-group-name="color_scheme"]');
+  const colorInput = document.getElementById("frq-color-scheme");
+  wireChipGroup(colorGroup, colorInput);
+  // Stamp 2 / warp:c (2026-04-29): ToS gate. Generate button stays
+  // disabled until the user ticks the agreement checkbox.
+  var tosCheck = document.getElementById("first-run-tos-check");
+  var submitBtn = document.getElementById("first-run-submit");
+  if (tosCheck && submitBtn) {
+    var syncTos = function () {
+      if (tosCheck.checked) {
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute("aria-disabled");
+      } else {
+        submitBtn.disabled = true;
+        submitBtn.setAttribute("aria-disabled", "true");
+      }
+    };
+    tosCheck.addEventListener("change", syncTos);
+    syncTos();
+  }
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeFirstRunModal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !overlay.hidden) closeFirstRunModal();
+  });
+  if (isEnsembleHomepage()) {
+    // Slot warp:flowA - returning-user fast-path. If the server says this
+    // user has already completed the first-run flow, route them directly
+    // to /studio.html without flickering through the modal.
+    fetch("/first-run/state", { headers: authHeaders() })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (state) {
+        if (state && state.is_complete) {
+          try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+          window.location.replace(state.resume_url || "/studio.html");
+          return;
+        }
+        // Not complete - either unpaired (state==null) or mid-flow.
+        // Resume URL hints at the right page; if it points to a different
+        // step, route there. Otherwise show the modal as before.
+        if (state && state.resume_url && state.resume_url !== "/index.html") {
+          window.location.replace(state.resume_url);
+          return;
+        }
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      })
+      .catch(function () {
+        // Network / unreachable - fall back to legacy localStorage gate.
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", wireFirstRunModal);
+
+// ─── "Pair this device" banner (warp:b 2026-05-02) ───
+// On GH Pages (no Mac control panel reachable), nudge visitors to pair
+// their device so owner-mode features light up. Skipped on localhost
+// (the Mac is local) and when ENSEMBLE_SERVER_URL is already set.
+const SERVER_URL_BANNER_DISMISSED_KEY = "ensemble:server-url-banner-dismissed";
+
+function wireServerUrlBanner() {
+  try {
+    const host = location.hostname;
+    if (host === "localhost" || host === "127.0.0.1") return;
+    if (localStorage.getItem("ENDENZA_SERVER_URL")) return;
+    if (localStorage.getItem(SERVER_URL_BANNER_DISMISSED_KEY) === "1") return;
+    // /pair.html already shows the form — banner would be redundant.
+    if (location.pathname.endsWith("/pair.html")) return;
+  } catch (e) { return; }
+  if (document.getElementById("server-url-banner")) return;
+
+  const banner = document.createElement("div");
+  banner.id = "server-url-banner";
+  banner.className = "server-url-banner";
+  banner.setAttribute("role", "status");
+  banner.innerHTML =
+    '<span>Connect your Mac to use this from any device.</span>' +
+    ' <a href="./pair.html">Pair this device</a>' +
+    ' <button type="button" class="server-url-banner__dismiss" aria-label="Dismiss">&times;</button>';
+
+  // Insert above the topnav so it never steals space from the sticky header.
+  const topnav = document.querySelector(".topnav");
+  if (topnav && topnav.parentNode) topnav.parentNode.insertBefore(banner, topnav);
+  else document.body.insertBefore(banner, document.body.firstChild);
+
+  const dismiss = banner.querySelector(".server-url-banner__dismiss");
+  if (dismiss) {
+    dismiss.addEventListener("click", () => {
+      try { localStorage.setItem(SERVER_URL_BANNER_DISMISSED_KEY, "1"); } catch (e) {}
+      banner.remove();
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", wireServerUrlBanner);
+
+// Waitlist polish (Phase 3)
+function wireWaitlistPolish() {
+  const form = document.querySelector('.ensemble-cta__form');
+  if (!form) return;
+  const input = form.querySelector('.ensemble-cta__input');
+  const button = form.querySelector('.ensemble-cta__btn');
+  const errorEl = document.getElementById('ensemble-cta-error');
+  const successEl = document.getElementById('ensemble-cta-success');
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function clearError() {
+    if (errorEl) errorEl.textContent = '';
+    if (input) input.setAttribute('aria-invalid', 'false');
+  }
+
+  function showError(msg) {
+    if (errorEl) errorEl.textContent = msg;
+    if (input) input.setAttribute('aria-invalid', 'true');
+  }
+
+  if (input) input.addEventListener('input', clearError);
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    clearError();
+    const email = (input && input.value || '').trim();
+    if (!EMAIL_RE.test(email)) {
+      showError('Please enter a valid email address.');
+      if (input) input.focus();
+      return;
+    }
+    if (button) {
+      button.disabled = true;
+      button.classList.add('is-loading');
+    }
+    try {
+      const body = 'email=' + encodeURIComponent(email);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        body: body
+      });
+      if (!response.ok) {
+        throw new Error('http ' + response.status);
+      }
+      form.hidden = true;
+      if (successEl) successEl.hidden = false;
+    } catch (e) {
+      showError('Something went wrong, please try again.');
+      if (button) {
+        button.disabled = false;
+        button.classList.remove('is-loading');
+      }
+    }
+  });
+}
+document.addEventListener("DOMContentLoaded", wireWaitlistPolish);
+</script>
+</body>
+</html>

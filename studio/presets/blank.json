@@ -15,7 +15,7 @@
     "max_chats": 99,
     "author": "Ensemble built-in",
     "version": 1,
-    "is_default": true
+    "is_default": false
   },
   "name": "Blank canvas",
   "preset_origin": "blank",
@@ -51,7 +51,7 @@
       "x": 96,
       "y": 156,
       "w": 1500,
-      "h": 168,
+      "h": 80,
       "z": 6,
       "props": {
         "text": "A blank canvas. <em>Yours.</em>",
@@ -65,9 +65,9 @@
       "id": "welcome_lead",
       "type": "text",
       "x": 96,
-      "y": 360,
+      "y": 260,
       "w": 1100,
-      "h": 260,
+      "h": 180,
       "z": 6,
       "props": {
         "text": "Open the Workshop drawer for examples, asset packs, and starter wirings. Or press <em>Edit</em> and drop sprites onto your stage. Anything you place can be wired to launch real things \u2014 a game, an essay, a podcast, a friend's canvas.",

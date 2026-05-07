@@ -1,6 +1,6 @@
 {
-  "name": "Ensemble",
-  "short_name": "Ensemble",
+  "name": "Endenza",
+  "short_name": "Endenza",
   "description": "Multi-chat orchestration for Claude Code. One conductor, many performers.",
   "start_url": "./index.html",
   "scope": "./",

@@ -1,0 +1,1497 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<title>Endenza — Pre-Flip Checklist</title>
+<meta name="description" content="Gates before flipping a project public." />
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
+<link rel="manifest" href="./manifest.json" />
+<link rel="icon" id="favicon" type="image/svg+xml" href="./icon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png" />
+<link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Endenza" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
+<style id="cookie-banner-css">
+.cookie-banner {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 240;
+  background: var(--bg-raised, #faf7f2);
+  color: var(--ink, #1a1814);
+  border-top: 1px solid var(--rule, rgba(0,0,0,0.12));
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.08);
+  font-family: var(--sans, system-ui, -apple-system, sans-serif);
+  font-size: 14px; line-height: 1.5;
+}
+.cookie-banner[hidden] { display: none; }
+.cookie-banner__inner {
+  max-width: var(--w-app);
+  margin: 0 auto;
+  padding: 14px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap;
+}
+.cookie-banner__msg { margin: 0; flex: 1 1 320px; min-width: 240px; color: var(--ink-2, #3a342c); }
+.cookie-banner__msg strong { color: var(--ink, #1a1814); }
+.cookie-banner__actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.cookie-banner__link {
+  color: var(--accent, #b8753c);
+  text-decoration: underline;
+  font-weight: 500;
+}
+.cookie-banner__link:hover { color: var(--accent-2, #8c5828); }
+.cookie-banner__dismiss {
+  appearance: none; cursor: pointer;
+  background: var(--accent, #b8753c); color: white; border: 0;
+  padding: 8px 16px; border-radius: 8px;
+  font: inherit; font-weight: 600;
+  transition: background 180ms ease;
+}
+.cookie-banner__dismiss:hover { background: var(--accent-2, #8c5828); }
+.cookie-banner__dismiss:focus-visible {
+  outline: 2px solid var(--accent-2, #8c5828);
+  outline-offset: 2px;
+}
+@media (max-width: 540px) {
+  .cookie-banner__inner { padding: 12px 16px; gap: 10px; }
+  .cookie-banner__actions { width: 100%; justify-content: flex-end; }
+}
+</style>
+<script nonce="__CSP_NONCE__">
+  (function () {
+    try {
+      var t = localStorage.getItem("ENDENZA_THEME") || "warm";
+      var b = localStorage.getItem("ENDENZA_BG") || "solid";
+      if (t && t !== "warm") {
+        document.documentElement.classList.add("theme-" + t);
+      }
+      if (b && b !== "solid") {
+        document.documentElement.classList.add("bg-" + b);
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        if (t && t !== "warm") document.body.classList.add("theme-" + t);
+        if (b && b !== "solid") document.body.classList.add("bg-" + b);
+      });
+    } catch (e) {}
+  })();
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
+    });
+  }
+</script>
+</head>
+<body class="hub doc-page">
+<a class="skip-link" href="#main">Skip to main content</a>
+<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
+  <div class="cookie-banner__inner">
+    <p class="cookie-banner__msg">
+      <strong>Endenza</strong> remembers your sign-in and theme on this device. We don&rsquo;t sell or share that data.
+    </p>
+    <div class="cookie-banner__actions">
+      <a class="cookie-banner__link" href="/legal/cookies.html">Read policy</a>
+      <button type="button" class="cookie-banner__dismiss" id="cookie-banner-dismiss">Got it, dismiss</button>
+    </div>
+  </div>
+</div>
+<script id="cookie-banner-js">
+(function () {
+  var KEY = "cookie-consent";
+  var banner = document.getElementById("cookie-banner");
+  if (!banner) return;
+  var dismissed = "0";
+  try { dismissed = localStorage.getItem(KEY) || "0"; } catch (e) {}
+  if (dismissed === "1") return;
+  banner.hidden = false;
+  var btn = document.getElementById("cookie-banner-dismiss");
+  if (btn) {
+    setTimeout(function () { try { btn.focus(); } catch (e) {} }, 80);
+    btn.addEventListener("click", function () {
+      try { localStorage.setItem(KEY, "1"); } catch (e) {}
+      banner.hidden = true;
+    });
+  }
+})();
+</script>
+<nav class="topnav" id="topnav" data-drawer-state="closed">
+  <div class="wrap">
+    <button class="nav__toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="topnav-list" aria-label="Open navigation menu">
+      <span class="nav__toggle-bar" aria-hidden="true"></span>
+      <span class="nav__toggle-bar" aria-hidden="true"></span>
+      <span class="nav__toggle-bar" aria-hidden="true"></span>
+    </button>
+    <ul id="topnav-list">
+      <li><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
+      <li><a href="./">Endenza</a></li>
+      <li><a href="./studio.html">Studio</a></li>
+      <li><a href="./dashboard.html">Dashboard</a></li>
+      <li><a href="./terminal.html">Terminal</a></li>
+      <li><a class="active" aria-current="page" href="./docs.html">About</a></li>
+      <li><a href="./settings.html">Settings</a></li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+(function () {
+  function wireNavDrawer() {
+    var nav = document.getElementById("topnav");
+    var btn = document.getElementById("nav-toggle");
+    if (!nav || !btn) return;
+    function setState(open) {
+      nav.setAttribute("data-drawer-state", open ? "open" : "closed");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+    }
+    btn.addEventListener("click", function () {
+      var isOpen = nav.getAttribute("data-drawer-state") === "open";
+      setState(!isOpen);
+    });
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        var isOpen = nav.getAttribute("data-drawer-state") === "open";
+        setState(!isOpen);
+      } else if (e.key === "Escape") {
+        setState(false);
+        btn.focus();
+      }
+    });
+    var mq = window.matchMedia("(max-width: 720px)");
+    function syncBreakpoint() {
+      if (!mq.matches) setState(false);
+    }
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", syncBreakpoint);
+    } else if (typeof mq.addListener === "function") {
+      mq.addListener(syncBreakpoint);
+    }
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", wireNavDrawer);
+  } else {
+    wireNavDrawer();
+  }
+})();
+</script>
+
+<div id="smoke-banner">
+  <div class="wrap">
+    <div>
+      <strong>Smoke test required</strong>
+      <p id="smoke-banner-text">...</p>
+    </div>
+    <div class="cmd-row">
+      <button class="btn-primary" onclick="smokeResult('pass')">Pass</button>
+      <button class="btn-secondary" onclick="smokeResult('issues')">Issues</button>
+      <button class="btn-danger" onclick="smokeResult('fail')">Fail</button>
+    </div>
+  </div>
+</div>
+<main id="main" class="doc-page">
+  <div class="doc-progress" aria-hidden="true"><div class="doc-progress__bar" id="docProgressBar"></div></div>
+  <div class="wrap doc-wrap">
+    <a href="../docs.html" class="doc-back">← All documentation</a>
+    <header class="doc-hero">
+      <p class="doc-eyebrow">Documentation</p>
+      <h1 class="doc-title">Pre-Flip Checklist</h1>
+      <p class="doc-lead">**Status:** active · last reviewed 2026-05-03</p>
+      <p class="doc-meta"><span class="dot" aria-hidden="true"></span> source: <code>docs/operations/PRE_FLIP_CHECKLIST.md</code></p>
+    </header>
+    <article class="doc-content">
+<blockquote>
+<p>The go-live runbook. Every step Kevin needs to take before flipping the public switch on <code>ensemble.tld</code>.
+Cross-references the launch package in <a href="launch/"><code>docs/launch/</code></a>.</p>
+</blockquote>
+<p><strong>Last updated 2026-04-29.</strong>
+<strong>Owner:</strong> Kevin (sole operator).
+<strong>Target T-0:</strong> TBD — gated by quality, not date. See <a href="./gtm-plan.html">GTM_PLAN §2 Wave 4</a>.</p>
+<hr />
+<h2 id="how-this-doc-is-used">How this doc is used</h2>
+<p>This is a checklist, not a narrative. Walk it top-to-bottom in the listed window. Every box must be ticked before the next window starts. If a box can&rsquo;t be ticked, the launch slips — that&rsquo;s the contract.</p>
+<p>The cadence:
+- <strong>T-7 days</strong> — full launch package frozen. No more code merges except hotfixes.
+- <strong>T-3 days</strong> — operational backbone verified end-to-end.
+- <strong>T-1 day</strong> — content drafted, reviewed, queued.
+- <strong>T-0</strong> — the launch day itself, scripted hour-by-hour.
+- <strong>T+1 day</strong> — first response cycle.
+- <strong>T+7 days</strong> — first retro + Product Hunt scheduling.</p>
+<p>Rollback procedures are at the bottom. Read them before T-7 so they&rsquo;re already familiar by the time something breaks.</p>
+<hr />
+<h2 id="t-7-days-code-freeze">T-7 days — code freeze</h2>
+<p>Goal: the bits stop moving so the bits can be tested.</p>
+<h3 id="code-infra">Code &amp; infra</h3>
+<ul>
+<li>[ ] All 6 chunk warp fan-outs merged into <code>main</code> + tests green</li>
+<li>[ ] Live PWA matches <code>main</code> (latest dashboard-fire ran clean)</li>
+<li>[ ] Phase 2.4 E2E smoke passing (signup → procedural fill → publish → grid → fly-in)</li>
+<li>[ ] Color contrast audit run + remediated (WCAG 2.1 AA across every page)</li>
+<li>[ ] STATE_PATH NameError fix verified (no 500s on <code>/set-config</code>, <code>/save-room</code>, <code>/publish</code>)</li>
+<li>[ ] iframe sandbox: <code>allow-same-origin</code> confirmed dropped, manual paste-test of malicious HTML</li>
+<li>[ ] Privacy Policy + ToS reviewed by Canadian privacy counsel (sign-off in writing)</li>
+<li>[ ] DMCA contact email forwarding works (test send to <code>copyright@ensemble.tld</code> lands in inbox within 60s)</li>
+<li>[ ] No commented-out code, no debug <code>console.log</code>, no <code>TODO: remove before launch</code> strings remain in shipped files</li>
+</ul>
+<h3 id="content">Content</h3>
+<ul>
+<li>[ ] Manifesto blog post drafted (see <a href="./manifesto-blog.html"><code>launch/MANIFESTO_BLOG_POST.md</code></a>)</li>
+<li>[ ] Show HN post drafted (see <a href="./show-hn.html"><code>launch/SHOW_HN_POST.md</code></a>)</li>
+<li>[ ] Product Hunt assets prepared (see <a href="./product-hunt.html"><code>launch/PRODUCT_HUNT_ASSETS.md</code></a>)</li>
+<li>[ ] Email templates ready (see <a href="./email-templates.html"><code>launch/EMAIL_TEMPLATES.md</code></a>)</li>
+<li>[ ] Press kit assembled (see <a href="./press-kit.html"><code>launch/PRESS_KIT.md</code></a>)</li>
+</ul>
+<h3 id="beta-seed">Beta seed</h3>
+<ul>
+<li>[ ] Wave 0 dogfooding complete: Kevin&rsquo;s own Studio used daily for 14+ consecutive days</li>
+<li>[ ] 25 Wave-2 closed-beta members onboarded with at least one save + one publish each</li>
+<li>[ ] At least 10 stand-out showcase pages exist (the curation set for Show HN + PH)</li>
+</ul>
+<hr />
+<h2 id="t-3-days-operational-backbone">T-3 days — operational backbone</h2>
+<p>Goal: every external dependency tested in anger.</p>
+<h3 id="auth-access">Auth &amp; access</h3>
+<ul>
+<li>[ ] Cloudflare Access deployed + tested with 3 different identity providers (Google, GitHub, Apple)</li>
+<li>[ ] Magic-link email path verified end-to-end on a fresh inbox</li>
+<li>[ ] Account deletion path verified end-to-end (data actually gone from R2 + D1)</li>
+</ul>
+<h3 id="dns">DNS</h3>
+<ul>
+<li>[ ] DNS records prepared and staged (A, CNAME, MX, TXT for SPF/DKIM/DMARC)</li>
+<li>[ ] TTL lowered to 300s on the apex record so the swap is reversible inside 5 minutes</li>
+<li>[ ] <code>dig +short ensemble.tld</code> returns the expected staging IP from a non-Cloudflare resolver</li>
+</ul>
+<h3 id="billing">Billing</h3>
+<ul>
+<li>[ ] Stripe products + prices configured: Studio Pro $12/mo + $108/yr ($9/mo equivalent)</li>
+<li>[ ] Stripe webhook URL registered + smoke-tested with <code>stripe listen --forward-to</code></li>
+<li>[ ] One real test charge run with a real card (Kevin&rsquo;s own), refunded same-day</li>
+<li>[ ] Pro decorator gate verified on three Pro-only routes (server-side, not just UI hide)</li>
+</ul>
+<h3 id="monitoring">Monitoring</h3>
+<ul>
+<li>[ ] UptimeRobot endpoints configured (every 5 min, 3 regions: US-East, EU-West, AP-Southeast)</li>
+<li>[ ] Cloudflare Web Analytics deployed + verified data flowing within 1 hour of a test pageview</li>
+<li>[ ] Sentry DSN configured + smoke error sent + alert rules verified (Kevin gets paged within 60s)</li>
+<li>[ ] Anthropic spend cap thresholds tuned ($X/day, $Y/month — values locked in <code>safety_constraints.md</code>)</li>
+<li>[ ] CFWA dashboard bookmarked + checked once</li>
+</ul>
+<h3 id="runbooks">Runbooks</h3>
+<ul>
+<li>[ ] Uptime alert runbook exists and is linked from UptimeRobot (&ldquo;if site is down, do this&rdquo;)</li>
+<li>[ ] Cloudflare Access lockout runbook exists (&ldquo;if I lock myself out, do this&rdquo;)</li>
+<li>[ ] Anthropic spend cap-exceeded runbook exists (&ldquo;if the cap fires, do this&rdquo;)</li>
+</ul>
+<hr />
+<h2 id="t-1-day-content-frozen">T-1 day — content frozen</h2>
+<p>Goal: every word that will be published in the next 48 hours has been read by Kevin twice.</p>
+<h3 id="drafts">Drafts</h3>
+<ul>
+<li>[ ] Show HN post drafted + reviewed (NOT submitted yet)</li>
+<li>[ ] Show HN founder&rsquo;s first comment drafted (the elaboration on the most-likely top question)</li>
+<li>[ ] Product Hunt listing prepared (NOT scheduled yet — PH launches T+7, see Wave 4)</li>
+<li>[ ] Manifesto blog post drafted, reviewed, scheduled to publish at T-0 10:00</li>
+<li>[ ] Twitter / X thread drafted (8 tweets, see <a href="./twitter-bluesky.html"><code>launch/TWITTER_BLUESKY_THREAD.md</code></a>)</li>
+<li>[ ] Bluesky thread drafted (3 posts, slower vibe)</li>
+<li>[ ] Wave-2 closed-beta invitation email drafted (<code>launch/EMAIL_TEMPLATES.md</code>)</li>
+<li>[ ] Wave-1 stealth waitlist activation email drafted</li>
+</ul>
+<h3 id="lists">Lists</h3>
+<ul>
+<li>[ ] Wave 1 waitlist exported to a CSV (200 names, hand-written notes per person)</li>
+<li>[ ] First batch of invitations queued (the 25 Wave-2 people from MANIFESTO §6)</li>
+<li>[ ] Personal DM list ready (~10 highest-leverage announcements: Hacker News-active friends, Bluesky-active makers)</li>
+</ul>
+<h3 id="assets">Assets</h3>
+<ul>
+<li>[ ] Hero GIF rendered + compressed (≤2MB, 1280×800)</li>
+<li>[ ] 3 gallery PNGs rendered (1280×800 each)</li>
+<li>[ ] Demo video (30s MP4, 1080p, no audio narration — pure-mechanics)</li>
+<li>[ ] OG image baseline tested across Twitter / Bluesky / iMessage / Slack (no broken thumbnails)</li>
+</ul>
+<h3 id="final-review">Final review</h3>
+<ul>
+<li>[ ] Read <a href="./manifesto-blog.html"><code>launch/MANIFESTO_BLOG_POST.md</code></a> once aloud — voice should sound like Kevin, not like marketing</li>
+<li>[ ] Read <a href="./show-hn.html"><code>launch/SHOW_HN_POST.md</code></a> — does it pass the HN sniff test? (no buzzwords, no superlatives, no claims that aren&rsquo;t demonstrably true)</li>
+</ul>
+<hr />
+<h2 id="t-0-launch-day-scripted-hour-by-hour">T-0 — launch day, scripted hour-by-hour</h2>
+<p>All times in Kevin&rsquo;s local timezone (America/Toronto). Adjust if travelling.</p>
+<h3 id="0600-dns-swap">06:00 — DNS swap</h3>
+<ol>
+<li>Confirm UptimeRobot is green for the staging endpoint.</li>
+<li>Update apex A record to point at the production Cloudflare zone.</li>
+<li>Wait 90s; <code>dig +short ensemble.tld @1.1.1.1</code> should return the new IP.</li>
+<li>Hit <code>https://ensemble.tld</code> from a fresh browser session — does the homepage render?</li>
+<li>Tick: DNS done.</li>
+</ol>
+<h3 id="0630-auth-verification">06:30 — Auth verification</h3>
+<ol>
+<li>Sign up with a real but disposable email (e.g., kevin+launch-test@…).</li>
+<li>Verify magic-link delivery + sign-in.</li>
+<li>Verify Cloudflare Access challenge for <code>/admin</code> (still locked to Kevin).</li>
+<li>Tick: Auth done.</li>
+</ol>
+<h3 id="0700-end-to-end-smoke">07:00 — End-to-end smoke</h3>
+<p>Walk the canonical happy path with a stopwatch:
+1. Sign up with a fresh handle.
+2. Procedural fill seeds the canvas.
+3. Publish the canvas.
+4. Confirm it appears in <code>/index.html</code> showcase grid.
+5. Click-to-fly-in: visitor lands inside the Studio.
+6. From inside the Studio, click an interactive sprite (vinyl, arcade cabinet, book) — interaction fires.
+7. Total wall-clock: target ≤ 2 minutes.
+8. Tick: smoke green.</p>
+<h3 id="0800-wave-2-closed-beta-invitations">08:00 — Wave-2 closed-beta invitations</h3>
+<ol>
+<li>Send the 25 personal invitations from the email templates doc.</li>
+<li>Each invitation includes their reserved handle + a one-line &ldquo;I made this with you in mind because of [specific work].&rdquo;</li>
+<li>Don&rsquo;t bcc — every email is one-to-one.</li>
+<li>Tick: invitations sent.</li>
+</ol>
+<h3 id="0900-show-hn-submission">09:00 — Show HN submission</h3>
+<ol>
+<li>Read <a href="./show-hn.html"><code>launch/SHOW_HN_POST.md</code></a> one final time.</li>
+<li>Submit at https://news.ycombinator.com/submit (NOT scheduled — submitted directly).</li>
+<li>Within 5 minutes of submission, post the founder&rsquo;s first comment (HN convention).</li>
+<li>Pin the HN link in the personal Twitter/Bluesky bio.</li>
+<li>Tick: HN live.</li>
+</ol>
+<h3 id="0930-schedule-product-hunt">09:30 — Schedule Product Hunt</h3>
+<ol>
+<li>Create the PH draft from <a href="./product-hunt.html"><code>launch/PRODUCT_HUNT_ASSETS.md</code></a>.</li>
+<li>Schedule for the <strong>following Tuesday</strong> at 12:01 AM PT (T+7 — see GTM_PLAN.md Wave 4 timing).</li>
+<li>Don&rsquo;t launch PH same-day as Show HN — let HN organic settle first.</li>
+<li>Tick: PH scheduled.</li>
+</ol>
+<h3 id="1000-manifesto-blog-post-publishes">10:00 — Manifesto blog post publishes</h3>
+<ol>
+<li>Auto-scheduled the night before; verify it went live at the top of the hour.</li>
+<li>Cross-link from the homepage hero CTA: &ldquo;Read the launch story →&rdquo;.</li>
+<li>Tick: blog live.</li>
+</ol>
+<h3 id="1030-twitter-bluesky-thread">10:30 — Twitter / Bluesky thread</h3>
+<ol>
+<li>Post the 8-tweet thread on Twitter / X.</li>
+<li>Post the 3-post thread on Bluesky.</li>
+<li>Don&rsquo;t @-tag press; let the work speak.</li>
+<li>Tick: socials live.</li>
+</ol>
+<h3 id="1100-email-wave-1-waitlist">11:00 — Email Wave 1 waitlist</h3>
+<ol>
+<li>Send the Wave-1 stealth-waitlist activation email (BCC, batched in groups of 50, 5-minute spacing).</li>
+<li>Subject line variant tested with three preview tools.</li>
+<li>Tick: waitlist activated.</li>
+</ol>
+<h3 id="1200-office-hours-begin">12:00 — Office hours begin</h3>
+<ol>
+<li>Open a Discord/Slack channel for new signups.</li>
+<li>Open the Sentry dashboard, the CFWA dashboard, the Stripe dashboard, the Anthropic console — all in tabs.</li>
+<li>Live-monitor for the next 6 hours minimum.</li>
+<li>Reply to every Show HN comment within 30 minutes for the first 6 hours.</li>
+<li>Don&rsquo;t reply defensively. Don&rsquo;t argue. Thank, clarify, fix.</li>
+</ol>
+<hr />
+<h2 id="t1-day-first-response-cycle">T+1 day — first response cycle</h2>
+<ul>
+<li>[ ] Re-read every Show HN comment + reply to anything still unanswered</li>
+<li>[ ] Tweet a follow-up: &ldquo;Thank you. Here&rsquo;s what surprised me.&rdquo; (concrete + specific)</li>
+<li>[ ] Repost the top reactions on Bluesky</li>
+<li>[ ] Review Sentry: triage every error, no matter how small (issue + fix + ship)</li>
+<li>[ ] Review Anthropic spend tracking — flag any anomaly that suggests abuse</li>
+<li>[ ] Review Stripe — first paying customer? (Tweet about it with their permission)</li>
+<li>[ ] Send &ldquo;thanks for joining&rdquo; follow-up to everyone who signed up via Show HN</li>
+<li>[ ] Open a <code>docs/launch/RETRO_DAY_1.md</code> file and start jotting raw observations</li>
+</ul>
+<hr />
+<h2 id="t7-days-product-hunt-first-retro">T+7 days — Product Hunt + first retro</h2>
+<ul>
+<li>[ ] Product Hunt launches at 12:01 AM PT (auto-scheduled)</li>
+<li>[ ] Hourly check-ins for the first 6 hours (PH community is timezone-clustered)</li>
+<li>[ ] Reply to every PH comment within 1 hour</li>
+<li>[ ] First weekly retrospective: top 3 learnings, top 3 follow-ups, top 3 surprises</li>
+<li>[ ] Review weekly metrics:</li>
+<li>Signups (raw + activated, where &ldquo;activated&rdquo; = at least one save + one publish)</li>
+<li>NPS (from any Wave-2 user who&rsquo;s responded to the in-app survey)</li>
+<li>Churn (deactivations, account deletions)</li>
+<li>Anthropic spend $ / signup</li>
+<li>[ ] First blog follow-up published: case study of a Wave-2 user (with permission), in the founder&rsquo;s-letter voice</li>
+<li>[ ] Open a <code>docs/launch/RETRO_WEEK_1.md</code> file consolidating the week&rsquo;s notes</li>
+</ul>
+<hr />
+<h2 id="rollback-procedures">Rollback procedures</h2>
+<p>If anything goes catastrophically wrong, these are the panic-button procedures. Practiced once during T-3.</p>
+<h3 id="dns-swap-back-target-5-minutes">DNS swap-back (target: &lt;5 minutes)</h3>
+<ol>
+<li>Update apex A record back to the staging IP.</li>
+<li><code>dig +short ensemble.tld @1.1.1.1</code> confirms the rollback within 90s (TTL=300).</li>
+<li>UptimeRobot should flip green within one cycle (5 min).</li>
+<li>Public sees the staging &ldquo;We&rsquo;re back shortly&rdquo; page.</li>
+</ol>
+<h3 id="cloudflare-access-emergency-disable">Cloudflare Access emergency-disable</h3>
+<ul>
+<li><code>wrangler</code> config edit + <code>wrangler deploy</code> — Access policy can be toggled off in &lt;60s if a real user is locked out.</li>
+<li>Emergency contact: Cloudflare support is paid-tier; ticket-based.</li>
+</ul>
+<h3 id="anthropic-spend-emergency-cap">Anthropic spend emergency cap</h3>
+<ul>
+<li><code>state.json.anthropic.daily_cap_usd</code> — set to a lower number (e.g., $5).</li>
+<li>The orchestrator&rsquo;s autopilot freeze respects this within one cycle.</li>
+<li>If the cap is <em>already</em> exceeded and the cause is abuse, set <code>state.json.autopilot_freeze_until = "9999-12-31T23:59:59Z"</code> to fully freeze.</li>
+</ul>
+<h3 id="public-freeze-kill-switch">Public freeze (&ldquo;kill switch&rdquo;)</h3>
+<ul>
+<li>Worst case: a serious vulnerability shipped. Rollback DNS + freeze autopilot + post a status-page note.</li>
+<li>The status page lives at <code>status.ensemble.tld</code> (see <code>docs/operations/UPTIME_MONITOR_SETUP.md</code>).</li>
+<li>Rule: never delete data on a freeze. We can always re-enable. We can&rsquo;t undelete.</li>
+</ul>
+<hr />
+<h2 id="sign-off">Sign-off</h2>
+<p>The launch is &ldquo;go&rdquo; only if every box above is ticked AND Kevin has slept at least 7 hours the night before. Don&rsquo;t ship tired.</p>
+<p>If something is unticked at T-1 day 23:00, the launch slips. That&rsquo;s the contract.</p>
+<p><em>Kevin&rsquo;s pen, here:</em> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+    </article>
+    <footer class="doc-foot">
+      <a href="../docs.html" class="doc-back">← Back to all documentation</a>
+    </footer>
+  </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('docProgressBar');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scrolled = (h.scrollTop || document.body.scrollTop);
+        var height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        var pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+        bar.style.width = pct + '%';
+      }
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
+</main>
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__cols">
+      <div class="site-footer__col site-footer__col--brand">
+        <a href="./" class="site-footer__brand-link" aria-label="Endenza home">
+          <img class="brand-mark site-footer__mark" src="./icon.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <span class="brand site-footer__brand-name">Endenza</span>
+        </a>
+        <p class="site-footer__tagline"><em>One conductor. Many performers.</em></p>
+        <p class="site-footer__blurb">A creator-platform PWA where every page is a place &mdash; not a list of links.</p>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Product</p>
+        <ul class="site-footer__links">
+          <li><a href="./studio.html">Studio</a></li>
+          <li><a href="./dashboard.html">Dashboard</a></li>
+          <li><a href="./settings.html">Settings</a></li>
+          <li><a href="./docs.html">Docs</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Resources</p>
+        <ul class="site-footer__links">
+          <li><a href="https://github.com/KiwiMaddog2020/claude-ensemble" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="./docs.html">Documentation</a></li>
+          <li><a href="./credits.html">Credits</a></li>
+          <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Legal</p>
+        <ul class="site-footer__links">
+          <li><a href="/legal/privacy.html">Privacy Policy</a></li>
+          <li><a href="/legal/terms.html">Terms of Service</a></li>
+          <li><a href="/legal/acceptable-use.html">Acceptable Use</a></li>
+          <li><a href="/legal/dmca.html">DMCA</a></li>
+          <li><a href="/legal/cookies.html">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copyright">&copy; 2026 Endenza &middot; <span class="site-footer__version">v2.0</span></p>
+      <p class="site-footer__meta">Auto-refreshes 3&times; daily.</p>
+    </div>
+  </div>
+</footer>
+<style id="site-footer-css">
+.site-footer__inner {
+  max-width: var(--w-app, 1180px);
+  margin: 0 auto;
+  padding: var(--space-7, 48px) clamp(var(--space-4, 16px), 4vw, var(--space-6, 32px)) var(--space-5, 24px);
+}
+.site-footer__cols {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-6, 32px);
+  align-items: flex-start;
+  margin-bottom: var(--space-6, 32px);
+}
+@media (max-width: 960px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5, 24px) var(--space-6, 32px);
+  }
+  .site-footer__col--brand {
+    grid-column: 1 / -1;
+    margin-bottom: var(--space-3, 12px);
+  }
+}
+@media (max-width: 540px) {
+  .site-footer__cols {
+    grid-template-columns: 1fr;
+    gap: var(--space-5, 24px);
+  }
+}
+
+.site-footer__col {
+  min-width: 0;
+}
+
+.site-footer__col--brand {
+  max-width: 32ch;
+}
+.site-footer__brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  text-decoration: none;
+  margin-bottom: var(--space-3, 12px);
+}
+.site-footer__brand-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--r-sm, 4px);
+}
+.site-footer__mark {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+.site-footer__brand-name {
+  font-family: var(--serif);
+  font-size: var(--fs-18, 18px);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.site-footer__tagline {
+  font-family: var(--serif);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  margin: 0 0 var(--space-3, 12px);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__blurb {
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-3);
+  line-height: var(--lh-relaxed, 1.55);
+  margin: 0;
+  max-width: 36ch;
+}
+
+.site-footer__heading {
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin: 0 0 var(--space-3, 12px);
+}
+
+.site-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.site-footer__links li {
+  margin: 0 0 var(--space-2, 8px);
+}
+.site-footer__links a {
+  font-family: var(--sans);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color var(--dur-base, 180ms) var(--ease, ease);
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__links a:hover {
+  color: var(--accent);
+}
+.site-footer__links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm, 4px);
+  color: var(--accent);
+}
+
+.site-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+  padding-top: var(--space-5, 24px);
+  border-top: 1px solid var(--rule-2, var(--rule));
+}
+.site-footer__copyright,
+.site-footer__meta {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  color: var(--ink-4, var(--ink-3));
+}
+.site-footer__version {
+  font-family: var(--mono);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 540px) {
+  .site-footer__bottom {
+    justify-content: center;
+    text-align: center;
+  }
+}
+</style>
+<script nonce="__CSP_NONCE__">
+
+(function migrateEnsembleKeys() {
+  var _LS_KEYS = [
+    "ENSEMBLE_THEME", "ENSEMBLE_BG", "ENSEMBLE_BG_CUSTOM",
+    "ENSEMBLE_SERVER_URL", "ENSEMBLE_DASHBOARD_LAYOUT",
+    "ENSEMBLE_BYOK_LINKED", "ENSEMBLE_SHELF_HEIGHT_VH",
+    "ENSEMBLE_STUDIO_ROOM", "ENSEMBLE_STUDIO_CLAUDE_HISTORY",
+    "ENSEMBLE_STUDIO_CLAUDE_USAGE",
+    "ENSEMBLE_TERMINAL_LEFT_PX", "ENSEMBLE_TERMINAL_RIGHT_PX",
+    "ENSEMBLE_TERMINAL_COMPOSE_H", "ENSEMBLE_TERMINAL_TREE_H",
+    "ENSEMBLE_TERMINAL_LEFT_COLLAPSED", "ENSEMBLE_TERMINAL_RIGHT_COLLAPSED",
+    "ENSEMBLE_TERMINAL_ENTER_TO_SEND", "ENSEMBLE_TERMINAL_HISTORY_NAV",
+    "ENSEMBLE_TERMINAL_FONT_SIZE", "ENSEMBLE_TERMINAL_RIGHT_LAYOUT"
+  ];
+  try {
+    _LS_KEYS.forEach(function (oldKey) {
+      var newKey = oldKey.replace(/^ENSEMBLE_/, "ENDENZA_");
+      if (localStorage.getItem(newKey) === null) {
+        var v = localStorage.getItem(oldKey);
+        if (v !== null) localStorage.setItem(newKey, v);
+      }
+    });
+    // Dynamic prefix keys: ENSEMBLE_STICKY_*, ENSEMBLE_TERMINAL_PINNED_*
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k) continue;
+      if (k.indexOf("ENSEMBLE_STICKY_") === 0 || k.indexOf("ENSEMBLE_TERMINAL_PINNED_") === 0) {
+        var newDynKey = k.replace(/^ENSEMBLE_/, "ENDENZA_");
+        if (localStorage.getItem(newDynKey) === null) {
+          var dv = localStorage.getItem(k);
+          if (dv !== null) localStorage.setItem(newDynKey, dv);
+        }
+      }
+    }
+  } catch (e) {}
+})();
+
+const SERVER_URL = (function() {
+  const stored = localStorage.getItem("ENDENZA_SERVER_URL");
+  if (stored) return stored;
+  return location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    ? "http://localhost:8080"
+    : "";
+})();
+
+function authHeaders() {
+  const t = localStorage.getItem("DASHBOARD_TOKEN") || "";
+  return t ? { "Authorization": "Bearer " + t, "Content-Type": "application/json" }
+           : { "Content-Type": "application/json" };
+}
+
+async function fetchState() {
+  if (!SERVER_URL) return null;
+  try {
+    const r = await fetch(SERVER_URL + "/state", { headers: authHeaders() });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+async function setConfig(field, value) {
+  if (!SERVER_URL) return showHelp("settings-help", "No server URL set.");
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ field, value })
+    });
+    const j = await r.json();
+    showHelp("settings-help", r.ok ? ("✓ " + field + " = " + JSON.stringify(value)) : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("settings-help", "✗ network error: " + e.message); }
+}
+
+function showHelp(id, msg) { const el = document.getElementById(id); if (el) el.textContent = msg; }
+
+function updateSmokeBanner(state) {
+  const banner = document.getElementById("smoke-banner");
+  const text = document.getElementById("smoke-banner-text");
+  if (!banner || !text || !state || !state.projects) { if (banner) banner.style.display = "none"; return; }
+  const pending = state.projects.find(p => p.pending_smoke_test);
+  if (!pending) { banner.style.display = "none"; window._pendingSmokeSlug = null; return; }
+  window._pendingSmokeSlug = pending.slug;
+  text.textContent = pending.slug + " → " + (pending.pending_smoke_test_target || "?") + " — pending verification. Run the smoke test, then click Pass / Issues / Fail.";
+  banner.style.display = "block";
+}
+
+async function smokeResult(result) {
+  if (!window._pendingSmokeSlug) return;
+  const notes = result === "pass" ? "" : prompt("Notes?", "") || "";
+  try {
+    const r = await fetch(SERVER_URL + "/smoke-test-result", {
+      method: "POST", headers: authHeaders(),
+      body: JSON.stringify({ slug: window._pendingSmokeSlug, result, notes })
+    });
+    const j = await r.json();
+    alert(r.ok ? ("Smoke test " + result + " recorded for " + window._pendingSmokeSlug + (j.state ? ". State now: " + j.state : ".")) : ("Error: " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { alert("Network error: " + e.message); }
+}
+
+let _ALL_STATE = null;
+
+async function refreshState() {
+  const state = await fetchState();
+  _ALL_STATE = state;
+  // Owner mode = state fetch successful (server reachable + token valid)
+  const newOwner = !!state;
+  if (newOwner !== window._isOwner) {
+    window._isOwner = newOwner;
+    applyOwnerMode();
+  }
+  updateSmokeBanner(state);
+  if (typeof refreshPageState === "function") refreshPageState(state);
+}
+
+// ─── Owner detection (read-only mode for visitors) ───
+// IMPORTANT: window._isOwner (NOT a script-scoped `let _isOwner`).  The
+// widget runtime in widgets/state.py:visibleSections() reads
+// `window._isOwner` from a separate IIFE closure, so the value MUST be
+// on the global object — a `let` at script scope is invisible across
+// closures and the private widget section never renders.
+//
+// Was: `let _isOwner = false;` — caused all private widgets (claude-
+// station, refine, code-rate, mode-pill, kill-switch, etc.) to be
+// invisible regardless of token state. Fixed 2026-05-02.
+window._isOwner = false;
+function applyOwnerMode() {
+  const banner = document.getElementById("owner-banner");
+  if (window._isOwner) {
+    document.body.classList.remove("read-only");
+    if (banner) banner.classList.replace("show", "hide");
+  } else {
+    document.body.classList.add("read-only");
+    if (banner) banner.classList.replace("hide", "show");
+    // Disable form inputs in owner-only sections
+    document.querySelectorAll("[data-owner-only] input, [data-owner-only] select, [data-owner-only] button").forEach(el => {
+      el.disabled = true;
+    });
+  }
+}
+
+// ─── Theme picker (persisted, per-device) ───
+// Trailing 3 entries (sunset_drive / mall_plaza / neo_city) are the
+// 2026-05-04 limited-edition vibe-coder color schemes. They MUST be
+// in this list — applyTheme below uses it to strip stale `theme-*`
+// classes on switch, and missing entries leave the previous theme's
+// CSS overlapping with the new one. (Kevin caught the live-preview
+// bug 2026-05-04: 'doesn't update right away.')
+const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper", "sunset_drive", "mall_plaza", "neo_city"];
+const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora", "scanlines", "topo", "vignette", "paper", "linen", "blueprint", "constellation", "marble", "custom"];
+
+const TERMINAL_FONTS = {
+  "system":          "",
+  "jetbrains-mono":  '"JetBrains Mono", monospace',
+  "fira-code":       '"Fira Code", monospace',
+  "source-code-pro": '"Source Code Pro", monospace',
+  "ibm-plex-mono":   '"IBM Plex Mono", monospace',
+  "inconsolata":     '"Inconsolata", monospace',
+  "space-mono":      '"Space Mono", monospace',
+  "roboto-mono":     '"Roboto Mono", monospace',
+};
+const TERMINAL_FONT_GFONTS = {
+  "fira-code":       "Fira+Code:wght@400;500;600",
+  "source-code-pro": "Source+Code+Pro:wght@400;500;600",
+  "ibm-plex-mono":   "IBM+Plex+Mono:wght@400;500;600",
+  "inconsolata":     "Inconsolata:wght@400;500;600;700",
+  "space-mono":      "Space+Mono:wght@400;700",
+  "roboto-mono":     "Roboto+Mono:wght@400;500;600;700",
+};
+
+function applyTerminalFont(key) {
+  const stack = TERMINAL_FONTS[key];
+  const page = document.querySelector(".terminal-page");
+  if (page) {
+    if (stack) {
+      page.style.setProperty("--terminal-mono", stack);
+    } else {
+      page.style.removeProperty("--terminal-mono");
+    }
+  }
+  const gf = TERMINAL_FONT_GFONTS[key];
+  const linkId = "terminal-font-gf";
+  let existing = document.getElementById(linkId);
+  if (gf) {
+    const href = "https://fonts.googleapis.com/css2?family=" + gf + "&display=swap";
+    if (existing) {
+      existing.href = href;
+    } else {
+      const link = document.createElement("link");
+      link.id = linkId;
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+    }
+  } else if (existing) {
+    existing.remove();
+  }
+}
+window.applyTerminalFont = applyTerminalFont;
+
+function applyTheme(name) {
+  THEMES.forEach(t => document.body.classList.remove("theme-" + t));
+  if (name && name !== "warm") document.body.classList.add("theme-" + name);
+  document.querySelectorAll(".theme-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.theme === (name || "warm"));
+  });
+  // Default logo NEVER changes (Kevin 2026-05-05: 'our default logo
+  // used on the website should also be our favicon set, this should
+  // ALWAYS be the case. Default logo, for favicons never changes').
+  //
+  // The canonical Threaded Trinity at `./icon.svg` is the project's
+  // single brand identity image. It serves as:
+  //   · the favicon (browser tab + bookmarks)
+  //   · the apple-touch-icon (iOS home-screen install)
+  //   · every in-page `.brand-mark` (homepage hero, nav slot, footer)
+  // None of these change with theme. Theme expressiveness lives in
+  // accent/background colors and the swatch picker — not in the
+  // brand-mark. Don't reintroduce a per-theme mark swap.
+  //
+  // The LE recolors in `dashgen/assets/le_brand_marks.py` remain
+  // available as baked data URIs for future collector affordances
+  // (e.g. downloadable variant, swatch-picker preview), but are NOT
+  // wired to replace the on-page mark or favicon.
+  const fav = document.getElementById("favicon");
+  if (fav) fav.href = "./icon.svg";
+  const apple = document.getElementById("apple-touch-icon");
+  if (apple) apple.href = "./icon.svg";
+  document.querySelectorAll(".brand-mark").forEach(el => { el.src = "./icon.svg"; });
+  // Reference the LE dict so the module-load substitution doesn't get
+  // dead-code-eliminated by the minifier — keep the baked URIs in the
+  // bundle for future collector use (see comment block above).
+  const LE_BRAND_MARKS = {"sunset_drive": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_sunset_drive_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80b8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff006e%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b001c%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ffc880%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff5a3a%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b1a08%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%239a80ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233010a0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a0220%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_sunset_drive_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23cc2a30%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23aa0080%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%236020a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "mall_plaza": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_mall_plaza_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380e0ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300d4ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23002a40%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%236070ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233050ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23000840%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff00ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23400028%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_mall_plaza_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%230040a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%237010a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%234015a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "neo_city": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_neo_city_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f0%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff10f0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23500050%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23a8ff80%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2339ff14%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a3010%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380fff5%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300fff5%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23003040%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_neo_city_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23a06090%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%238060e0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%2320c0a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"};
+  void LE_BRAND_MARKS;
+  // Invalidate downstream caches that read CSS custom properties
+  // (component_renderers.colorFromToken memoizes per token; without
+  // this dispatch the cache would survive a theme switch with stale
+  // colors). Cheap event; no listeners outside the renderer today.
+  try { document.dispatchEvent(new CustomEvent("theme:applied", { detail: { name: name } })); } catch (e) {}
+}
+
+function applyBackground(name) {
+  BACKGROUNDS.forEach(b => document.body.classList.remove("bg-" + b));
+  if (name && name !== "solid") document.body.classList.add("bg-" + name);
+  document.querySelectorAll(".bg-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.bg === (name || "solid"));
+  });
+  // Custom uploaded wallpaper — apply the persisted data URL inline.
+  // Falls back to solid if no upload yet (the swatch click handler also
+  // intercepts to open the file picker first time the tile is clicked).
+  if (name === "custom") {
+    const dataUrl = localStorage.getItem("ENDENZA_BG_CUSTOM");
+    if (dataUrl) {
+      document.body.style.backgroundImage = `url("${dataUrl}")`;
+    } else {
+      document.body.style.backgroundImage = "";
+    }
+  } else {
+    document.body.style.backgroundImage = "";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Theme load + bind
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
+  applyTheme(savedTheme);
+  // Terminal-only appearance (per-page override). Stamped on <body>
+  // ASAP to avoid a FOUC where the warm-bg flashes before the
+  // black-grey terminal styles kick in. Default = "black-grey"; the
+  // user can flip to "follow-site" via the terminal settings popover.
+  // Only stamps when we're actually on /terminal.html.
+  if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
+    let termTheme = "black-grey";
+    try {
+      const v = localStorage.getItem("ENDENZA_TERMINAL_THEME");
+      if (v === "follow-site" || v === "black-grey") termTheme = v;
+    } catch (e) {}
+    document.body.setAttribute("data-terminal-theme", termTheme);
+    let termFont = "system";
+    try {
+      const f = localStorage.getItem("ENDENZA_TERMINAL_FONT");
+      if (f && TERMINAL_FONTS.hasOwnProperty(f)) termFont = f;
+    } catch (e) {}
+    applyTerminalFont(termFont);
+  }
+  // Click + keyboard binding (Enter / Space). The swatches carry
+  // role="button" + tabindex="0" so keyboard users can activate them.
+  const activateOnKey = (handler) => (ev) => {
+    if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") {
+      ev.preventDefault();
+      handler.call(ev.currentTarget, ev);
+    }
+  };
+  document.querySelectorAll(".theme-swatch").forEach(el => {
+    const fire = () => {
+      const t = el.dataset.theme;
+      localStorage.setItem("ENDENZA_THEME", t);
+      applyTheme(t);
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
+  });
+
+  // Background load + bind
+  const savedBg = localStorage.getItem("ENDENZA_BG") || "solid";
+  applyBackground(savedBg);
+  document.querySelectorAll(".bg-swatch").forEach(el => {
+    const fire = () => {
+      const b = el.dataset.bg;
+      // Custom-upload tile: open the file picker on every click.  If the
+      // user already has a saved upload, clicking re-applies it without
+      // prompting (so they can switch back to it from another bg).
+      if (b === "custom") {
+        const hasSaved = !!localStorage.getItem("ENDENZA_BG_CUSTOM");
+        if (!hasSaved || el.classList.contains("active")) {
+          // Open file picker (no saved upload yet, OR custom is already
+          // active and the user is clicking to replace it).
+          const input = document.getElementById("bg-upload-input");
+          if (input) input.click();
+          return;
+        }
+      }
+      localStorage.setItem("ENDENZA_BG", b);
+      applyBackground(b);
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
+  });
+
+  // Custom wallpaper upload flow.
+  const bgUpload = document.getElementById("bg-upload-input");
+  if (bgUpload) {
+    bgUpload.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      // Reasonable size cap — localStorage has a ~5MB ceiling on most browsers.
+      if (file.size > 4.5 * 1024 * 1024) {
+        alert("Image too large (max ~4.5MB). Pick a smaller one or compress first.");
+        e.target.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const dataUrl = ev.target && ev.target.result;
+        try {
+          localStorage.setItem("ENDENZA_BG_CUSTOM", dataUrl);
+          localStorage.setItem("ENDENZA_BG", "custom");
+          applyBackground("custom");
+        } catch (err) {
+          alert("Couldn't save wallpaper to local storage (it may be too large). Try a smaller image.");
+        }
+      };
+      reader.readAsDataURL(file);
+      // Reset the input so picking the same file again still triggers change.
+      e.target.value = "";
+    });
+  }
+
+  // Terminal font load + bind
+  const savedFont = localStorage.getItem("ENDENZA_TERMINAL_FONT") || "system";
+  document.querySelectorAll(".font-swatch").forEach(el => {
+    el.classList.toggle("active", el.dataset.font === savedFont);
+    const fire = () => {
+      const f = el.dataset.font;
+      localStorage.setItem("ENDENZA_TERMINAL_FONT", f);
+      document.querySelectorAll(".font-swatch").forEach(s => s.classList.toggle("active", s.dataset.font === f));
+      applyTerminalFont(f);
+    };
+    el.addEventListener("click", fire);
+    el.addEventListener("keydown", activateOnKey(fire));
+  });
+
+  // Owner mode initial state — pessimistic until state fetch confirms
+  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENDENZA_SERVER_URL"));
+  applyOwnerMode();
+
+  refreshState();
+  setInterval(refreshState, 60000);
+  document.querySelectorAll("[data-field]").forEach(el => {
+    el.addEventListener("change", () => {
+      if (!window._isOwner) return;  // belt + suspenders; backend also enforces
+      const field = el.dataset.field;
+      let value;
+      if (el.type === "checkbox") value = el.checked;
+      else if (el.type === "number") value = parseInt(el.value, 10);
+      else value = el.value;
+      setConfig(field, value);
+    });
+  });
+});
+
+// Page-specific hooks (defined inline by each page if needed)
+async function fireAutopilot() {
+  const slug = document.getElementById("fire-slug").value;
+  const minutes = parseInt(document.getElementById("fire-mins").value, 10);
+  if (!slug || !minutes) return showHelp("fire-help", "Pick project + minutes");
+  try {
+    const r = await fetch(SERVER_URL + "/fire", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, minutes, prompt: "" }) });
+    const j = await r.json();
+    showHelp("fire-help", r.ok ? ("✓ fired " + slug + " for " + minutes + "m (exit " + j.exit + ")") : ("✗ " + (j.error || r.statusText)));
+  } catch (e) { showHelp("fire-help", "✗ " + e.message); }
+}
+
+async function setProjectState() {
+  const slug = document.getElementById("state-slug").value;
+  const state = document.getElementById("state-target").value;
+  if (!slug || !state) return showHelp("state-help", "Pick project + state");
+  try {
+    let r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state }) });
+    let j = await r.json();
+    if (r.status === 409 && j.error === "smoke_test_required") {
+      const ok = confirm("Checkpoint " + j.checkpoint + " smoke test required: " + j.current_state + " → " + j.target_state + ".\n\nState held. Run the test, then use the banner above.\n\nForce-skip the smoke test?");
+      if (ok) {
+        r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state, force: true }) });
+        j = await r.json();
+        showHelp("state-help", r.ok ? ("⚠ " + slug + " → " + state + " (forced; logged)") : ("✗ " + (j.error || r.statusText)));
+      } else { showHelp("state-help", "Smoke test held. See banner above."); }
+      setTimeout(refreshState, 500); return;
+    }
+    showHelp("state-help", r.ok ? ("✓ " + slug + " → " + state) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("state-help", "✗ " + e.message); }
+}
+
+async function killAll() {
+  if (!confirm("Kill all autopilot? Six-phase cascade fires.")) return;
+  try {
+    const r = await fetch(SERVER_URL + "/kill", { method: "POST", headers: authHeaders() });
+    const j = await r.json();
+    showHelp("kill-help", r.ok ? ("✓ kill exit=" + j.exit) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 1000);
+  } catch (e) { showHelp("kill-help", "✗ " + e.message); }
+}
+
+async function setTokenReset() {
+  const v = document.getElementById("reset-input")?.value;
+  if (!v) return showHelp("reset-help", "Pick a date/time.");
+  const iso = new Date(v).toISOString();
+  try {
+    const r = await fetch(SERVER_URL + "/set-config", { method: "POST", headers: authHeaders(), body: JSON.stringify({ field: "weekly_token_reset_at", value: iso }) });
+    const j = await r.json();
+    showHelp("reset-help", r.ok ? ("✓ reset set to " + iso) : ("✗ " + (j.error || r.statusText)));
+    setTimeout(refreshState, 500);
+  } catch (e) { showHelp("reset-help", "✗ " + e.message); }
+}
+
+// ─── Live relative timestamps — every <span class="rel-time" data-iso="..."> ticks ───
+(function () {
+  function rel(iso) {
+    var t = new Date(iso).getTime();
+    if (isNaN(t)) return iso;
+    var s = Math.max(0, Math.floor((Date.now() - t) / 1000));
+    if (s < 30) return 'just now';
+    if (s < 90) return '1 min ago';
+    if (s < 3600) return Math.floor(s / 60) + ' mins ago';
+    if (s < 5400) return '1 hour ago';
+    if (s < 86400) return Math.floor(s / 3600) + ' hours ago';
+    if (s < 172800) return 'yesterday';
+    return Math.floor(s / 86400) + ' days ago';
+  }
+  function update() {
+    document.querySelectorAll('.rel-time').forEach(function (el) {
+      var iso = el.getAttribute('data-iso');
+      if (iso) el.textContent = rel(iso);
+    });
+  }
+  update();
+  setInterval(update, 30000);
+})();
+// First-run onboarding modal (Phase A.4-3)
+const FIRST_RUN_SEEN_KEY = "ensemble:first-run-seen";
+
+// Slot warp:flowA - advance the server-side first-run state machine.
+// Best-effort: a 401 (unpaired) or 409 (regression/skip) should not block
+// the UI flow, since the modal works even when paired-user auth is absent
+// in dev mode. Logged via console.warn so we can spot real regressions.
+async function advanceFirstRunState(step) {
+  try {
+    const r = await fetch("/first-run/advance", {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ step: step })
+    });
+    if (!r.ok && r.status !== 409 && r.status !== 401) {
+      try { console.warn("first-run advance failed", step, r.status); } catch (e) {}
+    }
+    return r.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
+function isEnsembleHomepage() {
+  const p = location.pathname;
+  return p.endsWith("/index.html") || p === "/" || p.endsWith("/ensemble.html");
+}
+
+function openFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  overlay.hidden = false;
+  const err = document.getElementById("first-run-error");
+  if (err) err.innerHTML = "";
+  const firstField = document.getElementById("frq-building");
+  if (firstField) setTimeout(() => firstField.focus(), 50);
+}
+
+function closeFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  overlay.hidden = true;
+  try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+}
+
+async function submitFirstRunModal(ev) {
+  ev.preventDefault();
+  const err = document.getElementById("first-run-error");
+  const submitBtn = document.getElementById("first-run-submit");
+  const building = (document.getElementById("frq-building").value || "").trim();
+  const vibe = (document.getElementById("frq-vibe").value || "").trim();
+  // Train 2 (2026-05-04): "problem" was replaced by "color_scheme" — a
+  // chip-driven picker. The hidden input's id is frq-color-scheme; the
+  // server still accepts the legacy "problem" key for back-compat.
+  const colorScheme = (document.getElementById("frq-color-scheme").value || "").trim();
+  if (!building) {
+    if (err) err.textContent = "Tell us what you’re building.";
+    return;
+  }
+  if (!vibe) {
+    if (err) err.textContent = "Pick a vibe to set the room’s mood.";
+    return;
+  }
+  if (!colorScheme) {
+    if (err) err.textContent = "Pick a color scheme.";
+    return;
+  }
+  var tosCheck = document.getElementById("first-run-tos-check");
+  if (tosCheck && !tosCheck.checked) {
+    if (err) err.textContent = "Please agree to the Terms of Service before generating.";
+    return;
+  }
+  if (err) err.innerHTML = "";
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.classList.add("is-loading"); }
+  try {
+    const r = await fetch("/studio/generate-from-answers", {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({
+        building: building,
+        vibe: vibe,
+        color_scheme: colorScheme,
+        // Back-compat: server may still expect `problem`. Send it as
+        // the color_scheme slug so older deploys interpret the answer
+        // sensibly until they pick up the schema update.
+        problem: colorScheme,
+      })
+    });
+    let body = {};
+    try { body = await r.json(); } catch (e) {}
+    if (r.ok) {
+      try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+      // Stash the generated studio so /your-studio.html can render it.
+      // Phase A.4-3 part 2 fix (2026-04-28): the modal previously
+      // discarded body.studio and redirected to the static engine page.
+      try {
+        if (body && body.studio) {
+          localStorage.setItem("ensemble:generated-studio", JSON.stringify(body.studio));
+        }
+      } catch (e) {}
+      // Slot warp:flowA - record progress through the state machine.
+      // QUESTIONS marks the modal submit; CANVAS marks the genesis 200.
+      // Both happen now because /studio/generate-from-answers returned ok
+      // synchronously above; the state machine still rejects skips so we
+      // advance one step at a time.
+      await advanceFirstRunState("questions-answered");
+      await advanceFirstRunState("canvas-generated");
+      // Post-studio: route through character creator before showing the
+      // generated studio, so the visitor designs their sprite once. The
+      // creator's Save handler honors ?from=first-run and forwards on to
+      // /your-studio.html.
+      window.location.href = "/character-creator.html?from=first-run";
+      return;
+    }
+    if (r.status === 400) {
+      const msg = (body && body.error) ? String(body.error) : "Validation error.";
+      if (msg.toLowerCase().includes("byok")) {
+        if (err) err.innerHTML = "You'll need to add an Anthropic API key first. <a href='/settings.html#anthropic-byok'>Open Settings</a>";
+      } else {
+        if (err) err.textContent = msg;
+      }
+    } else if (r.status === 500) {
+      const stage = (body && body.stage) ? body.stage : "?";
+      if (err) err.textContent = "Something went wrong (stage: " + stage + "). Please try again.";
+    } else {
+      if (err) err.textContent = "Unexpected response (" + r.status + "). Please try again.";
+    }
+  } catch (e) {
+    if (err) err.textContent = "Network error: " + (e && e.message ? e.message : "unknown");
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.classList.remove("is-loading"); }
+  }
+}
+
+function ctaGenerateClicked() {
+  fetch("/ensemble/cta-clicked", {
+    method: "POST",
+    headers: authHeaders(),
+    body: "{}",
+    keepalive: true
+  }).catch(() => {});
+  openFirstRunModal();
+}
+
+// Train 2 (2026-05-04): chip-group wiring. Single-select radio
+// behavior driven by aria-checked + a hidden input that mirrors the
+// chosen slug. Reused on the Studio "Generate from GitHub" panel.
+function wireChipGroup(groupEl, hiddenInput) {
+  if (!groupEl || !hiddenInput) return;
+  const chips = groupEl.querySelectorAll("[data-chip-value]");
+  function selectChip(target) {
+    chips.forEach(function (c) {
+      const isSel = c === target;
+      c.setAttribute("aria-checked", isSel ? "true" : "false");
+    });
+    hiddenInput.value = target.getAttribute("data-chip-value") || "";
+    hiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () { selectChip(chip); });
+    chip.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft" &&
+          e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      e.preventDefault();
+      const list = Array.prototype.slice.call(chips);
+      const idx = list.indexOf(chip);
+      const dir = (e.key === "ArrowRight" || e.key === "ArrowDown") ? 1 : -1;
+      const next = list[(idx + dir + list.length) % list.length];
+      next.focus();
+      selectChip(next);
+    });
+  });
+}
+
+function wireFirstRunModal() {
+  const overlay = document.getElementById("first-run-overlay");
+  if (!overlay) return;
+  const closeBtn = document.getElementById("first-run-close");
+  const cancelBtn = document.getElementById("first-run-cancel");
+  const form = document.getElementById("first-run-form");
+  const cta = document.getElementById("cta-generate-studio");
+  if (closeBtn) closeBtn.addEventListener("click", closeFirstRunModal);
+  if (cancelBtn) cancelBtn.addEventListener("click", closeFirstRunModal);
+  if (form) form.addEventListener("submit", submitFirstRunModal);
+  if (cta) cta.addEventListener("click", ctaGenerateClicked);
+  // Train 2: wire the two chip groups. Each group's selected slug is
+  // mirrored to a hidden input read by submitFirstRunModal.
+  const vibeGroup = overlay.querySelector('[data-chip-group-name="vibe"]');
+  const vibeInput = document.getElementById("frq-vibe");
+  wireChipGroup(vibeGroup, vibeInput);
+  const colorGroup = overlay.querySelector('[data-chip-group-name="color_scheme"]');
+  const colorInput = document.getElementById("frq-color-scheme");
+  wireChipGroup(colorGroup, colorInput);
+  // Stamp 2 / warp:c (2026-04-29): ToS gate. Generate button stays
+  // disabled until the user ticks the agreement checkbox.
+  var tosCheck = document.getElementById("first-run-tos-check");
+  var submitBtn = document.getElementById("first-run-submit");
+  if (tosCheck && submitBtn) {
+    var syncTos = function () {
+      if (tosCheck.checked) {
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute("aria-disabled");
+      } else {
+        submitBtn.disabled = true;
+        submitBtn.setAttribute("aria-disabled", "true");
+      }
+    };
+    tosCheck.addEventListener("change", syncTos);
+    syncTos();
+  }
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeFirstRunModal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !overlay.hidden) closeFirstRunModal();
+  });
+  if (isEnsembleHomepage()) {
+    // Slot warp:flowA - returning-user fast-path. If the server says this
+    // user has already completed the first-run flow, route them directly
+    // to /studio.html without flickering through the modal.
+    fetch("/first-run/state", { headers: authHeaders() })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (state) {
+        if (state && state.is_complete) {
+          try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
+          window.location.replace(state.resume_url || "/studio.html");
+          return;
+        }
+        // Not complete - either unpaired (state==null) or mid-flow.
+        // Resume URL hints at the right page; if it points to a different
+        // step, route there. Otherwise show the modal as before.
+        if (state && state.resume_url && state.resume_url !== "/index.html") {
+          window.location.replace(state.resume_url);
+          return;
+        }
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      })
+      .catch(function () {
+        // Network / unreachable - fall back to legacy localStorage gate.
+        let seen = "0";
+        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
+        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", wireFirstRunModal);
+
+// ─── "Pair this device" banner (warp:b 2026-05-02) ───
+// On GH Pages (no Mac control panel reachable), nudge visitors to pair
+// their device so owner-mode features light up. Skipped on localhost
+// (the Mac is local) and when ENSEMBLE_SERVER_URL is already set.
+const SERVER_URL_BANNER_DISMISSED_KEY = "ensemble:server-url-banner-dismissed";
+
+function wireServerUrlBanner() {
+  try {
+    const host = location.hostname;
+    if (host === "localhost" || host === "127.0.0.1") return;
+    if (localStorage.getItem("ENDENZA_SERVER_URL")) return;
+    if (localStorage.getItem(SERVER_URL_BANNER_DISMISSED_KEY) === "1") return;
+    // /pair.html already shows the form — banner would be redundant.
+    if (location.pathname.endsWith("/pair.html")) return;
+  } catch (e) { return; }
+  if (document.getElementById("server-url-banner")) return;
+
+  const banner = document.createElement("div");
+  banner.id = "server-url-banner";
+  banner.className = "server-url-banner";
+  banner.setAttribute("role", "status");
+  banner.innerHTML =
+    '<span>Connect your Mac to use this from any device.</span>' +
+    ' <a href="./pair.html">Pair this device</a>' +
+    ' <button type="button" class="server-url-banner__dismiss" aria-label="Dismiss">&times;</button>';
+
+  // Insert above the topnav so it never steals space from the sticky header.
+  const topnav = document.querySelector(".topnav");
+  if (topnav && topnav.parentNode) topnav.parentNode.insertBefore(banner, topnav);
+  else document.body.insertBefore(banner, document.body.firstChild);
+
+  const dismiss = banner.querySelector(".server-url-banner__dismiss");
+  if (dismiss) {
+    dismiss.addEventListener("click", () => {
+      try { localStorage.setItem(SERVER_URL_BANNER_DISMISSED_KEY, "1"); } catch (e) {}
+      banner.remove();
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", wireServerUrlBanner);
+
+// Waitlist polish (Phase 3)
+function wireWaitlistPolish() {
+  const form = document.querySelector('.ensemble-cta__form');
+  if (!form) return;
+  const input = form.querySelector('.ensemble-cta__input');
+  const button = form.querySelector('.ensemble-cta__btn');
+  const errorEl = document.getElementById('ensemble-cta-error');
+  const successEl = document.getElementById('ensemble-cta-success');
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function clearError() {
+    if (errorEl) errorEl.textContent = '';
+    if (input) input.setAttribute('aria-invalid', 'false');
+  }
+
+  function showError(msg) {
+    if (errorEl) errorEl.textContent = msg;
+    if (input) input.setAttribute('aria-invalid', 'true');
+  }
+
+  if (input) input.addEventListener('input', clearError);
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    clearError();
+    const email = (input && input.value || '').trim();
+    if (!EMAIL_RE.test(email)) {
+      showError('Please enter a valid email address.');
+      if (input) input.focus();
+      return;
+    }
+    if (button) {
+      button.disabled = true;
+      button.classList.add('is-loading');
+    }
+    try {
+      const body = 'email=' + encodeURIComponent(email);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        body: body
+      });
+      if (!response.ok) {
+        throw new Error('http ' + response.status);
+      }
+      form.hidden = true;
+      if (successEl) successEl.hidden = false;
+    } catch (e) {
+      showError('Something went wrong, please try again.');
+      if (button) {
+        button.disabled = false;
+        button.classList.remove('is-loading');
+      }
+    }
+  });
+}
+document.addEventListener("DOMContentLoaded", wireWaitlistPolish);
+</script>
+</body>
+</html>

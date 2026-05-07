@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "preset_metadata": {
+    "id": "game_room",
+    "display_name": "Game Room",
+    "description": "An arcade-vibes hangout with cabinets, a TV, couch, and neon sign. Wire cabinets to your playable projects.",
+    "thumbnail": null,
+    "natural_themes": ["midnight", "cobalt", "aurora", "sunset_drive"],
+    "min_chats": 0,
+    "recommended_chats": 0,
+    "max_chats": 99,
+    "author": "Ensemble built-in",
+    "version": 1
+  },
+  "name": "Game Room",
+  "preset_origin": "game_room",
+  "theme": null,
+  "background": null,
+  "stage": {
+    "width": 960,
+    "height": 540,
+    "background_layer": null,
+    "ambient_sound": null
+  },
+  "components": [
+    {
+      "id": "floor",
+      "type": "svg",
+      "x": 0, "y": 0, "w": 960, "h": 540, "z": 0,
+      "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+      "locked": true,
+      "walkable_through": true, "solid": false, "interactable": false
+    },
+    {
+      "id": "carpet_strip",
+      "type": "svg",
+      "x": 80, "y": 200, "w": 800, "h": 280, "z": 1,
+      "props": { "shape": "rect", "fill_token": "rule" },
+      "walkable_through": true, "solid": false, "interactable": false
+    },
+    {
+      "id": "neon_sign",
+      "type": "prop",
+      "x": 424, "y": 12, "w": 112, "h": 72, "z": 7,
+      "props": { "sprite_id": "poster", "label": "Game room poster" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "arcade_1",
+      "type": "prop",
+      "x": 40, "y": 20, "w": 72, "h": 110, "z": 6,
+      "props": { "sprite_id": "arcade_cabinet", "label": "Classics", "cabinet_color": "#3a4a6a" },
+      "walkable_through": false, "solid": true, "interactable": true,
+      "interaction": { "type": "read", "title": "Classic Games", "body": "Wire this cabinet to your favorite retro game. Replace with a launch link." }
+    },
+    {
+      "id": "arcade_2",
+      "type": "prop",
+      "x": 140, "y": 20, "w": 72, "h": 110, "z": 6,
+      "props": { "sprite_id": "arcade_cabinet", "label": "Fighters", "cabinet_color": "#6a3a3a" },
+      "walkable_through": false, "solid": true, "interactable": true,
+      "interaction": { "type": "read", "title": "Fighting Games", "body": "Set up a link to your fighting game project here." }
+    },
+    {
+      "id": "arcade_3",
+      "type": "prop",
+      "x": 750, "y": 20, "w": 72, "h": 110, "z": 6,
+      "props": { "sprite_id": "arcade_cabinet", "label": "Racers", "cabinet_color": "#3a6a4a" },
+      "walkable_through": false, "solid": true, "interactable": true,
+      "interaction": { "type": "read", "title": "Racing Games", "body": "Add your racing game or driving sim link here." }
+    },
+    {
+      "id": "tv_main",
+      "type": "prop",
+      "x": 400, "y": 70, "w": 140, "h": 100, "z": 6,
+      "props": { "sprite_id": "tv_screen", "label": "Stream" },
+      "walkable_through": false, "solid": true, "interactable": true,
+      "interaction": { "type": "read", "title": "Live Stream", "body": "Embed a stream or video here. Replace with an embed interaction." }
+    },
+    {
+      "id": "couch_1",
+      "type": "prop",
+      "x": 360, "y": 220, "w": 200, "h": 80, "z": 4,
+      "props": { "sprite_id": "couch" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "speaker_left",
+      "type": "prop",
+      "x": 260, "y": 60, "w": 48, "h": 96, "z": 5,
+      "props": { "sprite_id": "speaker_stack" },
+      "walkable_through": false, "solid": true, "interactable": true,
+      "interaction": { "type": "read", "title": "Sound System", "body": "Add a music embed to set the vibe." }
+    },
+    {
+      "id": "speaker_right",
+      "type": "prop",
+      "x": 630, "y": 60, "w": 48, "h": 96, "z": 5,
+      "props": { "sprite_id": "speaker_stack" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "table_snacks",
+      "type": "prop",
+      "x": 600, "y": 320, "w": 80, "h": 48, "z": 5,
+      "props": { "sprite_id": "table" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "lamp_mood",
+      "type": "prop",
+      "x": 870, "y": 160, "w": 36, "h": 72, "z": 5,
+      "props": { "sprite_id": "lamp" },
+      "walkable_through": false, "solid": true, "interactable": false
+    },
+    {
+      "id": "rug_under_couch",
+      "type": "prop",
+      "x": 320, "y": 200, "w": 300, "h": 140, "z": 1,
+      "props": { "sprite_id": "rug" },
+      "walkable_through": true, "solid": false, "interactable": false
+    },
+    {
+      "id": "door_exit",
+      "type": "prop",
+      "x": 440, "y": 440, "w": 64, "h": 84, "z": 5,
+      "props": { "sprite_id": "door", "label": "Exit" },
+      "walkable_through": false, "solid": true, "interactable": true,
+      "interaction": { "type": "door", "destination": "./" }
+    }
+  ],
+  "custom_css": "",
+  "custom_js": "",
+  "history_seq": 0,
+  "last_saved_at": null,
+  "visibility": "private"
+}

@@ -1,0 +1,112 @@
+{
+  "id": "cnv_de000000000b",
+  "owner_id": "usr_endenza_demo",
+  "owner_handle": "endenza_demo",
+  "title": "Cozy Cabin",
+  "description": "A warm corner where the lamp is always on — a bookshelf holds a few worn favorites and a reading chair waits by the window.",
+  "theme": "warm",
+  "visibility": "public",
+  "is_showcase": true,
+  "featured_score": 9.5,
+  "featured_locked": true,
+  "slot_index": 1,
+  "published_at": 1746316800.0,
+  "source": "manual",
+  "source_metadata": { "built_in": true, "demo": true },
+  "created_at": 1746316800.0,
+  "updated_at": 1746316800.0,
+  "schema_version": 7,
+  "room_state": {
+    "stage": { "width": 960, "height": 540, "background_layer": null, "ambient_sound": null },
+    "components": [
+      {
+        "id": "floor", "type": "svg",
+        "x": 0, "y": 0, "w": 960, "h": 540, "z": 0,
+        "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+        "locked": true, "walkable_through": true, "solid": false, "interactable": false
+      },
+      {
+        "id": "rug", "type": "prop",
+        "x": 300, "y": 260, "w": 300, "h": 180, "z": 1,
+        "props": { "sprite_id": "rug" },
+        "walkable_through": true, "solid": false, "interactable": false
+      },
+      {
+        "id": "bookshelf_1", "type": "prop",
+        "x": 40, "y": 10, "w": 130, "h": 110, "z": 6,
+        "props": { "sprite_id": "bookshelf", "label": "Stories", "book_count": 10 },
+        "walkable_through": false, "solid": true, "interactable": true,
+        "interaction": { "type": "read", "title": "Stories", "body": "Favorite novels, cozy reads, and comfort picks." }
+      },
+      {
+        "id": "bookshelf_2", "type": "prop",
+        "x": 200, "y": 10, "w": 130, "h": 110, "z": 6,
+        "props": { "sprite_id": "bookshelf", "label": "Poetry", "book_count": 6 },
+        "walkable_through": false, "solid": true, "interactable": true,
+        "interaction": { "type": "read", "title": "Poetry", "body": "Collected verse and chapbooks." }
+      },
+      {
+        "id": "couch_main", "type": "prop",
+        "x": 350, "y": 300, "w": 160, "h": 70, "z": 4,
+        "props": { "sprite_id": "couch", "label": "Reading Spot" },
+        "walkable_through": false, "solid": true, "interactable": false
+      },
+      {
+        "id": "table_side", "type": "prop",
+        "x": 530, "y": 320, "w": 64, "h": 48, "z": 5,
+        "props": { "sprite_id": "table" },
+        "walkable_through": false, "solid": true, "interactable": false
+      },
+      {
+        "id": "lamp_1", "type": "prop",
+        "x": 310, "y": 260, "w": 36, "h": 72, "z": 5,
+        "props": { "sprite_id": "lamp" },
+        "walkable_through": false, "solid": true, "interactable": false
+      },
+      {
+        "id": "window_1", "type": "prop",
+        "x": 500, "y": 8, "w": 80, "h": 60, "z": 6,
+        "props": { "sprite_id": "window" },
+        "walkable_through": false, "solid": true, "interactable": false
+      },
+      {
+        "id": "window_2", "type": "prop",
+        "x": 700, "y": 8, "w": 80, "h": 60, "z": 6,
+        "props": { "sprite_id": "window" },
+        "walkable_through": false, "solid": true, "interactable": false
+      },
+      {
+        "id": "plant_a", "type": "prop",
+        "x": 860, "y": 380, "w": 48, "h": 64, "z": 5,
+        "props": { "sprite_id": "plant_pot" },
+        "walkable_through": false, "solid": true, "interactable": false
+      },
+      {
+        "id": "clock_wall", "type": "prop",
+        "x": 620, "y": 12, "w": 40, "h": 40, "z": 6,
+        "props": { "sprite_id": "clock" },
+        "walkable_through": false, "solid": true, "interactable": false
+      },
+      {
+        "id": "desk_writing", "type": "prop",
+        "x": 700, "y": 180, "w": 160, "h": 100, "z": 5,
+        "props": { "sprite_id": "desk", "label": "Writing Desk" },
+        "walkable_through": false, "solid": true, "interactable": true,
+        "interaction": { "type": "read", "title": "Writing Desk", "body": "A quiet place to write. Link to your journal or blog." }
+      },
+      {
+        "id": "chair_desk", "type": "prop",
+        "x": 740, "y": 295, "w": 56, "h": 56, "z": 4,
+        "props": { "sprite_id": "chair" },
+        "walkable_through": false, "solid": true, "interactable": false
+      },
+      {
+        "id": "door_exit", "type": "prop",
+        "x": 440, "y": 440, "w": 64, "h": 84, "z": 5,
+        "props": { "sprite_id": "door", "label": "Exit" },
+        "walkable_through": false, "solid": true, "interactable": true,
+        "interaction": { "type": "door", "destination": "./" }
+      }
+    ]
+  }
+}
