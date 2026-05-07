@@ -3,7 +3,7 @@
   "format": "chibi-flat-v1",
   "pack_id": "chibi-default",
   "name": "Chibi Default",
-  "description": "Cute chibi character starter pack \u2014 3 pre-composed characters from Gray Matter Studios' Character Generator 2.0 piece library. Single-pose v1; walk/run/sit cycles to be added once the action-row layout is mapped.",
+  "description": "Cute chibi character starter pack — 3 pre-composed characters from Gray Matter Studios' Character Generator 2.0 piece library. Single-pose v1; walk/run/sit cycles to be added once the action-row layout is mapped.",
   "cell_w": 48,
   "cell_h": 96,
   "render_mode": "static_pose",
@@ -153,7 +153,7 @@
       }
     }
   ],
-  "credits_blurb": "Chibi character pieces by Gray Matter Studios \u2014 Character Generator 2.0. Composed locally via bin/scripts/build_chibi_pack.py.",
+  "credits_blurb": "Chibi character pieces by Gray Matter Studios — Character Generator 2.0. Composed locally via bin/scripts/build_chibi_pack.py.",
   "category": "character",
   "layers": {
     "body": [
@@ -307,7 +307,7 @@
     "hair": [
       {
         "id": "Hairstyle_01_01",
-        "label": "Hair 01 \u00b7 01",
+        "label": "Hair 01 · 01",
         "asset": "layers/hair/Hairstyle_01_01.png",
         "walk_atlas": "layers/hair/Hairstyle_01_01_walk.png",
         "atlas_cell_w": 48,
@@ -316,7 +316,7 @@
       },
       {
         "id": "Hairstyle_01_02",
-        "label": "Hair 01 \u00b7 02",
+        "label": "Hair 01 · 02",
         "asset": "layers/hair/Hairstyle_01_02.png",
         "walk_atlas": "layers/hair/Hairstyle_01_02_walk.png",
         "atlas_cell_w": 48,
@@ -325,7 +325,7 @@
       },
       {
         "id": "Hairstyle_01_03",
-        "label": "Hair 01 \u00b7 03",
+        "label": "Hair 01 · 03",
         "asset": "layers/hair/Hairstyle_01_03.png",
         "walk_atlas": "layers/hair/Hairstyle_01_03_walk.png",
         "atlas_cell_w": 48,
@@ -334,7 +334,7 @@
       },
       {
         "id": "Hairstyle_01_04",
-        "label": "Hair 01 \u00b7 04",
+        "label": "Hair 01 · 04",
         "asset": "layers/hair/Hairstyle_01_04.png",
         "walk_atlas": "layers/hair/Hairstyle_01_04_walk.png",
         "atlas_cell_w": 48,
@@ -343,7 +343,7 @@
       },
       {
         "id": "Hairstyle_01_05",
-        "label": "Hair 01 \u00b7 05",
+        "label": "Hair 01 · 05",
         "asset": "layers/hair/Hairstyle_01_05.png",
         "walk_atlas": "layers/hair/Hairstyle_01_05_walk.png",
         "atlas_cell_w": 48,
@@ -352,7 +352,7 @@
       },
       {
         "id": "Hairstyle_02_01",
-        "label": "Hair 02 \u00b7 01",
+        "label": "Hair 02 · 01",
         "asset": "layers/hair/Hairstyle_02_01.png",
         "walk_atlas": "layers/hair/Hairstyle_02_01_walk.png",
         "atlas_cell_w": 48,
@@ -361,7 +361,7 @@
       },
       {
         "id": "Hairstyle_02_02",
-        "label": "Hair 02 \u00b7 02",
+        "label": "Hair 02 · 02",
         "asset": "layers/hair/Hairstyle_02_02.png",
         "walk_atlas": "layers/hair/Hairstyle_02_02_walk.png",
         "atlas_cell_w": 48,
@@ -370,7 +370,7 @@
       },
       {
         "id": "Hairstyle_02_03",
-        "label": "Hair 02 \u00b7 03",
+        "label": "Hair 02 · 03",
         "asset": "layers/hair/Hairstyle_02_03.png",
         "walk_atlas": "layers/hair/Hairstyle_02_03_walk.png",
         "atlas_cell_w": 48,
@@ -379,7 +379,7 @@
       },
       {
         "id": "Hairstyle_02_04",
-        "label": "Hair 02 \u00b7 04",
+        "label": "Hair 02 · 04",
         "asset": "layers/hair/Hairstyle_02_04.png",
         "walk_atlas": "layers/hair/Hairstyle_02_04_walk.png",
         "atlas_cell_w": 48,
@@ -388,7 +388,7 @@
       },
       {
         "id": "Hairstyle_02_05",
-        "label": "Hair 02 \u00b7 05",
+        "label": "Hair 02 · 05",
         "asset": "layers/hair/Hairstyle_02_05.png",
         "walk_atlas": "layers/hair/Hairstyle_02_05_walk.png",
         "atlas_cell_w": 48,
@@ -397,7 +397,7 @@
       },
       {
         "id": "Hairstyle_03_01",
-        "label": "Hair 03 \u00b7 01",
+        "label": "Hair 03 · 01",
         "asset": "layers/hair/Hairstyle_03_01.png",
         "walk_atlas": "layers/hair/Hairstyle_03_01_walk.png",
         "atlas_cell_w": 48,
@@ -406,7 +406,7 @@
       },
       {
         "id": "Hairstyle_03_02",
-        "label": "Hair 03 \u00b7 02",
+        "label": "Hair 03 · 02",
         "asset": "layers/hair/Hairstyle_03_02.png",
         "walk_atlas": "layers/hair/Hairstyle_03_02_walk.png",
         "atlas_cell_w": 48,
@@ -415,7 +415,7 @@
       },
       {
         "id": "Hairstyle_03_03",
-        "label": "Hair 03 \u00b7 03",
+        "label": "Hair 03 · 03",
         "asset": "layers/hair/Hairstyle_03_03.png",
         "walk_atlas": "layers/hair/Hairstyle_03_03_walk.png",
         "atlas_cell_w": 48,
@@ -424,7 +424,7 @@
       },
       {
         "id": "Hairstyle_03_04",
-        "label": "Hair 03 \u00b7 04",
+        "label": "Hair 03 · 04",
         "asset": "layers/hair/Hairstyle_03_04.png",
         "walk_atlas": "layers/hair/Hairstyle_03_04_walk.png",
         "atlas_cell_w": 48,
@@ -433,7 +433,7 @@
       },
       {
         "id": "Hairstyle_03_05",
-        "label": "Hair 03 \u00b7 05",
+        "label": "Hair 03 · 05",
         "asset": "layers/hair/Hairstyle_03_05.png",
         "walk_atlas": "layers/hair/Hairstyle_03_05_walk.png",
         "atlas_cell_w": 48,
@@ -442,7 +442,7 @@
       },
       {
         "id": "Hairstyle_04_01",
-        "label": "Hair 04 \u00b7 01",
+        "label": "Hair 04 · 01",
         "asset": "layers/hair/Hairstyle_04_01.png",
         "walk_atlas": "layers/hair/Hairstyle_04_01_walk.png",
         "atlas_cell_w": 48,
@@ -451,7 +451,7 @@
       },
       {
         "id": "Hairstyle_04_02",
-        "label": "Hair 04 \u00b7 02",
+        "label": "Hair 04 · 02",
         "asset": "layers/hair/Hairstyle_04_02.png",
         "walk_atlas": "layers/hair/Hairstyle_04_02_walk.png",
         "atlas_cell_w": 48,
@@ -460,7 +460,7 @@
       },
       {
         "id": "Hairstyle_04_03",
-        "label": "Hair 04 \u00b7 03",
+        "label": "Hair 04 · 03",
         "asset": "layers/hair/Hairstyle_04_03.png",
         "walk_atlas": "layers/hair/Hairstyle_04_03_walk.png",
         "atlas_cell_w": 48,
@@ -469,7 +469,7 @@
       },
       {
         "id": "Hairstyle_04_04",
-        "label": "Hair 04 \u00b7 04",
+        "label": "Hair 04 · 04",
         "asset": "layers/hair/Hairstyle_04_04.png",
         "walk_atlas": "layers/hair/Hairstyle_04_04_walk.png",
         "atlas_cell_w": 48,
@@ -478,7 +478,7 @@
       },
       {
         "id": "Hairstyle_04_05",
-        "label": "Hair 04 \u00b7 05",
+        "label": "Hair 04 · 05",
         "asset": "layers/hair/Hairstyle_04_05.png",
         "walk_atlas": "layers/hair/Hairstyle_04_05_walk.png",
         "atlas_cell_w": 48,
@@ -487,7 +487,7 @@
       },
       {
         "id": "Hairstyle_05_01",
-        "label": "Hair 05 \u00b7 01",
+        "label": "Hair 05 · 01",
         "asset": "layers/hair/Hairstyle_05_01.png",
         "walk_atlas": "layers/hair/Hairstyle_05_01_walk.png",
         "atlas_cell_w": 48,
@@ -496,7 +496,7 @@
       },
       {
         "id": "Hairstyle_05_02",
-        "label": "Hair 05 \u00b7 02",
+        "label": "Hair 05 · 02",
         "asset": "layers/hair/Hairstyle_05_02.png",
         "walk_atlas": "layers/hair/Hairstyle_05_02_walk.png",
         "atlas_cell_w": 48,
@@ -505,7 +505,7 @@
       },
       {
         "id": "Hairstyle_05_03",
-        "label": "Hair 05 \u00b7 03",
+        "label": "Hair 05 · 03",
         "asset": "layers/hair/Hairstyle_05_03.png",
         "walk_atlas": "layers/hair/Hairstyle_05_03_walk.png",
         "atlas_cell_w": 48,
@@ -514,7 +514,7 @@
       },
       {
         "id": "Hairstyle_05_04",
-        "label": "Hair 05 \u00b7 04",
+        "label": "Hair 05 · 04",
         "asset": "layers/hair/Hairstyle_05_04.png",
         "walk_atlas": "layers/hair/Hairstyle_05_04_walk.png",
         "atlas_cell_w": 48,
@@ -523,7 +523,7 @@
       },
       {
         "id": "Hairstyle_05_05",
-        "label": "Hair 05 \u00b7 05",
+        "label": "Hair 05 · 05",
         "asset": "layers/hair/Hairstyle_05_05.png",
         "walk_atlas": "layers/hair/Hairstyle_05_05_walk.png",
         "atlas_cell_w": 48,
@@ -532,7 +532,7 @@
       },
       {
         "id": "Hairstyle_06_01",
-        "label": "Hair 06 \u00b7 01",
+        "label": "Hair 06 · 01",
         "asset": "layers/hair/Hairstyle_06_01.png",
         "walk_atlas": "layers/hair/Hairstyle_06_01_walk.png",
         "atlas_cell_w": 48,
@@ -541,7 +541,7 @@
       },
       {
         "id": "Hairstyle_06_02",
-        "label": "Hair 06 \u00b7 02",
+        "label": "Hair 06 · 02",
         "asset": "layers/hair/Hairstyle_06_02.png",
         "walk_atlas": "layers/hair/Hairstyle_06_02_walk.png",
         "atlas_cell_w": 48,
@@ -550,7 +550,7 @@
       },
       {
         "id": "Hairstyle_06_03",
-        "label": "Hair 06 \u00b7 03",
+        "label": "Hair 06 · 03",
         "asset": "layers/hair/Hairstyle_06_03.png",
         "walk_atlas": "layers/hair/Hairstyle_06_03_walk.png",
         "atlas_cell_w": 48,
@@ -559,7 +559,7 @@
       },
       {
         "id": "Hairstyle_06_04",
-        "label": "Hair 06 \u00b7 04",
+        "label": "Hair 06 · 04",
         "asset": "layers/hair/Hairstyle_06_04.png",
         "walk_atlas": "layers/hair/Hairstyle_06_04_walk.png",
         "atlas_cell_w": 48,
@@ -568,7 +568,7 @@
       },
       {
         "id": "Hairstyle_06_05",
-        "label": "Hair 06 \u00b7 05",
+        "label": "Hair 06 · 05",
         "asset": "layers/hair/Hairstyle_06_05.png",
         "walk_atlas": "layers/hair/Hairstyle_06_05_walk.png",
         "atlas_cell_w": 48,
@@ -579,7 +579,7 @@
     "outfit": [
       {
         "id": "Outfit_03_01",
-        "label": "Outfit 03 \u00b7 01",
+        "label": "Outfit 03 · 01",
         "asset": "layers/outfit/Outfit_03_01.png",
         "walk_atlas": "layers/outfit/Outfit_03_01_walk.png",
         "atlas_cell_w": 48,
@@ -588,7 +588,7 @@
       },
       {
         "id": "Outfit_03_02",
-        "label": "Outfit 03 \u00b7 02",
+        "label": "Outfit 03 · 02",
         "asset": "layers/outfit/Outfit_03_02.png",
         "walk_atlas": "layers/outfit/Outfit_03_02_walk.png",
         "atlas_cell_w": 48,
@@ -597,7 +597,7 @@
       },
       {
         "id": "Outfit_03_03",
-        "label": "Outfit 03 \u00b7 03",
+        "label": "Outfit 03 · 03",
         "asset": "layers/outfit/Outfit_03_03.png",
         "walk_atlas": "layers/outfit/Outfit_03_03_walk.png",
         "atlas_cell_w": 48,
@@ -606,7 +606,7 @@
       },
       {
         "id": "Outfit_05_01",
-        "label": "Outfit 05 \u00b7 01",
+        "label": "Outfit 05 · 01",
         "asset": "layers/outfit/Outfit_05_01.png",
         "walk_atlas": "layers/outfit/Outfit_05_01_walk.png",
         "atlas_cell_w": 48,
@@ -615,7 +615,7 @@
       },
       {
         "id": "Outfit_05_02",
-        "label": "Outfit 05 \u00b7 02",
+        "label": "Outfit 05 · 02",
         "asset": "layers/outfit/Outfit_05_02.png",
         "walk_atlas": "layers/outfit/Outfit_05_02_walk.png",
         "atlas_cell_w": 48,
@@ -624,7 +624,7 @@
       },
       {
         "id": "Outfit_05_03",
-        "label": "Outfit 05 \u00b7 03",
+        "label": "Outfit 05 · 03",
         "asset": "layers/outfit/Outfit_05_03.png",
         "walk_atlas": "layers/outfit/Outfit_05_03_walk.png",
         "atlas_cell_w": 48,
@@ -633,7 +633,7 @@
       },
       {
         "id": "Outfit_07_01",
-        "label": "Outfit 07 \u00b7 01",
+        "label": "Outfit 07 · 01",
         "asset": "layers/outfit/Outfit_07_01.png",
         "walk_atlas": "layers/outfit/Outfit_07_01_walk.png",
         "atlas_cell_w": 48,
@@ -642,7 +642,7 @@
       },
       {
         "id": "Outfit_07_02",
-        "label": "Outfit 07 \u00b7 02",
+        "label": "Outfit 07 · 02",
         "asset": "layers/outfit/Outfit_07_02.png",
         "walk_atlas": "layers/outfit/Outfit_07_02_walk.png",
         "atlas_cell_w": 48,
@@ -651,7 +651,7 @@
       },
       {
         "id": "Outfit_07_03",
-        "label": "Outfit 07 \u00b7 03",
+        "label": "Outfit 07 · 03",
         "asset": "layers/outfit/Outfit_07_03.png",
         "walk_atlas": "layers/outfit/Outfit_07_03_walk.png",
         "atlas_cell_w": 48,
@@ -660,7 +660,7 @@
       },
       {
         "id": "Outfit_09_01",
-        "label": "Outfit 09 \u00b7 01",
+        "label": "Outfit 09 · 01",
         "asset": "layers/outfit/Outfit_09_01.png",
         "walk_atlas": "layers/outfit/Outfit_09_01_walk.png",
         "atlas_cell_w": 48,
@@ -669,7 +669,7 @@
       },
       {
         "id": "Outfit_09_02",
-        "label": "Outfit 09 \u00b7 02",
+        "label": "Outfit 09 · 02",
         "asset": "layers/outfit/Outfit_09_02.png",
         "walk_atlas": "layers/outfit/Outfit_09_02_walk.png",
         "atlas_cell_w": 48,
@@ -678,7 +678,7 @@
       },
       {
         "id": "Outfit_09_03",
-        "label": "Outfit 09 \u00b7 03",
+        "label": "Outfit 09 · 03",
         "asset": "layers/outfit/Outfit_09_03.png",
         "walk_atlas": "layers/outfit/Outfit_09_03_walk.png",
         "atlas_cell_w": 48,
@@ -687,7 +687,7 @@
       },
       {
         "id": "Outfit_12_01",
-        "label": "Outfit 12 \u00b7 01",
+        "label": "Outfit 12 · 01",
         "asset": "layers/outfit/Outfit_12_01.png",
         "walk_atlas": "layers/outfit/Outfit_12_01_walk.png",
         "atlas_cell_w": 48,
@@ -696,7 +696,7 @@
       },
       {
         "id": "Outfit_12_02",
-        "label": "Outfit 12 \u00b7 02",
+        "label": "Outfit 12 · 02",
         "asset": "layers/outfit/Outfit_12_02.png",
         "walk_atlas": "layers/outfit/Outfit_12_02_walk.png",
         "atlas_cell_w": 48,
@@ -705,7 +705,7 @@
       },
       {
         "id": "Outfit_12_03",
-        "label": "Outfit 12 \u00b7 03",
+        "label": "Outfit 12 · 03",
         "asset": "layers/outfit/Outfit_12_03.png",
         "walk_atlas": "layers/outfit/Outfit_12_03_walk.png",
         "atlas_cell_w": 48,
@@ -714,7 +714,7 @@
       },
       {
         "id": "Outfit_15_01",
-        "label": "Outfit 15 \u00b7 01",
+        "label": "Outfit 15 · 01",
         "asset": "layers/outfit/Outfit_15_01.png",
         "walk_atlas": "layers/outfit/Outfit_15_01_walk.png",
         "atlas_cell_w": 48,
@@ -723,7 +723,7 @@
       },
       {
         "id": "Outfit_15_02",
-        "label": "Outfit 15 \u00b7 02",
+        "label": "Outfit 15 · 02",
         "asset": "layers/outfit/Outfit_15_02.png",
         "walk_atlas": "layers/outfit/Outfit_15_02_walk.png",
         "atlas_cell_w": 48,
@@ -732,7 +732,7 @@
       },
       {
         "id": "Outfit_15_03",
-        "label": "Outfit 15 \u00b7 03",
+        "label": "Outfit 15 · 03",
         "asset": "layers/outfit/Outfit_15_03.png",
         "walk_atlas": "layers/outfit/Outfit_15_03_walk.png",
         "atlas_cell_w": 48,
@@ -741,7 +741,7 @@
       },
       {
         "id": "Outfit_20_01",
-        "label": "Outfit 20 \u00b7 01",
+        "label": "Outfit 20 · 01",
         "asset": "layers/outfit/Outfit_20_01.png",
         "walk_atlas": "layers/outfit/Outfit_20_01_walk.png",
         "atlas_cell_w": 48,
@@ -750,7 +750,7 @@
       },
       {
         "id": "Outfit_20_02",
-        "label": "Outfit 20 \u00b7 02",
+        "label": "Outfit 20 · 02",
         "asset": "layers/outfit/Outfit_20_02.png",
         "walk_atlas": "layers/outfit/Outfit_20_02_walk.png",
         "atlas_cell_w": 48,
@@ -759,7 +759,7 @@
       },
       {
         "id": "Outfit_20_03",
-        "label": "Outfit 20 \u00b7 03",
+        "label": "Outfit 20 · 03",
         "asset": "layers/outfit/Outfit_20_03.png",
         "walk_atlas": "layers/outfit/Outfit_20_03_walk.png",
         "atlas_cell_w": 48,
@@ -768,7 +768,7 @@
       },
       {
         "id": "Outfit_24_01",
-        "label": "Outfit 24 \u00b7 01",
+        "label": "Outfit 24 · 01",
         "asset": "layers/outfit/Outfit_24_01.png",
         "walk_atlas": "layers/outfit/Outfit_24_01_walk.png",
         "atlas_cell_w": 48,
@@ -777,7 +777,7 @@
       },
       {
         "id": "Outfit_24_02",
-        "label": "Outfit 24 \u00b7 02",
+        "label": "Outfit 24 · 02",
         "asset": "layers/outfit/Outfit_24_02.png",
         "walk_atlas": "layers/outfit/Outfit_24_02_walk.png",
         "atlas_cell_w": 48,
@@ -786,7 +786,7 @@
       },
       {
         "id": "Outfit_24_03",
-        "label": "Outfit 24 \u00b7 03",
+        "label": "Outfit 24 · 03",
         "asset": "layers/outfit/Outfit_24_03.png",
         "walk_atlas": "layers/outfit/Outfit_24_03_walk.png",
         "atlas_cell_w": 48,

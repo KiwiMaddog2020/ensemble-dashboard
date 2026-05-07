@@ -90,7 +90,7 @@
   }
 </script>
 </head>
-<body class="hub studio">
+<body class="hub studio" data-mode="light">
 <a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
@@ -315,7 +315,7 @@ document.querySelectorAll(".studio-sidebar .studio-tab[data-href]").forEach(func
   } catch (e) {}
 }());
 </script>
-<script src="./sprite-engine.js?v=1778122510" defer></script>
+<script src="./sprite-engine.js?v=1778142575" defer></script>
 <script src="./walk-tutorial.js" defer></script>
 <footer class="site-footer">
   <div class="site-footer__inner">
@@ -772,6 +772,8 @@ function applyBackground(name) {
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
   const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
+  const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
+  document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
   // ASAP to avoid a FOUC where the warm-bg flashes before the

@@ -5,6 +5,7 @@
   "title": "Cottage Garden",
   "description": "A sunlit patch behind the fence — plants everywhere and a bench to rest on between the rows.",
   "theme": "forest",
+  "pack_id": "limezu-modern-farm-default",
   "visibility": "public",
   "is_showcase": true,
   "featured_score": 8.7,
@@ -32,6 +33,7 @@
       { "id": "poster_map", "type": "prop", "x": 640, "y": 10, "w": 100, "h": 80, "z": 7, "props": { "sprite_id": "poster", "label": "Garden Map" }, "walkable_through": false, "solid": true, "interactable": true, "interaction": { "type": "read", "title": "Garden Layout", "body": "Where everything grows. Link to your project roadmap." } },
       { "id": "window_1", "type": "prop", "x": 400, "y": 8, "w": 80, "h": 60, "z": 6, "props": { "sprite_id": "window" }, "walkable_through": false, "solid": true, "interactable": false },
       { "id": "lamp_post", "type": "prop", "x": 700, "y": 260, "w": 36, "h": 72, "z": 5, "props": { "sprite_id": "lamp" }, "walkable_through": false, "solid": true, "interactable": false },
+      { "id": "garden_chick", "type": "prop", "x": 500, "y": 380, "w": 32, "h": 32, "z": 6, "props": { "sprite_id": "lt_chick", "label": "Garden Chick" }, "sprite": { "pack_id": "limezu-modern-farm-default", "collection": "components/animals", "asset": "Chick_32x32", "variant": "" }, "behavior": { "type": "wander", "region": { "x": 420, "y": 330, "w": 180, "h": 90 }, "speed_px_per_sec": 24, "pause_ms_range": [800, 2200] }, "walkable_through": true, "solid": false, "interactable": false },
       { "id": "door_exit", "type": "prop", "x": 440, "y": 440, "w": 64, "h": 84, "z": 5, "props": { "sprite_id": "door", "label": "Gate" }, "walkable_through": false, "solid": true, "interactable": true, "interaction": { "type": "door", "destination": "./" } }
     ]
   }

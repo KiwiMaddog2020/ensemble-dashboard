@@ -5,6 +5,7 @@
   "title": "Launch Party",
   "description": "Endenza ships — arcade cabinets, neon lights, and the whole crew gathered for the first public build.",
   "theme": "aurora",
+  "pack_id": "limezu-modern-interiors-default",
   "visibility": "public",
   "is_showcase": true,
   "featured_score": 8.9,

@@ -90,7 +90,7 @@
   }
 </script>
 </head>
-<body class="proj-page">
+<body class="proj-page" data-mode="light">
 <a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
@@ -216,7 +216,7 @@
         <div class="proj-pills"><span class="pill pill-tier-agent">Project</span> <span class="pill pill-state-warmer">Warmer</span> <span class="pill pill-auto">auto-tests</span> <span class="pill pill-attn">needs your eyes</span></div>
       </div>
     </div>
-    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 22h ago · boo-website</p>
+    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 1d ago · boo-website</p>
   </div>
 </header>
 <main id="main" class="proj-main">
@@ -782,6 +782,8 @@ function applyBackground(name) {
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
   const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
+  const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
+  document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
   // ASAP to avoid a FOUC where the warm-bg flashes before the

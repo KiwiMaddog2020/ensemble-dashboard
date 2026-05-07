@@ -5,6 +5,7 @@
   "title": "Corner Shop",
   "description": "A neighbourhood staple — shelves of curious things, a counter, and a shopkeeper who always has time for a chat.",
   "theme": "warm",
+  "pack_id": "limezu-modern-interiors-default",
   "visibility": "public",
   "is_showcase": true,
   "featured_score": 8.5,

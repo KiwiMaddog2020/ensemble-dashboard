@@ -5,6 +5,7 @@
   "title": "Cozy Cabin",
   "description": "A warm corner where the lamp is always on — a bookshelf holds a few worn favorites and a reading chair waits by the window.",
   "theme": "warm",
+  "pack_id": "limezu-modern-interiors-default",
   "visibility": "public",
   "is_showcase": true,
   "featured_score": 9.5,

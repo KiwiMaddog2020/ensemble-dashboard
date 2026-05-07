@@ -5,6 +5,7 @@
   "title": "Welcome to Endenza",
   "description": "A cozy demo room — walk around, interact with props, and see what a Cadenza feels like.",
   "theme": null,
+  "pack_id": "limezu-modern-interiors-default",
   "visibility": "public",
   "is_showcase": true,
   "featured_score": 10.0,
@@ -93,6 +94,37 @@
         "props": { "sprite_id": "poster", "label": "Roadmap" },
         "walkable_through": false, "solid": true, "interactable": true,
         "interaction": { "type": "read", "title": "Roadmap", "body": "Studio editing, asset packs, visitor walk mode, and more — all coming soon." }
+      },
+      {
+        "id": "welcome_guide", "type": "prop",
+        "x": 316, "y": 346, "w": 48, "h": 64, "z": 6,
+        "props": { "sprite_id": "visitor_avatar", "label": "Guide" },
+        "sprite": {
+          "pack_id": "mana-seed-character-base-default",
+          "collection": "char_a_p4/0bot",
+          "asset": "char_a_p4_0bot_humn",
+          "variant": "v07"
+        },
+        "behavior": { "type": "idle" },
+        "walkable_through": false, "solid": true, "interactable": false
+      },
+      {
+        "id": "welcome_chicken", "type": "prop",
+        "x": 555, "y": 370, "w": 32, "h": 32, "z": 6,
+        "props": { "sprite_id": "lt_chicken", "label": "Welcome Chicken" },
+        "sprite": {
+          "pack_id": "limezu-modern-farm-default",
+          "collection": "components/animals",
+          "asset": "Chicken_Brown_32x32",
+          "variant": ""
+        },
+        "behavior": {
+          "type": "wander",
+          "region": { "x": 500, "y": 330, "w": 140, "h": 90 },
+          "speed_px_per_sec": 20,
+          "pause_ms_range": [900, 2400]
+        },
+        "walkable_through": true, "solid": false, "interactable": false
       },
       {
         "id": "door_exit", "type": "prop",

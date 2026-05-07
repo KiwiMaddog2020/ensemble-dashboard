@@ -90,7 +90,7 @@
   }
 </script>
 </head>
-<body class="hub terminal-page-host">
+<body class="hub terminal-page-host" data-mode="light">
 <a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
@@ -568,18 +568,19 @@
     tp.style.setProperty("--accent-warm-hi", rgbString(mix(rgb, [255,255,255], 0.28)));
   }
   function applySurface(tp, primaryRgb, secondaryRgb, highlightRgb){
-    var tint = secondaryRgb || primaryRgb || highlightRgb;
-    if (!tint) return;
-    var deep = tint;
-    var spark = highlightRgb || secondaryRgb || primaryRgb || tint;
-    tp.style.setProperty("--term-bg-sunken", rgbString(mix([5,5,7], deep, 0.18)));
-    tp.style.setProperty("--term-bg", rgbString(mix([10,10,12], tint, 0.16)));
-    tp.style.setProperty("--term-bg-raised", rgbString(mix([21,22,26], tint, 0.20)));
-    tp.style.setProperty("--term-rule", rgba(tint, 0.30));
+    var base = primaryRgb || secondaryRgb || highlightRgb;
+    if (!base) return;
+    var support = secondaryRgb || base;
+    var spark = highlightRgb || support;
+    tp.style.setProperty("--term-bg-sunken", rgbString(mix([5,5,7], base, 0.20)));
+    tp.style.setProperty("--term-bg", rgbString(mix([10,10,12], base, 0.18)));
+    tp.style.setProperty("--term-bg-raised", rgbString(mix([21,22,26], base, 0.24)));
+    tp.style.setProperty("--term-rule", rgba(support, 0.28));
     tp.style.setProperty("--terminal-page-gradient",
-      "radial-gradient(circle at 16% -10%, "+rgba(primaryRgb || tint, 0.16)+" 0%, transparent 34%), " +
-      "radial-gradient(circle at 58% 10%, "+rgba(tint, 0.16)+" 0%, transparent 42%), " +
-      "radial-gradient(circle at 92% 92%, "+rgba(spark, 0.32)+" 0%, transparent 38%)"
+      "radial-gradient(circle at 16% -10%, "+rgba(base, 0.24)+" 0%, transparent 34%), " +
+      "radial-gradient(circle at 58% 10%, "+rgba(base, 0.14)+" 0%, transparent 44%), " +
+      "radial-gradient(circle at 84% 22%, "+rgba(support, 0.10)+" 0%, transparent 38%), " +
+      "radial-gradient(circle at 92% 92%, "+rgba(spark, 0.26)+" 0%, transparent 38%)"
     );
     tp.style.setProperty("--terminal-pattern-color", rgba(spark, 0.18));
   }
@@ -1104,6 +1105,8 @@ function applyBackground(name) {
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
   const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
+  const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
+  document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
   // ASAP to avoid a FOUC where the warm-bg flashes before the

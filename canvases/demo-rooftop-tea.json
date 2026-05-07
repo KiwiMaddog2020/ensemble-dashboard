@@ -5,6 +5,7 @@
   "title": "Rooftop Tea",
   "description": "High above the city lights — a low table, two chairs, a lantern, and the kind of quiet that only rooftops have.",
   "theme": "midnight",
+  "pack_id": "limezu-modern-office-default",
   "visibility": "public",
   "is_showcase": true,
   "featured_score": 8.8,

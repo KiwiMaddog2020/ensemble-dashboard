@@ -5,6 +5,7 @@
   "title": "Modern Studio",
   "description": "A sleek workspace built for focus — standing desk, dual monitor, and enough plants to keep the air sharp.",
   "theme": "slate",
+  "pack_id": "limezu-modern-office-default",
   "visibility": "public",
   "is_showcase": true,
   "featured_score": 9.0,

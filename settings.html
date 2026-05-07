@@ -90,7 +90,7 @@
   }
 </script>
 </head>
-<body class="hub">
+<body class="hub" data-mode="light">
 <a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
@@ -465,35 +465,35 @@ document.addEventListener("DOMContentLoaded", function() {
     <p class="section-sub settings-section-sub--tight">Monospace font used in the Terminal page. System Default uses your OS native monospace (SF Mono on Mac).</p>
     <div class="settings-font-picker" id="settings-font-picker">
       <div class="font-swatch active" data-font="system" data-default="true" tabindex="0" role="button" aria-label="System Default font — the default">
-        <span class="font-swatch__preview" style="font-family:ui-monospace,'SF Mono',Menlo,monospace">Aa 01</span>
+        <span class="font-swatch__preview">Aa 01</span>
         <span class="font-swatch__label">System Default</span>
       </div>
       <div class="font-swatch" data-font="jetbrains-mono" tabindex="0" role="button" aria-label="JetBrains Mono font">
-        <span class="font-swatch__preview" style="font-family:'JetBrains Mono',monospace">Aa 01</span>
+        <span class="font-swatch__preview">Aa 01</span>
         <span class="font-swatch__label">JetBrains Mono</span>
       </div>
       <div class="font-swatch" data-font="fira-code" tabindex="0" role="button" aria-label="Fira Code font">
-        <span class="font-swatch__preview" style="font-family:'Fira Code',monospace">Aa 01</span>
+        <span class="font-swatch__preview">Aa 01</span>
         <span class="font-swatch__label">Fira Code</span>
       </div>
       <div class="font-swatch" data-font="source-code-pro" tabindex="0" role="button" aria-label="Source Code Pro font">
-        <span class="font-swatch__preview" style="font-family:'Source Code Pro',monospace">Aa 01</span>
+        <span class="font-swatch__preview">Aa 01</span>
         <span class="font-swatch__label">Source Code Pro</span>
       </div>
       <div class="font-swatch" data-font="ibm-plex-mono" tabindex="0" role="button" aria-label="IBM Plex Mono font">
-        <span class="font-swatch__preview" style="font-family:'IBM Plex Mono',monospace">Aa 01</span>
+        <span class="font-swatch__preview">Aa 01</span>
         <span class="font-swatch__label">IBM Plex Mono</span>
       </div>
       <div class="font-swatch" data-font="inconsolata" tabindex="0" role="button" aria-label="Inconsolata font">
-        <span class="font-swatch__preview" style="font-family:'Inconsolata',monospace">Aa 01</span>
+        <span class="font-swatch__preview">Aa 01</span>
         <span class="font-swatch__label">Inconsolata</span>
       </div>
       <div class="font-swatch" data-font="space-mono" tabindex="0" role="button" aria-label="Space Mono font">
-        <span class="font-swatch__preview" style="font-family:'Space Mono',monospace">Aa 01</span>
+        <span class="font-swatch__preview">Aa 01</span>
         <span class="font-swatch__label">Space Mono</span>
       </div>
       <div class="font-swatch" data-font="roboto-mono" tabindex="0" role="button" aria-label="Roboto Mono font">
-        <span class="font-swatch__preview" style="font-family:'Roboto Mono',monospace">Aa 01</span>
+        <span class="font-swatch__preview">Aa 01</span>
         <span class="font-swatch__label">Roboto Mono</span>
       </div>
     </div>
@@ -949,6 +949,14 @@ document.addEventListener("DOMContentLoaded", function() {
   font-size: 22px; font-weight: 500; color: var(--ink);
   line-height: 1.2; letter-spacing: 0.02em;
 }
+.font-swatch[data-font="system"] .font-swatch__preview { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.font-swatch[data-font="jetbrains-mono"] .font-swatch__preview { font-family: "JetBrains Mono", monospace; }
+.font-swatch[data-font="fira-code"] .font-swatch__preview { font-family: "Fira Code", monospace; }
+.font-swatch[data-font="source-code-pro"] .font-swatch__preview { font-family: "Source Code Pro", monospace; }
+.font-swatch[data-font="ibm-plex-mono"] .font-swatch__preview { font-family: "IBM Plex Mono", monospace; }
+.font-swatch[data-font="inconsolata"] .font-swatch__preview { font-family: "Inconsolata", monospace; }
+.font-swatch[data-font="space-mono"] .font-swatch__preview { font-family: "Space Mono", monospace; }
+.font-swatch[data-font="roboto-mono"] .font-swatch__preview { font-family: "Roboto Mono", monospace; }
 .font-swatch__label {
   font-family: var(--sans); font-size: 10.5px; font-weight: 500;
   color: var(--ink-3); text-align: center; letter-spacing: 0.02em;
@@ -1863,6 +1871,8 @@ function applyBackground(name) {
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
   const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
+  const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
+  document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
   // ASAP to avoid a FOUC where the warm-bg flashes before the
