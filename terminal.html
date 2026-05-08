@@ -491,18 +491,53 @@
 
   var PATTERNS = {
     none:      "none",
+    glass:     "none",
+    solid:     "none",
     dots:      "radial-gradient(circle at 50% 50%, currentColor 1px, transparent 1.5px)",
     grid:      "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)",
-    diagonals: "repeating-linear-gradient(45deg, transparent 0 6px, currentColor 6px 7px)",
+    mesh:      "linear-gradient(115deg, transparent 0 46%, currentColor 46% 47%, transparent 47% 100%), linear-gradient(65deg, transparent 0 48%, currentColor 48% 49%, transparent 49% 100%)",
+    aurora:    "radial-gradient(circle at 18% 18%, currentColor 0%, transparent 28%), radial-gradient(circle at 82% 78%, currentColor 0%, transparent 24%)",
     scanlines: "repeating-linear-gradient(0deg, transparent 0 2px, currentColor 2px 3px)",
+    topo:      "repeating-radial-gradient(ellipse at 32% 28%, transparent 0 10px, currentColor 10px 11px, transparent 11px 22px)",
+    vignette:  "radial-gradient(ellipse at center, transparent 0%, transparent 46%, currentColor 100%)",
+    paper:     "radial-gradient(circle at 18% 22%, currentColor 0 1px, transparent 1.5px), radial-gradient(circle at 82% 68%, currentColor 0 1px, transparent 1.5px)",
+    linen:     "repeating-linear-gradient(0deg, transparent 0 3px, currentColor 3px 4px), repeating-linear-gradient(90deg, transparent 0 3px, currentColor 3px 4px)",
+    blueprint: "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px), linear-gradient(currentColor 2px, transparent 2px), linear-gradient(90deg, currentColor 2px, transparent 2px)",
+    constellation: "radial-gradient(circle at 20% 30%, currentColor 0 1px, transparent 1.5px), radial-gradient(circle at 74% 22%, currentColor 0 1px, transparent 1.5px), radial-gradient(circle at 62% 78%, currentColor 0 1px, transparent 1.5px), linear-gradient(120deg, transparent 0 48%, currentColor 48% 49%, transparent 49%)",
+    marble:    "repeating-linear-gradient(115deg, transparent 0 18px, currentColor 18px 19px, transparent 19px 46px), radial-gradient(ellipse at 30% 12%, currentColor 0%, transparent 38%)",
+    checkerboard: "conic-gradient(from 90deg, currentColor 0 25%, transparent 0 50%, currentColor 0 75%, transparent 0)",
+    circuits:  "linear-gradient(90deg, transparent 0 18px, currentColor 18px 19px, transparent 19px 42px), linear-gradient(0deg, transparent 0 14px, currentColor 14px 15px, transparent 15px 46px), radial-gradient(circle at 18px 15px, currentColor 0 2px, transparent 2.5px)",
+    prism:     "linear-gradient(135deg, currentColor 0%, transparent 28%, currentColor 50%, transparent 72%, currentColor 100%)",
     noise:     "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>\")",
-    hex:       "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='32' viewBox='0 0 28 32'><path d='M14 1 L26 8 L26 24 L14 31 L2 24 L2 8 Z' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.18'/></svg>\")",
-    gradient:  "linear-gradient(135deg, currentColor 0%, transparent 70%)",
   };
   var PATTERN_SIZES = {
-    none: "auto", dots: "12px 12px", grid: "16px 16px, 16px 16px",
-    diagonals: "auto", scanlines: "auto", noise: "80px 80px",
-    hex: "28px 32px", gradient: "auto",
+    none: "auto", glass: "auto", solid: "auto",
+    dots: "12px 12px", grid: "16px 16px, 16px 16px",
+    mesh: "34px 34px, 34px 34px", aurora: "100% 100%, 100% 100%",
+    scanlines: "auto", topo: "96px 72px", vignette: "100% 100%",
+    paper: "22px 22px, 26px 26px", linen: "8px 8px, 8px 8px",
+    blueprint: "16px 16px, 16px 16px, 80px 80px, 80px 80px",
+    constellation: "160px 120px, 140px 100px, 180px 140px, 120px 120px",
+    marble: "160px 160px, 100% 100%", checkerboard: "28px 28px",
+    circuits: "84px 84px, 92px 92px, 84px 84px", prism: "220px 220px",
+    noise: "80px 80px",
+  };
+  var PATTERN_OPACITY = {
+    glass: "0", solid: "0", dots: "0.8", grid: "0.7", mesh: "0.5",
+    noise: "0.34", aurora: "0.38", scanlines: "0.42", topo: "0.36",
+    vignette: "0.34", paper: "0.42", linen: "0.34", blueprint: "0.55",
+    constellation: "0.42", marble: "0.30", checkerboard: "0.28",
+    circuits: "0.42", prism: "0.34",
+  };
+  var PATTERN_BLEND = {
+    aurora: "screen", prism: "screen", marble: "soft-light",
+    paper: "multiply", linen: "multiply", vignette: "multiply",
+    scanlines: "multiply",
+  };
+  var PATTERN_COLORS = {
+    blueprint: "rgba(14, 157, 179, 0.22)",
+    checkerboard: "rgba(107, 138, 253, 0.12)",
+    circuits: "rgba(14, 157, 179, 0.18)",
   };
 
   var GENERATED_COLOR_VARS = [
@@ -646,9 +681,14 @@
   function applyPattern(id){
     var tp = document.querySelector(".terminal-page");
     if(!tp) return;
+    if (!id || id === "none" || !PATTERNS[id]) id = "glass";
+    tp.dataset.terminalSurface = id;
     var bg = PATTERNS[id] || PATTERNS.none;
     var size = PATTERN_SIZES[id] || "auto";
-    if (id === "none" || !PATTERNS[id]) {
+    tp.style.setProperty("--terminal-pattern-opacity", PATTERN_OPACITY[id] || "1");
+    tp.style.setProperty("--terminal-pattern-blend", PATTERN_BLEND[id] || "normal");
+    if (PATTERN_COLORS[id]) tp.style.setProperty("--terminal-pattern-color", PATTERN_COLORS[id]);
+    if (bg === "none") {
       tp.style.removeProperty("--terminal-pattern");
       tp.style.removeProperty("--terminal-pattern-size");
     } else {
@@ -661,7 +701,7 @@
     var p  = read(KEY_PRIMARY) || read(KEY_LEGACY);
     var s  = read(KEY_SECONDARY);
     var h  = read(KEY_HIGHLIGHT);
-    var pt = read(KEY_PATTERN) || "none";
+    var pt = read(KEY_PATTERN) || "glass";
     applyPalette(p, s, h);
     applyPattern(pt);
   }
