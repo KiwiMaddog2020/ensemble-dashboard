@@ -25,10 +25,12 @@
   position: fixed;
   left: 0; right: 0; bottom: 0;
   z-index: 240;
-  background: var(--bg-raised, #faf7f2);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, transparent), transparent),
+    var(--bg-raised, #faf7f2);
   color: var(--ink, #1a1814);
-  border-top: 1px solid var(--rule, rgba(0,0,0,0.12));
-  box-shadow: 0 -8px 24px rgba(0,0,0,0.08);
+  border-top: 1px solid color-mix(in srgb, var(--accent) 16%, var(--rule, rgba(0,0,0,0.12)));
+  box-shadow: 0 -10px 28px rgba(17,17,17,0.07);
   font-family: var(--sans, system-ui, -apple-system, sans-serif);
   font-size: 14px; line-height: 1.5;
 }
@@ -51,12 +53,19 @@
 .cookie-banner__link:hover { color: var(--accent-2, #8c5828); }
 .cookie-banner__dismiss {
   appearance: none; cursor: pointer;
-  background: var(--accent, #b8753c); color: white; border: 0;
-  padding: 8px 16px; border-radius: 8px;
+  background: color-mix(in srgb, var(--accent, #b8753c) 92%, var(--ink, #1a1814));
+  color: var(--accent-ink, white);
+  border: 1px solid color-mix(in srgb, var(--accent, #b8753c) 72%, transparent);
+  padding: 8px 16px; border-radius: 999px;
   font: inherit; font-weight: 600;
-  transition: background 180ms ease;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent, #b8753c) 18%, transparent);
+  transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
 }
-.cookie-banner__dismiss:hover { background: var(--accent-2, #8c5828); }
+.cookie-banner__dismiss:hover {
+  background: var(--accent-2, #8c5828);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--accent, #b8753c) 24%, transparent);
+}
 .cookie-banner__dismiss:focus-visible {
   outline: 2px solid var(--accent-2, #8c5828);
   outline-offset: 2px;
@@ -315,7 +324,7 @@ document.querySelectorAll(".studio-sidebar .studio-tab[data-href]").forEach(func
   } catch (e) {}
 }());
 </script>
-<script src="./sprite-engine.js?v=1778205277" defer></script>
+<script src="./sprite-engine.js?v=1778206452" defer></script>
 <script src="./walk-tutorial.js" defer></script>
 <footer class="site-footer">
   <div class="site-footer__inner">
