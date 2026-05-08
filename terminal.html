@@ -544,14 +544,15 @@
   }
   function setScale(tp, prefix, color, rgb){
     var hi = mix(rgb, [255,255,255], 0.28);
+    var lightMode = document.body && document.body.dataset && document.body.dataset.mode === "light";
     tp.style.setProperty("--terminal-" + prefix, color);
     tp.style.setProperty("--terminal-" + prefix + "-rgb", rgb.join(","));
     tp.style.setProperty("--terminal-" + prefix + "-hi", rgbString(hi));
     tp.style.setProperty("--terminal-" + prefix + "-ink", contrastInk(rgb));
-    tp.style.setProperty("--terminal-" + prefix + "-soft", rgba(rgb, 0.18));
-    tp.style.setProperty("--terminal-" + prefix + "-surface", rgba(rgb, 0.11));
-    tp.style.setProperty("--terminal-" + prefix + "-border", rgba(rgb, 0.42));
-    tp.style.setProperty("--terminal-" + prefix + "-glow", rgba(rgb, 0.32));
+    tp.style.setProperty("--terminal-" + prefix + "-soft", rgba(rgb, lightMode ? 0.12 : 0.18));
+    tp.style.setProperty("--terminal-" + prefix + "-surface", rgba(rgb, lightMode ? 0.06 : 0.11));
+    tp.style.setProperty("--terminal-" + prefix + "-border", rgba(rgb, lightMode ? 0.30 : 0.42));
+    tp.style.setProperty("--terminal-" + prefix + "-glow", rgba(rgb, lightMode ? 0.18 : 0.32));
   }
 
   function applyPrimary(tp, hex, rgb){
@@ -587,17 +588,17 @@
     var spark = highlightRgb || support;
     var lightMode = document.body && document.body.dataset && document.body.dataset.mode === "light";
     if (lightMode) {
-      tp.style.setProperty("--term-bg-sunken", rgbString(mix([247,248,252], base, 0.055)));
-      tp.style.setProperty("--term-bg", rgbString(mix([237,242,251], base, 0.075)));
+      tp.style.setProperty("--term-bg-sunken", rgbString(mix([247,248,252], base, 0.035)));
+      tp.style.setProperty("--term-bg", rgbString(mix([237,242,251], base, 0.045)));
       tp.style.setProperty("--term-bg-raised", "rgba(255,255,255,0.86)");
-      tp.style.setProperty("--term-rule", rgba(support, 0.22));
+      tp.style.setProperty("--term-rule", rgba(support, 0.16));
       tp.style.setProperty("--terminal-page-gradient",
-        "radial-gradient(circle at 12% -14%, "+rgba(base, 0.22)+" 0%, transparent 36%), " +
-        "radial-gradient(circle at 66% 8%, "+rgba(support, 0.13)+" 0%, transparent 38%), " +
-        "radial-gradient(circle at 96% 92%, "+rgba(spark, 0.18)+" 0%, transparent 34%), " +
+        "radial-gradient(circle at 12% -14%, "+rgba(base, 0.14)+" 0%, transparent 36%), " +
+        "radial-gradient(circle at 66% 8%, "+rgba(support, 0.08)+" 0%, transparent 38%), " +
+        "radial-gradient(circle at 96% 92%, "+rgba(spark, 0.10)+" 0%, transparent 34%), " +
         "linear-gradient(180deg, rgba(255,255,255,0.72), rgba(246,248,252,0.94))"
       );
-      tp.style.setProperty("--terminal-pattern-color", rgba(spark, 0.12));
+      tp.style.setProperty("--terminal-pattern-color", rgba(spark, 0.08));
     } else {
       tp.style.setProperty("--term-bg-sunken", rgbString(mix([5,5,7], base, 0.20)));
       tp.style.setProperty("--term-bg", rgbString(mix([10,10,12], base, 0.18)));
