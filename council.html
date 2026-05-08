@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
-<title>Endenza — Docs</title>
-<meta name="description" content="Endenza documentation hub — setup, reference, design." />
+<title>Endenza — Council</title>
+<meta name="description" content="A multi-agent deliberation chamber for harder calls." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -140,10 +140,10 @@
     </button>
     <ul id="topnav-list">
       <li><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
-      <li><a class="active" aria-current="page" href="./">Endenza</a></li>
+      <li><a href="./">Endenza</a></li>
       <li><a href="./studio.html">Studio</a></li>
       <li><a href="./terminal.html">Terminal</a></li>
-      <li><a href="./council.html">Council</a></li>
+      <li><a class="active" aria-current="page" href="./council.html">Council</a></li>
       <li><a href="./dashboard.html">Dashboard</a></li>
       <li><a href="./settings.html">Settings</a></li>
     </ul>
@@ -206,174 +206,72 @@
     </div>
   </div>
 </div>
-<main id="main"><header class="hero about-hero">
+<main id="main" data-page="council"><header class="hero">
   <div class="wrap">
-    <p class="eyebrow">About</p>
-    <h1>Everything <em>Endenza.</em></h1>
+    <p class="eyebrow">Endenza Council</p>
+    <h1>Better judgment, by <em>deliberation.</em></h1>
     <p class="lead">
-      A creator-platform PWA where the bio link goes to a <em>room</em>,
-      not a list. You build a walkable canvas, place yourself in it as a
-      sprite, and let visitors stroll through. Built solo by one person
-      who got tired of links-in-a-list bios.
+      Ask one question that matters. The Council frames it, convenes
+      five distinct voices, protects dissent, and returns a synthesis
+      with an audit trail.
+    </p>
+    <p>
+      <a class="btn-primary" href="http://localhost:3000/">Open local Council &rarr;</a>
+      <a class="btn-secondary" href="./onepager.html">How it fits Endenza &rarr;</a>
+      <a class="btn-secondary" href="./settings.html">Configure keys &rarr;</a>
     </p>
   </div>
 </header>
 
 <section class="about-section">
   <div class="wrap">
-    <h2>Why Endenza exists</h2>
+    <h2>What this is</h2>
     <p>
-      Every creator has a Linktree-shaped page somewhere. Plain list of
-      links. Same shape as the next person's. No place for the work to
-      breathe.
+      AI Council is a standalone Endenza surface for questions that deserve
+      more than a fast answer. The Chair frames the decision, five members
+      argue from different lenses, then the system produces a recommendation,
+      alternatives, evidence gaps, and protected dissent.
     </p>
     <p>
-      Endenza turns that page into a <strong>place</strong>. Your repos
-      become arcade cabinets and TVs you can walk past. Your music shows
-      up on the wall. Your essays sit on the table. Visitors arrive and
-      <em>arrive somewhere</em> instead of just landing on a list.
-    </p>
-    <p>
-      Two pillars: a walkable canvas anyone can author, and a Studio
-      where you direct an Agent, your AI co-builder,
-      to compose the room with you. Bring your own Anthropic key, or
-      use the free tier while it's on us.
+      The app lives separately from the static dashboard under
+      <code>apps/ai-council/</code>. Locally, the web UI runs on
+      <code>localhost:3000</code> and the API runs on <code>localhost:8765</code>.
+      This page is the public dashboard bridge so the top navigation never
+      lands on a missing route.
     </p>
   </div>
 </section>
 
 <section class="about-section">
   <div class="wrap">
-    <h2>About the maker</h2>
-    <div class="about-bio">
-      <p>
-        I'm <strong>Kevin Madson</strong>, a Kelowna, BC-based
-        builder, vibe coder, and serial creator. Endenza is the project
-        I always wanted but couldn't find: a creator surface that
-        feels like a place you'd actually want to spend time in.
-      </p>
-      <p>
-        I shipped Endenza solo with Claude as my co-pilot, the
-        same loop you'll use inside Studio. Every interaction in the
-        product reflects something I tested on myself first. If a
-        feature isn't in here, it's usually because I haven't found
-        the right shape yet, not because it isn't coming.
-      </p>
-      <p class="about-bio__contact">
-        Found a bug? An idea? Reach me on
-        <a href="https://github.com/KiwiMaddog2020">GitHub</a>
-        or by email at <a href="mailto:kevinmadson@protonmail.com">kevinmadson@protonmail.com</a>.
-      </p>
-    </div>
-  </div>
-</section>
-
-<section class="about-section" id="faq">
-  <div class="wrap">
-    <h2>Frequently asked</h2>
-    <div class="about-faq">
-
-      <details class="about-faq__item">
-        <summary>What does Endenza actually do?</summary>
-        <p>
-          Replaces your bio link with a walkable room. You author it in
-          Studio (drag furniture, drop in your projects, pick a vibe);
-          visitors get a share link that opens the room directly,
-          no app install, just a URL.
-        </p>
-      </details>
-
-      <details class="about-faq__item">
-        <summary>Is it free?</summary>
-        <p>
-          Free tier covers one Studio + two showcase canvases + one
-          character. Pro is $12/month for ten canvases, unlimited
-          character variants, and unlimited bio links. See
-          <a href="./pricing.html">Pricing</a> for the full table.
-        </p>
-      </details>
-
-      <details class="about-faq__item">
-        <summary>What's BYOK?</summary>
-        <p>
-          "Bring Your Own Key": link your Anthropic API key in
-          Settings and every Claude call inside your Studio bills to
-          your account at API cost. Useful if you build heavily and
-          want to skip the platform allotment. Your key stays on your
-          device; we never store it server-side.
-        </p>
-      </details>
-
-      <details class="about-faq__item">
-        <summary>Does my data stay private?</summary>
-        <p>
-          Anything you mark as private stays private: your
-          drafts, your unpublished canvases, your Anthropic key. Only
-          canvases you explicitly publish to the showcase are visible
-          to other people. Read the full
-          <a href="./legal/privacy.html">privacy policy</a> for the
-          specifics.
-        </p>
-      </details>
-
-      <details class="about-faq__item">
-        <summary>Can I use my own art?</summary>
-        <p>
-          Yes, you can drop in any sprite asset you own the
-          rights to via the Studio component palette. Endenza ships
-          with the Mana Seed character base and a few LimeZu interior
-          packs out of the box.
-        </p>
-      </details>
-
-      <details class="about-faq__item">
-        <summary>Can I host my own?</summary>
-        <p>
-          Yes. The whole stack is a Mac-local Python server (the
-          control panel) plus a static PWA. Clone the repo, run
-          <code>bin/dashboard-generate.sh</code>, point a Cloudflare
-          tunnel at port 8080, and you're running. The
-          <a href="./docs/install.html">install guide</a> walks
-          through every step.
-        </p>
-      </details>
-
-      <details class="about-faq__item">
-        <summary>How do I export my room?</summary>
-        <p>
-          Studio &rarr; Publish &rarr; Export. You get a JSON file with
-          every component, sprite reference, and behavior. Re-import
-          it on any other Endenza instance, or check it into git
-          alongside your project for safekeeping.
-        </p>
-      </details>
-
-      <details class="about-faq__item">
-        <summary>Why "Endenza"?</summary>
-        <p>
-          A portmanteau of <em>Ensemble</em> and <em>Cadenza.</em>
-          A cadenza is a soloist's moment to shine; an ensemble is
-          everyone playing together. Endenza is both &mdash; a shared
-          cadenza, where every creator's solo contribution becomes
-          part of something bigger.
-        </p>
-      </details>
-
-    </div>
-  </div>
-</section>
-
-<section class="about-section about-section--quiet">
-  <div class="wrap">
-    <h2>Want to go deeper?</h2>
-    <p class="section-sub">
-      The full technical reference lives in the repo: install guide, API contracts,
-      the agent-controller spec, and every published doc.
+    <h2>How the Council works</h2>
+    <p>
+      First, the Chair clarifies the real question. Then the Operator,
+      Skeptic, Empath, Historian, and Strategist reason separately before
+      critique begins. The final synthesis keeps the strongest dissent
+      visible instead of smoothing it away.
     </p>
-    <p class="about-deep-link-row">
-      <a class="about-deep-link" href="./docs/grand-plan.html">Read the deep docs &rarr;</a>
-      <a class="about-deep-link about-deep-link--quiet" href="./docs/changelog.html">Changelog</a>
-      <a class="about-deep-link about-deep-link--quiet" href="./docs/troubleshooting.html">Troubleshooting</a>
+    <p>
+      Terminal remains the execution surface. Council is the judgment layer:
+      use it to decide what should happen, then carry the chosen work into
+      <a href="./terminal.html">Terminal</a>, Dashboard, or Studio.
+    </p>
+  </div>
+</section>
+
+<section class="about-section">
+  <div class="wrap">
+    <h2>Current shape</h2>
+    <p>
+      Arc 1 ships the Oracle: text-first Council sessions, five-voice
+      deliberation, Chair synthesis, budget cap handling, replay, and
+      demo-ready loading and error states. Voice is a thin gateway over the
+      same backend rather than a separate protocol.
+    </p>
+    <p>
+      Run it from the repo with <code>cd apps/ai-council && make test</code>,
+      then start the API and web app from the local instructions in the AI
+      Council README.
     </p>
   </div>
 </section>
