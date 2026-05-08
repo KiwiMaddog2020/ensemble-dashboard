@@ -79,15 +79,15 @@
   (function () {
     try {
       var t = localStorage.getItem("ENDENZA_THEME") || "warm";
+      t = /^[a-z0-9_]+$/.test(t) ? t : "warm";
       var b = localStorage.getItem("ENDENZA_BG") || "solid";
-      if (t && t !== "warm") {
-        document.documentElement.classList.add("theme-" + t);
-      }
+      document.documentElement.classList.add("theme-" + t);
       if (b && b !== "solid") {
         document.documentElement.classList.add("bg-" + b);
       }
       document.addEventListener("DOMContentLoaded", function () {
-        if (t && t !== "warm") document.body.classList.add("theme-" + t);
+        document.body.classList.add("theme-" + t);
+        document.body.dataset.theme = t;
         if (b && b !== "solid") document.body.classList.add("bg-" + b);
       });
     } catch (e) {}
@@ -822,10 +822,18 @@ function applyTerminalFont(key) {
 window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
-  THEMES.forEach(t => document.body.classList.remove("theme-" + t));
-  if (name && name !== "warm") document.body.classList.add("theme-" + name);
+  const nextTheme = THEMES.includes(name) ? name : "warm";
+  [document.documentElement, document.body].forEach(target => {
+    if (!target) return;
+    THEMES.forEach(t => target.classList.remove("theme-" + t));
+    target.classList.add("theme-" + nextTheme);
+  });
+  if (document.body) document.body.dataset.theme = nextTheme;
   document.querySelectorAll(".theme-swatch").forEach(el => {
-    el.classList.toggle("active", el.dataset.theme === (name || "warm"));
+    const on = el.dataset.theme === nextTheme;
+    el.classList.toggle("active", on);
+    el.classList.toggle("is-active", on);
+    el.setAttribute("aria-pressed", on ? "true" : "false");
   });
   // Default logo NEVER changes (Kevin 2026-05-05: 'our default logo
   // used on the website should also be our favicon set, this should
@@ -858,8 +866,9 @@ function applyTheme(name) {
   // (component_renderers.colorFromToken memoizes per token; without
   // this dispatch the cache would survive a theme switch with stale
   // colors). Cheap event; no listeners outside the renderer today.
-  try { document.dispatchEvent(new CustomEvent("theme:applied", { detail: { name: name } })); } catch (e) {}
+  try { document.dispatchEvent(new CustomEvent("theme:applied", { detail: { name: nextTheme } })); } catch (e) {}
 }
+window.applyTheme = applyTheme;
 
 function applyBackground(name) {
   BACKGROUNDS.forEach(b => document.body.classList.remove("bg-" + b));
@@ -918,6 +927,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
   document.querySelectorAll(".theme-swatch").forEach(el => {
+    if (!el.hasAttribute("role")) el.setAttribute("role", "button");
+    if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "0");
     const fire = () => {
       const t = el.dataset.theme;
       localStorage.setItem("ENDENZA_THEME", t);
@@ -981,21 +992,6 @@ document.addEventListener("DOMContentLoaded", () => {
       e.target.value = "";
     });
   }
-
-  // Terminal font load + bind
-  const savedFont = localStorage.getItem("ENDENZA_TERMINAL_FONT") || "system";
-  document.querySelectorAll(".font-swatch").forEach(el => {
-    el.classList.toggle("active", el.dataset.font === savedFont);
-    const fire = () => {
-      const f = el.dataset.font;
-      localStorage.setItem("ENDENZA_TERMINAL_FONT", f);
-      document.querySelectorAll(".font-swatch").forEach(s => s.classList.toggle("active", s.dataset.font === f));
-      applyTerminalFont(f);
-    };
-    el.addEventListener("click", fire);
-    el.addEventListener("keydown", activateOnKey(fire));
-  });
-
   // Owner mode initial state — pessimistic until state fetch confirms
   window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENDENZA_SERVER_URL"));
   applyOwnerMode();

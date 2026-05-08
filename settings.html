@@ -79,15 +79,15 @@
   (function () {
     try {
       var t = localStorage.getItem("ENDENZA_THEME") || "warm";
+      t = /^[a-z0-9_]+$/.test(t) ? t : "warm";
       var b = localStorage.getItem("ENDENZA_BG") || "solid";
-      if (t && t !== "warm") {
-        document.documentElement.classList.add("theme-" + t);
-      }
+      document.documentElement.classList.add("theme-" + t);
       if (b && b !== "solid") {
         document.documentElement.classList.add("bg-" + b);
       }
       document.addEventListener("DOMContentLoaded", function () {
-        if (t && t !== "warm") document.body.classList.add("theme-" + t);
+        document.body.classList.add("theme-" + t);
+        document.body.dataset.theme = t;
         if (b && b !== "solid") document.body.classList.add("bg-" + b);
       });
     } catch (e) {}
@@ -470,43 +470,6 @@ document.addEventListener("DOMContentLoaded", function() {
     <input type="file" id="bg-upload-input" accept="image/*" hidden />
     <p class="settings-help settings-help--tight">Animated patterns honor your reduced-motion preference. Custom wallpapers persist locally in your browser (~5MB max).</p>
 
-    <h3 class="settings-h3">Terminal font</h3>
-    <p class="section-sub settings-section-sub--tight">Monospace font used in the Terminal page. System Default uses your OS native monospace (SF Mono on Mac).</p>
-    <div class="settings-font-picker" id="settings-font-picker">
-      <div class="font-swatch active" data-font="system" data-default="true" tabindex="0" role="button" aria-label="System Default font — the default">
-        <span class="font-swatch__preview">Aa 01</span>
-        <span class="font-swatch__label">System Default</span>
-      </div>
-      <div class="font-swatch" data-font="jetbrains-mono" tabindex="0" role="button" aria-label="JetBrains Mono font">
-        <span class="font-swatch__preview">Aa 01</span>
-        <span class="font-swatch__label">JetBrains Mono</span>
-      </div>
-      <div class="font-swatch" data-font="fira-code" tabindex="0" role="button" aria-label="Fira Code font">
-        <span class="font-swatch__preview">Aa 01</span>
-        <span class="font-swatch__label">Fira Code</span>
-      </div>
-      <div class="font-swatch" data-font="source-code-pro" tabindex="0" role="button" aria-label="Source Code Pro font">
-        <span class="font-swatch__preview">Aa 01</span>
-        <span class="font-swatch__label">Source Code Pro</span>
-      </div>
-      <div class="font-swatch" data-font="ibm-plex-mono" tabindex="0" role="button" aria-label="IBM Plex Mono font">
-        <span class="font-swatch__preview">Aa 01</span>
-        <span class="font-swatch__label">IBM Plex Mono</span>
-      </div>
-      <div class="font-swatch" data-font="inconsolata" tabindex="0" role="button" aria-label="Inconsolata font">
-        <span class="font-swatch__preview">Aa 01</span>
-        <span class="font-swatch__label">Inconsolata</span>
-      </div>
-      <div class="font-swatch" data-font="space-mono" tabindex="0" role="button" aria-label="Space Mono font">
-        <span class="font-swatch__preview">Aa 01</span>
-        <span class="font-swatch__label">Space Mono</span>
-      </div>
-      <div class="font-swatch" data-font="roboto-mono" tabindex="0" role="button" aria-label="Roboto Mono font">
-        <span class="font-swatch__preview">Aa 01</span>
-        <span class="font-swatch__label">Roboto Mono</span>
-      </div>
-    </div>
-    <p class="settings-help settings-help--tight">Persists locally per device. Non-system fonts load from Google Fonts on demand. Default is marked with a small dot.</p>
   </div>
 </section>
 
@@ -928,47 +891,6 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 .settings-character__cta {
   font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--accent);
-}
-
-/* Font picker */
-.settings-font-picker {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 10px;
-  margin-top: 10px;
-}
-.font-swatch {
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  padding: 14px 10px 10px;
-  background: var(--bg-raised);
-  border: 1.5px solid var(--rule);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: border-color 150ms var(--ease), transform 150ms var(--ease);
-  position: relative;
-}
-.font-swatch:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--rule)); transform: translateY(-1px); }
-.font-swatch.active { border-color: var(--accent); }
-.font-swatch[data-default]::after {
-  content: ""; position: absolute; top: 6px; right: 6px;
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--accent); opacity: 0.7;
-}
-.font-swatch__preview {
-  font-size: 22px; font-weight: 500; color: var(--ink);
-  line-height: 1.2; letter-spacing: 0.02em;
-}
-.font-swatch[data-font="system"] .font-swatch__preview { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
-.font-swatch[data-font="jetbrains-mono"] .font-swatch__preview { font-family: "JetBrains Mono", monospace; }
-.font-swatch[data-font="fira-code"] .font-swatch__preview { font-family: "Fira Code", monospace; }
-.font-swatch[data-font="source-code-pro"] .font-swatch__preview { font-family: "Source Code Pro", monospace; }
-.font-swatch[data-font="ibm-plex-mono"] .font-swatch__preview { font-family: "IBM Plex Mono", monospace; }
-.font-swatch[data-font="inconsolata"] .font-swatch__preview { font-family: "Inconsolata", monospace; }
-.font-swatch[data-font="space-mono"] .font-swatch__preview { font-family: "Space Mono", monospace; }
-.font-swatch[data-font="roboto-mono"] .font-swatch__preview { font-family: "Roboto Mono", monospace; }
-.font-swatch__label {
-  font-family: var(--sans); font-size: 10.5px; font-weight: 500;
-  color: var(--ink-3); text-align: center; letter-spacing: 0.02em;
 }
 </style>
 
@@ -1817,10 +1739,18 @@ function applyTerminalFont(key) {
 window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
-  THEMES.forEach(t => document.body.classList.remove("theme-" + t));
-  if (name && name !== "warm") document.body.classList.add("theme-" + name);
+  const nextTheme = THEMES.includes(name) ? name : "warm";
+  [document.documentElement, document.body].forEach(target => {
+    if (!target) return;
+    THEMES.forEach(t => target.classList.remove("theme-" + t));
+    target.classList.add("theme-" + nextTheme);
+  });
+  if (document.body) document.body.dataset.theme = nextTheme;
   document.querySelectorAll(".theme-swatch").forEach(el => {
-    el.classList.toggle("active", el.dataset.theme === (name || "warm"));
+    const on = el.dataset.theme === nextTheme;
+    el.classList.toggle("active", on);
+    el.classList.toggle("is-active", on);
+    el.setAttribute("aria-pressed", on ? "true" : "false");
   });
   // Default logo NEVER changes (Kevin 2026-05-05: 'our default logo
   // used on the website should also be our favicon set, this should
@@ -1853,8 +1783,9 @@ function applyTheme(name) {
   // (component_renderers.colorFromToken memoizes per token; without
   // this dispatch the cache would survive a theme switch with stale
   // colors). Cheap event; no listeners outside the renderer today.
-  try { document.dispatchEvent(new CustomEvent("theme:applied", { detail: { name: name } })); } catch (e) {}
+  try { document.dispatchEvent(new CustomEvent("theme:applied", { detail: { name: nextTheme } })); } catch (e) {}
 }
+window.applyTheme = applyTheme;
 
 function applyBackground(name) {
   BACKGROUNDS.forEach(b => document.body.classList.remove("bg-" + b));
@@ -1913,6 +1844,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
   document.querySelectorAll(".theme-swatch").forEach(el => {
+    if (!el.hasAttribute("role")) el.setAttribute("role", "button");
+    if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "0");
     const fire = () => {
       const t = el.dataset.theme;
       localStorage.setItem("ENDENZA_THEME", t);
@@ -1976,21 +1909,6 @@ document.addEventListener("DOMContentLoaded", () => {
       e.target.value = "";
     });
   }
-
-  // Terminal font load + bind
-  const savedFont = localStorage.getItem("ENDENZA_TERMINAL_FONT") || "system";
-  document.querySelectorAll(".font-swatch").forEach(el => {
-    el.classList.toggle("active", el.dataset.font === savedFont);
-    const fire = () => {
-      const f = el.dataset.font;
-      localStorage.setItem("ENDENZA_TERMINAL_FONT", f);
-      document.querySelectorAll(".font-swatch").forEach(s => s.classList.toggle("active", s.dataset.font === f));
-      applyTerminalFont(f);
-    };
-    el.addEventListener("click", fire);
-    el.addEventListener("keydown", activateOnKey(fire));
-  });
-
   // Owner mode initial state — pessimistic until state fetch confirms
   window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENDENZA_SERVER_URL"));
   applyOwnerMode();
