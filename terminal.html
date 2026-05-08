@@ -335,16 +335,20 @@
     id="terminal-left-sliver"
     class="terminal-panel__sliver terminal-panel__sliver--left"
     type="button"
-    aria-label="Expand Chats panel"
+    aria-label="Open Chats panel"
+    aria-expanded="false"
+    title="Open Chats"
     hidden
-  >&#8250; Chats</button>
+  >Open Chats &#8250;</button>
   <button
     id="terminal-right-sliver"
     class="terminal-panel__sliver terminal-panel__sliver--right"
     type="button"
-    aria-label="Expand Control panel"
+    aria-label="Open Controls panel"
+    aria-expanded="false"
+    title="Open Controls"
     hidden
-  >Controls &#8249;</button>
+  >&#8249; Open Controls</button>
 </main>
 <script src="./terminal-resize.js" defer></script>
 <!-- TERMINAL_RIGHT_PANEL_JS rides inside dashboard.js (closure-shared
@@ -581,17 +585,32 @@
     if (!base) return;
     var support = secondaryRgb || base;
     var spark = highlightRgb || support;
-    tp.style.setProperty("--term-bg-sunken", rgbString(mix([5,5,7], base, 0.20)));
-    tp.style.setProperty("--term-bg", rgbString(mix([10,10,12], base, 0.18)));
-    tp.style.setProperty("--term-bg-raised", rgbString(mix([21,22,26], base, 0.24)));
-    tp.style.setProperty("--term-rule", rgba(support, 0.28));
-    tp.style.setProperty("--terminal-page-gradient",
-      "radial-gradient(circle at 16% -10%, "+rgba(base, 0.24)+" 0%, transparent 34%), " +
-      "radial-gradient(circle at 58% 10%, "+rgba(base, 0.14)+" 0%, transparent 44%), " +
-      "radial-gradient(circle at 84% 22%, "+rgba(support, 0.10)+" 0%, transparent 38%), " +
-      "radial-gradient(circle at 92% 92%, "+rgba(spark, 0.26)+" 0%, transparent 38%)"
-    );
-    tp.style.setProperty("--terminal-pattern-color", rgba(spark, 0.18));
+    var lightMode = document.body && document.body.dataset && document.body.dataset.mode === "light";
+    if (lightMode) {
+      tp.style.setProperty("--term-bg-sunken", rgbString(mix([247,248,252], base, 0.055)));
+      tp.style.setProperty("--term-bg", rgbString(mix([237,242,251], base, 0.075)));
+      tp.style.setProperty("--term-bg-raised", "rgba(255,255,255,0.86)");
+      tp.style.setProperty("--term-rule", rgba(support, 0.22));
+      tp.style.setProperty("--terminal-page-gradient",
+        "radial-gradient(circle at 12% -14%, "+rgba(base, 0.22)+" 0%, transparent 36%), " +
+        "radial-gradient(circle at 66% 8%, "+rgba(support, 0.13)+" 0%, transparent 38%), " +
+        "radial-gradient(circle at 96% 92%, "+rgba(spark, 0.18)+" 0%, transparent 34%), " +
+        "linear-gradient(180deg, rgba(255,255,255,0.72), rgba(246,248,252,0.94))"
+      );
+      tp.style.setProperty("--terminal-pattern-color", rgba(spark, 0.12));
+    } else {
+      tp.style.setProperty("--term-bg-sunken", rgbString(mix([5,5,7], base, 0.20)));
+      tp.style.setProperty("--term-bg", rgbString(mix([10,10,12], base, 0.18)));
+      tp.style.setProperty("--term-bg-raised", rgbString(mix([21,22,26], base, 0.24)));
+      tp.style.setProperty("--term-rule", rgba(support, 0.28));
+      tp.style.setProperty("--terminal-page-gradient",
+        "radial-gradient(circle at 16% -10%, "+rgba(base, 0.24)+" 0%, transparent 34%), " +
+        "radial-gradient(circle at 58% 10%, "+rgba(base, 0.14)+" 0%, transparent 44%), " +
+        "radial-gradient(circle at 84% 22%, "+rgba(support, 0.10)+" 0%, transparent 38%), " +
+        "radial-gradient(circle at 92% 92%, "+rgba(spark, 0.26)+" 0%, transparent 38%)"
+      );
+      tp.style.setProperty("--terminal-pattern-color", rgba(spark, 0.18));
+    }
   }
 
   function applyPalette(primaryHex, secondaryHex, highlightHex){
@@ -1119,8 +1138,10 @@ document.addEventListener("DOMContentLoaded", () => {
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
   // ASAP to avoid a FOUC where the warm-bg flashes before the
-  // black-grey terminal styles kick in. Default = "black-grey"; the
-  // user can flip to "follow-site" via the terminal settings popover.
+  // terminal skin kicks in. Default storage value remains "black-grey"
+  // for backwards compatibility, but in light mode it renders as the
+  // Endenza glass terminal skin. The user can flip to "follow-site" via
+  // the terminal settings popover.
   // Only stamps when we're actually on /terminal.html.
   if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
     let termTheme = "black-grey";

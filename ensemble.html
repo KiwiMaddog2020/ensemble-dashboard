@@ -225,7 +225,7 @@
         <div class="proj-pills"><span class="pill pill-tier-agent">Project</span> <span class="pill pill-state-building">Building</span> <span class="pill pill-auto">auto-tests</span></div>
       </div>
     </div>
-    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 10s ago · ensemble</p>
+    <p class="timestamp"><span class="dot" aria-hidden="true"></span>last seen 3m ago · ensemble</p>
   </div>
 </header>
 <main id="main" class="proj-main">
@@ -756,8 +756,10 @@ document.addEventListener("DOMContentLoaded", () => {
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
   // ASAP to avoid a FOUC where the warm-bg flashes before the
-  // black-grey terminal styles kick in. Default = "black-grey"; the
-  // user can flip to "follow-site" via the terminal settings popover.
+  // terminal skin kicks in. Default storage value remains "black-grey"
+  // for backwards compatibility, but in light mode it renders as the
+  // Endenza glass terminal skin. The user can flip to "follow-site" via
+  // the terminal settings popover.
   // Only stamps when we're actually on /terminal.html.
   if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
     let termTheme = "black-grey";

@@ -41,7 +41,7 @@
     {
       "id": "piano_main",
       "type": "prop",
-      "x": 60, "y": 40, "w": 200, "h": 120, "z": 6,
+      "x": 72, "y": 52, "w": 150, "h": 92, "z": 6,
       "props": { "sprite_id": "piano", "label": "Piano" },
       "walkable_through": false, "solid": true, "interactable": true,
       "interaction": { "type": "read", "title": "Keys", "body": "Link to your music on SoundCloud, Spotify, or Bandcamp." }

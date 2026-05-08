@@ -209,7 +209,7 @@
 <main id="main"><div class="studio-shell">
   <nav class="studio-sidebar" role="tablist" aria-label="Studio sections">
     <button class="studio-tab is-active" data-tab="room" role="tab" type="button"><span class="studio-tab__label">Canvas</span></button>
-    <button class="studio-tab" data-tab="cadenza" role="tab" type="button"><span class="studio-tab__label">Cadenza</span></button>
+    <button class="studio-tab" data-tab="cadenza" role="tab" type="button" data-href="./cadenza.html"><span class="studio-tab__label">Cadenza</span></button>
     <button class="studio-tab" data-tab="ensemble" role="tab" type="button" data-href="./map.html"><span class="studio-tab__label">Ensemble</span></button>
     <span class="studio-save-indicator" id="studio-save-indicator" aria-live="polite"></span>
   </nav>
@@ -524,9 +524,8 @@
 
   <section class="studio-pane" data-pane="cadenza" role="tabpanel">
     <div class="studio-empty">
-      <p class="studio-empty__icon" aria-hidden="true">✨</p>
-      <p>Cadenza pages are coming.</p>
-      <p class="studio-empty__hint">Each canvas can become its own public Cadenza page.</p>
+      <p>Your Cadenza lives on its own showcase page.</p>
+      <p class="studio-empty__hint"><a href="./cadenza.html">Open Cadenza settings</a></p>
     </div>
   </section>
   </div><!-- /.studio-content -->
@@ -1568,8 +1567,10 @@ document.addEventListener("DOMContentLoaded", () => {
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
   // ASAP to avoid a FOUC where the warm-bg flashes before the
-  // black-grey terminal styles kick in. Default = "black-grey"; the
-  // user can flip to "follow-site" via the terminal settings popover.
+  // terminal skin kicks in. Default storage value remains "black-grey"
+  // for backwards compatibility, but in light mode it renders as the
+  // Endenza glass terminal skin. The user can flip to "follow-site" via
+  // the terminal settings popover.
   // Only stamps when we're actually on /terminal.html.
   if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
     let termTheme = "black-grey";

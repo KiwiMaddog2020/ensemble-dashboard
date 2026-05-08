@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
-<title>Endenza — Your Studio</title>
-<meta name="description" content="Your generated Studio — fresh from Claude." />
+<title>Endenza — Cadenza</title>
+<meta name="description" content="Choose the published public canvas visitors enter from the Ensemble." />
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f0d0a" media="(prefers-color-scheme: dark)" />
 <link rel="manifest" href="./manifest.json" />
@@ -99,7 +99,7 @@
   }
 </script>
 </head>
-<body class="hub" data-mode="light">
+<body class="hub studio" data-mode="light">
 <a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
@@ -206,146 +206,567 @@
     </div>
   </div>
 </div>
-<main id="main"><header class="hero your-studio-hero">
-  <div class="wrap">
-    <p class="eyebrow">YOUR STUDIO</p>
-    <h1 id="ys-headline">Your Studio.</h1>
-    <p class="lead" id="ys-summary">Loading…</p>
-    <div class="your-studio-actions">
-      <button type="button" class="btn-secondary" id="ys-regenerate">Regenerate from new answers</button>
-      <a class="btn-secondary" href="/index.html#waitlist">Get the build log</a>
+<main id="main" data-page="cadenza">
+  <div class="studio-shell cadenza-shell">
+    <nav class="studio-sidebar" role="tablist" aria-label="Studio sections">
+      <button class="studio-tab" data-tab="room" role="tab" type="button" data-href="./studio.html"><span class="studio-tab__label">Canvas</span></button>
+      <button class="studio-tab is-active" data-tab="cadenza" role="tab" type="button"><span class="studio-tab__label">Cadenza</span></button>
+      <button class="studio-tab" data-tab="ensemble" role="tab" type="button" data-href="./map.html"><span class="studio-tab__label">Ensemble</span></button>
+    </nav>
+
+    <div class="studio-content cadenza-content">
+      <section class="cadenza-page" aria-labelledby="cadenza-title">
+        <header class="cadenza-hero">
+          <p class="cadenza-eyebrow">Cadenza</p>
+          <div class="cadenza-hero__copy">
+            <h1 id="cadenza-title">Your public room.</h1>
+            <p>Choose the canvas visitors walk into from the Ensemble. One published public canvas is your Cadenza at a time.</p>
+          </div>
+          <div class="cadenza-hero__actions" aria-label="Cadenza actions">
+            <a class="cadenza-button cadenza-button--ghost" href="./studio.html">Open Studio</a>
+            <a class="cadenza-button cadenza-button--primary" href="./map.html">Enter Ensemble</a>
+          </div>
+        </header>
+
+        <div class="cadenza-grid">
+          <section class="cadenza-current-card" id="cadenza-current" data-state="loading" aria-labelledby="cadenza-current-title">
+            <p class="cadenza-card__eyebrow">Current Cadenza</p>
+            <h2 id="cadenza-current-title">Loading canvases...</h2>
+            <p class="cadenza-card__desc" id="cadenza-current-desc" hidden></p>
+            <p class="cadenza-card__meta" id="cadenza-current-meta"></p>
+            <p class="cadenza-current-empty" id="cadenza-current-empty">Checking your Studio canvas list.</p>
+            <div class="cadenza-current-actions">
+              <a class="cadenza-button cadenza-button--primary" id="cadenza-current-link" href="./studio.html" hidden>Enter Cadenza</a>
+              <a class="cadenza-button cadenza-button--ghost" href="./pair.html" id="cadenza-pair-link">Pair Browser</a>
+            </div>
+          </section>
+
+          <section class="cadenza-picker" aria-labelledby="cadenza-picker-title">
+            <div class="cadenza-section-head">
+              <div>
+                <p class="cadenza-card__eyebrow">Canvas Selector</p>
+                <h2 id="cadenza-picker-title">Pick the room everyone sees.</h2>
+              </div>
+              <p class="cadenza-status" id="cadenza-status" role="status" aria-live="polite"></p>
+            </div>
+            <div class="cadenza-list" id="cadenza-list" role="list" aria-label="Your canvases"></div>
+          </section>
+        </div>
+      </section>
     </div>
   </div>
-</header>
-
-<section class="your-studio-frame-wrap" id="ys-frame-wrap" hidden>
-  <iframe id="ys-frame" class="your-studio-frame"
-          sandbox="allow-scripts"
-          title="Your generated Studio"></iframe>
-</section>
-
-<section class="your-studio-empty" id="ys-empty" hidden>
-  <div class="wrap">
-    <h2>No generated Studio yet.</h2>
-    <p class="lead">Head over to <a href="/index.html">the Endenza homepage</a> and answer the three questions — Claude will build you one in about 90 seconds.</p>
-  </div>
-</section>
-
 </main>
 
 <style>
-.your-studio-hero { padding: 60px 0 24px; }
-.your-studio-hero h1 { font-family: var(--serif); font-size: 56px; font-weight: 500; letter-spacing: -0.02em; margin: 12px 0 16px; }
-.your-studio-hero h1 em { color: var(--accent); font-style: italic; font-weight: 500; }
-.your-studio-hero .lead { color: var(--ink-2); font-size: 17px; line-height: 1.55; max-width: 60ch; }
-.your-studio-actions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
-.your-studio-actions .btn-secondary {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 18px; border-radius: 10px;
-  background: transparent; color: var(--ink);
+.cadenza-shell .cadenza-content {
+  overflow: auto;
+  background:
+    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 28%),
+    radial-gradient(circle at 82% 12%, color-mix(in srgb, var(--success) 9%, transparent), transparent 24%),
+    var(--bg);
+}
+.cadenza-page {
+  width: min(1120px, calc(100vw - 48px));
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 64px) 0;
+}
+.cadenza-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: end;
+  margin-bottom: 24px;
+}
+.cadenza-eyebrow,
+.cadenza-card__eyebrow {
+  margin: 0 0 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.cadenza-hero h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(44px, 7vw, 86px);
+  line-height: 0.96;
+  font-weight: 600;
+  color: var(--ink);
+}
+.cadenza-hero p {
+  max-width: 58ch;
+  margin: 14px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.cadenza-hero__actions,
+.cadenza-current-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.cadenza-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
   border: 1px solid var(--rule);
-  font-family: var(--sans); font-size: 14px; font-weight: 500;
-  cursor: pointer; text-decoration: none;
-  transition: border-color 180ms var(--ease), color 180ms var(--ease);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms var(--ease, ease), border-color 160ms var(--ease, ease), background 160ms var(--ease, ease);
 }
-.your-studio-actions .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-.your-studio-frame-wrap { padding: 0 0 60px; }
-.your-studio-frame-wrap .wrap-inner { max-width: var(--w-wide); margin: 0 auto; padding: 0 32px; }
-.your-studio-frame {
-  display: block; width: 100%; min-height: 80vh;
-  border: 1px solid var(--rule); border-radius: var(--radius);
-  background: var(--bg-raised);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+.cadenza-button[hidden],
+.cadenza-card__desc[hidden],
+.cadenza-current-empty[hidden] {
+  display: none;
 }
-.your-studio-empty { padding: 80px 0; text-align: center; }
-.your-studio-empty h2 { font-family: var(--serif); font-size: 36px; font-weight: 500; margin: 0 0 12px; }
-.your-studio-empty .lead { color: var(--ink-2); }
-.your-studio-empty a { color: var(--accent); text-decoration: underline; }
+.cadenza-button:hover { transform: translateY(-1px); }
+.cadenza-button--primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+.cadenza-button--ghost {
+  background: color-mix(in srgb, var(--bg-raised) 86%, transparent);
+  color: var(--ink);
+}
+.cadenza-button[disabled],
+.cadenza-button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.58;
+  transform: none;
+}
+.cadenza-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+  gap: 18px;
+  align-items: start;
+}
+.cadenza-current-card,
+.cadenza-picker {
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--bg-raised) 92%, transparent);
+  box-shadow: 0 24px 70px rgba(15, 18, 24, 0.12);
+}
+.cadenza-current-card {
+  padding: 24px;
+  position: sticky;
+  top: 24px;
+}
+.cadenza-current-card[data-state="ready"] {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--rule));
+}
+.cadenza-current-card h2,
+.cadenza-picker h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(26px, 3vw, 42px);
+  line-height: 1.04;
+  color: var(--ink);
+}
+.cadenza-card__desc,
+.cadenza-current-empty {
+  margin: 14px 0 0;
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.cadenza-card__meta {
+  margin: 14px 0 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink-3);
+}
+.cadenza-current-actions { margin-top: 20px; }
+.cadenza-picker { padding: 20px; }
+.cadenza-section-head {
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 16px;
+}
+.cadenza-status {
+  min-width: 12ch;
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 13px;
+  text-align: right;
+  color: var(--ink-3);
+}
+.cadenza-status[data-kind="ok"] { color: var(--success); }
+.cadenza-status[data-kind="error"] { color: var(--danger); }
+.cadenza-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cadenza-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--bg);
+}
+.cadenza-row.is-current {
+  border-color: color-mix(in srgb, var(--accent) 56%, var(--rule));
+  background: color-mix(in srgb, var(--accent) 7%, var(--bg));
+}
+.cadenza-row__title {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.cadenza-row__meta,
+.cadenza-row__hint {
+  margin: 5px 0 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ink-3);
+}
+.cadenza-row__hint { color: var(--ink-2); }
+.cadenza-row__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 9px;
+}
+.cadenza-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.cadenza-badge--current {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent);
+}
+.cadenza-badge--blocked {
+  background: color-mix(in srgb, var(--danger) 11%, transparent);
+  color: var(--danger);
+}
+@media (max-width: 860px) {
+  .cadenza-page { width: min(100% - 28px, 720px); }
+  .cadenza-hero,
+  .cadenza-grid,
+  .cadenza-row {
+    grid-template-columns: 1fr;
+  }
+  .cadenza-current-card { position: static; }
+  .cadenza-section-head { flex-direction: column; }
+  .cadenza-status { text-align: left; }
+}
 </style>
 
 <script>
 (function () {
-  const STUDIO_KEY = "ensemble:generated-studio";
+  var state = { canvases: [], loading: true, error: null };
+  var nodes = {};
 
-  function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-  }
+  function $(id) { return document.getElementById(id); }
 
-  function renderStudio(studio) {
-    const summary = (studio.meta && studio.meta.prompt_summary) || "";
-    const summaryEl = document.getElementById("ys-summary");
-    if (summary && summaryEl) summaryEl.textContent = summary;
-
-    // Build a self-contained document for the iframe srcdoc.
-    // Claude's output is already a full document; we wrap defensively
-    // so partial outputs (just <body>... or just style+content) still work.
-    const html = String(studio.html || "");
-    const css = String(studio.css || "");
-    const js = String(studio.js || "");
-    const looksFullDoc = /<!doctype/i.test(html) || /<html/i.test(html);
-    const doc = looksFullDoc ? html : `<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<style>${css}</style>
-</head><body>
-${html}
-<script>${js}<\/script>
-</body></html>`;
-
-    const frame = document.getElementById("ys-frame");
-    const wrap = document.getElementById("ys-frame-wrap");
-    if (frame && wrap) {
-      // If Claude's HTML is already a full doc, inject extra css/js too —
-      // gracefully degrades when those fields are also embedded inline.
-      let finalDoc = doc;
-      if (looksFullDoc && (css || js)) {
-        const extra = (css ? `<style>${css}</style>` : "") + (js ? `<script>${js}<\/script>` : "");
-        finalDoc = doc.replace(/<\/body>/i, extra + "</body>");
-      }
-      frame.srcdoc = finalDoc;
-      wrap.hidden = false;
-    }
-  }
-
-  function showEmpty() {
-    const empty = document.getElementById("ys-empty");
-    const summaryEl = document.getElementById("ys-summary");
-    if (summaryEl) summaryEl.textContent = "No Studio yet. Answer the three questions on the homepage and Claude builds you one.";
-    if (empty) empty.hidden = false;
-    const actions = document.querySelector(".your-studio-actions");
-    if (actions) actions.style.display = "none";
-  }
-
-  function load() {
-    let raw = null;
-    try { raw = localStorage.getItem(STUDIO_KEY); } catch (e) {}
-    if (!raw) { showEmpty(); return; }
-    let studio;
-    try { studio = JSON.parse(raw); } catch (e) { showEmpty(); return; }
-    if (!studio || (!studio.html && !studio.css && !studio.js)) { showEmpty(); return; }
-    renderStudio(studio);
-  }
-
-  function bindRegenerate() {
-    const btn = document.getElementById("ys-regenerate");
-    if (!btn) return;
-    btn.addEventListener("click", function () {
-      try {
-        localStorage.removeItem(STUDIO_KEY);
-        localStorage.removeItem("ensemble:first-run-seen");
-      } catch (e) {}
-      window.location.href = "/index.html";
+  function escapeHtml(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, function (ch) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch];
     });
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    load();
-    bindRegenerate();
-  });
-})();
+  function cookie(name) {
+    var prefix = name + "=";
+    return document.cookie.split(";").map(function (part) { return part.trim(); })
+      .filter(function (part) { return part.indexOf(prefix) === 0; })
+      .map(function (part) { return decodeURIComponent(part.slice(prefix.length)); })[0] || "";
+  }
+
+  function apiBase() {
+    try {
+      var stored = localStorage.getItem("ENDENZA_SERVER_URL") || "";
+      if (stored) return stored.replace(/\/+$/, "");
+    } catch (e) {}
+    if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+      return "http://localhost:8080";
+    }
+    return "";
+  }
+
+  function authHeaders() {
+    var token = "";
+    try {
+      token = localStorage.getItem("DASHBOARD_TOKEN")
+        || localStorage.getItem("ensemble.pairing_token")
+        || "";
+    } catch (e) {}
+    if (!token) token = cookie("pairing_token");
+    var headers = { "Accept": "application/json", "Content-Type": "application/json" };
+    if (token) headers.Authorization = "Bearer " + token;
+    return headers;
+  }
+
+  function api(method, path, body) {
+    var base = apiBase();
+    if (!base) {
+      return Promise.reject({ status: 0, message: "not_paired" });
+    }
+    var opts = { method: method, headers: authHeaders() };
+    if (body !== undefined) opts.body = JSON.stringify(body);
+    return fetch(base + "/studio/canvas" + path, opts).then(function (resp) {
+      return resp.json().catch(function () { return {}; }).then(function (json) {
+        if (!resp.ok) {
+          var err = new Error(json.error || ("HTTP " + resp.status));
+          err.status = resp.status;
+          throw err;
+        }
+        return json;
+      });
+    });
+  }
+
+  function canvasId(canvas) {
+    return canvas && (canvas.id || canvas.canvas_id || "");
+  }
+
+  function canvasTitle(canvas) {
+    return (canvas && (canvas.title || canvas.name)) || "Untitled canvas";
+  }
+
+  function isPublishedPublic(canvas) {
+    return !!(canvas && canvas.visibility === "public" && canvas.slot_index !== null && canvas.slot_index !== undefined && canvas.published_at);
+  }
+
+  function canvasHref(canvas) {
+    return "./canvas/" + encodeURIComponent(canvasId(canvas)) + ".html";
+  }
+
+  function shortDate(value) {
+    if (!value) return "draft";
+    var ms = Number(value) < 10000000000 ? Number(value) * 1000 : Number(value);
+    try {
+      return new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" }).format(new Date(ms));
+    } catch (e) {
+      return "published";
+    }
+  }
+
+  function setStatus(message, kind) {
+    if (!nodes.status) return;
+    nodes.status.textContent = message || "";
+    if (kind) nodes.status.setAttribute("data-kind", kind);
+    else nodes.status.removeAttribute("data-kind");
+  }
+
+  function renderCurrent() {
+    var current = state.canvases.filter(function (canvas) { return !!canvas.is_showcase; })[0] || null;
+    nodes.current.setAttribute("data-state", current ? "ready" : (state.loading ? "loading" : "empty"));
+    nodes.currentDesc.hidden = true;
+    nodes.currentLink.hidden = true;
+    nodes.pairLink.hidden = false;
+    nodes.currentEmpty.hidden = false;
+
+    if (state.loading) {
+      nodes.currentTitle.textContent = "Loading canvases...";
+      nodes.currentMeta.textContent = "";
+      nodes.currentEmpty.textContent = "Checking your Studio canvas list.";
+      return;
+    }
+
+    if (state.error) {
+      nodes.currentTitle.textContent = "Pair this browser.";
+      nodes.currentMeta.textContent = "";
+      nodes.currentEmpty.textContent = state.error;
+      return;
+    }
+
+    if (!current) {
+      nodes.currentTitle.textContent = "No Cadenza selected.";
+      nodes.currentMeta.textContent = "";
+      nodes.currentEmpty.textContent = state.canvases.length
+        ? "Choose one of your published public canvases below."
+        : "Build and publish a canvas in Studio, then make it your Cadenza.";
+      return;
+    }
+
+    nodes.currentTitle.textContent = canvasTitle(current);
+    nodes.currentDesc.textContent = current.description || "This is the canvas visitors enter from the Ensemble.";
+    nodes.currentDesc.hidden = false;
+    nodes.currentMeta.textContent = isPublishedPublic(current)
+      ? "Published " + shortDate(current.published_at) + " · public"
+      : "Selected, but not visitor-ready yet. Publish it publicly from Studio.";
+    nodes.currentEmpty.hidden = true;
+    nodes.currentLink.href = canvasHref(current);
+    nodes.currentLink.hidden = !isPublishedPublic(current);
+    nodes.pairLink.hidden = true;
+  }
+
+  function badge(label, className) {
+    return '<span class="cadenza-badge ' + (className || "") + '">' + escapeHtml(label) + '</span>';
+  }
+
+  function renderList() {
+    nodes.list.innerHTML = "";
+    if (state.loading) {
+      nodes.list.innerHTML = '<div class="cadenza-row" role="listitem"><p class="cadenza-row__title">Loading...</p></div>';
+      return;
+    }
+    if (state.error) {
+      nodes.list.innerHTML = '<div class="cadenza-row" role="listitem"><div><p class="cadenza-row__title">Canvas list unavailable.</p><p class="cadenza-row__hint">Pair this browser with the local control panel to manage your Cadenza.</p></div><a class="cadenza-button cadenza-button--ghost" href="./pair.html">Pair Browser</a></div>';
+      return;
+    }
+    if (!state.canvases.length) {
+      nodes.list.innerHTML = '<div class="cadenza-row" role="listitem"><div><p class="cadenza-row__title">No canvases yet.</p><p class="cadenza-row__hint">Build your first room in Studio, publish it, then return here.</p></div><a class="cadenza-button cadenza-button--ghost" href="./studio.html">Open Studio</a></div>';
+      return;
+    }
+
+    state.canvases
+      .slice()
+      .sort(function (a, b) {
+        if (!!a.is_showcase !== !!b.is_showcase) return a.is_showcase ? -1 : 1;
+        return (b.updated_at || 0) - (a.updated_at || 0);
+      })
+      .forEach(function (canvas) {
+        var id = canvasId(canvas);
+        var eligible = isPublishedPublic(canvas);
+        var current = !!canvas.is_showcase;
+        var row = document.createElement("article");
+        row.className = "cadenza-row" + (current ? " is-current" : "");
+        row.setAttribute("role", "listitem");
+        row.innerHTML =
+          '<div class="cadenza-row__body">' +
+          '<p class="cadenza-row__title">' + escapeHtml(canvasTitle(canvas)) + '</p>' +
+          '<p class="cadenza-row__meta">' +
+            escapeHtml(canvas.visibility || "private") +
+            ' · ' + escapeHtml(canvas.published_at ? ("published " + shortDate(canvas.published_at)) : "not published") +
+          '</p>' +
+          '<div class="cadenza-row__badges">' +
+            (current ? badge("Current", "cadenza-badge--current") : "") +
+            (eligible ? badge("Visitor-ready", "") : badge("Publish first", "cadenza-badge--blocked")) +
+          '</div>' +
+          (!eligible ? '<p class="cadenza-row__hint">Only published public canvases can become a walkable Cadenza in the Ensemble.</p>' : "") +
+          '</div>';
+        var action = document.createElement(eligible ? "button" : "a");
+        action.className = "cadenza-button " + (current ? "cadenza-button--ghost" : "cadenza-button--primary");
+        if (eligible) {
+          action.type = "button";
+          action.textContent = current ? "Current Cadenza" : "Make Cadenza";
+          action.disabled = current;
+          action.setAttribute("data-act", "make-cadenza");
+          action.setAttribute("data-canvas-id", id);
+        } else {
+          action.textContent = "Open Studio";
+          action.href = "./studio.html";
+        }
+        row.appendChild(action);
+        nodes.list.appendChild(row);
+      });
+  }
+
+  function render() {
+    renderCurrent();
+    renderList();
+  }
+
+  function loadCanvases() {
+    state.loading = true;
+    state.error = null;
+    setStatus("Loading...");
+    render();
+    return api("GET", "/mine").then(function (payload) {
+      state.canvases = payload && Array.isArray(payload.canvases) ? payload.canvases : [];
+      state.loading = false;
+      setStatus(state.canvases.length ? "" : "No canvases yet");
+      render();
+    }).catch(function (err) {
+      state.canvases = [];
+      state.loading = false;
+      state.error = (err && err.status === 401)
+        ? "Your local dashboard token is missing or expired."
+        : "The local control panel is not reachable from this browser.";
+      setStatus("Unavailable", "error");
+      render();
+    });
+  }
+
+  function makeCadenza(id) {
+    var target = state.canvases.filter(function (canvas) { return canvasId(canvas) === id; })[0];
+    if (!target || target.is_showcase) return;
+    state.canvases.forEach(function (canvas) { canvas.is_showcase = canvasId(canvas) === id; });
+    setStatus("Setting Cadenza...");
+    render();
+    api("PUT", "/" + encodeURIComponent(id) + "/showcase", { is_showcase: true })
+      .then(function (updated) {
+        state.canvases = state.canvases.map(function (canvas) {
+          return canvasId(canvas) === canvasId(updated) ? updated : canvas;
+        });
+        state.canvases.forEach(function (canvas) { canvas.is_showcase = canvasId(canvas) === id; });
+        setStatus("Cadenza set.", "ok");
+        render();
+      })
+      .catch(function () {
+        setStatus("Could not set Cadenza.", "error");
+        loadCanvases();
+      });
+  }
+
+  function initSidebar() {
+    document.querySelectorAll(".cadenza-shell .studio-tab[data-href]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        window.location.href = button.getAttribute("data-href");
+      });
+    });
+  }
+
+  function init() {
+    nodes.current = $("cadenza-current");
+    nodes.currentTitle = $("cadenza-current-title");
+    nodes.currentDesc = $("cadenza-current-desc");
+    nodes.currentMeta = $("cadenza-current-meta");
+    nodes.currentEmpty = $("cadenza-current-empty");
+    nodes.currentLink = $("cadenza-current-link");
+    nodes.pairLink = $("cadenza-pair-link");
+    nodes.list = $("cadenza-list");
+    nodes.status = $("cadenza-status");
+    if (!nodes.current || !nodes.list) return;
+    initSidebar();
+    nodes.list.addEventListener("click", function (event) {
+      var button = event.target.closest("[data-act='make-cadenza']");
+      if (!button || button.disabled) return;
+      makeCadenza(button.getAttribute("data-canvas-id"));
+    });
+    loadCanvases();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+}());
 </script>
 <footer class="site-footer">
   <div class="site-footer__inner">
