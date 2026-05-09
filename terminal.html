@@ -486,7 +486,8 @@
   var KEY_PRIMARY   = "ENDENZA_TERMINAL_PRIMARY";
   var KEY_SECONDARY = "ENDENZA_TERMINAL_SECONDARY";
   var KEY_HIGHLIGHT = "ENDENZA_TERMINAL_HIGHLIGHT";
-  var KEY_PATTERN   = "ENDENZA_TERMINAL_PATTERN";
+  var KEY_THEME     = "ENDENZA_TERMINAL_THEME";
+  var KEY_LEGACY_PATTERN = "ENDENZA_TERMINAL_PATTERN";
   var KEY_LEGACY    = "ENDENZA_TERMINAL_ACCENT";
 
   var PATTERNS = {
@@ -538,6 +539,27 @@
     blueprint: "rgba(14, 157, 179, 0.22)",
     checkerboard: "rgba(107, 138, 253, 0.12)",
     circuits: "rgba(14, 157, 179, 0.18)",
+  };
+  var APPEARANCE_SURFACES = {
+    "black-grey": "glass",
+    "follow-site": "glass",
+    solid: "solid",
+    dots: "dots",
+    grid: "grid",
+    mesh: "mesh",
+    noise: "noise",
+    aurora: "aurora",
+    scanlines: "scanlines",
+    topo: "topo",
+    vignette: "vignette",
+    paper: "paper",
+    linen: "linen",
+    blueprint: "blueprint",
+    constellation: "constellation",
+    marble: "marble",
+    checkerboard: "checkerboard",
+    circuits: "circuits",
+    prism: "prism",
   };
 
   var GENERATED_COLOR_VARS = [
@@ -696,14 +718,24 @@
       tp.style.setProperty("--terminal-pattern-size", size);
     }
   }
+  function readAppearance(){
+    var theme = read(KEY_THEME);
+    if (APPEARANCE_SURFACES[theme]) return theme;
+    var legacyPattern = read(KEY_LEGACY_PATTERN);
+    if (legacyPattern && legacyPattern !== "glass" && APPEARANCE_SURFACES[legacyPattern]) {
+      return legacyPattern;
+    }
+    return "black-grey";
+  }
 
   function applyAll(){
     var p  = read(KEY_PRIMARY) || read(KEY_LEGACY);
     var s  = read(KEY_SECONDARY);
     var h  = read(KEY_HIGHLIGHT);
-    var pt = read(KEY_PATTERN) || "glass";
+    var appearance = readAppearance();
+    document.body.setAttribute("data-terminal-theme", appearance === "follow-site" ? "follow-site" : "black-grey");
     applyPalette(p, s, h);
-    applyPattern(pt);
+    applyPattern(APPEARANCE_SURFACES[appearance] || "glass");
   }
 
   // First paint
@@ -1195,8 +1227,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // ASAP to avoid a FOUC where the site theme flashes before the
   // terminal skin kicks in. Default storage value remains "black-grey"
   // for backwards compatibility, but in light mode it renders as the
-  // Endenza glass terminal skin. The user can flip to "follow-site" via
-  // the terminal settings popover.
+  // Endenza glass terminal skin. The Terminal settings popover stores
+  // either "follow-site" or a terminal-only appearance name; patterned
+  // appearances still use the Endenza base skin while their surface
+  // pattern is applied by terminal.html's first-paint restore script.
   // Only stamps when we're actually on /terminal.html.
   if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
     let termTheme = "black-grey";
