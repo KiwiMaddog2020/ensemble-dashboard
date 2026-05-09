@@ -21,83 +21,185 @@
     "stage": { "width": 960, "height": 540, "background_layer": null, "ambient_sound": null },
     "components": [
       {
-        "id": "floor", "type": "svg",
-        "x": 0, "y": 0, "w": 960, "h": 540, "z": 0,
+        "id": "floor",
+        "type": "svg",
+        "x": 0,
+        "y": 0,
+        "w": 960,
+        "h": 540,
+        "z": 0,
         "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
-        "locked": true, "walkable_through": true, "solid": false, "interactable": false
+        "locked": true,
+        "walkable_through": true,
+        "solid": false,
+        "interactable": false
       },
       {
-        "id": "rug", "type": "prop",
-        "x": 280, "y": 220, "w": 360, "h": 200, "z": 1,
+        "id": "rug",
+        "type": "prop",
+        "x": 280,
+        "y": 220,
+        "w": 360,
+        "h": 200,
+        "z": 1,
         "props": { "sprite_id": "rug" },
-        "walkable_through": true, "solid": false, "interactable": false
+        "walkable_through": true,
+        "solid": false,
+        "interactable": false
       },
       {
-        "id": "welcome_text", "type": "text",
-        "x": 280, "y": 20, "w": 400, "h": 28, "z": 10,
+        "id": "welcome_text",
+        "type": "text",
+        "x": 280,
+        "y": 20,
+        "w": 400,
+        "h": 28,
+        "z": 10,
         "props": { "text": "WELCOME TO ENDENZA", "variant": "eyebrow", "color_token": "accent" },
-        "walkable_through": true, "solid": false, "interactable": false
+        "walkable_through": true,
+        "solid": false,
+        "interactable": false
       },
       {
-        "id": "desk_main", "type": "prop",
-        "x": 100, "y": 60, "w": 180, "h": 100, "z": 5,
+        "id": "desk_main",
+        "type": "prop",
+        "x": 100,
+        "y": 60,
+        "w": 180,
+        "h": 100,
+        "z": 5,
         "props": { "sprite_id": "desk", "label": "About" },
-        "walkable_through": false, "solid": true, "interactable": true,
-        "interaction": { "type": "read", "title": "About Endenza", "body": "Endenza is a place where every creator gets a room they can call home. Walk around, decorate, and make it yours." }
+        "walkable_through": false,
+        "solid": true,
+        "interactable": true,
+        "interaction": {
+          "type": "read",
+          "title": "About Endenza",
+          "body": "Endenza is a place where every creator gets a room they can call home. Walk around, decorate, and make it yours."
+        }
       },
       {
-        "id": "bookshelf", "type": "prop",
-        "x": 680, "y": 10, "w": 130, "h": 110, "z": 6,
+        "id": "bookshelf",
+        "type": "prop",
+        "x": 680,
+        "y": 10,
+        "w": 130,
+        "h": 110,
+        "z": 6,
         "props": { "sprite_id": "bookshelf", "label": "Docs", "book_count": 5 },
-        "walkable_through": false, "solid": true, "interactable": true,
-        "interaction": { "type": "read", "title": "Documentation", "body": "Learn how to build your own Cadenza and customize every corner." }
+        "walkable_through": false,
+        "solid": true,
+        "interactable": true,
+        "interaction": {
+          "type": "read",
+          "title": "Documentation",
+          "body": "Learn how to build your own Cadenza and customize every corner."
+        }
       },
       {
-        "id": "couch", "type": "prop",
-        "x": 360, "y": 280, "w": 160, "h": 70, "z": 4,
+        "id": "couch",
+        "type": "prop",
+        "x": 360,
+        "y": 280,
+        "w": 160,
+        "h": 70,
+        "z": 4,
         "props": { "sprite_id": "couch", "label": "Lounge" },
-        "walkable_through": false, "solid": true, "interactable": false
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
       },
       {
-        "id": "lamp_1", "type": "prop",
-        "x": 560, "y": 240, "w": 36, "h": 72, "z": 5,
+        "id": "lamp_1",
+        "type": "prop",
+        "x": 560,
+        "y": 240,
+        "w": 36,
+        "h": 72,
+        "z": 5,
         "props": { "sprite_id": "lamp" },
-        "walkable_through": false, "solid": true, "interactable": false
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
       },
       {
-        "id": "plant_a", "type": "prop",
-        "x": 860, "y": 100, "w": 48, "h": 64, "z": 5,
+        "id": "plant_a",
+        "type": "prop",
+        "x": 860,
+        "y": 100,
+        "w": 48,
+        "h": 64,
+        "z": 5,
         "props": { "sprite_id": "plant_pot" },
-        "walkable_through": false, "solid": true, "interactable": false
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
       },
       {
-        "id": "plant_b", "type": "prop",
-        "x": 40, "y": 380, "w": 48, "h": 64, "z": 5,
+        "id": "plant_b",
+        "type": "prop",
+        "x": 40,
+        "y": 380,
+        "w": 48,
+        "h": 64,
+        "z": 5,
         "props": { "sprite_id": "plant_pot" },
-        "walkable_through": false, "solid": true, "interactable": false
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
       },
       {
-        "id": "window_1", "type": "prop",
-        "x": 420, "y": 8, "w": 80, "h": 60, "z": 6,
+        "id": "window_1",
+        "type": "prop",
+        "x": 420,
+        "y": 8,
+        "w": 80,
+        "h": 60,
+        "z": 6,
         "props": { "sprite_id": "window" },
-        "walkable_through": false, "solid": true, "interactable": false
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
       },
       {
-        "id": "clock_wall", "type": "prop",
-        "x": 860, "y": 12, "w": 40, "h": 40, "z": 6,
+        "id": "clock_wall",
+        "type": "prop",
+        "x": 860,
+        "y": 12,
+        "w": 40,
+        "h": 40,
+        "z": 6,
         "props": { "sprite_id": "clock" },
-        "walkable_through": false, "solid": true, "interactable": false
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
       },
       {
-        "id": "poster_wall", "type": "prop",
-        "x": 540, "y": 10, "w": 100, "h": 80, "z": 7,
+        "id": "poster_wall",
+        "type": "prop",
+        "x": 540,
+        "y": 10,
+        "w": 100,
+        "h": 80,
+        "z": 7,
         "props": { "sprite_id": "poster", "label": "Roadmap" },
-        "walkable_through": false, "solid": true, "interactable": true,
-        "interaction": { "type": "read", "title": "Roadmap", "body": "Studio editing, asset packs, visitor walk mode, and more — all coming soon." }
+        "walkable_through": false,
+        "solid": true,
+        "interactable": true,
+        "interaction": {
+          "type": "read",
+          "title": "Roadmap",
+          "body": "Studio editing, asset packs, visitor walk mode, and more — all coming soon."
+        }
       },
       {
-        "id": "welcome_guide", "type": "prop",
-        "x": 316, "y": 346, "w": 48, "h": 64, "z": 6,
+        "id": "welcome_guide",
+        "type": "prop",
+        "x": 316,
+        "y": 346,
+        "w": 48,
+        "h": 64,
+        "z": 6,
         "props": { "sprite_id": "visitor_avatar", "label": "Guide" },
         "sprite": {
           "pack_id": "mana-seed-character-base-default",
@@ -106,11 +208,18 @@
           "variant": "v07"
         },
         "behavior": { "type": "idle" },
-        "walkable_through": false, "solid": true, "interactable": false
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
       },
       {
-        "id": "welcome_chicken", "type": "prop",
-        "x": 555, "y": 370, "w": 32, "h": 32, "z": 6,
+        "id": "welcome_chicken",
+        "type": "prop",
+        "x": 555,
+        "y": 370,
+        "w": 32,
+        "h": 32,
+        "z": 6,
         "props": { "sprite_id": "lt_chicken", "label": "Welcome Chicken" },
         "sprite": {
           "pack_id": "limezu-modern-farm-default",
@@ -124,13 +233,22 @@
           "speed_px_per_sec": 20,
           "pause_ms_range": [900, 2400]
         },
-        "walkable_through": true, "solid": false, "interactable": false
+        "walkable_through": true,
+        "solid": false,
+        "interactable": false
       },
       {
-        "id": "door_exit", "type": "prop",
-        "x": 440, "y": 440, "w": 64, "h": 84, "z": 5,
+        "id": "door_exit",
+        "type": "prop",
+        "x": 440,
+        "y": 440,
+        "w": 64,
+        "h": 84,
+        "z": 5,
         "props": { "sprite_id": "door", "label": "Exit" },
-        "walkable_through": false, "solid": true, "interactable": true,
+        "walkable_through": false,
+        "solid": true,
+        "interactable": true,
         "interaction": { "type": "door", "destination": "./" }
       }
     ]

@@ -22,9 +22,7 @@
     "license_url": "https://seliel-the-shaper.itch.io/character-base"
   },
   "character_id": "char_a",
-  "pages_included": [
-    "p4"
-  ],
+  "pages_included": ["p4"],
   "page_p4_notes": "4-direction walk cycle (16 frames, 512x512 sheet). Primary page for Ensemble top-down walk mode.",
   "layers_included": {
     "0bot": "Body/skin — humn (human). v01-v10 (10 skin tone variants). Real Mana Seed v2.5c PNG exports.",
@@ -34,13 +32,7 @@
   },
   "color_variants": 13,
   "description": "Curated Mana Seed Character Base p4 (4-direction walk) subset -- real PNG body sprites (10 skin tones), 2 hairstyle types (13 color variants each), 1 outfit (boxr, clothed only), 3 tool accessories. Purchased v2.5c.",
-  "tags": [
-    "character",
-    "walk",
-    "top-down",
-    "4-direction",
-    "mana-seed"
-  ],
+  "tags": ["character", "walk", "top-down", "4-direction", "mana-seed"],
   "credits_blurb": "Mana Seed Character Base by Seliel the Shaper — https://seliel-the-shaper.itch.io/character-base",
   "category": "character"
 }

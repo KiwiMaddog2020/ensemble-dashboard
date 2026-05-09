@@ -20,16 +20,149 @@
   "room_state": {
     "stage": { "width": 960, "height": 540, "background_layer": null, "ambient_sound": null },
     "components": [
-      { "id": "floor", "type": "svg", "x": 0, "y": 0, "w": 960, "h": 540, "z": 0, "props": { "shape": "stage_floor", "fill_token": "bg-sunken" }, "locked": true, "walkable_through": true, "solid": false, "interactable": false },
-      { "id": "counter", "type": "prop", "x": 300, "y": 80, "w": 220, "h": 120, "z": 6, "props": { "sprite_id": "workbench", "label": "Counter" }, "walkable_through": false, "solid": true, "interactable": true, "interaction": { "type": "read", "title": "Shop Counter", "body": "Browse the wares. Link to your store or marketplace." } },
-      { "id": "shelf_left", "type": "prop", "x": 40, "y": 10, "w": 130, "h": 110, "z": 6, "props": { "sprite_id": "bookshelf", "label": "Shelf A", "book_count": 8 }, "walkable_through": false, "solid": true, "interactable": true, "interaction": { "type": "read", "title": "Shelf A", "body": "Featured items and new arrivals." } },
-      { "id": "shelf_right", "type": "prop", "x": 680, "y": 10, "w": 130, "h": 110, "z": 6, "props": { "sprite_id": "bookshelf", "label": "Shelf B", "book_count": 11 }, "walkable_through": false, "solid": true, "interactable": true, "interaction": { "type": "read", "title": "Shelf B", "body": "Bestsellers and classics." } },
-      { "id": "poster_open", "type": "prop", "x": 550, "y": 10, "w": 100, "h": 80, "z": 7, "props": { "sprite_id": "poster", "label": "OPEN" }, "walkable_through": false, "solid": true, "interactable": false },
-      { "id": "table_display", "type": "prop", "x": 120, "y": 300, "w": 120, "h": 60, "z": 5, "props": { "sprite_id": "table", "label": "Display" }, "walkable_through": false, "solid": true, "interactable": false },
-      { "id": "lamp_counter", "type": "prop", "x": 540, "y": 60, "w": 36, "h": 72, "z": 5, "props": { "sprite_id": "lamp" }, "walkable_through": false, "solid": true, "interactable": false },
-      { "id": "plant_a", "type": "prop", "x": 860, "y": 380, "w": 48, "h": 64, "z": 5, "props": { "sprite_id": "plant_pot" }, "walkable_through": false, "solid": true, "interactable": false },
-      { "id": "window_1", "type": "prop", "x": 200, "y": 8, "w": 80, "h": 60, "z": 6, "props": { "sprite_id": "window" }, "walkable_through": false, "solid": true, "interactable": false },
-      { "id": "door_exit", "type": "prop", "x": 440, "y": 440, "w": 64, "h": 84, "z": 5, "props": { "sprite_id": "door", "label": "Exit" }, "walkable_through": false, "solid": true, "interactable": true, "interaction": { "type": "door", "destination": "./" } }
+      {
+        "id": "floor",
+        "type": "svg",
+        "x": 0,
+        "y": 0,
+        "w": 960,
+        "h": 540,
+        "z": 0,
+        "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+        "locked": true,
+        "walkable_through": true,
+        "solid": false,
+        "interactable": false
+      },
+      {
+        "id": "counter",
+        "type": "prop",
+        "x": 300,
+        "y": 80,
+        "w": 220,
+        "h": 120,
+        "z": 6,
+        "props": { "sprite_id": "workbench", "label": "Counter" },
+        "walkable_through": false,
+        "solid": true,
+        "interactable": true,
+        "interaction": {
+          "type": "read",
+          "title": "Shop Counter",
+          "body": "Browse the wares. Link to your store or marketplace."
+        }
+      },
+      {
+        "id": "shelf_left",
+        "type": "prop",
+        "x": 40,
+        "y": 10,
+        "w": 130,
+        "h": 110,
+        "z": 6,
+        "props": { "sprite_id": "bookshelf", "label": "Shelf A", "book_count": 8 },
+        "walkable_through": false,
+        "solid": true,
+        "interactable": true,
+        "interaction": {
+          "type": "read",
+          "title": "Shelf A",
+          "body": "Featured items and new arrivals."
+        }
+      },
+      {
+        "id": "shelf_right",
+        "type": "prop",
+        "x": 680,
+        "y": 10,
+        "w": 130,
+        "h": 110,
+        "z": 6,
+        "props": { "sprite_id": "bookshelf", "label": "Shelf B", "book_count": 11 },
+        "walkable_through": false,
+        "solid": true,
+        "interactable": true,
+        "interaction": { "type": "read", "title": "Shelf B", "body": "Bestsellers and classics." }
+      },
+      {
+        "id": "poster_open",
+        "type": "prop",
+        "x": 550,
+        "y": 10,
+        "w": 100,
+        "h": 80,
+        "z": 7,
+        "props": { "sprite_id": "poster", "label": "OPEN" },
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
+      },
+      {
+        "id": "table_display",
+        "type": "prop",
+        "x": 120,
+        "y": 300,
+        "w": 120,
+        "h": 60,
+        "z": 5,
+        "props": { "sprite_id": "table", "label": "Display" },
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
+      },
+      {
+        "id": "lamp_counter",
+        "type": "prop",
+        "x": 540,
+        "y": 60,
+        "w": 36,
+        "h": 72,
+        "z": 5,
+        "props": { "sprite_id": "lamp" },
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
+      },
+      {
+        "id": "plant_a",
+        "type": "prop",
+        "x": 860,
+        "y": 380,
+        "w": 48,
+        "h": 64,
+        "z": 5,
+        "props": { "sprite_id": "plant_pot" },
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
+      },
+      {
+        "id": "window_1",
+        "type": "prop",
+        "x": 200,
+        "y": 8,
+        "w": 80,
+        "h": 60,
+        "z": 6,
+        "props": { "sprite_id": "window" },
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false
+      },
+      {
+        "id": "door_exit",
+        "type": "prop",
+        "x": 440,
+        "y": 440,
+        "w": 64,
+        "h": 84,
+        "z": 5,
+        "props": { "sprite_id": "door", "label": "Exit" },
+        "walkable_through": false,
+        "solid": true,
+        "interactable": true,
+        "interaction": { "type": "door", "destination": "./" }
+      }
     ]
   }
 }

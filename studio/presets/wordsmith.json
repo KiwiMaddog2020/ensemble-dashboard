@@ -5,11 +5,7 @@
     "display_name": "Wordsmith's nook",
     "description": "A writer's nook. Paper textures, serif type, deep margins. Space for thought; no UI clutter.",
     "thumbnail": null,
-    "natural_themes": [
-      "paper",
-      "warm",
-      "sand"
-    ],
+    "natural_themes": ["paper", "warm", "sand"],
     "min_chats": 0,
     "recommended_chats": 2,
     "max_chats": 4,

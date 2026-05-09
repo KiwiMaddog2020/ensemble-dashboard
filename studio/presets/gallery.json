@@ -5,11 +5,7 @@
     "display_name": "Gallery",
     "description": "Curate your work like an exhibition. Each frame points wherever you want \u2014 a portfolio, a writeup, a film.",
     "thumbnail": null,
-    "natural_themes": [
-      "mono",
-      "slate",
-      "ash"
-    ],
+    "natural_themes": ["mono", "slate", "ash"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,

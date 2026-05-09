@@ -12,30 +12,21 @@
       "id": "warm-hum",
       "file": "warm-hum.js",
       "display_name": "Warm amp hum",
-      "tags": [
-        "hum",
-        "warm"
-      ],
+      "tags": ["hum", "warm"],
       "duration_ms": 1000
     },
     {
       "id": "tape-click",
       "file": "tape-click.js",
       "display_name": "Tape click",
-      "tags": [
-        "click",
-        "tape"
-      ],
+      "tags": ["click", "tape"],
       "duration_ms": 100
     },
     {
       "id": "vinyl-crackle",
       "file": "vinyl-crackle.js",
       "display_name": "Vinyl crackle",
-      "tags": [
-        "vinyl",
-        "noise"
-      ],
+      "tags": ["vinyl", "noise"],
       "duration_ms": 1500
     }
   ]

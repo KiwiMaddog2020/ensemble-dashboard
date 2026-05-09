@@ -26,105 +26,205 @@
     {
       "id": "floor",
       "type": "svg",
-      "x": 0, "y": 0, "w": 960, "h": 540, "z": 0,
+      "x": 0,
+      "y": 0,
+      "w": 960,
+      "h": 540,
+      "z": 0,
       "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
       "locked": true,
-      "walkable_through": true, "solid": false, "interactable": false
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "workbench_main",
       "type": "prop",
-      "x": 80, "y": 40, "w": 220, "h": 120, "z": 6,
+      "x": 80,
+      "y": 40,
+      "w": 220,
+      "h": 120,
+      "z": 6,
       "props": { "sprite_id": "workbench", "label": "Workbench" },
-      "walkable_through": false, "solid": true, "interactable": true,
-      "interaction": { "type": "read", "title": "Main Bench", "body": "Your primary workspace. Link to your GitHub repos or current projects." }
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "title": "Main Bench",
+        "body": "Your primary workspace. Link to your GitHub repos or current projects."
+      }
     },
     {
       "id": "poster_board",
       "type": "prop",
-      "x": 400, "y": 10, "w": 160, "h": 100, "z": 7,
+      "x": 400,
+      "y": 10,
+      "w": 160,
+      "h": 100,
+      "z": 7,
       "props": { "sprite_id": "poster", "label": "Project Board" },
-      "walkable_through": false, "solid": true, "interactable": true,
-      "interaction": { "type": "read", "title": "Roadmap", "body": "Your project roadmap and current sprint goals. Link to your project tracker." }
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "title": "Roadmap",
+        "body": "Your project roadmap and current sprint goals. Link to your project tracker."
+      }
     },
     {
       "id": "bookshelf_ref",
       "type": "prop",
-      "x": 680, "y": 10, "w": 130, "h": 110, "z": 6,
+      "x": 680,
+      "y": 10,
+      "w": 130,
+      "h": 110,
+      "z": 6,
       "props": { "sprite_id": "bookshelf", "label": "References", "book_count": 6 },
-      "walkable_through": false, "solid": true, "interactable": true,
-      "interaction": { "type": "read", "title": "Reference Shelf", "body": "Technical docs, manuals, and guides. Link to your documentation." }
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "title": "Reference Shelf",
+        "body": "Technical docs, manuals, and guides. Link to your documentation."
+      }
     },
     {
       "id": "desk_secondary",
       "type": "prop",
-      "x": 620, "y": 200, "w": 160, "h": 100, "z": 5,
+      "x": 620,
+      "y": 200,
+      "w": 160,
+      "h": 100,
+      "z": 5,
       "props": { "sprite_id": "desk", "label": "Computer" },
-      "walkable_through": false, "solid": true, "interactable": true,
-      "interaction": { "type": "read", "title": "Dev Station", "body": "Your coding station. Link to your dev blog or portfolio site." }
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "title": "Dev Station",
+        "body": "Your coding station. Link to your dev blog or portfolio site."
+      }
     },
     {
       "id": "chair_desk",
       "type": "prop",
-      "x": 670, "y": 315, "w": 56, "h": 56, "z": 4,
+      "x": 670,
+      "y": 315,
+      "w": 56,
+      "h": 56,
+      "z": 4,
       "props": { "sprite_id": "chair" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "table_parts",
       "type": "prop",
-      "x": 120, "y": 240, "w": 120, "h": 60, "z": 5,
+      "x": 120,
+      "y": 240,
+      "w": 120,
+      "h": 60,
+      "z": 5,
       "props": { "sprite_id": "table", "label": "Parts Table" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "lamp_bench",
       "type": "prop",
-      "x": 320, "y": 60, "w": 36, "h": 72, "z": 5,
+      "x": 320,
+      "y": 60,
+      "w": 36,
+      "h": 72,
+      "z": 5,
       "props": { "sprite_id": "lamp" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "lamp_desk",
       "type": "prop",
-      "x": 860, "y": 160, "w": 36, "h": 72, "z": 5,
+      "x": 860,
+      "y": 160,
+      "w": 36,
+      "h": 72,
+      "z": 5,
       "props": { "sprite_id": "lamp" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "plant_corner",
       "type": "prop",
-      "x": 880, "y": 400, "w": 44, "h": 60, "z": 5,
+      "x": 880,
+      "y": 400,
+      "w": 44,
+      "h": 60,
+      "z": 5,
       "props": { "sprite_id": "plant_pot" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "clock_wall",
       "type": "prop",
-      "x": 860, "y": 12, "w": 40, "h": 40, "z": 6,
+      "x": 860,
+      "y": 12,
+      "w": 40,
+      "h": 40,
+      "z": 6,
       "props": { "sprite_id": "clock" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "neon_workshop",
       "type": "prop",
-      "x": 420, "y": 156, "w": 120, "h": 72, "z": 8,
+      "x": 420,
+      "y": 156,
+      "w": 120,
+      "h": 72,
+      "z": 8,
       "props": { "sprite_id": "poster", "label": "Build board" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "window_1",
       "type": "prop",
-      "x": 40, "y": 200, "w": 60, "h": 50, "z": 6,
+      "x": 40,
+      "y": 200,
+      "w": 60,
+      "h": 50,
+      "z": 6,
       "props": { "sprite_id": "window" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "door_exit",
       "type": "prop",
-      "x": 440, "y": 440, "w": 64, "h": 84, "z": 5,
+      "x": 440,
+      "y": 440,
+      "w": 64,
+      "h": 84,
+      "z": 5,
       "props": { "sprite_id": "door", "label": "Exit" },
-      "walkable_through": false, "solid": true, "interactable": true,
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
       "interaction": { "type": "door", "destination": "./" }
     }
   ],

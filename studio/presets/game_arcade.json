@@ -5,12 +5,7 @@
     "display_name": "Game arcade",
     "description": "Five arcade cabinets ready to wire to your real games. Click-to-launch lands in Phase A.2 — for now, this is the visual scaffold.",
     "thumbnail": null,
-    "natural_themes": [
-      "midnight",
-      "cobalt",
-      "aurora",
-      "warm"
-    ],
+    "natural_themes": ["midnight", "cobalt", "aurora", "warm"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,

@@ -23,12 +23,6 @@
   "collection": "modern-interiors",
   "source": "RPG_MAKER_MV",
   "description": "Curated interior sprites \u2014 living room props, kitchen items, and doors. Paid license \u2014 credits required.",
-  "tags": [
-    "interior",
-    "living-room",
-    "kitchen",
-    "doors",
-    "modern"
-  ],
+  "tags": ["interior", "living-room", "kitchen", "doors", "modern"],
   "credits_blurb": "Modern Interiors (Paid) by LimeZu \u2014 https://limezu.itch.io/moderninteriors \u2014 Credits required"
 }

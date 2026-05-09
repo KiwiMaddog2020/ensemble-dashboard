@@ -5,11 +5,7 @@
     "display_name": "Director's canvas",
     "description": "Cinematic widescreen. Reels, frames, deep contrast. For film and video creators cutting in their head.",
     "thumbnail": null,
-    "natural_themes": [
-      "midnight",
-      "crimson",
-      "aurora"
-    ],
+    "natural_themes": ["midnight", "crimson", "aurora"],
     "min_chats": 0,
     "recommended_chats": 5,
     "max_chats": 10,

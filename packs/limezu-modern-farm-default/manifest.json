@@ -15,22 +15,13 @@
     "modify_ok": true,
     "attribution_required": false,
     "attribution_appreciated": true,
-    "restrictions": [
-      "Cannot redistribute or resell as standalone assets"
-    ],
+    "restrictions": ["Cannot redistribute or resell as standalone assets"],
     "license_url": "https://limezu.itch.io/modernfarm"
   },
   "collection": "modern-farm",
   "sprite_size": "32x32",
   "components_dir": "components",
   "description": "Curated 32x32 farm sprites \u2014 terrain tiles, fences, crops, fruit trees, trees, and chickens.",
-  "tags": [
-    "farm",
-    "rural",
-    "nature",
-    "crops",
-    "animals",
-    "32x32"
-  ],
+  "tags": ["farm", "rural", "nature", "crops", "animals", "32x32"],
   "credits_blurb": "Modern Farm by LimeZu \u2014 https://limezu.itch.io/modernfarm"
 }

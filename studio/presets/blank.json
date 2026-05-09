@@ -5,11 +5,7 @@
     "display_name": "Blank canvas",
     "description": "An empty Canvas ready for you to compose. Open the Workshop drawer (left side) for inspiration, asset packs, and starter examples.",
     "thumbnail": null,
-    "natural_themes": [
-      "warm",
-      "ash",
-      "mono"
-    ],
+    "natural_themes": ["warm", "ash", "mono"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,

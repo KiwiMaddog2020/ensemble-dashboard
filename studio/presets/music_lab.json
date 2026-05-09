@@ -26,108 +26,220 @@
     {
       "id": "floor",
       "type": "svg",
-      "x": 0, "y": 0, "w": 960, "h": 540, "z": 0,
+      "x": 0,
+      "y": 0,
+      "w": 960,
+      "h": 540,
+      "z": 0,
       "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
       "locked": true,
-      "walkable_through": true, "solid": false, "interactable": false
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "rug_stage",
       "type": "prop",
-      "x": 280, "y": 220, "w": 360, "h": 200, "z": 1,
+      "x": 280,
+      "y": 220,
+      "w": 360,
+      "h": 200,
+      "z": 1,
       "props": { "sprite_id": "rug" },
-      "walkable_through": true, "solid": false, "interactable": false
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     },
     {
       "id": "piano_main",
       "type": "prop",
-      "x": 72, "y": 52, "w": 150, "h": 92, "z": 6,
+      "x": 72,
+      "y": 52,
+      "w": 150,
+      "h": 92,
+      "z": 6,
       "props": { "sprite_id": "piano", "label": "Piano" },
-      "walkable_through": false, "solid": true, "interactable": true,
-      "interaction": { "type": "read", "title": "Keys", "body": "Link to your music on SoundCloud, Spotify, or Bandcamp." }
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "title": "Keys",
+        "body": "Link to your music on SoundCloud, Spotify, or Bandcamp."
+      }
     },
     {
       "id": "mic_center",
       "type": "prop",
-      "x": 440, "y": 100, "w": 36, "h": 72, "z": 6,
+      "x": 440,
+      "y": 100,
+      "w": 36,
+      "h": 72,
+      "z": 6,
       "props": { "sprite_id": "microphone", "label": "Mic" },
-      "walkable_through": false, "solid": true, "interactable": true,
-      "interaction": { "type": "read", "title": "Microphone", "body": "Your voice booth. Add a link to your podcast or vocal recordings." }
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "title": "Microphone",
+        "body": "Your voice booth. Add a link to your podcast or vocal recordings."
+      }
     },
     {
       "id": "vinyl_1",
       "type": "prop",
-      "x": 620, "y": 12, "w": 56, "h": 56, "z": 7,
+      "x": 620,
+      "y": 12,
+      "w": 56,
+      "h": 56,
+      "z": 7,
       "props": { "sprite_id": "vinyl_record", "label": "Album 1" },
-      "walkable_through": false, "solid": true, "interactable": true,
-      "interaction": { "type": "read", "title": "Featured Album", "body": "Hang your best album here. Add a streaming link." }
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "title": "Featured Album",
+        "body": "Hang your best album here. Add a streaming link."
+      }
     },
     {
       "id": "vinyl_2",
       "type": "prop",
-      "x": 700, "y": 12, "w": 56, "h": 56, "z": 7,
+      "x": 700,
+      "y": 12,
+      "w": 56,
+      "h": 56,
+      "z": 7,
       "props": { "sprite_id": "vinyl_record", "label": "Album 2" },
-      "walkable_through": false, "solid": true, "interactable": true,
-      "interaction": { "type": "read", "title": "Second Album", "body": "Another release for your wall. Add a link." }
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "title": "Second Album",
+        "body": "Another release for your wall. Add a link."
+      }
     },
     {
       "id": "vinyl_3",
       "type": "prop",
-      "x": 780, "y": 12, "w": 56, "h": 56, "z": 7,
+      "x": 780,
+      "y": 12,
+      "w": 56,
+      "h": 56,
+      "z": 7,
       "props": { "sprite_id": "vinyl_record", "label": "Album 3" },
-      "walkable_through": false, "solid": true, "interactable": true,
-      "interaction": { "type": "read", "title": "Third Album", "body": "Your vinyl collection grows. Add another link." }
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "title": "Third Album",
+        "body": "Your vinyl collection grows. Add another link."
+      }
     },
     {
       "id": "speaker_left",
       "type": "prop",
-      "x": 30, "y": 220, "w": 56, "h": 110, "z": 5,
+      "x": 30,
+      "y": 220,
+      "w": 56,
+      "h": 110,
+      "z": 5,
       "props": { "sprite_id": "speaker_stack" },
-      "walkable_through": false, "solid": true, "interactable": true,
-      "interaction": { "type": "read", "title": "Monitors", "body": "Embed a music player to let visitors hear your work." }
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "title": "Monitors",
+        "body": "Embed a music player to let visitors hear your work."
+      }
     },
     {
       "id": "speaker_right",
       "type": "prop",
-      "x": 870, "y": 220, "w": 56, "h": 110, "z": 5,
+      "x": 870,
+      "y": 220,
+      "w": 56,
+      "h": 110,
+      "z": 5,
       "props": { "sprite_id": "speaker_stack" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "desk_mixer",
       "type": "prop",
-      "x": 560, "y": 160, "w": 160, "h": 100, "z": 5,
+      "x": 560,
+      "y": 160,
+      "w": 160,
+      "h": 100,
+      "z": 5,
       "props": { "sprite_id": "desk", "label": "Mixing Desk" },
-      "walkable_through": false, "solid": true, "interactable": true,
-      "interaction": { "type": "read", "title": "The Board", "body": "Your mixing station. Link to your DAW projects or production blog." }
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction": {
+        "type": "read",
+        "title": "The Board",
+        "body": "Your mixing station. Link to your DAW projects or production blog."
+      }
     },
     {
       "id": "chair_mixer",
       "type": "prop",
-      "x": 610, "y": 280, "w": 56, "h": 56, "z": 4,
+      "x": 610,
+      "y": 280,
+      "w": 56,
+      "h": 56,
+      "z": 4,
       "props": { "sprite_id": "chair" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "lamp_mood",
       "type": "prop",
-      "x": 860, "y": 80, "w": 36, "h": 72, "z": 5,
+      "x": 860,
+      "y": 80,
+      "w": 36,
+      "h": 72,
+      "z": 5,
       "props": { "sprite_id": "lamp" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "plant_corner",
       "type": "prop",
-      "x": 880, "y": 400, "w": 44, "h": 60, "z": 5,
+      "x": 880,
+      "y": 400,
+      "w": 44,
+      "h": 60,
+      "z": 5,
       "props": { "sprite_id": "plant_pot" },
-      "walkable_through": false, "solid": true, "interactable": false
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     },
     {
       "id": "door_exit",
       "type": "prop",
-      "x": 440, "y": 440, "w": 64, "h": 84, "z": 5,
+      "x": 440,
+      "y": 440,
+      "w": 64,
+      "h": 84,
+      "z": 5,
       "props": { "sprite_id": "door", "label": "Exit" },
-      "walkable_through": false, "solid": true, "interactable": true,
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
       "interaction": { "type": "door", "destination": "./" }
     }
   ],

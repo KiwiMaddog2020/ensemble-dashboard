@@ -12,30 +12,21 @@
       "id": "click",
       "file": "click.js",
       "display_name": "Mechanical click",
-      "tags": [
-        "click",
-        "crisp"
-      ],
+      "tags": ["click", "crisp"],
       "duration_ms": 30
     },
     {
       "id": "key-press",
       "file": "key-press.js",
       "display_name": "Key press",
-      "tags": [
-        "keyboard",
-        "crisp"
-      ],
+      "tags": ["keyboard", "crisp"],
       "duration_ms": 80
     },
     {
       "id": "beep",
       "file": "beep.js",
       "display_name": "Digital beep",
-      "tags": [
-        "beep",
-        "alert"
-      ],
+      "tags": ["beep", "alert"],
       "duration_ms": 210
     }
   ]

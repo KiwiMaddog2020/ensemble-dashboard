@@ -15,9 +15,7 @@
     "modify_ok": true,
     "attribution_required": false,
     "attribution_appreciated": true,
-    "restrictions": [
-      "Cannot redistribute or resell as standalone assets"
-    ],
+    "restrictions": ["Cannot redistribute or resell as standalone assets"],
     "license_url": "https://limezu.itch.io/modernoffice"
   },
   "collection": "modern-office",
@@ -25,12 +23,6 @@
   "components_dir": "components",
   "master_tileset": "Modern_Office_32x32.png",
   "description": "Curated 32x32 office sprites \u2014 desk, chair, monitor, plant, lamp, bookshelf, file cabinet, coffee maker, printer, whiteboard and more.",
-  "tags": [
-    "office",
-    "modern",
-    "interior",
-    "workspace",
-    "32x32"
-  ],
+  "tags": ["office", "modern", "interior", "workspace", "32x32"],
   "credits_blurb": "Modern Office Revamped by LimeZu \u2014 https://limezu.itch.io/modernoffice"
 }

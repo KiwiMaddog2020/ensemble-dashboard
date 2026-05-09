@@ -12,30 +12,21 @@
       "id": "bell",
       "file": "bell.js",
       "display_name": "Singing bowl bell",
-      "tags": [
-        "bell",
-        "gentle"
-      ],
+      "tags": ["bell", "gentle"],
       "duration_ms": 1000
     },
     {
       "id": "wind",
       "file": "wind.js",
       "display_name": "Gentle wind",
-      "tags": [
-        "wind",
-        "ambient"
-      ],
+      "tags": ["wind", "ambient"],
       "duration_ms": 1200
     },
     {
       "id": "page-turn",
       "file": "page-turn.js",
       "display_name": "Page turn",
-      "tags": [
-        "paper",
-        "soft"
-      ],
+      "tags": ["paper", "soft"],
       "duration_ms": 400
     }
   ]

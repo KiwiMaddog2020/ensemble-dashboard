@@ -5,11 +5,7 @@
     "display_name": "Music ensemble",
     "description": "A practice space for your sound. Drop in instruments, hang your favorite poster, light the recording sign when you're working.",
     "thumbnail": null,
-    "natural_themes": [
-      "warm",
-      "amber",
-      "forest"
-    ],
+    "natural_themes": ["warm", "amber", "forest"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,

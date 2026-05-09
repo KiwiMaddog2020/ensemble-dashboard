@@ -5,12 +5,7 @@
     "display_name": "Orchestra",
     "description": "Concert hall. Maestro at the podium, Agents arranged as musicians in a semicircle. The default state for every new Ensemble.",
     "thumbnail": "studio/presets/orchestra.png",
-    "natural_themes": [
-      "warm",
-      "amber",
-      "sand",
-      "sunset"
-    ],
+    "natural_themes": ["warm", "amber", "sand", "sunset"],
     "min_chats": 1,
     "recommended_chats": 7,
     "max_chats": 12,

@@ -5,11 +5,7 @@
     "display_name": "Producer's canvas",
     "description": "Audio production canvas. Vintage gear, warm hum, cable runs, mixing console. For musicians, podcasters, sound designers.",
     "thumbnail": null,
-    "natural_themes": [
-      "warm",
-      "plum",
-      "ash"
-    ],
+    "natural_themes": ["warm", "plum", "ash"],
     "min_chats": 0,
     "recommended_chats": 4,
     "max_chats": 8,

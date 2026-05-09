@@ -5,11 +5,7 @@
     "display_name": "Tinkerer's bench",
     "description": "Hardware/software hacker's bench. Terminal aesthetic, blueprint grid, exposed circuits. For builders who think in soldering iron and `git diff`.",
     "thumbnail": null,
-    "natural_themes": [
-      "lime",
-      "ash",
-      "mono"
-    ],
+    "natural_themes": ["lime", "ash", "mono"],
     "min_chats": 0,
     "recommended_chats": 3,
     "max_chats": 8,

@@ -5,11 +5,7 @@
     "display_name": "Personal library",
     "description": "Your reading nook. Pin the books that shape you, write the marginalia in the side panel.",
     "thumbnail": null,
-    "natural_themes": [
-      "paper",
-      "sand",
-      "warm"
-    ],
+    "natural_themes": ["paper", "sand", "warm"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,

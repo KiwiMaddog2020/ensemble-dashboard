@@ -5,11 +5,7 @@
     "display_name": "Workshop",
     "description": "Where you make things. Pin your works-in-progress, let visitors see what you're building.",
     "thumbnail": null,
-    "natural_themes": [
-      "warm",
-      "amber",
-      "sand"
-    ],
+    "natural_themes": ["warm", "amber", "sand"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,
