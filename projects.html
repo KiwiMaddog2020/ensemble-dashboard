@@ -87,8 +87,8 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENDENZA_THEME") || "paper";
-      t = /^[a-z0-9_]+$/.test(t) ? t : "paper";
+      var t = localStorage.getItem("ENDENZA_THEME") || "ash";
+      t = /^[a-z0-9_]+$/.test(t) ? t : "ash";
       var b = localStorage.getItem("ENDENZA_BG") || "solid";
       document.documentElement.classList.add("theme-" + t);
       if (b && b !== "solid") {
@@ -220,7 +220,7 @@
     <div class="hero-left">
       <p class="eyebrow">Project Roster</p>
       <h1>What's <em>cooking.</em></h1>
-      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-05-09T06:32:34Z">just now</span> · refreshes every 15 min</p>
+      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-05-09T06:43:17Z">just now</span> · refreshes every 15 min</p>
     </div>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">7</span><span class="stat-label">Projects in motion</span></div>
@@ -333,7 +333,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 10d ago</span>
+    <span class="meta-hb">last seen 11d ago</span>
   </div>
 </a>
 <a class="card" href="./spectra-nova.html" data-pct="50">
@@ -405,7 +405,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 2h ago</span>
+    <span class="meta-hb">last seen 3h ago</span>
   </div>
 </a>
     </div>
@@ -809,7 +809,7 @@ function applyTerminalFont(key) {
 window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
-  const nextTheme = THEMES.includes(name) ? name : "paper";
+  const nextTheme = THEMES.includes(name) ? name : "ash";
   [document.documentElement, document.body].forEach(target => {
     if (!target) return;
     THEMES.forEach(t => target.classList.remove("theme-" + t));
@@ -880,7 +880,7 @@ function applyBackground(name) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
-  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "paper";
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "ash";
   const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
   document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
   applyTheme(savedTheme);

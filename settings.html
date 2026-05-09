@@ -87,8 +87,8 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENDENZA_THEME") || "paper";
-      t = /^[a-z0-9_]+$/.test(t) ? t : "paper";
+      var t = localStorage.getItem("ENDENZA_THEME") || "ash";
+      t = /^[a-z0-9_]+$/.test(t) ? t : "ash";
       var b = localStorage.getItem("ENDENZA_BG") || "solid";
       document.documentElement.classList.add("theme-" + t);
       if (b && b !== "solid") {
@@ -441,9 +441,9 @@ document.addEventListener("DOMContentLoaded", function() {
       <div class="theme-swatch midnight" data-theme="midnight" title="Midnight" aria-label="Midnight theme"></div>
       <div class="theme-swatch aurora"   data-theme="aurora"   title="Aurora"   aria-label="Aurora theme"></div>
       <div class="theme-swatch plum"     data-theme="plum"     title="Plum"     aria-label="Plum theme"></div>
-      <div class="theme-swatch ash"      data-theme="ash"      title="Ash"      aria-label="Ash theme"></div>
+      <div class="theme-swatch ash"      data-theme="ash"      data-default="true" title="Ash (default)" aria-label="Ash theme — the default"></div>
       <div class="theme-swatch mono"     data-theme="mono"     title="Mono"     aria-label="Mono theme"></div>
-      <div class="theme-swatch paper"    data-theme="paper"    data-default="true" title="Paper (default)" aria-label="Paper theme — the default"></div>
+      <div class="theme-swatch paper"    data-theme="paper"    title="Paper" aria-label="Paper theme"></div>
       <!-- ── Limited Edition vibe-coder color schemes (2026-05-04 → 2027-05-04) ─
            Three limited-edition color schemes for vibe coders. The ★
            badge in each swatch's top-right is the unified LE marker;
@@ -1753,7 +1753,7 @@ function applyTerminalFont(key) {
 window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
-  const nextTheme = THEMES.includes(name) ? name : "paper";
+  const nextTheme = THEMES.includes(name) ? name : "ash";
   [document.documentElement, document.body].forEach(target => {
     if (!target) return;
     THEMES.forEach(t => target.classList.remove("theme-" + t));
@@ -1824,7 +1824,7 @@ function applyBackground(name) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
-  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "paper";
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "ash";
   const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
   document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
   applyTheme(savedTheme);

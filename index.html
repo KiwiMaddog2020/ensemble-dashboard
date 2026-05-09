@@ -87,8 +87,8 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENDENZA_THEME") || "paper";
-      t = /^[a-z0-9_]+$/.test(t) ? t : "paper";
+      var t = localStorage.getItem("ENDENZA_THEME") || "ash";
+      t = /^[a-z0-9_]+$/.test(t) ? t : "ash";
       var b = localStorage.getItem("ENDENZA_BG") || "solid";
       document.documentElement.classList.add("theme-" + t);
       if (b && b !== "solid") {
@@ -1923,7 +1923,7 @@ body.theme-paper[data-mode="light"] .ensemble-quicklink {
 }
 </style><script>/* Canvas card client-side renderer — mirrors render_canvas_card(). */
 window.EnsembleCanvasCard = (function () {
-  var THEMES = {"warm":{t:"#e8a050",m:"#c2711f",b:"#7a3d0c"},"amber":{t:"#fbbf24",m:"#d97706",b:"#7a3d0c"},"sand":{t:"#eab308",m:"#a16207",b:"#3a2606"},"sunset":{t:"#fb923c",m:"#ea580c",b:"#3d1908"},"crimson":{t:"#f87171",m:"#dc2626",b:"#3a1010"},"rose":{t:"#fb7185",m:"#e11d48",b:"#400e1c"},"forest":{t:"#4ade80",m:"#16a34a",b:"#082616"},"sage":{t:"#a3e635",m:"#65a30d",b:"#1a2c06"},"lime":{t:"#bef264",m:"#84cc16",b:"#162a06"},"teal":{t:"#2dd4bf",m:"#0d9488",b:"#062826"},"ocean":{t:"#22d3ee",m:"#0891b2",b:"#063540"},"slate":{t:"#60a5fa",m:"#2563eb",b:"#172554"},"cobalt":{t:"#3b82f6",m:"#1e40af",b:"#0a1428"},"midnight":{t:"#818cf8",m:"#4f46e5",b:"#1e1b4b"},"aurora":{t:"#c4b5fd",m:"#8b5cf6",b:"#2a0f5c"},"plum":{t:"#e879f9",m:"#a21caf",b:"#2c0a3a"},"ash":{t:"#a3a3a3",m:"#525252",b:"#171717"},"mono":{t:"#ffffff",m:"#a3a3a3",b:"#525252"},"ruby":{t:"#fca5a5",m:"#ee2e3a",b:"#7f1010"},"lemon":{t:"#fef08a",m:"#facc15",b:"#854d0e"},"paper":{t:"#525252",m:"#262626",b:"#0a0a0a"},"sunset_drive":{t:"#ff006e",m:"#8338ec",b:"#3a86ff"},"mall_plaza":{t:"#00d4ff",m:"#6040ff",b:"#ff00ff"},"neo_city":{t:"#39ff14",m:"#ff10f0",b:"#00fff5"}};
+  var THEMES = {"warm":{t:"#e8a050",m:"#c2711f",b:"#7a3d0c"},"amber":{t:"#fbbf24",m:"#d97706",b:"#7a3d0c"},"sand":{t:"#eab308",m:"#a16207",b:"#3a2606"},"sunset":{t:"#fb923c",m:"#ea580c",b:"#3d1908"},"crimson":{t:"#f87171",m:"#dc2626",b:"#3a1010"},"rose":{t:"#fb7185",m:"#e11d48",b:"#400e1c"},"forest":{t:"#4ade80",m:"#16a34a",b:"#082616"},"sage":{t:"#a3e635",m:"#65a30d",b:"#1a2c06"},"lime":{t:"#bef264",m:"#84cc16",b:"#162a06"},"teal":{t:"#2dd4bf",m:"#0d9488",b:"#062826"},"ocean":{t:"#22d3ee",m:"#0891b2",b:"#063540"},"slate":{t:"#60a5fa",m:"#2563eb",b:"#172554"},"cobalt":{t:"#3b82f6",m:"#1e40af",b:"#0a1428"},"midnight":{t:"#818cf8",m:"#4f46e5",b:"#1e1b4b"},"aurora":{t:"#c4b5fd",m:"#8b5cf6",b:"#2a0f5c"},"plum":{t:"#e879f9",m:"#a21caf",b:"#2c0a3a"},"ash":{t:"#9ec5f8",m:"#2f6fd6",b:"#1c3768"},"mono":{t:"#ffffff",m:"#a3a3a3",b:"#525252"},"ruby":{t:"#fca5a5",m:"#ee2e3a",b:"#7f1010"},"lemon":{t:"#fef08a",m:"#facc15",b:"#854d0e"},"paper":{t:"#525252",m:"#262626",b:"#0a0a0a"},"sunset_drive":{t:"#ff006e",m:"#8338ec",b:"#3a86ff"},"mall_plaza":{t:"#00d4ff",m:"#6040ff",b:"#ff00ff"},"neo_city":{t:"#39ff14",m:"#ff10f0",b:"#00fff5"}};
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
       return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
@@ -2624,7 +2624,7 @@ function applyTerminalFont(key) {
 window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
-  const nextTheme = THEMES.includes(name) ? name : "paper";
+  const nextTheme = THEMES.includes(name) ? name : "ash";
   [document.documentElement, document.body].forEach(target => {
     if (!target) return;
     THEMES.forEach(t => target.classList.remove("theme-" + t));
@@ -2695,7 +2695,7 @@ function applyBackground(name) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
-  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "paper";
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "ash";
   const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
   document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
   applyTheme(savedTheme);
