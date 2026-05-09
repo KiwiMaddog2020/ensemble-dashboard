@@ -221,8 +221,8 @@
   --council-panel: color-mix(in srgb, var(--bg-raised) 90%, transparent);
   --council-line: color-mix(in srgb, var(--ink) 14%, transparent);
   --council-soft-ink: color-mix(in srgb, var(--ink) 62%, transparent);
-  --council-aqua: #8dc7bd;
-  --council-appearance-glow: var(--accent);
+  --council-aqua: #7bcfff;
+  --council-appearance-glow: var(--accent, #147fe8);
   padding: 0;
   overflow: hidden;
 }
@@ -623,8 +623,8 @@
   cursor: pointer;
 }
 .council-segmented button.is-active {
-  background: var(--ink);
-  color: var(--bg-raised);
+  background: var(--accent);
+  color: var(--accent-ink, #ffffff);
 }
 .council-key {
   min-height: 34px;
@@ -648,9 +648,9 @@
 .council-command button {
   min-height: 48px;
   border-radius: 6px;
-  border: 1px solid var(--ink);
-  background: var(--ink);
-  color: var(--bg-raised);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink, #ffffff);
   padding: 0 16px;
   font: 700 12px var(--sans);
   cursor: pointer;
