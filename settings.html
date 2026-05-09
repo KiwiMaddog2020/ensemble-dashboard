@@ -78,8 +78,8 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENDENZA_THEME") || "warm";
-      t = /^[a-z0-9_]+$/.test(t) ? t : "warm";
+      var t = localStorage.getItem("ENDENZA_THEME") || "paper";
+      t = /^[a-z0-9_]+$/.test(t) ? t : "paper";
       var b = localStorage.getItem("ENDENZA_BG") || "solid";
       document.documentElement.classList.add("theme-" + t);
       if (b && b !== "solid") {
@@ -420,7 +420,7 @@ document.addEventListener("DOMContentLoaded", function() {
       <div class="theme-swatch sunset"   data-theme="sunset"   title="Sunset"   aria-label="Sunset theme"></div>
       <div class="theme-swatch amber"    data-theme="amber"    title="Amber"    aria-label="Amber theme"></div>
       <div class="theme-swatch lemon"    data-theme="lemon"    title="Lemon"    aria-label="Lemon theme"></div>
-      <div class="theme-swatch warm"     data-theme="warm"     data-default="true" title="Warm (default)" aria-label="Warm theme — the default"></div>
+      <div class="theme-swatch warm"     data-theme="warm"     title="Warm" aria-label="Warm theme"></div>
       <div class="theme-swatch sand"     data-theme="sand"     title="Sand"     aria-label="Sand theme"></div>
       <div class="theme-swatch sage"     data-theme="sage"     title="Sage"     aria-label="Sage theme"></div>
       <div class="theme-swatch lime"     data-theme="lime"     title="Lime"     aria-label="Lime theme"></div>
@@ -434,7 +434,7 @@ document.addEventListener("DOMContentLoaded", function() {
       <div class="theme-swatch plum"     data-theme="plum"     title="Plum"     aria-label="Plum theme"></div>
       <div class="theme-swatch ash"      data-theme="ash"      title="Ash"      aria-label="Ash theme"></div>
       <div class="theme-swatch mono"     data-theme="mono"     title="Mono"     aria-label="Mono theme"></div>
-      <div class="theme-swatch paper"    data-theme="paper"    title="Paper (light)" aria-label="Paper light theme"></div>
+      <div class="theme-swatch paper"    data-theme="paper"    data-default="true" title="Paper (default)" aria-label="Paper theme — the default"></div>
       <!-- ── Limited Edition vibe-coder color schemes (2026-05-04 → 2027-05-04) ─
            Three limited-edition color schemes for vibe coders. The ★
            badge in each swatch's top-right is the unified LE marker;
@@ -954,7 +954,7 @@ document.addEventListener("DOMContentLoaded", function() {
 "use strict";
 function _sessToken(){try{return sessionStorage.getItem("ensemble:dashboard-token")||"";}catch(_){return "";}}
 function _authHdrs(){var h={"Content-Type":"application/json"};var t=_sessToken();if(t)h["Authorization"]="Bearer "+t;return h;}
-function _base(){return(typeof window!=="undefined"&&typeof window.SERVER_URL==="string")?window.SERVER_URL||""||"";}
+function _base(){return(typeof window!=="undefined"&&typeof window.SERVER_URL==="string")?(window.SERVER_URL||""):"";}
 function _esc(s){var m={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"};return String(s==null?"":s).replace(/[&<>"']/g,function(c){return m[c];});}
 function _toast(msg,kind){var id="brand-global-toast";var el=document.getElementById(id);if(!el){el=document.createElement("div");el.id=id;el.setAttribute("role","status");el.setAttribute("aria-live","polite");document.body.appendChild(el);}el.textContent=msg;el.className="brand-toast brand-toast--"+(kind||"ok");el.hidden=false;clearTimeout(el._t);el._t=setTimeout(function(){el.hidden=true;},3000);}
 function _validateUrl(u){return new RegExp("^https?://").test((u||"").trim());}
@@ -1744,7 +1744,7 @@ function applyTerminalFont(key) {
 window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
-  const nextTheme = THEMES.includes(name) ? name : "warm";
+  const nextTheme = THEMES.includes(name) ? name : "paper";
   [document.documentElement, document.body].forEach(target => {
     if (!target) return;
     THEMES.forEach(t => target.classList.remove("theme-" + t));
@@ -1815,12 +1815,12 @@ function applyBackground(name) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
-  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "paper";
   const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
   document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
-  // ASAP to avoid a FOUC where the warm-bg flashes before the
+  // ASAP to avoid a FOUC where the site theme flashes before the
   // terminal skin kicks in. Default storage value remains "black-grey"
   // for backwards compatibility, but in light mode it renders as the
   // Endenza glass terminal skin. The user can flip to "follow-site" via

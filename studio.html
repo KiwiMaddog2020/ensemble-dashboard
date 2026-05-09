@@ -78,8 +78,8 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENDENZA_THEME") || "warm";
-      t = /^[a-z0-9_]+$/.test(t) ? t : "warm";
+      var t = localStorage.getItem("ENDENZA_THEME") || "paper";
+      t = /^[a-z0-9_]+$/.test(t) ? t : "paper";
       var b = localStorage.getItem("ENDENZA_BG") || "solid";
       document.documentElement.classList.add("theme-" + t);
       if (b && b !== "solid") {
@@ -882,6 +882,18 @@
   transition: background 180ms var(--ease, ease);
 }
 .studio-welcome__dismiss:hover { background: var(--accent-2, var(--accent)); }
+@media (max-width: 720px) {
+  .studio-welcome {
+    inset: auto 16px 96px 16px;
+    max-width: none;
+  }
+  .studio-welcome__panel {
+    border-radius: 12px;
+  }
+  .studio-welcome__dismiss {
+    align-self: stretch;
+  }
+}
 </style><div class="studio-coachmark" id="studio-coachmark" hidden role="status" aria-live="polite">
   <div class="studio-coachmark__body">
     <p class="studio-coachmark__text">Drag your first piece here &rarr;</p>
@@ -1504,7 +1516,7 @@ function applyTerminalFont(key) {
 window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
-  const nextTheme = THEMES.includes(name) ? name : "warm";
+  const nextTheme = THEMES.includes(name) ? name : "paper";
   [document.documentElement, document.body].forEach(target => {
     if (!target) return;
     THEMES.forEach(t => target.classList.remove("theme-" + t));
@@ -1575,12 +1587,12 @@ function applyBackground(name) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
-  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "paper";
   const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
   document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
-  // ASAP to avoid a FOUC where the warm-bg flashes before the
+  // ASAP to avoid a FOUC where the site theme flashes before the
   // terminal skin kicks in. Default storage value remains "black-grey"
   // for backwards compatibility, but in light mode it renders as the
   // Endenza glass terminal skin. The user can flip to "follow-site" via

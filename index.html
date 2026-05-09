@@ -78,8 +78,8 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENDENZA_THEME") || "warm";
-      t = /^[a-z0-9_]+$/.test(t) ? t : "warm";
+      var t = localStorage.getItem("ENDENZA_THEME") || "paper";
+      t = /^[a-z0-9_]+$/.test(t) ? t : "paper";
       var b = localStorage.getItem("ENDENZA_BG") || "solid";
       document.documentElement.classList.add("theme-" + t);
       if (b && b !== "solid") {
@@ -226,14 +226,14 @@
       <a class="ensemble-quicklink ensemble-quicklink--cadenza" href="./cadenza.html" id="quicklink-cadenza">
         <span class="ensemble-quicklink__eyebrow">Cadenza</span>
         <h2 class="ensemble-quicklink__title">Step inside.</h2>
-        <p class="ensemble-quicklink__desc">Choose the public canvas visitors enter from the Ensemble.</p>
+        <p class="ensemble-quicklink__desc">Choose the public canvas visitors enter from Endenza.</p>
         <span class="ensemble-quicklink__cta">Open Cadenza &rarr;</span>
       </a>
       <a class="ensemble-quicklink ensemble-quicklink--ensemble" href="./map.html">
-        <span class="ensemble-quicklink__eyebrow">Ensemble</span>
+        <span class="ensemble-quicklink__eyebrow">City</span>
         <h2 class="ensemble-quicklink__title">Walk the city.</h2>
-        <p class="ensemble-quicklink__desc">The City of Endenza &mdash; a walkable neighborhood of every creator. WASD to move, X to enter a home.</p>
-        <span class="ensemble-quicklink__cta">Enter the Ensemble &rarr;</span>
+        <p class="ensemble-quicklink__desc">A walkable neighborhood of every creator. WASD to move, X to enter a home.</p>
+        <span class="ensemble-quicklink__cta">Enter the city &rarr;</span>
       </a>
     </div>
 
@@ -1572,12 +1572,13 @@
   border-radius: 10px;
   border: 1px solid color-mix(in srgb, var(--quicklink-accent) 14%, var(--rule));
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--quicklink-accent) 4%, transparent), transparent 58%),
+    linear-gradient(180deg, color-mix(in srgb, var(--quicklink-accent) 5%, transparent), transparent 58%),
     var(--bg-raised);
   text-decoration: none; color: var(--ink);
   box-shadow:
     inset 0 2px 0 color-mix(in srgb, var(--quicklink-accent) 72%, transparent),
-    0 1px 0 rgba(17, 17, 17, 0.03);
+    0 1px 0 rgba(17, 17, 17, 0.03),
+    0 10px 28px -24px color-mix(in srgb, var(--quicklink-accent) 40%, transparent);
   transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
 }
 .ensemble-quicklink:hover {
@@ -1608,8 +1609,13 @@
   margin-top: 4px;
 }
 .ensemble-quicklink--canvas { --quicklink-accent: var(--accent); }
-.ensemble-quicklink--cadenza { --quicklink-accent: var(--ink-3); }
+.ensemble-quicklink--cadenza { --quicklink-accent: var(--accent-3, var(--ink-3)); }
 .ensemble-quicklink--ensemble { --quicklink-accent: var(--accent-2, var(--accent)); }
+body.theme-paper[data-mode="light"] .ensemble-quicklink {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--quicklink-accent) 5%, transparent), transparent 58%),
+    #fff;
+}
 
 .ensemble-showcase__filters {
   display: flex;
@@ -2613,7 +2619,7 @@ function applyTerminalFont(key) {
 window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
-  const nextTheme = THEMES.includes(name) ? name : "warm";
+  const nextTheme = THEMES.includes(name) ? name : "paper";
   [document.documentElement, document.body].forEach(target => {
     if (!target) return;
     THEMES.forEach(t => target.classList.remove("theme-" + t));
@@ -2684,12 +2690,12 @@ function applyBackground(name) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
-  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "paper";
   const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
   document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
-  // ASAP to avoid a FOUC where the warm-bg flashes before the
+  // ASAP to avoid a FOUC where the site theme flashes before the
   // terminal skin kicks in. Default storage value remains "black-grey"
   // for backwards compatibility, but in light mode it renders as the
   // Endenza glass terminal skin. The user can flip to "follow-site" via

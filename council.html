@@ -78,8 +78,8 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENDENZA_THEME") || "warm";
-      t = /^[a-z0-9_]+$/.test(t) ? t : "warm";
+      var t = localStorage.getItem("ENDENZA_THEME") || "paper";
+      t = /^[a-z0-9_]+$/.test(t) ? t : "paper";
       var b = localStorage.getItem("ENDENZA_BG") || "solid";
       document.documentElement.classList.add("theme-" + t);
       if (b && b !== "solid") {
@@ -213,6 +213,7 @@
   --council-line: color-mix(in srgb, var(--ink) 14%, transparent);
   --council-soft-ink: color-mix(in srgb, var(--ink) 62%, transparent);
   --council-aqua: #8dc7bd;
+  --council-appearance-glow: var(--accent);
   padding: 0;
   overflow: hidden;
 }
@@ -244,11 +245,14 @@
   color: var(--ink);
   padding: 0;
 }
+.council-page [hidden] {
+  display: none !important;
+}
 .voice-stage {
   position: relative;
-  width: min(360px, 78vw);
+  width: min(410px, 82vw);
   aspect-ratio: 1;
-  margin: 0 auto 26px;
+  margin: 0 auto 28px;
   display: grid;
   place-items: center;
   isolation: isolate;
@@ -256,54 +260,172 @@
 .voice-stage::before {
   content: "";
   position: absolute;
-  inset: 9%;
+  inset: 3%;
   border-radius: 50%;
   background:
-    radial-gradient(circle, color-mix(in srgb, var(--accent) 11%, transparent) 0 22%, transparent 58%),
-    radial-gradient(circle, color-mix(in srgb, var(--bg-raised) 82%, transparent) 0 38%, transparent 70%);
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--council-appearance-glow) 28%, transparent) 0 11%, transparent 36%),
+    radial-gradient(circle at 48% 46%, color-mix(in srgb, var(--council-aqua) 20%, transparent) 0 22%, transparent 58%),
+    radial-gradient(circle, color-mix(in srgb, var(--bg-raised) 78%, transparent) 0 38%, transparent 72%);
   filter: blur(.2px);
   opacity: .72;
   transform: scale(.96);
   z-index: -1;
+  animation: council-field-breathe 6200ms var(--ease) infinite alternate;
 }
+.voice-stage::after {
+  content: "";
+  position: absolute;
+  inset: 29%;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--council-appearance-glow) 22%, transparent);
+  border-left-color: transparent;
+  border-bottom-color: color-mix(in srgb, var(--council-appearance-glow) 16%, transparent);
+  opacity: .72;
+  transform: rotate(-18deg);
+  animation: council-halo-drift 18000ms linear infinite;
+}
+.voice-vortex,
+.voice-wisps,
 .voice-lines,
 .voice-node,
 .voice-core {
   position: absolute;
 }
-.voice-lines {
-  inset: 10%;
-  width: 80%;
-  height: 80%;
+.voice-vortex {
+  inset: -7%;
+  width: 114%;
+  height: 114%;
   overflow: visible;
+  pointer-events: none;
+  opacity: .86;
+  transform-origin: 50% 50%;
+  animation: council-vortex-turn 30000ms linear infinite;
 }
-.voice-lines polygon,
-.voice-lines line {
+.voice-vortex path {
   fill: none;
-  stroke: color-mix(in srgb, var(--ink) 20%, transparent);
-  stroke-width: .45;
-  vector-effect: non-scaling-stroke;
-}
-.voice-lines line {
-  stroke: color-mix(in srgb, var(--accent) 24%, transparent);
-  stroke-dasharray: 1.4 4.2;
   stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 10px 22px color-mix(in srgb, var(--council-aqua) 12%, transparent));
+}
+.voice-spiral {
+  stroke-width: .72;
+  opacity: .62;
+  stroke-dasharray: 36 124;
+  animation: council-spiral-flow 7600ms var(--ease) infinite;
+}
+.voice-spiral--one {
+  stroke: color-mix(in srgb, var(--council-aqua) 64%, transparent);
+}
+.voice-spiral--two {
+  stroke: color-mix(in srgb, var(--ink) 24%, transparent);
+  stroke-dasharray: 28 106;
+  animation-delay: -1400ms;
+}
+.voice-spiral--three {
+  stroke: color-mix(in srgb, var(--council-appearance-glow) 32%, transparent);
+  stroke-dasharray: 20 132;
+  animation-delay: -2800ms;
+}
+.voice-spiral--four {
+  stroke: color-mix(in srgb, var(--council-aqua) 40%, transparent);
+  stroke-dasharray: 18 92;
+  animation-delay: -4200ms;
+}
+.voice-spiral--five {
+  stroke: color-mix(in srgb, var(--ink) 18%, transparent);
+  stroke-width: .48;
+  stroke-dasharray: 12 78;
+  animation-delay: -5600ms;
+}
+.voice-vortex__haze {
+  stroke: color-mix(in srgb, var(--council-aqua) 18%, transparent);
+  stroke-width: 5.6;
+  opacity: .2;
+  stroke-dasharray: 22 160;
+  filter: blur(1.4px);
+  animation: council-spiral-flow 11000ms linear infinite reverse;
+}
+.voice-wisps {
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  overflow: visible;
+  pointer-events: none;
+}
+.voice-wisp {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: .9;
+  vector-effect: non-scaling-stroke;
+  opacity: .68;
+  stroke-dasharray: 48 92;
+  filter: drop-shadow(0 8px 18px color-mix(in srgb, var(--council-aqua) 18%, transparent));
+  animation: council-wisp-drift 12800ms var(--ease) infinite;
+}
+.voice-wisp--one {
+  stroke: color-mix(in srgb, var(--council-aqua) 68%, transparent);
+}
+.voice-wisp--two {
+  stroke: color-mix(in srgb, var(--ink) 32%, transparent);
+  stroke-dasharray: 34 106;
+  animation-delay: -2200ms;
+}
+.voice-wisp--three {
+  stroke: color-mix(in srgb, var(--council-appearance-glow) 38%, transparent);
+  stroke-dasharray: 24 118;
+  animation-delay: -5200ms;
+}
+.voice-wisp--four {
+  stroke: color-mix(in srgb, var(--council-aqua) 42%, transparent);
+  stroke-dasharray: 28 86;
+  animation-delay: -7800ms;
+}
+.voice-lines {
+  inset: 3%;
+  width: 94%;
+  height: 94%;
+  overflow: visible;
+  pointer-events: none;
+}
+.voice-lines path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: .64;
+  vector-effect: non-scaling-stroke;
+  opacity: .45;
+  filter: drop-shadow(0 8px 18px color-mix(in srgb, var(--council-aqua) 10%, transparent));
+}
+.voice-orbit--one {
+  stroke: color-mix(in srgb, var(--council-aqua) 42%, transparent);
+  stroke-dasharray: 24 90;
+}
+.voice-orbit--two {
+  stroke: color-mix(in srgb, var(--ink) 18%, transparent);
+  stroke-dasharray: 16 82;
+}
+.voice-orbit--three {
+  stroke: color-mix(in srgb, var(--council-appearance-glow) 28%, transparent);
+  stroke-dasharray: 10 70;
+}
+.voice-orbit--four {
+  stroke: color-mix(in srgb, var(--council-aqua) 28%, transparent);
+  stroke-dasharray: 8 58;
 }
 .voice-node {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background:
-    radial-gradient(circle, var(--bg-raised) 0 22%, color-mix(in srgb, var(--accent) 62%, var(--bg-raised)) 23% 42%, color-mix(in srgb, var(--accent) 12%, transparent) 43% 72%, transparent 73%);
+    radial-gradient(circle, var(--bg-raised) 0 22%, color-mix(in srgb, var(--council-aqua) 68%, var(--bg-raised)) 23% 42%, color-mix(in srgb, var(--council-aqua) 16%, transparent) 43% 72%, transparent 73%);
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--ink) 12%, transparent),
-    0 14px 34px -18px color-mix(in srgb, var(--accent) 72%, transparent);
+    0 14px 34px -18px color-mix(in srgb, var(--council-aqua) 82%, transparent);
   animation: council-node-idle 5200ms var(--ease) infinite;
 }
 .voice-node::after {
   content: "";
   position: absolute;
-  inset: 6px;
+  inset: 5px;
   border-radius: 50%;
   background: var(--ink);
   opacity: .58;
@@ -313,6 +435,24 @@
 .voice-node--empath { top: 82%; left: 72%; transform: translate(-50%, -50%); animation-delay: 360ms; }
 .voice-node--historian { top: 82%; left: 28%; transform: translate(-50%, -50%); animation-delay: 540ms; }
 .voice-node--strategist { top: 34%; left: 13%; transform: translate(-50%, -50%); animation-delay: 720ms; }
+.voice-label {
+  position: absolute;
+  color: color-mix(in srgb, var(--ink) 62%, transparent);
+  font: 700 10px/1 var(--sans);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 180ms var(--ease), transform 180ms var(--ease);
+}
+.voice-label--operator { top: 3%; left: 50%; transform: translate(-50%, -50%); }
+.voice-label--skeptic { top: 34%; left: 93%; transform: translate(0, -50%); }
+.voice-label--empath { top: 88%; left: 75%; transform: translate(-10%, 0); }
+.voice-label--historian { top: 88%; left: 25%; transform: translate(-90%, 0); }
+.voice-label--strategist { top: 34%; left: 7%; transform: translate(-100%, -50%); }
+.council-console.has-output .voice-label {
+  opacity: 0;
+}
 .voice-core {
   width: 108px;
   height: 108px;
@@ -320,12 +460,33 @@
   border-radius: 50%;
   background:
     radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--bg-raised) 92%, transparent), transparent 34%),
-    radial-gradient(circle, color-mix(in srgb, var(--accent) 34%, transparent), color-mix(in srgb, var(--accent) 7%, transparent) 64%, transparent 66%);
+    radial-gradient(circle, color-mix(in srgb, var(--council-aqua) 40%, transparent), color-mix(in srgb, var(--council-aqua) 8%, transparent) 64%, transparent 66%);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  box-shadow: 0 20px 64px -24px color-mix(in srgb, var(--accent) 50%, transparent);
+  box-shadow: 0 20px 64px -24px color-mix(in srgb, var(--council-appearance-glow) 50%, transparent);
+  animation: council-core-idle 5200ms var(--ease) infinite alternate;
+}
+.voice-core::before,
+.voice-core::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.voice-core::before {
+  inset: -21px;
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  border-right-color: color-mix(in srgb, var(--council-appearance-glow) 24%, transparent);
+  transform: rotate(21deg);
+}
+.voice-core::after {
+  inset: -34px;
+  border: 1px solid transparent;
+  border-top-color: color-mix(in srgb, var(--council-appearance-glow) 18%, transparent);
+  border-left-color: color-mix(in srgb, var(--council-appearance-glow) 12%, transparent);
+  transform: rotate(-32deg);
 }
 .voice-core span {
   position: static;
@@ -338,11 +499,11 @@
 .voice-core span:nth-child(2),
 .voice-core span:nth-child(4) {
   height: 32px;
-  background: color-mix(in srgb, var(--accent) 70%, var(--ink));
+  background: color-mix(in srgb, var(--council-aqua) 70%, var(--ink));
 }
 .voice-core span:nth-child(3) {
   height: 38px;
-  background: var(--accent);
+  background: var(--council-aqua);
 }
 .voice-stage.is-listening::before,
 .voice-stage.is-thinking::before {
@@ -359,10 +520,32 @@
 .voice-stage.is-thinking .voice-node--empath { animation-delay: 520ms; }
 .voice-stage.is-thinking .voice-node--historian { animation-delay: 780ms; }
 .voice-stage.is-thinking .voice-node--strategist { animation-delay: 1040ms; }
-.voice-stage.is-listening .voice-lines line,
-.voice-stage.is-thinking .voice-lines line {
-  animation: council-line-flow 1800ms linear infinite;
+.voice-stage.is-listening .voice-lines path,
+.voice-stage.is-thinking .voice-lines path {
+  animation: council-line-flow 2200ms linear infinite;
 }
+.voice-stage.is-listening .voice-wisp,
+.voice-stage.is-thinking .voice-wisp {
+  animation-duration: 5200ms;
+  opacity: .84;
+}
+.voice-stage.is-listening .voice-vortex,
+.voice-stage.is-thinking .voice-vortex {
+  animation-duration: 12000ms;
+  opacity: 1;
+}
+.voice-stage.is-listening .voice-spiral,
+.voice-stage.is-thinking .voice-spiral {
+  animation-duration: 3800ms;
+  opacity: .9;
+}
+.voice-stage.is-thinking .voice-vortex__haze {
+  opacity: .34;
+}
+.voice-stage.is-thinking .voice-wisp--one { animation-delay: 0ms; }
+.voice-stage.is-thinking .voice-wisp--two { animation-delay: -800ms; }
+.voice-stage.is-thinking .voice-wisp--three { animation-delay: -1600ms; }
+.voice-stage.is-thinking .voice-wisp--four { animation-delay: -2400ms; }
 .voice-stage.is-listening .voice-core span,
 .voice-stage.is-thinking .voice-core span {
   animation: council-bars 760ms var(--ease) infinite;
@@ -689,6 +872,32 @@
   from { transform: scale(.98); opacity: .72; }
   to { transform: scale(1.04); opacity: 1; }
 }
+@keyframes council-field-breathe {
+  from {
+    opacity: .58;
+    transform: scale(.94);
+    filter: blur(.2px) saturate(.9);
+  }
+  to {
+    opacity: .86;
+    transform: scale(1.025);
+    filter: blur(.6px) saturate(1.14);
+  }
+}
+@keyframes council-halo-drift {
+  from { transform: rotate(-18deg); }
+  to { transform: rotate(342deg); }
+}
+@keyframes council-core-idle {
+  from {
+    box-shadow: 0 20px 64px -28px color-mix(in srgb, var(--council-aqua) 42%, transparent);
+  }
+  to {
+    box-shadow:
+      0 22px 70px -26px color-mix(in srgb, var(--council-aqua) 56%, transparent),
+      0 0 46px -28px color-mix(in srgb, var(--council-appearance-glow) 42%, transparent);
+  }
+}
 @keyframes council-node-idle {
   0%, 100% { opacity: .74; filter: saturate(.84); }
   50% { opacity: 1; filter: saturate(1.08); }
@@ -698,14 +907,14 @@
     opacity: .78;
     box-shadow:
       0 0 0 1px color-mix(in srgb, var(--ink) 12%, transparent),
-      0 14px 34px -18px color-mix(in srgb, var(--accent) 72%, transparent);
+      0 14px 34px -18px color-mix(in srgb, var(--council-appearance-glow) 72%, transparent);
   }
   to {
     opacity: 1;
     box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--accent) 42%, transparent),
-      0 0 0 8px color-mix(in srgb, var(--accent) 9%, transparent),
-      0 18px 40px -18px color-mix(in srgb, var(--accent) 86%, transparent);
+      0 0 0 1px color-mix(in srgb, var(--council-appearance-glow) 42%, transparent),
+      0 0 0 8px color-mix(in srgb, var(--council-appearance-glow) 9%, transparent),
+      0 18px 40px -18px color-mix(in srgb, var(--council-appearance-glow) 86%, transparent);
   }
 }
 @keyframes council-node-think {
@@ -717,15 +926,47 @@
     opacity: 1;
     filter: saturate(1.24);
     box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--accent) 48%, transparent),
-      0 0 0 10px color-mix(in srgb, var(--accent) 10%, transparent),
-      0 18px 46px -16px color-mix(in srgb, var(--accent) 90%, transparent);
+      0 0 0 1px color-mix(in srgb, var(--council-appearance-glow) 48%, transparent),
+      0 0 0 10px color-mix(in srgb, var(--council-appearance-glow) 10%, transparent),
+      0 18px 46px -16px color-mix(in srgb, var(--council-appearance-glow) 90%, transparent);
   }
 }
 @keyframes council-line-flow {
   from { stroke-dashoffset: 0; opacity: .58; }
   50% { opacity: 1; }
   to { stroke-dashoffset: -12; opacity: .58; }
+}
+@keyframes council-vortex-turn {
+  from { transform: rotate(-8deg) scale(.985); }
+  to { transform: rotate(352deg) scale(.985); }
+}
+@keyframes council-spiral-flow {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: .34;
+  }
+  44% {
+    opacity: .9;
+  }
+  100% {
+    stroke-dashoffset: -188;
+    opacity: .4;
+  }
+}
+@keyframes council-wisp-drift {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: .42;
+    transform: rotate(0deg) scale(.985);
+  }
+  42% {
+    opacity: .96;
+  }
+  100% {
+    stroke-dashoffset: -144;
+    opacity: .44;
+    transform: rotate(.001deg) scale(1.018);
+  }
 }
 @keyframes council-bars {
   0%, 100% { transform: scaleY(.72); }
@@ -736,6 +977,9 @@
 }
 @media (max-width: 640px) {
   .council-landing h1 { font-size: 40px; }
+  .voice-label { font-size: 9px; letter-spacing: .05em; }
+  .voice-label--skeptic { left: 90%; }
+  .voice-label--strategist { left: 10%; }
   .council-command { grid-template-columns: auto minmax(0, 1fr); }
   .council-command .council-submit { grid-column: 1 / -1; }
   .council-access { grid-template-columns: 1fr; justify-items: center; }
@@ -747,31 +991,54 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .voice-stage::before,
-  .voice-lines line,
+  .voice-stage::after,
+  .voice-vortex,
+  .voice-spiral,
+  .voice-vortex__haze,
+  .voice-wisp,
+  .voice-lines path,
   .voice-node,
+  .voice-core,
   .voice-core span { animation: none !important; }
 }
 </style>
 
 <section class="council-landing" id="council-session">
   <div class="wrap">
-    <h1>Council</h1>
-    <p class="council-landing__sub">Voice or text. One question. Five distinct voices.</p>
-    <div class="council-console">
+    <h1>Five voices, one synthesis.</h1>
+    <p class="council-landing__sub">Speak or type once. The ensemble weighs five perspectives and returns a synthesis.</p>
+    <div class="council-console" id="council-console">
       <div class="voice-stage" id="voice-stage" aria-label="Voice mode visualization">
+        <svg class="voice-vortex" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <path class="voice-vortex__haze" d="M18 51 C22 20 55 8 79 27 C101 45 91 82 61 91 C32 100 8 76 18 51"></path>
+          <path class="voice-spiral voice-spiral--one" d="M12 55 C15 25 45 6 72 20 C96 33 96 68 75 85 C54 103 19 91 12 62"></path>
+          <path class="voice-spiral voice-spiral--two" d="M23 35 C39 14 72 16 86 40 C98 62 82 89 56 91 C31 93 13 71 20 48"></path>
+          <path class="voice-spiral voice-spiral--three" d="M31 82 C13 61 20 31 44 20 C68 8 95 25 94 52 C93 79 65 95 42 84"></path>
+          <path class="voice-spiral voice-spiral--four" d="M81 31 C94 55 82 85 55 90 C29 95 8 72 15 46 C22 20 53 10 73 24"></path>
+          <path class="voice-spiral voice-spiral--five" d="M28 24 C51 9 82 22 88 48 C95 76 69 98 42 89 C16 80 7 48 24 30"></path>
+        </svg>
+        <svg class="voice-wisps" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <path class="voice-wisp voice-wisp--one" d="M13 58 C24 31 44 22 62 30 C81 38 86 57 72 72 C59 86 34 82 25 65"></path>
+          <path class="voice-wisp voice-wisp--two" d="M20 35 C37 18 64 16 78 35 C91 53 82 77 60 83 C39 89 18 76 15 54"></path>
+          <path class="voice-wisp voice-wisp--three" d="M30 83 C19 63 23 40 42 31 C61 22 82 31 87 51 C91 69 76 83 55 80"></path>
+          <path class="voice-wisp voice-wisp--four" d="M10 49 C28 42 34 20 54 18 C75 17 91 36 88 57 C85 80 58 90 39 77"></path>
+        </svg>
         <svg class="voice-lines" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-          <polygon points="50 5 87 34 72 82 28 82 13 34"></polygon>
-          <line x1="50" y1="50" x2="50" y2="5"></line>
-          <line x1="50" y1="50" x2="87" y2="34"></line>
-          <line x1="50" y1="50" x2="72" y2="82"></line>
-          <line x1="50" y1="50" x2="28" y2="82"></line>
-          <line x1="50" y1="50" x2="13" y2="34"></line>
+          <path class="voice-orbit voice-orbit--one" d="M20 37 C35 18 66 18 81 38 C95 58 82 84 58 88 C35 92 16 75 15 54"></path>
+          <path class="voice-orbit voice-orbit--two" d="M28 20 C55 8 83 26 87 52 C90 76 68 92 45 85 C24 78 12 53 23 32"></path>
+          <path class="voice-orbit voice-orbit--three" d="M78 31 C91 49 86 73 67 83 C47 94 21 82 15 60 C9 37 27 17 51 16"></path>
+          <path class="voice-orbit voice-orbit--four" d="M31 83 C17 68 16 43 31 27 C48 10 76 14 88 36 C99 58 87 81 65 89"></path>
         </svg>
         <span class="voice-node voice-node--operator" aria-hidden="true"></span>
         <span class="voice-node voice-node--skeptic" aria-hidden="true"></span>
         <span class="voice-node voice-node--empath" aria-hidden="true"></span>
         <span class="voice-node voice-node--historian" aria-hidden="true"></span>
         <span class="voice-node voice-node--strategist" aria-hidden="true"></span>
+        <span class="voice-label voice-label--operator" aria-hidden="true">Operator</span>
+        <span class="voice-label voice-label--skeptic" aria-hidden="true">Skeptic</span>
+        <span class="voice-label voice-label--empath" aria-hidden="true">Empath</span>
+        <span class="voice-label voice-label--historian" aria-hidden="true">Historian</span>
+        <span class="voice-label voice-label--strategist" aria-hidden="true">Strategist</span>
         <span class="voice-core" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
       </div>
       <form class="council-command" id="council-form">
@@ -782,7 +1049,7 @@
             <path d="M12 18v3"></path>
           </svg>
         </button>
-        <input id="council-question" type="text" value="Should I integrate the AI Council directly into Endenza now, or keep it standalone until after the Arc 1 review?" aria-label="Question for the Council" placeholder="Speak or type the question." />
+        <input id="council-question" type="text" value="Should I ship the Council in Endenza now?" aria-label="Question for the Council" placeholder="Speak or type the question." />
         <button class="council-submit" type="submit" id="council-ask">Ask</button>
       </form>
       <div class="council-access" aria-label="Council access mode">
@@ -791,14 +1058,14 @@
           <button type="button" id="council-mode-byok">BYOK</button>
         </div>
         <input id="council-byok-key" class="council-key" type="password" placeholder="Anthropic API key" aria-label="Anthropic API key" autocomplete="off" hidden />
-        <span id="council-access-note" class="council-access-note">3 hosted sessions per day. Claude subscriptions are separate.</span>
+        <span id="council-access-note" class="council-access-note">3 hosted sessions daily. BYOK uses an Anthropic API key, not a Claude subscription.</span>
       </div>
       <select id="council-depth" class="council-hidden-control" aria-label="Depth">
         <option value="quick">Quick</option>
         <option value="balanced" selected>Balanced</option>
         <option value="rigorous">Rigorous</option>
       </select>
-      <p class="council-status" id="council-status" role="status">Ready. The local Council API defaults to 127.0.0.1:8765.</p>
+      <p class="council-status" id="council-status" role="status">Ready. Connect to the local Council API or replay the fixture.</p>
       <div class="council-samples" aria-label="Council shortcuts">
         <button type="button" data-council-demo>Replay fixture</button>
         <button type="button" data-council-sample="Should I take the lower offer with better leadership?">Better leadership</button>
@@ -857,6 +1124,8 @@
   var els = {};
   var accessMode = "hosted_free";
   var fixtureEvents = buildFixtureEvents();
+  var voiceRecognition = null;
+  var voiceStopRequested = false;
 
   function $(id) { return document.getElementById(id); }
   function text(value) { return value == null ? "" : String(value); }
@@ -884,6 +1153,7 @@
     };
   }
   function init() {
+    els.console = $("council-console");
     els.stage = $("voice-stage");
     els.captionTitle = $("voice-caption-title");
     els.captionText = $("voice-caption-text");
@@ -942,7 +1212,7 @@
       els.byokKey.focus();
       setStatus("BYOK uses your Anthropic API key for this session only.", "idle");
     } else {
-      setStatus("Free daily mode uses hosted Council sessions when available.", "idle");
+      setStatus("Free daily uses hosted Groq-backed sessions when available.", "idle");
     }
   }
   function clientId() {
@@ -995,20 +1265,31 @@
     setStatus("Opening the Council session.", "thinking");
     var base = normalizedApiBase();
     try {
+      var headers = {
+        "Content-Type": "application/json",
+        "X-Endenza-Client-Id": clientId()
+      };
+      if (accessMode === "byok_anthropic") {
+        headers["X-Anthropic-Key"] = els.byokKey.value.trim();
+      }
       var res = await fetch(base + "/sessions", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Endenza-Client-Id": clientId()
-        },
+        headers: headers,
         body: JSON.stringify({
           question: question,
-          access_mode: accessMode,
-          anthropic_api_key: accessMode === "byok_anthropic" ? els.byokKey.value.trim() : undefined
+          access_mode: accessMode
         })
       });
       if (res.status === 429) {
-        setStatus("Free Council sessions are used for today. Add your Anthropic API key to keep going.", "idle");
+        setStatus("Free Council sessions are used for today. Switch to BYOK with an Anthropic API key to keep going.", "idle");
+        return;
+      }
+      if (res.status === 503) {
+        setStatus("Hosted sessions are unavailable. Switch to BYOK or replay the fixture.", "idle");
+        return;
+      }
+      if (res.status === 422 && accessMode === "byok_anthropic") {
+        setStatus("Add a valid Anthropic API key for BYOK mode, or switch back to Free daily.", "idle");
         return;
       }
       if (!res.ok) throw new Error("Session request failed");
@@ -1055,6 +1336,13 @@
     });
   }
   function startVoice() {
+    if (voiceRecognition) {
+      voiceStopRequested = true;
+      try { voiceRecognition.abort(); } catch (e) {}
+      voiceRecognition = null;
+      setStatus("Voice capture stopped. Text mode is ready.", "idle");
+      return;
+    }
     var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       setStatus("Voice capture is not available in this browser. Text mode is ready.", "idle");
@@ -1065,6 +1353,8 @@
     recognition.interimResults = true;
     recognition.continuous = false;
     var finalText = "";
+    voiceStopRequested = false;
+    voiceRecognition = recognition;
     setStatus("Listening.", "listening");
     recognition.onresult = function (event) {
       var interim = "";
@@ -1076,9 +1366,18 @@
       els.question.value = (finalText || interim || els.question.value).trim();
     };
     recognition.onerror = function () {
+      voiceRecognition = null;
+      voiceStopRequested = false;
       setStatus("Voice capture stopped. Text mode is ready.", "idle");
     };
     recognition.onend = function () {
+      var stoppedByToggle = voiceStopRequested;
+      voiceRecognition = null;
+      voiceStopRequested = false;
+      if (stoppedByToggle) {
+        setStatus("Voice capture stopped. Text mode is ready.", "idle");
+        return;
+      }
       if (finalText.trim()) {
         els.question.value = finalText.trim();
         setStatus("Question captured. Ask when ready.", "idle");
@@ -1135,6 +1434,8 @@
   }
   function render() {
     var hasOutput = Boolean(state.framed || state.synthesis || state.events.length > 1);
+    var hasEngaged = Boolean(state.events.length || state.framed || state.synthesis);
+    els.console.classList.toggle("has-output", hasEngaged);
     els.empty.hidden = hasOutput;
     renderFrame();
     renderBoard();
@@ -1199,7 +1500,7 @@
   }
   function buildFixtureEvents() {
     var now = Date.now() / 1000;
-    var q = "Should I integrate the AI Council directly into Endenza now, or keep it standalone until after the Arc 1 review?";
+    var q = "Should I ship the Council in Endenza now?";
     function ev(offset, type, payload) { return { ts: now + offset, type: type, payload: payload }; }
     return [
       ev(0, "question_asked", { text: q }),
@@ -1647,7 +1948,7 @@ function applyTerminalFont(key) {
 window.applyTerminalFont = applyTerminalFont;
 
 function applyTheme(name) {
-  const nextTheme = THEMES.includes(name) ? name : "warm";
+  const nextTheme = THEMES.includes(name) ? name : "paper";
   [document.documentElement, document.body].forEach(target => {
     if (!target) return;
     THEMES.forEach(t => target.classList.remove("theme-" + t));
@@ -1718,12 +2019,12 @@ function applyBackground(name) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Theme load + bind
-  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "warm";
+  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "paper";
   const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
   document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
-  // ASAP to avoid a FOUC where the warm-bg flashes before the
+  // ASAP to avoid a FOUC where the site theme flashes before the
   // terminal skin kicks in. Default storage value remains "black-grey"
   // for backwards compatibility, but in light mode it renders as the
   // Endenza glass terminal skin. The user can flip to "follow-site" via
