@@ -20,6 +20,8 @@
         { "i": 14, "m": true },
         { "i": 15, "m": true }
       ],
+      "_mirror_layers_note": "Only flip body + outfit on N/S mirror. Hair (asymmetric side parts) and eyes (south-only pixels) stay anchored so they don't visibly flip back and forth.",
+      "mirror_layers": ["body", "outfit"],
       "loop": true
     },
     "walk_north": {
@@ -31,6 +33,7 @@
         { "i": 2, "m": true },
         { "i": 3, "m": true }
       ],
+      "mirror_layers": ["body", "outfit"],
       "loop": true
     },
     "walk_east": { "frames": [9, 10, 11], "loop": true },
