@@ -728,15 +728,15 @@ document.addEventListener("DOMContentLoaded", () => {
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
   // ASAP to avoid a FOUC where the site theme flashes before the
-  // terminal skin kicks in. Default storage value remains "black-grey"
-  // for backwards compatibility, but in light mode it renders as the
-  // Endenza glass terminal skin. The Terminal settings popover stores
-  // either "follow-site" or a terminal-only appearance name; patterned
-  // appearances still use the Endenza base skin while their surface
-  // pattern is applied by terminal.html's first-paint restore script.
+  // terminal skin kicks in. The default is "follow-site", so the
+  // terminal inherits the active website appearance unless the user
+  // explicitly picks a terminal-only look. The Terminal settings popover
+  // stores either "follow-site" or a terminal-only appearance name;
+  // patterned appearances still use the Endenza base skin while their
+  // surface pattern is applied by terminal.html's first-paint restore script.
   // Only stamps when we're actually on /terminal.html.
   if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
-    let termTheme = "black-grey";
+    let termTheme = "follow-site";
     try {
       const v = localStorage.getItem("ENDENZA_TERMINAL_THEME");
       if (v === "follow-site" || v === "black-grey") termTheme = v;

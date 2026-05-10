@@ -220,7 +220,7 @@
     <div class="hero-left">
       <p class="eyebrow">Project Roster</p>
       <h1>What's <em>cooking.</em></h1>
-      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-05-10T06:19:24Z">just now</span> · refreshes every 15 min</p>
+      <p class="timestamp"><span class="dot" aria-hidden="true"></span>Updated <span class="rel-time" data-iso="2026-05-10T07:09:55Z">just now</span> · refreshes every 15 min</p>
     </div>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">7</span><span class="stat-label">Projects in motion</span></div>
@@ -285,7 +285,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-warmer">Warmer</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 1d ago</span>
+    <span class="meta-hb">last seen 9m ago</span>
   </div>
 </a>
 <a class="card" href="./ensemble.html" data-pct="95">
@@ -309,7 +309,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 1m ago</span>
+    <span class="meta-hb">last seen 5m ago</span>
   </div>
 </a>
 <a class="card" href="./pinball-roguelight.html" data-pct="12">
@@ -333,7 +333,7 @@
     <span class="pill pill-tier-agent">Project</span>
     <span class="pill pill-state-building">Building</span>
     <span class="pill pill-auto">auto-tests</span>
-    <span class="meta-hb">last seen 11d ago</span>
+    <span class="meta-hb">last seen 12d ago</span>
   </div>
 </a>
 <a class="card" href="./spectra-nova.html" data-pct="50">
@@ -886,15 +886,15 @@ document.addEventListener("DOMContentLoaded", () => {
   applyTheme(savedTheme);
   // Terminal-only appearance (per-page override). Stamped on <body>
   // ASAP to avoid a FOUC where the site theme flashes before the
-  // terminal skin kicks in. Default storage value remains "black-grey"
-  // for backwards compatibility, but in light mode it renders as the
-  // Endenza glass terminal skin. The Terminal settings popover stores
-  // either "follow-site" or a terminal-only appearance name; patterned
-  // appearances still use the Endenza base skin while their surface
-  // pattern is applied by terminal.html's first-paint restore script.
+  // terminal skin kicks in. The default is "follow-site", so the
+  // terminal inherits the active website appearance unless the user
+  // explicitly picks a terminal-only look. The Terminal settings popover
+  // stores either "follow-site" or a terminal-only appearance name;
+  // patterned appearances still use the Endenza base skin while their
+  // surface pattern is applied by terminal.html's first-paint restore script.
   // Only stamps when we're actually on /terminal.html.
   if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
-    let termTheme = "black-grey";
+    let termTheme = "follow-site";
     try {
       const v = localStorage.getItem("ENDENZA_TERMINAL_THEME");
       if (v === "follow-site" || v === "black-grey") termTheme = v;
