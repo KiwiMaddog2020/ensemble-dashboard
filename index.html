@@ -297,8 +297,8 @@
 </div>
 
     <div class="ensemble-showcase__filters" role="tablist" aria-label="Sort canvases">
-      <button type="button" class="ensemble-showcase__filter" data-filter="featured" aria-pressed="true" role="tab">Featured</button>
       <button type="button" class="ensemble-showcase__filter" data-filter="newest" aria-pressed="false" role="tab">Newest</button>
+      <button type="button" class="ensemble-showcase__filter" data-filter="featured" aria-pressed="true" role="tab">Featured</button>
       <button type="button" class="ensemble-showcase__filter" data-filter="random" aria-pressed="false" role="tab">Random</button>
     </div>
 
@@ -1627,30 +1627,39 @@ body.theme-paper[data-mode="light"] .ensemble-quicklink {
   gap: 8px;
   justify-content: center;
   flex-wrap: wrap;
-  margin: 28px 0 32px;
+  width: fit-content;
+  margin: 28px auto 32px;
+  padding: 5px;
+  background: color-mix(in srgb, var(--bg-raised) 78%, var(--bg-sunken));
+  border: 1px solid color-mix(in srgb, var(--rule) 76%, var(--accent) 24%);
+  border-radius: 999px;
+  box-shadow: 0 14px 40px -32px color-mix(in srgb, var(--accent) 36%, transparent);
 }
 .ensemble-showcase__filter {
   appearance: none;
-  border: 1px solid var(--rule);
-  background: var(--bg-raised);
+  border: 1px solid transparent;
+  background: transparent;
   color: var(--ink-2);
   font-family: var(--sans);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 650;
   letter-spacing: 0.02em;
   padding: 9px 18px;
   border-radius: 999px;
   cursor: pointer;
-  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 .ensemble-showcase__filter:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  color: var(--ink);
 }
 .ensemble-showcase__filter[aria-pressed="true"] {
-  background: var(--accent);
-  color: var(--accent-ink, #fff);
-  border-color: var(--accent);
+  background: var(--bg-raised);
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--rule));
+  box-shadow:
+    inset 0 -2px 0 color-mix(in srgb, var(--accent) 52%, transparent),
+    0 8px 18px -14px color-mix(in srgb, var(--accent) 48%, transparent);
 }
 .ensemble-showcase__filter:focus-visible {
   outline: 2px solid var(--accent);
@@ -1775,23 +1784,25 @@ body.theme-paper[data-mode="light"] .ensemble-quicklink {
   align-items: center;
   gap: 8px;
   padding: 14px 28px;
-  background: var(--accent);
-  color: var(--accent-ink, #fff);
-  border: none;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 10%, var(--bg-raised)), var(--bg-raised));
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--rule));
   border-radius: 999px;
   font-family: var(--sans);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.01em;
   cursor: pointer;
-  transition: opacity 200ms ease, transform 120ms ease;
+  box-shadow: 0 18px 36px -28px color-mix(in srgb, var(--accent) 48%, transparent);
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 120ms ease, background 200ms ease;
 }
 .ensemble-showcase__stumble:hover {
-  opacity: 0.88;
+  border-color: color-mix(in srgb, var(--accent) 58%, var(--rule));
+  box-shadow: 0 20px 42px -26px color-mix(in srgb, var(--accent) 58%, transparent);
   transform: translateY(-1px);
 }
 .ensemble-showcase__stumble:active {
-  opacity: 1;
   transform: translateY(0);
 }
 .ensemble-showcase__stumble:focus-visible {
@@ -1804,6 +1815,8 @@ body.theme-paper[data-mode="light"] .ensemble-quicklink {
   }
 }
 .ensemble-showcase__stumble-icon {
+  color: var(--accent);
+  filter: saturate(1.08);
   font-size: 18px;
   line-height: 1;
 }
