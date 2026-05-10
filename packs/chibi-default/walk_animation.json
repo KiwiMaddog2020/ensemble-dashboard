@@ -1,0 +1,39 @@
+{
+  "_comment": "Verified chibi walk-cycle mapping. Source: bin/dashgen/tools/sprite_frame_picker.html (locked 2026-05-10). Applies uniformly to every Body_NN_walk.png / Outfit_NN_NN_walk.png / Hairstyle_NN_NN_walk.png / Eyes_NN_walk.png in this pack — all share 192x384 size and the same 4x4 cell layout.",
+  "sprite_sheet": "Body_01_walk.png",
+  "frame_width": 48,
+  "frame_height": 96,
+  "cols": 4,
+  "rows": 4,
+  "fps": 8,
+  "animations": {
+    "idle_south": { "frames": [12], "loop": true },
+    "idle_north": { "frames": [0],  "loop": true },
+    "idle_east":  { "frames": [8],  "loop": true },
+    "idle_west":  { "frames": [4],  "loop": true },
+    "walk_south": {
+      "frames": [
+        { "i": 13 },
+        { "i": 14 },
+        { "i": 15 },
+        { "i": 13, "m": true },
+        { "i": 14, "m": true },
+        { "i": 15, "m": true }
+      ],
+      "loop": true
+    },
+    "walk_north": {
+      "frames": [
+        { "i": 1 },
+        { "i": 2 },
+        { "i": 3 },
+        { "i": 1, "m": true },
+        { "i": 2, "m": true },
+        { "i": 3, "m": true }
+      ],
+      "loop": true
+    },
+    "walk_east": { "frames": [9, 10, 11], "loop": true },
+    "walk_west": { "frames": [7, 6, 5],   "loop": true }
+  }
+}
