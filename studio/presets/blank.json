@@ -3,13 +3,13 @@
   "preset_metadata": {
     "id": "blank",
     "display_name": "Blank canvas",
-    "description": "An empty Canvas ready for you to compose. Open the Workshop drawer (left side) for inspiration, asset packs, and starter examples.",
+    "description": "A clean empty room ready for you to compose. Open the Workshop drawer for inspiration, asset packs, and starter examples.",
     "thumbnail": null,
-    "natural_themes": ["warm", "ash", "mono"],
+    "natural_themes": ["warm", "cerulean", "mono"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1,
     "is_default": false
   },
@@ -18,99 +18,77 @@
   "theme": null,
   "background": null,
   "stage": {
-    "width": 1920,
-    "height": 1080,
+    "width": 960,
+    "height": 540,
     "background_layer": null,
     "ambient_sound": null
   },
+  "spawn": { "x": 480, "y": 408, "facing": "south" },
   "components": [
     {
-      "id": "welcome_eyebrow",
-      "type": "text",
-      "x": 96,
-      "y": 120,
-      "w": 600,
-      "h": 28,
-      "z": 6,
-      "props": {
-        "text": "WELCOME TO YOUR STUDIO",
-        "variant": "eyebrow",
-        "color_token": "accent"
-      },
+      "id": "floor",
+      "type": "svg",
+      "x": 0,
+      "y": 0,
+      "w": 960,
+      "h": 540,
+      "z": 0,
+      "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+      "locked": true,
       "walkable_through": true,
       "solid": false,
       "interactable": false
     },
     {
-      "id": "welcome_title",
-      "type": "text",
-      "x": 96,
-      "y": 156,
-      "w": 1500,
-      "h": 80,
-      "z": 6,
-      "props": {
-        "text": "A blank canvas. <em>Yours.</em>",
-        "variant": "hero"
-      },
+      "id": "entry_path",
+      "type": "prop",
+      "x": 408,
+      "y": 356,
+      "w": 144,
+      "h": 64,
+      "z": 1,
+      "props": { "sprite_id": "path_stone", "surface": "threshold", "tile": 32 },
       "walkable_through": true,
       "solid": false,
       "interactable": false
     },
     {
-      "id": "welcome_lead",
-      "type": "text",
-      "x": 96,
-      "y": 260,
-      "w": 1100,
-      "h": 180,
-      "z": 6,
-      "props": {
-        "text": "Open the Workshop drawer for examples, asset packs, and starter wirings. Or press <em>Edit</em> and drop sprites onto your stage. Anything you place can be wired to launch real things \u2014 a game, an essay, a podcast, a friend's canvas.",
-        "variant": "body",
-        "color_token": "ink-2"
-      },
-      "walkable_through": true,
-      "solid": false,
+      "id": "starter_sign",
+      "type": "prop",
+      "x": 420,
+      "y": 198,
+      "w": 120,
+      "h": 72,
+      "z": 4,
+      "props": { "sprite_id": "info_sign", "label": "Start here" },
+      "walkable_through": false,
+      "solid": true,
       "interactable": true,
+      "interaction_radius": 72,
       "interaction": {
         "type": "read",
-        "label": "About this canvas",
-        "markdown": "## A canvas, yours.\n\nThis is what an empty Ensemble canvas looks like. The creator hasn't dressed it yet.\n\nPress **Edit** above to drop sprites, wire links, and make it your own."
+        "title": "Blank canvas",
+        "body": "Press Edit to start composing. Drag sprites from the Workshop, then wire them to links, notes, games, and rooms."
       }
     },
     {
-      "id": "hint_dot_1",
-      "type": "svg",
-      "x": 96,
-      "y": 968,
-      "w": 8,
-      "h": 8,
-      "z": 5,
-      "props": {
-        "shape": "rect",
-        "fill_token": "accent"
-      },
-      "walkable_through": true,
-      "solid": false,
-      "interactable": false
-    },
-    {
-      "id": "hint_text",
-      "type": "text",
-      "x": 116,
-      "y": 960,
-      "w": 1100,
-      "h": 56,
-      "z": 6,
-      "props": {
-        "text": "Press <em>Edit</em> to start. Drag sprites from the Workshop, or ask Claude in the chat drawer.",
-        "variant": "body",
-        "color_token": "ink-3"
-      },
-      "walkable_through": true,
-      "solid": false,
-      "interactable": false
+      "id": "door_exit",
+      "type": "prop",
+      "x": 444,
+      "y": 420,
+      "w": 72,
+      "h": 120,
+      "z": 30,
+      "props": { "sprite_id": "door", "label": "Exit" },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction_radius": 72,
+      "interaction": {
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
+      }
     }
   ],
   "custom_css": "",

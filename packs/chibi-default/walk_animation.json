@@ -8,9 +8,9 @@
   "fps": 8,
   "animations": {
     "idle_south": { "frames": [12], "loop": true },
-    "idle_north": { "frames": [0],  "loop": true },
-    "idle_east":  { "frames": [8],  "loop": true },
-    "idle_west":  { "frames": [4],  "loop": true },
+    "idle_north": { "frames": [0], "loop": true },
+    "idle_east": { "frames": [8], "loop": true },
+    "idle_west": { "frames": [4], "loop": true },
     "walk_south": {
       "frames": [
         { "i": 13 },
@@ -37,6 +37,6 @@
       "loop": true
     },
     "walk_east": { "frames": [9, 10, 11], "loop": true },
-    "walk_west": { "frames": [7, 6, 5],   "loop": true }
+    "walk_west": { "frames": [7, 6, 5], "loop": true }
   }
 }

@@ -9,7 +9,7 @@
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1,
     "is_default": false
   },
@@ -23,20 +23,34 @@
     "background_layer": "stage_default",
     "ambient_sound": null
   },
+  "spawn": { "x": 1804, "y": 856, "facing": "south" },
   "components": [
     {
       "id": "stage_floor",
       "type": "svg",
       "x": 0,
-      "y": 540,
+      "y": 0,
       "w": 1920,
-      "h": 540,
+      "h": 1080,
       "z": 0,
       "props": {
         "shape": "stage_floor",
         "fill_token": "bg-sunken"
       },
       "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "entry_path",
+      "type": "prop",
+      "x": 1660,
+      "y": 760,
+      "w": 288,
+      "h": 128,
+      "z": 1,
+      "props": { "sprite_id": "path_stone", "surface": "threshold", "tile": 32 },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -116,7 +130,7 @@
       "h": 240,
       "z": 3,
       "props": {
-        "sprite_id": "toolwall_pegboard",
+        "sprite_id": "poster_frame",
         "label": "Toolwall"
       },
       "walkable_through": false,
@@ -132,7 +146,7 @@
       "h": 128,
       "z": 4,
       "props": {
-        "sprite_id": "tool_wrench",
+        "sprite_id": "frame",
         "label": "Wrench"
       },
       "interaction": {
@@ -153,7 +167,7 @@
       "h": 128,
       "z": 4,
       "props": {
-        "sprite_id": "tool_drill",
+        "sprite_id": "frame",
         "label": "Drill"
       },
       "walkable_through": false,
@@ -169,7 +183,7 @@
       "h": 128,
       "z": 4,
       "props": {
-        "sprite_id": "tool_hammer",
+        "sprite_id": "frame",
         "label": "Hammer"
       },
       "walkable_through": false,
@@ -201,7 +215,7 @@
       "h": 140,
       "z": 6,
       "props": {
-        "sprite_id": "project_wip",
+        "sprite_id": "workbench",
         "label": "Work in progress"
       },
       "interaction": {
@@ -222,7 +236,7 @@
       "h": 96,
       "z": 7,
       "props": {
-        "sprite_id": "coffee_mug",
+        "sprite_id": "table",
         "label": "Coffee"
       },
       "walkable_through": false,
@@ -230,21 +244,21 @@
       "interactable": false
     },
     {
-      "id": "door_side",
+      "id": "door_exit",
       "type": "prop",
       "x": 1740,
-      "y": 540,
+      "y": 888,
       "w": 128,
-      "h": 256,
-      "z": 3,
+      "h": 192,
+      "z": 30,
       "props": {
-        "sprite_id": "door_wooden",
-        "label": "Door"
+        "sprite_id": "door",
+        "label": "Exit"
       },
       "interaction": {
-        "type": "link",
-        "url": "",
-        "label": "Wire this door wherever you like"
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
       },
       "walkable_through": false,
       "solid": true,
@@ -259,7 +273,7 @@
       "h": 24,
       "z": 6,
       "props": {
-        "text": "Sawdust + commits. Made with Ensemble.",
+        "text": "Sawdust + commits. Made with Endenza.",
         "variant": "body",
         "color_token": "ink-3"
       },

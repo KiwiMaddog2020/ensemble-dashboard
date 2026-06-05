@@ -3,22 +3,30 @@
   "owner_id": "usr_endenza_demo",
   "owner_handle": "endenza_demo",
   "title": "Cozy Cabin",
-  "description": "A warm corner where the lamp is always on — a bookshelf holds a few worn favorites and a reading chair waits by the window.",
+  "description": "A warm corner where the lamp is always on. A bookshelf holds a few worn favorites and a reading chair waits by the window.",
   "theme": "warm",
   "pack_id": "limezu-modern-interiors-default",
   "visibility": "public",
   "is_showcase": true,
   "featured_score": 9.5,
   "featured_locked": true,
-  "slot_index": 1,
+  "slot_index": 2,
   "published_at": 1746316800.0,
   "source": "manual",
-  "source_metadata": { "built_in": true, "demo": true },
+  "source_metadata": {
+    "built_in": true,
+    "demo": true
+  },
   "created_at": 1746316800.0,
   "updated_at": 1746316800.0,
-  "schema_version": 7,
+  "schema_version": 8,
   "room_state": {
-    "stage": { "width": 960, "height": 540, "background_layer": null, "ambient_sound": null },
+    "stage": {
+      "width": 960,
+      "height": 540,
+      "background_layer": null,
+      "ambient_sound": null
+    },
     "components": [
       {
         "id": "floor",
@@ -28,11 +36,15 @@
         "w": 960,
         "h": 540,
         "z": 0,
-        "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+        "props": {
+          "shape": "stage_floor",
+          "fill_token": "bg-sunken"
+        },
         "locked": true,
         "walkable_through": true,
         "solid": false,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "rug",
@@ -42,10 +54,13 @@
         "w": 300,
         "h": 180,
         "z": 1,
-        "props": { "sprite_id": "rug" },
+        "props": {
+          "sprite_id": "rug"
+        },
         "walkable_through": true,
         "solid": false,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "bookshelf_1",
@@ -55,7 +70,11 @@
         "w": 130,
         "h": 110,
         "z": 6,
-        "props": { "sprite_id": "bookshelf", "label": "Stories", "book_count": 10 },
+        "props": {
+          "sprite_id": "bookshelf",
+          "label": "Stories",
+          "book_count": 10
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -63,7 +82,8 @@
           "type": "read",
           "title": "Stories",
           "body": "Favorite novels, cozy reads, and comfort picks."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "bookshelf_2",
@@ -73,7 +93,11 @@
         "w": 130,
         "h": 110,
         "z": 6,
-        "props": { "sprite_id": "bookshelf", "label": "Poetry", "book_count": 6 },
+        "props": {
+          "sprite_id": "bookshelf",
+          "label": "Poetry",
+          "book_count": 6
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -81,7 +105,8 @@
           "type": "read",
           "title": "Poetry",
           "body": "Collected verse and chapbooks."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "couch_main",
@@ -91,10 +116,19 @@
         "w": 160,
         "h": 70,
         "z": 4,
-        "props": { "sprite_id": "couch", "label": "Reading Spot" },
+        "props": {
+          "sprite_id": "couch",
+          "label": "Reading Spot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": true,
+        "seat_anchor": {
+          "dx": 80.0,
+          "dy": 50.4,
+          "facing": "S"
+        }
       },
       {
         "id": "table_side",
@@ -104,10 +138,13 @@
         "w": 64,
         "h": 48,
         "z": 5,
-        "props": { "sprite_id": "table" },
+        "props": {
+          "sprite_id": "table"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "lamp_1",
@@ -117,10 +154,13 @@
         "w": 36,
         "h": 72,
         "z": 5,
-        "props": { "sprite_id": "lamp" },
+        "props": {
+          "sprite_id": "lamp"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "window_1",
@@ -130,10 +170,13 @@
         "w": 80,
         "h": 60,
         "z": 6,
-        "props": { "sprite_id": "window" },
+        "props": {
+          "sprite_id": "window"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "window_2",
@@ -143,10 +186,13 @@
         "w": 80,
         "h": 60,
         "z": 6,
-        "props": { "sprite_id": "window" },
+        "props": {
+          "sprite_id": "window"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_a",
@@ -156,10 +202,13 @@
         "w": 48,
         "h": 64,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "clock_wall",
@@ -169,10 +218,13 @@
         "w": 40,
         "h": 40,
         "z": 6,
-        "props": { "sprite_id": "clock" },
+        "props": {
+          "sprite_id": "clock"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "desk_writing",
@@ -182,7 +234,10 @@
         "w": 160,
         "h": 100,
         "z": 5,
-        "props": { "sprite_id": "desk", "label": "Writing Desk" },
+        "props": {
+          "sprite_id": "desk",
+          "label": "Writing Desk"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -190,7 +245,8 @@
           "type": "read",
           "title": "Writing Desk",
           "body": "A quiet place to write. Link to your journal or blog."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "chair_desk",
@@ -200,10 +256,18 @@
         "w": 56,
         "h": 56,
         "z": 4,
-        "props": { "sprite_id": "chair" },
+        "props": {
+          "sprite_id": "chair"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": true,
+        "seat_anchor": {
+          "dx": 28.0,
+          "dy": 40.3,
+          "facing": "S"
+        }
       },
       {
         "id": "door_exit",
@@ -213,11 +277,50 @@
         "w": 64,
         "h": 84,
         "z": 5,
-        "props": { "sprite_id": "door", "label": "Exit" },
+        "props": {
+          "sprite_id": "door",
+          "label": "Exit"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
-        "interaction": { "type": "door", "destination": "./" }
+        "interaction": {
+          "type": "door",
+          "destination": "./"
+        },
+        "sittable": false
+      },
+      {
+        "id": "room_guide",
+        "type": "sprite",
+        "x": 735,
+        "y": 330,
+        "w": 48,
+        "h": 64,
+        "z": 18,
+        "props": {
+          "sprite_id": "villager",
+          "label": "Room guide"
+        },
+        "walkable_through": true,
+        "solid": false,
+        "interactable": true,
+        "interaction": {
+          "type": "read",
+          "title": "Room guide",
+          "body": "Welcome to Cozy Cabin. Try the seats and props; each room is built for walking, sitting, and talking."
+        },
+        "behavior": {
+          "type": "idle"
+        },
+        "sittable": false,
+        "dialogue": {
+          "name": "Room guide",
+          "lines": [
+            "Welcome to Cozy Cabin.",
+            "Try the seats and props; this room is built for walking, sitting, and talking."
+          ]
+        }
       }
     ]
   }

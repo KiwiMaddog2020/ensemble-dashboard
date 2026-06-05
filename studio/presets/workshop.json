@@ -2,14 +2,14 @@
   "schema_version": 1,
   "preset_metadata": {
     "id": "workshop",
-    "display_name": "Workshop",
+    "display_name": "Maker workshop",
     "description": "A maker's workshop with a workbench, tools, and project boards. Built for tinkerers, hackers, and builders.",
     "thumbnail": null,
-    "natural_themes": ["warm", "forest", "ash", "cobalt"],
+    "natural_themes": ["warm", "forest", "cerulean", "cobalt"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1
   },
   "name": "Workshop",
@@ -22,6 +22,11 @@
     "background_layer": null,
     "ambient_sound": null
   },
+  "spawn": {
+    "x": 480,
+    "y": 388,
+    "facing": "south"
+  },
   "components": [
     {
       "id": "floor",
@@ -31,8 +36,28 @@
       "w": 960,
       "h": 540,
       "z": 0,
-      "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
       "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "entry_path",
+      "type": "prop",
+      "x": 408,
+      "y": 356,
+      "w": 144,
+      "h": 64,
+      "z": 1,
+      "props": {
+        "sprite_id": "path_stone",
+        "surface": "threshold",
+        "tile": 32
+      },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -41,11 +66,13 @@
       "id": "workbench_main",
       "type": "prop",
       "x": 80,
-      "y": 40,
-      "w": 220,
-      "h": 120,
+      "y": 64,
+      "w": 200,
+      "h": 96,
       "z": 6,
-      "props": { "sprite_id": "workbench", "label": "Workbench" },
+      "props": {
+        "sprite_id": "workbench"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -63,7 +90,9 @@
       "w": 160,
       "h": 100,
       "z": 7,
-      "props": { "sprite_id": "poster", "label": "Project Board" },
+      "props": {
+        "sprite_id": "poster"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -81,7 +110,10 @@
       "w": 130,
       "h": 110,
       "z": 6,
-      "props": { "sprite_id": "bookshelf", "label": "References", "book_count": 6 },
+      "props": {
+        "sprite_id": "bookshelf",
+        "book_count": 6
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -99,7 +131,9 @@
       "w": 160,
       "h": 100,
       "z": 5,
-      "props": { "sprite_id": "desk", "label": "Computer" },
+      "props": {
+        "sprite_id": "desk"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -117,7 +151,9 @@
       "w": 56,
       "h": 56,
       "z": 4,
-      "props": { "sprite_id": "chair" },
+      "props": {
+        "sprite_id": "chair"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -130,7 +166,9 @@
       "w": 120,
       "h": 60,
       "z": 5,
-      "props": { "sprite_id": "table", "label": "Parts Table" },
+      "props": {
+        "sprite_id": "table"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -143,7 +181,9 @@
       "w": 36,
       "h": 72,
       "z": 5,
-      "props": { "sprite_id": "lamp" },
+      "props": {
+        "sprite_id": "lamp"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -156,7 +196,9 @@
       "w": 36,
       "h": 72,
       "z": 5,
-      "props": { "sprite_id": "lamp" },
+      "props": {
+        "sprite_id": "lamp"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -169,7 +211,9 @@
       "w": 44,
       "h": 60,
       "z": 5,
-      "props": { "sprite_id": "plant_pot" },
+      "props": {
+        "sprite_id": "plant_pot"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -182,7 +226,9 @@
       "w": 40,
       "h": 40,
       "z": 6,
-      "props": { "sprite_id": "clock" },
+      "props": {
+        "sprite_id": "clock"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -195,7 +241,9 @@
       "w": 120,
       "h": 72,
       "z": 8,
-      "props": { "sprite_id": "poster", "label": "Build board" },
+      "props": {
+        "sprite_id": "poster"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -208,7 +256,9 @@
       "w": 60,
       "h": 50,
       "z": 6,
-      "props": { "sprite_id": "window" },
+      "props": {
+        "sprite_id": "window"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -216,16 +266,67 @@
     {
       "id": "door_exit",
       "type": "prop",
-      "x": 440,
-      "y": 440,
-      "w": 64,
-      "h": 84,
-      "z": 5,
-      "props": { "sprite_id": "door", "label": "Exit" },
+      "x": 444,
+      "y": 420,
+      "w": 72,
+      "h": 120,
+      "z": 30,
+      "props": {
+        "sprite_id": "door"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
-      "interaction": { "type": "door", "destination": "./" }
+      "interaction": {
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
+      }
+    },
+    {
+      "id": "ws_poster",
+      "type": "prop",
+      "x": 580,
+      "y": 14,
+      "w": 90,
+      "h": 80,
+      "z": 7,
+      "props": {
+        "sprite_id": "poster"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "ws_plant",
+      "type": "prop",
+      "x": 300,
+      "y": 198,
+      "w": 46,
+      "h": 58,
+      "z": 5,
+      "props": {
+        "sprite_id": "plant_pot"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "ws_rug",
+      "type": "prop",
+      "x": 318,
+      "y": 250,
+      "w": 300,
+      "h": 150,
+      "z": 1,
+      "props": {
+        "sprite_id": "rug"
+      },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
     }
   ],
   "custom_css": "",

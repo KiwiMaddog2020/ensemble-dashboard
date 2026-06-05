@@ -9,7 +9,7 @@
     "min_chats": 0,
     "recommended_chats": 2,
     "max_chats": 4,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1,
     "is_default": false
   },
@@ -23,7 +23,38 @@
     "background_layer": null,
     "ambient_sound": null
   },
+  "spawn": { "x": 1264, "y": 856, "facing": "south" },
   "components": [
+    {
+      "id": "stage_floor",
+      "type": "svg",
+      "x": 0,
+      "y": 0,
+      "w": 1920,
+      "h": 1080,
+      "z": 0,
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
+      "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "entry_path",
+      "type": "prop",
+      "x": 1120,
+      "y": 760,
+      "w": 288,
+      "h": 128,
+      "z": 1,
+      "props": { "sprite_id": "path_stone", "surface": "threshold", "tile": 32 },
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
     {
       "id": "title_eyebrow",
       "type": "text",
@@ -117,7 +148,7 @@
       "h": 140,
       "z": 4,
       "props": {
-        "sprite_id": "fountain-pen",
+        "sprite_id": "typewriter",
         "sprite_pack": "zen",
         "label": "Fountain pen"
       },
@@ -135,7 +166,7 @@
       "z": 5,
       "props": {
         "slot_role": "Writing partner",
-        "sprite_id": "paper-texture",
+        "sprite_id": "poster_frame",
         "sprite_pack": "zen",
         "idle_animation": "writing",
         "auto_bind_index": 0
@@ -143,6 +174,25 @@
       "walkable_through": false,
       "solid": true,
       "interactable": false
+    },
+    {
+      "id": "door_exit",
+      "type": "prop",
+      "x": 1200,
+      "y": 888,
+      "w": 128,
+      "h": 192,
+      "z": 30,
+      "props": { "sprite_id": "door", "label": "Exit" },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction_radius": 96,
+      "interaction": {
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
+      }
     },
     {
       "id": "footer_hint",

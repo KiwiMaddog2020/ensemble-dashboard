@@ -5,11 +5,11 @@
     "display_name": "Tinkerer's bench",
     "description": "Hardware/software hacker's bench. Terminal aesthetic, blueprint grid, exposed circuits. For builders who think in soldering iron and `git diff`.",
     "thumbnail": null,
-    "natural_themes": ["lime", "ash", "mono"],
+    "natural_themes": ["lime", "cerulean", "mono"],
     "min_chats": 0,
     "recommended_chats": 3,
     "max_chats": 8,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1,
     "is_default": false
   },
@@ -23,20 +23,34 @@
     "background_layer": "stage_default",
     "ambient_sound": null
   },
+  "spawn": { "x": 960, "y": 856, "facing": "south" },
   "components": [
     {
       "id": "bench_floor",
       "type": "svg",
       "x": 0,
-      "y": 540,
+      "y": 0,
       "w": 1920,
-      "h": 540,
+      "h": 1080,
       "z": 0,
       "props": {
         "shape": "stage_floor",
         "fill_token": "bg-sunken"
       },
       "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "entry_path",
+      "type": "prop",
+      "x": 816,
+      "y": 760,
+      "w": 288,
+      "h": 128,
+      "z": 1,
+      "props": { "sprite_id": "path_stone", "surface": "threshold", "tile": 32 },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -135,7 +149,7 @@
       "h": 200,
       "z": 4,
       "props": {
-        "sprite_id": "terminal",
+        "sprite_id": "tv_screen",
         "sprite_pack": "tinker",
         "label": "Terminal"
       },
@@ -152,7 +166,7 @@
       "h": 160,
       "z": 4,
       "props": {
-        "sprite_id": "oscilloscope",
+        "sprite_id": "tv_screen",
         "sprite_pack": "tinker",
         "label": "Oscilloscope"
       },
@@ -169,7 +183,7 @@
       "h": 160,
       "z": 3,
       "props": {
-        "sprite_id": "solder-iron",
+        "sprite_id": "workbench",
         "sprite_pack": "tinker",
         "label": "Workbench"
       },
@@ -187,7 +201,7 @@
       "z": 5,
       "props": {
         "slot_role": "Lead engineer",
-        "sprite_id": "circuit-trace",
+        "sprite_id": "poster_frame",
         "sprite_pack": "tinker",
         "idle_animation": "typing",
         "auto_bind_index": 0
@@ -206,7 +220,7 @@
       "z": 5,
       "props": {
         "slot_role": "Pair programmer",
-        "sprite_id": "circuit-trace",
+        "sprite_id": "poster_frame",
         "sprite_pack": "tinker",
         "idle_animation": "typing",
         "auto_bind_index": 1
@@ -214,6 +228,25 @@
       "walkable_through": false,
       "solid": true,
       "interactable": false
+    },
+    {
+      "id": "door_exit",
+      "type": "prop",
+      "x": 896,
+      "y": 888,
+      "w": 128,
+      "h": 192,
+      "z": 30,
+      "props": { "sprite_id": "door", "label": "Exit" },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction_radius": 96,
+      "interaction": {
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
+      }
     },
     {
       "id": "footer_hint",

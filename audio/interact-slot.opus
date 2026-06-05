@@ -1,4 +1,4 @@
-ENSEMBLE_AUDIO_PLACEHOLDER_v1
+ENDENZA_AUDIO_PLACEHOLDER_v1
 Replace with real Opus-encoded audio per audio_credits.json source URL.
 Runtime tolerates decode failure on this stub.
 # Soft mechanical thunk — for click-to-slot components

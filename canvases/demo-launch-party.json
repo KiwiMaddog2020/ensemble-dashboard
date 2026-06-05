@@ -3,22 +3,30 @@
   "owner_id": "usr_endenza_demo",
   "owner_handle": "endenza_demo",
   "title": "Launch Party",
-  "description": "Endenza ships — arcade cabinets, neon lights, and the whole crew gathered for the first public build.",
+  "description": "Endenza ships with arcade cabinets, neon lights, and the whole crew gathered for the first public build.",
   "theme": "aurora",
   "pack_id": "limezu-modern-interiors-default",
   "visibility": "public",
   "is_showcase": true,
   "featured_score": 8.9,
   "featured_locked": true,
-  "slot_index": 5,
+  "slot_index": 4,
   "published_at": 1746316800.0,
   "source": "manual",
-  "source_metadata": { "built_in": true, "demo": true },
+  "source_metadata": {
+    "built_in": true,
+    "demo": true
+  },
   "created_at": 1746316800.0,
   "updated_at": 1746316800.0,
-  "schema_version": 7,
+  "schema_version": 8,
   "room_state": {
-    "stage": { "width": 960, "height": 540, "background_layer": null, "ambient_sound": null },
+    "stage": {
+      "width": 960,
+      "height": 540,
+      "background_layer": null,
+      "ambient_sound": null
+    },
     "components": [
       {
         "id": "floor",
@@ -28,11 +36,15 @@
         "w": 960,
         "h": 540,
         "z": 0,
-        "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+        "props": {
+          "shape": "stage_floor",
+          "fill_token": "bg-sunken"
+        },
         "locked": true,
         "walkable_through": true,
         "solid": false,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "neon_title",
@@ -42,10 +54,14 @@
         "w": 360,
         "h": 48,
         "z": 8,
-        "props": { "sprite_id": "neon_sign", "label": "LAUNCH PARTY" },
+        "props": {
+          "sprite_id": "neon_sign",
+          "label": "LAUNCH PARTY"
+        },
         "walkable_through": true,
         "solid": false,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "arcade_1",
@@ -55,7 +71,11 @@
         "w": 128,
         "h": 192,
         "z": 6,
-        "props": { "sprite_id": "arcade_cabinet", "label": "Classic", "cabinet_color": "#e84393" },
+        "props": {
+          "sprite_id": "arcade_cabinet",
+          "label": "Classic",
+          "cabinet_color": "#e84393"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -63,7 +83,8 @@
           "type": "read",
           "title": "Classic Arcade",
           "body": "The OG. Link to your first shipped project."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "arcade_2",
@@ -73,7 +94,11 @@
         "w": 128,
         "h": 192,
         "z": 6,
-        "props": { "sprite_id": "arcade_cabinet", "label": "Runner", "cabinet_color": "#0984e3" },
+        "props": {
+          "sprite_id": "arcade_cabinet",
+          "label": "Runner",
+          "cabinet_color": "#0984e3"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -81,7 +106,8 @@
           "type": "read",
           "title": "Endless Runner",
           "body": "Your side project. Link to a playable demo."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "arcade_3",
@@ -91,7 +117,11 @@
         "w": 128,
         "h": 192,
         "z": 6,
-        "props": { "sprite_id": "arcade_cabinet", "label": "Puzzle", "cabinet_color": "#6c5ce7" },
+        "props": {
+          "sprite_id": "arcade_cabinet",
+          "label": "Puzzle",
+          "cabinet_color": "#6c5ce7"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -99,7 +129,8 @@
           "type": "read",
           "title": "Puzzle Box",
           "body": "The brain-teaser. Link to your puzzle game."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "speaker_left",
@@ -109,10 +140,13 @@
         "w": 80,
         "h": 140,
         "z": 5,
-        "props": { "sprite_id": "speaker_stack" },
+        "props": {
+          "sprite_id": "speaker_stack"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "speaker_right",
@@ -122,10 +156,13 @@
         "w": 80,
         "h": 140,
         "z": 5,
-        "props": { "sprite_id": "speaker_stack" },
+        "props": {
+          "sprite_id": "speaker_stack"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "couch",
@@ -135,10 +172,19 @@
         "w": 160,
         "h": 70,
         "z": 4,
-        "props": { "sprite_id": "couch", "label": "Chill Zone" },
+        "props": {
+          "sprite_id": "couch",
+          "label": "Chill Zone"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": true,
+        "seat_anchor": {
+          "dx": 80.0,
+          "dy": 50.4,
+          "facing": "S"
+        }
       },
       {
         "id": "table_snacks",
@@ -148,10 +194,14 @@
         "w": 120,
         "h": 60,
         "z": 5,
-        "props": { "sprite_id": "table", "label": "Snacks" },
+        "props": {
+          "sprite_id": "table",
+          "label": "Snacks"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_corner",
@@ -161,10 +211,13 @@
         "w": 44,
         "h": 60,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "door_exit",
@@ -174,11 +227,50 @@
         "w": 64,
         "h": 84,
         "z": 5,
-        "props": { "sprite_id": "door", "label": "Exit" },
+        "props": {
+          "sprite_id": "door",
+          "label": "Exit"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
-        "interaction": { "type": "door", "destination": "./" }
+        "interaction": {
+          "type": "door",
+          "destination": "./"
+        },
+        "sittable": false
+      },
+      {
+        "id": "room_guide",
+        "type": "sprite",
+        "x": 740,
+        "y": 335,
+        "w": 48,
+        "h": 64,
+        "z": 18,
+        "props": {
+          "sprite_id": "villager",
+          "label": "Room guide"
+        },
+        "walkable_through": true,
+        "solid": false,
+        "interactable": true,
+        "interaction": {
+          "type": "read",
+          "title": "Room guide",
+          "body": "Welcome to Launch Party. Try the seats and props; each room is built for walking, sitting, and talking."
+        },
+        "behavior": {
+          "type": "idle"
+        },
+        "sittable": false,
+        "dialogue": {
+          "name": "Room guide",
+          "lines": [
+            "Welcome to Launch Party.",
+            "Try the seats and props; this room is built for walking, sitting, and talking."
+          ]
+        }
       }
     ]
   }

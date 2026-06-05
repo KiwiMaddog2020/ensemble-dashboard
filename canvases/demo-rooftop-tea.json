@@ -3,7 +3,7 @@
   "owner_id": "usr_endenza_demo",
   "owner_handle": "endenza_demo",
   "title": "Rooftop Tea",
-  "description": "High above the city lights — a low table, two chairs, a lantern, and the kind of quiet that only rooftops have.",
+  "description": "High above the city lights, a low table, two chairs, a lantern, and the kind of quiet that only rooftops have.",
   "theme": "midnight",
   "pack_id": "limezu-modern-office-default",
   "visibility": "public",
@@ -13,12 +13,20 @@
   "slot_index": 6,
   "published_at": 1746316800.0,
   "source": "manual",
-  "source_metadata": { "built_in": true, "demo": true },
+  "source_metadata": {
+    "built_in": true,
+    "demo": true
+  },
   "created_at": 1746316800.0,
   "updated_at": 1746316800.0,
-  "schema_version": 7,
+  "schema_version": 8,
   "room_state": {
-    "stage": { "width": 960, "height": 540, "background_layer": null, "ambient_sound": null },
+    "stage": {
+      "width": 960,
+      "height": 540,
+      "background_layer": null,
+      "ambient_sound": null
+    },
     "components": [
       {
         "id": "floor",
@@ -28,11 +36,15 @@
         "w": 960,
         "h": 540,
         "z": 0,
-        "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+        "props": {
+          "shape": "stage_floor",
+          "fill_token": "bg-sunken"
+        },
         "locked": true,
         "walkable_through": true,
         "solid": false,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "rug_center",
@@ -42,10 +54,13 @@
         "w": 320,
         "h": 200,
         "z": 1,
-        "props": { "sprite_id": "rug" },
+        "props": {
+          "sprite_id": "rug"
+        },
         "walkable_through": true,
         "solid": false,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "table_tea",
@@ -55,7 +70,10 @@
         "w": 120,
         "h": 60,
         "z": 5,
-        "props": { "sprite_id": "table", "label": "Tea Table" },
+        "props": {
+          "sprite_id": "table",
+          "label": "Tea Table"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -63,7 +81,8 @@
           "type": "read",
           "title": "Tea Table",
           "body": "Two cups, one pot, endless conversation. Link to your blog or newsletter."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "chair_left",
@@ -73,10 +92,18 @@
         "w": 56,
         "h": 56,
         "z": 4,
-        "props": { "sprite_id": "chair" },
+        "props": {
+          "sprite_id": "chair"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": true,
+        "seat_anchor": {
+          "dx": 28.0,
+          "dy": 40.3,
+          "facing": "S"
+        }
       },
       {
         "id": "chair_right",
@@ -86,10 +113,18 @@
         "w": 56,
         "h": 56,
         "z": 4,
-        "props": { "sprite_id": "chair" },
+        "props": {
+          "sprite_id": "chair"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": true,
+        "seat_anchor": {
+          "dx": 28.0,
+          "dy": 40.3,
+          "facing": "S"
+        }
       },
       {
         "id": "lamp_lantern",
@@ -99,10 +134,13 @@
         "w": 36,
         "h": 72,
         "z": 5,
-        "props": { "sprite_id": "lamp" },
+        "props": {
+          "sprite_id": "lamp"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_a",
@@ -112,10 +150,13 @@
         "w": 48,
         "h": 64,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_b",
@@ -125,10 +166,13 @@
         "w": 48,
         "h": 64,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_c",
@@ -138,10 +182,13 @@
         "w": 48,
         "h": 64,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "frame_1",
@@ -151,7 +198,11 @@
         "w": 120,
         "h": 90,
         "z": 7,
-        "props": { "sprite_id": "frame", "label": "City View", "frame_color": "#4a6a8a" },
+        "props": {
+          "sprite_id": "frame",
+          "label": "City View",
+          "frame_color": "#4a6a8a"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -159,7 +210,8 @@
           "type": "read",
           "title": "City View",
           "body": "The skyline from up here. Link to a photo or art piece."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "frame_2",
@@ -169,7 +221,11 @@
         "w": 120,
         "h": 90,
         "z": 7,
-        "props": { "sprite_id": "frame", "label": "Night Sky", "frame_color": "#5a4a7a" },
+        "props": {
+          "sprite_id": "frame",
+          "label": "Night Sky",
+          "frame_color": "#5a4a7a"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -177,7 +233,8 @@
           "type": "read",
           "title": "Night Sky",
           "body": "Stars above the smog. Link to your favorite creation."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "neon_rooftop",
@@ -187,10 +244,14 @@
         "w": 220,
         "h": 40,
         "z": 8,
-        "props": { "sprite_id": "neon_sign", "label": "ROOFTOP" },
+        "props": {
+          "sprite_id": "neon_sign",
+          "label": "ROOFTOP"
+        },
         "walkable_through": true,
         "solid": false,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "speaker_ambience",
@@ -200,10 +261,13 @@
         "w": 80,
         "h": 140,
         "z": 5,
-        "props": { "sprite_id": "speaker_stack" },
+        "props": {
+          "sprite_id": "speaker_stack"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "door_exit",
@@ -213,11 +277,50 @@
         "w": 64,
         "h": 84,
         "z": 5,
-        "props": { "sprite_id": "door", "label": "Stairs Down" },
+        "props": {
+          "sprite_id": "door",
+          "label": "Stairs Down"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
-        "interaction": { "type": "door", "destination": "./" }
+        "interaction": {
+          "type": "door",
+          "destination": "./"
+        },
+        "sittable": false
+      },
+      {
+        "id": "room_guide",
+        "type": "sprite",
+        "x": 740,
+        "y": 330,
+        "w": 48,
+        "h": 64,
+        "z": 18,
+        "props": {
+          "sprite_id": "villager",
+          "label": "Room guide"
+        },
+        "walkable_through": true,
+        "solid": false,
+        "interactable": true,
+        "interaction": {
+          "type": "read",
+          "title": "Room guide",
+          "body": "Welcome to Rooftop Tea. Try the seats and props; each room is built for walking, sitting, and talking."
+        },
+        "behavior": {
+          "type": "idle"
+        },
+        "sittable": false,
+        "dialogue": {
+          "name": "Room guide",
+          "lines": [
+            "Welcome to Rooftop Tea.",
+            "Try the seats and props; this room is built for walking, sitting, and talking."
+          ]
+        }
       }
     ]
   }

@@ -3,13 +3,13 @@
   "preset_metadata": {
     "id": "game_arcade",
     "display_name": "Game arcade",
-    "description": "Five arcade cabinets ready to wire to your real games. Click-to-launch lands in Phase A.2 — for now, this is the visual scaffold.",
+    "description": "Five arcade cabinets ready to wire to your real games. Click-to-launch lands in Phase A.2. For now, this is the visual scaffold.",
     "thumbnail": null,
     "natural_themes": ["midnight", "cobalt", "aurora", "warm"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1
   },
   "name": "Game arcade",
@@ -22,20 +22,34 @@
     "background_layer": "stage_default",
     "ambient_sound": "ambient/arcade.opus"
   },
+  "spawn": { "x": 960, "y": 856, "facing": "south" },
   "components": [
     {
       "id": "stage_floor",
       "type": "svg",
       "x": 0,
-      "y": 540,
+      "y": 0,
       "w": 1920,
-      "h": 540,
+      "h": 1080,
       "z": 0,
       "props": {
         "shape": "stage_floor",
         "fill_token": "bg-sunken"
       },
       "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "entry_path",
+      "type": "prop",
+      "x": 816,
+      "y": 760,
+      "w": 288,
+      "h": 128,
+      "z": 1,
+      "props": { "sprite_id": "path_stone", "surface": "threshold", "tile": 32 },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -99,7 +113,7 @@
       "h": 56,
       "z": 6,
       "props": {
-        "text": "Five cabinets. Each wired to a real game in Phase A.2 — paste any itch.io / GitHub-Pages / Vercel URL and visitors play it inside the canvas.",
+        "text": "Five cabinets. Each wired to a real game in Phase A.2. Paste any itch.io, GitHub Pages, or Vercel URL and visitors play it inside the canvas.",
         "variant": "body",
         "color_token": "ink-2"
       },
@@ -269,7 +283,7 @@
       "z": 5,
       "props": {
         "sprite_id": "arcade_claw",
-        "label": "Ensemble (meta)"
+        "label": "Endenza (meta)"
       },
       "interaction": {
         "type": "launch",
@@ -289,7 +303,7 @@
       "h": 24,
       "z": 6,
       "props": {
-        "text": "Ensemble (meta)",
+        "text": "Endenza (meta)",
         "variant": "body",
         "color_token": "ink-2"
       },
@@ -312,7 +326,7 @@
       "interaction": {
         "type": "read",
         "label": "About this arcade",
-        "markdown": "## Welcome to the *arcade*.\n\nFive cabinets. Each wired to a real running thing.\n\nClick a cabinet to play the game inline. Click the speaker to hear what's playing. Click this sign — you already did.\n\n### How it works\n\nEvery sprite in your canvas can be wired to one of four interactions:\n\n- **Click-to-launch** — load a sandboxed iframe with a real app inside.\n- **Click-to-link** — open a URL in a new tab.\n- **Click-to-embed** — show an inline media player (YouTube, Vimeo, SoundCloud, Bandcamp).\n- **Click-to-read** — slide in a long-form panel like this one.\n\n### Customize this\n\nIn Phase A.3 (edit mode coming soon), you'll be able to drag sprites onto your stage, wire them to your own URLs, and ask Claude to author new components. Until then, this preset is your demo.\n\n*Linktree is a list of links — Ensemble is a place.*"
+        "markdown": "## Welcome to the *arcade*.\n\nFive cabinets. Each wired to a real running thing.\n\nClick a cabinet to play the game inline. Click the speaker to hear what's playing. Click this sign. You already did.\n\n### How it works\n\nEvery sprite in your canvas can be wired to one of four interactions:\n\n- **Click-to-launch** loads a sandboxed iframe with a real app inside.\n- **Click-to-link** opens a URL in a new tab.\n- **Click-to-embed** shows an inline media player, such as YouTube, Vimeo, SoundCloud, or Bandcamp.\n- **Click-to-read** opens a long-form panel like this one.\n\n### Customize this\n\nIn Phase A.3, edit mode lets you drag sprites onto your stage, wire them to your own URLs, and ask Claude to author new components. Until then, this preset is your demo.\n\n*Linktree is a list of links. Endenza is a place.*"
       },
       "walkable_through": false,
       "solid": true,
@@ -357,6 +371,25 @@
       "interactable": false
     },
     {
+      "id": "door_exit",
+      "type": "prop",
+      "x": 896,
+      "y": 888,
+      "w": 128,
+      "h": 192,
+      "z": 30,
+      "props": { "sprite_id": "door", "label": "Exit" },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction_radius": 96,
+      "interaction": {
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
+      }
+    },
+    {
       "id": "footer_credit",
       "type": "text",
       "x": 96,
@@ -365,14 +398,14 @@
       "h": 24,
       "z": 6,
       "props": {
-        "text": "Made with Ensemble — the studio for vibe coders.",
+        "text": "Made with Endenza, the studio for walkable worlds.",
         "variant": "body",
         "color_token": "ink-3"
       },
       "interaction": {
         "type": "link",
         "url": "https://kiwimaddog2020.github.io/ensemble-dashboard/",
-        "label": "Open Ensemble"
+        "label": "Open Endenza"
       },
       "walkable_through": true,
       "solid": false,

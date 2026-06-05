@@ -4,11 +4,46 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
-<title>Endenza — Pricing</title>
+<title>Endenza · Pricing</title>
 <meta name="description" content="Free, Pro, Team. Bring your own Claude key. Pick the plan that fits how you build." />
-<meta name="theme-color" content="#e9edf3" media="(prefers-color-scheme: light)" />
+
+<!-- Open Graph + Twitter card (2026-05-19) — controls how links unfurl
+     on social platforms (X, Bluesky, LinkedIn, Slack, iMessage, etc.).
+     The image URL is the brand mark; v1.1 should ship a dedicated
+     1200x630 social preview that includes a walkable Studio rendering. -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Endenza" />
+<meta property="og:title" content="Endenza · Pricing" />
+<meta property="og:description" content="Free, Pro, Team. Bring your own Claude key. Pick the plan that fits how you build." />
+<meta property="og:url" content="https://endenza.app/pricing" />
+<meta property="og:image" content="https://endenza.app/icons/og-image.png" />
+<meta property="og:image:alt" content="Endenza — the AI studio AI-native makers were missing" />
+<link rel="canonical" href="https://endenza.app/pricing" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Endenza · Pricing" />
+<meta name="twitter:description" content="Free, Pro, Team. Bring your own Claude key. Pick the plan that fits how you build." />
+<meta name="twitter:image" content="https://endenza.app/icons/og-image.png" />
+
+<!-- JSON-LD Organization schema (2026-05-19) — qualifies Endenza for
+     Google's knowledge-panel / sitelinks search box. One emit per page;
+     same data every page (Organization is site-wide, not per-page). -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Endenza",
+  "url": "https://endenza.app/",
+  "logo": "https://endenza.app/icon.svg",
+  "description": "Your agentic OS. Run anywhere. Share what works. Walk into what others built.",
+  "sameAs": [
+    "https://github.com/KiwiMaddog2020/endenza"
+  ]
+}
+</script>
+
+<meta name="theme-color" content="#e1e7ef" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#2b2d31" media="(prefers-color-scheme: dark)" />
-<link rel="manifest" href="./manifest.json" />
+<link rel="manifest" href="./manifest.json?v=2026-05-29-cb2033ef99" />
 <link rel="icon" id="favicon" type="image/svg+xml" href="./icon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png" />
@@ -16,16 +51,754 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="Endenza" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./style.css" />
+<!-- Train 4 (2026-05-12): fonts are self-hosted under /fonts/ via the
+     @font-face declarations in styles/fonts.py (FONTS_CSS, concatenated
+     at the top of style.css). No more third-party Google Fonts fetch.
+     Preload kicks the woff2 fetch off in parallel with HTML parsing so
+     the webfont is usually available before first paint — no swap, no
+     CLS. Metric-matched fallbacks in the same module handle the rare
+     case where the font hasn't arrived in time. -->
+<link rel="preload" href="./fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="./fonts/eb-garamond-variable-latin.woff2" as="font" type="font/woff2" crossorigin />
+<!-- 2026-05-19: italic woff2 preload added. Without it, the first
+     paint renders EB Garamond Italic via the metric-matched fallback
+     (which has different letterforms than the real italic), then
+     swaps later when the italic font finally fetches. Visible on
+     the homepage hero's <em>everyone</em> as a font shift. -->
+<link rel="preload" href="./fonts/eb-garamond-italic-variable-latin.woff2" as="font" type="font/woff2" crossorigin />
+<style id="critical-layout-css">/* Endenza dashboard — shared design system (aligned with modular pages) */
+:root {
+  --bg: #faf7f2; --bg-raised: #ffffff; --bg-elevated: #fdfaf4; --bg-sunken: #f2ede2;
+  --ink: #18150f; --ink-2: #3c362c; --ink-3: #6e6657; --ink-4: #a8a193;
+  --rule: #ebe4d4; --rule-2: #f0ead9;
+  --accent: #c2711f; --accent-2: #e08a2c; --accent-3: #f3c07a; --accent-ink: #3a1f04;
+  --accent-soft: rgba(194,113,31,0.08);
+  --danger: #c73a2a;
+  /* Narrative voice accents — 4 hand-picked brand-adjacent shades for the
+     .endenza-story__voice border-lefts on the homepage. Voice 3 reuses
+     --accent so the brand chord ties the set together. 2026-05-18 added
+     as tokens to keep raw hex out of page CSS. */
+  --voice-accent-1: #d56b3b;
+  --voice-accent-2: #6fa6d8;
+  --voice-accent-4: #9c7ec0;
+  --voice-accent-5: #4a9a7a;
+  /* Train 4 (2026-05-12) — metric-matched fallback families ship in
+     styles/fonts.py so the FOUT window has zero CLS. The fallback name
+     is listed BETWEEN the webfont and the system stack so the browser
+     paints with the fallback first (matched metrics → no shift on
+     swap), then switches to the real webfont once loaded. */
+  --serif: "EB Garamond", "EB Garamond Fallback", ui-serif, Georgia, serif;
+  --sans: "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, "SF Mono", Menlo, monospace;
+  --terminal-mono: ui-monospace, "SF Mono", Menlo, "Cascadia Code", monospace;
+  --maxw: 1180px; --gutter: clamp(20px, 4vw, 40px);
+  --radius: 16px; --radius-md: 12px; --radius-sm: 10px; --radius-pill: 9999px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --shadow-sm: 0 1px 2px rgba(24,21,15,0.04), 0 2px 4px rgba(24,21,15,0.02);
+  --shadow-md: 0 4px 24px -8px rgba(194,113,31,0.18), 0 2px 8px rgba(24,21,15,0.04);
+  /* Crisp 1px ink-toned drop for small brand marks (topnav logo tile).
+     Tighter + more opaque than --shadow-sm's soft two-layer card shadow,
+     and ink-toned (--ink #18150f) rather than pure black so it reads warm
+     on the bone background. Replaces a raw rgba(24,21,15,0.18) literal. */
+  --shadow-brand: 0 1px 3px rgba(24,21,15,0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0d0a; --bg-raised: #1a1711; --bg-elevated: #1f1b14; --bg-sunken: #141109;
+    --ink: #f3ecdd; --ink-2: #d6cdb9; --ink-3: #9a9078; --ink-4: #5e564a;
+    --rule: #2a2620; --rule-2: #221e18;
+    --accent: #e08a2c; --accent-2: #f3c07a; --accent-3: #7a4a16; --accent-ink: #1a0d02;
+    --accent-soft: rgba(224,138,44,0.10);
+    --danger: #ef6a5c;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 24px -8px rgba(224,138,44,0.25);
+    /* On dark surfaces the brand-mark drop reads against near-black, so
+       switch to a pure-black shadow (matches --shadow-sm's dark shift). */
+    --shadow-brand: 0 1px 3px rgba(0,0,0,0.4);
+  }
+}
+
+/* ─── Slot α (warp-20260429T230955Z, 2026-04-29) — substrate tokens ── */
+:root {
+  /* — Spacing scale (4px base; 8pt grid friendly) — */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* — Modular type scale (≈1.25 ratio, hand-tuned) — */
+  --fs-11: 11px;
+  --fs-12: 12px;
+  --fs-13: 13px;
+  --fs-14: 14px;
+  --fs-15: 15px;
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-22: 22px;
+  --fs-24: 24px;
+  --fs-28: 28px;
+  --fs-32: 32px;
+  --fs-36: 36px;
+  --fs-56: 56px;
+
+  /* — Line-height tokens — */
+  --lh-tight: 1.15;
+  --lh-snug: 1.35;
+  --lh-relaxed: 1.55;
+
+  /* — Hero / page-header canon (2026-06-02) —
+     ONE typographic system for every page hero. The home page
+     (endenza_body.py `.endenza-showcase__head`) is the reference
+     treatment; these tokens lift its headline scale, weight, line-
+     height, and tracking so every other page hero — Tools, Atlas,
+     Settings, Suite Library, Docs, the bare `.hero` fallback — reads
+     as the same system instead of drifting to its own size/weight.
+     Before this, five competing h1 rules existed (layout `h1`,
+     cards `body.hub .hero h1`, critical `body.hub .hero h1`,
+     typography `.doc-title`, and the showcase head). All now route
+     through these vars. Add a new value here, never a per-page px. */
+  --fs-hero: clamp(40px, 6.6vw, 74px);     /* hero h1 headline */
+  --fs-hero-lead: clamp(17px, 1.9vw, 21px);/* hero lead / subhead */
+  --lh-hero: 1.02;                          /* hero h1 line-height */
+  --lh-hero-lead: 1.45;                     /* hero lead line-height */
+  --weight-hero: 500;                       /* hero h1 weight (serif) */
+  --tracking-hero: -0.025em;                /* hero h1 letter-spacing */
+  --tracking-eyebrow: 0.14em;               /* eyebrow letter-spacing */
+
+  /* — Container widths (3-step) — */
+  --w-prose: 760px;
+  --w-app: 1180px;
+  --w-wide: 1200px;
+
+  /* — Canvas stage background (intentionally dark; theme-stable) — */
+  --canvas-stage-bg: #15161a;
+
+  /* — Transition duration aliases — */
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --dur-slow: 200ms;
+
+  /* — Missing alias from audit (restores 11+ broken refs in buttons.py) — */
+  --ink-1: var(--ink);
+
+  /* — Status colors (semantic; theme-overridable) — */
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger:  #dc2626;
+
+  /* — Status status-light aliases (currently-undefined refs the audit
+     flagged) — components referenced var(--ok, #hex) / var(--warn, #hex)
+     and silently fell through to the hex fallback because --ok / --warn
+     were never defined. Define them as semantic aliases so the fallback
+     hex is never reached. */
+  --ok:   var(--success);
+  --warn: var(--warning);
+
+  /* — macOS-style traffic-light status dots (status page, tour mockups) —
+     The familiar red/amber/green window-control dots. Intentionally
+     theme-invariant: this exact triad reads as "system status" on every
+     palette, the same way it does in the OS chrome it evokes. Used as the
+     dot fill AND as the low-opacity tint behind status pills. The readable
+     text-on-tint shades live in the -ink trio below (the bright dot hue
+     is too light to use directly as body text — see contrast note). */
+  --status-ok:       #28c840;  /* up / healthy */
+  --status-degraded: #febc2e;  /* degraded / caution */
+  --status-down:     #ff5f57;  /* down / error */
+  /* Darker, AA-tuned text shades for labels sitting on the matching
+     status tint (status-row state pills, tour "armed" pill). Kept distinct
+     from the bright dot hues above so on-tint text stays legible. */
+  --status-ok-ink:       #1f8c2c;
+  --status-degraded-ink: #b07700;
+  --status-down-ink:     #c0332d;
+  /* Deep, opaque status fills sized for WHITE text (solid status badges,
+     e.g. the a11y dev widget chips). The bright dot hues above are too
+     light to carry white text at AA; these deeper shades clear 5:1 with
+     --on-status. Theme-invariant — an opaque badge keeps its own contrast
+     on any page background. */
+  --status-ok-solid:       #15803d;
+  --status-degraded-solid: #b45309;
+  --status-down-solid:     #b91c1c;
+  /* Theme-invariant white for text sitting on a solid status fill. (The
+     accent's on-color is --accent-ink; status fills need their own
+     on-color because they are not the accent surface.) */
+  --on-status: #ffffff;
+
+  /* — Spend-cap meter fills (settings spend widget) — alias to the
+     warning/danger status hues; the meter turns amber as it nears the
+     cap and red once blown, matching the standard status semantics. */
+  --spend-near: var(--warning);
+  --spend-full: var(--danger);
+
+  /* — Project lifecycle pill accents (states not covered by accent /
+     success / danger) — launch-prep reads as a forward-looking violet;
+     warmer reads as a warm orange. Hand-picked; theme-invariant so the
+     lifecycle legend stays stable across palettes. */
+  --pill-launch-prep: #a855f7;
+  --pill-warmer:      #f97316;
+
+  /* — Overlay scrim tokens (pure-black transparency; theme-invariant) —
+     Replaces raw rgba(0,0,0,X) literals in page bodies. Step names match
+     opacity as a two-digit integer (04 = 4 %, 55 = 55 %). No dark-mode
+     override needed — black is black on every palette. Inventory from
+     runs/warp-20260518T090101Z/c/report.md (endenza_body, studio, your-studio). */
+  --overlay-03: rgba(0, 0, 0, 0.03);  /* hairline light-mode topnav underline */
+  --overlay-04: rgba(0, 0, 0, 0.04);  /* whisper hover layer */
+  --overlay-08: rgba(0, 0, 0, 0.08);  /* pressed / low-key scrim */
+  --overlay-10: rgba(0, 0, 0, 0.10);  /* subtle card shadow */
+  --overlay-12: rgba(0, 0, 0, 0.12);  /* card hover shadow */
+  --overlay-14: rgba(0, 0, 0, 0.14);  /* secondary modal shadow layer (app.html publish modal) */
+  --overlay-15: rgba(0, 0, 0, 0.15);  /* dropdown / popover shadow */
+  --overlay-16: rgba(0, 0, 0, 0.16);  /* soft card shadow (homepage Arcade SVG) */
+  --overlay-18: rgba(0, 0, 0, 0.18);  /* medium panel shadow */
+  --overlay-22: rgba(0, 0, 0, 0.22);  /* drawer backdrop */
+  --overlay-24: rgba(0, 0, 0, 0.24);  /* stronger panel backdrop */
+  --overlay-28: rgba(0, 0, 0, 0.28);  /* hero vignette + structural shadow */
+  --overlay-32: rgba(0, 0, 0, 0.32);  /* modal scrim */
+  --overlay-45: rgba(0, 0, 0, 0.45);  /* settings modal scrim */
+  --overlay-48: rgba(0, 0, 0, 0.48);  /* app.html publish-celebrate modal scrim */
+  --overlay-55: rgba(0, 0, 0, 0.55);  /* dialog backdrop */
+
+  /* — White-overlay scrim tokens (for borders/highlights on colored surfaces) —
+     Mirror of the black overlay ladder. Used for borders + highlights when
+     a control sits over a saturated background (where black overlays read
+     as grime; white overlays read as glass). Theme-invariant. */
+  --overlay-white-10: rgba(255, 255, 255, 0.10);
+  --overlay-white-18: rgba(255, 255, 255, 0.18);
+  --overlay-white-40: rgba(255, 255, 255, 0.40);
+  --overlay-white-50: rgba(255, 255, 255, 0.50);
+  --overlay-white-75: rgba(255, 255, 255, 0.75);
+
+  /* — Council/Maestro surface accent (cyan-blue for "info" appearance) —
+     Hoisted from council_body.py inline declaration so the canonical hex
+     lives in tokens. Page bodies reference via var(--council-aqua). */
+  --council-aqua: #7bcfff;
+
+  /* — Alert box semantic tokens (inline alert chrome bg+fg pairs) —
+     Bootstrap-standard defaults for the light palette. Dark-mode overrides
+     below use deep-tinted bg + bright luminance-shifted fg (mirrors the
+     --success / --warning / --danger shift pattern in the dark block).
+     Replaces the six raw hex literals in settings_body.py. */
+  --alert-success-bg: #d4edda;
+  --alert-success-fg: #155724;
+  --alert-warning-bg: #fff3cd;
+  --alert-warning-fg: #856404;
+  --alert-danger-bg:  #f8d7da;
+  --alert-danger-fg:  #721c24;
+
+  /* — Agentic-OS surfaces grid tokens (warp-20260524T0432Z slot d) —
+     Homepage 5-tile grid between the dashboard hero and the walkable
+     showcase. These name the grid rhythm so page CSS stays magic-number-free. */
+  --surfaces-tile-gap: var(--space-5);       /* 24px — gap between tiles */
+  --surfaces-tile-pad: var(--space-5);       /* 24px — inner tile padding */
+  --surfaces-tile-radius: var(--radius-sm);  /* 10px — tile corner radius */
+  --surfaces-section-py: var(--space-8);     /* 64px — section top/bottom padding */
+  --walkable-section-py: var(--space-7);     /* 48px — walkable section padding */
+
+  /* — Atlas (/atlas.html) card-grid column sizing —
+     Names the min/max track width for the auto-fit card grids on the
+     Atlas index so the grid centers within its .wrap (justify-content:
+     center) and partial final rows stay balanced instead of left-
+     anchoring. min keeps cards readable on tablet; max keeps three
+     columns from stretching too wide on a maximized window. */
+  --atlas-card-min: 280px;
+  --atlas-card-max: 360px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Status colors — luminance-shifted for dark backgrounds (same hues). */
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger:  #ef4444;
+    /* Alert tokens — deep-tinted bg + bright fg for dark surfaces. */
+    --alert-success-bg: #0d2e1a;
+    --alert-success-fg: #4ade80;
+    --alert-warning-bg: #2a1f04;
+    --alert-warning-fg: #fbbf24;
+    --alert-danger-bg:  #2a0f0f;
+    --alert-danger-fg:  #f87171;
+  }
+}
+
+/* ─── Sprite palette ramps — 16-bit retint spine (2026-05-28) ─────────
+   Accent ramp RETINTS via color-mix(var(--accent)); skin / hair / wood /
+   ink / bronze are FIXED. Shading relationship is theme-invariant. See
+   bin/dashgen/styles/tokens.py header for the full rationale. */
+:root {
+  /* — ACCENT ramp — RETINTS with the theme (mid = live --accent) —
+     Constant mix percentages → the shadow-to-mid delta is identical on
+     every one of the 21 themes; only the hue shifts. */
+  --sprite-accent-900: color-mix(in srgb, var(--accent), black 46%);  /* deep core shadow */
+  --sprite-accent-700: color-mix(in srgb, var(--accent), black 26%);  /* shadow / selout edge */
+  --sprite-accent-500: var(--accent);                                 /* base / mid (== --accent) */
+  --sprite-accent-300: color-mix(in srgb, var(--accent), white 30%);  /* top-left highlight */
+  --sprite-accent-100: color-mix(in srgb, var(--accent), white 58%);  /* rim / specular highlight */
+
+  /* — BRONZE secondary ramp — FIXED (theme-independent) —
+     The demoted warm-brass secondary. Baton / brass instrument / warm
+     wood-metal accents ONLY. Mirrors the historical bronze-on-ink accent
+     trio (#7e4a18 / #c2711f / #e08a2c) so the conductor identity survives
+     a cerulean-forward world. */
+  --sprite-bronze-700: #7e4a18;  /* bronze shadow */
+  --sprite-bronze-500: #c2711f;  /* bronze mid */
+  --sprite-bronze-300: #e08a2c;  /* bronze highlight */
+
+  /* — SKIN ramps — FIXED (theme-independent; ART_DIRECTION §5.3) —
+     Ten human skin tones (warm-fair → deep), each as a {shadow, mid,
+     light} triad with a constant ~top-left-light relationship. Skin must
+     NOT shift blue under theme=cerulean — these never appear in a
+     body.theme-* override. Tone index ascends light→deep. */
+  --sprite-skin-1-shadow: #e8a07c; --sprite-skin-1-mid: #f6c2a0; --sprite-skin-1-light: #ffe0c8;  /* porcelain */
+  --sprite-skin-2-shadow: #d99069; --sprite-skin-2-mid: #f0b890; --sprite-skin-2-light: #fcd8ba;  /* fair */
+  --sprite-skin-3-shadow: #cf8156; --sprite-skin-3-mid: #e8aa7c; --sprite-skin-3-light: #f8cda4;  /* light-warm */
+  --sprite-skin-4-shadow: #c0703f; --sprite-skin-4-mid: #db9663; --sprite-skin-4-light: #f0bd90;  /* golden */
+  --sprite-skin-5-shadow: #ad6033; --sprite-skin-5-mid: #c98551; --sprite-skin-5-light: #e3ac7d;  /* tan */
+  --sprite-skin-6-shadow: #985330; --sprite-skin-6-mid: #b87545; --sprite-skin-6-light: #d49a6c;  /* olive-tan */
+  --sprite-skin-7-shadow: #7e4226; --sprite-skin-7-mid: #9c6038; --sprite-skin-7-light: #be855a;  /* brown */
+  --sprite-skin-8-shadow: #683420; --sprite-skin-8-mid: #844c2e; --sprite-skin-8-light: #a66f48;  /* deep-brown */
+  --sprite-skin-9-shadow: #4f271a; --sprite-skin-9-mid: #693a26; --sprite-skin-9-light: #8a583a;  /* dark */
+  --sprite-skin-10-shadow: #3a1d15; --sprite-skin-10-mid: #4f2c20; --sprite-skin-10-light: #6e4632; /* deepest */
+
+  /* — HAIR ramp(s) — FIXED (theme-independent) —
+     Six natural hair colors, each a {shadow, mid, light} triad. Fixed so a
+     character keeps the same hair on every theme. */
+  --sprite-hair-black-700: #15120f; --sprite-hair-black-500: #2b2521; --sprite-hair-black-300: #4a423a;
+  --sprite-hair-brown-700: #3a2415; --sprite-hair-brown-500: #5e3a22; --sprite-hair-brown-300: #8a5c38;
+  --sprite-hair-blond-700: #9c6f2a; --sprite-hair-blond-500: #d4a23f; --sprite-hair-blond-300: #f0cd7a;
+  --sprite-hair-auburn-700: #5a2412; --sprite-hair-auburn-500: #8a3a1c; --sprite-hair-auburn-300: #b85e34;
+  --sprite-hair-gray-700: #6e6a64; --sprite-hair-gray-500: #9a958d; --sprite-hair-gray-300: #c4bfb6;
+  --sprite-hair-white-700: #b8b4ac; --sprite-hair-white-500: #ddd9d0; --sprite-hair-white-300: #f4f1e9;
+
+  /* — WOOD ramp — FIXED (theme-independent; "always warm" §5.3) —
+     Instruments, benches, stools, ledges, furniture. */
+  --sprite-wood-700: #6b4423;  /* wood shadow / grain */
+  --sprite-wood-500: #976b3e;  /* wood mid */
+  --sprite-wood-300: #c39a64;  /* wood highlight */
+
+  /* — INK / outline ramp — FIXED (theme-independent) —
+     Sprite outlines + selective-outline (selout). A near-black warm brown
+     (NOT pure #000) so the outline reads on every palette without going
+     dead-flat. 900 = primary 1px outline; 700 = interior selout / softer
+     contour. */
+  --sprite-ink-900: #1a1310;  /* primary outline */
+  --sprite-ink-700: #3a2c22;  /* interior selout / soft contour */
+
+  /* — NATURE / ENVIRONMENT ramps — FIXED (theme-independent; ART_DIRECTION
+     §5.3 "Sky / outdoors … always sky-blue regardless of theme") —
+     The cozy-town world (grass, foliage, water, paths, walls, dirt, sky)
+     must read the same on every one of the 21 themes: a forest stays green
+     under theme=crimson, a pond stays blue under theme=warm. So — like
+     skin / wood / ink — these NEVER appear in a body.theme-<name> override;
+     they live ONLY here in :root. The accent ramp above is the retintable
+     identity spine; these are the fixed natural backdrop it sits against.
+     Values are slightly muted + warm-leaning so they harmonize with the
+     cerulean-forward + bronze-secondary identity instead of reading as a
+     garish Stardew-clone green. Each ramp keeps the same {700 shadow /
+     500 mid / 300 light} top-left-light relationship as every other ramp. */
+
+  /* FOLIAGE green — tree canopy, bushes, hedges, leaf masses (deeper +
+     cooler than ground grass so layered planting reads with depth). */
+  --sprite-leaf-700: #2f5a32;  /* foliage core shadow */
+  --sprite-leaf-500: #4f8a4a;  /* foliage mid */
+  --sprite-leaf-300: #7fb45f;  /* foliage top-left highlight */
+
+  /* GROUND grass — lawns, field ground cover. Warmer + a touch lighter
+     than --sprite-leaf so the ground plane reads distinct beneath foliage. */
+  --sprite-grass-700: #4a7a36;  /* grass shadow / clump */
+  --sprite-grass-500: #6fa544;  /* grass mid */
+  --sprite-grass-300: #9ec766;  /* grass sunlit highlight */
+
+  /* WATER — ponds, streams, fountains. A cerulean COUSIN but FIXED and a
+     touch desaturated so it harmonizes with the live --accent without
+     competing with it (and stays blue on every theme). */
+  --sprite-water-700: #2a6c93;  /* water depth / shadow */
+  --sprite-water-500: #3f9bc4;  /* water mid */
+  --sprite-water-300: #7cc6e3;  /* water surface highlight / ripple */
+
+  /* STONE — paths, walls, paving, ledges. Warm-leaning neutral grey (not
+     cold concrete) so it sits with the bronze secondary. */
+  --sprite-stone-700: #5e5950;  /* stone shadow / mortar */
+  --sprite-stone-500: #8a8479;  /* stone mid */
+  --sprite-stone-300: #b8b2a4;  /* stone top-left highlight */
+
+  /* SOIL — dirt paths, planters, tilled ground. Warm earth, kept cooler +
+     more neutral than --sprite-wood so dirt and timber never read alike. */
+  --sprite-soil-700: #6b4a2c;  /* soil shadow / furrow */
+  --sprite-soil-500: #946b44;  /* soil mid */
+  --sprite-soil-300: #bf9468;  /* soil dry / sunlit highlight */
+
+  /* SKY — outdoor backdrop. ART_DIRECTION §5.3 makes sky a deliberate
+     theme-INVARIANT exception ("always sky-blue regardless of theme — a
+     deliberate exception that grounds the scene"). Soft + slightly
+     desaturated, lighter than water. Two steps (mid + light) — sky reads
+     as a gentle top-light gradient, it has no deep core shadow. */
+  --sprite-sky-500: #7bb4dd;  /* sky mid (horizon-ward) */
+  --sprite-sky-300: #acd4ee;  /* sky light (zenith / highlight) */
+
+  /* ─── INTERIOR MATERIALS (R14 16-bit drawer refinement, 2026-05-30) ───
+     Indoor-prop ramps so Studio furniture (arcades, TVs, speakers, couches)
+     shades with the same shadow→mid→highlight discipline as the town set.
+     Each is a deliberate hue away from its neighbours so materials never
+     read alike: metal cool-grey, cloth warm-plum, screen emissive-cerulean. */
+
+  /* METAL — appliances, arcade cabinets, speakers, mic stands, desk legs.
+     Cool neutral grey-blue, kept distinct from --sprite-stone (warmer) so
+     manufactured metal never reads as masonry. */
+  --sprite-metal-900: #20242b;  /* deep shadow / cavity */
+  --sprite-metal-700: #33383f;  /* shadow / contour */
+  --sprite-metal-500: #576069;  /* mid / body */
+  --sprite-metal-300: #8a939e;  /* top-left highlight */
+  --sprite-metal-100: #bcc4cd;  /* rim / chrome specular */
+
+  /* CLOTH — upholstery, couches, cushions, curtains. Muted plum so soft
+     furnishings sit warm against the bronze/ink without competing with it. */
+  --sprite-cloth-700: #3c2b46;  /* shadow / seam */
+  --sprite-cloth-500: #5b4568;  /* mid / face */
+  --sprite-cloth-300: #7e6390;  /* top-left highlight */
+
+  /* SCREEN — CRT / monitor / arcade glass glow. Cerulean, emissive + brighter
+     than --sprite-water; drives the "alive" read of TVs, arcades and neon. */
+  --sprite-screen-900: #08182a;  /* dark glass / off pixels */
+  --sprite-screen-500: #16527e;  /* mid glow */
+  --sprite-screen-300: #2a8ec8;  /* lit phosphor */
+  --sprite-screen-100: #9adcff;  /* specular / scanline crest */
+}
+
+/* Top nav (shared with home/settings/commands/docs) */
+.topnav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.topnav .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  gap: var(--space-5);
+  height: 56px;
+}
+.topnav .brand {
+  font-family: var(--serif); font-weight: 600; font-size: var(--fs-18); letter-spacing: -0.01em;
+  color: var(--ink); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.topnav .brand em { color: var(--accent-text, var(--accent)); font-style: normal; }
+.topnav .brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; display: block;
+  flex-shrink: 0; box-shadow: var(--shadow-brand);
+}
+.topnav .brand-word { line-height: 1; }
+@media (max-width: 480px) {
+  .topnav .brand-word { display: none; }
+  .topnav .brand-mark { width: 30px; height: 30px; }
+}
+.topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: var(--space-1); flex: 0 1 auto; justify-content: center; }
+.topnav li.nav__identity-item,
+.topnav li.nav__auth-action-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+/* Desktop layout: the identity chip (left) + Sign-in/Log-out action (right)
+   leave normal flow and sit absolutely in the gutters, letting the 7-link
+   <ul> stay optically centered. Gated at >=880px so it pairs with the drawer
+   breakpoint in nav.py (<=879px). Seam raised 721->880 on 2026-06-01: at the
+   old 721 seam the 721-879px band (iPad portrait 768px) used this absolute
+   layout, and the centered cluster grew wide enough to overlap the side
+   items. Keeping that band in the in-flow drawer layout removes the overlap.
+   The two breakpoints MUST stay adjacent (879 / 880). */
+@media (min-width: 880px) {
+  .topnav li.nav__identity-item,
+  .topnav li.nav__auth-action-item {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 0;
+  }
+  .topnav li.nav__identity-item {
+    left: clamp(16px, 3vw, 32px);
+  }
+  .topnav li.nav__auth-action-item {
+    right: clamp(16px, 3vw, 32px);
+  }
+}
+.topnav li a {
+  display: block; padding: 8px 14px; font-size: var(--fs-14); font-weight: 500;
+  color: var(--ink-3); text-decoration: none; border-radius: 8px;
+  transition: background 200ms var(--ease), color 200ms var(--ease);
+}
+.topnav .nav__auth-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  max-width: 170px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  border-radius: 999px;
+  color: var(--ink-2);
+  background: color-mix(in srgb, var(--bg-raised, var(--bg)) 70%, transparent);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.topnav li a.nav__auth-link {
+  color: color-mix(in srgb, var(--accent-text, var(--accent)) 78%, black 22%);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.topnav li a.nav__auth-link[data-auth-state="signed-in"] {
+  color: var(--ink-2);
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.topnav li a.nav__auth-link[aria-disabled="true"] { opacity: 0.7; pointer-events: none; }
+.topnav li a:hover { color: var(--ink); background: var(--accent-soft); }
+.topnav li a.active { color: var(--accent-text, var(--accent)); background: var(--accent-soft); }
+body[data-mode="light"] .topnav {
+  background: color-mix(in srgb, var(--bg) 88%, white 12%);
+  box-shadow: 0 1px 0 var(--overlay-03);
+}
+body[data-mode="light"] .topnav li a.active {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent);
+}
+body[data-mode="light"] .topnav li a:hover {
+  color: var(--accent-text, var(--accent));
+  background: var(--accent-soft);
+}
+@media (max-width: 640px) {
+  .topnav ul { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+/* WCAG 2.5.5 / Apple HIG: 44x44 minimum tap target on touch viewports. */
+@media (max-width: 768px) {
+  .topnav li a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* ─── Critical-path body layout (Train 4 Worker A, 2026-05-12) ───────
+   Mirrors the structural rules from styles/cards.py / layout.py /
+   nav.py for the body classes that ship above the fold. Inlining
+   these here means the page paints in the correct structure from
+   first byte; the async-loading style.css then applies refinement
+   without a layout shift. */
+html, body { margin: 0; }
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--bg);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+*, *::before, *::after { box-sizing: border-box; }
+
+/* body.hub — marketing + dashboard pages (sticky footer + section
+   padding reservation). Identical to the rule cards.py emits. */
+body.hub {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+body.hub > main { flex: 1 0 auto; }
+body.hub > footer.site-footer {
+  flex-shrink: 0;
+  margin-top: 48px;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-3);
+  font-size: var(--fs-12);
+}
+body.hub .hero { padding: clamp(20px, 3.4vw, 40px) 0 clamp(14px, 2.4vw, 24px); }
+/* Hero canon (2026-06-02): this inlined first-paint block now matches the
+   style.css hub-hero rule (cards.py) token-for-token, so the headline does
+   NOT flash a different size/weight/eyebrow before style.css arrives. Was a
+   mono eyebrow + clamp(44px,7vw,86px) h1 — a stale, divergent treatment. */
+body.hub .hero .eyebrow {
+  font-family: var(--sans); font-size: var(--fs-12);
+  font-weight: 600; letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase; color: var(--accent-text, var(--accent));
+  margin: 0 0 18px;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+body.hub .hero .eyebrow::before {
+  content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block;
+}
+body.hub .hero h1 {
+  font-family: var(--serif); font-size: var(--fs-hero);
+  line-height: var(--lh-hero); font-weight: var(--weight-hero); margin: 0 0 16px;
+  color: var(--ink); letter-spacing: var(--tracking-hero);
+}
+body.hub .hero h1 em { font-style: italic; font-weight: 500; color: var(--accent-text, var(--accent)); }
+body.hub .hero p.lead {
+  font-family: var(--serif); font-size: var(--fs-hero-lead);
+  line-height: var(--lh-hero-lead); color: var(--ink-2);
+  margin: 0; max-width: 60ch;
+}
+body.hub section { padding: clamp(32px, 5vw, 56px) 0; }
+body.hub main > .hero + section,
+body.hub main > .hero + .dash-subnav + section {
+  padding-top: clamp(22px, 3vw, 36px);
+}
+body.hub section h2 {
+  font-family: var(--serif); font-size: clamp(26px, 3.4vw, 36px);
+  line-height: 1.15; letter-spacing: -0.01em; font-weight: 500;
+  margin: 0 0 var(--space-3); color: var(--ink);
+}
+body.hub section .section-sub { color: var(--ink-3); font-size: var(--fs-14); margin: 0 0 28px; }
+
+/* body.terminal — grid layout for /terminal.html. Visible above the fold
+   so the panels don't shift when the route-scoped terminal.css loads. */
+body.terminal {
+  display: grid;
+  grid-template-columns: 280px 1fr 320px;
+  height: 100vh;
+  overflow: hidden;
+}
+body.terminal > footer.site-footer { display: none !important; }
+
+/* body.council / body.studio — flex-column page shells matching how
+   /council.html and /studio.html render their hero + content. */
+body.council, body.studio {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+body.council > main, body.studio > main { flex: 1 0 auto; }
+
+/* Wrap container — every page uses .wrap inside the topnav and most
+   sections. Inlining the max-width + gutter so layout is stable. */
+.wrap {
+  max-width: var(--maxw, 1180px);
+  margin-left: auto; margin-right: auto;
+  padding-left: var(--gutter, 32px);
+  padding-right: var(--gutter, 32px);
+}
+
+/* Brand mark — visible in topnav from first paint, sized + positioned
+   so it doesn't pop in. */
+.brand-mark { width: 28px; height: 28px; border-radius: 7px; display: block; }
+
+/* Button + dash-toolbar baseline — reserves the right height for the
+   buttons in dashboard's welcome card so the section doesn't reflow
+   when buttons.py's pill-shape rule applies. Same min-height as the
+   buttons.py main rule (42px). */
+.btn, button.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 42px; padding: 0 18px; border-radius: 999px;
+  font-family: var(--sans); font-size: var(--fs-14, 14px); font-weight: 600;
+  border: 1px solid transparent; cursor: pointer;
+  text-decoration: none; line-height: 1;
+}
+.btn--primary, button.btn--primary {
+  background: var(--action, var(--accent)); color: var(--action-ink, var(--accent-ink, #fff)); border-color: var(--action, var(--accent));
+}
+.btn--secondary, button.btn--secondary {
+  background: var(--bg-raised); color: var(--ink); border-color: var(--rule);
+}
+.dash-toolbar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 0; min-height: 70px;
+}
+.dash-toolbar__hint {
+  flex: 1; font-family: var(--sans); font-size: var(--fs-14, 14px);
+  color: var(--ink-2); line-height: 1.4;
+}
+.widget__row { display: flex; gap: 10px; align-items: center; }
+
+/* Site footer — reserve enough vertical space so the layout below
+   the fold doesn't shift when footer content + columns flow in. */
+footer.site-footer {
+  padding: 32px 0;
+  min-height: 200px;
+}
+footer.site-footer .site-footer__inner {
+  max-width: var(--maxw, 1180px);
+  margin-left: auto; margin-right: auto;
+  padding-left: var(--gutter, 32px);
+  padding-right: var(--gutter, 32px);
+}
+
+.dash-toolbar__hint { font-size: 12px; color: var(--ink-3); flex: 1; line-height: 1.4; }
+.btn-edit-dashboard, .btn-add-widget, .btn-reset-layout {
+  appearance: none; padding: 9px 18px; border-radius: 100px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  cursor: pointer; font-size: 12px; font-weight: 600; color: var(--ink);
+  font-family: var(--sans); min-height: 38px;
+}
+.btn-add-widget {
+  background: var(--action, var(--accent)); color: var(--action-ink, var(--accent-ink, #fff)); border-color: var(--action, var(--accent));
+}
+
+/* Train 7 (2026-05-12) — dashboard widget-grid CLS root-cause fix.
+   widgets_runtime.js fills #widgetRoot from empty on DOMContentLoaded,
+   so the parent <section> grows from ~120px (toolbar only) to ~1700px
+   (toolbar + 12 widgets) — that growth is the CLS Lighthouse measures.
+   Reservation strategy here: anchor the section's min-height on
+   dashboard ONLY (body.dashboard-page) at a value that fits the
+   default public-section widget grid (12 widgets, ~3 rows × ~220px =
+   ~660px grid + 60px section header + 70px toolbar + clamp padding =
+   ~1000px). The private section is owner-only so it loads after auth
+   and contributes separate shifts outside the FCP/LCP window.
+   PREVIOUS ATTEMPT (#widgetRoot 75vh) failed because the reservation
+   tied to viewport rather than content; on tall viewports the
+   widget grid finished SHORTER than 75vh and the section SHRANK on
+   hydration, which CLS scored as a shift event. Anchoring on a
+   content-sized min-height (1000px) approximates from the LOWER side
+   so widgets fill it without shrinking. */
+body.dashboard-page > main > section {
+  /* Train 7 (2026-05-12) — dashboard section min-height reservation.
+     widgets_runtime.js fills #widgetRoot post-load; without
+     reservation the section grows from ~120px (toolbar only) to
+     ~1700px (full layout) and footer shifts down.
+     Section reservation alone got CLS 0.578 → 0.236; the residual
+     0.236 comes from widget content rendering INSIDE the section in
+     stages (first the section header, then per-widget hydration with
+     SSE state fills). The proper full-fix is SSR of the widget HTML
+     at dashgen build time so #widgetRoot ships with placeholder
+     content matching final dimensions — that's a bigger refactor.
+     This min-height shipping the partial fix is the durable win
+     without the refactor. */
+  min-height: 2200px;
+}
+/* No reservation on #widgetRoot directly — testing showed adding it
+   IN ADDITION to the section min-height made CLS worse (0.236 → 0.419).
+   Section alone gives the cleanest result. Proper full fix is SSR
+   (Train 8 or follow-up after Agentic OS). */
+</style>
+<!-- Train 4 Worker A (2026-05-12) — critical-layout-css above inlines
+     tokens + topnav + body-class structural rules so the first paint
+     has the right CSS variables and layout immediately. style.css is
+     left as a sync render-blocking link because (per local
+     measurement) making it async via preload+onload caused content-
+     reflow CLS on dashboard / docs / index when below-fold rules
+     (cards, forms, buttons) applied after first paint. The inline
+     critical CSS is still a net win — once style.css arrives, the
+     browser already has tokens + topnav resolved, so the cascade
+     completes faster. -->
+<link rel="stylesheet" href="./style.css?v=2026-05-29-cb2033ef99" />
 <style id="cookie-banner-css">
 .cookie-banner {
   position: fixed;
-  left: 50%; right: auto; bottom: max(10px, env(safe-area-inset-bottom));
-  width: min(calc(100vw - 28px), var(--w-app));
-  transform: translateX(-50%);
+  left: auto; right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  width: min(calc(100vw - 32px), 560px);
+  transform: none;
   z-index: 240;
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--accent) 5%, transparent), transparent),
@@ -35,49 +808,51 @@
   color: var(--ink, #1a1814);
   border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--rule, rgba(0,0,0,0.12)));
   border-radius: 18px;
-  box-shadow: 0 12px 40px rgba(17,17,17,0.12);
+  box-shadow: 0 12px 40px var(--overlay-12);
   font-family: var(--sans, system-ui, -apple-system, sans-serif);
   font-size: 13px; line-height: 1.45;
 }
 .cookie-banner[hidden] { display: none; }
 .cookie-banner__inner {
   margin: 0 auto;
-  padding: 10px 12px 10px 16px;
+  padding: 9px 10px 9px 14px;
   display: flex; align-items: center; justify-content: space-between;
-  gap: 14px; flex-wrap: wrap;
+  gap: 10px; flex-wrap: wrap;
 }
-.cookie-banner__msg { margin: 0; flex: 1 1 320px; min-width: 240px; color: var(--ink-2, #3a342c); }
+.cookie-banner__msg { margin: 0; flex: 1 1 250px; min-width: 0; color: var(--ink-2, #3a342c); }
 .cookie-banner__msg strong { color: var(--ink, #1a1814); }
 .cookie-banner__actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .cookie-banner__link {
-  color: var(--accent, #b8753c);
+  color: var(--accent, #2f6fab);
   text-decoration: underline;
   font-weight: 500;
 }
-.cookie-banner__link:hover { color: var(--accent-2, #8c5828); }
+.cookie-banner__link:hover { color: var(--accent-2, #6fa6d8); }
 .cookie-banner__dismiss {
   appearance: none; cursor: pointer;
-  background: color-mix(in srgb, var(--accent, #b8753c) 92%, var(--ink, #1a1814));
+  background: color-mix(in srgb, var(--accent, #2f6fab) 92%, var(--ink, #1a1814));
   color: var(--accent-ink, white);
-  border: 1px solid color-mix(in srgb, var(--accent, #b8753c) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #2f6fab) 72%, transparent);
   padding: 7px 14px; border-radius: 999px;
   font: inherit; font-weight: 600;
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent, #b8753c) 18%, transparent);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent, #2f6fab) 18%, transparent);
   transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
 }
 .cookie-banner__dismiss:hover {
-  background: var(--accent-2, #8c5828);
+  background: var(--accent-2, #6fa6d8);
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--accent, #b8753c) 24%, transparent);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--accent, #2f6fab) 24%, transparent);
 }
 .cookie-banner__dismiss:focus-visible {
-  outline: 2px solid var(--accent-2, #8c5828);
+  outline: 2px solid var(--accent-2, #6fa6d8);
   outline-offset: 2px;
 }
-@media (max-width: 540px) {
+@media (max-width: 640px) {
   .cookie-banner {
+    left: 50%; right: auto;
     bottom: max(8px, env(safe-area-inset-bottom));
-    width: min(calc(100vw - 18px), var(--w-app));
+    width: min(calc(100vw - 18px), 760px);
+    transform: translateX(-50%);
     border-radius: 14px;
   }
   .cookie-banner__inner { padding: 10px; gap: 8px; }
@@ -87,8 +862,16 @@
 <script nonce="__CSP_NONCE__">
   (function () {
     try {
-      var t = localStorage.getItem("ENDENZA_THEME") || "ash";
-      t = /^[a-z0-9_]+$/.test(t) ? t : "ash";
+      var t = localStorage.getItem("ENDENZA_THEME") || "cerulean";
+      t = /^[a-z0-9_]+$/.test(t) ? t : "cerulean";
+      // Polish Round 5 Slot α (2026-05-21): theme `ash` was renamed
+      // to `cerulean` sitewide. Any user with the prior name persisted
+      // in localStorage gets a graceful one-shot rewrite so their
+      // saved choice keeps working under the new key.
+      if (t === "ash") {
+        t = "cerulean";
+        try { localStorage.setItem("ENDENZA_THEME", t); } catch (e) {}
+      }
       var b = localStorage.getItem("ENDENZA_BG") || "solid";
       document.documentElement.classList.add("theme-" + t);
       if (b && b !== "solid") {
@@ -103,12 +886,12 @@
   })();
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./sw.js').catch(function () {});
+      navigator.serviceWorker.register('./sw.js?v=2026-05-29-cb2033ef99').catch(function () {});
     });
   }
 </script>
 </head>
-<body class="hub" data-mode="light">
+<body class="hub theme-cerulean" data-theme="cerulean" data-mode="light">
 <a class="skip-link" href="#main">Skip to main content</a>
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" aria-live="polite" hidden>
   <div class="cookie-banner__inner">
@@ -142,24 +925,32 @@
 </script>
 <nav class="topnav" id="topnav" data-drawer-state="closed">
   <div class="wrap">
+    <a class="brand brand--icon-only nav__brand-mobile" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="26" height="26" /></a>
     <button class="nav__toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="topnav-list" aria-label="Open navigation menu">
       <span class="nav__toggle-bar" aria-hidden="true"></span>
       <span class="nav__toggle-bar" aria-hidden="true"></span>
       <span class="nav__toggle-bar" aria-hidden="true"></span>
     </button>
     <ul id="topnav-list">
-      <li><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
+      <li class="nav__identity-item" data-auth-cluster data-account-state="visitor">
+        <span class="nav__auth-chip" data-auth-label>Visitor</span>
+      </li>
+      <li class="nav__brand-drawer"><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
       <li><a class="active" aria-current="page" href="./">Endenza</a></li>
       <li><a href="./studio.html">Studio</a></li>
+      <li><a href="./tools.html">Tools</a></li>
+      <li><a href="./council.html">Maestro</a></li>
       <li><a href="./terminal.html">Terminal</a></li>
-      <li><a href="./council.html">Council</a></li>
       <li><a href="./dashboard.html">Dashboard</a></li>
       <li><a href="./settings.html">Settings</a></li>
+      <li class="nav__auth-action-item" data-account-state="visitor">
+        <a class="nav__auth-link" href="/signup" data-auth-link>Sign in</a>
+      </li>
     </ul>
   </div>
 </nav>
 
-<script>
+<script nonce="__CSP_NONCE__">
 (function () {
   function wireNavDrawer() {
     var nav = document.getElementById("topnav");
@@ -184,7 +975,7 @@
         btn.focus();
       }
     });
-    var mq = window.matchMedia("(max-width: 720px)");
+    var mq = window.matchMedia("(max-width: 879px)");
     function syncBreakpoint() {
       if (!mq.matches) setState(false);
     }
@@ -194,10 +985,73 @@
       mq.addListener(syncBreakpoint);
     }
   }
+  function wireNavAuth() {
+    var cluster = document.querySelector("[data-auth-cluster]");
+    var label = document.querySelector("[data-auth-label]");
+    var link = document.querySelector("[data-auth-link]");
+    var actionItem = document.querySelector(".nav__auth-action-item");
+    if (!link || typeof fetch !== "function") return;
+    var signedIn = false;
+    function setClusterState(state) {
+      if (cluster) cluster.setAttribute("data-account-state", state);
+      if (actionItem) actionItem.setAttribute("data-account-state", state);
+    }
+    function setSignedOut() {
+      signedIn = false;
+      setClusterState("visitor");
+      if (label) label.textContent = "Visitor";
+      link.textContent = "Sign in";
+      link.setAttribute("href", "/signup");
+      link.removeAttribute("aria-label");
+      link.removeAttribute("data-auth-state");
+    }
+    function setSignedIn(user) {
+      // 2026-05-25 evening: the avatar trigger + dropdown menu were
+      // removed. Settings is already in the top nav; the "Log out"
+      // link stays inline (just text-swapped from "Sign in"), which
+      // is cleaner than juggling a redundant avatar circle.
+      signedIn = true;
+      setClusterState("signed-in");
+      if (label) {
+        var handle = user && user.handle ? "@" + user.handle : "Signed in";
+        label.textContent = handle;
+      }
+      link.textContent = "Log out";
+      link.setAttribute("href", "/v1/logout");
+      link.setAttribute("aria-label", "Log out of Endenza");
+      link.setAttribute("data-auth-state", "signed-in");
+    }
+    link.addEventListener("click", function (event) {
+      if (!signedIn) return;
+      event.preventDefault();
+      link.setAttribute("aria-disabled", "true");
+      fetch("/v1/logout", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Accept": "application/json" }
+      }).finally(function () {
+        window.location.href = "/signup";
+      });
+    });
+    // fetch("/v1/me") is centralized in shared_scripts as window._meReady.
+    var ready = (window._meReady && typeof window._meReady.then === "function")
+      ? window._meReady
+      : Promise.resolve(null);
+    ready
+      .then(function (payload) {
+        if (payload && payload.user) setSignedIn(payload.user);
+        else setSignedOut();
+      })
+      .catch(setSignedOut);
+  }
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", wireNavDrawer);
+    document.addEventListener("DOMContentLoaded", function () {
+      wireNavDrawer();
+      wireNavAuth();
+    });
   } else {
     wireNavDrawer();
+    wireNavAuth();
   }
 })();
 </script>
@@ -209,102 +1063,247 @@
       <p id="smoke-banner-text">...</p>
     </div>
     <div class="cmd-row">
-      <button class="btn-primary" onclick="smokeResult('pass')">Pass</button>
-      <button class="btn-secondary" onclick="smokeResult('issues')">Issues</button>
-      <button class="btn-danger" onclick="smokeResult('fail')">Fail</button>
+      <button class="btn-primary" type="button" data-smoke-result="pass">Pass</button>
+      <button class="btn-secondary" type="button" data-smoke-result="issues">Issues</button>
+      <button class="btn-danger" type="button" data-smoke-result="fail">Fail</button>
     </div>
   </div>
 </div>
-<main id="main"><header class="hero">
-  <div class="wrap">
+<main id="main">
+<style>
+/* Matrix "not included" cell: a muted glyph that visibly recedes
+   against the accent check, plus a screen-reader-only label so the
+   meaning is explicit (a bare dash is ambiguous to assistive tech).
+   Tokens only — no raw color. */
+.pricing-na { color: var(--ink-4); font-variant-numeric: tabular-nums; }
+.pricing-table td .pricing-yes { color: var(--accent-text, var(--accent)); }
+</style>
+<header class="hero hero--centered">
+  <div class="wrap hero-inner">
     <p class="eyebrow">Pricing</p>
-    <h1>Pick the plan that fits how you <em>build.</em></h1>
-    <p class="lead">Bring your own Claude key. We charge for the room you build it in &mdash; not the tokens you spend.</p>
+    <h1>Start with your setup. <em>Pro keeps it running.</em></h1>
+    <p class="lead"><strong>Run anywhere. Share what works. Walk into what others built.</strong> Free bootstraps Studio from GitHub, runs Maestro/Council/Terminal with your own key, publishes a Cadenza, and lets you publish or install Suites. Pro adds the hosted agentic OS tier: more canvases, cloud-side agents, retained decision history, custom domain, premium packs, and hosted Claude credits <em>(coming Q3)</em>.</p>
   </div>
 </header>
 
 <section class="pricing">
   <div class="wrap">
     <table class="pricing-table" aria-label="Plan comparison">
-      <caption class="pricing-table__caption">Compare what each tier unlocks. Limits live in <code>tier_limits.py</code>.</caption>
+      <caption class="pricing-table__caption">Two tiers. Pay monthly or annual (save ~17%). Cancel any time &mdash; access keeps until period end.</caption>
       <thead>
         <tr>
           <th scope="col"><span class="visually-hidden">Feature</span></th>
           <th scope="col" class="pricing-tier" data-tier="free">
             <span class="pricing-tier__name">Free</span>
             <span class="pricing-tier__price">$0</span>
-            <span class="pricing-tier__sub">Try the Studio. Ship one canvas.</span>
+            <span class="pricing-tier__sub">Bootstrap from GitHub. BYOK agents. Publish one Cadenza and share/install Suites.</span>
           </th>
           <th scope="col" class="pricing-tier pricing-tier--featured" data-tier="pro">
-            <span class="pricing-tier__badge">Most popular</span>
+            <span class="pricing-tier__badge">Pro</span>
             <span class="pricing-tier__name">Pro</span>
             <span class="pricing-tier__price">$12<span class="pricing-tier__per">/mo</span></span>
-            <span class="pricing-tier__sub">For solo creators iterating across drafts.</span>
-          </th>
-          <th scope="col" class="pricing-tier" data-tier="team">
-            <span class="pricing-tier__name">Team</span>
-            <span class="pricing-tier__price">Coming v1.5</span>
-            <span class="pricing-tier__sub">For studios that share canvases.</span>
+            <span class="pricing-tier__price-alt">or $120/yr</span>
+            <span class="pricing-tier__sub">Hosted agentic OS capacity + 10 canvases + cloud-side agents + retained history.</span>
           </th>
         </tr>
       </thead>
       <tbody>
+          <tr class="pricing-section">
+            <th colspan="3" scope="colgroup">Setup bootstrap</th>
+          </tr>
           <tr>
-            <th scope="row">Total canvases</th>
-            <td>2</td>
+            <th scope="row">GitHub &rarr; Studio bootstrap</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Working setup from GitHub, Suite, or manual seed</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Studio + Canvas editor</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Walkable Cadenza on the Ensemble map</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Atlas (CLAUDE.md + setup graph)</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Dashboard view across projects</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Custom canvases (drafts + Cadenza)</th>
+            <td>3</td>
             <td>10</td>
+          </tr>
+          <tr>
+            <th scope="row">Sprite packs</th>
+            <td>Core + free packs</td>
+            <td>Core + free + premium</td>
+          </tr>
+          <tr class="pricing-section">
+            <th colspan="3" scope="colgroup">Hosted agentic OS</th>
+          </tr>
+          <tr>
+            <th scope="row">Maestro + Council</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> BYOK</td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> + retained decision history</td>
+          </tr>
+          <tr>
+            <th scope="row">Terminal multi-chat</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> BYOK</td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> + $10/mo hosted Claude credits <em>(coming Q3)</em></td>
+          </tr>
+          <tr>
+            <th scope="row">Warp split (parallel workers)</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> BYOK</td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Rapid-fire prompts</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Autopilot running on your Mac</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> BYOK</td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Autopilot running cloud-side (always-on)</th>
+            <td><span class="pricing-na" aria-hidden="true">&ndash;</span><span class="visually-hidden">Not included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> while your laptop sleeps</td>
+          </tr>
+          <tr>
+            <th scope="row">Scheduled agents</th>
+            <td>3/day</td>
             <td>Unlimited</td>
           </tr>
           <tr>
-            <th scope="row">Public showcase slots</th>
-            <td>1</td>
-            <td>1</td>
+            <th scope="row">Maestro voice-in</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> BYOK</td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> + hosted transcription</td>
+          </tr>
+          <tr>
+            <th scope="row">Remote runner control (phone &rarr; Mac)</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Custom skills (import SKILL.md)</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> + early-access skill packs</td>
+          </tr>
+          <tr>
+            <th scope="row">Kill switches</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr class="pricing-section">
+            <th colspan="3" scope="colgroup">Suite loop</th>
+          </tr>
+          <tr>
+            <th scope="row">Suite publishing</th>
+            <td>Unlimited</td>
             <td>Unlimited</td>
           </tr>
           <tr>
-            <th scope="row">Bring-your-own Claude key</th>
-            <td>&#x2713;</td>
-            <td>&#x2713;</td>
-            <td>&#x2713;</td>
+            <th scope="row">Suite installs + forks</th>
+            <td>Unlimited</td>
+            <td>Unlimited</td>
           </tr>
           <tr>
-            <th scope="row">Studio editor</th>
-            <td>&#x2713;</td>
-            <td>&#x2713;</td>
-            <td>&#x2713;</td>
+            <th scope="row">Suite Library visibility</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> + Pro badge</td>
           </tr>
           <tr>
-            <th scope="row">Pack uploads</th>
-            <td>&#x2713;</td>
-            <td>&#x2713;</td>
-            <td>&#x2713;</td>
+            <th scope="row">Publishable setup snapshot</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr class="pricing-section">
+            <th colspan="3" scope="colgroup">Retention</th>
           </tr>
           <tr>
-            <th scope="row">Priority support</th>
-            <td>&#x2717;</td>
-            <td>&#x2713; Email</td>
-            <td>&#x2713; Shared channel</td>
+            <th scope="row">Setup history</th>
+            <td>Current context</td>
+            <td>Context + retained decisions</td>
           </tr>
           <tr>
-            <th scope="row">Team workspace</th>
-            <td>&#x2717;</td>
-            <td>&#x2717;</td>
-            <td>&#x2713;</td>
+            <th scope="row">Cancellation access</th>
+            <td>Free</td>
+            <td>Keeps Pro through paid period end</td>
+          </tr>
+          <tr>
+            <th scope="row">Deletion recovery window</th>
+            <td>30 days</td>
+            <td>30 days</td>
+          </tr>
+          <tr>
+            <th scope="row">Endenza footer on your Cadenza</th>
+            <td>Shown</td>
+            <td>Removed</td>
+          </tr>
+          <tr>
+            <th scope="row">Custom domain (yourname.com)</th>
+            <td><span class="pricing-na" aria-hidden="true">&ndash;</span><span class="visually-hidden">Not included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Embed widgets (Cadenza on external sites)</th>
+            <td><span class="pricing-na" aria-hidden="true">&ndash;</span><span class="visually-hidden">Not included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Pro badge on the Ensemble map</th>
+            <td><span class="pricing-na" aria-hidden="true">&ndash;</span><span class="visually-hidden">Not included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Priority surface on the wall</th>
+            <td><span class="pricing-na" aria-hidden="true">&ndash;</span><span class="visually-hidden">Not included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr class="pricing-section">
+            <th colspan="3" scope="colgroup">Support</th>
+          </tr>
+          <tr>
+            <th scope="row">Community Discord</th>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Direct email support</th>
+            <td><span class="pricing-na" aria-hidden="true">&ndash;</span><span class="visually-hidden">Not included</span></td>
+            <td><span class="pricing-yes" aria-hidden="true">&#x2713;</span><span class="visually-hidden">Included</span> response &lt; 24h</td>
           </tr>
       </tbody>
       <tfoot>
         <tr>
           <td></td>
-          <td><a class="btn-secondary pricing-cta" href="./pair.html">Pair this device</a></td>
-          <td><a class="btn-primary pricing-cta" href="/checkout">Upgrade for $12/mo</a></td>
-          <td><a class="btn-secondary pricing-cta" href="mailto:team@endenza.com">Email us</a></td>
+          <td><a class="btn-secondary pricing-cta" href="/signup" data-home-auth-href="/studio.html" data-home-auth-label="Open Studio">Start free</a></td>
+          <td>
+            <a class="btn-primary pricing-cta" href="https://buy.polar.sh/polar_cl_4LfJnDQ6MsdsgL8gTjswLuyqenrvpLQ2cCA4K3sP9x1">Go Pro &mdash; $12/mo</a>
+            <a class="btn-link pricing-cta-alt" href="https://buy.polar.sh/polar_cl_KTfJpoOrvVaywdw2QB6TvnFcUbIsQciBnCPcK39SSGM">or $120/yr (save 17%)</a>
+          </td>
         </tr>
       </tfoot>
     </table>
 
-    <aside class="pricing-byok">
+    <aside class="pricing-byok" id="polar-setup-needed">
       <span class="pricing-byok__icon" aria-hidden="true">&#x1F511;</span>
-      <span class="pricing-byok__text">Bring your own Anthropic key. Unlimited usage at cost.</span>
+      <span class="pricing-byok__text">Bring your own Anthropic key on any tier. Free is BYOK by default; Pro adds hosted agentic OS capacity and BYOK passthrough for unlimited use. The hosted $10/mo credit pool lands in Q3 &mdash; until then Pro is BYOK-only.</span>
       <a class="pricing-byok__link" href="./settings.html#settings-byok">Set up BYOK &rarr;</a>
     </aside>
   </div>
@@ -312,11 +1311,54 @@
 
 <section class="pricing-faq">
   <div class="wrap">
-    <h2>Questions?</h2>
-    <p class="section-sub">Pricing is the short version. The <a href="./docs.html">docs</a> answer the rest &mdash; how the tiers map to canvases, what BYOK actually means, and how upgrades roll out.</p>
+    <h2>Questions about pricing</h2>
+    <dl class="pricing-faq__list">
+      <dt>Why $12/mo and not the prosumer $20 anchor?</dt>
+      <dd>Endenza&rsquo;s extraction-cap principle: prices are set to be fair, not maximal. The Setup/Suite loop stays open on Free; $12 charges for hosted capacity, more canvases, retention, and polish while maintaining margin via BYOK passthrough today and the hosted $10 credit pool when it lands in Q3.</dd>
+      <dt>When does the hosted Claude credit pool land?</dt>
+      <dd>Coming Q3. Until then Pro is BYOK-only on Council + Maestro + Terminal &mdash; same one-key workflow as Free, but with Pro&rsquo;s 10 canvases, custom domain, cloud-side autopilot, retained history, premium packs, and Suite publishing/installing. When the credit pool lands you&rsquo;ll get a $10/mo budget against hosted Claude with BYOK passthrough for unlimited use beyond that.</dd>
+      <dt>How do you handle taxes?</dt>
+      <dd>Polar.sh is our Merchant of Record. They collect + remit GST/HST/VAT/sales tax in 60+ jurisdictions on our behalf, so you get a tax-compliant invoice without us asking your country.</dd>
+      <dt>Can I cancel any time?</dt>
+      <dd>Yes. Cancel from your account; access continues to the end of the current period. No proration recovery, no &ldquo;contact sales&rdquo; routing.</dd>
+      <dt>What about Teams?</dt>
+      <dd>Shared setups + multi-seat controls arrive in v1.5. Until then everyone&rsquo;s on Free or Pro. If you&rsquo;re three creators wanting one workspace today, ping us &mdash; we&rsquo;ll figure something out.</dd>
+    </dl>
+    <p class="section-sub">More in the <a href="./docs.html">docs</a> &mdash; how tiers map to canvases, what BYOK means in practice, how upgrades and downgrades roll out.</p>
   </div>
 </section>
 </main>
+<script>
+(function wirePricingCohortEvent() {
+  // COHORT_V1 — fire pricing.cta_click for the Polar checkout CTAs
+  // (monthly + yearly). sendBeacon survives the navigation to
+  // buy.polar.sh, so a regular click listener is safe. The Free
+  // 'Start free' stays on the visitor signup funnel; shared hydration
+  // swaps it to Studio for signed-in users, so it is intentionally
+  // not wired here.
+  //
+  // Deferred to DOMContentLoaded so window.cohortEvent (defined in
+  // PUBLIC_SHARED_SCRIPTS, appended just before </body>) is in scope
+  // when the wire-up runs.
+  function wireUp() {
+    var nodes = document.querySelectorAll('a.pricing-cta, a.pricing-cta-alt');
+    nodes.forEach(function (node) {
+      var href = (node.getAttribute('href') || '').toLowerCase();
+      if (href.indexOf('polar.sh') === -1) return;
+      var plan = node.classList.contains('pricing-cta-alt') ? 'pro_yearly' : 'pro_monthly';
+      node.addEventListener('click', function () {
+        if (typeof window.cohortEvent !== 'function') return;
+        window.cohortEvent('pricing.cta_click', { plan: plan, source: 'pricing_page' });
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wireUp);
+  } else {
+    wireUp();
+  }
+})();
+</script>
 <footer class="site-footer">
   <div class="site-footer__inner">
     <div class="site-footer__cols">
@@ -325,18 +1367,20 @@
           <img class="brand-mark site-footer__mark" src="./icon.svg" alt="" width="32" height="32" aria-hidden="true" />
           <span class="brand site-footer__brand-name">Endenza</span>
         </a>
-        <p class="site-footer__tagline"><em>One conductor. Many performers.</em></p>
-        <p class="site-footer__blurb">A creator-platform PWA where every page is a place &mdash; not a list of links.</p>
+        <p class="site-footer__tagline"><em>Run anywhere. Share what works. Walk into what others built.</em></p>
+        <p class="site-footer__blurb">Build a public room, publish it, and let people step inside.</p>
       </div>
 
       <div class="site-footer__col">
         <p class="site-footer__heading">Product</p>
         <ul class="site-footer__links">
-          <li><a href="./">Endenza</a></li>
           <li><a href="./studio.html">Studio</a></li>
+          <li><a href="./marketplace.html">Library</a></li>
           <li><a href="./terminal.html">Terminal</a></li>
+          <li><a href="./maestro.html">Maestro</a></li>
           <li><a href="./council.html">Council</a></li>
           <li><a href="./dashboard.html">Dashboard</a></li>
+          <li><a href="./atlas.html">Atlas</a></li>
           <li><a href="./settings.html">Settings</a></li>
         </ul>
       </div>
@@ -348,9 +1392,12 @@
           <li><a href="./docs.html#faq">FAQ</a></li>
           <li><a href="./docs/grand-plan.html">Deep docs</a></li>
           <li><a href="./pricing.html">Pricing</a></li>
-          <li><a href="https://github.com/KiwiMaddog2020/claude-ensemble" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="./roadmap.html">Roadmap</a></li>
+          <li><a href="https://github.com/KiwiMaddog2020/endenza" target="_blank" rel="noopener">GitHub</a></li>
           <li><a href="./credits.html">Credits</a></li>
-          <li><a href="mailto:hello@ensemble.tld">Contact</a></li>
+          <li><a href="./status.html">Status</a></li>
+          <li><a href="#site-footer-report" id="site-footer-report-link" class="site-footer__report-link" data-action="open-feedback-modal">Report an issue</a></li>
+          <li><a href="mailto:hello@endenza.app">Contact</a></li>
         </ul>
       </div>
 
@@ -368,10 +1415,52 @@
 
     <div class="site-footer__bottom">
       <p class="site-footer__copyright">&copy; 2026 Endenza &middot; <span class="site-footer__version">v2.0</span></p>
-      <p class="site-footer__meta">Auto-refreshes 3&times; daily.</p>
+      <p class="site-footer__meta">Public rooms, private controls.</p>
     </div>
   </div>
 </footer>
+
+<!-- Anonymous bug-report modal (R8 Train C Sub-3, 2026-05-22).
+     Hidden by default; the footer "Report an issue" link opens it.
+     POSTs to /feedback with anonymous: true so visitors who hit a bug
+     on a public page have an in-product report path without signing in. -->
+<dialog id="site-footer-feedback-modal" class="site-footer__feedback-modal" aria-labelledby="site-footer-feedback-title">
+  <form id="site-footer-feedback-form" class="site-footer__feedback-form" method="dialog" novalidate>
+    <header class="site-footer__feedback-head">
+      <h2 id="site-footer-feedback-title">Report an issue</h2>
+      <button type="button" class="site-footer__feedback-close" aria-label="Close" data-action="close-feedback-modal">&times;</button>
+    </header>
+
+    <p class="site-footer__feedback-lead">Spotted something off? Send it our way. No account required.</p>
+
+    <label for="site-footer-feedback-subject">Subject</label>
+    <input type="text" id="site-footer-feedback-subject" name="subject" maxlength="120" placeholder="Short summary" required />
+
+    <label for="site-footer-feedback-body">Details</label>
+    <textarea id="site-footer-feedback-body" name="body" rows="5" maxlength="4000" placeholder="What happened? Include the page URL if it helps." required></textarea>
+
+    <label for="site-footer-feedback-email">Email <span class="site-footer__feedback-optional">(optional, only if you want a reply)</span></label>
+    <input type="email" id="site-footer-feedback-email" name="email" maxlength="200" placeholder="you@example.com" />
+
+    <!-- Honeypot. Hidden from sighted users + assistive tech via tabindex
+         + autocomplete + aria-hidden + the .site-footer__feedback-honeypot
+         display:none rule. Bots that scrape every <input> name will fill
+         this; the server rejects any submission carrying a non-empty
+         "website" field. -->
+    <div class="site-footer__feedback-honeypot" aria-hidden="true">
+      <label for="site-footer-feedback-website">Website (leave blank)</label>
+      <input type="text" id="site-footer-feedback-website" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="site-footer__feedback-actions">
+      <button type="submit" class="btn-primary site-footer__feedback-submit">Send report</button>
+      <button type="button" class="btn-secondary" data-action="close-feedback-modal">Cancel</button>
+    </div>
+
+    <p class="site-footer__feedback-status" id="site-footer-feedback-status" role="status" aria-live="polite"></p>
+    <p class="site-footer__feedback-error" id="site-footer-feedback-error" role="alert" hidden></p>
+  </form>
+</dialog>
 <style id="site-footer-css">
 .site-footer__inner {
   max-width: var(--w-app, 1180px);
@@ -419,7 +1508,7 @@
 .site-footer__brand-link:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
-  border-radius: var(--r-sm, 4px);
+  border-radius: var(--radius-sm);
 }
 .site-footer__mark {
   flex-shrink: 0;
@@ -476,13 +1565,13 @@
   line-height: var(--lh-snug, 1.35);
 }
 .site-footer__links a:hover {
-  color: var(--accent);
+  color: var(--accent-text, var(--accent));
 }
 .site-footer__links a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: var(--r-sm, 4px);
-  color: var(--accent);
+  border-radius: var(--radius-sm);
+  color: var(--accent-text, var(--accent));
 }
 
 .site-footer__bottom {
@@ -499,7 +1588,10 @@
   margin: 0;
   font-family: var(--sans);
   font-size: var(--fs-12, 12px);
-  color: var(--ink-4, var(--ink-3));
+  /* Train 5 a11y (2026-05-12): ink-4 was too faint against the footer
+     background, measured 2.5-3.5:1 in Lighthouse, below WCAG AA's
+     4.5:1 for normal text. ink-3 clears 5:1+ on both light and dark. */
+  color: var(--ink-3);
 }
 .site-footer__version {
   font-family: var(--mono);
@@ -512,841 +1604,728 @@
     text-align: center;
   }
 }
+
+/* Anonymous feedback modal (R8 Train C Sub-3). Theme-safe: every color
+   resolves through token vars so the dialog paints correctly across all
+   21 Endenza themes. */
+.site-footer__feedback-modal {
+  padding: 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  background: var(--bg-raised);
+  color: var(--ink);
+  max-width: 480px;
+  width: calc(100% - 32px);
+  box-shadow: 0 16px 48px color-mix(in srgb, var(--ink) 28%, transparent);
+}
+.site-footer__feedback-modal::backdrop {
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+.site-footer__feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 12px);
+  padding: var(--space-5, 24px);
+  font-family: var(--sans);
+}
+.site-footer__feedback-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3, 12px);
+}
+.site-footer__feedback-head h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: var(--fs-22, 22px);
+  margin: 0;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.site-footer__feedback-close {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--ink-3);
+  cursor: pointer;
+  padding: 0 var(--space-2, 8px);
+  border-radius: var(--radius-sm);
+}
+.site-footer__feedback-close:hover,
+.site-footer__feedback-close:focus-visible {
+  color: var(--accent);
+}
+.site-footer__feedback-lead {
+  margin: 0;
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-2);
+}
+.site-footer__feedback-form label {
+  font-size: var(--fs-12, 12px);
+  font-weight: 600;
+  color: var(--ink-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.site-footer__feedback-form input[type="text"],
+.site-footer__feedback-form input[type="email"],
+.site-footer__feedback-form textarea {
+  font-family: var(--sans);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3, 12px);
+  width: 100%;
+  box-sizing: border-box;
+}
+.site-footer__feedback-form input:focus-visible,
+.site-footer__feedback-form textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.site-footer__feedback-form textarea {
+  resize: vertical;
+  min-height: 96px;
+  font-family: var(--sans);
+}
+.site-footer__feedback-optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink-3);
+}
+.site-footer__feedback-honeypot {
+  /* Hidden from sighted users + assistive tech. Bots that scrape every
+     <input name=...> will still see it and fill it in; the server rejects
+     any submission carrying website=<non-empty>. */
+  display: none !important;
+}
+.site-footer__feedback-actions {
+  display: flex;
+  gap: var(--space-3, 12px);
+  margin-top: var(--space-2, 8px);
+}
+.site-footer__feedback-status,
+.site-footer__feedback-error {
+  margin: var(--space-2, 8px) 0 0;
+  font-size: var(--fs-12, 12px);
+}
+.site-footer__feedback-status {
+  color: var(--ink-2);
+}
+.site-footer__feedback-error {
+  color: var(--danger);
+}
+.site-footer__feedback-modal[open] {
+  /* Center the dialog. <dialog>'s default centering relies on the
+     ::backdrop pseudo + the UA computing margin: auto; the explicit
+     margin rule is a fallback for shells that don't paint the centering
+     dance reliably. */
+  margin: auto;
+}
 </style>
-<script nonce="__CSP_NONCE__">
+<style id="runner-connect-popover-css">
+.runner-connect-popover[hidden] { display: none; }
+.runner-connect-popover {
+  position: absolute;
+  z-index: 260;
+  width: min(340px, calc(100vw - 28px));
+  /* Top/left are set inline by the JS positioner relative to the trigger. */
+}
+.runner-connect-popover__panel {
+  background: var(--bg-raised);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius, 16px);
+  padding: 18px 18px 14px;
+  box-shadow: 0 12px 40px var(--overlay-18), 0 2px 8px var(--overlay-10);
+  animation: runner-connect-popover-rise 180ms var(--ease, ease) both;
+}
+.runner-connect-popover__arrow {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--bg-raised);
+  border-left: 1px solid var(--rule);
+  border-top: 1px solid var(--rule);
+  transform: rotate(45deg);
+  /* Top/left set inline by the positioner; flips for above/below placement. */
+}
+@keyframes runner-connect-popover-rise {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.runner-connect-popover__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.runner-connect-popover__title {
+  font-family: var(--sans);
+  color: var(--ink);
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+.runner-connect-popover__close {
+  flex: 0 0 auto;
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--ink-3);
+  font-size: 20px;
+  line-height: 1;
+  padding: 2px 4px;
+  margin: -2px -4px 0 0;
+  cursor: pointer;
+  border-radius: var(--radius-sm, 8px);
+  transition: color 160ms var(--ease, ease);
+}
+.runner-connect-popover__close:hover { color: var(--ink); }
+.runner-connect-popover__close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.runner-connect-popover__lead {
+  color: var(--ink-2);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+.runner-connect-popover__view[hidden] { display: none; }
+.runner-connect-popover__primary {
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  width: 100%;
+  color: var(--accent-ink, var(--bg));
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm, 10px);
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: filter 160ms var(--ease, ease), box-shadow 160ms var(--ease, ease);
+}
+.runner-connect-popover__primary:hover { filter: brightness(1.06); box-shadow: 0 2px 8px var(--accent-soft); }
+.runner-connect-popover__primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.runner-connect-popover__primary:active { filter: brightness(0.97); }
+.runner-connect-popover__primary[disabled] { opacity: 0.55; cursor: progress; box-shadow: none; filter: none; }
+.runner-connect-popover__step {
+  color: var(--ink-2);
+  font-family: var(--sans);
+  font-size: 12.5px;
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+.runner-connect-popover__cmd {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  background: var(--bg-sunken);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm, 10px);
+  padding: 5px 5px 5px 12px;
+  transition: border-color 160ms var(--ease, ease);
+}
+.runner-connect-popover__cmd:focus-within { border-color: var(--accent); }
+.runner-connect-popover__code {
+  flex: 1 1 auto;
+  font-family: var(--mono);
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.4;
+  align-self: center;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 4px 0;
+}
+.runner-connect-popover__copy {
+  flex: 0 0 auto;
+  align-self: center;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-text, var(--accent));
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm, 8px);
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: color 160ms var(--ease, ease), border-color 160ms var(--ease, ease), background 160ms var(--ease, ease);
+}
+.runner-connect-popover__copy:hover { color: var(--ink); border-color: var(--ink-3); }
+.runner-connect-popover__copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.runner-connect-popover__copy.is-copied {
+  color: var(--success);
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 10%, transparent);
+}
+.runner-connect-popover__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: 10px 0 0;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+.runner-connect-popover__wait { display: inline-flex; align-items: center; }
+.runner-connect-popover__dot {
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--warning);
+  flex: 0 0 auto;
+  animation: runner-connect-popover-pulse 1.6s var(--ease, ease) infinite;
+}
+@keyframes runner-connect-popover-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.82); }
+}
+.runner-connect-popover__expiry {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.runner-connect-popover__link-btn {
+  margin-top: 9px;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--accent-text, var(--accent));
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.runner-connect-popover__link-btn:hover { color: var(--ink); }
+.runner-connect-popover__link-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.runner-connect-popover__link-btn[hidden] { display: none; }
+.runner-connect-popover__connected {
+  display: flex;
+  align-items: center;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+.runner-connect-popover__check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-right: 9px;
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+  border-radius: var(--radius-pill, 9999px);
+}
+.runner-connect-popover__error {
+  color: var(--danger);
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 10px 0 0;
+}
+.runner-connect-popover__error[hidden] { display: none; }
+.runner-connect-popover__alt {
+  color: var(--ink-2);
+  font-family: var(--sans);
+  font-size: 12px;
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+}
+.runner-connect-popover__settings { color: var(--accent-text, var(--accent)); text-decoration: none; }
+.runner-connect-popover__settings:hover { text-decoration: underline; text-underline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .runner-connect-popover__panel { animation: none; }
+  .runner-connect-popover__copy,
+  .runner-connect-popover__primary,
+  .runner-connect-popover__close,
+  .runner-connect-popover__cmd { transition: none; }
+  .runner-connect-popover__dot { animation: none; }
+}
+</style><div class="runner-connect-popover" id="runner-connect-popover" role="dialog" aria-modal="true" aria-labelledby="runner-connect-popover-title" hidden>
+  <div class="runner-connect-popover__arrow" aria-hidden="true"></div>
+  <div class="runner-connect-popover__panel">
+    <div class="runner-connect-popover__head">
+      <h2 class="runner-connect-popover__title" id="runner-connect-popover-title">Connect a runner</h2>
+      <button type="button" class="runner-connect-popover__close" data-rcp-close aria-label="Close">&times;</button>
+    </div>
+    <p class="runner-connect-popover__lead">Link your Mac to drive Claude and Codex from here. One command, no API key: it runs on the Claude subscription you already have.</p>
 
-(function migrateEnsembleKeys() {
-  var _LS_KEYS = [
-    "ENSEMBLE_THEME", "ENSEMBLE_BG", "ENSEMBLE_BG_CUSTOM",
-    "ENSEMBLE_SERVER_URL", "ENSEMBLE_DASHBOARD_LAYOUT",
-    "ENSEMBLE_BYOK_LINKED", "ENSEMBLE_SHELF_HEIGHT_VH",
-    "ENSEMBLE_STUDIO_ROOM", "ENSEMBLE_STUDIO_CLAUDE_HISTORY",
-    "ENSEMBLE_STUDIO_CLAUDE_USAGE",
-    "ENSEMBLE_TERMINAL_LEFT_PX", "ENSEMBLE_TERMINAL_RIGHT_PX",
-    "ENSEMBLE_TERMINAL_COMPOSE_H", "ENSEMBLE_TERMINAL_TREE_H",
-    "ENSEMBLE_TERMINAL_LEFT_COLLAPSED", "ENSEMBLE_TERMINAL_RIGHT_COLLAPSED",
-    "ENSEMBLE_TERMINAL_ENTER_TO_SEND", "ENSEMBLE_TERMINAL_HISTORY_NAV",
-    "ENSEMBLE_TERMINAL_FONT_SIZE", "ENSEMBLE_TERMINAL_RIGHT_LAYOUT"
-  ];
-  try {
-    _LS_KEYS.forEach(function (oldKey) {
-      var newKey = oldKey.replace(/^ENSEMBLE_/, "ENDENZA_");
-      if (localStorage.getItem(newKey) === null) {
-        var v = localStorage.getItem(oldKey);
-        if (v !== null) localStorage.setItem(newKey, v);
-      }
-    });
-    // Dynamic prefix keys: ENSEMBLE_STICKY_*, ENSEMBLE_TERMINAL_PINNED_*
-    for (var i = 0; i < localStorage.length; i++) {
-      var k = localStorage.key(i);
-      if (!k) continue;
-      if (k.indexOf("ENSEMBLE_STICKY_") === 0 || k.indexOf("ENSEMBLE_TERMINAL_PINNED_") === 0) {
-        var newDynKey = k.replace(/^ENSEMBLE_/, "ENDENZA_");
-        if (localStorage.getItem(newDynKey) === null) {
-          var dv = localStorage.getItem(k);
-          if (dv !== null) localStorage.setItem(newDynKey, dv);
-        }
-      }
+    <div class="runner-connect-popover__view" data-rcp-view="idle">
+      <button class="runner-connect-popover__primary" type="button" data-rcp-generate>Get my install command</button>
+    </div>
+
+    <div class="runner-connect-popover__view" data-rcp-view="command" hidden>
+      <p class="runner-connect-popover__step">Paste this into your Mac&rsquo;s Terminal. That&rsquo;s the whole setup:</p>
+      <div class="runner-connect-popover__cmd">
+        <code class="runner-connect-popover__code" data-rcp-cmd></code>
+        <button class="runner-connect-popover__copy" type="button" data-rcp-copy aria-label="Copy the install command">Copy</button>
+      </div>
+      <p class="runner-connect-popover__meta" role="status" aria-live="polite">
+        <span class="runner-connect-popover__wait" data-rcp-wait><span class="runner-connect-popover__dot" aria-hidden="true"></span>Waiting for your runner to connect&hellip;</span>
+        <span class="runner-connect-popover__expiry" data-rcp-expiry></span>
+      </p>
+      <button class="runner-connect-popover__link-btn" type="button" data-rcp-regenerate hidden>Generate a fresh code</button>
+    </div>
+
+    <div class="runner-connect-popover__view" data-rcp-view="connected" hidden>
+      <p class="runner-connect-popover__connected"><span class="runner-connect-popover__check" aria-hidden="true">&#10003;</span> Runner connected. You&rsquo;re live.</p>
+    </div>
+
+    <p class="runner-connect-popover__error" data-rcp-error role="alert" hidden></p>
+
+    <p class="runner-connect-popover__alt">Already running a runner? <a href="/settings.html#settings-tab-account" class="runner-connect-popover__settings" data-rcp-settings>Pair in Settings &rarr;</a></p>
+  </div>
+</div><script nonce="__CSP_NONCE__" id="runner-connect-popover-js">
+(function () {
+  'use strict';
+  var pop = document.getElementById('runner-connect-popover');
+  if (!pop) return;
+
+  // The runner bundle + installer are served from the production host; the
+  // installer and the bundle both default to it, so the displayed command is
+  // self-consistent with connect_runner_card.
+  var HOST = 'https://endenza.app';
+  var GAP = 10; // px between the trigger and the popover panel
+
+  var arrow = pop.querySelector('.runner-connect-popover__arrow');
+  var views = {};
+  pop.querySelectorAll('[data-rcp-view]').forEach(function (el) {
+    views[el.getAttribute('data-rcp-view')] = el;
+  });
+  var genBtn = pop.querySelector('[data-rcp-generate]');
+  var cmdEl = pop.querySelector('[data-rcp-cmd]');
+  var copyBtn = pop.querySelector('[data-rcp-copy]');
+  var waitEl = pop.querySelector('[data-rcp-wait]');
+  var expiryEl = pop.querySelector('[data-rcp-expiry]');
+  var regenBtn = pop.querySelector('[data-rcp-regenerate]');
+  var errEl = pop.querySelector('[data-rcp-error]');
+
+  var pollTimer = null;
+  var countdownTimer = null;
+  var polling = false;
+  var connected = false;
+  var openTrigger = null;
+  var lastFocus = null;
+
+  var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function showView(name) {
+    Object.keys(views).forEach(function (k) { views[k].hidden = (k !== name); });
+  }
+  function showError(msg) {
+    if (!errEl) return;
+    errEl.textContent = msg;
+    errEl.hidden = false;
+  }
+  function clearError() { if (errEl) errEl.hidden = true; }
+
+  function stopTimers() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+  }
+
+  function commandFor(code) {
+    return 'curl -fsSL ' + HOST + '/runner/install.sh | sh -s -- ' + code;
+  }
+
+  function visibleFocusables() {
+    var all = pop.querySelectorAll(FOCUSABLE);
+    var out = [];
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      // Skip controls inside a hidden view or otherwise not rendered.
+      if (el.offsetParent === null && el !== document.activeElement) continue;
+      out.push(el);
     }
-  } catch (e) {}
-})();
-
-const SERVER_URL = (function() {
-  const stored = localStorage.getItem("ENDENZA_SERVER_URL");
-  if (stored) return stored;
-  return location.hostname === "localhost" || location.hostname === "127.0.0.1"
-    ? "http://localhost:8080"
-    : "";
-})();
-
-function authHeaders() {
-  const t = localStorage.getItem("DASHBOARD_TOKEN") || "";
-  return t ? { "Authorization": "Bearer " + t, "Content-Type": "application/json" }
-           : { "Content-Type": "application/json" };
-}
-
-async function fetchState() {
-  if (!SERVER_URL) return null;
-  try {
-    const r = await fetch(SERVER_URL + "/state", { headers: authHeaders() });
-    if (!r.ok) return null;
-    return await r.json();
-  } catch (e) { return null; }
-}
-
-async function setConfig(field, value) {
-  if (!SERVER_URL) return showHelp("settings-help", "No server URL set.");
-  try {
-    const r = await fetch(SERVER_URL + "/set-config", {
-      method: "POST", headers: authHeaders(),
-      body: JSON.stringify({ field, value })
-    });
-    const j = await r.json();
-    showHelp("settings-help", r.ok ? ("✓ " + field + " = " + JSON.stringify(value)) : ("✗ " + (j.error || r.statusText)));
-  } catch (e) { showHelp("settings-help", "✗ network error: " + e.message); }
-}
-
-function showHelp(id, msg) { const el = document.getElementById(id); if (el) el.textContent = msg; }
-
-function updateSmokeBanner(state) {
-  const banner = document.getElementById("smoke-banner");
-  const text = document.getElementById("smoke-banner-text");
-  if (!banner || !text || !state || !state.projects) { if (banner) banner.style.display = "none"; return; }
-  const pending = state.projects.find(p => p.pending_smoke_test);
-  if (!pending) { banner.style.display = "none"; window._pendingSmokeSlug = null; return; }
-  window._pendingSmokeSlug = pending.slug;
-  text.textContent = pending.slug + " → " + (pending.pending_smoke_test_target || "?") + " — pending verification. Run the smoke test, then click Pass / Issues / Fail.";
-  banner.style.display = "block";
-}
-
-async function smokeResult(result) {
-  if (!window._pendingSmokeSlug) return;
-  const notes = result === "pass" ? "" : prompt("Notes?", "") || "";
-  try {
-    const r = await fetch(SERVER_URL + "/smoke-test-result", {
-      method: "POST", headers: authHeaders(),
-      body: JSON.stringify({ slug: window._pendingSmokeSlug, result, notes })
-    });
-    const j = await r.json();
-    alert(r.ok ? ("Smoke test " + result + " recorded for " + window._pendingSmokeSlug + (j.state ? ". State now: " + j.state : ".")) : ("Error: " + (j.error || r.statusText)));
-    setTimeout(refreshState, 500);
-  } catch (e) { alert("Network error: " + e.message); }
-}
-
-let _ALL_STATE = null;
-
-async function refreshState() {
-  const state = await fetchState();
-  _ALL_STATE = state;
-  // Owner mode = state fetch successful (server reachable + token valid)
-  const newOwner = !!state;
-  if (newOwner !== window._isOwner) {
-    window._isOwner = newOwner;
-    applyOwnerMode();
+    return out;
   }
-  updateSmokeBanner(state);
-  if (typeof refreshPageState === "function") refreshPageState(state);
-}
 
-// ─── Owner detection (read-only mode for visitors) ───
-// IMPORTANT: window._isOwner (NOT a script-scoped `let _isOwner`).  The
-// widget runtime in widgets/state.py:visibleSections() reads
-// `window._isOwner` from a separate IIFE closure, so the value MUST be
-// on the global object — a `let` at script scope is invisible across
-// closures and the private widget section never renders.
-//
-// Was: `let _isOwner = false;` — caused all private widgets (claude-
-// station, refine, code-rate, mode-pill, kill-switch, etc.) to be
-// invisible regardless of token state. Fixed 2026-05-02.
-window._isOwner = false;
-function applyOwnerMode() {
-  const banner = document.getElementById("owner-banner");
-  if (window._isOwner) {
-    document.body.classList.remove("read-only");
-    if (banner) banner.classList.replace("show", "hide");
-  } else {
-    document.body.classList.add("read-only");
-    if (banner) banner.classList.replace("hide", "show");
-    // Disable form inputs in owner-only sections
-    document.querySelectorAll("[data-owner-only] input, [data-owner-only] select, [data-owner-only] button").forEach(el => {
-      el.disabled = true;
-    });
-  }
-}
+  // ── Anchored positioning (Mac-menu style) ──────────────────────────────
+  function position(trigger) {
+    // Anchor relative to the document so the absolutely-positioned popover
+    // tracks the trigger regardless of scroll container.
+    var r = trigger.getBoundingClientRect();
+    var scrollX = window.pageXOffset || document.documentElement.scrollLeft || 0;
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    // Measure the panel after it is displayed (caller un-hides first).
+    var pw = pop.offsetWidth || 340;
+    var ph = pop.offsetHeight || 220;
+    var vw = document.documentElement.clientWidth;
+    var vh = document.documentElement.clientHeight;
 
-// ─── Theme picker (persisted, per-device) ───
-// Trailing 3 entries (sunset_drive / mall_plaza / neo_city) are the
-// 2026-05-04 limited-edition vibe-coder color schemes. They MUST be
-// in this list — applyTheme below uses it to strip stale `theme-*`
-// classes on switch, and missing entries leave the previous theme's
-// CSS overlapping with the new one. (Kevin caught the live-preview
-// bug 2026-05-04: 'doesn't update right away.')
-const THEMES = ["crimson", "ruby", "rose", "sunset", "amber", "lemon", "warm", "sand", "sage", "lime", "forest", "teal", "ocean", "slate", "cobalt", "midnight", "aurora", "plum", "ash", "mono", "paper", "sunset_drive", "mall_plaza", "neo_city"];
-const BACKGROUNDS = ["solid", "dots", "grid", "mesh", "noise", "aurora", "scanlines", "topo", "vignette", "paper", "linen", "blueprint", "constellation", "marble", "custom"];
+    // Horizontal: left-align to trigger, clamp into the viewport with an
+    // 8px margin so it never runs off-screen on narrow widths.
+    var left = r.left;
+    if (left + pw > vw - 8) left = vw - 8 - pw;
+    if (left < 8) left = 8;
 
-const TERMINAL_FONTS = {
-  "system":          "",
-  "jetbrains-mono":  '"JetBrains Mono", monospace',
-  "fira-code":       '"Fira Code", monospace',
-  "source-code-pro": '"Source Code Pro", monospace',
-  "ibm-plex-mono":   '"IBM Plex Mono", monospace',
-  "inconsolata":     '"Inconsolata", monospace',
-  "space-mono":      '"Space Mono", monospace',
-  "roboto-mono":     '"Roboto Mono", monospace',
-};
-const TERMINAL_FONT_GFONTS = {
-  "fira-code":       "Fira+Code:wght@400;500;600",
-  "source-code-pro": "Source+Code+Pro:wght@400;500;600",
-  "ibm-plex-mono":   "IBM+Plex+Mono:wght@400;500;600",
-  "inconsolata":     "Inconsolata:wght@400;500;600;700",
-  "space-mono":      "Space+Mono:wght@400;700",
-  "roboto-mono":     "Roboto+Mono:wght@400;500;600;700",
-};
-
-function syncThemeChrome() {
-  if (!document.body || !window.getComputedStyle) return;
-  try {
-    const bg = (getComputedStyle(document.body).getPropertyValue("--bg") || "").trim() || "#e9edf3";
-    document.querySelectorAll('meta[name="theme-color"]').forEach(el => {
-      el.setAttribute("content", bg);
-    });
-  } catch (e) {}
-}
-window.syncThemeChrome = syncThemeChrome;
-
-function applyTerminalFont(key) {
-  const stack = TERMINAL_FONTS[key];
-  const page = document.querySelector(".terminal-page");
-  if (page) {
-    if (stack) {
-      page.style.setProperty("--terminal-mono", stack);
+    // Vertical: prefer below the trigger; flip above if it would overflow
+    // the bottom and there is more room up top.
+    var below = (r.bottom + GAP + ph <= vh) || (r.bottom < vh - r.top);
+    var top;
+    if (below) {
+      top = r.bottom + GAP;
     } else {
-      page.style.removeProperty("--terminal-mono");
+      top = r.top - GAP - ph;
+      if (top < 8) top = 8;
     }
-  }
-  const gf = TERMINAL_FONT_GFONTS[key];
-  const linkId = "terminal-font-gf";
-  let existing = document.getElementById(linkId);
-  if (gf) {
-    const href = "https://fonts.googleapis.com/css2?family=" + gf + "&display=swap";
-    if (existing) {
-      existing.href = href;
-    } else {
-      const link = document.createElement("link");
-      link.id = linkId;
-      link.rel = "stylesheet";
-      link.href = href;
-      document.head.appendChild(link);
-    }
-  } else if (existing) {
-    existing.remove();
-  }
-}
-window.applyTerminalFont = applyTerminalFont;
 
-function applyTheme(name) {
-  const nextTheme = THEMES.includes(name) ? name : "ash";
-  [document.documentElement, document.body].forEach(target => {
-    if (!target) return;
-    THEMES.forEach(t => target.classList.remove("theme-" + t));
-    target.classList.add("theme-" + nextTheme);
-  });
-  if (document.body) document.body.dataset.theme = nextTheme;
-  document.querySelectorAll(".theme-swatch").forEach(el => {
-    const on = el.dataset.theme === nextTheme;
-    el.classList.toggle("active", on);
-    el.classList.toggle("is-active", on);
-    el.setAttribute("aria-pressed", on ? "true" : "false");
-  });
-  // Default logo NEVER changes (Kevin 2026-05-05: 'our default logo
-  // used on the website should also be our favicon set, this should
-  // ALWAYS be the case. Default logo, for favicons never changes').
-  //
-  // The canonical Threaded Trinity at `./icon.svg` is the project's
-  // single brand identity image. It serves as:
-  //   · the favicon (browser tab + bookmarks)
-  //   · the apple-touch-icon (iOS home-screen install)
-  //   · every in-page `.brand-mark` (homepage hero, nav slot, footer)
-  // None of these change with theme. Theme expressiveness lives in
-  // accent/background colors and the swatch picker — not in the
-  // brand-mark. Don't reintroduce a per-theme mark swap.
-  //
-  // The LE recolors in `dashgen/assets/le_brand_marks.py` remain
-  // available as baked data URIs for future collector affordances
-  // (e.g. downloadable variant, swatch-picker preview), but are NOT
-  // wired to replace the on-page mark or favicon.
-  const fav = document.getElementById("favicon");
-  if (fav) fav.href = "./icon.svg";
-  const apple = document.getElementById("apple-touch-icon");
-  if (apple) apple.href = "./icon.svg";
-  document.querySelectorAll(".brand-mark").forEach(el => { el.src = "./icon.svg"; });
-  // Reference the LE dict so the module-load substitution doesn't get
-  // dead-code-eliminated by the minifier — keep the baked URIs in the
-  // bundle for future collector use (see comment block above).
-  const LE_BRAND_MARKS = {"sunset_drive": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_sunset_drive_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80b8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff006e%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b001c%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ffc880%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff5a3a%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236b1a08%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_sunset_drive_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%239a80ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233010a0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a0220%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_sunset_drive_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_sunset_drive_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_sunset_drive_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23cc2a30%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23aa0080%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%236020a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_sunset_drive_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "mall_plaza": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_mall_plaza_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380e0ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300d4ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23002a40%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%236070ff%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%233050ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23000840%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_mall_plaza_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f8%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff00ff%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23400028%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_mall_plaza_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_mall_plaza_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_mall_plaza_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%230040a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%237010a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%234015a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_mall_plaza_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E", "neo_city": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22le_neo_city_top%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ff80f0%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%23ff10f0%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23500050%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_left%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23a8ff80%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2339ff14%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230a3010%22%2F%3E%3C%2FradialGradient%3E%3CradialGradient%20id%3D%22le_neo_city_right%22%20cx%3D%2235%25%22%20cy%3D%2225%25%22%20r%3D%2285%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2380fff5%22%2F%3E%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%2300fff5%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23003040%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22le_neo_city_clipT%22%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipL%22%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3CclipPath%20id%3D%22le_neo_city_clipR%22%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%22327%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_left%29%22%20%2F%3E%3Ccircle%20cx%3D%22697%22%20cy%3D%22619%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_right%29%22%20%2F%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22298%22%20r%3D%22270%22%20fill%3D%22url%28%23le_neo_city_top%29%22%20%2F%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23a06090%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%238060e0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%2320c0a0%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipT%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipL%29%22%3E%3Cg%20clip-path%3D%22url%28%23le_neo_city_clipR%29%22%3E%3Crect%20width%3D%221024%22%20height%3D%221024%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"};
-  void LE_BRAND_MARKS;
-  syncThemeChrome();
-  // Invalidate downstream caches that read CSS custom properties
-  // (component_renderers.colorFromToken memoizes per token; without
-  // this dispatch the cache would survive a theme switch with stale
-  // colors). Cheap event; no listeners outside the renderer today.
-  try { document.dispatchEvent(new CustomEvent("theme:applied", { detail: { name: nextTheme } })); } catch (e) {}
-}
-window.applyTheme = applyTheme;
+    pop.style.left = (left + scrollX) + 'px';
+    pop.style.top = (top + scrollY) + 'px';
 
-function applyBackground(name) {
-  BACKGROUNDS.forEach(b => document.body.classList.remove("bg-" + b));
-  if (name && name !== "solid") document.body.classList.add("bg-" + name);
-  document.querySelectorAll(".bg-swatch").forEach(el => {
-    el.classList.toggle("active", el.dataset.bg === (name || "solid"));
-  });
-  // Custom uploaded wallpaper — apply the persisted data URL inline.
-  // Falls back to solid if no upload yet (the swatch click handler also
-  // intercepts to open the file picker first time the tile is clicked).
-  if (name === "custom") {
-    const dataUrl = localStorage.getItem("ENDENZA_BG_CUSTOM");
-    if (dataUrl) {
-      document.body.style.backgroundImage = `url("${dataUrl}")`;
-    } else {
-      document.body.style.backgroundImage = "";
-    }
-  } else {
-    document.body.style.backgroundImage = "";
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  // Theme load + bind
-  const savedTheme = localStorage.getItem("ENDENZA_THEME") || "ash";
-  const savedMode = localStorage.getItem("ENDENZA_MODE") || "light";
-  document.body.dataset.mode = (savedMode === "dark" || savedMode === "auto") ? savedMode : "light";
-  applyTheme(savedTheme);
-  // Terminal-only appearance (per-page override). Stamped on <body>
-  // ASAP to avoid a FOUC where the site theme flashes before the
-  // terminal skin kicks in. The default is "follow-site", so the
-  // terminal inherits the active website appearance unless the user
-  // explicitly picks a terminal-only look. The Terminal settings popover
-  // stores either "follow-site" or a terminal-only appearance name;
-  // patterned appearances still use the Endenza base skin while their
-  // surface pattern is applied by terminal.html's first-paint restore script.
-  // Only stamps when we're actually on /terminal.html.
-  if (location.pathname.endsWith("/terminal.html") || location.pathname === "/terminal.html") {
-    let termTheme = "follow-site";
-    try {
-      const v = localStorage.getItem("ENDENZA_TERMINAL_THEME");
-      if (v === "follow-site" || v === "black-grey") termTheme = v;
-    } catch (e) {}
-    document.body.setAttribute("data-terminal-theme", termTheme);
-    let termFont = "system";
-    try {
-      const f = localStorage.getItem("ENDENZA_TERMINAL_FONT");
-      if (f && TERMINAL_FONTS.hasOwnProperty(f)) termFont = f;
-    } catch (e) {}
-    applyTerminalFont(termFont);
-  }
-  // Click + keyboard binding (Enter / Space). The swatches carry
-  // role="button" + tabindex="0" so keyboard users can activate them.
-  const activateOnKey = (handler) => (ev) => {
-    if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") {
-      ev.preventDefault();
-      handler.call(ev.currentTarget, ev);
-    }
-  };
-  document.querySelectorAll(".theme-swatch").forEach(el => {
-    if (!el.hasAttribute("role")) el.setAttribute("role", "button");
-    if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "0");
-    const fire = () => {
-      const t = el.dataset.theme;
-      localStorage.setItem("ENDENZA_THEME", t);
-      applyTheme(t);
-    };
-    el.addEventListener("click", fire);
-    el.addEventListener("keydown", activateOnKey(fire));
-  });
-
-  // Background load + bind
-  const savedBg = localStorage.getItem("ENDENZA_BG") || "solid";
-  applyBackground(savedBg);
-  document.querySelectorAll(".bg-swatch").forEach(el => {
-    const fire = () => {
-      const b = el.dataset.bg;
-      // Custom-upload tile: open the file picker on every click.  If the
-      // user already has a saved upload, clicking re-applies it without
-      // prompting (so they can switch back to it from another bg).
-      if (b === "custom") {
-        const hasSaved = !!localStorage.getItem("ENDENZA_BG_CUSTOM");
-        if (!hasSaved || el.classList.contains("active")) {
-          // Open file picker (no saved upload yet, OR custom is already
-          // active and the user is clicking to replace it).
-          const input = document.getElementById("bg-upload-input");
-          if (input) input.click();
-          return;
-        }
+    // Arrow points at the trigger's horizontal center, clamped to the panel.
+    if (arrow) {
+      var center = r.left + r.width / 2;
+      var ax = center - left - 7; // 7 = half the 14px arrow
+      ax = Math.max(12, Math.min(pw - 26, ax));
+      arrow.style.left = ax + 'px';
+      if (below) {
+        arrow.style.top = '-7px';
+        arrow.style.bottom = '';
+        arrow.style.transform = 'rotate(45deg)';
+      } else {
+        arrow.style.top = (ph - 7) + 'px';
+        arrow.style.bottom = '';
+        arrow.style.transform = 'rotate(225deg)';
       }
-      localStorage.setItem("ENDENZA_BG", b);
-      applyBackground(b);
-    };
-    el.addEventListener("click", fire);
-    el.addEventListener("keydown", activateOnKey(fire));
-  });
+    }
+  }
 
-  // Custom wallpaper upload flow.
-  const bgUpload = document.getElementById("bg-upload-input");
-  if (bgUpload) {
-    bgUpload.addEventListener("change", (e) => {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-      // Reasonable size cap — localStorage has a ~5MB ceiling on most browsers.
-      if (file.size > 4.5 * 1024 * 1024) {
-        alert("Image too large (max ~4.5MB). Pick a smaller one or compress first.");
-        e.target.value = "";
+  function isOpen() { return !pop.hidden; }
+
+  function open(trigger) {
+    openTrigger = trigger;
+    lastFocus = document.activeElement;
+    clearError();
+    // Reset to a clean idle state every open unless a runner is already
+    // confirmed connected this session.
+    stopTimers();
+    if (connected) {
+      showView('connected');
+    } else {
+      showView('idle');
+    }
+    pop.hidden = false;
+    position(trigger);
+    if (trigger.setAttribute) trigger.setAttribute('aria-expanded', 'true');
+    // Focus the most useful control: primary button on idle, else close.
+    var focusTarget = connected
+      ? pop.querySelector('[data-rcp-close]')
+      : (genBtn || pop.querySelector('[data-rcp-close]'));
+    setTimeout(function () { try { if (focusTarget) focusTarget.focus(); } catch (e) {} }, 0);
+  }
+
+  function close(restoreFocus) {
+    if (!isOpen()) return;
+    pop.hidden = true;
+    // Keep polling timers running only while open; stop on close unless
+    // already connected (nothing left to poll then anyway).
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    if (openTrigger && openTrigger.setAttribute) openTrigger.setAttribute('aria-expanded', 'false');
+    var t = openTrigger;
+    openTrigger = null;
+    if (restoreFocus !== false) {
+      var back = (t && t.focus) ? t : lastFocus;
+      try { if (back && back.focus) back.focus(); } catch (e) {}
+    }
+  }
+
+  function startCountdown(seconds) {
+    var remaining = seconds;
+    function tick() {
+      if (remaining <= 0) {
+        if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+        if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+        if (expiryEl) expiryEl.textContent = 'Code expired';
+        if (waitEl) waitEl.textContent = 'That code expired before a runner connected.';
+        if (regenBtn) regenBtn.hidden = false;
         return;
       }
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const dataUrl = ev.target && ev.target.result;
-        try {
-          localStorage.setItem("ENDENZA_BG_CUSTOM", dataUrl);
-          localStorage.setItem("ENDENZA_BG", "custom");
-          applyBackground("custom");
-        } catch (err) {
-          alert("Couldn't save wallpaper to local storage (it may be too large). Try a smaller image.");
-        }
-      };
-      reader.readAsDataURL(file);
-      // Reset the input so picking the same file again still triggers change.
-      e.target.value = "";
-    });
-  }
-  // Owner mode initial state — pessimistic until state fetch confirms
-  window._isOwner = !!(localStorage.getItem("DASHBOARD_TOKEN") && localStorage.getItem("ENDENZA_SERVER_URL"));
-  applyOwnerMode();
-
-  refreshState();
-  setInterval(refreshState, 60000);
-  document.querySelectorAll("[data-field]").forEach(el => {
-    el.addEventListener("change", () => {
-      if (!window._isOwner) return;  // belt + suspenders; backend also enforces
-      const field = el.dataset.field;
-      let value;
-      if (el.type === "checkbox") value = el.checked;
-      else if (el.type === "number") value = parseInt(el.value, 10);
-      else value = el.value;
-      setConfig(field, value);
-    });
-  });
-});
-
-// Page-specific hooks (defined inline by each page if needed)
-async function fireAutopilot() {
-  const slug = document.getElementById("fire-slug").value;
-  const minutes = parseInt(document.getElementById("fire-mins").value, 10);
-  if (!slug || !minutes) return showHelp("fire-help", "Pick project + minutes");
-  try {
-    const r = await fetch(SERVER_URL + "/fire", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, minutes, prompt: "" }) });
-    const j = await r.json();
-    showHelp("fire-help", r.ok ? ("✓ fired " + slug + " for " + minutes + "m (exit " + j.exit + ")") : ("✗ " + (j.error || r.statusText)));
-  } catch (e) { showHelp("fire-help", "✗ " + e.message); }
-}
-
-async function setProjectState() {
-  const slug = document.getElementById("state-slug").value;
-  const state = document.getElementById("state-target").value;
-  if (!slug || !state) return showHelp("state-help", "Pick project + state");
-  try {
-    let r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state }) });
-    let j = await r.json();
-    if (r.status === 409 && j.error === "smoke_test_required") {
-      const ok = confirm("Checkpoint " + j.checkpoint + " smoke test required: " + j.current_state + " → " + j.target_state + ".\n\nState held. Run the test, then use the banner above.\n\nForce-skip the smoke test?");
-      if (ok) {
-        r = await fetch(SERVER_URL + "/set-state", { method: "POST", headers: authHeaders(), body: JSON.stringify({ slug, state, force: true }) });
-        j = await r.json();
-        showHelp("state-help", r.ok ? ("⚠ " + slug + " → " + state + " (forced; logged)") : ("✗ " + (j.error || r.statusText)));
-      } else { showHelp("state-help", "Smoke test held. See banner above."); }
-      setTimeout(refreshState, 500); return;
+      var m = Math.floor(remaining / 60);
+      var s = remaining % 60;
+      if (expiryEl) expiryEl.textContent = 'Expires in ' + m + ':' + (s < 10 ? '0' + s : s);
+      remaining -= 1;
     }
-    showHelp("state-help", r.ok ? ("✓ " + slug + " → " + state) : ("✗ " + (j.error || r.statusText)));
-    setTimeout(refreshState, 500);
-  } catch (e) { showHelp("state-help", "✗ " + e.message); }
-}
-
-async function killAll() {
-  if (!confirm("Kill all autopilot? Six-phase cascade fires.")) return;
-  try {
-    const r = await fetch(SERVER_URL + "/kill", { method: "POST", headers: authHeaders() });
-    const j = await r.json();
-    showHelp("kill-help", r.ok ? ("✓ kill exit=" + j.exit) : ("✗ " + (j.error || r.statusText)));
-    setTimeout(refreshState, 1000);
-  } catch (e) { showHelp("kill-help", "✗ " + e.message); }
-}
-
-async function setTokenReset() {
-  const v = document.getElementById("reset-input")?.value;
-  if (!v) return showHelp("reset-help", "Pick a date/time.");
-  const iso = new Date(v).toISOString();
-  try {
-    const r = await fetch(SERVER_URL + "/set-config", { method: "POST", headers: authHeaders(), body: JSON.stringify({ field: "weekly_token_reset_at", value: iso }) });
-    const j = await r.json();
-    showHelp("reset-help", r.ok ? ("✓ reset set to " + iso) : ("✗ " + (j.error || r.statusText)));
-    setTimeout(refreshState, 500);
-  } catch (e) { showHelp("reset-help", "✗ " + e.message); }
-}
-
-// ─── Live relative timestamps — every <span class="rel-time" data-iso="..."> ticks ───
-(function () {
-  function rel(iso) {
-    var t = new Date(iso).getTime();
-    if (isNaN(t)) return iso;
-    var s = Math.max(0, Math.floor((Date.now() - t) / 1000));
-    if (s < 30) return 'just now';
-    if (s < 90) return '1 min ago';
-    if (s < 3600) return Math.floor(s / 60) + ' mins ago';
-    if (s < 5400) return '1 hour ago';
-    if (s < 86400) return Math.floor(s / 3600) + ' hours ago';
-    if (s < 172800) return 'yesterday';
-    return Math.floor(s / 86400) + ' days ago';
+    tick();
+    countdownTimer = setInterval(tick, 1000);
   }
-  function update() {
-    document.querySelectorAll('.rel-time').forEach(function (el) {
-      var iso = el.getAttribute('data-iso');
-      if (iso) el.textContent = rel(iso);
-    });
-  }
-  update();
-  setInterval(update, 30000);
-})();
-// First-run onboarding modal (Phase A.4-3)
-const FIRST_RUN_SEEN_KEY = "ensemble:first-run-seen";
 
-// Slot warp:flowA - advance the server-side first-run state machine.
-// Best-effort: a 401 (unpaired) or 409 (regression/skip) should not block
-// the UI flow, since the modal works even when paired-user auth is absent
-// in dev mode. Logged via console.warn so we can spot real regressions.
-async function advanceFirstRunState(step) {
-  try {
-    const r = await fetch("/first-run/advance", {
-      method: "POST",
-      headers: authHeaders(),
-      body: JSON.stringify({ step: step })
-    });
-    if (!r.ok && r.status !== 409 && r.status !== 401) {
-      try { console.warn("first-run advance failed", step, r.status); } catch (e) {}
+  function markConnected() {
+    connected = true;
+    stopTimers();
+    showView('connected');
+    // Reflect on the body so any other surface chrome can react.
+    if (document.body) {
+      document.body.classList.add('runner-paired');
+      document.body.classList.remove('runner-unpaired');
     }
-    return r.ok;
-  } catch (e) {
-    return false;
+    window._runnerPaired = true;
   }
-}
 
-function isEnsembleHomepage() {
-  const p = location.pathname;
-  return p.endsWith("/index.html") || p === "/" || p.endsWith("/ensemble.html");
-}
+  function startPolling() {
+    if (pollTimer) return;
+    pollTimer = setInterval(function () {
+      if (polling) return;
+      polling = true;
+      fetch('/v1/runner/pairings', { headers: { 'accept': 'application/json' }, credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          polling = false;
+          if (!data || !Array.isArray(data.pairings)) return;
+          var live = data.pairings.some(function (p) { return p && p.active; });
+          if (live) markConnected();
+        })
+        .catch(function () { polling = false; });
+    }, 4000);
+  }
 
-function openFirstRunModal() {
-  const overlay = document.getElementById("first-run-overlay");
-  if (!overlay) return;
-  overlay.hidden = false;
-  const err = document.getElementById("first-run-error");
-  if (err) err.innerHTML = "";
-  const firstField = document.getElementById("frq-building");
-  if (firstField) setTimeout(() => firstField.focus(), 50);
-}
-
-function closeFirstRunModal() {
-  const overlay = document.getElementById("first-run-overlay");
-  if (!overlay) return;
-  overlay.hidden = true;
-  try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
-}
-
-async function submitFirstRunModal(ev) {
-  ev.preventDefault();
-  const err = document.getElementById("first-run-error");
-  const submitBtn = document.getElementById("first-run-submit");
-  const building = (document.getElementById("frq-building").value || "").trim();
-  const vibe = (document.getElementById("frq-vibe").value || "").trim();
-  // Train 2 (2026-05-04): "problem" was replaced by "color_scheme" — a
-  // chip-driven picker. The hidden input's id is frq-color-scheme; the
-  // server still accepts the legacy "problem" key for back-compat.
-  const colorScheme = (document.getElementById("frq-color-scheme").value || "").trim();
-  if (!building) {
-    if (err) err.textContent = "Tell us what you’re building.";
-    return;
-  }
-  if (!vibe) {
-    if (err) err.textContent = "Pick a vibe to set the room’s mood.";
-    return;
-  }
-  if (!colorScheme) {
-    if (err) err.textContent = "Pick a color scheme.";
-    return;
-  }
-  var tosCheck = document.getElementById("first-run-tos-check");
-  if (tosCheck && !tosCheck.checked) {
-    if (err) err.textContent = "Please agree to the Terms of Service before generating.";
-    return;
-  }
-  if (err) err.innerHTML = "";
-  if (submitBtn) { submitBtn.disabled = true; submitBtn.classList.add("is-loading"); }
-  try {
-    const r = await fetch("/studio/generate-from-answers", {
-      method: "POST",
-      headers: authHeaders(),
-      body: JSON.stringify({
-        building: building,
-        vibe: vibe,
-        color_scheme: colorScheme,
-        // Back-compat: server may still expect `problem`. Send it as
-        // the color_scheme slug so older deploys interpret the answer
-        // sensibly until they pick up the schema update.
-        problem: colorScheme,
+  function generate() {
+    clearError();
+    if (genBtn) { genBtn.disabled = true; }
+    if (regenBtn) { regenBtn.hidden = true; }
+    fetch('/v1/runner/pair/code', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'accept': 'application/json' },
+      credentials: 'same-origin',
+      body: '{}'
+    })
+      .then(function (r) {
+        return r.json().then(function (j) { return { status: r.status, body: j }; })
+          .catch(function () { return { status: r.status, body: null }; });
       })
-    });
-    let body = {};
-    try { body = await r.json(); } catch (e) {}
-    if (r.ok) {
-      try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
-      // Stash the generated studio so /your-studio.html can render it.
-      // Phase A.4-3 part 2 fix (2026-04-28): the modal previously
-      // discarded body.studio and redirected to the static engine page.
-      try {
-        if (body && body.studio) {
-          localStorage.setItem("ensemble:generated-studio", JSON.stringify(body.studio));
-        }
-      } catch (e) {}
-      // Slot warp:flowA - record progress through the state machine.
-      // QUESTIONS marks the modal submit; CANVAS marks the genesis 200.
-      // Both happen now because /studio/generate-from-answers returned ok
-      // synchronously above; the state machine still rejects skips so we
-      // advance one step at a time.
-      await advanceFirstRunState("questions-answered");
-      await advanceFirstRunState("canvas-generated");
-      // Post-studio: route through character creator before showing the
-      // generated studio, so the visitor designs their sprite once. The
-      // creator's Save handler honors ?from=first-run and forwards on to
-      // /your-studio.html.
-      window.location.href = "/character-creator.html?from=first-run";
-      return;
-    }
-    if (r.status === 400) {
-      const msg = (body && body.error) ? String(body.error) : "Validation error.";
-      if (msg.toLowerCase().includes("byok")) {
-        if (err) err.innerHTML = "You'll need to add an Anthropic API key first. <a href='/settings.html#anthropic-byok'>Open Settings</a>";
-      } else {
-        if (err) err.textContent = msg;
-      }
-    } else if (r.status === 500) {
-      const stage = (body && body.stage) ? body.stage : "?";
-      if (err) err.textContent = "Something went wrong (stage: " + stage + "). Please try again.";
-    } else {
-      if (err) err.textContent = "Unexpected response (" + r.status + "). Please try again.";
-    }
-  } catch (e) {
-    if (err) err.textContent = "Network error: " + (e && e.message ? e.message : "unknown");
-  } finally {
-    if (submitBtn) { submitBtn.disabled = false; submitBtn.classList.remove("is-loading"); }
-  }
-}
-
-function ctaGenerateClicked() {
-  fetch("/ensemble/cta-clicked", {
-    method: "POST",
-    headers: authHeaders(),
-    body: "{}",
-    keepalive: true
-  }).catch(() => {});
-  openFirstRunModal();
-}
-
-// Train 2 (2026-05-04): chip-group wiring. Single-select radio
-// behavior driven by aria-checked + a hidden input that mirrors the
-// chosen slug. Reused on the Studio "Generate from GitHub" panel.
-function wireChipGroup(groupEl, hiddenInput) {
-  if (!groupEl || !hiddenInput) return;
-  const chips = groupEl.querySelectorAll("[data-chip-value]");
-  function selectChip(target) {
-    chips.forEach(function (c) {
-      const isSel = c === target;
-      c.setAttribute("aria-checked", isSel ? "true" : "false");
-    });
-    hiddenInput.value = target.getAttribute("data-chip-value") || "";
-    hiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
-  }
-  chips.forEach(function (chip) {
-    chip.addEventListener("click", function () { selectChip(chip); });
-    chip.addEventListener("keydown", function (e) {
-      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft" &&
-          e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
-      e.preventDefault();
-      const list = Array.prototype.slice.call(chips);
-      const idx = list.indexOf(chip);
-      const dir = (e.key === "ArrowRight" || e.key === "ArrowDown") ? 1 : -1;
-      const next = list[(idx + dir + list.length) % list.length];
-      next.focus();
-      selectChip(next);
-    });
-  });
-}
-
-function wireFirstRunModal() {
-  const overlay = document.getElementById("first-run-overlay");
-  if (!overlay) return;
-  const closeBtn = document.getElementById("first-run-close");
-  const cancelBtn = document.getElementById("first-run-cancel");
-  const form = document.getElementById("first-run-form");
-  const cta = document.getElementById("cta-generate-studio");
-  if (closeBtn) closeBtn.addEventListener("click", closeFirstRunModal);
-  if (cancelBtn) cancelBtn.addEventListener("click", closeFirstRunModal);
-  if (form) form.addEventListener("submit", submitFirstRunModal);
-  if (cta) cta.addEventListener("click", ctaGenerateClicked);
-  // Train 2: wire the two chip groups. Each group's selected slug is
-  // mirrored to a hidden input read by submitFirstRunModal.
-  const vibeGroup = overlay.querySelector('[data-chip-group-name="vibe"]');
-  const vibeInput = document.getElementById("frq-vibe");
-  wireChipGroup(vibeGroup, vibeInput);
-  const colorGroup = overlay.querySelector('[data-chip-group-name="color_scheme"]');
-  const colorInput = document.getElementById("frq-color-scheme");
-  wireChipGroup(colorGroup, colorInput);
-  // Stamp 2 / warp:c (2026-04-29): ToS gate. Generate button stays
-  // disabled until the user ticks the agreement checkbox.
-  var tosCheck = document.getElementById("first-run-tos-check");
-  var submitBtn = document.getElementById("first-run-submit");
-  if (tosCheck && submitBtn) {
-    var syncTos = function () {
-      if (tosCheck.checked) {
-        submitBtn.disabled = false;
-        submitBtn.removeAttribute("aria-disabled");
-      } else {
-        submitBtn.disabled = true;
-        submitBtn.setAttribute("aria-disabled", "true");
-      }
-    };
-    tosCheck.addEventListener("change", syncTos);
-    syncTos();
-  }
-  overlay.addEventListener("click", function (e) {
-    if (e.target === overlay) closeFirstRunModal();
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !overlay.hidden) closeFirstRunModal();
-  });
-  if (isEnsembleHomepage()) {
-    // Slot warp:flowA - returning-user fast-path. If the server says this
-    // user has already completed the first-run flow, route them directly
-    // to /studio.html without flickering through the modal.
-    fetch("/first-run/state", { headers: authHeaders() })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (state) {
-        if (state && state.is_complete) {
-          try { localStorage.setItem(FIRST_RUN_SEEN_KEY, "1"); } catch (e) {}
-          window.location.replace(state.resume_url || "/studio.html");
-          return;
-        }
-        // Not complete - either unpaired (state==null) or mid-flow.
-        // Resume URL hints at the right page; if it points to a different
-        // step, route there. Otherwise show the modal as before.
-        if (state && state.resume_url && state.resume_url !== "/index.html") {
-          window.location.replace(state.resume_url);
-          return;
-        }
-        let seen = "0";
-        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
-        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+      .then(function (res) {
+        if (genBtn) { genBtn.disabled = false; }
+        if (res.status === 429) { showError('Too many codes just now. Wait a moment and try again.'); return; }
+        if (res.status === 401) { showError('Please sign in, then try again.'); return; }
+        if (!res.body || !res.body.code) { showError('Could not create a pairing code. Try again.'); return; }
+        var code = String(res.body.code);
+        if (cmdEl) cmdEl.textContent = commandFor(code);
+        if (waitEl) waitEl.textContent = 'Waiting for your runner to connect\u2026';
+        showView('command');
+        // Re-anchor: the command view is taller than idle.
+        if (openTrigger) position(openTrigger);
+        stopTimers();
+        startCountdown(Number(res.body.expires_in) || 300);
+        startPolling();
       })
       .catch(function () {
-        // Network / unreachable - fall back to legacy localStorage gate.
-        let seen = "0";
-        try { seen = localStorage.getItem(FIRST_RUN_SEEN_KEY) || "0"; } catch (e) {}
-        if (seen !== "1") setTimeout(openFirstRunModal, 200);
+        if (genBtn) { genBtn.disabled = false; }
+        showError('Network error. Check your connection and try again.');
       });
   }
-}
 
-document.addEventListener("DOMContentLoaded", wireFirstRunModal);
+  if (genBtn) genBtn.addEventListener('click', generate);
+  if (regenBtn) regenBtn.addEventListener('click', generate);
 
-// ─── "Pair this device" banner (warp:b 2026-05-02) ───
-// On GH Pages (no Mac control panel reachable), nudge visitors to pair
-// their device so owner-mode features light up. Skipped on localhost
-// (the Mac is local) and when ENSEMBLE_SERVER_URL is already set.
-const SERVER_URL_BANNER_DISMISSED_KEY = "ensemble:server-url-banner-dismissed";
-
-function wireServerUrlBanner() {
-  try {
-    const host = location.hostname;
-    if (host === "localhost" || host === "127.0.0.1") return;
-    if (localStorage.getItem("ENDENZA_SERVER_URL")) return;
-    if (localStorage.getItem(SERVER_URL_BANNER_DISMISSED_KEY) === "1") return;
-    // /pair.html already shows the form — banner would be redundant.
-    if (location.pathname.endsWith("/pair.html")) return;
-  } catch (e) { return; }
-  if (document.getElementById("server-url-banner")) return;
-
-  const banner = document.createElement("div");
-  banner.id = "server-url-banner";
-  banner.className = "server-url-banner";
-  banner.setAttribute("role", "status");
-  banner.innerHTML =
-    '<span>Connect your Mac to use this from any device.</span>' +
-    ' <a href="./pair.html">Pair this device</a>' +
-    ' <button type="button" class="server-url-banner__dismiss" aria-label="Dismiss">&times;</button>';
-
-  // Insert above the topnav so it never steals space from the sticky header.
-  const topnav = document.querySelector(".topnav");
-  if (topnav && topnav.parentNode) topnav.parentNode.insertBefore(banner, topnav);
-  else document.body.insertBefore(banner, document.body.firstChild);
-
-  const dismiss = banner.querySelector(".server-url-banner__dismiss");
-  if (dismiss) {
-    dismiss.addEventListener("click", () => {
-      try { localStorage.setItem(SERVER_URL_BANNER_DISMISSED_KEY, "1"); } catch (e) {}
-      banner.remove();
+  if (copyBtn && cmdEl) {
+    copyBtn.addEventListener('click', function () {
+      var text = cmdEl.textContent || '';
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(text).then(function () {
+        var prev = copyBtn.textContent;
+        copyBtn.classList.add('is-copied');
+        copyBtn.textContent = 'Copied';
+        setTimeout(function () {
+          copyBtn.textContent = prev;
+          copyBtn.classList.remove('is-copied');
+        }, 1600);
+      }).catch(function () {});
     });
   }
-}
 
-document.addEventListener("DOMContentLoaded", wireServerUrlBanner);
+  // ── Dismiss wiring: close button, Esc, click-outside ───────────────────
+  pop.querySelectorAll('[data-rcp-close]').forEach(function (b) {
+    b.addEventListener('click', function () { close(true); });
+  });
+  // Pairing in Settings is a real navigation; let it through and close.
+  var settingsLink = pop.querySelector('[data-rcp-settings]');
+  if (settingsLink) settingsLink.addEventListener('click', function () { close(false); });
 
-// Waitlist polish (Phase 3)
-function wireWaitlistPolish() {
-  const form = document.querySelector('.ensemble-cta__form');
-  if (!form) return;
-  const input = form.querySelector('.ensemble-cta__input');
-  const button = form.querySelector('.ensemble-cta__btn');
-  const errorEl = document.getElementById('ensemble-cta-error');
-  const successEl = document.getElementById('ensemble-cta-success');
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  function clearError() {
-    if (errorEl) errorEl.textContent = '';
-    if (input) input.setAttribute('aria-invalid', 'false');
-  }
-
-  function showError(msg) {
-    if (errorEl) errorEl.textContent = msg;
-    if (input) input.setAttribute('aria-invalid', 'true');
-  }
-
-  if (input) input.addEventListener('input', clearError);
-
-  form.addEventListener('submit', async function (event) {
-    event.preventDefault();
-    clearError();
-    const email = (input && input.value || '').trim();
-    if (!EMAIL_RE.test(email)) {
-      showError('Please enter a valid email address.');
-      if (input) input.focus();
+  document.addEventListener('keydown', function (e) {
+    if (!isOpen()) return;
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      e.preventDefault();
+      close(true);
       return;
     }
-    if (button) {
-      button.disabled = true;
-      button.classList.add('is-loading');
-    }
-    try {
-      const body = 'email=' + encodeURIComponent(email);
-      const response = await fetch(form.action, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json'
-        },
-        body: body
-      });
-      if (!response.ok) {
-        throw new Error('http ' + response.status);
-      }
-      form.hidden = true;
-      if (successEl) successEl.hidden = false;
-    } catch (e) {
-      showError('Something went wrong, please try again.');
-      if (button) {
-        button.disabled = false;
-        button.classList.remove('is-loading');
+    if (e.key === 'Tab') {
+      // Focus trap: keep Tab within the popover.
+      var f = visibleFocusables();
+      if (!f.length) { e.preventDefault(); return; }
+      var first = f[0];
+      var last = f[f.length - 1];
+      var active = document.activeElement;
+      if (e.shiftKey) {
+        if (active === first || !pop.contains(active)) { e.preventDefault(); try { last.focus(); } catch (er) {} }
+      } else {
+        if (active === last || !pop.contains(active)) { e.preventDefault(); try { first.focus(); } catch (er) {} }
       }
     }
   });
-}
-document.addEventListener("DOMContentLoaded", wireWaitlistPolish);
-</script>
+
+  // Click-outside-close. Ignore clicks on the active trigger (the trigger's
+  // own handler toggles) and clicks inside the panel.
+  document.addEventListener('mousedown', function (e) {
+    if (!isOpen()) return;
+    if (pop.contains(e.target)) return;
+    if (openTrigger && (e.target === openTrigger || openTrigger.contains(e.target))) return;
+    close(false);
+  });
+
+  // Keep the popover anchored if the layout shifts while open.
+  function reanchor() { if (isOpen() && openTrigger) position(openTrigger); }
+  window.addEventListener('resize', reanchor);
+  window.addEventListener('scroll', reanchor, true);
+
+  // ── Wire EVERY [data-runner-connect] trigger ───────────────────────────
+  function activate(trigger, e) {
+    if (e) e.preventDefault();
+    if (isOpen() && openTrigger === trigger) { close(true); return; }
+    if (isOpen()) close(false);
+    open(trigger);
+  }
+
+  var triggers = document.querySelectorAll('[data-runner-connect]');
+  triggers.forEach(function (trigger) {
+    // a11y: give non-button triggers a button role + keyboard activation.
+    var isButton = trigger.tagName === 'BUTTON' ||
+      (trigger.tagName === 'A') ||
+      trigger.getAttribute('role') === 'button';
+    if (!isButton) {
+      if (!trigger.getAttribute('role')) trigger.setAttribute('role', 'button');
+      if (!trigger.hasAttribute('tabindex')) trigger.setAttribute('tabindex', '0');
+    }
+    trigger.setAttribute('aria-haspopup', 'dialog');
+    trigger.setAttribute('aria-controls', 'runner-connect-popover');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.addEventListener('click', function (e) { activate(trigger, e); });
+    trigger.addEventListener('keydown', function (e) {
+      // Anchors/buttons fire click on Enter/Space already; only synthesize
+      // for non-natively-actionable elements.
+      if (trigger.tagName === 'BUTTON' || trigger.tagName === 'A') return;
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        activate(trigger, e);
+      }
+    });
+  });
+})();
+</script><script src="./public-shared-scripts.js?v=2026-05-29-cb2033ef99" defer></script>
 </body>
 </html>

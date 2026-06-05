@@ -2,14 +2,14 @@
   "schema_version": 1,
   "preset_metadata": {
     "id": "music_lab",
-    "display_name": "Music Lab",
+    "display_name": "Music lab",
     "description": "A production studio with piano, microphone, vinyl wall, and speaker stacks. Perfect for musicians and audio creators.",
     "thumbnail": null,
     "natural_themes": ["warm", "midnight", "sunset_drive", "cobalt"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1
   },
   "name": "Music Lab",
@@ -22,6 +22,11 @@
     "background_layer": null,
     "ambient_sound": null
   },
+  "spawn": {
+    "x": 480,
+    "y": 388,
+    "facing": "south"
+  },
   "components": [
     {
       "id": "floor",
@@ -31,8 +36,28 @@
       "w": 960,
       "h": 540,
       "z": 0,
-      "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
       "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "entry_path",
+      "type": "prop",
+      "x": 408,
+      "y": 356,
+      "w": 144,
+      "h": 64,
+      "z": 1,
+      "props": {
+        "sprite_id": "path_stone",
+        "surface": "threshold",
+        "tile": 32
+      },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -45,7 +70,9 @@
       "w": 360,
       "h": 200,
       "z": 1,
-      "props": { "sprite_id": "rug" },
+      "props": {
+        "sprite_id": "rug"
+      },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -58,7 +85,10 @@
       "w": 150,
       "h": 92,
       "z": 6,
-      "props": { "sprite_id": "piano", "label": "Piano" },
+      "props": {
+        "sprite_id": "piano",
+        "label": "Piano"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -76,7 +106,10 @@
       "w": 36,
       "h": 72,
       "z": 6,
-      "props": { "sprite_id": "microphone", "label": "Mic" },
+      "props": {
+        "sprite_id": "microphone",
+        "label": "Mic"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -94,7 +127,10 @@
       "w": 56,
       "h": 56,
       "z": 7,
-      "props": { "sprite_id": "vinyl_record", "label": "Album 1" },
+      "props": {
+        "sprite_id": "vinyl_record",
+        "label": "Album 1"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -112,7 +148,10 @@
       "w": 56,
       "h": 56,
       "z": 7,
-      "props": { "sprite_id": "vinyl_record", "label": "Album 2" },
+      "props": {
+        "sprite_id": "vinyl_record",
+        "label": "Album 2"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -130,7 +169,10 @@
       "w": 56,
       "h": 56,
       "z": 7,
-      "props": { "sprite_id": "vinyl_record", "label": "Album 3" },
+      "props": {
+        "sprite_id": "vinyl_record",
+        "label": "Album 3"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -148,7 +190,9 @@
       "w": 56,
       "h": 110,
       "z": 5,
-      "props": { "sprite_id": "speaker_stack" },
+      "props": {
+        "sprite_id": "speaker_stack"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -166,7 +210,9 @@
       "w": 56,
       "h": 110,
       "z": 5,
-      "props": { "sprite_id": "speaker_stack" },
+      "props": {
+        "sprite_id": "speaker_stack"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -179,7 +225,10 @@
       "w": 160,
       "h": 100,
       "z": 5,
-      "props": { "sprite_id": "desk", "label": "Mixing Desk" },
+      "props": {
+        "sprite_id": "desk",
+        "label": "Mixing Desk"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -197,7 +246,9 @@
       "w": 56,
       "h": 56,
       "z": 4,
-      "props": { "sprite_id": "chair" },
+      "props": {
+        "sprite_id": "chair"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -210,7 +261,9 @@
       "w": 36,
       "h": 72,
       "z": 5,
-      "props": { "sprite_id": "lamp" },
+      "props": {
+        "sprite_id": "lamp"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -223,7 +276,9 @@
       "w": 44,
       "h": 60,
       "z": 5,
-      "props": { "sprite_id": "plant_pot" },
+      "props": {
+        "sprite_id": "plant_pot"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -231,16 +286,87 @@
     {
       "id": "door_exit",
       "type": "prop",
-      "x": 440,
-      "y": 440,
-      "w": 64,
-      "h": 84,
-      "z": 5,
-      "props": { "sprite_id": "door", "label": "Exit" },
+      "x": 444,
+      "y": 420,
+      "w": 72,
+      "h": 120,
+      "z": 30,
+      "props": {
+        "sprite_id": "door",
+        "label": "Exit"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
-      "interaction": { "type": "door", "destination": "./" }
+      "interaction": {
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
+      }
+    },
+    {
+      "id": "ml_couch",
+      "type": "prop",
+      "x": 280,
+      "y": 232,
+      "w": 160,
+      "h": 72,
+      "z": 4,
+      "props": {
+        "sprite_id": "couch",
+        "label": "Listening couch"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "ml_poster",
+      "type": "prop",
+      "x": 300,
+      "y": 12,
+      "w": 118,
+      "h": 80,
+      "z": 7,
+      "props": {
+        "sprite_id": "poster",
+        "label": "Tour poster"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "ml_frame",
+      "type": "prop",
+      "x": 500,
+      "y": 16,
+      "w": 90,
+      "h": 64,
+      "z": 6,
+      "props": {
+        "sprite_id": "frame",
+        "label": "Album art"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "ml_plant",
+      "type": "prop",
+      "x": 230,
+      "y": 300,
+      "w": 46,
+      "h": 58,
+      "z": 5,
+      "props": {
+        "sprite_id": "plant_pot",
+        "label": "Studio plant"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     }
   ],
   "custom_css": "",

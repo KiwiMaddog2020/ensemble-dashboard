@@ -2,8 +2,8 @@
   "id": "cnv_de000000000e",
   "owner_id": "usr_endenza_demo",
   "owner_handle": "endenza_demo",
-  "title": "Corner Shop",
-  "description": "A neighbourhood staple — shelves of curious things, a counter, and a shopkeeper who always has time for a chat.",
+  "title": "Corner Store",
+  "description": "A neighbourhood staple with shelves of curious things, a counter, and a shopkeeper who always has time for a chat.",
   "theme": "warm",
   "pack_id": "limezu-modern-interiors-default",
   "visibility": "public",
@@ -13,12 +13,20 @@
   "slot_index": 3,
   "published_at": 1746316800.0,
   "source": "manual",
-  "source_metadata": { "built_in": true, "demo": true },
+  "source_metadata": {
+    "built_in": true,
+    "demo": true
+  },
   "created_at": 1746316800.0,
   "updated_at": 1746316800.0,
-  "schema_version": 7,
+  "schema_version": 8,
   "room_state": {
-    "stage": { "width": 960, "height": 540, "background_layer": null, "ambient_sound": null },
+    "stage": {
+      "width": 960,
+      "height": 540,
+      "background_layer": null,
+      "ambient_sound": null
+    },
     "components": [
       {
         "id": "floor",
@@ -28,11 +36,15 @@
         "w": 960,
         "h": 540,
         "z": 0,
-        "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+        "props": {
+          "shape": "stage_floor",
+          "fill_token": "bg-sunken"
+        },
         "locked": true,
         "walkable_through": true,
         "solid": false,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "counter",
@@ -42,7 +54,10 @@
         "w": 220,
         "h": 120,
         "z": 6,
-        "props": { "sprite_id": "workbench", "label": "Counter" },
+        "props": {
+          "sprite_id": "workbench",
+          "label": "Counter"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -50,7 +65,8 @@
           "type": "read",
           "title": "Shop Counter",
           "body": "Browse the wares. Link to your store or marketplace."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "shelf_left",
@@ -60,7 +76,11 @@
         "w": 130,
         "h": 110,
         "z": 6,
-        "props": { "sprite_id": "bookshelf", "label": "Shelf A", "book_count": 8 },
+        "props": {
+          "sprite_id": "bookshelf",
+          "label": "Shelf A",
+          "book_count": 8
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -68,7 +88,8 @@
           "type": "read",
           "title": "Shelf A",
           "body": "Featured items and new arrivals."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "shelf_right",
@@ -78,11 +99,20 @@
         "w": 130,
         "h": 110,
         "z": 6,
-        "props": { "sprite_id": "bookshelf", "label": "Shelf B", "book_count": 11 },
+        "props": {
+          "sprite_id": "bookshelf",
+          "label": "Shelf B",
+          "book_count": 11
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
-        "interaction": { "type": "read", "title": "Shelf B", "body": "Bestsellers and classics." }
+        "interaction": {
+          "type": "read",
+          "title": "Shelf B",
+          "body": "Bestsellers and classics."
+        },
+        "sittable": false
       },
       {
         "id": "poster_open",
@@ -92,10 +122,14 @@
         "w": 100,
         "h": 80,
         "z": 7,
-        "props": { "sprite_id": "poster", "label": "OPEN" },
+        "props": {
+          "sprite_id": "poster",
+          "label": "OPEN"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "table_display",
@@ -105,10 +139,14 @@
         "w": 120,
         "h": 60,
         "z": 5,
-        "props": { "sprite_id": "table", "label": "Display" },
+        "props": {
+          "sprite_id": "table",
+          "label": "Display"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "lamp_counter",
@@ -118,10 +156,13 @@
         "w": 36,
         "h": 72,
         "z": 5,
-        "props": { "sprite_id": "lamp" },
+        "props": {
+          "sprite_id": "lamp"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_a",
@@ -131,10 +172,13 @@
         "w": 48,
         "h": 64,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "window_1",
@@ -144,10 +188,13 @@
         "w": 80,
         "h": 60,
         "z": 6,
-        "props": { "sprite_id": "window" },
+        "props": {
+          "sprite_id": "window"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "door_exit",
@@ -157,11 +204,72 @@
         "w": 64,
         "h": 84,
         "z": 5,
-        "props": { "sprite_id": "door", "label": "Exit" },
+        "props": {
+          "sprite_id": "door",
+          "label": "Exit"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
-        "interaction": { "type": "door", "destination": "./" }
+        "interaction": {
+          "type": "door",
+          "destination": "./"
+        },
+        "sittable": false
+      },
+      {
+        "id": "visitor_stool",
+        "type": "stool",
+        "x": 690,
+        "y": 405,
+        "w": 48,
+        "h": 48,
+        "z": 8,
+        "props": {
+          "sprite_id": "stool",
+          "label": "Visitor stool"
+        },
+        "walkable_through": false,
+        "solid": true,
+        "interactable": false,
+        "sittable": true,
+        "seat_anchor": {
+          "dx": 24,
+          "dy": 34,
+          "facing": "S"
+        }
+      },
+      {
+        "id": "room_guide",
+        "type": "sprite",
+        "x": 720,
+        "y": 330,
+        "w": 48,
+        "h": 64,
+        "z": 18,
+        "props": {
+          "sprite_id": "villager",
+          "label": "Room guide"
+        },
+        "walkable_through": true,
+        "solid": false,
+        "interactable": true,
+        "interaction": {
+          "type": "read",
+          "title": "Room guide",
+          "body": "Welcome to Corner Store. Try the seats and props; each room is built for walking, sitting, and talking."
+        },
+        "behavior": {
+          "type": "idle"
+        },
+        "sittable": false,
+        "dialogue": {
+          "name": "Room guide",
+          "lines": [
+            "Welcome to Corner Store.",
+            "Try the seats and props; this room is built for walking, sitting, and talking."
+          ]
+        }
       }
     ]
   }

@@ -1,13 +1,13 @@
 {
   "name": "Endenza",
   "short_name": "Endenza",
-  "description": "Multi-chat orchestration for Claude Code. One conductor, many performers.",
-  "start_url": "./index.html",
-  "scope": "./",
+  "description": "Walkable creator homes for the work people make together.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#e9edf3",
-  "theme_color": "#e9edf3",
+  "background_color": "#e1e7ef",
+  "theme_color": "#e1e7ef",
   "categories": ["productivity", "developer"],
   "icons": [
     { "src": "./icons/pwa-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },

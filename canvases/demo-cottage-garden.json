@@ -3,22 +3,30 @@
   "owner_id": "usr_endenza_demo",
   "owner_handle": "endenza_demo",
   "title": "Cottage Garden",
-  "description": "A sunlit patch behind the fence — plants everywhere and a bench to rest on between the rows.",
+  "description": "A sunlit patch behind the fence, with plants everywhere and a bench to rest on between the rows.",
   "theme": "forest",
   "pack_id": "limezu-modern-farm-default",
   "visibility": "public",
   "is_showcase": true,
   "featured_score": 8.7,
   "featured_locked": true,
-  "slot_index": 4,
+  "slot_index": 1,
   "published_at": 1746316800.0,
   "source": "manual",
-  "source_metadata": { "built_in": true, "demo": true },
+  "source_metadata": {
+    "built_in": true,
+    "demo": true
+  },
   "created_at": 1746316800.0,
   "updated_at": 1746316800.0,
-  "schema_version": 7,
+  "schema_version": 8,
   "room_state": {
-    "stage": { "width": 960, "height": 540, "background_layer": null, "ambient_sound": null },
+    "stage": {
+      "width": 960,
+      "height": 540,
+      "background_layer": null,
+      "ambient_sound": null
+    },
     "components": [
       {
         "id": "floor",
@@ -28,11 +36,15 @@
         "w": 960,
         "h": 540,
         "z": 0,
-        "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+        "props": {
+          "shape": "stage_floor",
+          "fill_token": "bg-sunken"
+        },
         "locked": true,
         "walkable_through": true,
         "solid": false,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "rug_path",
@@ -42,10 +54,13 @@
         "w": 280,
         "h": 160,
         "z": 1,
-        "props": { "sprite_id": "rug" },
+        "props": {
+          "sprite_id": "rug"
+        },
         "walkable_through": true,
         "solid": false,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_1",
@@ -55,10 +70,13 @@
         "w": 48,
         "h": 64,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_2",
@@ -68,10 +86,13 @@
         "w": 48,
         "h": 64,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_3",
@@ -81,10 +102,13 @@
         "w": 48,
         "h": 64,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_4",
@@ -94,10 +118,13 @@
         "w": 48,
         "h": 64,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_5",
@@ -107,10 +134,13 @@
         "w": 48,
         "h": 64,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "plant_6",
@@ -120,10 +150,13 @@
         "w": 48,
         "h": 64,
         "z": 5,
-        "props": { "sprite_id": "plant_pot" },
+        "props": {
+          "sprite_id": "plant_pot"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "bench",
@@ -133,10 +166,19 @@
         "w": 160,
         "h": 70,
         "z": 4,
-        "props": { "sprite_id": "couch", "label": "Garden Bench" },
+        "props": {
+          "sprite_id": "couch",
+          "label": "Garden Bench"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": true,
+        "seat_anchor": {
+          "dx": 80.0,
+          "dy": 50.4,
+          "facing": "S"
+        }
       },
       {
         "id": "table_garden",
@@ -146,7 +188,10 @@
         "w": 100,
         "h": 60,
         "z": 5,
-        "props": { "sprite_id": "table", "label": "Potting Table" },
+        "props": {
+          "sprite_id": "table",
+          "label": "Potting Table"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -154,7 +199,8 @@
           "type": "read",
           "title": "Potting Table",
           "body": "Seeds, tools, and plans for the next season."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "poster_map",
@@ -164,7 +210,10 @@
         "w": 100,
         "h": 80,
         "z": 7,
-        "props": { "sprite_id": "poster", "label": "Garden Map" },
+        "props": {
+          "sprite_id": "poster",
+          "label": "Garden Map"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
@@ -172,7 +221,8 @@
           "type": "read",
           "title": "Garden Layout",
           "body": "Where everything grows. Link to your project roadmap."
-        }
+        },
+        "sittable": false
       },
       {
         "id": "window_1",
@@ -182,10 +232,13 @@
         "w": 80,
         "h": 60,
         "z": 6,
-        "props": { "sprite_id": "window" },
+        "props": {
+          "sprite_id": "window"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "lamp_post",
@@ -195,10 +248,13 @@
         "w": 36,
         "h": 72,
         "z": 5,
-        "props": { "sprite_id": "lamp" },
+        "props": {
+          "sprite_id": "lamp"
+        },
         "walkable_through": false,
         "solid": true,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "garden_chick",
@@ -208,7 +264,10 @@
         "w": 32,
         "h": 32,
         "z": 6,
-        "props": { "sprite_id": "lt_chick", "label": "Garden Chick" },
+        "props": {
+          "sprite_id": "lt_chick",
+          "label": "Garden Chick"
+        },
         "sprite": {
           "pack_id": "limezu-modern-farm-default",
           "collection": "components/animals",
@@ -217,13 +276,22 @@
         },
         "behavior": {
           "type": "wander",
-          "region": { "x": 420, "y": 330, "w": 180, "h": 90 },
+          "region": {
+            "x": 420,
+            "y": 330,
+            "w": 180,
+            "h": 90
+          },
           "speed_px_per_sec": 24,
-          "pause_ms_range": [800, 2200]
+          "pause_ms_range": [
+            800,
+            2200
+          ]
         },
         "walkable_through": true,
         "solid": false,
-        "interactable": false
+        "interactable": false,
+        "sittable": false
       },
       {
         "id": "door_exit",
@@ -233,11 +301,50 @@
         "w": 64,
         "h": 84,
         "z": 5,
-        "props": { "sprite_id": "door", "label": "Gate" },
+        "props": {
+          "sprite_id": "door",
+          "label": "Gate"
+        },
         "walkable_through": false,
         "solid": true,
         "interactable": true,
-        "interaction": { "type": "door", "destination": "./" }
+        "interaction": {
+          "type": "door",
+          "destination": "./"
+        },
+        "sittable": false
+      },
+      {
+        "id": "room_guide",
+        "type": "sprite",
+        "x": 745,
+        "y": 335,
+        "w": 48,
+        "h": 64,
+        "z": 18,
+        "props": {
+          "sprite_id": "villager",
+          "label": "Room guide"
+        },
+        "walkable_through": true,
+        "solid": false,
+        "interactable": true,
+        "interaction": {
+          "type": "read",
+          "title": "Room guide",
+          "body": "Welcome to Cottage Garden. Try the seats and props; each room is built for walking, sitting, and talking."
+        },
+        "behavior": {
+          "type": "idle"
+        },
+        "sittable": false,
+        "dialogue": {
+          "name": "Room guide",
+          "lines": [
+            "Welcome to Cottage Garden.",
+            "Try the seats and props; this room is built for walking, sitting, and talking."
+          ]
+        }
       }
     ]
   }

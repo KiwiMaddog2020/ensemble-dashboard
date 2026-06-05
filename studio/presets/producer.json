@@ -5,11 +5,11 @@
     "display_name": "Producer's canvas",
     "description": "Audio production canvas. Vintage gear, warm hum, cable runs, mixing console. For musicians, podcasters, sound designers.",
     "thumbnail": null,
-    "natural_themes": ["warm", "plum", "ash"],
+    "natural_themes": ["warm", "plum", "cerulean"],
     "min_chats": 0,
     "recommended_chats": 4,
     "max_chats": 8,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1,
     "is_default": false
   },
@@ -23,20 +23,34 @@
     "background_layer": "stage_default",
     "ambient_sound": null
   },
+  "spawn": { "x": 1440, "y": 856, "facing": "south" },
   "components": [
     {
       "id": "studio_floor",
       "type": "svg",
       "x": 0,
-      "y": 540,
+      "y": 0,
       "w": 1920,
-      "h": 540,
+      "h": 1080,
       "z": 0,
       "props": {
         "shape": "stage_floor",
         "fill_token": "bg-sunken"
       },
       "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "entry_path",
+      "type": "prop",
+      "x": 1296,
+      "y": 760,
+      "w": 288,
+      "h": 128,
+      "z": 1,
+      "props": { "sprite_id": "path_stone", "surface": "threshold", "tile": 32 },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -117,7 +131,7 @@
       "h": 280,
       "z": 4,
       "props": {
-        "sprite_id": "fader",
+        "sprite_id": "desk",
         "sprite_pack": "studio",
         "label": "Mixing console"
       },
@@ -151,7 +165,7 @@
       "h": 200,
       "z": 4,
       "props": {
-        "sprite_id": "vu-meter",
+        "sprite_id": "speaker_stack",
         "sprite_pack": "studio",
         "label": "VU left"
       },
@@ -168,7 +182,7 @@
       "h": 200,
       "z": 4,
       "props": {
-        "sprite_id": "vu-meter",
+        "sprite_id": "speaker_stack",
         "sprite_pack": "studio",
         "label": "VU right"
       },
@@ -186,7 +200,7 @@
       "z": 5,
       "props": {
         "slot_role": "Sound engineer",
-        "sprite_id": "tape-reel",
+        "sprite_id": "vinyl_record",
         "sprite_pack": "studio",
         "idle_animation": "mixing",
         "auto_bind_index": 0
@@ -205,7 +219,7 @@
       "z": 5,
       "props": {
         "slot_role": "Artist",
-        "sprite_id": "patch-cable",
+        "sprite_id": "microphone",
         "sprite_pack": "studio",
         "idle_animation": "idle",
         "auto_bind_index": 1
@@ -213,6 +227,25 @@
       "walkable_through": false,
       "solid": true,
       "interactable": false
+    },
+    {
+      "id": "door_exit",
+      "type": "prop",
+      "x": 1376,
+      "y": 888,
+      "w": 128,
+      "h": 192,
+      "z": 30,
+      "props": { "sprite_id": "door", "label": "Exit" },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction_radius": 96,
+      "interaction": {
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
+      }
     },
     {
       "id": "footer_hint",

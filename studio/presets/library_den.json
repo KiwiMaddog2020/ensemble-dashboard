@@ -2,14 +2,14 @@
   "schema_version": 1,
   "preset_metadata": {
     "id": "library_den",
-    "display_name": "Library Den",
+    "display_name": "Library den",
     "description": "A cozy reading den with bookshelves, a typewriter, and a reading chair. Ideal for writers, bloggers, and readers.",
     "thumbnail": null,
-    "natural_themes": ["warm", "ash", "mono", "forest"],
+    "natural_themes": ["warm", "cerulean", "mono", "forest"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1
   },
   "name": "Library Den",
@@ -22,6 +22,11 @@
     "background_layer": null,
     "ambient_sound": null
   },
+  "spawn": {
+    "x": 480,
+    "y": 388,
+    "facing": "south"
+  },
   "components": [
     {
       "id": "floor",
@@ -31,8 +36,28 @@
       "w": 960,
       "h": 540,
       "z": 0,
-      "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
       "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "entry_path",
+      "type": "prop",
+      "x": 408,
+      "y": 356,
+      "w": 144,
+      "h": 64,
+      "z": 1,
+      "props": {
+        "sprite_id": "path_stone",
+        "surface": "threshold",
+        "tile": 32
+      },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -45,7 +70,9 @@
       "w": 300,
       "h": 180,
       "z": 1,
-      "props": { "sprite_id": "rug" },
+      "props": {
+        "sprite_id": "rug"
+      },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -55,10 +82,14 @@
       "type": "prop",
       "x": 24,
       "y": 10,
-      "w": 130,
-      "h": 110,
+      "w": 110,
+      "h": 130,
       "z": 6,
-      "props": { "sprite_id": "bookshelf", "label": "Fiction", "book_count": 10 },
+      "props": {
+        "sprite_id": "bookshelf",
+        "label": "Fiction",
+        "book_count": 10
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -73,10 +104,14 @@
       "type": "prop",
       "x": 180,
       "y": 10,
-      "w": 130,
-      "h": 110,
+      "w": 110,
+      "h": 130,
       "z": 6,
-      "props": { "sprite_id": "bookshelf", "label": "Non-fiction", "book_count": 7 },
+      "props": {
+        "sprite_id": "bookshelf",
+        "label": "Non-fiction",
+        "book_count": 7
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -91,10 +126,14 @@
       "type": "prop",
       "x": 660,
       "y": 10,
-      "w": 130,
-      "h": 110,
+      "w": 110,
+      "h": 130,
       "z": 6,
-      "props": { "sprite_id": "bookshelf", "label": "Archives", "book_count": 12 },
+      "props": {
+        "sprite_id": "bookshelf",
+        "label": "Archives",
+        "book_count": 12
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -112,7 +151,10 @@
       "w": 120,
       "h": 90,
       "z": 5,
-      "props": { "sprite_id": "typewriter", "label": "Typewriter" },
+      "props": {
+        "sprite_id": "typewriter",
+        "label": "Typewriter"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -130,7 +172,10 @@
       "w": 72,
       "h": 72,
       "z": 4,
-      "props": { "sprite_id": "chair", "label": "Reading Chair" },
+      "props": {
+        "sprite_id": "chair",
+        "label": "Reading Chair"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -143,7 +188,9 @@
       "w": 36,
       "h": 72,
       "z": 5,
-      "props": { "sprite_id": "lamp" },
+      "props": {
+        "sprite_id": "lamp"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -156,7 +203,9 @@
       "w": 64,
       "h": 48,
       "z": 5,
-      "props": { "sprite_id": "table" },
+      "props": {
+        "sprite_id": "table"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -169,7 +218,10 @@
       "w": 150,
       "h": 100,
       "z": 5,
-      "props": { "sprite_id": "desk", "label": "Writing Desk" },
+      "props": {
+        "sprite_id": "desk",
+        "label": "Writing Desk"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -187,7 +239,9 @@
       "w": 56,
       "h": 56,
       "z": 4,
-      "props": { "sprite_id": "chair" },
+      "props": {
+        "sprite_id": "chair"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -200,7 +254,9 @@
       "w": 48,
       "h": 64,
       "z": 5,
-      "props": { "sprite_id": "plant_pot" },
+      "props": {
+        "sprite_id": "plant_pot"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -213,7 +269,9 @@
       "w": 80,
       "h": 60,
       "z": 6,
-      "props": { "sprite_id": "window" },
+      "props": {
+        "sprite_id": "window"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -226,7 +284,9 @@
       "w": 40,
       "h": 40,
       "z": 6,
-      "props": { "sprite_id": "clock" },
+      "props": {
+        "sprite_id": "clock"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -234,16 +294,87 @@
     {
       "id": "door_exit",
       "type": "prop",
-      "x": 440,
-      "y": 440,
-      "w": 64,
-      "h": 84,
-      "z": 5,
-      "props": { "sprite_id": "door", "label": "Exit" },
+      "x": 444,
+      "y": 420,
+      "w": 72,
+      "h": 120,
+      "z": 30,
+      "props": {
+        "sprite_id": "door",
+        "label": "Exit"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
-      "interaction": { "type": "door", "destination": "./" }
+      "interaction": {
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
+      }
+    },
+    {
+      "id": "ld_couch",
+      "type": "prop",
+      "x": 335,
+      "y": 260,
+      "w": 170,
+      "h": 68,
+      "z": 4,
+      "props": {
+        "sprite_id": "couch",
+        "label": "Reading sofa"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "ld_frame_l",
+      "type": "prop",
+      "x": 330,
+      "y": 14,
+      "w": 88,
+      "h": 60,
+      "z": 6,
+      "props": {
+        "sprite_id": "frame",
+        "label": "Framed map"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "ld_frame_r",
+      "type": "prop",
+      "x": 596,
+      "y": 14,
+      "w": 58,
+      "h": 60,
+      "z": 6,
+      "props": {
+        "sprite_id": "frame",
+        "label": "Portrait"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "ld_plant",
+      "type": "prop",
+      "x": 250,
+      "y": 208,
+      "w": 46,
+      "h": 58,
+      "z": 5,
+      "props": {
+        "sprite_id": "plant_pot",
+        "label": "Fern"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     }
   ],
   "custom_css": "",

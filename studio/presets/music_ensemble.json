@@ -9,7 +9,7 @@
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1,
     "is_default": false
   },
@@ -23,20 +23,34 @@
     "background_layer": "stage_default",
     "ambient_sound": null
   },
+  "spawn": { "x": 160, "y": 856, "facing": "south" },
   "components": [
     {
       "id": "stage_floor",
       "type": "svg",
       "x": 0,
-      "y": 540,
+      "y": 0,
       "w": 1920,
-      "h": 540,
+      "h": 1080,
       "z": 0,
       "props": {
         "shape": "stage_floor",
         "fill_token": "bg-sunken"
       },
       "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "entry_path",
+      "type": "prop",
+      "x": 16,
+      "y": 760,
+      "w": 288,
+      "h": 128,
+      "z": 1,
+      "props": { "sprite_id": "path_stone", "surface": "threshold", "tile": 32 },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -203,7 +217,7 @@
       "h": 96,
       "z": 5,
       "props": {
-        "sprite_id": "recording_light",
+        "sprite_id": "poster",
         "label": "ON AIR"
       },
       "interaction": {
@@ -216,21 +230,21 @@
       "interactable": true
     },
     {
-      "id": "door_left",
+      "id": "door_exit",
       "type": "prop",
       "x": 96,
-      "y": 540,
+      "y": 888,
       "w": 128,
-      "h": 256,
-      "z": 4,
+      "h": 192,
+      "z": 30,
       "props": {
-        "sprite_id": "door_wooden",
-        "label": "Door"
+        "sprite_id": "door",
+        "label": "Exit"
       },
       "interaction": {
-        "type": "link",
-        "url": "",
-        "label": "Wire this door to your other canvas"
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
       },
       "walkable_through": false,
       "solid": true,
@@ -245,7 +259,7 @@
       "h": 24,
       "z": 6,
       "props": {
-        "text": "A canvas for your sound. Made with Ensemble.",
+        "text": "A canvas for your sound. Made with Endenza.",
         "variant": "body",
         "color_token": "ink-3"
       },

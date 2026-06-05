@@ -23,7 +23,7 @@
   },
   "character_id": "char_a",
   "pages_included": ["p4"],
-  "page_p4_notes": "4-direction walk cycle (16 frames, 512x512 sheet). Primary page for Ensemble top-down walk mode.",
+  "page_p4_notes": "4-direction walk cycle (16 frames, 512x512 sheet). Primary page for Endenza top-down walk mode.",
   "layers_included": {
     "0bot": "Body/skin — humn (human). v01-v10 (10 skin tone variants). Real Mana Seed v2.5c PNG exports.",
     "1out": "Outfits — boxr (boxer, fully clothed). v01 only.",

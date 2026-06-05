@@ -2,14 +2,14 @@
   "schema_version": 1,
   "preset_metadata": {
     "id": "art_gallery",
-    "display_name": "Art Gallery",
+    "display_name": "Art gallery",
     "description": "A minimalist gallery with framed artwork, a pedestal, and dramatic lighting. Showcase your visual work in style.",
     "thumbnail": null,
-    "natural_themes": ["mono", "ash", "cobalt", "midnight"],
+    "natural_themes": ["mono", "cerulean", "cobalt", "midnight"],
     "min_chats": 0,
     "recommended_chats": 0,
     "max_chats": 99,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1
   },
   "name": "Art Gallery",
@@ -22,6 +22,11 @@
     "background_layer": null,
     "ambient_sound": null
   },
+  "spawn": {
+    "x": 480,
+    "y": 388,
+    "facing": "south"
+  },
   "components": [
     {
       "id": "floor",
@@ -31,8 +36,28 @@
       "w": 960,
       "h": 540,
       "z": 0,
-      "props": { "shape": "stage_floor", "fill_token": "bg-sunken" },
+      "props": {
+        "shape": "stage_floor",
+        "fill_token": "bg-sunken"
+      },
       "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "entry_path",
+      "type": "prop",
+      "x": 408,
+      "y": 356,
+      "w": 144,
+      "h": 64,
+      "z": 1,
+      "props": {
+        "sprite_id": "path_stone",
+        "surface": "threshold",
+        "tile": 32
+      },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -45,7 +70,10 @@
       "w": 120,
       "h": 90,
       "z": 7,
-      "props": { "sprite_id": "frame", "label": "Piece I", "frame_color": "#4a6a8a" },
+      "props": {
+        "sprite_id": "frame",
+        "frame_color": "#4a6a8a"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -63,7 +91,10 @@
       "w": 140,
       "h": 100,
       "z": 7,
-      "props": { "sprite_id": "frame", "label": "Piece II", "frame_color": "#8a5a4a" },
+      "props": {
+        "sprite_id": "frame",
+        "frame_color": "#8a5a4a"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -81,7 +112,10 @@
       "w": 140,
       "h": 100,
       "z": 7,
-      "props": { "sprite_id": "frame", "label": "Piece III", "frame_color": "#5a7a5a" },
+      "props": {
+        "sprite_id": "frame",
+        "frame_color": "#5a7a5a"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -99,7 +133,10 @@
       "w": 120,
       "h": 90,
       "z": 7,
-      "props": { "sprite_id": "frame", "label": "Piece IV", "frame_color": "#7a6a8a" },
+      "props": {
+        "sprite_id": "frame",
+        "frame_color": "#7a6a8a"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -117,7 +154,9 @@
       "w": 60,
       "h": 80,
       "z": 6,
-      "props": { "sprite_id": "statue_small", "label": "Featured" },
+      "props": {
+        "sprite_id": "statue_small"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
@@ -130,12 +169,14 @@
     {
       "id": "bench_left",
       "type": "prop",
-      "x": 160,
+      "x": 188,
       "y": 280,
-      "w": 120,
+      "w": 64,
       "h": 56,
       "z": 4,
-      "props": { "sprite_id": "couch", "label": "Gallery Bench" },
+      "props": {
+        "sprite_id": "chair"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -143,12 +184,14 @@
     {
       "id": "bench_right",
       "type": "prop",
-      "x": 650,
+      "x": 678,
       "y": 280,
-      "w": 120,
+      "w": 64,
       "h": 56,
       "z": 4,
-      "props": { "sprite_id": "couch", "label": "Gallery Bench" },
+      "props": {
+        "sprite_id": "chair"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -161,7 +204,9 @@
       "w": 32,
       "h": 64,
       "z": 5,
-      "props": { "sprite_id": "lamp" },
+      "props": {
+        "sprite_id": "lamp"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -174,7 +219,9 @@
       "w": 32,
       "h": 64,
       "z": 5,
-      "props": { "sprite_id": "lamp" },
+      "props": {
+        "sprite_id": "lamp"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -187,7 +234,9 @@
       "w": 48,
       "h": 64,
       "z": 5,
-      "props": { "sprite_id": "plant_pot" },
+      "props": {
+        "sprite_id": "plant_pot"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -200,7 +249,9 @@
       "w": 48,
       "h": 64,
       "z": 5,
-      "props": { "sprite_id": "plant_pot" },
+      "props": {
+        "sprite_id": "plant_pot"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -209,11 +260,13 @@
       "id": "gallery_title",
       "type": "prop",
       "x": 432,
-      "y": 128,
+      "y": 120,
       "w": 96,
       "h": 56,
       "z": 6,
-      "props": { "sprite_id": "poster", "label": "Gallery placard" },
+      "props": {
+        "sprite_id": "poster"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": false
@@ -221,16 +274,67 @@
     {
       "id": "door_exit",
       "type": "prop",
-      "x": 440,
-      "y": 440,
-      "w": 64,
-      "h": 84,
-      "z": 5,
-      "props": { "sprite_id": "door", "label": "Exit" },
+      "x": 444,
+      "y": 420,
+      "w": 72,
+      "h": 120,
+      "z": 30,
+      "props": {
+        "sprite_id": "door"
+      },
       "walkable_through": false,
       "solid": true,
       "interactable": true,
-      "interaction": { "type": "door", "destination": "./" }
+      "interaction": {
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
+      }
+    },
+    {
+      "id": "ag_frame_c",
+      "type": "prop",
+      "x": 420,
+      "y": 16,
+      "w": 124,
+      "h": 92,
+      "z": 7,
+      "props": {
+        "sprite_id": "frame"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "ag_statue_r",
+      "type": "prop",
+      "x": 690,
+      "y": 180,
+      "w": 56,
+      "h": 76,
+      "z": 6,
+      "props": {
+        "sprite_id": "statue_small"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
+    },
+    {
+      "id": "ag_bench_c",
+      "type": "prop",
+      "x": 438,
+      "y": 266,
+      "w": 64,
+      "h": 56,
+      "z": 4,
+      "props": {
+        "sprite_id": "chair"
+      },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": false
     }
   ],
   "custom_css": "",

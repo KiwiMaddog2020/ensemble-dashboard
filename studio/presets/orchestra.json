@@ -3,13 +3,13 @@
   "preset_metadata": {
     "id": "orchestra",
     "display_name": "Orchestra",
-    "description": "Concert hall. Maestro at the podium, Agents arranged as musicians in a semicircle. The default state for every new Ensemble.",
+    "description": "Concert hall. Maestro at the podium, Agents arranged as musicians in a semicircle. The default state for every new canvas.",
     "thumbnail": "studio/presets/orchestra.png",
     "natural_themes": ["warm", "amber", "sand", "sunset"],
     "min_chats": 1,
     "recommended_chats": 7,
     "max_chats": 12,
-    "author": "Ensemble built-in",
+    "author": "Endenza built-in",
     "version": 1
   },
   "name": "Orchestra (default)",
@@ -22,20 +22,34 @@
     "background_layer": "stage_default",
     "ambient_sound": "ambient/orchestra.opus"
   },
+  "spawn": { "x": 1456, "y": 856, "facing": "south" },
   "components": [
     {
       "id": "stage_floor",
       "type": "svg",
       "x": 0,
-      "y": 540,
+      "y": 0,
       "w": 1920,
-      "h": 540,
+      "h": 1080,
       "z": 0,
       "props": {
         "shape": "stage_floor",
         "fill_token": "bg-sunken"
       },
       "locked": true,
+      "walkable_through": true,
+      "solid": false,
+      "interactable": false
+    },
+    {
+      "id": "entry_path",
+      "type": "prop",
+      "x": 1312,
+      "y": 760,
+      "w": 288,
+      "h": 128,
+      "z": 1,
+      "props": { "sprite_id": "path_stone", "surface": "threshold", "tile": 32 },
       "walkable_through": true,
       "solid": false,
       "interactable": false
@@ -84,7 +98,7 @@
       "h": 96,
       "z": 4,
       "props": {
-        "sprite_id": "podium_default"
+        "sprite_id": "table"
       },
       "locked": false,
       "walkable_through": false,
@@ -101,7 +115,7 @@
       "z": 5,
       "props": {
         "slot_role": "maestro",
-        "sprite_id": "conductor_default",
+        "sprite_id": "microphone",
         "idle_animation": "baton_sweep",
         "data_binding": "maestro"
       },
@@ -120,7 +134,7 @@
       "z": 5,
       "props": {
         "slot_role": "1st violin",
-        "sprite_id": "musician_violin",
+        "sprite_id": "chair",
         "idle_animation": "bowing",
         "auto_bind_index": 0
       },
@@ -138,7 +152,7 @@
       "z": 5,
       "props": {
         "slot_role": "2nd violin",
-        "sprite_id": "musician_violin",
+        "sprite_id": "chair",
         "idle_animation": "bowing",
         "auto_bind_index": 1
       },
@@ -156,7 +170,7 @@
       "z": 5,
       "props": {
         "slot_role": "Viola",
-        "sprite_id": "musician_viola",
+        "sprite_id": "chair",
         "idle_animation": "bowing",
         "auto_bind_index": 2
       },
@@ -174,7 +188,7 @@
       "z": 5,
       "props": {
         "slot_role": "Cello",
-        "sprite_id": "musician_cello",
+        "sprite_id": "chair",
         "idle_animation": "bowing_slow",
         "auto_bind_index": 3
       },
@@ -192,7 +206,7 @@
       "z": 5,
       "props": {
         "slot_role": "Percussion",
-        "sprite_id": "musician_drums",
+        "sprite_id": "chair",
         "idle_animation": "drumming",
         "auto_bind_index": 4
       },
@@ -210,7 +224,7 @@
       "z": 5,
       "props": {
         "slot_role": "Flute",
-        "sprite_id": "musician_flute",
+        "sprite_id": "chair",
         "idle_animation": "playing_woodwind",
         "auto_bind_index": 5
       },
@@ -228,13 +242,32 @@
       "z": 5,
       "props": {
         "slot_role": "Trumpet",
-        "sprite_id": "musician_trumpet",
+        "sprite_id": "chair",
         "idle_animation": "brass_play",
         "auto_bind_index": 6
       },
       "walkable_through": false,
       "solid": true,
       "interactable": false
+    },
+    {
+      "id": "door_exit",
+      "type": "prop",
+      "x": 1392,
+      "y": 888,
+      "w": 128,
+      "h": 192,
+      "z": 30,
+      "props": { "sprite_id": "door", "label": "Exit" },
+      "walkable_through": false,
+      "solid": true,
+      "interactable": true,
+      "interaction_radius": 96,
+      "interaction": {
+        "type": "door",
+        "destination": "./map.html",
+        "prompt": "Press X to enter Ensemble"
+      }
     },
     {
       "id": "title_eyebrow",
@@ -262,7 +295,7 @@
       "h": 64,
       "z": 6,
       "props": {
-        "text": "The Ensemble in <em>concert.</em>",
+        "text": "Endenza in <em>concert.</em>",
         "variant": "hero"
       },
       "walkable_through": true,
