@@ -43,7 +43,7 @@
 
 <meta name="theme-color" content="#e1e7ef" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#2b2d31" media="(prefers-color-scheme: dark)" />
-<link rel="manifest" href="./manifest.json?v=2026-05-29-cb2033ef99" />
+<link rel="manifest" href="./manifest.json?v=2026-05-29-a5214d6d49" />
 <link rel="icon" id="favicon" type="image/svg+xml" href="./icon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png" />
@@ -131,6 +131,19 @@
   --space-7: 48px;
   --space-8: 64px;
   --space-9: 96px;
+
+  /* Shared desktop top-nav cluster metrics. */
+  --topnav-cluster-gap: var(--space-1);
+  --topnav-link-padding-block: var(--space-2);
+  --topnav-link-padding-inline: 14px;
+  --topnav-brand-mark-size: 28px;
+
+  /* City map firefly accents. */
+  --city-firefly-core: #f8dc8a;
+  --city-firefly-glow: rgba(248, 220, 138, 0.95);
+  --city-firefly-glow-soft: rgba(248, 220, 138, 0.55);
+  --city-firefly-glow-green: rgba(119, 184, 148, 0.35);
+  --city-firefly-spark: rgba(255, 255, 255, 0.88);
 
   /* — Modular type scale (≈1.25 ratio, hand-tuned) — */
   --fs-11: 11px;
@@ -273,6 +286,14 @@
   --overlay-white-40: rgba(255, 255, 255, 0.40);
   --overlay-white-50: rgba(255, 255, 255, 0.50);
   --overlay-white-75: rgba(255, 255, 255, 0.75);
+  --overlay-white-88: rgba(255, 255, 255, 0.88);  /* bright inner sparkle */
+
+  /* Map firefly accents. Theme-invariant because these are tiny emissive
+     particles over the walkable city, not readable UI surfaces. */
+  --map-firefly-core: #f8dc8a;
+  --map-firefly-glow: rgba(248, 220, 138, 0.95);
+  --map-firefly-glow-soft: rgba(248, 220, 138, 0.55);
+  --map-firefly-halo: rgba(119, 184, 148, 0.35);
 
   /* — Council/Maestro surface accent (cyan-blue for "info" appearance) —
      Hoisted from council_body.py inline declaration so the canonical hex
@@ -492,7 +513,7 @@
 }
 .topnav .brand em { color: var(--accent-text, var(--accent)); font-style: normal; }
 .topnav .brand-mark {
-  width: 28px; height: 28px; border-radius: 7px; display: block;
+  width: var(--topnav-brand-mark-size); height: var(--topnav-brand-mark-size); border-radius: 7px; display: block;
   flex-shrink: 0; box-shadow: var(--shadow-brand);
 }
 .topnav .brand-word { line-height: 1; }
@@ -500,7 +521,7 @@
   .topnav .brand-word { display: none; }
   .topnav .brand-mark { width: 30px; height: 30px; }
 }
-.topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: var(--space-1); flex: 0 1 auto; justify-content: center; }
+.topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: var(--topnav-cluster-gap); flex: 0 1 auto; justify-content: center; }
 .topnav li.nav__identity-item,
 .topnav li.nav__auth-action-item {
   display: flex;
@@ -531,7 +552,7 @@
   }
 }
 .topnav li a {
-  display: block; padding: 8px 14px; font-size: var(--fs-14); font-weight: 500;
+  display: block; padding: var(--topnav-link-padding-block) var(--topnav-link-padding-inline); font-size: var(--fs-14); font-weight: 500;
   color: var(--ink-3); text-decoration: none; border-radius: 8px;
   transition: background 200ms var(--ease), color 200ms var(--ease);
 }
@@ -791,7 +812,7 @@ body.dashboard-page > main > section {
      critical CSS is still a net win — once style.css arrives, the
      browser already has tokens + topnav resolved, so the cascade
      completes faster. -->
-<link rel="stylesheet" href="./style.css?v=2026-05-29-cb2033ef99" />
+<link rel="stylesheet" href="./style.css?v=2026-05-29-a5214d6d49" />
 <style id="cookie-banner-css">
 .cookie-banner {
   position: fixed;
@@ -885,8 +906,50 @@ body.dashboard-page > main > section {
     } catch (e) {}
   })();
   if ('serviceWorker' in navigator) {
+    // Update nudge (Kevin 2026-06-04): a fresh deploy changes the
+    // content-hashed sw.js URL, so the browser installs a new worker. When
+    // that happens we surface a one-shot, dismissible "new version ready"
+    // toast, so a stale frame during the ~2.5 min deploy window is never
+    // mistaken for "it didn't update". Styled entirely with design tokens
+    // (themes for free). Only fires on a genuine update:
+    // navigator.serviceWorker.controller is non-null only on a return visit,
+    // so a first-ever install stays silent.
+    var showEndenzaUpdateToast = function () {
+      if (document.getElementById('endenza-update-toast')) return;
+      var bar = document.createElement('div');
+      bar.id = 'endenza-update-toast';
+      bar.setAttribute('role', 'status');
+      bar.setAttribute('aria-live', 'polite');
+      bar.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483646;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 32px);padding:10px 12px 10px 18px;color:var(--ink);background:var(--bg-elevated);border:1px solid var(--rule);border-radius:var(--radius-pill);box-shadow:var(--shadow-md);font-size:14px;line-height:1.4;';
+      var msg = document.createElement('span');
+      msg.textContent = 'A new version of Endenza is ready.';
+      var refresh = document.createElement('button');
+      refresh.type = 'button';
+      refresh.textContent = 'Refresh';
+      refresh.style.cssText = 'cursor:pointer;border:0;color:var(--accent-ink);background:var(--accent);border-radius:var(--radius-pill);padding:7px 16px;font-size:13px;font-weight:600;line-height:1;';
+      refresh.addEventListener('click', function () { window.location.reload(); });
+      var close = document.createElement('button');
+      close.type = 'button';
+      close.setAttribute('aria-label', 'Dismiss');
+      close.textContent = '×';
+      close.style.cssText = 'cursor:pointer;border:0;background:transparent;color:var(--ink);opacity:.55;font-size:18px;line-height:1;padding:4px 8px;border-radius:var(--radius-md);';
+      close.addEventListener('click', function () { bar.remove(); });
+      bar.appendChild(msg);
+      bar.appendChild(refresh);
+      bar.appendChild(close);
+      (document.body || document.documentElement).appendChild(bar);
+    };
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./sw.js?v=2026-05-29-cb2033ef99').catch(function () {});
+      navigator.serviceWorker.register('./sw.js?v=2026-05-29-a5214d6d49').then(function (reg) {
+        if (reg.waiting && navigator.serviceWorker.controller) showEndenzaUpdateToast();
+        reg.addEventListener('updatefound', function () {
+          var nw = reg.installing;
+          if (!nw) return;
+          nw.addEventListener('statechange', function () {
+            if (nw.state === 'installed' && navigator.serviceWorker.controller) showEndenzaUpdateToast();
+          });
+        });
+      }).catch(function () {});
     });
   }
 </script>
@@ -939,11 +1002,9 @@ body.dashboard-page > main > section {
       </li>
       <li class="nav__brand-drawer"><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
       <li><a href="./">Endenza</a></li>
-      <li><a class="active" aria-current="page" href="./studio.html">Studio</a></li>
-      <li><a href="./tools.html">Tools</a></li>
-      <li><a href="./council.html">Maestro</a></li>
-      <li><a href="./terminal.html">Terminal</a></li>
-      <li><a href="./dashboard.html">Dashboard</a></li>
+      <li><a class="active" aria-current="page" href="./studio.html">Canvas</a></li>
+      <li><a href="./cadenza.html">Cadenza</a></li>
+      <li><a href="./map.html">Ensemble</a></li>
       <li><a href="./settings.html">Settings</a></li>
       <li class="nav__auth-action-item" data-account-state="visitor">
         <a class="nav__auth-link" href="/signup" data-auth-link>Sign in</a>
@@ -1144,16 +1205,14 @@ body.dashboard-page > main > section {
           <h2 class="workshop-drawer__title">Get inspired.</h2>
         </header>
 
-        <section class="workshop-section">
-          <h3 class="workshop-section__title">Get started</h3>
-          <ul class="workshop-checklist">
-            <li class="workshop-check"><span class="workshop-check__num">1</span><span>Pick an Example to see what&rsquo;s possible</span></li>
-            <li class="workshop-check"><span class="workshop-check__num">2</span><span>Press Edit to start composing your own</span></li>
-            <li class="workshop-check"><span class="workshop-check__num">3</span><span>Drop a sprite, click it to wire an interaction</span></li>
-          </ul>
-        </section>
-
         <section class="workshop-section workshop-genesis" data-state="loading">
+          <button class="workshop-genesis__btn" id="workshop-genesis-btn" type="button">
+            <span class="workshop-genesis__icon" aria-hidden="true">⌨︎</span>
+            <span class="workshop-genesis__body">
+              <strong class="workshop-genesis__title" id="workshop-genesis-title">Generate Studio from GitHub</strong>
+              <span class="workshop-genesis__sub" id="workshop-genesis-sub">Checking link status…</span>
+            </span>
+          </button>
           <h3 class="workshop-section__title">Generate from your work</h3>
           <p class="workshop-section__sub">Studio turns your GitHub into walkable props: TVs, arcades, galleries, bookshelves, stereos, and workbenches. No text walls.</p>
           <div class="workshop-genesis__props" aria-label="GitHub room prop types">
@@ -1164,13 +1223,6 @@ body.dashboard-page > main > section {
             <span>Stereos</span>
             <span>Workbenches</span>
           </div>
-          <button class="workshop-genesis__btn" id="workshop-genesis-btn" type="button">
-            <span class="workshop-genesis__icon" aria-hidden="true">⌨︎</span>
-            <span class="workshop-genesis__body">
-              <strong class="workshop-genesis__title" id="workshop-genesis-title">Generate Studio from GitHub</strong>
-              <span class="workshop-genesis__sub" id="workshop-genesis-sub">Checking link status…</span>
-            </span>
-          </button>
           <p class="workshop-genesis__notice" id="workshop-genesis-notice" hidden></p>
         </section>
 
@@ -1227,6 +1279,15 @@ body.dashboard-page > main > section {
                 <div class="workshop-example__desc">Workbench, project board, reference shelf, and computer desk.</div>
               </div>
             </li>
+          </ul>
+        </section>
+
+        <section class="workshop-section">
+          <h3 class="workshop-section__title">Get started</h3>
+          <ul class="workshop-checklist">
+            <li class="workshop-check"><span class="workshop-check__num">1</span><span>Pick an Example to see what&rsquo;s possible</span></li>
+            <li class="workshop-check"><span class="workshop-check__num">2</span><span>Press Edit to start composing your own</span></li>
+            <li class="workshop-check"><span class="workshop-check__num">3</span><span>Drop a sprite, click it to wire an interaction</span></li>
           </ul>
         </section>
 
@@ -1315,6 +1376,11 @@ body.dashboard-page > main > section {
           <div class="studio-stage__walk-layer">
             <div class="sprite-engine" data-walk-mode="false" data-engine-state="dormant" aria-label="Walkable canvas"><div class="sprite-engine__stage"><div class="sprite-engine__parallax-far" aria-hidden="true"></div><div class="sprite-engine__parallax-mid" aria-hidden="true"></div><div class="sprite-engine__parallax-near" aria-hidden="true"></div><canvas class="sprite-engine__canvas" tabindex="0" aria-label="Walkable canvas (use arrow keys or WASD to move, or swipe on touch)"></canvas></div><div class="sprite-engine__prompt" data-state="hidden" role="status" aria-live="polite"><span class="sprite-engine__prompt-key">X</span><span class="sprite-engine__prompt-text">Press X to interact</span></div><p class="sprite-engine__hint" aria-hidden="true">WASD or arrow keys to walk &middot; X or Enter to interact</p><div class="canvas-empty-state" data-canvas-empty hidden aria-live="polite"><div class="canvas-empty-state__illus" aria-hidden="true"><div class="canvas-empty-state__grid"></div><div class="canvas-empty-state__mark">?</div></div><h2 class="canvas-empty-state__title">Quiet here.</h2><p class="canvas-empty-state__sub">Drop a sprite from the Workshop drawer to begin composing.</p></div></div>
             <div class="walk-tutorial" data-tutorial-state="hidden" data-step="1" role="dialog" aria-modal="false" aria-labelledby="walk-tutorial-title" aria-describedby="walk-tutorial-body" hidden><div class="walk-tutorial__overlay" aria-hidden="true"></div><div class="walk-tutorial__card"><button type="button" class="walk-tutorial__close" data-action="dismiss" aria-label="Dismiss tutorial">&times;</button><p class="walk-tutorial__step-count" aria-hidden="true"><span data-current-step>1</span> of 3</p><h2 class="walk-tutorial__title" id="walk-tutorial-title"><span data-tutorial-step="1">Walk with arrow keys or WASD.</span><span data-tutorial-step="2" hidden>Press X near a component to interact.</span><span data-tutorial-step="3" hidden>Toggle to Edit to compose your canvas.</span></h2><p class="walk-tutorial__body" id="walk-tutorial-body"><span data-tutorial-step="1">Arrow keys, WASD, or swipe on touch. The sprite walks where you point.</span><span data-tutorial-step="2" hidden>A &ldquo;Press X&rdquo; bubble appears when you walk close to anything interactable.</span><span data-tutorial-step="3" hidden>The Edit toggle in the canvas controls drops sprites from the Workshop drawer.</span></p><div class="walk-tutorial__actions"><button type="button" class="walk-tutorial__next" data-action="next">Got it</button></div></div></div>
+            <a class="studio-exit-door" href="./map.html"
+               aria-label="Exit to the Ensemble map">
+              <span class="studio-exit-door__icon" aria-hidden="true">&#x1F6AA;</span>
+              <span class="studio-exit-door__label">Exit to Ensemble</span>
+            </a>
           </div>
         </div>
       </div>
@@ -1411,7 +1477,7 @@ body.dashboard-page > main > section {
   }
 })();
 </script>
-<script src="./sprite-engine.js?v=1780618985" defer></script><script src="./studio.js?v=1780618985" defer></script><script src="./studio-chrome.js?v=1780618985" defer></script><style id="byok-onboarding-css">
+<script src="./sprite-engine.js?v=1780889068" defer></script><script src="./studio.js?v=1780889068" defer></script><script src="./studio-chrome.js?v=1780889068" defer></script><style id="byok-onboarding-css">
 .byok-onboarding-overlay {
   position: fixed; inset: 0; z-index: 230;
   background: rgba(0,0,0,0.55);
@@ -2238,7 +2304,47 @@ body:has(#cookie-banner:not([hidden])) .studio-welcome {
   .studio-genesis-pick { padding: 0; align-items: flex-end; }
   .studio-genesis-pick__panel { max-width: none; border-radius: 16px 16px 0 0; max-height: 92vh; }
 }
-</style><script src="./walk-tutorial.js?v=1780618985" defer></script><div class="account-chrome" id="account-chrome" hidden
+</style><style>
+/* Exit-to-Ensemble door: visible only while the stage is in walk mode.
+   Anchored bottom-right of the walk layer: bottom-left holds the WASD /
+   interact hint and top-right holds the walk/edit chip, so bottom-right
+   is the one free corner. Hidden entirely in edit mode. */
+.studio-exit-door {
+  display: none;
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 40;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px 7px 10px;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px var(--overlay-12);
+  text-decoration: none;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  transition: border-color 160ms var(--ease, ease), color 160ms var(--ease, ease);
+}
+.studio-exit-door:hover {
+  border-color: var(--accent);
+  color: var(--accent-text, var(--accent));
+}
+.studio-exit-door:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+/* Show only in walk mode (data-mode="walk" on the stage parent). */
+.studio-stage[data-mode="walk"] .studio-exit-door { display: flex; }
+.studio-exit-door__icon { font-size: 16px; line-height: 1; }
+.studio-exit-door__label { line-height: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .studio-exit-door { transition: none; }
+}
+</style><script src="./walk-tutorial.js?v=1780889068" defer></script><div class="account-chrome" id="account-chrome" hidden
      data-account-chrome
      aria-label="Signed-in account">
   <em class="account-chrome__handle" data-account-handle></em>
@@ -2329,7 +2435,6 @@ body:has(#cookie-banner:not([hidden])) .account-chrome {
         <p class="site-footer__heading">Product</p>
         <ul class="site-footer__links">
           <li><a href="./studio.html">Studio</a></li>
-          <li><a href="./marketplace.html">Library</a></li>
           <li><a href="./terminal.html">Terminal</a></li>
           <li><a href="./maestro.html">Maestro</a></li>
           <li><a href="./council.html">Council</a></li>
@@ -2365,6 +2470,14 @@ body:has(#cookie-banner:not([hidden])) .account-chrome {
           <li><a href="/legal/cookies.html">Cookie Policy</a></li>
         </ul>
       </div>
+    </div>
+
+    <div class="site-footer__builders">
+      <p class="site-footer__builders-label">For builders</p>
+      <p class="site-footer__builders-body">
+        Browse the Suite Library: themes, skills, and full rigs other makers have shared.
+        <a href="/browse.html" class="site-footer__builders-link">Suite Library</a>
+      </p>
     </div>
 
     <div class="site-footer__bottom">
@@ -2680,6 +2793,64 @@ body:has(#cookie-banner:not([hidden])) .account-chrome {
      margin rule is a fallback for shells that don't paint the centering
      dance reliably. */
   margin: auto;
+}
+
+/* "For builders" bridge row (2026-06-07).
+   A quiet, labeled door to the Suite Library (/browse) that sits between
+   the main columns grid and the bottom copyright strip. Deliberately low
+   visual weight: muted rule above, small type, no button chrome. The label
+   reads like a heading so power users find it; the body line stays plain
+   so it does not read as an upsell to everyone else. */
+.site-footer__builders {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2, 8px) var(--space-4, 16px);
+  padding: var(--space-4, 16px) 0 var(--space-5, 24px);
+  border-top: 1px solid var(--rule-2, var(--rule));
+  margin-bottom: var(--space-5, 24px);
+}
+.site-footer__builders-label {
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin: 0;
+  flex-shrink: 0;
+}
+.site-footer__builders-body {
+  font-family: var(--sans);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-3);
+  margin: 0;
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__builders-link {
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+  margin-left: var(--space-2, 8px);
+  transition: color var(--dur-base, 180ms) var(--ease, ease),
+              border-color var(--dur-base, 180ms) var(--ease, ease);
+}
+.site-footer__builders-link:hover,
+.site-footer__builders-link:focus-visible {
+  color: var(--accent-text, var(--accent));
+  border-color: var(--accent-text, var(--accent));
+}
+.site-footer__builders-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+@media (max-width: 540px) {
+  .site-footer__builders {
+    flex-direction: column;
+    gap: var(--space-2, 8px);
+  }
 }
 </style>
 <style id="runner-connect-popover-css">
@@ -3280,6 +3451,6 @@ body:has(#cookie-banner:not([hidden])) .account-chrome {
     });
   });
 })();
-</script><script src="./shared-scripts.js?v=2026-05-29-cb2033ef99" defer></script>
+</script><script src="./shared-scripts.js?v=2026-05-29-a5214d6d49" defer></script>
 </body>
 </html>

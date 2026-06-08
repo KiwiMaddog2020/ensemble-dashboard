@@ -43,7 +43,7 @@
 
 <meta name="theme-color" content="#e1e7ef" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#2b2d31" media="(prefers-color-scheme: dark)" />
-<link rel="manifest" href="./manifest.json?v=2026-05-29-cb2033ef99" />
+<link rel="manifest" href="./manifest.json?v=2026-05-29-a5214d6d49" />
 <link rel="icon" id="favicon" type="image/svg+xml" href="./icon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png" />
@@ -131,6 +131,19 @@
   --space-7: 48px;
   --space-8: 64px;
   --space-9: 96px;
+
+  /* Shared desktop top-nav cluster metrics. */
+  --topnav-cluster-gap: var(--space-1);
+  --topnav-link-padding-block: var(--space-2);
+  --topnav-link-padding-inline: 14px;
+  --topnav-brand-mark-size: 28px;
+
+  /* City map firefly accents. */
+  --city-firefly-core: #f8dc8a;
+  --city-firefly-glow: rgba(248, 220, 138, 0.95);
+  --city-firefly-glow-soft: rgba(248, 220, 138, 0.55);
+  --city-firefly-glow-green: rgba(119, 184, 148, 0.35);
+  --city-firefly-spark: rgba(255, 255, 255, 0.88);
 
   /* — Modular type scale (≈1.25 ratio, hand-tuned) — */
   --fs-11: 11px;
@@ -273,6 +286,14 @@
   --overlay-white-40: rgba(255, 255, 255, 0.40);
   --overlay-white-50: rgba(255, 255, 255, 0.50);
   --overlay-white-75: rgba(255, 255, 255, 0.75);
+  --overlay-white-88: rgba(255, 255, 255, 0.88);  /* bright inner sparkle */
+
+  /* Map firefly accents. Theme-invariant because these are tiny emissive
+     particles over the walkable city, not readable UI surfaces. */
+  --map-firefly-core: #f8dc8a;
+  --map-firefly-glow: rgba(248, 220, 138, 0.95);
+  --map-firefly-glow-soft: rgba(248, 220, 138, 0.55);
+  --map-firefly-halo: rgba(119, 184, 148, 0.35);
 
   /* — Council/Maestro surface accent (cyan-blue for "info" appearance) —
      Hoisted from council_body.py inline declaration so the canonical hex
@@ -492,7 +513,7 @@
 }
 .topnav .brand em { color: var(--accent-text, var(--accent)); font-style: normal; }
 .topnav .brand-mark {
-  width: 28px; height: 28px; border-radius: 7px; display: block;
+  width: var(--topnav-brand-mark-size); height: var(--topnav-brand-mark-size); border-radius: 7px; display: block;
   flex-shrink: 0; box-shadow: var(--shadow-brand);
 }
 .topnav .brand-word { line-height: 1; }
@@ -500,7 +521,7 @@
   .topnav .brand-word { display: none; }
   .topnav .brand-mark { width: 30px; height: 30px; }
 }
-.topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: var(--space-1); flex: 0 1 auto; justify-content: center; }
+.topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: var(--topnav-cluster-gap); flex: 0 1 auto; justify-content: center; }
 .topnav li.nav__identity-item,
 .topnav li.nav__auth-action-item {
   display: flex;
@@ -531,7 +552,7 @@
   }
 }
 .topnav li a {
-  display: block; padding: 8px 14px; font-size: var(--fs-14); font-weight: 500;
+  display: block; padding: var(--topnav-link-padding-block) var(--topnav-link-padding-inline); font-size: var(--fs-14); font-weight: 500;
   color: var(--ink-3); text-decoration: none; border-radius: 8px;
   transition: background 200ms var(--ease), color 200ms var(--ease);
 }
@@ -791,7 +812,7 @@ body.dashboard-page > main > section {
      critical CSS is still a net win — once style.css arrives, the
      browser already has tokens + topnav resolved, so the cascade
      completes faster. -->
-<link rel="stylesheet" href="./style.css?v=2026-05-29-cb2033ef99" />
+<link rel="stylesheet" href="./style.css?v=2026-05-29-a5214d6d49" />
 <style id="cookie-banner-css">
 .cookie-banner {
   position: fixed;
@@ -885,8 +906,50 @@ body.dashboard-page > main > section {
     } catch (e) {}
   })();
   if ('serviceWorker' in navigator) {
+    // Update nudge (Kevin 2026-06-04): a fresh deploy changes the
+    // content-hashed sw.js URL, so the browser installs a new worker. When
+    // that happens we surface a one-shot, dismissible "new version ready"
+    // toast, so a stale frame during the ~2.5 min deploy window is never
+    // mistaken for "it didn't update". Styled entirely with design tokens
+    // (themes for free). Only fires on a genuine update:
+    // navigator.serviceWorker.controller is non-null only on a return visit,
+    // so a first-ever install stays silent.
+    var showEndenzaUpdateToast = function () {
+      if (document.getElementById('endenza-update-toast')) return;
+      var bar = document.createElement('div');
+      bar.id = 'endenza-update-toast';
+      bar.setAttribute('role', 'status');
+      bar.setAttribute('aria-live', 'polite');
+      bar.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483646;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 32px);padding:10px 12px 10px 18px;color:var(--ink);background:var(--bg-elevated);border:1px solid var(--rule);border-radius:var(--radius-pill);box-shadow:var(--shadow-md);font-size:14px;line-height:1.4;';
+      var msg = document.createElement('span');
+      msg.textContent = 'A new version of Endenza is ready.';
+      var refresh = document.createElement('button');
+      refresh.type = 'button';
+      refresh.textContent = 'Refresh';
+      refresh.style.cssText = 'cursor:pointer;border:0;color:var(--accent-ink);background:var(--accent);border-radius:var(--radius-pill);padding:7px 16px;font-size:13px;font-weight:600;line-height:1;';
+      refresh.addEventListener('click', function () { window.location.reload(); });
+      var close = document.createElement('button');
+      close.type = 'button';
+      close.setAttribute('aria-label', 'Dismiss');
+      close.textContent = '×';
+      close.style.cssText = 'cursor:pointer;border:0;background:transparent;color:var(--ink);opacity:.55;font-size:18px;line-height:1;padding:4px 8px;border-radius:var(--radius-md);';
+      close.addEventListener('click', function () { bar.remove(); });
+      bar.appendChild(msg);
+      bar.appendChild(refresh);
+      bar.appendChild(close);
+      (document.body || document.documentElement).appendChild(bar);
+    };
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./sw.js?v=2026-05-29-cb2033ef99').catch(function () {});
+      navigator.serviceWorker.register('./sw.js?v=2026-05-29-a5214d6d49').then(function (reg) {
+        if (reg.waiting && navigator.serviceWorker.controller) showEndenzaUpdateToast();
+        reg.addEventListener('updatefound', function () {
+          var nw = reg.installing;
+          if (!nw) return;
+          nw.addEventListener('statechange', function () {
+            if (nw.state === 'installed' && navigator.serviceWorker.controller) showEndenzaUpdateToast();
+          });
+        });
+      }).catch(function () {});
     });
   }
 </script>
@@ -937,11 +1000,9 @@ body.dashboard-page > main > section {
       </li>
       <li class="nav__brand-drawer"><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
       <li><a class="active" aria-current="page" href="./">Endenza</a></li>
-      <li><a href="./studio.html">Studio</a></li>
-      <li><a href="./tools.html">Tools</a></li>
-      <li><a href="./council.html">Maestro</a></li>
-      <li><a href="./terminal.html">Terminal</a></li>
-      <li><a href="./dashboard.html">Dashboard</a></li>
+      <li><a href="./studio.html">Canvas</a></li>
+      <li><a href="./cadenza.html">Cadenza</a></li>
+      <li><a href="./map.html">Ensemble</a></li>
       <li><a href="./settings.html">Settings</a></li>
       <li class="nav__auth-action-item" data-account-state="visitor">
         <a class="nav__auth-link" href="/signup" data-auth-link>Sign in</a>
@@ -1143,7 +1204,6 @@ body.dashboard-page > main > section {
         <p class="site-footer__heading">Product</p>
         <ul class="site-footer__links">
           <li><a href="./studio.html">Studio</a></li>
-          <li><a href="./marketplace.html">Library</a></li>
           <li><a href="./terminal.html">Terminal</a></li>
           <li><a href="./maestro.html">Maestro</a></li>
           <li><a href="./council.html">Council</a></li>
@@ -1179,6 +1239,14 @@ body.dashboard-page > main > section {
           <li><a href="/legal/cookies.html">Cookie Policy</a></li>
         </ul>
       </div>
+    </div>
+
+    <div class="site-footer__builders">
+      <p class="site-footer__builders-label">For builders</p>
+      <p class="site-footer__builders-body">
+        Browse the Suite Library: themes, skills, and full rigs other makers have shared.
+        <a href="/browse.html" class="site-footer__builders-link">Suite Library</a>
+      </p>
     </div>
 
     <div class="site-footer__bottom">
@@ -1494,6 +1562,64 @@ body.dashboard-page > main > section {
      margin rule is a fallback for shells that don't paint the centering
      dance reliably. */
   margin: auto;
+}
+
+/* "For builders" bridge row (2026-06-07).
+   A quiet, labeled door to the Suite Library (/browse) that sits between
+   the main columns grid and the bottom copyright strip. Deliberately low
+   visual weight: muted rule above, small type, no button chrome. The label
+   reads like a heading so power users find it; the body line stays plain
+   so it does not read as an upsell to everyone else. */
+.site-footer__builders {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2, 8px) var(--space-4, 16px);
+  padding: var(--space-4, 16px) 0 var(--space-5, 24px);
+  border-top: 1px solid var(--rule-2, var(--rule));
+  margin-bottom: var(--space-5, 24px);
+}
+.site-footer__builders-label {
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin: 0;
+  flex-shrink: 0;
+}
+.site-footer__builders-body {
+  font-family: var(--sans);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-3);
+  margin: 0;
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__builders-link {
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+  margin-left: var(--space-2, 8px);
+  transition: color var(--dur-base, 180ms) var(--ease, ease),
+              border-color var(--dur-base, 180ms) var(--ease, ease);
+}
+.site-footer__builders-link:hover,
+.site-footer__builders-link:focus-visible {
+  color: var(--accent-text, var(--accent));
+  border-color: var(--accent-text, var(--accent));
+}
+.site-footer__builders-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+@media (max-width: 540px) {
+  .site-footer__builders {
+    flex-direction: column;
+    gap: var(--space-2, 8px);
+  }
 }
 </style>
 <style id="runner-connect-popover-css">
@@ -2094,6 +2220,6 @@ body.dashboard-page > main > section {
     });
   });
 })();
-</script><script src="./public-shared-scripts.js?v=2026-05-29-cb2033ef99" defer></script>
+</script><script src="./public-shared-scripts.js?v=2026-05-29-a5214d6d49" defer></script>
 </body>
 </html>

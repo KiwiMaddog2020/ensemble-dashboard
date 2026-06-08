@@ -43,7 +43,7 @@
 
 <meta name="theme-color" content="#e1e7ef" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#2b2d31" media="(prefers-color-scheme: dark)" />
-<link rel="manifest" href="./manifest.json?v=2026-05-29-cb2033ef99" />
+<link rel="manifest" href="./manifest.json?v=2026-05-29-a5214d6d49" />
 <link rel="icon" id="favicon" type="image/svg+xml" href="./icon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png" />
@@ -131,6 +131,19 @@
   --space-7: 48px;
   --space-8: 64px;
   --space-9: 96px;
+
+  /* Shared desktop top-nav cluster metrics. */
+  --topnav-cluster-gap: var(--space-1);
+  --topnav-link-padding-block: var(--space-2);
+  --topnav-link-padding-inline: 14px;
+  --topnav-brand-mark-size: 28px;
+
+  /* City map firefly accents. */
+  --city-firefly-core: #f8dc8a;
+  --city-firefly-glow: rgba(248, 220, 138, 0.95);
+  --city-firefly-glow-soft: rgba(248, 220, 138, 0.55);
+  --city-firefly-glow-green: rgba(119, 184, 148, 0.35);
+  --city-firefly-spark: rgba(255, 255, 255, 0.88);
 
   /* — Modular type scale (≈1.25 ratio, hand-tuned) — */
   --fs-11: 11px;
@@ -273,6 +286,14 @@
   --overlay-white-40: rgba(255, 255, 255, 0.40);
   --overlay-white-50: rgba(255, 255, 255, 0.50);
   --overlay-white-75: rgba(255, 255, 255, 0.75);
+  --overlay-white-88: rgba(255, 255, 255, 0.88);  /* bright inner sparkle */
+
+  /* Map firefly accents. Theme-invariant because these are tiny emissive
+     particles over the walkable city, not readable UI surfaces. */
+  --map-firefly-core: #f8dc8a;
+  --map-firefly-glow: rgba(248, 220, 138, 0.95);
+  --map-firefly-glow-soft: rgba(248, 220, 138, 0.55);
+  --map-firefly-halo: rgba(119, 184, 148, 0.35);
 
   /* — Council/Maestro surface accent (cyan-blue for "info" appearance) —
      Hoisted from council_body.py inline declaration so the canonical hex
@@ -492,7 +513,7 @@
 }
 .topnav .brand em { color: var(--accent-text, var(--accent)); font-style: normal; }
 .topnav .brand-mark {
-  width: 28px; height: 28px; border-radius: 7px; display: block;
+  width: var(--topnav-brand-mark-size); height: var(--topnav-brand-mark-size); border-radius: 7px; display: block;
   flex-shrink: 0; box-shadow: var(--shadow-brand);
 }
 .topnav .brand-word { line-height: 1; }
@@ -500,7 +521,7 @@
   .topnav .brand-word { display: none; }
   .topnav .brand-mark { width: 30px; height: 30px; }
 }
-.topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: var(--space-1); flex: 0 1 auto; justify-content: center; }
+.topnav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: var(--topnav-cluster-gap); flex: 0 1 auto; justify-content: center; }
 .topnav li.nav__identity-item,
 .topnav li.nav__auth-action-item {
   display: flex;
@@ -531,7 +552,7 @@
   }
 }
 .topnav li a {
-  display: block; padding: 8px 14px; font-size: var(--fs-14); font-weight: 500;
+  display: block; padding: var(--topnav-link-padding-block) var(--topnav-link-padding-inline); font-size: var(--fs-14); font-weight: 500;
   color: var(--ink-3); text-decoration: none; border-radius: 8px;
   transition: background 200ms var(--ease), color 200ms var(--ease);
 }
@@ -791,7 +812,7 @@ body.dashboard-page > main > section {
      critical CSS is still a net win — once style.css arrives, the
      browser already has tokens + topnav resolved, so the cascade
      completes faster. -->
-<link rel="stylesheet" href="./style.css?v=2026-05-29-cb2033ef99" />
+<link rel="stylesheet" href="./style.css?v=2026-05-29-a5214d6d49" />
 <style id="cookie-banner-css">
 .cookie-banner {
   position: fixed;
@@ -885,8 +906,50 @@ body.dashboard-page > main > section {
     } catch (e) {}
   })();
   if ('serviceWorker' in navigator) {
+    // Update nudge (Kevin 2026-06-04): a fresh deploy changes the
+    // content-hashed sw.js URL, so the browser installs a new worker. When
+    // that happens we surface a one-shot, dismissible "new version ready"
+    // toast, so a stale frame during the ~2.5 min deploy window is never
+    // mistaken for "it didn't update". Styled entirely with design tokens
+    // (themes for free). Only fires on a genuine update:
+    // navigator.serviceWorker.controller is non-null only on a return visit,
+    // so a first-ever install stays silent.
+    var showEndenzaUpdateToast = function () {
+      if (document.getElementById('endenza-update-toast')) return;
+      var bar = document.createElement('div');
+      bar.id = 'endenza-update-toast';
+      bar.setAttribute('role', 'status');
+      bar.setAttribute('aria-live', 'polite');
+      bar.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483646;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 32px);padding:10px 12px 10px 18px;color:var(--ink);background:var(--bg-elevated);border:1px solid var(--rule);border-radius:var(--radius-pill);box-shadow:var(--shadow-md);font-size:14px;line-height:1.4;';
+      var msg = document.createElement('span');
+      msg.textContent = 'A new version of Endenza is ready.';
+      var refresh = document.createElement('button');
+      refresh.type = 'button';
+      refresh.textContent = 'Refresh';
+      refresh.style.cssText = 'cursor:pointer;border:0;color:var(--accent-ink);background:var(--accent);border-radius:var(--radius-pill);padding:7px 16px;font-size:13px;font-weight:600;line-height:1;';
+      refresh.addEventListener('click', function () { window.location.reload(); });
+      var close = document.createElement('button');
+      close.type = 'button';
+      close.setAttribute('aria-label', 'Dismiss');
+      close.textContent = '×';
+      close.style.cssText = 'cursor:pointer;border:0;background:transparent;color:var(--ink);opacity:.55;font-size:18px;line-height:1;padding:4px 8px;border-radius:var(--radius-md);';
+      close.addEventListener('click', function () { bar.remove(); });
+      bar.appendChild(msg);
+      bar.appendChild(refresh);
+      bar.appendChild(close);
+      (document.body || document.documentElement).appendChild(bar);
+    };
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./sw.js?v=2026-05-29-cb2033ef99').catch(function () {});
+      navigator.serviceWorker.register('./sw.js?v=2026-05-29-a5214d6d49').then(function (reg) {
+        if (reg.waiting && navigator.serviceWorker.controller) showEndenzaUpdateToast();
+        reg.addEventListener('updatefound', function () {
+          var nw = reg.installing;
+          if (!nw) return;
+          nw.addEventListener('statechange', function () {
+            if (nw.state === 'installed' && navigator.serviceWorker.controller) showEndenzaUpdateToast();
+          });
+        });
+      }).catch(function () {});
     });
   }
 </script>
@@ -940,11 +1003,9 @@ body.dashboard-page > main > section {
       </li>
       <li class="nav__brand-drawer"><a class="brand brand--icon-only" href="./" aria-label="Endenza home"><img class="brand-mark" src="./icon.svg" alt="Endenza" width="28" height="28" /></a></li>
       <li><a href="./">Endenza</a></li>
-      <li><a class="active" aria-current="page" href="./studio.html">Studio</a></li>
-      <li><a href="./tools.html">Tools</a></li>
-      <li><a href="./council.html">Maestro</a></li>
-      <li><a href="./terminal.html">Terminal</a></li>
-      <li><a href="./dashboard.html">Dashboard</a></li>
+      <li><a href="./studio.html">Canvas</a></li>
+      <li><a href="./cadenza.html">Cadenza</a></li>
+      <li><a class="active" aria-current="page" href="./map.html">Ensemble</a></li>
       <li><a href="./settings.html">Settings</a></li>
       <li class="nav__auth-action-item" data-account-state="visitor">
         <a class="nav__auth-link" href="/signup" data-auth-link>Sign in</a>
@@ -1072,7 +1133,7 @@ body.dashboard-page > main > section {
     </div>
   </div>
 </div>
-<main id="main" data-page="ensemble"><div class="studio-shell ensemble-shell"><nav class="studio-sidebar" aria-label="Studio sections"><div role="tablist" aria-label="Studio sections" class="studio-sidebar__tablist"><button class="studio-tab" data-tab="room" role="tab" type="button" data-href="./studio.html" aria-selected="false" tabindex="-1"><span class="studio-tab__label">Canvas</span></button><button class="studio-tab" data-tab="cadenza" role="tab" type="button" data-href="./studio.html?tab=cadenza" aria-selected="false" tabindex="-1"><span class="studio-tab__label">Cadenza</span></button><button class="studio-tab is-active" data-tab="ensemble" role="tab" type="button" aria-selected="true" tabindex="0"><span class="studio-tab__label">Ensemble</span></button></div></nav><div class="studio-content ensemble-content">
+<main id="main" data-page="ensemble"><h1 class="visually-hidden">Endenza: the walkable creator map</h1><p class="visually-hidden">An interactive map where each published room appears as a walkable door you can enter. For a non-interactive list of every published room, visit the <a href="./showcase.html">Showcase</a>.</p><div class="studio-shell ensemble-shell"><nav class="studio-sidebar" aria-label="Studio sections"><div role="tablist" aria-label="Studio sections" class="studio-sidebar__tablist"><button class="studio-tab" data-tab="room" role="tab" type="button" data-href="./studio.html" aria-selected="false" tabindex="-1"><span class="studio-tab__label">Canvas</span></button><button class="studio-tab" data-tab="cadenza" role="tab" type="button" data-href="./studio.html?tab=cadenza" aria-selected="false" tabindex="-1"><span class="studio-tab__label">Cadenza</span></button><button class="studio-tab is-active" data-tab="ensemble" role="tab" type="button" aria-selected="true" tabindex="0"><span class="studio-tab__label">Ensemble</span></button></div></nav><div class="studio-content ensemble-content">
 <section class="studio-pane studio-pane--ensemble is-active" data-pane="ensemble" role="tabpanel" aria-label="Ensemble">
 <div class="studio-room-frame studio-room-frame--ensemble">
 <div class="studio-stage-wrap studio-stage-wrap--ensemble">
@@ -1147,8 +1208,8 @@ body.dashboard-page > main > section {
   width: 5px;
   height: 5px;
   border-radius: 999px;
-  background: #f8dc8a;
-  box-shadow: 0 0 8px rgba(248, 220, 138, 0.95), 0 0 18px rgba(119, 184, 148, 0.35);
+  background: var(--city-firefly-core);
+  box-shadow: 0 0 8px var(--city-firefly-glow), 0 0 18px var(--city-firefly-glow-green);
   opacity: 0;
   will-change: transform, opacity;
 }
@@ -1157,11 +1218,11 @@ body.dashboard-page > main > section {
   position: absolute;
   inset: 1px;
   border-radius: inherit;
-  background: rgba(255, 255, 255, 0.88);
+  background: var(--city-firefly-spark);
 }
 @media (prefers-reduced-motion: reduce) {
   .city-door-transition { transition: none; }
-  .city-firefly { box-shadow: 0 0 6px rgba(248, 220, 138, 0.55); }
+  .city-firefly { box-shadow: 0 0 6px var(--city-firefly-glow-soft); }
 }
 </style>
 </main>
@@ -1185,7 +1246,7 @@ tabs.forEach(function(btn){
 </script>
 <script>
 (function () {
-  var room = {"stage": {"width": 1856, "height": 1392}, "spawn": {"x": 928, "y": 896, "facing": "north"}, "is_overworld": true, "overworld_palette": {"base": "#89b566", "grass_tints": ["#a8cd75", "#78aa4f", "#649840", "#84b765"], "grass_light": "#a8cd75", "grass_dark": "#649840", "noise_light": "rgba(187, 216, 148, 0.1)", "noise_dark": "rgba(74, 122, 54, 0.08)", "clump": "rgba(74, 122, 54, 0.22)", "fleck": "rgba(177, 210, 133, 0.28)", "soil_fleck": "rgba(148, 107, 68, 0.16)", "grid": "rgba(102, 154, 64, 0.07)", "tile": 32}, "components": [{"id": "plaza-commons", "type": "floor-deco", "sprite_id": "plaza_stone", "props": {"sprite_id": "plaza_stone", "surface": "commons", "tile": 32, "world_locked_tile": true}, "x": 700, "y": 704, "w": 456, "h": 296, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "ave-w2", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "boulevard", "tile": 32, "world_locked_tile": true}, "x": 524, "y": 200, "w": 48, "h": 1072, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "ave-mid", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "boulevard", "tile": 32, "world_locked_tile": true}, "x": 904, "y": 200, "w": 48, "h": 1072, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "ave-e1", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "boulevard", "tile": 32, "world_locked_tile": true}, "x": 1284, "y": 200, "w": 48, "h": 1072, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "ave-e2", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "boulevard", "tile": 32, "world_locked_tile": true}, "x": 1664, "y": 200, "w": 48, "h": 1072, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "lane-north", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "lane", "tile": 32, "world_locked_tile": true}, "x": 436, "y": 276, "w": 1364, "h": 48, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "lane-mid", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "lane", "tile": 32, "world_locked_tile": true}, "x": 436, "y": 716, "w": 1364, "h": 48, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "lane-south", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "lane", "tile": 32, "world_locked_tile": true}, "x": 436, "y": 1116, "w": 1364, "h": 48, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "house-mine", "type": "click-to-door", "sprite_id": "house", "props": {"sprite_id": "house", "label": "You"}, "name": "You", "swatch": "#c2711f", "roof_swatch": "#5b3520", "x": 822, "y": 440, "w": 212, "h": 232, "is_mine": true, "walk_flags": {"solid": true, "walkable_through": false, "interactable": true, "interaction_radius": 64, "approach_prompt": "Press X to enter your Studio", "door_url": "/studio.html?walk=1"}}, {"id": "plaza-fountain", "type": "static-deco", "sprite_id": "fountain_small", "props": {"sprite_id": "fountain_small"}, "x": 1084, "y": 772, "w": 104, "h": 96, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "commons-statue", "type": "static-deco", "sprite_id": "statue_small", "props": {"sprite_id": "statue_small"}, "x": 696, "y": 756, "w": 72, "h": 104, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "tree-nw", "type": "static-deco", "sprite_id": "plant_tree_small", "props": {"sprite_id": "plant_tree_small"}, "x": 300, "y": 204, "w": 88, "h": 136, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "tree-ne", "type": "static-deco", "sprite_id": "plant_tree_small", "props": {"sprite_id": "plant_tree_small"}, "x": 1468, "y": 204, "w": 88, "h": 136, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "tree-sw", "type": "static-deco", "sprite_id": "plant_tree_small", "props": {"sprite_id": "plant_tree_small"}, "x": 300, "y": 1100, "w": 88, "h": 136, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "tree-se", "type": "static-deco", "sprite_id": "plant_tree_small", "props": {"sprite_id": "plant_tree_small"}, "x": 1468, "y": 1100, "w": 88, "h": 136, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "lantern-plaza-w", "type": "static-deco", "sprite_id": "lantern", "props": {"sprite_id": "lantern"}, "x": 800, "y": 760, "w": 28, "h": 104, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "lantern-plaza-e", "type": "static-deco", "sprite_id": "lantern", "props": {"sprite_id": "lantern"}, "x": 1020, "y": 760, "w": 28, "h": 104, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "lantern-north-w", "type": "static-deco", "sprite_id": "lantern", "props": {"sprite_id": "lantern"}, "x": 700, "y": 500, "w": 28, "h": 104, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "lantern-north-e", "type": "static-deco", "sprite_id": "lantern", "props": {"sprite_id": "lantern"}, "x": 1128, "y": 500, "w": 28, "h": 104, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "label-commons", "type": "text", "sprite_id": "city_label", "props": {"sprite_id": "city_label", "text": "Ensemble Commons", "color_token": "accent"}, "x": 808, "y": 1000, "w": 240, "h": 28, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "label-north", "type": "text", "sprite_id": "city_label", "props": {"sprite_id": "city_label", "text": "Northlight Row", "color_token": "accent"}, "x": 436, "y": 164, "w": 220, "h": 28, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "label-south", "type": "text", "sprite_id": "city_label", "props": {"sprite_id": "city_label", "text": "Maker Lane", "color_token": "accent"}, "x": 436, "y": 1280, "w": 200, "h": 28, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}]};
+  var room = {"stage": {"width": 2048, "height": 1536}, "spawn": {"x": 1024, "y": 992, "facing": "north"}, "is_overworld": true, "overworld_palette": {"base": "#89b566", "grass_tints": ["#a8cd75", "#78aa4f", "#649840", "#84b765"], "grass_light": "#a8cd75", "grass_dark": "#649840", "noise_light": "rgba(187, 216, 148, 0.1)", "noise_dark": "rgba(74, 122, 54, 0.08)", "clump": "rgba(74, 122, 54, 0.22)", "fleck": "rgba(177, 210, 133, 0.28)", "soil_fleck": "rgba(148, 107, 68, 0.16)", "grid": "rgba(102, 154, 64, 0.07)", "tile": 32}, "components": [{"id": "plaza-commons", "type": "floor-deco", "sprite_id": "plaza_stone", "props": {"sprite_id": "plaza_stone", "surface": "commons", "tile": 32, "world_locked_tile": true}, "x": 796, "y": 776, "w": 456, "h": 296, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "ave-w2", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "boulevard", "tile": 32, "world_locked_tile": true}, "x": 564, "y": 216, "w": 48, "h": 1200, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "ave-mid", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "boulevard", "tile": 32, "world_locked_tile": true}, "x": 1000, "y": 216, "w": 48, "h": 1200, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "ave-e1", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "boulevard", "tile": 32, "world_locked_tile": true}, "x": 1436, "y": 216, "w": 48, "h": 1200, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "ave-e2", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "boulevard", "tile": 32, "world_locked_tile": true}, "x": 1872, "y": 216, "w": 48, "h": 1200, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "lane-north", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "lane", "tile": 32, "world_locked_tile": true}, "x": 464, "y": 304, "w": 1556, "h": 48, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "lane-mid", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "lane", "tile": 32, "world_locked_tile": true}, "x": 464, "y": 796, "w": 1556, "h": 48, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "lane-south", "type": "floor-deco", "sprite_id": "path_stone", "props": {"sprite_id": "path_stone", "surface": "lane", "tile": 32, "world_locked_tile": true}, "x": 464, "y": 1248, "w": 1556, "h": 48, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "house-mine", "type": "click-to-door", "sprite_id": "house", "props": {"sprite_id": "house", "label": "You"}, "name": "You", "swatch": "#c2711f", "roof_swatch": "#5b3520", "x": 906, "y": 488, "w": 236, "h": 256, "is_mine": true, "walk_flags": {"solid": true, "walkable_through": false, "interactable": true, "interaction_radius": 64, "approach_prompt": "Press X to enter your Studio", "door_url": "/studio.html?walk=1"}}, {"id": "plaza-fountain", "type": "static-deco", "sprite_id": "fountain_small", "props": {"sprite_id": "fountain_small"}, "x": 1196, "y": 852, "w": 115, "h": 106, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "commons-statue", "type": "static-deco", "sprite_id": "statue_small", "props": {"sprite_id": "statue_small"}, "x": 768, "y": 834, "w": 79, "h": 115, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "tree-nw", "type": "static-deco", "sprite_id": "plant_tree_small", "props": {"sprite_id": "plant_tree_small"}, "x": 331, "y": 225, "w": 97, "h": 150, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "z": 6}, {"id": "tree-ne", "type": "static-deco", "sprite_id": "plant_tree_small", "props": {"sprite_id": "plant_tree_small"}, "x": 1620, "y": 225, "w": 97, "h": 150, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "z": 6}, {"id": "tree-sw", "type": "static-deco", "sprite_id": "plant_tree_small", "props": {"sprite_id": "plant_tree_small"}, "x": 331, "y": 1214, "w": 97, "h": 150, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "z": 6}, {"id": "tree-se", "type": "static-deco", "sprite_id": "plant_tree_small", "props": {"sprite_id": "plant_tree_small"}, "x": 1620, "y": 1214, "w": 97, "h": 150, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "z": 6}, {"id": "lantern-plaza-w", "type": "static-deco", "sprite_id": "lantern", "props": {"sprite_id": "lantern"}, "x": 883, "y": 839, "w": 31, "h": 115, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "lantern-plaza-e", "type": "static-deco", "sprite_id": "lantern", "props": {"sprite_id": "lantern"}, "x": 1126, "y": 839, "w": 31, "h": 115, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "lantern-north-w", "type": "static-deco", "sprite_id": "lantern", "props": {"sprite_id": "lantern"}, "x": 772, "y": 552, "w": 31, "h": 115, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "lantern-north-e", "type": "static-deco", "sprite_id": "lantern", "props": {"sprite_id": "lantern"}, "x": 1245, "y": 552, "w": 31, "h": 115, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}}, {"id": "label-commons", "type": "text", "sprite_id": "city_label", "props": {"sprite_id": "city_label", "text": "Ensemble Commons", "color_token": "accent"}, "x": 904, "y": 1096, "w": 240, "h": 28, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "label-north", "type": "text", "sprite_id": "city_label", "props": {"sprite_id": "city_label", "text": "Northlight Row", "color_token": "accent"}, "x": 464, "y": 180, "w": 220, "h": 28, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}, {"id": "label-south", "type": "text", "sprite_id": "city_label", "props": {"sprite_id": "city_label", "text": "Maker Lane", "color_token": "accent"}, "x": 464, "y": 1424, "w": 200, "h": 28, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}}]};
   // Wandering townsfolk + cozy town dressing + ambient critters are
   // runtime ambience, not part of the canonical persisted room —
   // they're appended to room.components here (before the engine boots)
@@ -1195,10 +1256,10 @@ tabs.forEach(function(btn){
   // scenery + ground. Dressing is concatenated BEFORE the living
   // things so solid props are in room.components when the inbound
   // walk-handoff sanitizer checks landing tiles for colliders.
-  var townsfolk = [{"id": "townsperson-01", "type": "prop", "sprite_id": "chibi_kai", "props": {"sprite_id": "chibi_kai", "demo": true}, "x": 1112, "y": 932, "w": 48, "h": 96, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 1048, "y": 884, "w": 128, "h": 96}, "speed_px_per_sec": 22, "pause_ms_range": [900, 2600], "reaction": "notice"}, "sprite": {"pack_id": "chibi-default", "collection": "characters", "asset": "chibi_kai"}}, {"id": "townsperson-02", "type": "prop", "sprite_id": "chibi_remi", "props": {"sprite_id": "chibi_remi", "demo": true}, "x": 716, "y": 572, "w": 48, "h": 96, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 666, "y": 524, "w": 100, "h": 96}, "speed_px_per_sec": 22, "pause_ms_range": [900, 2600], "reaction": "notice"}, "sprite": {"pack_id": "chibi-default", "collection": "characters", "asset": "chibi_remi"}}, {"id": "townsperson-03", "type": "prop", "sprite_id": "chibi_jules", "props": {"sprite_id": "chibi_jules", "demo": true}, "x": 1142, "y": 572, "w": 48, "h": 96, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 1090, "y": 524, "w": 104, "h": 96}, "speed_px_per_sec": 22, "pause_ms_range": [900, 2600], "reaction": "notice"}, "sprite": {"pack_id": "chibi-default", "collection": "characters", "asset": "chibi_jules"}}, {"id": "townsperson-04", "type": "prop", "sprite_id": "chibi_emi", "props": {"sprite_id": "chibi_emi", "demo": true}, "x": 230, "y": 905, "w": 48, "h": 96, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 160, "y": 860, "w": 140, "h": 90}, "speed_px_per_sec": 26, "pause_ms_range": [900, 2600], "reaction": "notice"}, "sprite": {"pack_id": "chibi-default", "collection": "characters", "asset": "chibi_emi"}}, {"id": "townsperson-05", "type": "prop", "sprite_id": "chibi_alex", "props": {"sprite_id": "chibi_alex", "demo": true}, "x": 190, "y": 515, "w": 48, "h": 96, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 120, "y": 470, "w": 140, "h": 90}, "speed_px_per_sec": 22, "pause_ms_range": [900, 2600], "reaction": "notice"}, "sprite": {"pack_id": "chibi-default", "collection": "characters", "asset": "chibi_alex"}}];
-  var townDressing = [{"id": "plaza-stall-w0", "type": "static-deco", "sprite_id": "barrel", "props": {"sprite_id": "barrel"}, "x": 748, "y": 624, "w": 48, "h": 56, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/decor", "asset": "barrel"}}, {"id": "plaza-stall-w0-pad", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 744, "y": 672, "w": 56, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "plaza-bench-w", "type": "static-deco", "sprite_id": "wooden_bench", "props": {"sprite_id": "wooden_bench"}, "x": 730, "y": 860, "w": 84, "h": 48, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/seating", "asset": "wooden_bench"}}, {"id": "plaza-bench-e", "type": "static-deco", "sprite_id": "picnic_table", "props": {"sprite_id": "picnic_table"}, "x": 1018, "y": 852, "w": 92, "h": 56, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/seating", "asset": "picnic_table"}}, {"id": "plaza-bed-w", "type": "static-deco", "sprite_id": "flower_bed_blue", "props": {"sprite_id": "flower_bed_blue"}, "x": 748, "y": 804, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_blue"}}, {"id": "plaza-bed-e", "type": "static-deco", "sprite_id": "flower_bed_red", "props": {"sprite_id": "flower_bed_red"}, "x": 1016, "y": 804, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_red"}}, {"id": "park-apron-0_0", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 240, "y": 700, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-apron-1_0", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 272, "y": 700, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-apron-2_0", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 304, "y": 700, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-apron-0_1", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 240, "y": 732, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-apron-1_1", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 272, "y": 732, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-apron-2_1", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 304, "y": 732, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-focal", "type": "static-deco", "sprite_id": "gazebo", "props": {"sprite_id": "gazebo"}, "x": 232, "y": 636, "w": 104, "h": 128, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/park", "asset": "gazebo"}}, {"id": "park-bench-1", "type": "static-deco", "sprite_id": "picnic_table", "props": {"sprite_id": "picnic_table"}, "x": 78, "y": 808, "w": 92, "h": 56, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/seating", "asset": "picnic_table"}}, {"id": "park-tree-1", "type": "static-deco", "sprite_id": "large_tree", "props": {"sprite_id": "large_tree"}, "x": 26, "y": 492, "w": 92, "h": 140, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "large_tree"}}, {"id": "park-tree-2", "type": "static-deco", "sprite_id": "large_tree", "props": {"sprite_id": "large_tree"}, "x": 446, "y": 592, "w": 92, "h": 140, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "large_tree"}}, {"id": "park-lamp", "type": "static-deco", "sprite_id": "lamp_post", "props": {"sprite_id": "lamp_post"}, "x": 466, "y": 844, "w": 36, "h": 112, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/lights", "asset": "lamp_post"}}, {"id": "park-pond", "type": "static-deco", "sprite_id": "pond", "props": {"sprite_id": "pond"}, "x": 284, "y": 1024, "w": 96, "h": 72, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/water", "asset": "pond"}}, {"id": "park-lily", "type": "static-deco", "sprite_id": "lily_pad", "props": {"sprite_id": "lily_pad"}, "x": 316, "y": 1056, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/water", "asset": "lily_pad"}}, {"id": "park-bed-1", "type": "static-deco", "sprite_id": "flower_bed_blue", "props": {"sprite_id": "flower_bed_blue"}, "x": 172, "y": 824, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_blue"}}, {"id": "park-bed-2", "type": "static-deco", "sprite_id": "flower_bed_red", "props": {"sprite_id": "flower_bed_red"}, "x": 88, "y": 924, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_red"}}, {"id": "park-grass-1", "type": "static-deco", "sprite_id": "tall_grass", "props": {"sprite_id": "tall_grass"}, "x": 464, "y": 876, "w": 40, "h": 40, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "tall_grass"}}, {"id": "park-hedge-00", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 28, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "park-hedge-02", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 92, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "park-hedge-04", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 156, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "park-hedge-06", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 220, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "park-hedge-08", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 284, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "park-hedge-10", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 348, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "east-well", "type": "static-deco", "sprite_id": "fountain", "props": {"sprite_id": "fountain"}, "x": 1672, "y": 680, "w": 104, "h": 96, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/water", "asset": "fountain"}}, {"id": "east-tree", "type": "static-deco", "sprite_id": "large_tree", "props": {"sprite_id": "large_tree"}, "x": 1702, "y": 292, "w": 92, "h": 140, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "large_tree"}}, {"id": "east-bench", "type": "static-deco", "sprite_id": "park_bench", "props": {"sprite_id": "park_bench"}, "x": 1526, "y": 728, "w": 84, "h": 48, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/seating", "asset": "park_bench"}}, {"id": "east-lamp", "type": "static-deco", "sprite_id": "lamp_post", "props": {"sprite_id": "lamp_post"}, "x": 1778, "y": 580, "w": 36, "h": 112, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/lights", "asset": "lamp_post"}}, {"id": "east-bush", "type": "static-deco", "sprite_id": "small_tree", "props": {"sprite_id": "small_tree"}, "x": 1530, "y": 508, "w": 76, "h": 108, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "small_tree"}}, {"id": "east-bed", "type": "static-deco", "sprite_id": "flower_bed_blue", "props": {"sprite_id": "flower_bed_blue"}, "x": 1612, "y": 804, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_blue"}}, {"id": "fill-00", "type": "static-deco", "sprite_id": "small_tree", "props": {"sprite_id": "small_tree"}, "x": 1057, "y": 1157, "w": 76, "h": 108, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "small_tree"}}, {"id": "fill-00-a", "type": "static-deco", "sprite_id": "flower_bed_blue", "props": {"sprite_id": "flower_bed_blue"}, "x": 1063, "y": 1261, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_blue"}}, {"id": "fill-01", "type": "static-deco", "sprite_id": "small_tree", "props": {"sprite_id": "small_tree"}, "x": 1654, "y": 159, "w": 76, "h": 108, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "small_tree"}}, {"id": "fill-01-a", "type": "static-deco", "sprite_id": "flower_bed_red", "props": {"sprite_id": "flower_bed_red"}, "x": 1660, "y": 263, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_red"}}, {"id": "fill-02", "type": "static-deco", "sprite_id": "bush", "props": {"sprite_id": "bush"}, "x": 342, "y": 1193, "w": 72, "h": 72, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "bush"}}, {"id": "fill-02-a", "type": "static-deco", "sprite_id": "flower_bed_red", "props": {"sprite_id": "flower_bed_red"}, "x": 346, "y": 1261, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_red"}}];
-  var interactiveProps = [{"id": "commons-notice-board", "type": "prop", "sprite_id": "shop_sign", "props": {"sprite_id": "shop_sign", "label": "Notice board", "city_toast": "Welcome to the Ensemble. Claim a door and build."}, "x": 604, "y": 898, "w": 84, "h": 72, "z": 4, "walk_flags": {"solid": false, "walkable_through": true, "interactable": true, "interaction_radius": 56, "approach_prompt": "Press X to read", "city_toast": "Welcome to the Ensemble. Claim a door and build."}, "walkable_through": true, "solid": false, "interactable": true, "sprite": {"pack_id": "first-party", "collection": "town/buildings", "asset": "shop_sign"}}, {"id": "commons-wishing-well", "type": "prop", "sprite_id": "well", "props": {"sprite_id": "well", "label": "Wishing well", "city_toast": "You make a wish. The world is listening."}, "x": 1204, "y": 882, "w": 72, "h": 64, "z": 4, "walk_flags": {"solid": false, "walkable_through": true, "interactable": true, "interaction_radius": 56, "approach_prompt": "Press X to make a wish", "city_toast": "You make a wish. The world is listening."}, "walkable_through": true, "solid": false, "interactable": true, "sprite": {"pack_id": "first-party", "collection": "town/water", "asset": "well"}}, {"id": "commons-open-doors-sign", "type": "prop", "sprite_id": "hanging_sign", "props": {"sprite_id": "hanging_sign", "label": "Open doors sign", "city_toast": "Open doors this way ->"}, "x": 1032, "y": 1000, "w": 72, "h": 88, "z": 4, "walk_flags": {"solid": false, "walkable_through": true, "interactable": true, "interaction_radius": 56, "approach_prompt": "Press X to check the sign", "city_toast": "Open doors this way ->"}, "walkable_through": true, "solid": false, "interactable": true, "sprite": {"pack_id": "first-party", "collection": "town/decor", "asset": "hanging_sign"}}];
-  var ambientCritters = [{"id": "critter-00", "type": "prop", "sprite_id": "bird", "props": {"sprite_id": "bird", "demo": true}, "x": 166, "y": 908, "w": 32, "h": 32, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 96, "y": 860, "w": 140, "h": 96}, "speed_px_per_sec": 30, "pause_ms_range": [1200, 3200], "reaction": "notice"}, "sprite": {"pack_id": "first-party", "collection": "town", "asset": "bird"}}, {"id": "critter-01", "type": "prop", "sprite_id": "butterfly", "props": {"sprite_id": "butterfly", "demo": true}, "x": 310, "y": 995, "w": 32, "h": 32, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 220, "y": 940, "w": 180, "h": 110}, "speed_px_per_sec": 30, "pause_ms_range": [1200, 3200], "reaction": "notice"}, "sprite": {"pack_id": "first-party", "collection": "town", "asset": "butterfly"}}];
+  var townsfolk = [{"id": "townsperson-01", "type": "prop", "sprite_id": "chibi_kai", "props": {"sprite_id": "chibi_kai", "demo": true}, "x": 1226, "y": 1028, "w": 48, "h": 96, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 1156, "y": 975, "w": 141, "h": 106}, "speed_px_per_sec": 22, "pause_ms_range": [900, 2600], "reaction": "notice"}, "sprite": {"pack_id": "chibi-default", "collection": "characters", "asset": "chibi_kai"}}, {"id": "townsperson-02", "type": "prop", "sprite_id": "chibi_remi", "props": {"sprite_id": "chibi_remi", "demo": true}, "x": 790, "y": 631, "w": 48, "h": 96, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 735, "y": 578, "w": 110, "h": 106}, "speed_px_per_sec": 22, "pause_ms_range": [900, 2600], "reaction": "notice"}, "sprite": {"pack_id": "chibi-default", "collection": "characters", "asset": "chibi_remi"}}, {"id": "townsperson-03", "type": "prop", "sprite_id": "chibi_jules", "props": {"sprite_id": "chibi_jules", "demo": true}, "x": 1260, "y": 631, "w": 48, "h": 96, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 1203, "y": 578, "w": 115, "h": 106}, "speed_px_per_sec": 22, "pause_ms_range": [900, 2600], "reaction": "notice"}, "sprite": {"pack_id": "chibi-default", "collection": "characters", "asset": "chibi_jules"}}, {"id": "townsperson-04", "type": "prop", "sprite_id": "chibi_emi", "props": {"sprite_id": "chibi_emi", "demo": true}, "x": 254, "y": 998, "w": 48, "h": 96, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 177, "y": 949, "w": 154, "h": 99}, "speed_px_per_sec": 26, "pause_ms_range": [900, 2600], "reaction": "notice"}, "sprite": {"pack_id": "chibi-default", "collection": "characters", "asset": "chibi_emi"}}, {"id": "townsperson-05", "type": "prop", "sprite_id": "chibi_alex", "props": {"sprite_id": "chibi_alex", "demo": true}, "x": 209, "y": 568, "w": 48, "h": 96, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 132, "y": 519, "w": 154, "h": 99}, "speed_px_per_sec": 22, "pause_ms_range": [900, 2600], "reaction": "notice"}, "sprite": {"pack_id": "chibi-default", "collection": "characters", "asset": "chibi_alex"}}];
+  var townDressing = [{"id": "plaza-stall-w0", "type": "static-deco", "sprite_id": "barrel", "props": {"sprite_id": "barrel"}, "x": 748, "y": 624, "w": 48, "h": 56, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/decor", "asset": "barrel"}}, {"id": "plaza-stall-w0-pad", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 744, "y": 672, "w": 56, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "plaza-bench-w", "type": "static-deco", "sprite_id": "wooden_bench", "props": {"sprite_id": "wooden_bench"}, "x": 730, "y": 860, "w": 84, "h": 48, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/seating", "asset": "wooden_bench"}}, {"id": "plaza-bed-w", "type": "static-deco", "sprite_id": "flower_bed_blue", "props": {"sprite_id": "flower_bed_blue"}, "x": 748, "y": 804, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_blue"}}, {"id": "plaza-bed-e", "type": "static-deco", "sprite_id": "flower_bed_red", "props": {"sprite_id": "flower_bed_red"}, "x": 1016, "y": 804, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_red"}}, {"id": "park-apron-0_0", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 240, "y": 700, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-apron-1_0", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 272, "y": 700, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-apron-2_0", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 304, "y": 700, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-apron-0_1", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 240, "y": 732, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-apron-1_1", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 272, "y": 732, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-apron-2_1", "type": "static-deco", "sprite_id": "cobble", "props": {"sprite_id": "cobble"}, "x": 304, "y": 732, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/floor", "asset": "cobble"}}, {"id": "park-focal", "type": "static-deco", "sprite_id": "gazebo", "props": {"sprite_id": "gazebo"}, "x": 232, "y": 636, "w": 104, "h": 128, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/park", "asset": "gazebo"}}, {"id": "park-bench-1", "type": "static-deco", "sprite_id": "picnic_table", "props": {"sprite_id": "picnic_table"}, "x": 78, "y": 808, "w": 92, "h": 56, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/seating", "asset": "picnic_table"}}, {"id": "park-tree-1", "type": "static-deco", "sprite_id": "large_tree", "props": {"sprite_id": "large_tree"}, "x": 26, "y": 492, "w": 92, "h": 140, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "large_tree"}}, {"id": "park-tree-2", "type": "static-deco", "sprite_id": "large_tree", "props": {"sprite_id": "large_tree"}, "x": 446, "y": 592, "w": 92, "h": 140, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "large_tree"}}, {"id": "park-lamp", "type": "static-deco", "sprite_id": "lamp_post", "props": {"sprite_id": "lamp_post"}, "x": 466, "y": 844, "w": 36, "h": 112, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/lights", "asset": "lamp_post"}}, {"id": "park-pond", "type": "static-deco", "sprite_id": "pond", "props": {"sprite_id": "pond"}, "x": 284, "y": 1024, "w": 96, "h": 72, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/water", "asset": "pond"}}, {"id": "park-lily", "type": "static-deco", "sprite_id": "lily_pad", "props": {"sprite_id": "lily_pad"}, "x": 316, "y": 1056, "w": 32, "h": 32, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/water", "asset": "lily_pad"}}, {"id": "park-bed-1", "type": "static-deco", "sprite_id": "flower_bed_blue", "props": {"sprite_id": "flower_bed_blue"}, "x": 172, "y": 824, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_blue"}}, {"id": "park-bed-2", "type": "static-deco", "sprite_id": "flower_bed_red", "props": {"sprite_id": "flower_bed_red"}, "x": 88, "y": 924, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_red"}}, {"id": "park-grass-1", "type": "static-deco", "sprite_id": "tall_grass", "props": {"sprite_id": "tall_grass"}, "x": 464, "y": 876, "w": 40, "h": 40, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "tall_grass"}}, {"id": "park-hedge-00", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 28, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "park-hedge-02", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 92, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "park-hedge-04", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 156, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "park-hedge-06", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 220, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "park-hedge-08", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 284, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "park-hedge-10", "type": "static-deco", "sprite_id": "hedge", "props": {"sprite_id": "hedge"}, "x": 348, "y": 1132, "w": 40, "h": 40, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "hedge"}}, {"id": "east-well", "type": "static-deco", "sprite_id": "fountain", "props": {"sprite_id": "fountain"}, "x": 1672, "y": 680, "w": 104, "h": 96, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/water", "asset": "fountain"}}, {"id": "east-tree", "type": "static-deco", "sprite_id": "large_tree", "props": {"sprite_id": "large_tree"}, "x": 1702, "y": 364, "w": 92, "h": 140, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "large_tree"}}, {"id": "east-bench", "type": "static-deco", "sprite_id": "park_bench", "props": {"sprite_id": "park_bench"}, "x": 1526, "y": 728, "w": 84, "h": 48, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/seating", "asset": "park_bench"}}, {"id": "east-lamp", "type": "static-deco", "sprite_id": "lamp_post", "props": {"sprite_id": "lamp_post"}, "x": 1778, "y": 580, "w": 36, "h": 112, "z": 6, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/lights", "asset": "lamp_post"}}, {"id": "east-bush", "type": "static-deco", "sprite_id": "small_tree", "props": {"sprite_id": "small_tree"}, "x": 1530, "y": 508, "w": 76, "h": 108, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "small_tree"}}, {"id": "east-bed", "type": "static-deco", "sprite_id": "flower_bed_blue", "props": {"sprite_id": "flower_bed_blue"}, "x": 1612, "y": 804, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_blue"}}, {"id": "fill-01", "type": "static-deco", "sprite_id": "bush", "props": {"sprite_id": "bush"}, "x": 1656, "y": 195, "w": 72, "h": 72, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "bush"}}, {"id": "fill-01-a", "type": "static-deco", "sprite_id": "flower_bed_red", "props": {"sprite_id": "flower_bed_red"}, "x": 1660, "y": 263, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_red"}}, {"id": "fill-02", "type": "static-deco", "sprite_id": "small_tree", "props": {"sprite_id": "small_tree"}, "x": 340, "y": 1181, "w": 76, "h": 108, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "small_tree"}}, {"id": "fill-02-a", "type": "static-deco", "sprite_id": "flower_bed_blue", "props": {"sprite_id": "flower_bed_blue"}, "x": 346, "y": 1261, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_blue"}}, {"id": "fill-03", "type": "static-deco", "sprite_id": "small_tree", "props": {"sprite_id": "small_tree"}, "x": 1311, "y": 859, "w": 76, "h": 108, "z": 4, "walk_flags": {"solid": true, "walkable_through": false, "interactable": false}, "walkable_through": false, "solid": true, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "small_tree"}}, {"id": "fill-03-a", "type": "static-deco", "sprite_id": "flower_bed_blue", "props": {"sprite_id": "flower_bed_blue"}, "x": 1317, "y": 915, "w": 48, "h": 28, "z": -2, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "sprite": {"pack_id": "first-party", "collection": "town/flora", "asset": "flower_bed_blue"}}];
+  var interactiveProps = [{"id": "commons-notice-board", "type": "prop", "sprite_id": "shop_sign", "props": {"sprite_id": "shop_sign", "label": "Notice board", "city_toast": "Welcome to the Ensemble. Claim a door and build."}, "x": 666, "y": 991, "w": 93, "h": 79, "z": 4, "walk_flags": {"solid": false, "walkable_through": true, "interactable": true, "interaction_radius": 56, "approach_prompt": "Press X to read", "city_toast": "Welcome to the Ensemble. Claim a door and build."}, "walkable_through": true, "solid": false, "interactable": true, "sprite": {"pack_id": "first-party", "collection": "town/buildings", "asset": "shop_sign"}}, {"id": "commons-wishing-well", "type": "prop", "sprite_id": "well", "props": {"sprite_id": "well", "label": "Wishing well", "city_toast": "You make a wish. The world is listening."}, "x": 1329, "y": 973, "w": 79, "h": 71, "z": 4, "walk_flags": {"solid": false, "walkable_through": true, "interactable": true, "interaction_radius": 56, "approach_prompt": "Press X to make a wish", "city_toast": "You make a wish. The world is listening."}, "walkable_through": true, "solid": false, "interactable": true, "sprite": {"pack_id": "first-party", "collection": "town/water", "asset": "well"}}, {"id": "commons-open-doors-sign", "type": "prop", "sprite_id": "hanging_sign", "props": {"sprite_id": "hanging_sign", "label": "Open doors sign", "city_toast": "Open doors this way ->"}, "x": 1139, "y": 1103, "w": 79, "h": 97, "z": 4, "walk_flags": {"solid": false, "walkable_through": true, "interactable": true, "interaction_radius": 56, "approach_prompt": "Press X to check the sign", "city_toast": "Open doors this way ->"}, "walkable_through": true, "solid": false, "interactable": true, "sprite": {"pack_id": "first-party", "collection": "town/decor", "asset": "hanging_sign"}}];
+  var ambientCritters = [{"id": "critter-00", "type": "prop", "sprite_id": "butterfly", "props": {"sprite_id": "butterfly", "demo": true}, "x": 166, "y": 908, "w": 32, "h": 32, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 96, "y": 860, "w": 140, "h": 96}, "speed_px_per_sec": 30, "pause_ms_range": [1200, 3200], "reaction": "notice"}, "sprite": {"pack_id": "first-party", "collection": "town", "asset": "butterfly"}}, {"id": "critter-01", "type": "prop", "sprite_id": "bird", "props": {"sprite_id": "bird", "demo": true}, "x": 310, "y": 995, "w": 32, "h": 32, "z": 5, "walk_flags": {"solid": false, "walkable_through": true, "interactable": false}, "walkable_through": true, "solid": false, "interactable": false, "behavior": {"type": "wander", "region": {"x": 220, "y": 940, "w": 180, "h": 110}, "speed_px_per_sec": 30, "pause_ms_range": [1200, 3200], "reaction": "notice"}, "sprite": {"pack_id": "first-party", "collection": "town", "asset": "bird"}}];
   var fireflyAnchors = [{"x": 814, "y": 782}, {"x": 1034, "y": 782}, {"x": 714, "y": 522}, {"x": 1142, "y": 522}];
   room.components = room.components
     .concat(townDressing)
@@ -1321,8 +1382,30 @@ tabs.forEach(function(btn){
   }
   function canvasIdFromUrl(url) {
     if (!url) return null;
-    var m = url.match(/\/canvas\/([^/]+?)\.html$/);
+    var m = String(url).match(/\/canvas\/([^/?#]+?)\.html(?:[?#].*)?$/);
     return m ? m[1] : null;
+  }
+  function pathForUrl(url) {
+    try { return new URL(url, window.location.href).pathname; }
+    catch (e) { return String(url || '').split('?')[0].split('#')[0]; }
+  }
+  function isWalkCarryDestination(url) {
+    var path = pathForUrl(url);
+    return path === '/studio.html' || path.indexOf('/canvas/') === 0 || path.indexOf('/c/') === 0;
+  }
+  function appendWalkModeHint(url) {
+    if (!url || !isWalkCarryDestination(url)) return url;
+    try {
+      var u = new URL(url, window.location.href);
+      u.searchParams.set('mode', 'walk');
+      if (u.origin === window.location.origin) return u.pathname + u.search + u.hash;
+      return u.toString();
+    } catch (e) {
+      var hashIndex = String(url).indexOf('#');
+      var base = hashIndex >= 0 ? String(url).slice(0, hashIndex) : String(url);
+      var hash = hashIndex >= 0 ? String(url).slice(hashIndex) : '';
+      return base + (base.indexOf('?') >= 0 ? '&' : '?') + 'mode=walk' + hash;
+    }
   }
   function stampHandoff(url, comp) {
     if (!window.__spriteEngine || typeof window.__spriteEngine.captureHandoff !== 'function') return;
@@ -1334,11 +1417,12 @@ tabs.forEach(function(btn){
     });
   }
   function fadeToDoor(url, comp) {
-    stampHandoff(url, comp);
+    var targetUrl = appendWalkModeHint(url);
+    stampHandoff(targetUrl, comp);
     var overlay = document.getElementById('city-door-transition');
-    if (!overlay) { window.location.href = url; return; }
+    if (!overlay) { window.location.href = targetUrl; return; }
     overlay.classList.add('is-active');
-    setTimeout(function () { window.location.href = url; }, 380);
+    setTimeout(function () { window.location.href = targetUrl; }, 380);
   }
   function cityToastFor(comp) {
     if (!comp) return '';
@@ -1440,7 +1524,24 @@ tabs.forEach(function(btn){
         if (banner) banner.removeAttribute('hidden');
       };
       // me is truthy (has .user) only when /v1/me confirms a session.
-      var gateOnboard = function (me) { if (!me || !me.user) revealOnboard(); };
+      // Recolor the signed-in user's own house to their chosen swatch
+      // (the engine redraws solids from comp.swatch each frame, so a
+      // mutate repaints next frame). NULL choice keeps the baked default.
+      var applyMineSwatch = function (id) {
+        if (!id || !HOUSE_SWATCHES[id]) return;
+        for (var _mi = 0; _mi < room.components.length; _mi++) {
+          var _mc = room.components[_mi];
+          if (_mc && _mc.is_mine) {
+            _mc.swatch = HOUSE_SWATCHES[id].swatch;
+            _mc.roof_swatch = HOUSE_SWATCHES[id].roof_swatch;
+            break;
+          }
+        }
+      };
+      var gateOnboard = function (me) {
+        if (!me || !me.user) { revealOnboard(); return; }
+        applyMineSwatch(me.user.house_swatch_id);
+      };
       if (window._meReady && typeof window._meReady.then === 'function') {
         window._meReady.then(gateOnboard);
       } else {
@@ -1505,8 +1606,17 @@ tabs.forEach(function(btn){
   // creators join.
   var _knownPlotIds = {};
   // Spiral world mapping — mirrors map_body.py::_spiral_world_center.
-  var SPIRAL = {"originX": 928, "originY": 740, "pitchX": 380, "pitchUp": 440, "pitchDown": 400, "swatches": [{"swatch": "#5a7d8b", "roof_swatch": "#36506a"}, {"swatch": "#8b7d5a", "roof_swatch": "#5a402b"}, {"swatch": "#7d8b5a", "roof_swatch": "#4f3b2d"}, {"swatch": "#7d5a8b", "roof_swatch": "#4a314f"}, {"swatch": "#5a8b7d", "roof_swatch": "#2f5147"}, {"swatch": "#8b5a7d", "roof_swatch": "#523044"}, {"swatch": "#5a5a8b", "roof_swatch": "#323855"}, {"swatch": "#7d5a5a", "roof_swatch": "#503232"}]};
-  var HOUSE_W = 184, HOUSE_H = 200;
+  var SPIRAL = {"originX": 1024, "originY": 820, "pitchX": 436, "pitchUp": 492, "pitchDown": 452, "swatches": [{"id": "crimson", "swatch": "#c2524e", "roof_swatch": "#6e2b29"}, {"id": "coral", "swatch": "#d07a54", "roof_swatch": "#76402b"}, {"id": "amber", "swatch": "#c6913f", "roof_swatch": "#6e5022"}, {"id": "gold", "swatch": "#bda842", "roof_swatch": "#6a5b24"}, {"id": "olive", "swatch": "#8fa04a", "roof_swatch": "#515e28"}, {"id": "fern", "swatch": "#57a05a", "roof_swatch": "#2f5e36"}, {"id": "teal", "swatch": "#3f9e92", "roof_swatch": "#245c54"}, {"id": "aqua", "swatch": "#45a6bf", "roof_swatch": "#296475"}, {"id": "cerulean", "swatch": "#4d86b3", "roof_swatch": "#2b5572"}, {"id": "indigo", "swatch": "#6360a8", "roof_swatch": "#38386b"}, {"id": "violet", "swatch": "#8b5fab", "roof_swatch": "#4d3463"}, {"id": "plum", "swatch": "#b1577a", "roof_swatch": "#642f44"}, {"id": "rose", "swatch": "#cc6f86", "roof_swatch": "#76404e"}, {"id": "slate", "swatch": "#6c7c9c", "roof_swatch": "#3e4a5e"}]};
+  // id -> {swatch, roof_swatch} so a creator's chosen house color
+  // (house_swatch_id, from /v1/me for the mine house + /v1/plots for
+  // neighbors) resolves to hex at render time; unknown ids fall back to
+  // the spiral-index default.
+  var HOUSE_SWATCHES = {};
+  for (var _si = 0; _si < SPIRAL.swatches.length; _si++) {
+    var _sw = SPIRAL.swatches[_si];
+    if (_sw && _sw.id) HOUSE_SWATCHES[_sw.id] = { swatch: _sw.swatch, roof_swatch: _sw.roof_swatch };
+  }
+  var HOUSE_W = 208, HOUSE_H = 224;
   function spiralWorldCenter(gx, gy) {
     var cx = SPIRAL.originX + gx * SPIRAL.pitchX;
     var cy = SPIRAL.originY + (gy < 0 ? gy * SPIRAL.pitchUp : gy * SPIRAL.pitchDown);
@@ -1536,7 +1646,7 @@ tabs.forEach(function(btn){
   // Math.random(). New dressing pushes onto room.components and is
   // validated against existing colliders by reserveFits so a tree
   // never lands on a house, the spawn corridor, or a return-point.
-  var DISTRICT = {"stageW": 1856, "stageH": 1392, "houseW": 184, "houseH": 200, "originX": 928, "originY": 740, "pitchX": 380, "pitchUp": 440, "pitchDown": 400, "doorDrop": 40, "zGround": -2, "zDeco": 4, "zTall": 6, "amusementThreshold": 16, "floorPath": "dirt_path", "pools": {"trees": ["large_tree"], "shrubs": ["bush", "small_tree"], "flowers": ["flower_bed_blue", "flower_bed_red"], "grass": ["tall_grass"], "benches": ["park_bench", "wooden_bench", "picnic_table"], "ridesTall": ["ferris_wheel", "carousel", "ticket_booth"], "ridesSmall": ["popcorn_cart", "game_stall", "balloon_bunch"]}};
+  var DISTRICT = {"stageW": 2048, "stageH": 1536, "houseW": 208, "houseH": 224, "originX": 1024, "originY": 820, "pitchX": 436, "pitchUp": 492, "pitchDown": 452, "doorDrop": 40, "zGround": -2, "zDeco": 4, "zTall": 6, "amusementThreshold": 16, "floorPath": "dirt_path", "pools": {"trees": ["large_tree"], "shrubs": ["bush", "small_tree"], "flowers": ["flower_bed_blue", "flower_bed_red"], "grass": ["tall_grass"], "benches": ["park_bench", "wooden_bench", "picnic_table"], "ridesTall": ["ferris_wheel", "carousel", "ticket_booth"], "ridesSmall": ["popcorn_cart", "game_stall", "balloon_bunch"]}};
   function _seedFor(gx, gy) {
     var s = (((gx * 73856093) ^ (gy * 19349663)) >>> 0) || 1;
     return s;
@@ -1557,7 +1667,7 @@ tabs.forEach(function(btn){
   var _solidBoxes = [];
   (function seedSolidBoxes() {
     var sx = (room.spawn && room.spawn.x) || (STAGE_W / 2);
-    _solidBoxes.push({ l: sx - 80, t: 672, r: sx + 80, b: 952 });
+    _solidBoxes.push({ l: sx - 80, t: 744, r: sx + 80, b: 1048 });
     for (var i = 0; i < room.components.length; i++) {
       var c = room.components[i];
       var f = c.walk_flags || {};
@@ -1567,6 +1677,9 @@ tabs.forEach(function(btn){
           var rx = c.x + c.w / 2, ry = c.y + c.h + DISTRICT.doorDrop;
           _solidBoxes.push({ l: rx - 14, t: ry - 30, r: rx + 14, b: ry + 14 });
         }
+      } else if (c.sprite_id === 'path_stone' && c.w && c.h) {
+        // Walkways reserve too, so a client-grown prop never lands on a path.
+        _solidBoxes.push({ l: c.x, t: c.y, r: c.x + c.w, b: c.y + c.h });
       }
     }
   }());
@@ -1677,8 +1790,10 @@ tabs.forEach(function(btn){
     // Claimed homes open their live Cadenza; an open plot's door is the
     // claim flow, never a demo canvas.
     var doorUrl = (claimed && plot.cadenza_url) ? plot.cadenza_url : CLAIM_DOOR_URL;
-    var prompt = claimed ? ('Press X to enter ' + name) : 'Press X to claim this door';
+    var prompt = claimed ? ('Press X to enter the Cadenza: ' + name) : 'Press X to claim this door';
     var palette = SPIRAL.swatches[(_grownCount + Object.keys(_houseByGrid).length) % SPIRAL.swatches.length];
+    // A neighbor who picked a color overrides the spiral-index default.
+    if (plot.house_swatch_id && HOUSE_SWATCHES[plot.house_swatch_id]) palette = HOUSE_SWATCHES[plot.house_swatch_id];
     _grownCount++;
     var comp = {
       id: 'house-grown-' + gx + '_' + gy,
@@ -1741,6 +1856,12 @@ tabs.forEach(function(btn){
         if (comp.handle) comp.props.label = comp.handle;
         var cadenzaUrl = plot.cadenza_url || null;
         if (cadenzaUrl && comp.walk_flags) comp.walk_flags.door_url = cadenzaUrl;
+        // Recolor an already-rendered house when its owner's chosen swatch
+        // arrives in the live payload (covers SSR + grown houses alike).
+        if (plot.house_swatch_id && HOUSE_SWATCHES[plot.house_swatch_id]) {
+          comp.swatch = HOUSE_SWATCHES[plot.house_swatch_id].swatch;
+          comp.roof_swatch = HOUSE_SWATCHES[plot.house_swatch_id].roof_swatch;
+        }
       } else if (comp.walk_flags) {
         // Non-claimed (open / held) doors point at the claim flow, never
         // a stale cadenza URL — covers a claimed→open downgrade in place.
@@ -2479,7 +2600,7 @@ tabs.forEach(function(btn){
 })();
 
 </script>
-<script src="./sprite-engine.js?v=1780618985" defer></script>
+<script src="./sprite-engine.js?v=1780889068" defer></script>
 <script src="./walk-tutorial.js" defer></script>
 <footer class="site-footer">
   <div class="site-footer__inner">
@@ -2497,7 +2618,6 @@ tabs.forEach(function(btn){
         <p class="site-footer__heading">Product</p>
         <ul class="site-footer__links">
           <li><a href="./studio.html">Studio</a></li>
-          <li><a href="./marketplace.html">Library</a></li>
           <li><a href="./terminal.html">Terminal</a></li>
           <li><a href="./maestro.html">Maestro</a></li>
           <li><a href="./council.html">Council</a></li>
@@ -2533,6 +2653,14 @@ tabs.forEach(function(btn){
           <li><a href="/legal/cookies.html">Cookie Policy</a></li>
         </ul>
       </div>
+    </div>
+
+    <div class="site-footer__builders">
+      <p class="site-footer__builders-label">For builders</p>
+      <p class="site-footer__builders-body">
+        Browse the Suite Library: themes, skills, and full rigs other makers have shared.
+        <a href="/browse.html" class="site-footer__builders-link">Suite Library</a>
+      </p>
     </div>
 
     <div class="site-footer__bottom">
@@ -2848,6 +2976,64 @@ tabs.forEach(function(btn){
      margin rule is a fallback for shells that don't paint the centering
      dance reliably. */
   margin: auto;
+}
+
+/* "For builders" bridge row (2026-06-07).
+   A quiet, labeled door to the Suite Library (/browse) that sits between
+   the main columns grid and the bottom copyright strip. Deliberately low
+   visual weight: muted rule above, small type, no button chrome. The label
+   reads like a heading so power users find it; the body line stays plain
+   so it does not read as an upsell to everyone else. */
+.site-footer__builders {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2, 8px) var(--space-4, 16px);
+  padding: var(--space-4, 16px) 0 var(--space-5, 24px);
+  border-top: 1px solid var(--rule-2, var(--rule));
+  margin-bottom: var(--space-5, 24px);
+}
+.site-footer__builders-label {
+  font-family: var(--sans);
+  font-size: var(--fs-12, 12px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin: 0;
+  flex-shrink: 0;
+}
+.site-footer__builders-body {
+  font-family: var(--sans);
+  font-size: var(--fs-14, 14px);
+  color: var(--ink-3);
+  margin: 0;
+  line-height: var(--lh-snug, 1.35);
+}
+.site-footer__builders-link {
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+  margin-left: var(--space-2, 8px);
+  transition: color var(--dur-base, 180ms) var(--ease, ease),
+              border-color var(--dur-base, 180ms) var(--ease, ease);
+}
+.site-footer__builders-link:hover,
+.site-footer__builders-link:focus-visible {
+  color: var(--accent-text, var(--accent));
+  border-color: var(--accent-text, var(--accent));
+}
+.site-footer__builders-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+@media (max-width: 540px) {
+  .site-footer__builders {
+    flex-direction: column;
+    gap: var(--space-2, 8px);
+  }
 }
 </style>
 <style id="runner-connect-popover-css">
@@ -3448,6 +3634,6 @@ tabs.forEach(function(btn){
     });
   });
 })();
-</script><script src="./shared-scripts.js?v=2026-05-29-cb2033ef99" defer></script>
+</script><script src="./shared-scripts.js?v=2026-05-29-a5214d6d49" defer></script>
 </body>
 </html>
