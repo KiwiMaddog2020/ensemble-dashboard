@@ -7,7 +7,7 @@
    plus the build's generation timestamp (see build_service_worker below)
    so each `dashboard-generate.sh` run produces a deterministic-per-build
    cache name without requiring a hand-bumped version string. */
-const CACHE = 'endenza-de60fdfb0f5b';
+const CACHE = 'endenza-60174f7f046e';
 const STATIC = ["./", "./index.html", "./map.html", "./canvas/demo-arcade.html", "./canvas/demo-cozy-cabin.html", "./canvas/demo-modern-studio.html", "./canvas/demo-cottage-garden.html", "./canvas/demo-corner-shop.html", "./canvas/demo-rooftop-tea.html", "./canvas/demo-launch-party.html", "./canvases/demo-arcade.json", "./canvases/demo-cozy-cabin.json", "./canvases/demo-modern-studio.json", "./canvases/demo-cottage-garden.json", "./canvases/demo-corner-shop.json", "./canvases/demo-rooftop-tea.json", "./canvases/demo-launch-party.json", "./projects.html", "./commands.html", "./docs.html", "./style.css", "./studio.js", "./dashboard.js", "./icon.svg", "./manifest.json", "./sprite-engine.js", "./studio-publish-panel.js", "./studio-chrome.js", "./walk-tutorial.js", "./terminal-resize.js", "./terminal-left-panel.js", "./terminal-drawer.js", "./pack-uploader.js", "./pack-picker.js", "./icons/pwa-192.png", "./icons/pwa-512.png", "./icons/pwa-192-maskable.png", "./icons/pwa-512-maskable.png", "./icons/apple-touch-icon-180.png", "./icons/favicon-32.png", "./icons/favicon-16.png", "./fonts/inter-variable-latin.woff2", "./fonts/eb-garamond-variable-latin.woff2", "./fonts/eb-garamond-italic-variable-latin.woff2", "./fonts/jetbrains-mono-variable-latin.woff2"];
 // Match exact product nav destinations in both .html and bare-path forms.
 // These are public pages now, but they are dynamic enough to always come from
